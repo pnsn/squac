@@ -9,6 +9,9 @@ import {
 import { Observable } from "rxjs";
 import { ApiEndpoint } from "../enums";
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -20,10 +23,20 @@ export class DashboardService
     super(ApiEndpoint.DASHBOARD, api);
   }
 
+  /**
+   *
+   * @param id
+   * @param refresh
+   */
   override read(id: number, refresh?: boolean): Observable<Dashboard> {
     return super.read(id, refresh);
   }
 
+  /**
+   *
+   * @param params
+   * @param refresh
+   */
   list(
     params?: DashboardDashboardsListRequestParams,
     refresh?: boolean
@@ -31,10 +44,18 @@ export class DashboardService
     return super._list(params, { refresh });
   }
 
+  /**
+   *
+   * @param d
+   */
   updateOrCreate(d: Dashboard): Observable<Dashboard> {
     return super._updateOrCreate(d);
   }
 
+  /**
+   *
+   * @param id
+   */
   override delete(id: number): Observable<Dashboard> {
     return super.delete(id);
   }

@@ -3,6 +3,9 @@ import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "../../services/message.service";
 import { User } from "squacapi";
 
+/**
+ *
+ */
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
@@ -16,6 +19,9 @@ export class HomeComponent implements OnInit {
     private messageService: MessageService
   ) {}
 
+  /**
+   *
+   */
   ngOnInit(): void {
     // get user for header
     if (this.route.snapshot.data["user"]) {

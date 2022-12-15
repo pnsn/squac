@@ -2,7 +2,6 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { AppComponent } from "./app.component";
 import { AuthService } from "./core/services/auth.service";
 import { LoadingOverlayComponent } from "./shared/components/loading-overlay/loading-overlay.component";
-import { ConfigurationService } from "@core/services/configuration.service";
 import { MockBuilder, MockInstance, MockRender } from "ng-mocks";
 import { MaterialModule } from "@shared/material.module";
 import { LoadingDirective } from "@shared/directives/loading-directive.directive";
@@ -17,14 +16,6 @@ describe("AppComponent", () => {
       .mock(MaterialModule)
       .mock(AuthService)
       .mock(LoadingDirective)
-      .provide({
-        provide: ConfigurationService,
-        useValue: {
-          getValue: () => {
-            return "SQUAC";
-          },
-        },
-      })
   );
 
   it("should create the app", () => {

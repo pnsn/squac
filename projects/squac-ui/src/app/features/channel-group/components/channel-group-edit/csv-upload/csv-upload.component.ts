@@ -12,6 +12,9 @@ import { ChannelService } from "squacapi";
 import { NgxCsvParser } from "ngx-csv-parser";
 import { switchMap, tap, map, merge, Observable } from "rxjs";
 
+/**
+ * Component for uploading csvs of channels
+ */
 @Component({
   selector: "channel-group-csv-upload",
   templateUrl: "./csv-upload.component.html",
@@ -43,6 +46,11 @@ export class CsvUploadComponent {
 
   @ViewChild("fileImportInput") fileImportInput: any;
 
+  /**
+   * Listen to uploads of files
+   *
+   * @param $event file uploaded event
+   */
   fileChangeListener($event: any): void {
     this.missingChannels = [];
     this.matchingChannels = [];
@@ -55,6 +63,7 @@ export class CsvUploadComponent {
     let locIndex = -1;
     let staIndex = -1;
 
+    // Parse CSV when uploaded
     this.ngxCsvParser
       .parse(files[0], { header: this.header, delimiter: "," }) //allow |?
       .pipe(
@@ -63,6 +72,7 @@ export class CsvUploadComponent {
           this.csvHeaders = this.csvRecords.shift();
         }),
         map(() => {
+          // check it has correct headers
           const hasHeaders = this.csvHeaders.some((h, index) => {
             if (netIndex < 0) {
               netIndex = this.netRegex.test(h) ? index : netIndex;
@@ -87,6 +97,7 @@ export class CsvUploadComponent {
 
           const queryStrings = [];
           let channelsCount = 0;
+          // remove invalid
           this.csvRecords.reduce((previous, current, currentIndex) => {
             const nslc = `${current[netIndex]}.${current[staIndex]}.${
               current[locIndex] || "--"
@@ -149,6 +160,9 @@ export class CsvUploadComponent {
       });
   }
 
+  /**
+   * Emit channels that are found
+   */
   addChannels(): void {
     this.channelsChange.emit(this.matchingChannels);
   }

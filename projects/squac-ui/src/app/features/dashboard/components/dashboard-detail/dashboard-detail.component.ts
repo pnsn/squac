@@ -10,7 +10,9 @@ import { LoadingService } from "@core/services/loading.service";
 import { DATE_PICKER_TIMERANGES } from "./dashboard-time-ranges";
 import { ArchiveStatType, ArchiveType } from "squacapi";
 
-// Individual dashboard
+/**
+ * Individual dashboard view
+ */
 @Component({
   selector: "dashboard-detail",
   templateUrl: "./dashboard-detail.component.html",
@@ -42,6 +44,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     public loadingService: LoadingService
   ) {}
 
+  /**
+   * Subscribe to route params for dashboard id
+   */
   ngOnInit(): void {
     const paramsSub = this.route.params
       .pipe(
@@ -49,9 +54,11 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
           this.error = null;
         }),
         switchMap((params) => {
+          // get dashboard id & channel group id
           const dashboardId = +params["dashboardId"];
-
           const groupId = +this.route.snapshot.queryParams["group"];
+
+          // request info
           return this.loadingService.doLoading(
             this.viewService.setDashboardById(dashboardId, groupId).pipe(
               tap((channelGroup) => {
@@ -90,47 +97,60 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.subscription.add(errorSub);
   }
 
-  // send selected dates to view service
+  /**
+   * Send selected dates to view service
+   *
+   * @param root0 event
+   * @param root0.startDate startdate
+   * @param root0.endDate enddate
+   * @param root0.liveMode isLive
+   * @param root0.rangeInSeconds time range
+   */
   datesChanged({ startDate, endDate, liveMode, rangeInSeconds }): void {
     this.viewService.datesChanged(startDate, endDate, liveMode, rangeInSeconds);
     this.checkDates();
   }
 
-  // send selected archive type to views ervice
+  /**
+   * Save selected archive type and send to view service
+   *
+   * @param event selection event
+   */
   selectArchiveType(event): void {
     this.archiveType = event.dataType;
     this.archiveStat = event.statType;
     this.updateArchiveType();
   }
 
-  //if dates larger than 3 days, default to daily, larger than 1 month, monthly
+  /**
+   * Validate dates
+   * if dates larger than 3 days, default to daily, larger than 1 month, monthly
+   */
   checkDates(): void {
     this.error = "";
     if (this.viewService.archiveType === "raw") {
       if (this.viewService.getTimeSpan("months") >= 4) {
-        this.archiveType = "month";
-        this.archiveStat = "mean";
+        this.error = `Raw data request may be too large for this time range, try using month archives.`;
       } else if (this.viewService.getTimeSpan("weeks") >= 6) {
-        this.archiveType = "week";
-        this.archiveStat = "mean";
+        this.error = `Raw data request may be too large for this time range, try using week archives.`;
       } else if (this.viewService.getTimeSpan("days") >= 7) {
-        this.archiveType = "day";
-        this.archiveStat = "mean";
-      } else {
-        this.archiveType = "raw";
-        this.archiveStat = null;
+        this.error = `Raw data request may be too large for this time range, try using day archives.`;
       }
-
-      this.error = `Data type defaulted to ${this.archiveType} archive.`;
     }
     this.updateArchiveType();
   }
 
+  /**
+   * Send changes to view service
+   */
   private updateArchiveType(): void {
     this.checkArchiveType();
     this.viewService.setArchive(this.archiveType, this.archiveStat);
   }
 
+  /**
+   * Validate archive type
+   */
   private checkArchiveType(): void {
     if (this.archiveType !== "raw") {
       if (this.viewService.getTimeSpan(this.archiveType) === 0) {
@@ -140,22 +160,32 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  // tell view service the channels changed
+  /**
+   * Emit channel group changes to view service
+   *
+   * @param id new group id
+   */
   channelGroupChange(id: number): void {
     this.viewService.updateChannelGroup(id);
   }
 
-  // route to edit dashboard
+  /**
+   * Navigate to edit route
+   */
   editDashboard(): void {
     this.router.navigate(["edit"], { relativeTo: this.route });
   }
 
-  // route to edit widget
+  /**
+   * Navigate to edit widget route
+   */
   addWidget(): void {
     this.router.navigate(["widgets", "new"], { relativeTo: this.route });
   }
 
-  // confirm user wants to delete
+  /**
+   * Delete dashboard after confirmation
+   */
   deleteDashboard(): void {
     this.confirmDialog.open({
       title: `Delete: ${this.dashboard.name}`,
@@ -171,24 +201,33 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  //tell view service to get new data & save dashboard
+  /**
+   * Tell view service to get new data and save changes.
+   */
   updateDashboard(): void {
     this.viewService.updateDashboard();
     this.save();
   }
 
-  // tell view service to get new data
+  /**
+   * Tell view service to get new data
+   */
   refreshData(): void {
     this.viewService.updateData.next({ dashboard: this.dashboard.id });
   }
 
-  // save dashboard
+  /**
+   * Save dashboard
+   */
   save(): void {
     if (this.ability.can("update", this.dashboard)) {
       this.viewService.saveDashboard();
     }
   }
 
+  /**
+   * unsubscribe
+   */
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

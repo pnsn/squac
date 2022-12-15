@@ -7,6 +7,9 @@ import {
 } from "@angular/forms";
 import { InviteService } from "squacapi";
 
+/**
+ * User edit component after creation
+ */
 @Component({
   selector: "user-edit",
   templateUrl: "./user-edit.component.html",
@@ -25,6 +28,7 @@ export class UserEditComponent implements OnInit {
   token: string; // the token
   userForm: UntypedFormGroup;
 
+  /** init form */
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.token = params["token"];
@@ -46,7 +50,12 @@ export class UserEditComponent implements OnInit {
     });
   }
 
-  // check passwords match
+  /**
+   * Check passwords match
+   *
+   * @param group form group
+   * @returns validator function
+   */
   passwordValidator(group: UntypedFormGroup): { mismatch: boolean } {
     if (
       group.value.password &&
@@ -59,7 +68,9 @@ export class UserEditComponent implements OnInit {
     }
   }
 
-  //  send password to squacapi
+  /**
+   * Send password and user information to squacapi
+   */
   sendPassword(): void {
     const values = this.userForm.value;
     const password1 = values.passwords.password;

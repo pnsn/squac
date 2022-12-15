@@ -7,6 +7,9 @@ import {
   DashboardProperties,
 } from "../interfaces";
 import { DASHBOARD_PROPERTIES } from "../constants";
+/**
+ *
+ */
 export class Dashboard {
   public channelGroup?: ChannelGroup;
   private _widgets: Widget[] = [];
@@ -24,6 +27,9 @@ export class Dashboard {
   ) {}
 
   //can be entered as string or properties
+  /**
+   *
+   */
   public set properties(properties: string | Partial<DashboardProperties>) {
     let props: Partial<DashboardProperties> = {};
     if (!properties) {
@@ -40,14 +46,23 @@ export class Dashboard {
     this._properties = { ...this._properties, ...props };
   }
 
+  /**
+   *
+   */
   public get properties(): DashboardProperties {
     return this._properties;
   }
 
+  /**
+   *
+   */
   public get widgets(): Widget[] {
     return this._widgets;
   }
 
+  /**
+   *
+   */
   public set widgets(widgets: Widget[]) {
     this._widgets = widgets;
     this.widgetIds = widgets.map((w) => {
@@ -55,17 +70,27 @@ export class Dashboard {
     });
   }
 
+  /**
+   *
+   */
   static get modelName(): string {
     return "Dashboard";
   }
 }
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
 export class DashboardAdapter
   implements Adapter<Dashboard, ReadDashboard, WriteDashboard>
 {
+  /**
+   *
+   * @param item
+   */
   adaptFromApi(item: ReadDashboard): Dashboard {
     const dashboard = new Dashboard(
       item.id ? +item.id : 0,
@@ -83,6 +108,10 @@ export class DashboardAdapter
     return dashboard;
   }
 
+  /**
+   *
+   * @param item
+   */
   adaptToApi(item: Dashboard): WriteDashboard {
     const d: WriteDashboard = {
       name: item.name,

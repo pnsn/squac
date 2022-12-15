@@ -18,10 +18,10 @@ import { Widget } from "../models";
 import { Subscription, tap } from "rxjs";
 import { ProcessedData, WidgetTypeComponent } from "../interfaces";
 import { WIDGET_TYPE_INFO } from "../constants";
-import { ErrorComponent } from "../components/error/error.component";
+import { ErrorComponent } from "../shared/components/error/error.component";
 
 /**
- * solely responsible for showing either error component or the correct widget type
+ * Directive for inserting error component or correct widget type
  */
 @Directive({
   selector: "[widgetContainer]",
@@ -53,6 +53,9 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
     this.hostElement = this.elementRef.nativeElement;
   }
 
+  /**
+   * Set up subscriptions
+   */
   ngOnInit(): void {
     const managerErrors = this.widgetManager.errors$.subscribe(
       (error: WidgetErrors) => {
@@ -60,17 +63,29 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
       }
     );
 
+    // listen to data changes
     this.dataSub = this.widgetDataService.data$
       .pipe(
         tap({
           next: (data: ProcessedData | WidgetErrors) => {
+            //check if data is a map and has data
             if (data instanceof Map) {
-              this.addWidget(this.widgetManager.widgetType);
-              this.widgetConfigService.thresholds =
-                this.widgetManager.thresholds;
-              this.widgetConfigService.dataRange =
-                this.widgetDataService.dataRange;
-              this.childComponent.updateData(data);
+              const minMetrics = this.widgetManager.widgetConfig.minMetrics;
+              const metricsWithData =
+                this.widgetDataService.measurementsWithData.length;
+              if (minMetrics > metricsWithData) {
+                //not enough metrics with Data
+                this.addError(
+                  `Only ${metricsWithData} metric(s) returned data. ${minMetrics} metrics required to display widget.`
+                );
+              } else {
+                this.addWidget(this.widgetManager.widgetType);
+                this.widgetConfigService.thresholds =
+                  this.widgetManager.thresholds;
+                this.widgetConfigService.dataRange =
+                  this.widgetDataService.dataRange;
+                this.childComponent.updateData(data);
+              }
             } else {
               this.addError(data);
             }
@@ -83,10 +98,18 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
     this.subscription.add(this.dataSub);
   }
 
+  /**
+   * clear existing components
+   */
   private clearChildComponents(): void {
     this.viewContainerRef.clear();
   }
 
+  /**
+   * Add widget of given type
+   *
+   * @param widgetType - type of widget
+   */
   addWidget(widgetType: WidgetType): void {
     this.error = "";
     const injector = Injector.create({
@@ -114,7 +137,12 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
     this.childComponent = this.childComponentRef.instance;
   }
 
-  addError(error: WidgetErrors): void {
+  /**
+   * Add error component
+   *
+   * @param error - error message
+   */
+  addError(error: WidgetErrors | string): void {
     this.clearChildComponents();
 
     const errorComp =
@@ -123,10 +151,11 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
     this.error = error;
   }
 
+  /**
+   * Destroy components and unsubscribe
+   */
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
     this.clearChildComponents();
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
   }
 }

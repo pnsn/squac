@@ -1,27 +1,30 @@
 import { Injectable } from "@angular/core";
 import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
-import { Observable, of } from "rxjs";
-import { catchError } from "rxjs/operators";
-import { MetricService } from "squacapi";
+import { Observable } from "rxjs";
+import { Metric, MetricService } from "squacapi";
 
+/**
+ * Resolve metrics or list of metrics
+ */
 @Injectable({
   providedIn: "root",
 })
-export class MetricResolver implements Resolve<Observable<any>> {
+export class MetricResolver implements Resolve<Observable<Metric | Metric[]>> {
   constructor(private metricService: MetricService) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<any> {
+  /**
+   * REsolve metric of list of metrics
+   *
+   * @param route activated route
+   * @returns observable of results
+   */
+  resolve(route: ActivatedRouteSnapshot): Observable<Metric | Metric[]> {
     const id = route.paramMap.get("metricId");
     if (id) {
-      return this.metricService.read(+id).pipe(catchError(this.handleError));
+      return this.metricService.read(+id);
     } else {
-      return this.metricService.list().pipe(catchError(this.handleError));
+      return this.metricService.list();
       // return all of them
     }
-  }
-
-  handleError(error: unknown): Observable<any> {
-    // TODO: route to show error
-    return of({ error });
   }
 }

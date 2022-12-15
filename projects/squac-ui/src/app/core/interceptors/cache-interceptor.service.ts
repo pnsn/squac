@@ -7,7 +7,6 @@ import {
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { HttpCacheService } from "../services/cache.service";
-import { LoadingService } from "../services/loading.service";
 import { REFRESH_REQUEST } from "squacapi";
 import { Observable, of, tap } from "rxjs";
 
@@ -16,15 +15,15 @@ import { Observable, of, tap } from "rxjs";
  */
 @Injectable()
 export class CacheInterceptor implements HttpInterceptor {
-  constructor(
-    private _loading: LoadingService,
-    private _cache: HttpCacheService
-  ) {}
+  constructor(private _cache: HttpCacheService) {}
 
   /**
-   * intercept request
-   * return cached data if available
-   * stop loading on error
+   * Intercepts all http requests and checks if they should be cached
+   * will return the cached response or will return the request
+   *
+   * @param request - Http request
+   * @param next - Http handler
+   * @returns - Http event
    */
   intercept(
     request: HttpRequest<any>,

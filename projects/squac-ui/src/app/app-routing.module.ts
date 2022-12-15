@@ -91,6 +91,9 @@ const appRoutes: Routes = [
   // Currently overrides the child components - will need to rethink
 ];
 
+/**
+ *
+ */
 @NgModule({
   imports: [
     RouterModule.forRoot(appRoutes, {

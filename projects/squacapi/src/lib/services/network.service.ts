@@ -9,6 +9,9 @@ import {
 import { Observable } from "rxjs";
 import { ApiEndpoint } from "../enums";
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -25,6 +28,11 @@ export class NetworkService
     super(ApiEndpoint.NETWORK, api);
   }
 
+  /**
+   *
+   * @param params
+   * @param refresh
+   */
   list(
     params?: NslcNetworksListRequestParams,
     refresh?: boolean

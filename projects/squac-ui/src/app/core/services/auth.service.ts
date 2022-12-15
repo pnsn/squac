@@ -15,7 +15,9 @@ import {
 
 const DEFAULT_MAX_LOGIN = 6; //hours
 
-// Handles log in logic and API requests for login
+/**
+ * Handles logging in logic
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -29,17 +31,24 @@ export class AuthService {
     private userService: UserService
   ) {}
 
-  // True if a user logged in
+  /**
+   * @returns true if user is logged in
+   */
   isAuthenticated(): boolean {
     return !!this.token;
   }
 
-  // returns auth token
+  /**
+   * @returns auth token for current user
+   */
   get auth(): string {
     return this.token;
   }
 
-  // Checks if user data exists in browser
+  /**
+   * Attempts to find user data stored in browser
+   * If found, will attempt to validate the token
+   */
   autologin(): void {
     const authData: {
       token: string;
@@ -53,7 +62,12 @@ export class AuthService {
     }
   }
 
-  // Verify token by requesting user information
+  /**
+   * Validates token by requesting user information from squacapi
+   *
+   * @param token user token
+   * @returns Currently logged in user
+   */
   validateToken(token: string): Observable<User> {
     this.token = token;
     return this.userService.getUser().pipe(
@@ -68,7 +82,13 @@ export class AuthService {
     );
   }
 
-  // after user enters data, log them in
+  /**
+   * After user submits login data, send to squacapi
+   *
+   * @param email user email
+   * @param password user password
+   * @returns new User information if succesful
+   */
   login(email: string, password: string): Observable<User> {
     const params: UserTokenCreateRequestParams = {
       data: {
@@ -81,6 +101,7 @@ export class AuthService {
         return this.validateToken(resData.token);
       }),
       tap(() => {
+        // redirect to existing url if page refresh
         if (this.redirectUrl) {
           this.router.navigate([this.redirectUrl]);
           this.redirectUrl = null;
@@ -91,7 +112,9 @@ export class AuthService {
     );
   }
 
-  // after user hits log out, wipe data
+  /**
+   * Log user out, remove cached data and token
+   */
   logout(): void {
     this.userService.logout();
     this.token = null;
@@ -100,7 +123,11 @@ export class AuthService {
     LocalStorageService.invalidateCache();
   }
 
-  // after login, save user data
+  /**
+   * After succesful login, save user data
+   *
+   * @param token user token
+   */
   private handleAuth(token: string): void {
     const msToExpire = DEFAULT_MAX_LOGIN * 60 * 60 * 1000;
     const expirationDate = new Date(new Date().getTime() + msToExpire);

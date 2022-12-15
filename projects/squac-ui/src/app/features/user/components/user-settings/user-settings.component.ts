@@ -10,6 +10,9 @@ import {
 import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
 
+/**
+ * User Settings Component
+ */
 @Component({
   selector: "user-settings",
   templateUrl: "./user-settings.component.html",
@@ -29,25 +32,34 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
     private messageService: MessageService
   ) {}
 
+  /** Init */
   ngOnInit(): void {
     this.user = this.route.snapshot.data["user"];
     this.initForm(this.user);
   }
 
-  // set up form
-  initForm(user): void {
+  /**
+   * Set up form
+   *
+   * @param user current user
+   */
+  initForm(user: User): void {
     this.userForm = new UntypedFormGroup({
       firstName: new UntypedFormControl(user.firstName, Validators.required),
       lastName: new UntypedFormControl(user.lastName, Validators.required),
     });
   }
 
-  // enable edit
+  /**
+   * Enable form editing
+   */
   editForm(): void {
     this.editMode = true;
   }
 
-  // save changed user
+  /**
+   * Save changes
+   */
   save(): void {
     this.userService.update(this.userForm.value).subscribe({
       next: () => {
@@ -60,6 +72,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
     });
   }
 
+  /** unsubscribe */
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

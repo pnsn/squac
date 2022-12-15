@@ -23,22 +23,36 @@ import { ChannelGroupService } from "squacapi";
 import { map, Observable, of } from "rxjs";
 
 type TimeInterval = "minutes" | "day" | "hour" | "week" | "month";
+
+/** Data params */
 interface DataParams {
+  /** start time of data range */
   starttime: string;
+  /** end time of data range */
   endtime: string;
+  /** maximum value of data */
   maxValue: number;
+  /** metric id */
   metric: number;
+  /** channel id */
   channel: number;
 }
+
+/**
+ * Fakes measurement backends for local
+ */
 @Injectable({
   providedIn: "root",
 })
 export class FakeMeasurementBackend {
-  constructor(
-    // private dateService: DateService,
-    private channelGroupService: ChannelGroupService
-  ) {}
+  constructor(private channelGroupService: ChannelGroupService) {}
 
+  /**
+   * Request channels for channel group and maps ids
+   *
+   * @param group group id
+   * @returns observable of channel ids
+   */
   private channelsFromGroup(group: number): Observable<number[]> {
     return this.channelGroupService.read(group).pipe(
       map((cg) => {
@@ -46,9 +60,21 @@ export class FakeMeasurementBackend {
       })
     );
   }
+  /**
+   * Returns random number between 0 and maxValue
+   *
+   * @param maxValue max value to generate
+   * @returns random number
+   */
   private getRandom(maxValue = 100): number {
     return Math.random() * maxValue;
   }
+  /**
+   * Returns channel parameters from group id or channel ids
+   *
+   * @param params measurement params
+   * @returns observable of channel ids array
+   */
   private getChannels(params: MeasurementParams): Observable<number[]> {
     if (params.group) {
       return this.channelsFromGroup(params.group[0]);
@@ -58,6 +84,12 @@ export class FakeMeasurementBackend {
     return of([]);
   }
 
+  /**
+   * creates a measurement
+   *
+   * @param params measurement params
+   * @returns measurement
+   */
   measurement(params: DataParams): ReadMeasurement {
     return {
       starttime: params.starttime,
@@ -68,6 +100,12 @@ export class FakeMeasurementBackend {
     };
   }
 
+  /**
+   * creates an archive
+   *
+   * @param params archive params
+   * @returns archive
+   */
   archive(params: DataParams): ReadArchive {
     const value = this.getRandom(params.maxValue);
     return {
@@ -90,6 +128,12 @@ export class FakeMeasurementBackend {
     };
   }
 
+  /**
+   * creates an aggregate
+   *
+   * @param params aggregate params
+   * @returns aggregate
+   */
   aggregate(params: DataParams): ReadAggregate {
     const value = this.getRandom(params.maxValue);
     return {
@@ -113,6 +157,16 @@ export class FakeMeasurementBackend {
     };
   }
 
+  /**
+   * Creates fake data using the given params
+   *
+   * @param channels channel ids
+   * @param params measurement request params
+   * @param datafn datafunction to generate data with
+   * @param time amount of time
+   * @param timeInterval time interval to use
+   * @returns array of data type
+   */
   getData<T>(
     channels: number[],
     params: MeasurementParams,
@@ -161,6 +215,15 @@ export class FakeMeasurementBackend {
     return measurements;
   }
 
+  /**
+   * Get list of type
+   *
+   * @param params request params
+   * @param fn data function
+   * @param time amount of time
+   * @param timeInterval interval of time
+   * @returns observable of typea
+   */
   getList<T>(
     params: MeasurementParams,
     fn: (params: DataParams) => T[],
@@ -176,6 +239,12 @@ export class FakeMeasurementBackend {
     );
   }
 
+  /**
+   * Measurement list function
+   *
+   * @param params measurement params
+   * @returns observable of measurement data
+   */
   measurementMeasurementsList(
     params: MeasurementMeasurementsListRequestParams
   ): Observable<ReadMeasurement[]> {
@@ -187,12 +256,24 @@ export class FakeMeasurementBackend {
     );
   }
 
+  /**
+   * Aggregated list function
+   *
+   * @param params aggregated params
+   * @returns observable of aggregated data
+   */
   measurementAggregatedList(
     params: MeasurementAggregatedListRequestParams
   ): Observable<ReadAggregate[]> {
     return this.getList<ReadAggregate>(params, this.aggregate.bind(this));
   }
 
+  /**
+   * Archive list function
+   *
+   * @param params archive params
+   * @returns observable of archives data
+   */
   measurementDayArchivesList(
     params: MeasurementDayArchivesListRequestParams
   ): Observable<ReadOnlyArchiveDaySerializer[]> {
@@ -204,6 +285,12 @@ export class FakeMeasurementBackend {
     ).pipe();
   }
 
+  /**
+   * Archive list function
+   *
+   * @param params archive params
+   * @returns observable of archives data
+   */
   measurementHourArchivesList(
     params: MeasurementHourArchivesListRequestParams
   ): Observable<ReadOnlyArchiveHourSerializer[]> {
@@ -215,6 +302,12 @@ export class FakeMeasurementBackend {
     );
   }
 
+  /**
+   * Archive list function
+   *
+   * @param params archive params
+   * @returns observable of archives data
+   */
   measurementWeekArchivesList(
     params: MeasurementWeekArchivesListRequestParams
   ): Observable<ReadOnlyArchiveWeekSerializer[]> {
@@ -226,6 +319,12 @@ export class FakeMeasurementBackend {
     );
   }
 
+  /**
+   * Archive list function
+   *
+   * @param params archive params
+   * @returns observable of archives data
+   */
   measurementMonthArchivesList(
     params: MeasurementMonthArchivesListRequestParams
   ): Observable<ReadOnlyArchiveMonthSerializer[]> {

@@ -15,5 +15,8 @@ else
   exit 1
 fi
 
+mv dist/squac-ui/* dist
+rm dist/squac-ui
+
 echo done
 

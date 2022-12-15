@@ -1,6 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Adapter, ReadMatchingRule, WriteMatchingRule } from "../interfaces";
 // Rules for building channel groups
+/**
+ *
+ */
 export class MatchingRule {
   constructor(
     public id: number,
@@ -14,12 +17,19 @@ export class MatchingRule {
   channelRegex?: string;
 }
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
 export class MatchingRuleAdapter
   implements Adapter<MatchingRule, ReadMatchingRule, WriteMatchingRule>
 {
+  /**
+   *
+   * @param item
+   */
   adaptFromApi(item: ReadMatchingRule): MatchingRule {
     const matchingRule = new MatchingRule(
       item.id ? +item.id : 0,
@@ -36,6 +46,10 @@ export class MatchingRuleAdapter
     return matchingRule;
   }
 
+  /**
+   *
+   * @param item
+   */
   adaptToApi(item: MatchingRule): WriteMatchingRule {
     return {
       group: item.channelGroupId,

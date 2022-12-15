@@ -15,6 +15,11 @@ export interface HttpOptions {
 
 export type Params = any;
 
+/**
+ * Abstract service for interacting with squacapi models
+ *
+ * @template T model type
+ */
 export abstract class BaseApiService<T extends SquacObject> {
   observe = "body";
   reportProgress = false;
@@ -23,10 +28,22 @@ export abstract class BaseApiService<T extends SquacObject> {
 
   constructor(protected apiEndpoint: ApiEndpoint, protected api: ApiService) {}
 
+  /**
+   * Convert api object to model
+   *
+   * @param apiObject api item
+   * @returns model
+   */
   private mapFromApi(apiObject: any): T {
     return this.adapter.adaptFromApi(apiObject);
   }
 
+  /**
+   * Adds context to options
+   *
+   * @param options request options
+   * @returns options with context
+   */
   private getHttpOptions(options: Options): HttpOptions {
     const httpOptions: HttpOptions = {};
     if (options && options.refresh) {
@@ -35,11 +52,14 @@ export abstract class BaseApiService<T extends SquacObject> {
     return httpOptions;
   }
 
-  // /**
-  //  * GET request - list of objects
-  //  * @param params - request params, type varies by object
-  //  * @returns observable of request results
-  //  */
+  /**
+   * Request list of objects of type T from squacapi
+   *
+   * @template T type of model to be requested
+   * @param params  http params for request
+   * @param options - http options for request
+   * @returns results of http request
+   */
   protected _list(
     params: Params = {},
     options: Options = {}
@@ -54,9 +74,12 @@ export abstract class BaseApiService<T extends SquacObject> {
   }
 
   /**
-   * GET request - single object
-   * @param id - id of requested resource
-   * @returns observable of request result
+   * Request single object detail of type T from squacapi
+   *
+   * @template T type of model to be requested
+   * @param params  http params for request
+   * @param options - http options for request
+   * @returns - results of http request
    */
   protected _read(params?: Params, options?: Options): Observable<T> {
     const httpOptions = this.getHttpOptions(options);
@@ -69,9 +92,11 @@ export abstract class BaseApiService<T extends SquacObject> {
   }
 
   /**
-   * PUT request
-   * @param t - object to update in squacapi
-   * @returns observable of result of request
+   * Update single object of type T from squacapi
+   *
+   * @template T type of model to be updated
+   * @param params  http params for request
+   * @returns results of http request
    */
   protected _update(params?: Params): Observable<T> {
     return this.api[`${this.apiEndpoint}Update`](
@@ -82,9 +107,11 @@ export abstract class BaseApiService<T extends SquacObject> {
   }
 
   /**
-   * POST request
-   * @param t - object to add to squacapi
-   * @returns observable of result of request
+   * Create objects of type T from squacapi
+   *
+   * @template T type of model to be created
+   * @param params  http params for request
+   * @returns results of http request
    */
   protected _create(params?: Params): Observable<T> {
     return this.api[`${this.apiEndpoint}Create`](
@@ -100,9 +127,11 @@ export abstract class BaseApiService<T extends SquacObject> {
   }
 
   /**
-   * DELETE request
-   * @param id - id of object to delete
-   * @returns observable of result of request
+   * Delete object of type T from squacapi
+   *
+   * @template T type of model to be deleted
+   * @param params  http params for request
+   * @returns results of http request
    */
   protected _delete(params?: Params): Observable<T> {
     return this.api[`${this.apiEndpoint}Delete`](
@@ -112,44 +141,79 @@ export abstract class BaseApiService<T extends SquacObject> {
     );
   }
 
-  /** override if different params needed */
+  /**
+   * Convert inputted id to correct param format for squacapi
+   *
+   * @param id - id of object
+   * @returns id params
+   */
   protected readParams(id: number | string): { id: string | number } {
     return { id: `${id}` };
   }
 
-  /** override if different params needed */
-  protected updateParams(t: T): { id: string | number; data: unknown } | void {
+  /**
+   * Formats inputted object for squacapi
+   *
+   * @template T type of object to update
+   * @param t object to update
+   * @returns returns data object
+   */
+  protected updateParams(t: T): { id: string | number; data: unknown } {
     const data = this.adapter.adaptToApi(t);
-    if (t.id) {
-      return { id: `${t.id}`, data };
-    }
+    return { id: `${t.id}`, data };
   }
 
-  /** override if different params needed */
+  /**
+   * Formats inputted object for squacapi
+   *
+   * @template T type of object to create
+   * @param t object to create
+   * @returns returns data object
+   */
   protected createParams(t: T): { data: unknown } {
     const data = this.adapter.adaptToApi(t);
     return { data };
   }
 
-  /** override if different params needed */
+  /**
+   * Convert inputted id to correct param format for squacapi
+   *
+   * @param id  id of object
+   * @returns id params
+   */
   protected deleteParams(id: number | string): { id: string | number } {
     return { id: `${id}` };
   }
 
+  /**
+   * Create read request
+   *
+   * @param id id of object to request
+   * @param refresh refresh request
+   * @returns observable for request
+   */
   protected read(id: number, refresh?: boolean): Observable<T> {
     const params = this.readParams(id);
     return this._read(params, { refresh });
   }
 
+  /**
+   * Create delete request
+   *
+   * @param id id of object to delete
+   * @returns delete request
+   */
   protected delete(id: number): Observable<T> {
     const params = this.deleteParams(id);
     return this._delete(params);
   }
 
   /**
-   * POST or PUT request
-   * @param t - object to add to squacapi
-   * @returns observable of result of request
+   * Create or update object of type T from squacapi
+   *
+   * @template T type of model to be created
+   * @param t http params for request
+   * @returns results of http request
    */
   protected _updateOrCreate(t: T): Observable<T> {
     if (t.id) {

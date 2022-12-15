@@ -22,7 +22,15 @@ import {
   tap,
 } from "rxjs";
 import { Observable } from "rxjs";
+import {
+  TableControls,
+  TableFilters,
+  TableOptions,
+} from "@shared/components/table-view/interfaces";
 
+/**
+ * Component for viewing list of alerts
+ */
 @Component({
   selector: "monitor-alert-view",
   templateUrl: "./alert-view.component.html",
@@ -39,7 +47,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
   rows = [];
   columns = [];
 
-  controls = {
+  controls: TableControls = {
     listenToRouter: true,
     resource: "Monitor",
     add: {
@@ -50,8 +58,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     links: [{ text: "View All Monitors", path: "/monitors" }],
   };
 
-  filters = {
-    dateFilter: {},
+  filters: TableFilters = {
     searchField: {
       text: "Filter alerts...",
       props: [
@@ -71,7 +78,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     },
   };
 
-  options = {
+  options: TableOptions = {
     messages: {
       emptyMessage: "No alerts found.",
     },
@@ -91,6 +98,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     public loadingService: LoadingService
   ) {}
 
+  /** subscribe to route events */
   ngOnInit(): void {
     const monitorsSub = this.route.params
       .pipe(
@@ -103,6 +111,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscription.add(monitorsSub);
   }
 
+  /** Set up columns */
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.columns = [
@@ -148,6 +157,12 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 0);
   }
 
+  /**
+   * Get fresh alerts and monitors
+   *
+   * @param refresh true if cache should not be used
+   * @returns Obsercable of monitors and alerts
+   */
   fetchData(refresh?: boolean): Observable<any> {
     const lastDay = this.dateService.subtractFromNow(1, "day").format();
     return this.loadingService.doLoading(
@@ -166,12 +181,17 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
       this
     );
   }
-  // get fresh data
+
+  /** Get fresh data */
   refresh(): void {
     this.fetchData(true).subscribe();
   }
 
-  // match alerts and monitors
+  /**
+   * Matches up alerts and monitors
+   *
+   * @param alerts array of available alerts
+   */
   findMonitorForAlerts(alerts: Alert[]): void {
     this.alerts = [];
     if (this.monitors.length > 0 && alerts.length > 0) {
@@ -185,6 +205,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.rows = [...this.alerts];
   }
 
+  /** unsubscribe */
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
     clearInterval(this.interval);

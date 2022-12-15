@@ -3,6 +3,9 @@ import { UserGroup } from "@pnsn/ngx-squacapi-client";
 import { Adapter, ReadUser, WriteUser } from "../interfaces";
 
 // Describes a user object
+/**
+ *
+ */
 export class User {
   constructor(
     public id: number,
@@ -29,23 +32,39 @@ export class User {
   isActive: boolean;
   groups: string[];
 
+  /**
+   *
+   */
   get isStaff(): boolean {
     return this.squacAdmin ? this.squacAdmin : false;
   }
 
+  /**
+   *
+   */
   get isAdmin(): boolean {
     return this.orgAdmin; // or is an admin of the current group?
   }
 
+  /**
+   *
+   * @param group
+   */
   inGroup(group: string): boolean {
     return this.groups ? this.groups.indexOf(group) >= 0 : false;
   }
 
+  /**
+   *
+   */
   static get modelName(): string {
     return "User";
   }
 }
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -58,6 +77,10 @@ export class UserAdapter implements Adapter<User, ReadUser, WriteUser> {
     { id: 4, name: "admin" },
   ];
 
+  /**
+   *
+   * @param item
+   */
   adaptFromApi(item: ReadUser): User {
     const groups = [];
     if ("groups" in item) {
@@ -94,6 +117,10 @@ export class UserAdapter implements Adapter<User, ReadUser, WriteUser> {
     return user;
   }
 
+  /**
+   *
+   * @param item
+   */
   adaptToApi(item: User): WriteUser {
     const groups = item.groups.map((g) => {
       const group = this.groupIds.find((groupId) => groupId.name === g);

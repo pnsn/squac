@@ -41,6 +41,10 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatTreeModule } from "@angular/material/tree";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 
+// TODO: get rid of this, causes excess imports
+/**
+ * Module for material exports
+ */
 @NgModule({
   imports: [CommonModule],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: "en-GB" }],

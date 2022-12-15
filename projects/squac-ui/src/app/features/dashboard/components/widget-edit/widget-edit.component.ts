@@ -7,6 +7,9 @@ import { WidgetService } from "squacapi";
 import { Widget } from "widgets";
 import { Subscription } from "rxjs";
 
+/**
+ * Widget edit main component
+ */
 @Component({
   selector: "widget-edit",
   templateUrl: "./widget-edit.component.html",
@@ -30,6 +33,7 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
     @Inject(MAT_DIALOG_DATA) public data?: any
   ) {}
 
+  /** set up edit component */
   ngOnInit(): void {
     // check if editing or creating
     this.editMode = !!this.data["widget"];
@@ -46,16 +50,17 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
     this.metrics = this.data["metrics"];
   }
 
+  /** unsubscribe */
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 
-  // Tables need to be resized when the tab appears
+  /** Emit resize event when tabs change */
   stepSelected(): void {
     window.dispatchEvent(new Event("resize"));
   }
 
-  // save widget
+  /** Saves widget */
   save(): void {
     this.widgetService.updateOrCreate(this.widget).subscribe({
       next: (response) => {
@@ -71,7 +76,11 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
     });
   }
 
-  //TODO: make sure this isn't affecting existing widget
+  /**
+   * Cancel without saving widget
+   *
+   * @param widget widget getting edited
+   */
   cancel(widget?: Widget): void {
     this.dialogRef.close(widget);
   }

@@ -12,6 +12,9 @@ import {
   tap,
 } from "rxjs";
 
+/**
+ * Display list of organizations in squac
+ */
 @Component({
   selector: "user-organizations-view",
   templateUrl: "./organizations-view.component.html",
@@ -26,6 +29,9 @@ export class OrganizationsViewComponent implements OnInit, OnDestroy {
     private organizationsService: OrganizationService
   ) {}
 
+  /**
+   * Subscribe to params
+   */
   ngOnInit(): void {
     const orgSub = this.route.params
       .pipe(
@@ -41,6 +47,11 @@ export class OrganizationsViewComponent implements OnInit, OnDestroy {
     this.subscription.add(orgSub);
   }
 
+  /**
+   * Gets organizations
+   *
+   * @returns List of organizations
+   */
   fetchData(): Observable<Organization[]> {
     return this.loadingService
       .doLoading(this.organizationsService.list(), this)
@@ -54,6 +65,9 @@ export class OrganizationsViewComponent implements OnInit, OnDestroy {
       );
   }
 
+  /**
+   * Unsubscribe
+   */
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

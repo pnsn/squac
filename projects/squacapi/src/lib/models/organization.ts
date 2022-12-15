@@ -3,6 +3,9 @@ import { User, UserAdapter } from "../models";
 import { Adapter, ReadOrganization, ApiUserSimple } from "../interfaces";
 
 // Describes a user object
+/**
+ *
+ */
 export class Organization {
   constructor(
     public id: number,
@@ -11,16 +14,26 @@ export class Organization {
     public users: User[]
   ) {}
 
+  /**
+   *
+   */
   static get modelName(): string {
     return "Organization";
   }
 }
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
 export class OrganizationAdapter
   implements Adapter<Organization, ReadOrganization, unknown>
 {
+  /**
+   *
+   * @param item
+   */
   adaptFromApi(item: ReadOrganization): Organization {
     const userAdapter = new UserAdapter();
     let users: User[] = [];

@@ -1,4 +1,10 @@
-import { AggregateService } from "squacapi";
+import { ApiService } from "@pnsn/ngx-squacapi-client";
+import {
+  AggregateAdapter,
+  AggregateService,
+  ArchiveAdapter,
+  MeasurementAdapter,
+} from "squacapi";
 import {
   DayArchiveService,
   HourArchiveService,
@@ -6,11 +12,20 @@ import {
   WeekArchiveService,
 } from "squacapi";
 import { MeasurementService } from "squacapi";
-
+/**
+ * Returns new measurement service using the real api unless
+ * using localhost
+ *
+ * @param path url path
+ * @param adapter data adapter
+ * @param service api service
+ * @param fakeService fake api service
+ * @returns measurement service
+ */
 export function MeasurementFactory(
-  path,
-  adapter,
-  service,
+  path: string,
+  adapter: MeasurementAdapter,
+  service: ApiService,
   fakeService
 ): MeasurementService {
   if (path === "http://localhost:8000") {
@@ -20,10 +35,20 @@ export function MeasurementFactory(
   }
 }
 
+/**
+ * Returns new aggregate service using the real api unless
+ * using localhost
+ *
+ * @param path url path
+ * @param adapter data adapter
+ * @param service api service
+ * @param fakeService fake api service
+ * @returns aggregate service
+ */
 export function AggregateFactory(
-  path,
-  adapter,
-  service,
+  path: string,
+  adapter: AggregateAdapter,
+  service: ApiService,
   fakeService
 ): AggregateService {
   if (path === "http://localhost:8000") {
@@ -33,10 +58,20 @@ export function AggregateFactory(
   }
 }
 
+/**
+ * Returns new day archive service using the real api unless
+ * using localhost
+ *
+ * @param path url path
+ * @param adapter data adapter
+ * @param service api service
+ * @param fakeService fake api service
+ * @returns day archive service
+ */
 export function DayArchiveFactory(
-  path,
-  adapter,
-  service,
+  path: string,
+  adapter: ArchiveAdapter,
+  service: ApiService,
   fakeService
 ): DayArchiveService {
   if (path === "http://localhost:8000") {
@@ -45,10 +80,21 @@ export function DayArchiveFactory(
     return new DayArchiveService(adapter, service);
   }
 }
+
+/**
+ * Returns new hour archive service using the real api unless
+ * using localhost
+ *
+ * @param path url path
+ * @param adapter data adapter
+ * @param service api service
+ * @param fakeService fake api service
+ * @returns hour archive service
+ */
 export function HourArchiveFactory(
-  path,
-  adapter,
-  service,
+  path: string,
+  adapter: ArchiveAdapter,
+  service: ApiService,
   fakeService
 ): HourArchiveService {
   if (path === "http://localhost:8000") {
@@ -57,10 +103,21 @@ export function HourArchiveFactory(
     return new HourArchiveService(adapter, service);
   }
 }
+
+/**
+ * Returns new week archive service using the real api unless
+ * using localhost
+ *
+ * @param path url path
+ * @param adapter data adapter
+ * @param service api service
+ * @param fakeService fake api service
+ * @returns week archive service
+ */
 export function WeekArchiveFactory(
-  path,
-  adapter,
-  service,
+  path: string,
+  adapter: ArchiveAdapter,
+  service: ApiService,
   fakeService
 ): WeekArchiveService {
   if (path === "http://localhost:8000") {
@@ -70,10 +127,20 @@ export function WeekArchiveFactory(
   }
 }
 
+/**
+ * Returns new month archive service using the real api unless
+ * using localhost
+ *
+ * @param path url path
+ * @param adapter data adapter
+ * @param service api service
+ * @param fakeService fake api service
+ * @returns month archive service
+ */
 export function MonthArchiveFactory(
-  path,
-  adapter,
-  service,
+  path: string,
+  adapter: ArchiveAdapter,
+  service: ApiService,
   fakeService
 ): MonthArchiveService {
   if (path === "http://localhost:8000") {

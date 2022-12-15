@@ -13,6 +13,9 @@ import { OrganizationEditComponent } from "./components/organization-edit/organi
 import { OrganizationEditEntryComponent } from "./components/organization-edit-entry/organization-edit-entry.component";
 import { CommonModule } from "@angular/common";
 
+/**
+ * Module for User feature
+ */
 @NgModule({
   declarations: [
     UserComponent,

@@ -1,0 +1,1473 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>squac documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">squac documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content directive">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Directives</li>
+  <li >WidgetTypeExampleDirective</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Directive for adding a widget with fake data</p>
+
+            </p>
+
+
+            <p class="comment">
+                <h3>Implements</h3>
+            </p>
+            <p class="comment">
+                            <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
+                            <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+            </p>
+
+
+        <section>
+            <h3>Metadata</h3>
+            <table class="table table-sm table-hover metadata">
+                <tbody>
+                    <tr>
+                        <td class="col-md-3">Providers</td>
+                        <td class="col-md-9">
+                            <code>
+                                WidgetConfigService
+                                WidgetDataService
+                            </code>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="col-md-3">Selector</td>
+                        <td class="col-md-9"><code>[appWidgetTypeExample]</code></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </section>
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#_metrics" >_metrics</a>
+                            </li>
+                            <li>
+                                <a href="#_thresholds" >_thresholds</a>
+                            </li>
+                            <li>
+                                <a href="#channels" >channels</a>
+                            </li>
+                            <li>
+                                <a href="#childComponent" >childComponent</a>
+                            </li>
+                            <li>
+                                <a href="#childComponentRef" >childComponentRef</a>
+                            </li>
+                            <li>
+                                <a href="#data" >data</a>
+                            </li>
+                            <li>
+                                <a href="#dataRange" >dataRange</a>
+                            </li>
+                            <li>
+                                <a href="#widgetConfig" >widgetConfig</a>
+                            </li>
+                            <li>
+                                <a href="#widgetManager" >widgetManager</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addWidgetComponent" >addWidgetComponent</a>
+                            </li>
+                            <li>
+                                <a href="#createConfigService" >createConfigService</a>
+                            </li>
+                            <li>
+                                <a href="#getData" >getData</a>
+                            </li>
+                            <li>
+                                <a href="#getThresholds" >getThresholds</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#updateData" >updateData</a>
+                            </li>
+                            <li>
+                                <a href="#updateWidgetType" >updateWidgetType</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#displayType" >displayType</a>
+                            </li>
+                            <li>
+                                <a href="#properties" >properties</a>
+                            </li>
+                            <li>
+                                <a href="#selectedMetrics" >selectedMetrics</a>
+                            </li>
+                            <li>
+                                <a href="#stat" >stat</a>
+                            </li>
+                            <li>
+                                <a href="#thresholds" >thresholds</a>
+                            </li>
+                            <li>
+                                <a href="#type" >type</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(elementRef: <a href="https://angular.io/api/core/ElementRef" target="_blank">ElementRef</a>, viewContainerRef: <a href="https://angular.io/api/core/ViewContainerRef" target="_blank">ViewContainerRef</a>, widgetConfigService: <a href="../injectables/WidgetConfigService.html" target="_self">WidgetConfigService</a>, widgetDataService: <a href="../injectables/WidgetDataService.html" target="_self">WidgetDataService</a>, dateService: <a href="../injectables/DateService.html" target="_self">DateService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:59</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>elementRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>viewContainerRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ViewContainerRef" target="_blank" >ViewContainerRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>widgetConfigService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/WidgetConfigService.html" target="_self" >WidgetConfigService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>widgetDataService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/WidgetDataService.html" target="_self" >WidgetDataService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dateService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DateService.html" target="_self" >DateService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="displayType"></a>
+                        <b>displayType</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:46</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="properties"></a>
+                        <b>properties</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/WidgetProperties.html" target="_self" >WidgetProperties</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:47</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectedMetrics"></a>
+                        <b>selectedMetrics</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Metric.html" target="_self" >Metric[]</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:48</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="stat"></a>
+                        <b>stat</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:45</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="thresholds"></a>
+                        <b>thresholds</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Threshold.html" target="_self" >Threshold[]</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:49</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="type"></a>
+                        <b>type</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/enumerations.html#WidgetType" target="_self" >WidgetType</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:44</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addWidgetComponent"></a>
+                    <span class="name">
+                        <span ><b>addWidgetComponent</b></span>
+                        <a href="#addWidgetComponent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addWidgetComponent(componentType: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, injector: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="243"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:243</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Add new widget component</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>componentType</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>type of widget to create</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>injector</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/core/Injector" target="_blank" >Injector</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>service injector</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createConfigService"></a>
+                    <span class="name">
+                        <span ><b>createConfigService</b></span>
+                        <a href="#createConfigService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>createConfigService()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="221"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:221</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Creates a fake config service</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../injectables/WidgetConfigService.html" target="_self" >WidgetConfigService</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>mocked config service</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getData"></a>
+                    <span class="name">
+                        <span ><b>getData</b></span>
+                        <a href="#getData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getData()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="122"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:122</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Creates fake data for the widget</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#ProcessedData" target="_self" >ProcessedData</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>generated data</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getThresholds"></a>
+                    <span class="name">
+                        <span ><b>getThresholds</b></span>
+                        <a href="#getThresholds"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getThresholds(metrics: <a href="../classes/Metric.html" target="_self">Metric[]</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="111"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:111</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Generate thresholds from metrics</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>metrics</td>
+                                    <td>
+                                                <code><a href="../classes/Metric.html" target="_self" >Metric[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>selected metrics</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Threshold.html" target="_self" >Threshold[]</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>array of thresholds</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <span ><b>ngOnChanges</b></span>
+                        <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: <a href="https://angular.io/api/core/SimpleChanges" target="_blank">SimpleChanges</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="97"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:97</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>listen to type changes and update</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>changes</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/core/SimpleChanges" target="_blank" >SimpleChanges</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>type changes</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="70"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:70</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>set up widget manager and metrics</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateData"></a>
+                    <span class="name">
+                        <span ><b>updateData</b></span>
+                        <a href="#updateData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateData()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="257"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:257</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>update widget data</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateWidgetType"></a>
+                    <span class="name">
+                        <span ><b>updateWidgetType</b></span>
+                        <a href="#updateWidgetType"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateWidgetType()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="179"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:179</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Set up new widget</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_metrics"></a>
+                    <span class="name">
+                        <span ><b>_metrics</b></span>
+                        <a href="#_metrics"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_thresholds"></a>
+                    <span class="name">
+                        <span ><b>_thresholds</b></span>
+                        <a href="#_thresholds"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="channels"></a>
+                    <span class="name">
+                        <span ><b>channels</b></span>
+                        <a href="#channels"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>channels</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="childComponent"></a>
+                    <span class="name">
+                        <span ><b>childComponent</b></span>
+                        <a href="#childComponent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/WidgetTypeComponent.html" target="_self" >WidgetTypeComponent</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="childComponentRef"></a>
+                    <span class="name">
+                        <span ><b>childComponentRef</b></span>
+                        <a href="#childComponentRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/WidgetTypeComponent.html" target="_self" >ComponentRef&lt;WidgetTypeComponent&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="data"></a>
+                    <span class="name">
+                        <span ><b>data</b></span>
+                        <a href="#data"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#ProcessedData" target="_self" >ProcessedData</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dataRange"></a>
+                    <span class="name">
+                        <span ><b>dataRange</b></span>
+                        <a href="#dataRange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#DataRange" target="_self" >DataRange</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:56</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="widgetConfig"></a>
+                    <span class="name">
+                        <span ><b>widgetConfig</b></span>
+                        <a href="#widgetConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/WidgetConfig.html" target="_self" >WidgetConfig</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="widgetManager"></a>
+                    <span class="name">
+                        <span ><b>widgetManager</b></span>
+                        <a href="#widgetManager"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  ComponentRef,
+  Directive,
+  ElementRef,
+  Injector,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewContainerRef,
+} from &quot;@angular/core&quot;;
+import { DateService } from &quot;@core/services/date.service&quot;;
+import {
+  DataRange,
+  ProcessedData,
+  WidgetConfig,
+  WidgetTypeComponent,
+} from &quot;widgets&quot;;
+import {
+  WidgetConfigService,
+  WidgetDataService,
+  WidgetManagerService,
+} from &quot;widgets&quot;;
+import { Measurement, Metric } from &quot;squacapi&quot;;
+import { Threshold, WidgetProperties } from &quot;squacapi&quot;;
+import { of } from &quot;rxjs&quot;;
+import {
+  channels,
+  endtime,
+  selectedMetrics,
+  starttime,
+} from &quot;./widget-example-config&quot;;
+import { WidgetType } from &quot;widgets&quot;;
+import { WIDGET_TYPE_INFO } from &quot;widgets&quot;;
+
+/**
+ * Directive for adding a widget with fake data
+ */
+@Directive({
+  selector: &quot;[appWidgetTypeExample]&quot;,
+  providers: [WidgetConfigService, WidgetDataService],
+})
+export class WidgetTypeExampleDirective implements OnChanges, OnInit {
+  @Input() type: WidgetType;
+  @Input() stat: string;
+  @Input() displayType: string;
+  @Input() properties: WidgetProperties;
+  @Input() selectedMetrics: Metric[];
+  @Input() thresholds: Threshold[];
+
+  channels &#x3D; channels;
+  _metrics;
+  _thresholds;
+  widgetConfig: WidgetConfig;
+  widgetManager;
+  dataRange: DataRange;
+  childComponentRef: ComponentRef&lt;WidgetTypeComponent&gt;;
+  childComponent: WidgetTypeComponent;
+  data: ProcessedData;
+
+  constructor(
+    protected readonly elementRef: ElementRef,
+    protected readonly viewContainerRef: ViewContainerRef,
+    protected widgetConfigService: WidgetConfigService,
+    protected widgetDataService: WidgetDataService,
+    private dateService: DateService
+  ) {}
+
+  /** set up widget manager and metrics */
+  ngOnInit(): void {
+    this.widgetManager &#x3D; {
+      toggleKey$: of(),
+      zoomStatus$: of(),
+      resize$: of(),
+      starttime: starttime,
+      endtime: endtime,
+      channels: this.channels,
+    };
+
+    this._metrics &#x3D;
+      this.selectedMetrics &amp;&amp; this.selectedMetrics.length &gt; 0
+        ? this.selectedMetrics
+        : selectedMetrics;
+    this.data &#x3D; this.getData();
+    this.widgetManager.selectedMetrics &#x3D; this._metrics;
+
+    this._thresholds &#x3D; this.getThresholds(this._metrics);
+
+    this.updateWidgetType();
+  }
+
+  /**
+   * listen to type changes and update
+   *
+   * @param changes type changes
+   */
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.widgetManager) {
+      if (changes[&quot;displayType&quot;] || changes[&quot;type&quot;]) {
+        this.updateWidgetType();
+      }
+    }
+  }
+
+  /**
+   * Generate thresholds from metrics
+   *
+   * @param metrics selected metrics
+   * @returns array of thresholds
+   */
+  getThresholds(metrics: Metric[]): Threshold[] {
+    return metrics.map((m) &#x3D;&gt; {
+      return { min: m.minVal, max: m.maxVal, metricId: m.id };
+    });
+  }
+
+  /**
+   * Creates fake data for the widget
+   *
+   * @returns generated data
+   */
+  getData(): ProcessedData {
+    this.dataRange &#x3D; {};
+    const data: ProcessedData &#x3D; new Map&lt;number, any&gt;();
+    const timeInterval &#x3D; &quot;seconds&quot;;
+    const start &#x3D; this.dateService.parseUtc(starttime);
+    const end &#x3D; this.dateService.parseUtc(endtime);
+
+    this._metrics.forEach((m: Metric) &#x3D;&gt; {
+      const time &#x3D; m.sampleRate;
+      this.dataRange[m.id] &#x3D; {
+        min: m.minVal,
+        max: m.maxVal,
+        count: 0,
+      };
+
+      this.channels.forEach((c) &#x3D;&gt; {
+        if (!data.has(c.id)) {
+          const newMap &#x3D; new Map&lt;number, any&gt;();
+          data.set(c.id, newMap);
+        }
+        const measurements &#x3D; [];
+
+        let currentTime &#x3D; start;
+        while (currentTime &lt; end) {
+          const newEnd &#x3D; currentTime.add(time, timeInterval);
+          if (newEnd &gt; end) {
+            return;
+          }
+
+          const starttime &#x3D; this.dateService.format(currentTime);
+          const endtime &#x3D; this.dateService.format(newEnd);
+
+          const value &#x3D; Math.random() * m.maxVal + m.minVal;
+          const measurement &#x3D; new Measurement(
+            1,
+            1,
+            m.id,
+            c.id,
+            value,
+            starttime,
+            endtime
+          );
+
+          this.dataRange[m.id].count++;
+          measurements.push(measurement);
+          currentTime &#x3D; newEnd;
+        }
+
+        data.get(c.id).set(m.id, measurements);
+      });
+    });
+    return data;
+  }
+
+  /**
+   * Set up new widget
+   */
+  updateWidgetType(): void {
+    const widgetType &#x3D; this.type;
+    if (widgetType) {
+      this.widgetManager.widgetType &#x3D; widgetType;
+      const widgetConfig &#x3D; WIDGET_TYPE_INFO[widgetType].config;
+
+      const displayOptions &#x3D; widgetConfig.displayOptions;
+
+      this.widgetManager.widgetConfig &#x3D; widgetConfig;
+      this.widgetDataService.stat &#x3D; this.stat;
+      if (
+        !this.properties.displayType ||
+        (displayOptions &amp;&amp; !displayOptions[this.properties.displayType])
+      ) {
+        this.properties.displayType &#x3D;
+          this.widgetManager.widgetConfig.defaultDisplay;
+      }
+
+      this.widgetManager.properties &#x3D; this.properties;
+
+      const injector &#x3D; Injector.create({
+        providers: [
+          {
+            provide: WidgetConfigService,
+            useValue: this.createConfigService,
+          },
+          {
+            provide: WidgetManagerService,
+            useValue: this.widgetManager,
+          },
+        ],
+      });
+      const componentType &#x3D; WIDGET_TYPE_INFO[widgetType].component;
+      this.addWidgetComponent(componentType, injector);
+    }
+  }
+
+  /**
+   * Creates a fake config service
+   *
+   * @returns mocked config service
+   */
+  createConfigService(): WidgetConfigService {
+    const configService &#x3D; new WidgetConfigService();
+
+    configService.thresholds &#x3D; this._thresholds;
+    configService.dataRange &#x3D; this.dataRange;
+    configService.chartDefaults.dataZoom &#x3D; [];
+
+    configService.chartDefaults.grid &#x3D; {
+      ...configService.chartDefaults.grid,
+      left: 10,
+      bottom: 15,
+    };
+
+    return configService;
+  }
+
+  /**
+   * Add new widget component
+   *
+   * @param componentType type of widget to create
+   * @param injector service injector
+   */
+  addWidgetComponent(componentType: any, injector: Injector): void {
+    this.viewContainerRef.clear();
+    this.childComponentRef &#x3D;
+      this.viewContainerRef.createComponent&lt;WidgetTypeComponent&gt;(
+        componentType,
+        {
+          injector,
+        }
+      );
+    this.childComponent &#x3D; this.childComponentRef.instance;
+    this.childComponent.updateData(this.data);
+  }
+
+  /** update widget data */
+  updateData(): void {
+    if (this.childComponent) {
+      this.childComponent.updateData(this.data);
+    }
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'directive';
+            var COMPODOC_CURRENT_PAGE_URL = 'WidgetTypeExampleDirective.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

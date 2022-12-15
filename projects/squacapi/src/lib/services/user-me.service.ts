@@ -10,6 +10,9 @@ import { map, Observable } from "rxjs";
 import { BaseApiService } from "./generic-api.service";
 import { PartialUpdateService, ReadService } from "../interfaces";
 
+/**
+ * Service for interacting with User Me squacapi endpoints
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -21,10 +24,19 @@ export class UserMeService
     super(ApiEndpoint.USER_ME, api);
   }
 
+  /**
+   * @override
+   */
   override read(): Observable<User> {
     return super._read();
   }
 
+  /**
+   * Sends user information to squacapi for partial update
+   *
+   * @param t - user information to update
+   * @returns updated user information
+   */
   partialUpdate(t: Partial<User>): Observable<User> {
     const params: UserMePartialUpdateRequestParams = {
       data: {

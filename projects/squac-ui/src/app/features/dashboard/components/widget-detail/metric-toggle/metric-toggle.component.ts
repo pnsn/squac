@@ -8,15 +8,22 @@ import {
 import { Metric } from "squacapi";
 import { Threshold } from "squacapi";
 
+/**
+ * Menu popup for toggling metrics
+ */
 @Component({
   selector: "widget-metric-toggle",
   templateUrl: "./metric-toggle.component.html",
   styleUrls: ["../widget-detail.component.scss"],
 })
 export class MetricToggleComponent implements OnChanges {
+  // ids of metrics selected
   selectedMetricIds: number[] = [];
+  // minimum number of metrics required
   @Input() expectedMetrics: number;
+  // metrics changed
   metricsChanged = false;
+  // dimensions that have not been picked
   availableDimensions = [];
   @Input() dimensions: any;
 
@@ -25,12 +32,16 @@ export class MetricToggleComponent implements OnChanges {
   @Output() thresholdsChange = new EventEmitter();
   @Output() metricsChange = new EventEmitter();
 
+  /**
+   * Select metrics when input changes
+   */
   ngOnChanges(): void {
     this.selectMetrics();
   }
 
   /**
    * Find index of metric in selected metrics
+   *
    * @param id - id of metric
    * @returns - index of metric
    */
@@ -40,6 +51,7 @@ export class MetricToggleComponent implements OnChanges {
 
   /**
    * Get metric from given id
+   *
    * @param id - id of metric
    * @returns - metric
    */
@@ -105,7 +117,9 @@ export class MetricToggleComponent implements OnChanges {
     this.metricsSelected();
   }
 
-  // get new data and save metrics when changed
+  /**
+   * Get new data and save metrics when changed
+   */
   metricsSelected(): void {
     let selected = [];
     if (
@@ -150,8 +164,14 @@ export class MetricToggleComponent implements OnChanges {
   //83 hourly max
 
   //x-axis, y-axis, color
-
-  // change dimension for metric
+  /**
+   * Change dimension for metric
+   *
+   * @param $event selection event
+   * @param threshold selected threshold
+   * @param selectedIndex index
+   * @param metric selected metric
+   */
   changeThreshold(
     $event,
     threshold: Threshold,

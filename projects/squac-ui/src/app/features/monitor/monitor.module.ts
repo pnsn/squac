@@ -9,6 +9,9 @@ import { MonitorEditEntryComponent } from "./components/monitor-edit-entry/monit
 import { AlertViewComponent } from "./components/alert-view/alert-view.component";
 import { AbilityModule } from "@casl/angular";
 
+/**
+ * Module for monitors
+ */
 @NgModule({
   declarations: [
     MonitorComponent,

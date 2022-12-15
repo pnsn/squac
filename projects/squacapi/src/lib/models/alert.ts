@@ -3,6 +3,9 @@ import { Adapter, ReadAlert } from "../interfaces";
 import { Monitor, Trigger } from "../models";
 import { TriggerAdapter } from "../models/trigger";
 
+/**
+ * Describes an alert
+ */
 export class Alert {
   id?: number;
   owner?: number;
@@ -15,15 +18,18 @@ export class Alert {
   monitor?: Monitor;
   trigger?: Trigger;
 
+  /** @returns model name */
   static get modelName(): string {
     return "Alert";
   }
 }
 
+/** Adapt alert */
 @Injectable({
   providedIn: "root",
 })
 export class AlertAdapter implements Adapter<Alert, ReadAlert, unknown> {
+  /** @override */
   adaptFromApi(item: ReadAlert): Alert {
     const triggerAdapter = new TriggerAdapter();
     let breachingChannels: string[] = [];

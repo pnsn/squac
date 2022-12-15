@@ -17,6 +17,9 @@ import { DaterangepickerDirective } from "ngx-daterangepicker-material";
 import { TimePeriod } from "ngx-daterangepicker-material/daterangepicker.component";
 import { TimeRange } from "./time-range.interface";
 
+/**
+ * Date selector with two calendars
+ */
 @Component({
   selector: "shared-date-select",
   templateUrl: "./date-select.component.html",
@@ -53,6 +56,11 @@ export class DateSelectComponent implements OnInit, OnChanges {
     this.locale = this.dateService.locale;
   }
 
+  /**
+   * Init values on changes
+   *
+   * @param changes changes
+   */
   ngOnChanges(changes: SimpleChanges): void {
     if (
       changes["secondsAgoFromNow"] ||
@@ -63,12 +71,19 @@ export class DateSelectComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Config datepicker
+   */
   ngOnInit(): void {
     //config datepicker
     this.makeTimeRanges();
     this.setUpInitialValues();
   }
 
+  /**
+   * Set intial values for datepicker from time range or
+   * start and end date
+   */
   setUpInitialValues(): void {
     //has time range
     //range is saved as window_seconds on squacapi
@@ -97,6 +112,12 @@ export class DateSelectComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Finds TimeRange that is the same length as the given seconds
+   *
+   * @param seconds length of timerange
+   * @returns Timerange if found
+   */
   findRangeFromSeconds(seconds: number): TimeRange | undefined {
     const timeRange = this.timeRanges.find((range) => {
       const rangeInSeconds = this.getRangeAsSeconds(range);
@@ -106,10 +127,19 @@ export class DateSelectComponent implements OnInit, OnChanges {
     return timeRange;
   }
 
+  /**
+   * Returns duration of time range in seconds
+   *
+   * @param range time range
+   * @returns length of time range in seconds
+   */
   getRangeAsSeconds(range: TimeRange): number {
     return this.dateService.duration(range.amount, range.unit).asSeconds();
   }
 
+  /**
+   * Creates time ranges for datepicker from time ranges
+   */
   makeTimeRanges(): void {
     this.timeRanges.forEach((range) => {
       this.rangesForDatePicker[range.amount + " " + range.unit] = [
@@ -119,6 +149,11 @@ export class DateSelectComponent implements OnInit, OnChanges {
     });
   }
 
+  /**
+   * Toggle time range and update dates
+   *
+   * @param event html event
+   */
   toggleRange(event: any): void {
     if (event.value !== "custom" && event.value !== "relative") {
       const range = event.value;
@@ -127,6 +162,12 @@ export class DateSelectComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Respond to date picker change event, correct for UTC
+   * and send updated dates
+   *
+   * @param dates dates from selection
+   */
   datePickerChange(dates: TimePeriod): void {
     const startCopy = dayjs(dates.startDate as Dayjs).clone();
     const endCopy = dayjs(dates.endDate as Dayjs).clone();
@@ -138,11 +179,12 @@ export class DateSelectComponent implements OnInit, OnChanges {
   }
 
   /**
+   * Emit updated date info
    *
-   * @param startDate - dayjs date, start of time range
-   * @param endDate - dayjs date, end of time range
-   * @param liveMode - use live data
-   * @param rangeInSeconds - width of time range in seconds
+   * @param startDate startdate
+   * @param endDate enddate
+   * @param liveMode is time range relative
+   * @param rangeInSeconds width in seconds
    */
   datesUpdated(
     startDate: Dayjs | null,
@@ -159,8 +201,9 @@ export class DateSelectComponent implements OnInit, OnChanges {
   }
 
   /**
-   * Opens date picker
-   * @param e - instance of event
+   * Open html event for datepicker
+   *
+   * @param e html event
    */
   openDatePicker(e: any): void {
     this.pickerDirective.open(e);

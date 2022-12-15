@@ -3,6 +3,9 @@ import { UntypedFormControl, Validators } from "@angular/forms";
 import { PasswordResetService } from "squacapi";
 import { Router, ActivatedRoute } from "@angular/router";
 
+/**
+ * Password reset component
+ */
 @Component({
   selector: "user-password-reset",
   templateUrl: "./password-reset.component.html",
@@ -30,6 +33,7 @@ export class PasswordResetComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
+  /** listen to query params */
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.token = params["token"];
@@ -42,58 +46,60 @@ export class PasswordResetComponent implements OnInit {
     });
   }
 
-  // send user email to reset password
+  /**
+   * Send email to user to reset password
+   */
   sendEmail(): void {
+    /** low security method to stop too many attemps */
     if (this.attempts > 4) {
       this.error = "Too many attempts, contact pnsn@uw.edu to reset password";
     }
-    this.passwordResetService.resetPassword(this.email.value).subscribe(
-      (response) => {
+    this.passwordResetService.resetPassword(this.email.value).subscribe({
+      next: (response) => {
         this.emailSent = !!response;
         this.attempts++;
       },
-      (error) => {
+      error: (error) => {
         this.error = error;
-      }
-    );
+      },
+    });
   }
 
-  // try sending again
-  resendEmail(): void {
-    this.emailSent = false;
-    this.tokenValidated = false;
-  }
-
-  // tell squac to send token
+  /**
+   * Send token to user
+   *
+   * @param token token from email
+   */
   sendToken(token: string): void {
-    this.passwordResetService.validateToken(token).subscribe(
-      (response) => {
+    this.passwordResetService.validateToken(token).subscribe({
+      next: (response) => {
         // go to next step
         this.tokenValidated = !!response;
         this.error = "";
       },
-      (error) => {
+      error: (error) => {
         this.error = error;
-      }
-    );
+      },
+    });
   }
 
-  // check passwords match
+  /**
+   * Check passwords match and send to squacapi
+   */
   confirmPassword(): void {
     const password1 = this.newPassword.value;
     const password2 = this.passwordConfirm.value;
 
-    if (password1 !== password2) {
-      return;
+    if (password1 === password2) {
+      this.passwordResetService.confirmPassword(password1).subscribe({
+        next: () => {
+          this.router.navigate(["/login"]);
+          this.error = "";
+        },
+        error: (error) => {
+          this.error = error;
+        },
+      });
     }
-    this.passwordResetService.confirmPassword(password1).subscribe(
-      () => {
-        this.router.navigate(["/login"]);
-        this.error = "";
-      },
-      (error) => {
-        this.error = error;
-      }
-    );
   }
 }

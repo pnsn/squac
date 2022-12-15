@@ -12,6 +12,9 @@ import {
 import { WIDGET_LAYOUT, WIDGET_PROPERTIES } from "../constants";
 import { WidgetStatType } from "../types";
 
+/**
+ * Model for a widget
+ */
 export class Widget {
   public _thresholds: Threshold[] = [];
   public _layout: WidgetLayout = WIDGET_LAYOUT;
@@ -28,6 +31,9 @@ export class Widget {
   }
 
   public type: string;
+  /**
+   *
+   */
   public set thresholds(thresholds: string | Array<Threshold>) {
     let props: Threshold[] = [];
     if (!thresholds) {
@@ -45,10 +51,16 @@ export class Widget {
     this._thresholds = props.slice();
   }
 
+  /**
+   *
+   */
   public get thresholds(): Threshold[] {
     return this._thresholds.slice();
   }
   //can be entered as string or properties
+  /**
+   *
+   */
   public set properties(properties: string | Partial<WidgetProperties>) {
     let props: Partial<WidgetProperties> = {};
     if (!properties) {
@@ -61,11 +73,17 @@ export class Widget {
     this._properties = { ...props };
   }
 
+  /**
+   *
+   */
   public get properties(): WidgetProperties {
     return this._properties;
   }
 
   //can be entered as string or properties
+  /**
+   *
+   */
   public set layout(layout: string | Partial<WidgetLayout> | undefined) {
     let props: Partial<WidgetLayout> = {};
     if (!layout) {
@@ -79,28 +97,47 @@ export class Widget {
     this._layout = { ...this._layout, ...props };
   }
 
+  /**
+   *
+   */
   public get layout(): WidgetLayout {
     return this._layout;
   }
 
+  /**
+   *
+   */
   public get isValid(): boolean {
     return !!this.name && !!this.metrics && !!this.type && !!this.stat;
   }
 
   // get ids from the metrics
+  /**
+   *
+   */
   get metricsIds(): number[] {
     return this.metrics.map((m) => m.id);
   }
 
+  /**
+   *
+   */
   static get modelName(): string {
     return "Widget";
   }
 }
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
 export class WidgetAdapter implements Adapter<Widget, ReadWidget, WriteWidget> {
+  /**
+   *
+   * @param item
+   */
   adaptFromApi(item: ReadWidget): Widget {
     const metricAdapter = new MetricAdapter();
     let metrics: Metric[] = [];
@@ -129,6 +166,10 @@ export class WidgetAdapter implements Adapter<Widget, ReadWidget, WriteWidget> {
     return widget;
   }
 
+  /**
+   *
+   * @param item
+   */
   adaptToApi(item: Widget): WriteWidget {
     return {
       name: item.name,
