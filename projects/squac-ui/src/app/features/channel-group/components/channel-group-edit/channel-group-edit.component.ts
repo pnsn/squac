@@ -419,8 +419,9 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
       Saves channels to group manually
     */
     if (this.matchingRules.length === 0) {
-      cg.channels = [...cg.channels];
+      cg.channels = [...cg.autoIncludeChannels];
     }
+    console.log(cg);
     let id;
     this.loadingService
       .doLoading(

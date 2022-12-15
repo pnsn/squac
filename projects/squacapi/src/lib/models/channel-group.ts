@@ -23,9 +23,9 @@ export class ChannelGroup {
   // which is why i've got these instead of channels.length
   channelsCount? = 0;
 
-  channels?: (Channel | number)[];
-  autoIncludeChannels?: (Channel | number)[];
-  autoExcludeChannels?: (Channel | number)[];
+  channels?: (Channel | number)[] = [];
+  autoIncludeChannels?: (Channel | number)[] = [];
+  autoExcludeChannels?: (Channel | number)[] = [];
 
   static get modelName(): string {
     return "ChannelGroup";
@@ -41,7 +41,7 @@ export class ChannelGroupAdapter
   adaptFromApi(item: ReadChannelGroup): ChannelGroup {
     const channelAdapter = new ChannelAdapter();
     const id = item.id ? +item.id : undefined;
-
+    console.log(item);
     const channelGroup = new ChannelGroup();
 
     channelGroup.id = id;
