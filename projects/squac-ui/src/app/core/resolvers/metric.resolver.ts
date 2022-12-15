@@ -23,7 +23,7 @@ export class MetricResolver implements Resolve<Observable<Metric | Metric[]>> {
     if (id) {
       return this.metricService.read(+id);
     } else {
-      return this.metricService.list();
+      return this.metricService.list({ order: "name" });
       // return all of them
     }
   }
