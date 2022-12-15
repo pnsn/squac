@@ -26,9 +26,9 @@ export class ChannelGroup {
   // which is why i've got these instead of channels.length
   channelsCount? = 0;
 
-  channels?: (Channel | number)[];
-  autoIncludeChannels?: (Channel | number)[];
-  autoExcludeChannels?: (Channel | number)[];
+  channels?: (Channel | number)[] = [];
+  autoIncludeChannels?: (Channel | number)[] = [];
+  autoExcludeChannels?: (Channel | number)[] = [];
 
   /**
    *
@@ -54,17 +54,17 @@ export class ChannelGroupAdapter
   adaptFromApi(item: ReadChannelGroup): ChannelGroup {
     const channelAdapter = new ChannelAdapter();
     const id = item.id ? +item.id : undefined;
+    console.log(item);
+    const channelGroup = new ChannelGroup();
 
-    const channelGroup: ChannelGroup = {
-      id,
-      owner: item.user,
-      name: item.name,
-      description: item.description,
-      orgId: item.organization,
-      channelsCount: item.channels_count,
-      shareAll: item.share_all ?? false,
-      shareOrg: item.share_org ?? false,
-    };
+    channelGroup.id = id;
+    channelGroup.owner = item.user;
+    channelGroup.name = item.name;
+    channelGroup.description = item.description;
+    channelGroup.orgId = item.organization;
+    channelGroup.channelsCount = item.channels_count;
+    channelGroup.shareAll = item.share_all ?? false;
+    channelGroup.shareOrg = item.share_org ?? false;
 
     if ("channels" in item && item.channels) {
       channelGroup.channels = item.channels.map((c: ApiChannel) =>
@@ -86,7 +86,6 @@ export class ChannelGroupAdapter
         }
       );
     }
-
     return channelGroup;
   }
 
