@@ -42,16 +42,16 @@ export class ChannelGroupAdapter
     const channelAdapter = new ChannelAdapter();
     const id = item.id ? +item.id : undefined;
 
-    const channelGroup: ChannelGroup = {
-      id,
-      owner: item.user,
-      name: item.name,
-      description: item.description,
-      orgId: item.organization,
-      channelsCount: item.channels_count,
-      shareAll: item.share_all ?? false,
-      shareOrg: item.share_org ?? false,
-    };
+    const channelGroup = new ChannelGroup();
+
+    channelGroup.id = id;
+    channelGroup.owner = item.user;
+    channelGroup.name = item.name;
+    channelGroup.description = item.description;
+    channelGroup.orgId = item.organization;
+    channelGroup.channelsCount = item.channels_count;
+    channelGroup.shareAll = item.share_all ?? false;
+    channelGroup.shareOrg = item.share_org ?? false;
 
     if ("channels" in item && item.channels) {
       channelGroup.channels = item.channels.map((c: ApiChannel) =>
@@ -73,7 +73,6 @@ export class ChannelGroupAdapter
         }
       );
     }
-
     return channelGroup;
   }
 
