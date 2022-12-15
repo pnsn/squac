@@ -38,7 +38,7 @@ export class ChannelGroupSelectorComponent implements OnInit {
    */
   ngOnInit(): void {
     this.channelGroupService
-      .getSortedChannelGroups()
+      .getSortedChannelGroups({ order: "name" })
       .subscribe((sortedGroups) => {
         this.groups = sortedGroups;
       });
