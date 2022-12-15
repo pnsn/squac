@@ -54,7 +54,6 @@ export class ChannelGroupAdapter
   adaptFromApi(item: ReadChannelGroup): ChannelGroup {
     const channelAdapter = new ChannelAdapter();
     const id = item.id ? +item.id : undefined;
-    console.log(item);
     const channelGroup = new ChannelGroup();
 
     channelGroup.id = id;
@@ -94,7 +93,7 @@ export class ChannelGroupAdapter
    * @param item
    */
   adaptToApi(item: ChannelGroup): WriteChannelGroup {
-    const incl = item.autoExcludeChannels?.map((c): number =>
+    const incl = item.autoIncludeChannels?.map((c): number =>
       typeof c === "number" ? c : c.id
     );
     const ex = item.autoExcludeChannels?.map((c) =>
@@ -105,10 +104,10 @@ export class ChannelGroupAdapter
       name: item.name,
       description: item.description,
       organization: item.orgId,
-      auto_exclude_channels: incl ?? [],
-      auto_include_channels: ex ?? [],
-      share_org: item.shareAll,
-      share_all: item.shareOrg,
+      auto_exclude_channels: ex ?? [],
+      auto_include_channels: incl ?? [],
+      share_org: item.shareOrg,
+      share_all: item.shareAll,
     };
   }
 }
