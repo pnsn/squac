@@ -1,6 +1,9 @@
 import { WidgetTypeInfo } from "../../constants";
 import { TimechartComponent } from "./timechart.component";
 
+/**
+ * Configuration for timechart widget
+ */
 export const CONFIG: WidgetTypeInfo = {
   component: TimechartComponent,
   config: {

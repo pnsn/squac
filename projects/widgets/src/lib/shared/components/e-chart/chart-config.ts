@@ -1,5 +1,6 @@
 import { EChartsOption } from "echarts";
 
+/** base echarts component configuration */
 export const BASE_CHART_CONFIG: EChartsOption = {
   textStyle: {
     fontSize: 11,

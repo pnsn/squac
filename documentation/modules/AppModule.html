@@ -64,13 +64,13 @@
 <title>cluster_AppModule_providers</title>
 <polygon fill="none" stroke="black" points="285,-40.8 285,-92.8 819,-92.8 819,-40.8 285,-40.8"/>
 </g>
-<g id="clust8" class="cluster">
-<title>cluster_AppModule_imports</title>
-<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 277,-92.8 277,-40.8 16,-40.8"/>
-</g>
 <g id="clust10" class="cluster">
 <title>cluster_AppModule_bootstrap</title>
 <polygon fill="none" stroke="black" points="759,-170.8 759,-222.8 883,-222.8 883,-170.8 759,-170.8"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 277,-92.8 277,-40.8 16,-40.8"/>
 </g>
 <!-- AppComponent -->
 <g id="node1" class="node">
@@ -324,7 +324,7 @@ import { BrowserModule } from &quot;@angular/platform-browser&quot;;
 import { BrowserAnimationsModule } from &quot;@angular/platform-browser/animations&quot;;
 import { LeafletModule } from &quot;@asymmetrik/ngx-leaflet&quot;;
 import { LeafletDrawModule } from &quot;@asymmetrik/ngx-leaflet-draw&quot;;
-import { Ability, PureAbility } from &quot;@casl/ability&quot;;
+import { PureAbility } from &quot;@casl/ability&quot;;
 import { NotFoundComponent } from &quot;@core/components&quot;;
 import { ApiModule, ApiService, BASE_PATH } from &quot;@pnsn/ngx-squacapi-client&quot;;
 import { SharedModule } from &quot;@shared/shared.module&quot;;
@@ -404,7 +404,7 @@ import { AppAbility } from &quot;@core/utils/ability&quot;;
       multi: true,
     },
     { provide: AppAbility, useValue: new AppAbility() },
-    { provide: PureAbility, useExisting: Ability },
+    { provide: PureAbility, useExisting: AppAbility },
     {
       provide: MeasurementService,
       useFactory: MeasurementFactory,

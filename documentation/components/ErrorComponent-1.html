@@ -61,7 +61,7 @@
     <h3>File</h3>
 </p>
 <p class="comment">
-    <code>projects/widgets/src/lib/shared/components/error/error.component.ts</code>
+    <code>projects/squac-ui/src/app/shared/components/error/error.component.ts</code>
 </p>
 
 
@@ -69,7 +69,7 @@
         <h3>Description</h3>
     </p>
     <p class="comment">
-        <p>Component for showing error messages</p>
+        <p>Component for displaying error messages</p>
 
     </p>
 
@@ -93,7 +93,7 @@
 
             <tr>
                 <td class="col-md-3">selector</td>
-                <td class="col-md-9"><code>widget-error</code></td>
+                <td class="col-md-9"><code>shared-error</code></td>
             </tr>
 
             <tr>
@@ -104,7 +104,7 @@
 
             <tr>
                 <td class="col-md-3">template</td>
-                <td class="col-md-9"><pre class="line-numbers"><code class="language-html">&lt;div id&#x3D;&quot;error-container&quot; class&#x3D;&quot;error column centered&quot;&gt;&lt;p&gt;{{errorMsg}}&lt;/p&gt;&lt;div&gt;</code></pre></td>
+                <td class="col-md-9"><pre class="line-numbers"><code class="language-html">&lt;div id&#x3D;&quot;error-container&quot; class&#x3D;&quot;error column centered&quot;&gt;{{errorMsg}}&lt;div&gt;</code></pre></td>
             </tr>
 
 
@@ -166,15 +166,9 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/widgets/src/lib/shared/components/error/error.component.ts:14</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/squac-ui/src/app/shared/components/error/error.component.ts:11</a></div>
                             </td>
                         </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>Message to display</p>
-</div>
-                    </td>
-                </tr>
             </tbody>
         </table>
 </section>
@@ -189,18 +183,15 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input } from &quot;@angular/core&quot;;
 
-/**
- * Component for showing error messages
- */
+/** Component for displaying error messages */
 @Component({
-  selector: &quot;widget-error&quot;,
+  selector: &quot;shared-error&quot;,
   template:
-    &#x27;&lt;div id&#x3D;&quot;error-container&quot; class&#x3D;&quot;error column centered&quot;&gt;&lt;p&gt;{{errorMsg}}&lt;/p&gt;&lt;div&gt;&#x27;,
+    &#x27;&lt;div id&#x3D;&quot;error-container&quot; class&#x3D;&quot;error column centered&quot;&gt;{{errorMsg}}&lt;div&gt;&#x27;,
   styleUrls: [&quot;./error.component.scss&quot;],
 })
 export class ErrorComponent {
-  /** Message to display */
-  @Input() errorMsg: string;
+  @Input() errorMsg: string; //message to display
 }
 </code></pre>
     </div>
@@ -245,8 +236,8 @@ export class ErrorComponent {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div id="error-container" class="error column centered"><p>{{errorMsg}}</p><div></div>'
-    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SnackbarComponent', 'selector': 'shared-snackbar'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
+        var COMPONENT_TEMPLATE = '<div><div id="error-container" class="error column centered">{{errorMsg}}<div></div>'
+    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SnackbarComponent', 'selector': 'shared-snackbar'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
     var DIRECTIVES = [{'name': 'LoadingDirective', 'selector': '[appIsLoading]'},{'name': 'WidgetTypeDirective', 'selector': '[widgetContainer]'},{'name': 'WidgetTypeExampleDirective', 'selector': '[appWidgetTypeExample]'}];
     var ACTUAL_COMPONENT = {'name': 'ErrorComponent-1'};
 </script>

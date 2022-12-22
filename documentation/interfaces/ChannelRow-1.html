@@ -69,6 +69,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>row of data in table that is a single channel</p>
+
+            </p>
 
             <p class="comment">
                 <h3>Extends</h3>
@@ -149,6 +156,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>channel id</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -182,6 +195,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>channel nslc</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -215,6 +234,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>channel&#39;s station id</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
             </section>
@@ -223,32 +248,51 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">interface RowData {
+  /** aggregate value of row */
   agg: number;
+  /** display title */
   title: string;
+  /** identifier of row */
   id: string | number;
+  /** tree collapse status */
   treeStatus?: &quot;disabled&quot; | &quot;collapsed&quot; | &quot;loading&quot; | &quot;expanded&quot;;
+  /** id of parent, if child row */
   parentId?: string | null;
 }
 
+/** row of data in table that is a single channel */
 export interface ChannelRow extends RowData {
+  /** channel id */
   id: number;
+  /** channel nslc */
   nslc: string;
+  /** channel&#x27;s station id */
   parentId: string;
 }
 
+/** row of data in table for a station */
 export interface StationRow extends RowData {
+  /** station id */
   id: string;
+  /** count of child channels */
   count: number;
+  /** type of display */
   type: string;
+  /** parent id, always null */
   parentId?: null;
 }
 
+/** metric data for each row */
 export interface RowMetric {
+  /** value for metric */
   value: number;
+  /** color for metric */
   color: string;
+  /** number of channels for metric */
   count: number;
 }
 
+/** record of metric id to row metric data */
 export type RowMetrics &#x3D; Record&lt;number, RowMetric&gt;;
 </code></pre>
     </div>
