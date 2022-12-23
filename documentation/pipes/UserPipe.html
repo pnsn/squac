@@ -66,6 +66,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Pipe for transforming user id into the user&#39;s &quot;firstname lastname&quot;</p>
+
+            </p>
 
 
         <section>
@@ -105,14 +112,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">projects/squacapi/src/lib/pipes/user.pipe.ts:17</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">projects/squacapi/src/lib/pipes/user.pipe.ts:19</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>transforms user id into user&#39;s name</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -123,6 +132,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -137,6 +147,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>user id</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -148,7 +162,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>user&#39;s first and last name</p>
+
                     </div>
                 </td>
             </tr>
@@ -164,7 +179,7 @@
 import { OrganizationService } from &quot;../services&quot;;
 
 /**
- *
+ * Pipe for transforming user id into the user&#x27;s &quot;firstname lastname&quot;
  */
 @Pipe({
   name: &quot;user&quot;,
@@ -173,8 +188,10 @@ export class UserPipe implements PipeTransform {
   constructor(private orgService: OrganizationService) {}
 
   /**
+   * transforms user id into user&#x27;s name
    *
-   * @param value
+   * @param value user id
+   * @returns user&#x27;s first and last name
    */
   transform(value: number): string {
     if (typeof value &#x3D;&#x3D;&#x3D; &quot;string&quot;) {

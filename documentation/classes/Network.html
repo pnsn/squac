@@ -66,6 +66,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>describes a network</p>
+
+            </p>
 
 
 
@@ -340,6 +347,17 @@
                                     <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/squacapi/src/lib/models/network.ts:18</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -352,7 +370,7 @@
 import { Adapter, ReadNetwork } from &quot;../interfaces&quot;;
 
 /**
- *
+ * describes a network
  */
 export class Network {
   id: number;
@@ -363,7 +381,7 @@ export class Network {
   ) {}
 
   /**
-   *
+   * @return model name
    */
   static get modelName(): string {
     return &quot;Network&quot;;
@@ -371,16 +389,13 @@ export class Network {
 }
 
 /**
- *
+ * Adapt network
  */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class NetworkAdapter implements Adapter&lt;Network, ReadNetwork, unknown&gt; {
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptFromApi(item: ReadNetwork): Network {
     return new Network(item.code, item.name, item.description);
   }

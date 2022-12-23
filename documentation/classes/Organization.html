@@ -66,6 +66,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Describes and organization</p>
+
+            </p>
 
 
 
@@ -136,7 +143,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">projects/squacapi/src/lib/models/organization.ts:9</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">projects/squacapi/src/lib/models/organization.ts:8</a></div>
                             </td>
                         </tr>
 
@@ -235,7 +242,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/squacapi/src/lib/models/organization.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/squacapi/src/lib/models/organization.ts:12</a></div>
                         </td>
                     </tr>
 
@@ -262,7 +269,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/squacapi/src/lib/models/organization.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/squacapi/src/lib/models/organization.ts:10</a></div>
                         </td>
                     </tr>
 
@@ -289,7 +296,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/squacapi/src/lib/models/organization.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/squacapi/src/lib/models/organization.ts:11</a></div>
                         </td>
                     </tr>
 
@@ -316,7 +323,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/squacapi/src/lib/models/organization.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/squacapi/src/lib/models/organization.ts:13</a></div>
                         </td>
                     </tr>
 
@@ -351,9 +358,20 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/squacapi/src/lib/models/organization.ts:20</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/squacapi/src/lib/models/organization.ts:19</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -366,9 +384,8 @@
 import { User, UserAdapter } from &quot;../models&quot;;
 import { Adapter, ReadOrganization, ApiUserSimple } from &quot;../interfaces&quot;;
 
-// Describes a user object
 /**
- *
+ * Describes and organization
  */
 export class Organization {
   constructor(
@@ -379,14 +396,14 @@ export class Organization {
   ) {}
 
   /**
-   *
+   * @returns model name
    */
   static get modelName(): string {
     return &quot;Organization&quot;;
   }
 }
 /**
- *
+ * Adapt an organization
  */
 @Injectable({
   providedIn: &quot;root&quot;,
@@ -394,10 +411,7 @@ export class Organization {
 export class OrganizationAdapter
   implements Adapter&lt;Organization, ReadOrganization, unknown&gt;
 {
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptFromApi(item: ReadOrganization): Organization {
     const userAdapter &#x3D; new UserAdapter();
     let users: User[] &#x3D; [];

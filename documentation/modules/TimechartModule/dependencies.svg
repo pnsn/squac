@@ -14,13 +14,13 @@
 <title>cluster_TimechartModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 300,-230.8 300,-32.8 8,-32.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_TimechartModule_exports</title>
-<polygon fill="none" stroke="black" points="75,-170.8 75,-222.8 233,-222.8 233,-170.8 75,-170.8"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_TimechartModule_imports</title>
 <polygon fill="none" stroke="black" points="178,-40.8 178,-92.8 292,-92.8 292,-40.8 178,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_TimechartModule_exports</title>
+<polygon fill="none" stroke="black" points="75,-170.8 75,-222.8 233,-222.8 233,-170.8 75,-170.8"/>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_TimechartModule_declarations</title>

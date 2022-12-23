@@ -62,6 +62,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Adapts dashboard</p>
+
+            </p>
 
 
 
@@ -122,8 +129,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="94"
-                            class="link-to-prism">projects/squacapi/src/lib/models/dashboard.ts:94</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="91"
+                            class="link-to-prism">projects/squacapi/src/lib/models/dashboard.ts:91</a></div>
                 </td>
             </tr>
 
@@ -191,8 +198,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="115"
-                            class="link-to-prism">projects/squacapi/src/lib/models/dashboard.ts:115</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="109"
+                            class="link-to-prism">projects/squacapi/src/lib/models/dashboard.ts:109</a></div>
                 </td>
             </tr>
 
@@ -255,8 +262,9 @@ import {
   DashboardProperties,
 } from &quot;../interfaces&quot;;
 import { DASHBOARD_PROPERTIES } from &quot;../constants&quot;;
+
 /**
- *
+ * Describes a dashboard
  */
 export class Dashboard {
   public channelGroup?: ChannelGroup;
@@ -274,9 +282,8 @@ export class Dashboard {
     public channelGroupId?: number
   ) {}
 
-  //can be entered as string or properties
   /**
-   *
+   * stores dashboard properties
    */
   public set properties(properties: string | Partial&lt;DashboardProperties&gt;) {
     let props: Partial&lt;DashboardProperties&gt; &#x3D; {};
@@ -295,21 +302,21 @@ export class Dashboard {
   }
 
   /**
-   *
+   * @returns dashboard properties
    */
   public get properties(): DashboardProperties {
     return this._properties;
   }
 
   /**
-   *
+   * @returns dashboard widgets
    */
   public get widgets(): Widget[] {
     return this._widgets;
   }
 
   /**
-   *
+   * updates dashboard widgets
    */
   public set widgets(widgets: Widget[]) {
     this._widgets &#x3D; widgets;
@@ -319,7 +326,7 @@ export class Dashboard {
   }
 
   /**
-   *
+   * @returns model name
    */
   static get modelName(): string {
     return &quot;Dashboard&quot;;
@@ -327,7 +334,7 @@ export class Dashboard {
 }
 
 /**
- *
+ * Adapts dashboard
  */
 @Injectable({
   providedIn: &quot;root&quot;,
@@ -335,10 +342,7 @@ export class Dashboard {
 export class DashboardAdapter
   implements Adapter&lt;Dashboard, ReadDashboard, WriteDashboard&gt;
 {
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptFromApi(item: ReadDashboard): Dashboard {
     const dashboard &#x3D; new Dashboard(
       item.id ? +item.id : 0,
@@ -356,10 +360,7 @@ export class DashboardAdapter
     return dashboard;
   }
 
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptToApi(item: Dashboard): WriteDashboard {
     const d: WriteDashboard &#x3D; {
       name: item.name,

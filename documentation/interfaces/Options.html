@@ -69,6 +69,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Options for requests</p>
+
+            </p>
 
 
         <section>
@@ -137,6 +144,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>if true, will not use the cache</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
             </section>
@@ -151,11 +164,17 @@ import { Adapter, SquacObject } from &quot;../interfaces&quot;;
 import { ApiEndpoint } from &quot;../enums&quot;;
 import { REFRESH_REQUEST } from &quot;../constants/refresh-request.constant&quot;;
 
+/**
+ * Options for requests
+ */
 export interface Options {
+  /** if true, will not use the cache */
   refresh?: boolean;
 }
 
+/** HttpOptions for requests */
 export interface HttpOptions {
+  /** Http context */
   context?: HttpContext;
 }
 

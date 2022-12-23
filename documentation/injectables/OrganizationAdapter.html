@@ -62,6 +62,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Adapt an organization</p>
+
+            </p>
 
 
 
@@ -119,8 +126,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="37"
-                            class="link-to-prism">projects/squacapi/src/lib/models/organization.ts:37</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">projects/squacapi/src/lib/models/organization.ts:33</a></div>
                 </td>
             </tr>
 
@@ -178,9 +185,8 @@
 import { User, UserAdapter } from &quot;../models&quot;;
 import { Adapter, ReadOrganization, ApiUserSimple } from &quot;../interfaces&quot;;
 
-// Describes a user object
 /**
- *
+ * Describes and organization
  */
 export class Organization {
   constructor(
@@ -191,14 +197,14 @@ export class Organization {
   ) {}
 
   /**
-   *
+   * @returns model name
    */
   static get modelName(): string {
     return &quot;Organization&quot;;
   }
 }
 /**
- *
+ * Adapt an organization
  */
 @Injectable({
   providedIn: &quot;root&quot;,
@@ -206,10 +212,7 @@ export class Organization {
 export class OrganizationAdapter
   implements Adapter&lt;Organization, ReadOrganization, unknown&gt;
 {
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptFromApi(item: ReadOrganization): Organization {
     const userAdapter &#x3D; new UserAdapter();
     let users: User[] &#x3D; [];

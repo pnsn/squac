@@ -62,6 +62,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>adapts metric</p>
+
+            </p>
 
 
 
@@ -122,8 +129,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">projects/squacapi/src/lib/models/metric.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">projects/squacapi/src/lib/models/metric.ts:37</a></div>
                 </td>
             </tr>
 
@@ -191,8 +198,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">projects/squacapi/src/lib/models/metric.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="53"
+                            class="link-to-prism">projects/squacapi/src/lib/models/metric.ts:53</a></div>
                 </td>
             </tr>
 
@@ -248,9 +255,9 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { Adapter, ReadMetric, WriteMetric } from &quot;../interfaces&quot;;
-// Describes a metric object
+
 /**
- *
+ * Describes a metric object
  */
 export class Metric {
   constructor(
@@ -267,7 +274,7 @@ export class Metric {
   ) {}
 
   /**
-   *
+   * @returns model name
    */
   static get modelName(): string {
     return &quot;Metric&quot;;
@@ -275,16 +282,13 @@ export class Metric {
 }
 
 /**
- *
+ * adapts metric
  */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class MetricAdapter implements Adapter&lt;Metric, ReadMetric, WriteMetric&gt; {
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptFromApi(item: ReadMetric): Metric {
     return new Metric(
       item.id ? +item.id : 0,
@@ -300,10 +304,7 @@ export class MetricAdapter implements Adapter&lt;Metric, ReadMetric, WriteMetric
     );
   }
 
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptToApi(item: Metric): WriteMetric {
     return {
       name: item.name,

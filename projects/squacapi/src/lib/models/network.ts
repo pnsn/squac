@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Adapter, ReadNetwork } from "../interfaces";
 
 /**
- *
+ * describes a network
  */
 export class Network {
   id: number;
@@ -13,7 +13,7 @@ export class Network {
   ) {}
 
   /**
-   *
+   * @return model name
    */
   static get modelName(): string {
     return "Network";
@@ -21,16 +21,13 @@ export class Network {
 }
 
 /**
- *
+ * Adapt network
  */
 @Injectable({
   providedIn: "root",
 })
 export class NetworkAdapter implements Adapter<Network, ReadNetwork, unknown> {
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptFromApi(item: ReadNetwork): Network {
     return new Network(item.code, item.name, item.description);
   }

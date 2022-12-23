@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Adapter, ReadMeasurement } from "../interfaces";
 
 /**
- *
+ * describes a measurement
  */
 export class Measurement {
   constructor(
@@ -16,7 +16,7 @@ export class Measurement {
   ) {}
 
   /**
-   *
+   * @returns model name
    */
   static get modelName(): string {
     return "Measurement";
@@ -24,7 +24,7 @@ export class Measurement {
 }
 
 /**
- *
+ * adapt measurement
  */
 @Injectable({
   providedIn: "root",
@@ -32,10 +32,7 @@ export class Measurement {
 export class MeasurementAdapter
   implements Adapter<Measurement, ReadMeasurement, unknown>
 {
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptFromApi(item: ReadMeasurement): Measurement {
     const measurement = new Measurement(
       item.id ? item.id : 0,

@@ -66,6 +66,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Describes a metric object</p>
+
+            </p>
 
 
 
@@ -616,6 +623,17 @@
                                     <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/squacapi/src/lib/models/metric.ts:24</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -626,9 +644,9 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { Adapter, ReadMetric, WriteMetric } from &quot;../interfaces&quot;;
-// Describes a metric object
+
 /**
- *
+ * Describes a metric object
  */
 export class Metric {
   constructor(
@@ -645,7 +663,7 @@ export class Metric {
   ) {}
 
   /**
-   *
+   * @returns model name
    */
   static get modelName(): string {
     return &quot;Metric&quot;;
@@ -653,16 +671,13 @@ export class Metric {
 }
 
 /**
- *
+ * adapts metric
  */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class MetricAdapter implements Adapter&lt;Metric, ReadMetric, WriteMetric&gt; {
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptFromApi(item: ReadMetric): Metric {
     return new Metric(
       item.id ? +item.id : 0,
@@ -678,10 +693,7 @@ export class MetricAdapter implements Adapter&lt;Metric, ReadMetric, WriteMetric
     );
   }
 
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptToApi(item: Metric): WriteMetric {
     return {
       name: item.name,

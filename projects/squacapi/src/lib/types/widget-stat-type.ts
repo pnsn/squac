@@ -1,3 +1,6 @@
+/**
+ * Stat type options for widgets
+ */
 export const WidgetStatType = [
   "mean",
   "latest",

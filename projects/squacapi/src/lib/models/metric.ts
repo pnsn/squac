@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Adapter, ReadMetric, WriteMetric } from "../interfaces";
-// Describes a metric object
+
 /**
- *
+ * Describes a metric object
  */
 export class Metric {
   constructor(
@@ -19,7 +19,7 @@ export class Metric {
   ) {}
 
   /**
-   *
+   * @returns model name
    */
   static get modelName(): string {
     return "Metric";
@@ -27,16 +27,13 @@ export class Metric {
 }
 
 /**
- *
+ * adapts metric
  */
 @Injectable({
   providedIn: "root",
 })
 export class MetricAdapter implements Adapter<Metric, ReadMetric, WriteMetric> {
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptFromApi(item: ReadMetric): Metric {
     return new Metric(
       item.id ? +item.id : 0,
@@ -52,10 +49,7 @@ export class MetricAdapter implements Adapter<Metric, ReadMetric, WriteMetric> {
     );
   }
 
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptToApi(item: Metric): WriteMetric {
     return {
       name: item.name,

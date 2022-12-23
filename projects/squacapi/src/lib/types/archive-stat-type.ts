@@ -1,3 +1,6 @@
+/**
+ * Archive stat types
+ */
 export const ArchiveStatType = [
   "mean",
   "latest",
