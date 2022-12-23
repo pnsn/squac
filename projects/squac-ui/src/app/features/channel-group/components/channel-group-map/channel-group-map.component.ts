@@ -10,14 +10,7 @@ import {
 } from "@angular/core";
 import { Channel } from "squacapi";
 import * as L from "leaflet";
-import { MapStation } from "./interfaces";
-
-export interface MapBounds {
-  latMin: number;
-  latMax: number;
-  lonMin: number;
-  lonMax: number;
-}
+import { MapBounds, MapStation } from "./interfaces";
 
 /**
  * Shared map for channels

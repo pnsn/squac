@@ -69,6 +69,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Threshold form</p>
+
+            </p>
 
 
         <section>
@@ -155,6 +162,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>threshold dimension</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -188,6 +201,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>max value</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -221,6 +240,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>metric id</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -254,6 +279,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>min value</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
             </section>
@@ -263,10 +294,15 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { FormControl } from &quot;@angular/forms&quot;;
 
+/** Threshold form */
 export interface ThresholdForm {
+  /** threshold dimension */
   dimension?: FormControl&lt;string&gt;;
+  /** min value */
   min: FormControl&lt;number&gt;;
+  /** max value */
   max: FormControl&lt;number&gt;;
+  /** metric id */
   metricId: FormControl&lt;number&gt;;
 }
 </code></pre>

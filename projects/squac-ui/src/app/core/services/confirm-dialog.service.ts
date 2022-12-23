@@ -4,10 +4,17 @@ import { ConfirmDialogComponent } from "@shared/components/confirm-dialog/confir
 import { Observable } from "rxjs";
 import { take } from "rxjs/operators";
 
+/**
+ * Options for confirmation dialog
+ */
 interface ConfirmDialogOptions {
+  /** dialog title */
   title: string;
+  /** dialog body message */
   message: string;
+  /** cancel button text */
   cancelText: string;
+  /** confirm button text */
   confirmText: string;
 }
 

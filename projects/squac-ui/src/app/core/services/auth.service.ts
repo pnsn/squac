@@ -13,6 +13,7 @@ import {
   LocalStorageTypes,
 } from "./local-storage.service";
 
+/** Default max time to use login data */
 const DEFAULT_MAX_LOGIN = 6; //hours
 
 /**

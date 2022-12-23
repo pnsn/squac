@@ -3,7 +3,7 @@ import { User, UserAdapter } from "../models";
 import { Adapter, ReadOrganization, ApiUserSimple } from "../interfaces";
 
 /**
- * Describes and organization
+ * Describes an organization
  */
 export class Organization {
   constructor(

@@ -69,6 +69,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>locale type</p>
+
+            </p>
 
 
         <section>
@@ -137,6 +144,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>direction for displaying data</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -170,6 +183,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>display format for dates</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -203,6 +222,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>format for dates</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
             </section>
@@ -211,11 +236,15 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface Locale {
+  /** format for dates */
   format: string;
+  /** display format for dates */
   displayFormat: string;
+  /** direction for displaying data */
   direction: &quot;ltr&quot;;
 }
 
+/** default locale */
 export const DEFAULT_LOCALE: Locale &#x3D; {
   format: &quot;YYYY-MM-DDTHH:mm:ss[Z]&quot;,
   displayFormat: &quot;YYYY/MM/DD HH:mm&quot;,

@@ -7,7 +7,7 @@ import { Metric } from "squacapi";
 import { Widget } from "widgets";
 
 /**
- *
+ * Entry component for widget edit modal
  */
 @Component({
   selector: "widget-edit-entry",
@@ -28,7 +28,7 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
   ) {}
 
   /**
-   *
+   * subscribe to route params
    */
   ngOnInit(): void {
     this.paramsSub = this.route.params.subscribe((params: Params) => {
@@ -45,7 +45,7 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
   }
 
   /**
-   *
+   * opens widget edit modal
    */
   openWidget(): void {
     if (this.dashboardId && this.metrics) {
@@ -76,7 +76,7 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
   }
 
   /**
-   *
+   * unsubscribe and close modal
    */
   ngOnDestroy(): void {
     if (this.dialogRef) {

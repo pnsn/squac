@@ -3,7 +3,7 @@ import { AuthService } from "../../services/auth.service";
 import { User } from "squacapi";
 
 /**
- *
+ * Navigation menu component
  */
 @Component({
   selector: "app-menu",
