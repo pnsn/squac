@@ -9,7 +9,10 @@ import { Component, Input } from "@angular/core";
   styleUrls: ["./shared-indicator.component.scss"],
 })
 export class SharedIndicatorComponent {
+  /** true if shared with organization */
   @Input() shareOrg: boolean;
+  /** true if shared with all */
   @Input() shareAll: boolean;
+  /** type of resource */
   @Input() resource: string;
 }

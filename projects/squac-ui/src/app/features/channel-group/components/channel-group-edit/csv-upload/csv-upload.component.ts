@@ -21,21 +21,37 @@ import { switchMap, tap, map, merge, Observable } from "rxjs";
   styleUrls: ["./csv-upload.component.scss"],
 })
 export class CsvUploadComponent {
+  /** csv rows */
   csvRecords: any;
+  /** csv headers */
   csvHeaders: any;
+  /** true if has headers */
   header = false;
+  /** channels found that match uploaded csv */
   matchingChannels: Channel[];
+  /** channels not found */
   missingChannels: any[];
+  /** network header regex */
   netRegex = new RegExp(/^Net\w{0,4}/, "i");
+  /** station header regex */
   staRegex = new RegExp(/^Sta\w{0,4}/, "i");
+  /** channel header regex */
   chanRegex = new RegExp(/^Chan\w{0,4}/, "i");
+  /** location header regex */
   locRegex = new RegExp(/^Loc\w{0,5}/, "i");
+  /** true if should only return current channels */
   @Input() showOnlyCurrent: boolean;
+  /** channels */
   @Input() channels: Channel[];
+  /** Found channels */
   @Output() channelsChange = new EventEmitter<Channel[]>();
+  /** error message */
   @Input() error: string | boolean;
+  /** error message */
   @Output() errorChange = new EventEmitter<string | boolean>();
-  @Input() context: any; //context for loading service
+  /** context for loading sevice */
+  @Input() context: any;
+  /** loading indicator */
   @Input() loadingIndicator: any;
   constructor(
     private ngxCsvParser: NgxCsvParser,
