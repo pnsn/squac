@@ -32,7 +32,7 @@ import { MatchingRuleService } from "squacapi";
 import { MatchingRule } from "squacapi";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
-import { MapBounds } from "../channel-group-map/channel-group-map.component";
+import { MapBounds } from "../channel-group-map/interfaces";
 import { SearchFilter } from "./interfaces";
 
 enum LoadingIndicator {
