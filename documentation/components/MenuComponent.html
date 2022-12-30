@@ -68,6 +68,13 @@
 </p>
 
 
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Navigation menu component</p>
+
+    </p>
 
 
 
@@ -171,7 +178,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/squac-ui/src/app/core/components/menu/menu.component.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/squac-ui/src/app/core/components/menu/menu.component.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -227,9 +234,15 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/squac-ui/src/app/core/components/menu/menu.component.ts:15</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/squac-ui/src/app/core/components/menu/menu.component.ts:17</a></div>
                             </td>
                         </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>true if using sidenav view</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
         <table class="table table-sm table-bordered">
@@ -248,9 +261,15 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/squac-ui/src/app/core/components/menu/menu.component.ts:14</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/squac-ui/src/app/core/components/menu/menu.component.ts:15</a></div>
                             </td>
                         </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>logged in user</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -282,14 +301,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">projects/squac-ui/src/app/core/components/menu/menu.component.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="22"
+                            class="link-to-prism">projects/squac-ui/src/app/core/components/menu/menu.component.ts:22</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>logs user out</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -310,7 +331,7 @@ import { AuthService } from &quot;../../services/auth.service&quot;;
 import { User } from &quot;squacapi&quot;;
 
 /**
- *
+ * Navigation menu component
  */
 @Component({
   selector: &quot;app-menu&quot;,
@@ -318,11 +339,13 @@ import { User } from &quot;squacapi&quot;;
   styleUrls: [&quot;./menu.component.scss&quot;],
 })
 export class MenuComponent {
+  /** logged in user */
   @Input() user!: User;
+  /** true if using sidenav view */
   @Input() isSidenav?: boolean;
   constructor(private authService: AuthService) {}
   /**
-   *
+   * logs user out
    */
   logout(): void {
     this.authService.logout();

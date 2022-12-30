@@ -4,7 +4,7 @@ import { MessageService } from "../../services/message.service";
 import { User } from "squacapi";
 
 /**
- *
+ * Home page
  */
 @Component({
   selector: "app-home",

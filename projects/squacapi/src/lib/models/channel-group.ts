@@ -8,10 +8,8 @@ import {
 import { Channel } from "../models";
 import { ChannelAdapter } from "../models/channel";
 
-// Describes a channel group object
-
 /**
- *
+ * Describes a channel group object
  */
 export class ChannelGroup {
   id?: number;
@@ -31,7 +29,7 @@ export class ChannelGroup {
   autoExcludeChannels?: (Channel | number)[] = [];
 
   /**
-   *
+   * @returns model name
    */
   static get modelName(): string {
     return "ChannelGroup";
@@ -39,7 +37,7 @@ export class ChannelGroup {
 }
 
 /**
- *
+ * ADapt channel group
  */
 @Injectable({
   providedIn: "root",
@@ -47,10 +45,7 @@ export class ChannelGroup {
 export class ChannelGroupAdapter
   implements Adapter<ChannelGroup, ReadChannelGroup, WriteChannelGroup>
 {
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptFromApi(item: ReadChannelGroup): ChannelGroup {
     const channelAdapter = new ChannelAdapter();
     const id = item.id ? +item.id : undefined;
@@ -88,10 +83,7 @@ export class ChannelGroupAdapter
     return channelGroup;
   }
 
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptToApi(item: ChannelGroup): WriteChannelGroup {
     const incl = item.autoIncludeChannels?.map((c): number =>
       typeof c === "number" ? c : c.id

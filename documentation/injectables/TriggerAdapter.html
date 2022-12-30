@@ -62,6 +62,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Adapts a trigger</p>
+
+            </p>
 
 
 
@@ -122,8 +129,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">projects/squacapi/src/lib/models/trigger.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">projects/squacapi/src/lib/models/trigger.ts:46</a></div>
                 </td>
             </tr>
 
@@ -191,8 +198,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">projects/squacapi/src/lib/models/trigger.ts:67</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="62"
+                            class="link-to-prism">projects/squacapi/src/lib/models/trigger.ts:62</a></div>
                 </td>
             </tr>
 
@@ -252,7 +259,7 @@ import { Trigger as ApiTrigger } from &quot;@pnsn/ngx-squacapi-client&quot;;
 import { Alert, Monitor } from &quot;../models&quot;;
 
 /**
- *
+ * Describes a trigger
  */
 export class Trigger {
   constructor(
@@ -266,8 +273,9 @@ export class Trigger {
     public val1: number,
     public val2?: number
   ) {}
+
   /**
-   *
+   * @returns model name
    */
   static get modelName(): string {
     return &quot;Trigger&quot;;
@@ -281,7 +289,7 @@ export class Trigger {
 }
 
 /**
- *
+ * Adapts a trigger
  */
 @Injectable({
   providedIn: &quot;root&quot;,
@@ -289,10 +297,7 @@ export class Trigger {
 export class TriggerAdapter
   implements Adapter&lt;Trigger, ReadTrigger, WriteTrigger&gt;
 {
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptFromApi(item: ReadTrigger): Trigger {
     const trigger &#x3D; new Trigger(
       item.id ? +item.id : 0,
@@ -308,10 +313,7 @@ export class TriggerAdapter
     return trigger;
   }
 
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptToApi(item: Trigger): WriteTrigger {
     return {
       monitor: item.monitorId,

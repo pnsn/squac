@@ -62,6 +62,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>ADapt channel group</p>
+
+            </p>
 
 
 
@@ -122,8 +129,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">projects/squacapi/src/lib/models/channel-group.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">projects/squacapi/src/lib/models/channel-group.ts:49</a></div>
                 </td>
             </tr>
 
@@ -191,8 +198,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="97"
-                            class="link-to-prism">projects/squacapi/src/lib/models/channel-group.ts:97</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="87"
+                            class="link-to-prism">projects/squacapi/src/lib/models/channel-group.ts:87</a></div>
                 </td>
             </tr>
 
@@ -256,10 +263,8 @@ import {
 import { Channel } from &quot;../models&quot;;
 import { ChannelAdapter } from &quot;../models/channel&quot;;
 
-// Describes a channel group object
-
 /**
- *
+ * Describes a channel group object
  */
 export class ChannelGroup {
   id?: number;
@@ -274,12 +279,12 @@ export class ChannelGroup {
   // which is why i&#x27;ve got these instead of channels.length
   channelsCount? &#x3D; 0;
 
-  channels?: (Channel | number)[];
-  autoIncludeChannels?: (Channel | number)[];
-  autoExcludeChannels?: (Channel | number)[];
+  channels?: (Channel | number)[] &#x3D; [];
+  autoIncludeChannels?: (Channel | number)[] &#x3D; [];
+  autoExcludeChannels?: (Channel | number)[] &#x3D; [];
 
   /**
-   *
+   * @returns model name
    */
   static get modelName(): string {
     return &quot;ChannelGroup&quot;;
@@ -287,7 +292,7 @@ export class ChannelGroup {
 }
 
 /**
- *
+ * ADapt channel group
  */
 @Injectable({
   providedIn: &quot;root&quot;,
@@ -295,24 +300,20 @@ export class ChannelGroup {
 export class ChannelGroupAdapter
   implements Adapter&lt;ChannelGroup, ReadChannelGroup, WriteChannelGroup&gt;
 {
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptFromApi(item: ReadChannelGroup): ChannelGroup {
     const channelAdapter &#x3D; new ChannelAdapter();
     const id &#x3D; item.id ? +item.id : undefined;
+    const channelGroup &#x3D; new ChannelGroup();
 
-    const channelGroup: ChannelGroup &#x3D; {
-      id,
-      owner: item.user,
-      name: item.name,
-      description: item.description,
-      orgId: item.organization,
-      channelsCount: item.channels_count,
-      shareAll: item.share_all ?? false,
-      shareOrg: item.share_org ?? false,
-    };
+    channelGroup.id &#x3D; id;
+    channelGroup.owner &#x3D; item.user;
+    channelGroup.name &#x3D; item.name;
+    channelGroup.description &#x3D; item.description;
+    channelGroup.orgId &#x3D; item.organization;
+    channelGroup.channelsCount &#x3D; item.channels_count;
+    channelGroup.shareAll &#x3D; item.share_all ?? false;
+    channelGroup.shareOrg &#x3D; item.share_org ?? false;
 
     if (&quot;channels&quot; in item &amp;&amp; item.channels) {
       channelGroup.channels &#x3D; item.channels.map((c: ApiChannel) &#x3D;&gt;
@@ -334,16 +335,12 @@ export class ChannelGroupAdapter
         }
       );
     }
-
     return channelGroup;
   }
 
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptToApi(item: ChannelGroup): WriteChannelGroup {
-    const incl &#x3D; item.autoExcludeChannels?.map((c): number &#x3D;&gt;
+    const incl &#x3D; item.autoIncludeChannels?.map((c): number &#x3D;&gt;
       typeof c &#x3D;&#x3D;&#x3D; &quot;number&quot; ? c : c.id
     );
     const ex &#x3D; item.autoExcludeChannels?.map((c) &#x3D;&gt;
@@ -354,10 +351,10 @@ export class ChannelGroupAdapter
       name: item.name,
       description: item.description,
       organization: item.orgId,
-      auto_exclude_channels: incl ?? [],
-      auto_include_channels: ex ?? [],
-      share_org: item.shareAll,
-      share_all: item.shareOrg,
+      auto_exclude_channels: ex ?? [],
+      auto_include_channels: incl ?? [],
+      share_org: item.shareOrg,
+      share_all: item.shareAll,
     };
   }
 }

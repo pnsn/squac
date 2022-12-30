@@ -66,6 +66,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Http cache requests</p>
+
+            </p>
 
 
 
@@ -136,14 +143,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="15"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/cache.service.ts:15</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/cache.service.ts:18</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>delete request</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -207,14 +216,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/cache.service.ts:13</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="14"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/cache.service.ts:14</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Get request</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -278,14 +289,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="14"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/cache.service.ts:14</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="16"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/cache.service.ts:16</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>put request</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -358,11 +371,14 @@ import * as Route from &quot;route-parser&quot;;
 import { MatchingRoute } from &quot;./interfaces&quot;;
 
 /**
- *
+ * Http cache requests
  */
 abstract class HttpCache {
+  /** Get request */
   abstract get(req: HttpRequest&lt;any&gt;): HttpResponse&lt;any&gt; | null;
+  /** put request */
   abstract put(req: HttpRequest&lt;any&gt;, res: HttpResponse&lt;any&gt;): void;
+  /** delete request */
   abstract delete(req: HttpRequest&lt;any&gt;): boolean;
 }
 

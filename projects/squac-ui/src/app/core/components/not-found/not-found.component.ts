@@ -3,7 +3,7 @@ import { NavigationEnd, Router } from "@angular/router";
 import { filter } from "rxjs/operators";
 
 /**
- *
+ * 404 page
  */
 @Component({
   selector: "app-not-found",

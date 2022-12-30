@@ -69,6 +69,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Station for map</p>
+
+            </p>
 
 
         <section>
@@ -167,6 +174,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>auto excluded channels</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -200,6 +213,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>auto included channels</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -233,6 +252,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>station code</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -266,6 +291,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>station lat</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -299,6 +330,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>station lon</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -332,6 +369,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>searched channels</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -365,6 +408,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>selected channels</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
             </section>
@@ -374,14 +423,34 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Channel } from &quot;squacapi&quot;;
 
+/** Station for map */
 export interface MapStation {
+  /** station code */
   code: string;
+  /** station lat */
   lat: number;
+  /** station lon */
   lon: number;
+  /** auto included channels */
   autoIncludeChannels: Channel[];
+  /** auto excluded channels */
   autoExcludeChannels: Channel[];
+  /** selected channels */
   selectedChannels: Channel[];
+  /** searched channels */
   searchedChannels: Channel[];
+}
+
+/** Map box bounds */
+export interface MapBounds {
+  /** minimum latitude */
+  latMin: number;
+  /** maximum latitude */
+  latMax: number;
+  /** minimum longitude */
+  lonMin: number;
+  /** maximum longitude */
+  lonMax: number;
 }
 </code></pre>
     </div>

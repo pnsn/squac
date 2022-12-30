@@ -293,8 +293,8 @@ Used for routing</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="80"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit-entry/monitor-edit-entry.component.ts:80</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="82"
+                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit-entry/monitor-edit-entry.component.ts:82</a></div>
                 </td>
             </tr>
 
@@ -371,8 +371,8 @@ Used for routing</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="55"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit-entry/monitor-edit-entry.component.ts:55</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit-entry/monitor-edit-entry.component.ts:57</a></div>
                 </td>
             </tr>
 
@@ -601,7 +601,9 @@ export class MonitorEditEntryComponent implements OnInit, OnDestroy {
             this.monitor &#x3D; this.route.snapshot.data[&quot;monitor&quot;];
             this.metrics &#x3D; this.route.snapshot.data[&quot;metrics&quot;];
           }
-          return this.channelGroupService.getSortedChannelGroups();
+          return this.channelGroupService.getSortedChannelGroups({
+            order: &quot;name&quot;,
+          });
         })
       )
       .subscribe((groups: any) &#x3D;&gt; {

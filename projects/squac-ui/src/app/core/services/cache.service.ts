@@ -7,11 +7,14 @@ import * as Route from "route-parser";
 import { MatchingRoute } from "./interfaces";
 
 /**
- *
+ * Http cache requests
  */
 abstract class HttpCache {
+  /** Get request */
   abstract get(req: HttpRequest<any>): HttpResponse<any> | null;
+  /** put request */
   abstract put(req: HttpRequest<any>, res: HttpResponse<any>): void;
+  /** delete request */
   abstract delete(req: HttpRequest<any>): boolean;
 }
 

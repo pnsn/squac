@@ -66,6 +66,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Transforms organization id into an organization name</p>
+
+            </p>
 
 
         <section>
@@ -105,14 +112,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">projects/squacapi/src/lib/pipes/organization.pipe.ts:17</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">projects/squacapi/src/lib/pipes/organization.pipe.ts:19</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Transforms organization id into organization name</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -123,6 +132,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -137,6 +147,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>organization id</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -148,7 +162,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>organization name</p>
+
                     </div>
                 </td>
             </tr>
@@ -164,7 +179,7 @@
 import { OrganizationService } from &quot;../services&quot;;
 
 /**
- *
+ * Transforms organization id into an organization name
  */
 @Pipe({
   name: &quot;organization&quot;,
@@ -173,8 +188,10 @@ export class OrganizationPipe implements PipeTransform {
   constructor(private orgService: OrganizationService) {}
 
   /**
+   * Transforms organization id into organization name
    *
-   * @param value
+   * @param value organization id
+   * @returns organization name
    */
   transform(value: number): string {
     if (typeof value &#x3D;&#x3D;&#x3D; &quot;string&quot;) {

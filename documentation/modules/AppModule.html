@@ -324,7 +324,7 @@ import { BrowserModule } from &quot;@angular/platform-browser&quot;;
 import { BrowserAnimationsModule } from &quot;@angular/platform-browser/animations&quot;;
 import { LeafletModule } from &quot;@asymmetrik/ngx-leaflet&quot;;
 import { LeafletDrawModule } from &quot;@asymmetrik/ngx-leaflet-draw&quot;;
-import { Ability, PureAbility } from &quot;@casl/ability&quot;;
+import { PureAbility } from &quot;@casl/ability&quot;;
 import { NotFoundComponent } from &quot;@core/components&quot;;
 import { ApiModule, ApiService, BASE_PATH } from &quot;@pnsn/ngx-squacapi-client&quot;;
 import { SharedModule } from &quot;@shared/shared.module&quot;;
@@ -404,7 +404,7 @@ import { AppAbility } from &quot;@core/utils/ability&quot;;
       multi: true,
     },
     { provide: AppAbility, useValue: new AppAbility() },
-    { provide: PureAbility, useExisting: Ability },
+    { provide: PureAbility, useExisting: AppAbility },
     {
       provide: MeasurementService,
       useFactory: MeasurementFactory,

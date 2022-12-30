@@ -19,10 +19,15 @@ import { WidgetProperties, WidgetStatType } from "squacapi";
   styleUrls: ["./widget-edit-info.component.scss"],
 })
 export class WidgetEditInfoComponent implements OnInit {
+  /** widget name */
   @Input() name: string;
+  /** widget type */
   @Input() type: WidgetType;
+  /** widget stat type */
   @Input() stat: WidgetStatType;
+  /** widget properties */
   @Input() properties: WidgetProperties;
+  /** widget display type */
   @Input() displayType: string;
   @Output() displayTypeChange = new EventEmitter<string>();
   @Output() propertiesChange = new EventEmitter<WidgetProperties>();

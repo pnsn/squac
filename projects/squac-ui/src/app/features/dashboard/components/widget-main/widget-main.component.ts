@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Dashboard } from "squacapi";
 import { AppAbility } from "@core/utils/ability";
 
+/** Gridster item with widget */
 interface WidgetGridsterItem extends GridsterItem {
   widget: Widget;
 }

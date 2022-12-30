@@ -1,6 +1,6 @@
 import { HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-export const PROJECT_NAME = "SQUAC";
+
 import * as Route from "route-parser";
 import { MatchingRoute } from "./interfaces";
 
@@ -11,6 +11,9 @@ export enum LocalStorageTypes {
   LOCAL = "local",
   SESSION = "session",
 }
+
+/** project name key */
+export const PROJECT_NAME = "SQUAC";
 
 /**
  * Service for interacting with local storage

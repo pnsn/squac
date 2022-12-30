@@ -152,7 +152,7 @@ Returns true if confirm, false for cancel</code></pre></div>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:38</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:45</a></div>
                             </td>
                         </tr>
 
@@ -217,8 +217,8 @@ Returns true if confirm, false for cancel</code></pre></div>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="52"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:52</a></div>
                 </td>
             </tr>
 
@@ -258,8 +258,8 @@ Returns true if confirm, false for cancel</code></pre></div>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="72"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:72</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="79"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:79</a></div>
                 </td>
             </tr>
 
@@ -303,8 +303,8 @@ Returns true if confirm, false for cancel</code></pre></div>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="79"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:79</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="86"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:86</a></div>
                 </td>
             </tr>
 
@@ -344,8 +344,8 @@ Returns true if confirm, false for cancel</code></pre></div>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="56"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:56</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="63"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:63</a></div>
                 </td>
             </tr>
 
@@ -425,7 +425,7 @@ Returns true if confirm, false for cancel</code></pre></div>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:40</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/squac-ui/src/app/core/services/confirm-dialog.service.ts:47</a></div>
                         </td>
                     </tr>
 
@@ -444,10 +444,17 @@ import { ConfirmDialogComponent } from &quot;@shared/components/confirm-dialog/c
 import { Observable } from &quot;rxjs&quot;;
 import { take } from &quot;rxjs/operators&quot;;
 
+/**
+ * Options for confirmation dialog
+ */
 interface ConfirmDialogOptions {
+  /** dialog title */
   title: string;
+  /** dialog body message */
   message: string;
+  /** cancel button text */
   cancelText: string;
+  /** confirm button text */
   confirmText: string;
 }
 

@@ -5,11 +5,17 @@ import { Adapter, SquacObject } from "../interfaces";
 import { ApiEndpoint } from "../enums";
 import { REFRESH_REQUEST } from "../constants/refresh-request.constant";
 
+/**
+ * Options for requests
+ */
 export interface Options {
+  /** if true, will not use the cache */
   refresh?: boolean;
 }
 
+/** HttpOptions for requests */
 export interface HttpOptions {
+  /** Http context */
   context?: HttpContext;
 }
 

@@ -69,6 +69,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>row of channel data for map</p>
+
+            </p>
 
             <p class="comment">
                 <h3>Extends</h3>
@@ -149,6 +156,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>channel id</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -182,6 +195,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>channel parent id</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -215,6 +234,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>channel title</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
             </section>
@@ -223,24 +248,39 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">interface RowData {
+  /** unique station code */
   staCode: string;
+  /** station latitude */
   lat: number;
+  /** station longitude */
   lon: number;
+  /** count of metrics out of spec for each channel */
   metricAgg: number;
+  /** color to represent station with */
   color: string;
+  /** count of channel out of spec */
   agg?: number;
 }
 
+/** row of channel data for map */
 export interface ChannelRow extends RowData {
+  /** channel title */
   title: string;
+  /** channel id */
   id: number;
+  /** channel parent id */
   parentId: string;
 }
 
+/** row of station data for map */
 export interface StationRow extends RowData {
+  /** station id */
   id: string;
+  /** aggregate value  */
   agg: number;
+  /** count of channels out of spec */
   channelAgg: number;
+  /** count of channels*/
   count: number;
 }
 export type StationChannels &#x3D; Record&lt;number, string&gt;;

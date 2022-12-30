@@ -1,18 +1,30 @@
+/**
+ * Widget threshold
+ */
 export interface Threshold {
+  /** type of threshold, continuous, piecewise etc. */
   type?: string; //continuous, piecewise, markLine, markArea
+  /** min value of threshold */
   min: number;
+  /** max value of threshold */
   max: number;
+  /** metric id */
   metricId: number;
+  /** widget display dimension */
   dimension?: string;
+  /** in range color options */
   inRange?: {
     color: string[];
     type: string;
   };
+  /** out of range color options */
   outOfRange?: {
     color: string[];
     type: string;
   };
+  /** widget display type */
   displayType?: string; //worst, channel, stoplight
+  /** number of splits for coloring */
   numSplits?: number;
 
   // returns true if in threshold, false if outside or no thresholds

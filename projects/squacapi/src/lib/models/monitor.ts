@@ -13,7 +13,7 @@ import {
 import { Adapter, ApiTrigger, ReadMonitor, WriteMonitor } from "../interfaces";
 
 /**
- *
+ * describes a monitor
  */
 export class Monitor {
   constructor(
@@ -35,7 +35,7 @@ export class Monitor {
   alerts?: Alert[];
   inAlarm?: boolean;
   /**
-   *
+   * @returns model name
    */
   static get modelName(): string {
     return "Monitor";
@@ -43,7 +43,7 @@ export class Monitor {
 }
 
 /**
- *
+ * adapts monitor
  */
 @Injectable({
   providedIn: "root",
@@ -52,8 +52,7 @@ export class MonitorAdapter
   implements Adapter<Monitor, ReadMonitor, WriteMonitor>
 {
   /**
-   *
-   * @param item
+   * @override
    */
   adaptFromApi(item: ReadMonitor): Monitor {
     const channelGroupAdapter = new ChannelGroupAdapter();
@@ -104,8 +103,7 @@ export class MonitorAdapter
   }
 
   /**
-   *
-   * @param item
+   * @override
    */
   adaptToApi(item: Monitor): WriteMonitor {
     return {

@@ -65,10 +65,17 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts</code>
+            <code>projects/squac-ui/src/app/features/channel-group/components/channel-group-map/interfaces.ts</code>
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Map box bounds</p>
+
+            </p>
 
 
         <section>
@@ -149,6 +156,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>maximum latitude</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -182,6 +195,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>minimum latitude</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -215,6 +234,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>maximum longitude</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -248,6 +273,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>minimum longitude</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
             </section>
@@ -255,453 +286,36 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-  Component,
-  Input,
-  OnChanges,
-  Output,
-  EventEmitter,
-  OnInit,
-  SimpleChanges,
-  NgZone,
-} from &quot;@angular/core&quot;;
-import { Channel } from &quot;squacapi&quot;;
-import * as L from &quot;leaflet&quot;;
-import { MapStation } from &quot;./interfaces&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Channel } from &quot;squacapi&quot;;
 
-export interface MapBounds {
-  latMin: number;
-  latMax: number;
-  lonMin: number;
-  lonMax: number;
+/** Station for map */
+export interface MapStation {
+  /** station code */
+  code: string;
+  /** station lat */
+  lat: number;
+  /** station lon */
+  lon: number;
+  /** auto included channels */
+  autoIncludeChannels: Channel[];
+  /** auto excluded channels */
+  autoExcludeChannels: Channel[];
+  /** selected channels */
+  selectedChannels: Channel[];
+  /** searched channels */
+  searchedChannels: Channel[];
 }
 
-/**
- * Shared map for channels
- */
-@Component({
-  selector: &quot;channel-group-map&quot;,
-  templateUrl: &quot;./channel-group-map.component.html&quot;,
-  styleUrls: [&quot;./channel-group-map.component.scss&quot;],
-})
-export class ChannelGroupMapComponent implements OnInit, OnChanges {
-  @Input() searchedChannels: Channel[]; // channels already in group
-  @Input() autoExcludeChannels: Channel[];
-  @Input() autoIncludeChannels: Channel[];
-  @Input() selectedChannels: Channel[]; // channels selected
-  @Input() editPage: boolean; //is used on edit page or not
-  @Input() showChannel: Channel; // channel to show
-  @Output() showChannelChange &#x3D; new EventEmitter&lt;any&gt;(); //channel to show changed
-  @Output() boundsChange &#x3D; new EventEmitter&lt;MapBounds&gt;(); // in html (boundsChange)&#x3D;&quot;updateBounds($event)&quot;
-
-  //leaflet stuff
-  stationLayer: L.FeatureGroup;
-  drawnItems: L.FeatureGroup;
-  options: {
-    center: L.LatLng;
-    zoom: number;
-    layers: L.Layer[];
-  };
-  legend: L.Control;
-  drawOptions: Record&lt;string, unknown&gt;;
-  layers: L.Layer[];
-  fitBounds: L.LatLngBounds;
-  rectLayer: any;
-  map: L.Map;
-  lastZoom &#x3D; null;
-
-  constructor(private zone: NgZone) {}
-
-  /**
-   * init
-   */
-  ngOnInit(): void {
-    this.initMap();
-  }
-
-  /**
-   * Listen to channel changes
-   *
-   * @param changes input changes
-   */
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      changes[&quot;selectedChannels&quot;] ||
-      changes[&quot;autoIncludeChannels&quot;] ||
-      changes[&quot;autoExcludeChannels&quot;] ||
-      changes[&quot;searchedChannels&quot;]
-    ) {
-      this.updateMap(!!changes[&quot;showChannel&quot;]);
-    }
-    if (!changes[&quot;selectedChannels&quot;] &amp;&amp; changes[&quot;selectedChannels&quot;]) {
-      this.selectChannels(this.showChannel);
-    }
-  }
-
-  /**
-   * Set up leaflet map
-   */
-  initMap(): void {
-    // Setup the groups for map markers and the drawn square
-    this.stationLayer &#x3D; new L.FeatureGroup();
-    this.drawnItems &#x3D; new L.FeatureGroup();
-
-    this.legend &#x3D; new L.Control({
-      position: &quot;bottomleft&quot;,
-    });
-
-    // Add all the layers to the array that will be fed to options
-    this.layers &#x3D; [
-      L.tileLayer(&quot;https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&quot;, {
-        attribution:
-          &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://www.openstreetmap.org/copyright&quot;&gt;OpenStreetMap&lt;/a&gt;&#x27;,
-      }),
-      this.drawnItems,
-      this.stationLayer,
-    ];
-
-    const legend &#x3D; L.DomUtil.get(&quot;legend&quot;);
-    this.legend.onAdd &#x3D; (): any &#x3D;&gt; {
-      return legend;
-    };
-
-    // Giving options before view is initialized seemed to be causing issues with the map, so for init just fed it undefineds
-    this.options &#x3D; {
-      center: L.latLng(0, 0),
-      zoom: 5,
-      layers: this.layers,
-    };
-
-    // Options for the drawing menu
-    this.drawOptions &#x3D; {
-      position: &quot;topright&quot;,
-      draw: {
-        polygon: false,
-        polyline: false,
-        rectangle: {
-          showArea: false, // disable showArea
-        },
-        circle: false,
-        circlemarker: false,
-        marker: false,
-      },
-      edit: { featureGroup: this.drawnItems },
-    };
-  }
-
-  /**
-   * leaflet event for when map has loaded
-   * can save map and init things on map now
-   *
-   * @param map leaflet map reference
-   */
-  onMapReady(map: L.Map): void {
-    this.map &#x3D; map;
-    this.legend.addTo(this.map);
-    setTimeout(() &#x3D;&gt; {
-      this.map.invalidateSize();
-      this.updateMap(false);
-    }, 0);
-  }
-
-  /**
-   * Find station using channel nslc and show when
-   * channel is selected
-   *
-   * @param channel selected channel
-   */
-  selectChannels(channel: Channel): void {
-    if (channel) {
-      let stationMarker;
-      this.stationLayer.eachLayer((layer: any) &#x3D;&gt; {
-        if (layer.options.title &#x3D;&#x3D;&#x3D; channel.staCode) {
-          stationMarker &#x3D; layer;
-        }
-
-        // layer.title &#x3D;&#x3D;&#x3D; channel.nslc;
-      });
-      if (stationMarker) {
-        stationMarker.openPopup();
-      }
-    }
-  }
-
-  //TODO: too many iterations over similar groups
-  /**
-   * Create channel markers for each station
-   *
-   * @param showChannel true if there is a channel selected
-   */
-  updateMap(showChannel: boolean): void {
-    const stations: MapStation[] &#x3D; [];
-    if (this.stationLayer) {
-      this.layers.pop();
-      const stationMarkers &#x3D; []; // Marker array
-
-      this.searchedChannels?.forEach((channel) &#x3D;&gt; {
-        let station &#x3D; stations.find((s) &#x3D;&gt; {
-          return s.code &#x3D;&#x3D;&#x3D; channel.staCode;
-        });
-
-        if (!station) {
-          // make station if there isn&#x27;t one yet
-          station &#x3D; {
-            code: channel.staCode,
-            lat: channel.lat,
-            lon: channel.lon,
-            autoIncludeChannels: [],
-            autoExcludeChannels: [],
-            selectedChannels: [],
-            searchedChannels: [],
-          };
-          stations.push(station);
-        }
-
-        station.searchedChannels.push(channel);
-      });
-
-      this.autoIncludeChannels?.forEach((channel) &#x3D;&gt; {
-        let station &#x3D; stations.find((s) &#x3D;&gt; {
-          return s.code &#x3D;&#x3D;&#x3D; channel.staCode;
-        });
-
-        if (!station) {
-          // make station if there isn&#x27;t one yet
-          station &#x3D; {
-            code: channel.staCode,
-            lat: channel.lat,
-            lon: channel.lon,
-            autoIncludeChannels: [],
-            autoExcludeChannels: [],
-            selectedChannels: [],
-            searchedChannels: [],
-          };
-          stations.push(station);
-        }
-
-        station.autoIncludeChannels.push(channel);
-      });
-
-      this.autoExcludeChannels?.forEach((channel) &#x3D;&gt; {
-        let station &#x3D; stations.find((s) &#x3D;&gt; {
-          return s.code &#x3D;&#x3D;&#x3D; channel.staCode;
-        });
-
-        if (!station) {
-          // make station if there isn&#x27;t one yet
-          station &#x3D; {
-            code: channel.staCode,
-            lat: channel.lat,
-            lon: channel.lon,
-            autoIncludeChannels: [],
-            autoExcludeChannels: [],
-            selectedChannels: [],
-            searchedChannels: [],
-          };
-          stations.push(station);
-        }
-
-        station.autoExcludeChannels.push(channel);
-      });
-
-      this.selectedChannels?.forEach((channel) &#x3D;&gt; {
-        let station &#x3D; stations.find((s) &#x3D;&gt; {
-          return s.code &#x3D;&#x3D;&#x3D; channel.staCode;
-        });
-
-        if (!station) {
-          station &#x3D; {
-            code: channel.staCode,
-            lat: channel.lat,
-            lon: channel.lon,
-            autoIncludeChannels: [],
-            autoExcludeChannels: [],
-            selectedChannels: [],
-            searchedChannels: [],
-          };
-          stations.push(station);
-        }
-
-        // check if station is already in the group
-        const includeIndex &#x3D; station.autoIncludeChannels.findIndex(
-          (c) &#x3D;&gt; c.id &#x3D;&#x3D;&#x3D; channel.id
-        );
-
-        const excludeIndex &#x3D; station.autoExcludeChannels.findIndex(
-          (c) &#x3D;&gt; c.id &#x3D;&#x3D;&#x3D; channel.id
-        );
-
-        if (includeIndex &gt; -1) {
-          //remove channel from ingroups to stop duplicates
-          station.autoIncludeChannels.splice(includeIndex, 1);
-        }
-
-        if (excludeIndex &gt; -1) {
-          station.autoExcludeChannels.splice(includeIndex, 1);
-        }
-
-        station.selectedChannels.push(channel);
-      });
-
-      //make marker for each station
-      stations.forEach((station) &#x3D;&gt; {
-        const marker &#x3D; this.makeMarker(station);
-        stationMarkers.push(marker);
-      });
-
-      // create layer from markers
-      this.stationLayer &#x3D; L.featureGroup(stationMarkers);
-      this.layers.push(this.stationLayer);
-
-      // only reset map zoom &amp; bounds if user hasn&#x27;t yet
-      if (!this.lastZoom || this.lastZoom !&#x3D;&#x3D; &quot;user&quot;) {
-        try {
-          // adjust bounds to fit stations
-          const bounds &#x3D; this.stationLayer.getBounds();
-          this.map.fitBounds(bounds, {
-            padding: [11, 11],
-          });
-        } catch {
-          this.map.setZoom(1);
-        }
-        this.lastZoom &#x3D; &quot;auto&quot;;
-      }
-
-      // show selected channel
-      if (showChannel) {
-        this.selectChannels(this.showChannel);
-      }
-    }
-  }
-
-  /**
-   * Make leaflet markes for station
-   *
-   * @param station station
-   * @returns leaflet marker
-   */
-  makeMarker(station: MapStation): L.Marker {
-    let selectedChannelString &#x3D; &quot;&quot;;
-    let inGroupChannelString &#x3D; &quot;&quot;;
-    station.searchedChannels.forEach((channel: Channel) &#x3D;&gt; {
-      inGroupChannelString +&#x3D;
-        &quot;&lt;div&gt; &lt;div class&#x3D;&#x27;searched-channels map-icon&#x27;&gt;&lt;/div&gt;&quot; +
-        channel.nslc +
-        &quot;&lt;/div&gt;&quot;;
-    });
-
-    station.autoIncludeChannels.forEach((channel: Channel) &#x3D;&gt; {
-      inGroupChannelString +&#x3D;
-        &quot;&lt;div&gt; &lt;div class&#x3D;&#x27;included-channels map-icon&#x27;&gt;&lt;/div&gt;&quot; +
-        channel.nslc +
-        &quot;&lt;/div&gt;&quot;;
-    });
-    station.autoExcludeChannels.forEach((channel: Channel) &#x3D;&gt; {
-      inGroupChannelString +&#x3D;
-        &quot;&lt;div&gt; &lt;div class&#x3D;&#x27;excluded-channels map-icon&#x27;&gt;&lt;/div&gt;&quot; +
-        channel.nslc +
-        &quot;&lt;/div&gt;&quot;;
-    });
-    station.selectedChannels.forEach((channel: Channel) &#x3D;&gt; {
-      selectedChannelString +&#x3D;
-        &quot;&lt;div&gt; &lt;div class&#x3D;&#x27;new-channels map-icon&#x27;&gt;&lt;/div&gt;&quot; +
-        channel.nslc +
-        &quot;&lt;/div&gt;&quot;;
-    });
-
-    let className &#x3D; &quot;&quot;;
-
-    if (station.searchedChannels.length !&#x3D;&#x3D; 0) {
-      className &#x3D; &quot;searched-channels&quot;;
-    }
-
-    if (station.autoIncludeChannels.length !&#x3D;&#x3D; 0) {
-      className &#x3D; &quot;included-channels&quot;;
-    }
-    if (station.autoExcludeChannels.length !&#x3D;&#x3D; 0) {
-      className &#x3D; &quot;excluded-channels&quot;;
-    }
-    if (station.selectedChannels.length !&#x3D;&#x3D; 0) {
-      className &#x3D; &quot;new-channels&quot;;
-    }
-
-    const popup &#x3D; &#x60;&lt;h4&gt; ${station.code} &lt;/h4&gt; &lt;div class&#x3D;&#x27;channel-list&#x27;&gt;${selectedChannelString}&lt;/div&gt; &lt;div class&#x3D;&#x27;channel-list&#x27;&gt;${inGroupChannelString} &lt;/div&gt;&#x60;;
-    const marker &#x3D; L.marker([station.lat, station.lon], {
-      icon: L.divIcon({ className: className }),
-      title: station.code,
-    }).bindPopup(popup);
-
-    marker.on(&quot;click&quot;, (ev) &#x3D;&gt; {
-      ev.target.openPopup();
-      this.zone.run(() &#x3D;&gt; {
-        //ToDO: need to actually select channels
-        this.showChannelChange.emit(station);
-      });
-    });
-
-    return marker;
-  }
-
-  /**
-   * After zoom triggers, if user changed bounds
-   * don&#x27;t override, otherwise reset
-   */
-  onZoomEnd(): void {
-    if (this.lastZoom &#x3D;&#x3D;&#x3D; &quot;auto&quot;) {
-      this.lastZoom &#x3D; null;
-    } else {
-      this.lastZoom &#x3D; &quot;user&quot;;
-    }
-  }
-
-  /**
-   * Clear old drawn items
-   */
-  onDrawStart(): void {
-    this.drawnItems.clearLayers();
-    // this.boundsChange.emit(&quot;&quot;);
-  }
-
-  /**
-   * Get bounds from leaflet rectangle and emit results
-   */
-  getBoundsFromRectangle(): void {
-    const rectangleNE &#x3D; this.rectLayer._bounds._northEast; // Northeast corner lat lng
-    const rectangleSW &#x3D; this.rectLayer._bounds._southWest; // Southwest corner lat lng
-    const bounds: MapBounds &#x3D; {
-      latMax: rectangleNE.lat,
-      latMin: rectangleSW.lat,
-      lonMin: rectangleSW.lng,
-      lonMax: rectangleNE.lng,
-    };
-    this.boundsChange.emit(bounds);
-  }
-
-  /**
-   * Emit newly drawn bounds
-   *
-   * @param e draw event
-   */
-  onRectangleCreated(e: any): void {
-    this.rectLayer &#x3D; e.layer;
-    this.drawnItems.addLayer((e as L.DrawEvents.Created).layer);
-
-    this.getBoundsFromRectangle();
-  }
-
-  /**
-   * Listen to rectangle edit and change bounds
-   */
-  onRectangleEdited(): void {
-    this.getBoundsFromRectangle();
-  }
-
-  /**
-   * Clear bounds when rectangle deleted
-   */
-  onRectangleDeleted(): void {
-    this.boundsChange.emit(); // Clear old bounds
-  }
+/** Map box bounds */
+export interface MapBounds {
+  /** minimum latitude */
+  latMin: number;
+  /** maximum latitude */
+  latMax: number;
+  /** minimum longitude */
+  lonMin: number;
+  /** maximum longitude */
+  lonMax: number;
 }
 </code></pre>
     </div>

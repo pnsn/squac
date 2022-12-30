@@ -66,6 +66,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Regular expression rules for building channel groups</p>
+
+            </p>
 
 
 
@@ -447,9 +454,9 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { Adapter, ReadMatchingRule, WriteMatchingRule } from &quot;../interfaces&quot;;
-// Rules for building channel groups
+
 /**
- *
+ * Regular expression rules for building channel groups
  */
 export class MatchingRule {
   constructor(
@@ -465,7 +472,7 @@ export class MatchingRule {
 }
 
 /**
- *
+ * adapt matching rule
  */
 @Injectable({
   providedIn: &quot;root&quot;,
@@ -473,10 +480,7 @@ export class MatchingRule {
 export class MatchingRuleAdapter
   implements Adapter&lt;MatchingRule, ReadMatchingRule, WriteMatchingRule&gt;
 {
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptFromApi(item: ReadMatchingRule): MatchingRule {
     const matchingRule &#x3D; new MatchingRule(
       item.id ? +item.id : 0,
@@ -493,10 +497,7 @@ export class MatchingRuleAdapter
     return matchingRule;
   }
 
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptToApi(item: MatchingRule): WriteMatchingRule {
     return {
       group: item.channelGroupId,

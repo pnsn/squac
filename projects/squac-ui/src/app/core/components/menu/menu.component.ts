@@ -3,7 +3,7 @@ import { AuthService } from "../../services/auth.service";
 import { User } from "squacapi";
 
 /**
- *
+ * Navigation menu component
  */
 @Component({
   selector: "app-menu",
@@ -11,11 +11,13 @@ import { User } from "squacapi";
   styleUrls: ["./menu.component.scss"],
 })
 export class MenuComponent {
+  /** logged in user */
   @Input() user!: User;
+  /** true if using sidenav view */
   @Input() isSidenav?: boolean;
   constructor(private authService: AuthService) {}
   /**
-   *
+   * logs user out
    */
   logout(): void {
     this.authService.logout();

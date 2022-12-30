@@ -62,6 +62,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Adapt user model</p>
+
+            </p>
 
 
 
@@ -137,8 +144,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="84"
-                            class="link-to-prism">projects/squacapi/src/lib/models/user.ts:84</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="80"
+                            class="link-to-prism">projects/squacapi/src/lib/models/user.ts:80</a></div>
                 </td>
             </tr>
 
@@ -206,8 +213,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="124"
-                            class="link-to-prism">projects/squacapi/src/lib/models/user.ts:124</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="117"
+                            class="link-to-prism">projects/squacapi/src/lib/models/user.ts:117</a></div>
                 </td>
             </tr>
 
@@ -291,7 +298,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">projects/squacapi/src/lib/models/user.ts:73</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">projects/squacapi/src/lib/models/user.ts:72</a></div>
                         </td>
                     </tr>
 
@@ -308,9 +315,8 @@
 import { UserGroup } from &quot;@pnsn/ngx-squacapi-client&quot;;
 import { Adapter, ReadUser, WriteUser } from &quot;../interfaces&quot;;
 
-// Describes a user object
 /**
- *
+ * Describes a user object
  */
 export class User {
   constructor(
@@ -339,38 +345,38 @@ export class User {
   groups: string[];
 
   /**
-   *
+   * @returns true if user is staff
    */
   get isStaff(): boolean {
     return this.squacAdmin ? this.squacAdmin : false;
   }
 
   /**
-   *
+   * @returns true if user is an org admin
    */
   get isAdmin(): boolean {
     return this.orgAdmin; // or is an admin of the current group?
   }
 
   /**
+   * Checks if user is in the given group
    *
-   * @param group
+   * @param group group to test
+   * @returns true if user is in the group
    */
   inGroup(group: string): boolean {
     return this.groups ? this.groups.indexOf(group) &gt;&#x3D; 0 : false;
   }
 
   /**
-   *
+   * @returns model name
    */
   static get modelName(): string {
     return &quot;User&quot;;
   }
 }
 
-/**
- *
- */
+/** Adapt user model */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
@@ -383,10 +389,7 @@ export class UserAdapter implements Adapter&lt;User, ReadUser, WriteUser&gt; {
     { id: 4, name: &quot;admin&quot; },
   ];
 
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptFromApi(item: ReadUser): User {
     const groups &#x3D; [];
     if (&quot;groups&quot; in item) {
@@ -423,10 +426,7 @@ export class UserAdapter implements Adapter&lt;User, ReadUser, WriteUser&gt; {
     return user;
   }
 
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptToApi(item: User): WriteUser {
     const groups &#x3D; item.groups.map((g) &#x3D;&gt; {
       const group &#x3D; this.groupIds.find((groupId) &#x3D;&gt; groupId.name &#x3D;&#x3D;&#x3D; g);

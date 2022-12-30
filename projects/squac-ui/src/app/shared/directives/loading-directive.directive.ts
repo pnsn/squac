@@ -11,6 +11,7 @@ import {
 } from "@angular/core";
 import { LoadingSpinnerComponent } from "../components/loading-spinner/loading-spinner.component";
 
+/** default overlay css class */
 const OVERLAY_CLASS = "loading-full-screen";
 
 /**

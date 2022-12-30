@@ -12,7 +12,9 @@ export class AggregateListParams
  * Describes an aggregate
  */
 export class Aggregate {
+  /** aggregate id */
   id?: number;
+  /** aggregate value */
   public value?: number;
   constructor(
     public metricId: number,

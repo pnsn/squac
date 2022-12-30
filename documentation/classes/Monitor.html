@@ -66,6 +66,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>describes a monitor</p>
+
+            </p>
 
 
 
@@ -693,6 +700,17 @@
                                     <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/squacapi/src/lib/models/monitor.ts:40</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -716,7 +734,7 @@ import {
 import { Adapter, ApiTrigger, ReadMonitor, WriteMonitor } from &quot;../interfaces&quot;;
 
 /**
- *
+ * describes a monitor
  */
 export class Monitor {
   constructor(
@@ -738,7 +756,7 @@ export class Monitor {
   alerts?: Alert[];
   inAlarm?: boolean;
   /**
-   *
+   * @returns model name
    */
   static get modelName(): string {
     return &quot;Monitor&quot;;
@@ -746,7 +764,7 @@ export class Monitor {
 }
 
 /**
- *
+ * adapts monitor
  */
 @Injectable({
   providedIn: &quot;root&quot;,
@@ -755,8 +773,7 @@ export class MonitorAdapter
   implements Adapter&lt;Monitor, ReadMonitor, WriteMonitor&gt;
 {
   /**
-   *
-   * @param item
+   * @override
    */
   adaptFromApi(item: ReadMonitor): Monitor {
     const channelGroupAdapter &#x3D; new ChannelGroupAdapter();
@@ -807,8 +824,7 @@ export class MonitorAdapter
   }
 
   /**
-   *
-   * @param item
+   * @override
    */
   adaptToApi(item: Monitor): WriteMonitor {
     return {

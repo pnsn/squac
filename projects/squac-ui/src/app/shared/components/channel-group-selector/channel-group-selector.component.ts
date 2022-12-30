@@ -14,13 +14,22 @@ import { MatFormFieldAppearance } from "@angular/material/form-field";
   styleUrls: ["./channel-group-selector.component.scss"],
 })
 export class ChannelGroupSelectorComponent implements OnInit {
+  /** channel group id */
   @Input() channelGroupId: number | string | undefined;
+  /** label text */
   @Input() label = "Channel Group";
+  /** true if field required */
   @Input() required = false;
+  /** form appearance */
   @Input() appearance: MatFormFieldAppearance = "standard";
+  /** true if use dense style */
   @Input() dense = false;
+  /** channel groups available for select */
   channelGroups: ChannelGroup[] | undefined;
+  /** selected channel group id */
   @Output() channelGroupIdChange = new EventEmitter<any>();
+
+  /** channel groups available for selection */
   groups: any;
   /*{
     name: string;

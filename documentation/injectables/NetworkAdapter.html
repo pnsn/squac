@@ -62,6 +62,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Adapt network</p>
+
+            </p>
 
 
 
@@ -119,8 +126,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">projects/squacapi/src/lib/models/network.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">projects/squacapi/src/lib/models/network.ts:31</a></div>
                 </td>
             </tr>
 
@@ -178,7 +185,7 @@
 import { Adapter, ReadNetwork } from &quot;../interfaces&quot;;
 
 /**
- *
+ * describes a network
  */
 export class Network {
   id: number;
@@ -189,7 +196,7 @@ export class Network {
   ) {}
 
   /**
-   *
+   * @return model name
    */
   static get modelName(): string {
     return &quot;Network&quot;;
@@ -197,16 +204,13 @@ export class Network {
 }
 
 /**
- *
+ * Adapt network
  */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class NetworkAdapter implements Adapter&lt;Network, ReadNetwork, unknown&gt; {
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptFromApi(item: ReadNetwork): Network {
     return new Network(item.code, item.name, item.description);
   }

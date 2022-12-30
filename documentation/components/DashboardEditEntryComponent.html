@@ -62,6 +62,13 @@
 </p>
 
 
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Entry component for dashboard edit modal</p>
+
+    </p>
 
 
     <p class="comment">
@@ -273,14 +280,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="77"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-edit/dashboard-edit-entry/dashboard-edit-entry.component.ts:77</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="75"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-edit/dashboard-edit-entry/dashboard-edit-entry.component.ts:75</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>destroy &amp; cleanup</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -318,6 +327,8 @@
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>subscribe to params</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -347,14 +358,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-edit/dashboard-edit-entry/dashboard-edit-entry.component.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="48"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-edit/dashboard-edit-entry/dashboard-edit-entry.component.ts:48</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>opens dashboard edit modal</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -541,7 +554,7 @@ import { Subscription } from &quot;rxjs&quot;;
 import { DashboardEditComponent } from &quot;../dashboard-edit.component&quot;;
 
 /**
- *
+ * Entry component for dashboard edit modal
  */
 @Component({
   selector: &quot;dashboard-edit-entry&quot;,
@@ -561,7 +574,7 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
   ) {}
 
   /**
-   *
+   * subscribe to params
    */
   ngOnInit(): void {
     // selected dashboard
@@ -576,9 +589,8 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
     });
   }
 
-  // open dashboard modal
   /**
-   *
+   * opens dashboard edit modal
    */
   openDashboard(): void {
     this.dialogRef &#x3D; this.dialog.open(DashboardEditComponent, {
@@ -604,9 +616,8 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
     });
   }
 
-  //cleanup
   /**
-   *
+   * destroy &amp; cleanup
    */
   ngOnDestroy(): void {
     if (this.dialogRef) {

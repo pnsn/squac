@@ -4,7 +4,7 @@ import { Trigger as ApiTrigger } from "@pnsn/ngx-squacapi-client";
 import { Alert, Monitor } from "../models";
 
 /**
- *
+ * Describes a trigger
  */
 export class Trigger {
   constructor(
@@ -18,8 +18,9 @@ export class Trigger {
     public val1: number,
     public val2?: number
   ) {}
+
   /**
-   *
+   * @returns model name
    */
   static get modelName(): string {
     return "Trigger";
@@ -33,7 +34,7 @@ export class Trigger {
 }
 
 /**
- *
+ * Adapts a trigger
  */
 @Injectable({
   providedIn: "root",
@@ -41,10 +42,7 @@ export class Trigger {
 export class TriggerAdapter
   implements Adapter<Trigger, ReadTrigger, WriteTrigger>
 {
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptFromApi(item: ReadTrigger): Trigger {
     const trigger = new Trigger(
       item.id ? +item.id : 0,
@@ -60,10 +58,7 @@ export class TriggerAdapter
     return trigger;
   }
 
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptToApi(item: Trigger): WriteTrigger {
     return {
       monitor: item.monitorId,

@@ -69,6 +69,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Widget display properties that are stored in squacapi</p>
+
+            </p>
 
 
         <section>
@@ -172,6 +179,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>dimensions for metrics (varies by widget type)</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -210,6 +223,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>display type (varies by widget type)</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -248,6 +267,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>in range colors</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -286,6 +311,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>number of splits for coloring</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -324,6 +355,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>out of range colors</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -362,6 +399,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>true if colors should be reversed</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
             </section>
@@ -370,12 +413,17 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface WidgetProperties {
-  //depends on which widgetType
+  /** dimensions for metrics (varies by widget type) */
   dimensions?: any; //order of display
+  /** in range colors */
   inRange?: Color;
+  /** out of range colors */
   outOfRange?: Color;
+  /** true if colors should be reversed */
   reverseColors?: boolean;
+  /** display type (varies by widget type) */
   displayType?: string; //worst, channel, stoplight
+  /** number of splits for coloring */
   numSplits?: number;
   // show_legend: boolean; TODO: add these
   // show_tooltips: boolean;
@@ -383,9 +431,13 @@
   // sampling: string;
 }
 
+/** Color configuration */
 export interface Color {
+  /** Array of color strings */
   color: string[];
+  /** name of color type */
   type: string;
+  /** opacity value */
   opacity?: number;
 }
 </code></pre>

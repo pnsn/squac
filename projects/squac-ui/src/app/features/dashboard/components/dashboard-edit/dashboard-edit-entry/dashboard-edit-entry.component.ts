@@ -7,7 +7,7 @@ import { Subscription } from "rxjs";
 import { DashboardEditComponent } from "../dashboard-edit.component";
 
 /**
- *
+ * Entry component for dashboard edit modal
  */
 @Component({
   selector: "dashboard-edit-entry",
@@ -27,7 +27,7 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
   ) {}
 
   /**
-   *
+   * subscribe to params
    */
   ngOnInit(): void {
     // selected dashboard
@@ -42,9 +42,8 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
     });
   }
 
-  // open dashboard modal
   /**
-   *
+   * opens dashboard edit modal
    */
   openDashboard(): void {
     this.dialogRef = this.dialog.open(DashboardEditComponent, {
@@ -70,9 +69,8 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
     });
   }
 
-  //cleanup
   /**
-   *
+   * destroy & cleanup
    */
   ngOnDestroy(): void {
     if (this.dialogRef) {

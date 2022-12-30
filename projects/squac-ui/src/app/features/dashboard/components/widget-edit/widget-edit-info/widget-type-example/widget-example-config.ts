@@ -1,9 +1,12 @@
 import { Channel } from "squacapi";
 import { Metric } from "squacapi";
 
+/** example start */
 export const endtime = "2022-11-03T23:53:51Z";
+/** example end */
 export const starttime = "2022-11-02T23:53:51Z";
 
+/** selected metrics */
 export const selectedMetrics = [
   new Metric(
     1,
@@ -42,6 +45,8 @@ export const selectedMetrics = [
     100
   ),
 ];
+
+/** selected channels */
 export const channels = [
   new Channel(
     1,

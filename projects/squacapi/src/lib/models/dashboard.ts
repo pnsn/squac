@@ -7,8 +7,9 @@ import {
   DashboardProperties,
 } from "../interfaces";
 import { DASHBOARD_PROPERTIES } from "../constants";
+
 /**
- *
+ * Describes a dashboard
  */
 export class Dashboard {
   public channelGroup?: ChannelGroup;
@@ -26,9 +27,8 @@ export class Dashboard {
     public channelGroupId?: number
   ) {}
 
-  //can be entered as string or properties
   /**
-   *
+   * stores dashboard properties
    */
   public set properties(properties: string | Partial<DashboardProperties>) {
     let props: Partial<DashboardProperties> = {};
@@ -47,21 +47,21 @@ export class Dashboard {
   }
 
   /**
-   *
+   * @returns dashboard properties
    */
   public get properties(): DashboardProperties {
     return this._properties;
   }
 
   /**
-   *
+   * @returns dashboard widgets
    */
   public get widgets(): Widget[] {
     return this._widgets;
   }
 
   /**
-   *
+   * updates dashboard widgets
    */
   public set widgets(widgets: Widget[]) {
     this._widgets = widgets;
@@ -71,7 +71,7 @@ export class Dashboard {
   }
 
   /**
-   *
+   * @returns model name
    */
   static get modelName(): string {
     return "Dashboard";
@@ -79,7 +79,7 @@ export class Dashboard {
 }
 
 /**
- *
+ * Adapts dashboard
  */
 @Injectable({
   providedIn: "root",
@@ -87,10 +87,7 @@ export class Dashboard {
 export class DashboardAdapter
   implements Adapter<Dashboard, ReadDashboard, WriteDashboard>
 {
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptFromApi(item: ReadDashboard): Dashboard {
     const dashboard = new Dashboard(
       item.id ? +item.id : 0,
@@ -108,10 +105,7 @@ export class DashboardAdapter
     return dashboard;
   }
 
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptToApi(item: Dashboard): WriteDashboard {
     const d: WriteDashboard = {
       name: item.name,

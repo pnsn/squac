@@ -1,4 +1,6 @@
 import { LocalStorageTypes } from "./services/local-storage.service";
+
+/** route patterns that can be cached */
 export const CACHEABLE_ROUTE_PATTERNS: Record<string, any> = {
   "/dashboard/dashboards/": LocalStorageTypes.SESSION,
   "/dashboard/dashboards/:id/": LocalStorageTypes.SESSION,

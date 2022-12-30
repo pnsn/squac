@@ -14,23 +14,23 @@
 <title>cluster_TabularModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 286,-230.8 286,-32.8 8,-32.8"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_TabularModule_imports</title>
-<polygon fill="none" stroke="black" points="164,-40.8 164,-92.8 278,-92.8 278,-40.8 164,-40.8"/>
+<g id="clust2" class="cluster">
+<title>cluster_TabularModule_declarations</title>
+<polygon fill="none" stroke="black" points="138,-40.8 138,-92.8 278,-92.8 278,-40.8 138,-40.8"/>
 </g>
 <g id="clust5" class="cluster">
 <title>cluster_TabularModule_exports</title>
 <polygon fill="none" stroke="black" points="75,-170.8 75,-222.8 219,-222.8 219,-170.8 75,-170.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_TabularModule_declarations</title>
-<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 156,-92.8 156,-40.8 16,-40.8"/>
+<g id="clust4" class="cluster">
+<title>cluster_TabularModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 130,-92.8 130,-40.8 16,-40.8"/>
 </g>
 <!-- TabularComponent -->
 <g id="node1" class="node">
 <title>TabularComponent</title>
-<polygon fill="#ffffb3" stroke="black" points="148.36,-84.8 23.64,-84.8 23.64,-48.8 148.36,-48.8 148.36,-84.8"/>
-<text text-anchor="middle" x="86" y="-62.6" font-family="Times,serif" font-size="14.00">TabularComponent</text>
+<polygon fill="#ffffb3" stroke="black" points="270.36,-84.8 145.64,-84.8 145.64,-48.8 270.36,-48.8 270.36,-84.8"/>
+<text text-anchor="middle" x="208" y="-62.6" font-family="Times,serif" font-size="14.00">TabularComponent</text>
 </g>
 <!-- TabularModule -->
 <g id="node2" class="node">
@@ -41,8 +41,8 @@
 <!-- TabularComponent&#45;&gt;TabularModule -->
 <g id="edge1" class="edge">
 <title>TabularComponent&#45;&gt;TabularModule</title>
-<path fill="none" stroke="black" d="M121.94,-84.91C121.94,-84.91 121.94,-103.79 121.94,-103.79"/>
-<polygon fill="black" stroke="black" points="118.44,-103.79 121.94,-113.79 125.44,-103.79 118.44,-103.79"/>
+<path fill="none" stroke="black" d="M172.06,-84.91C172.06,-84.91 172.06,-103.79 172.06,-103.79"/>
+<polygon fill="black" stroke="black" points="168.56,-103.79 172.06,-113.79 175.56,-103.79 168.56,-103.79"/>
 </g>
 <!-- TabularComponent  -->
 <g id="node4" class="node">
@@ -59,14 +59,14 @@
 <!-- SharedModule -->
 <g id="node3" class="node">
 <title>SharedModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="270.43,-84.8 267.43,-88.8 246.43,-88.8 243.43,-84.8 171.57,-84.8 171.57,-48.8 270.43,-48.8 270.43,-84.8"/>
-<text text-anchor="middle" x="221" y="-62.6" font-family="Times,serif" font-size="14.00">SharedModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="122.43,-84.8 119.43,-88.8 98.43,-88.8 95.43,-84.8 23.57,-84.8 23.57,-48.8 122.43,-48.8 122.43,-84.8"/>
+<text text-anchor="middle" x="73" y="-62.6" font-family="Times,serif" font-size="14.00">SharedModule</text>
 </g>
 <!-- SharedModule&#45;&gt;TabularModule -->
 <g id="edge2" class="edge">
 <title>SharedModule&#45;&gt;TabularModule</title>
-<path fill="none" stroke="black" d="M185.16,-84.91C185.16,-84.91 185.16,-103.79 185.16,-103.79"/>
-<polygon fill="black" stroke="black" points="181.66,-103.79 185.16,-113.79 188.66,-103.79 181.66,-103.79"/>
+<path fill="none" stroke="black" d="M108.84,-84.91C108.84,-84.91 108.84,-103.79 108.84,-103.79"/>
+<polygon fill="black" stroke="black" points="105.34,-103.79 108.84,-113.79 112.34,-103.79 105.34,-103.79"/>
 </g>
 </g>
 </svg>

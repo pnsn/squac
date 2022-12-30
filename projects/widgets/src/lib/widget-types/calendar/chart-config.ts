@@ -1,6 +1,7 @@
 import { WidgetTypeInfo } from "../../constants";
 import { CalendarComponent } from "./calendar.component";
 
+/** config for calendar component */
 export const CONFIG: WidgetTypeInfo = {
   component: CalendarComponent,
   config: {

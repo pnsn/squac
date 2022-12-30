@@ -175,9 +175,15 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/squac-ui/src/app/shared/components/shared-indicator/shared-indicator.component.ts:14</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/squac-ui/src/app/shared/components/shared-indicator/shared-indicator.component.ts:17</a></div>
                             </td>
                         </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>type of resource</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
         <table class="table table-sm table-bordered">
@@ -196,9 +202,15 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/squac-ui/src/app/shared/components/shared-indicator/shared-indicator.component.ts:13</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/squac-ui/src/app/shared/components/shared-indicator/shared-indicator.component.ts:15</a></div>
                             </td>
                         </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>true if shared with all</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
         <table class="table table-sm table-bordered">
@@ -217,9 +229,15 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/squac-ui/src/app/shared/components/shared-indicator/shared-indicator.component.ts:12</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/squac-ui/src/app/shared/components/shared-indicator/shared-indicator.component.ts:13</a></div>
                             </td>
                         </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>true if shared with organization</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -243,8 +261,11 @@
   styleUrls: [&quot;./shared-indicator.component.scss&quot;],
 })
 export class SharedIndicatorComponent {
+  /** true if shared with organization */
   @Input() shareOrg: boolean;
+  /** true if shared with all */
   @Input() shareAll: boolean;
+  /** type of resource */
   @Input() resource: string;
 }
 </code></pre>

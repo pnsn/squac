@@ -4,7 +4,9 @@ import { finalize, observeOn } from "rxjs/operators";
 
 type LoadingContext = object;
 type LoaderId = string | number; // expected enum values
+/** default loading id */
 const DEFAULT_LOADER_ID: LoaderId = "_DEFAULT";
+/** default loading context */
 const DEFAULT_CONTEXT: LoadingContext = { _DEFAULT: true };
 
 /**

@@ -69,6 +69,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Read only api end points</p>
+
+            </p>
 
             <p class="comment">
                 <h3>Extends</h3>
@@ -86,40 +93,118 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Observable } from &quot;rxjs&quot;;
 
+/**
+ * Api service for list endpoint
+ *
+ * @template T model type
+ */
 export interface ListService&lt;T&gt; {
+  /**
+   * Requests list of data
+   *
+   * @template T model type
+   * @param params request params
+   * @returns observable of results
+   */
   list(params?: unknown): Observable&lt;Array&lt;T&gt;&gt;;
 }
 
+/**
+ * Api service for read endpoint
+ *
+ * @template T model type
+ */
 export interface ReadService&lt;T&gt; {
+  /**
+   * Requests single item of data
+   *
+   * @template T model type
+   * @param params request params
+   * @returns observable of results
+   */
   read(params: unknown): Observable&lt;T&gt;;
 }
 
+/**
+ * Api service for update endpoint
+ *
+ * @template T model type
+ */
 export interface UpdateService&lt;T&gt; {
+  /**
+   * Updates object
+   *
+   * @template T model type
+   * @param params request params
+   * @returns observable of results
+   */
   update(params: unknown): Observable&lt;T&gt;;
 }
 
+/**
+ * Api service for write endpoint
+ *
+ * @template T model type
+ */
 export interface WriteService&lt;T&gt; {
+  /**
+   * Updates or creates object
+   *
+   * @template T model type
+   * @param params request params
+   * @returns observable of results
+   */
   updateOrCreate(t: T): Observable&lt;T&gt;;
 }
 
+/**
+ * Api service for delete endpoint
+ *
+ * @template T model type
+ */
 export interface DeleteService&lt;T&gt; {
+  /**
+   * Deletes object
+   *
+   * @template T model type
+   * @param params request params
+   * @returns observable of results
+   */
   delete(params: unknown): Observable&lt;T&gt;;
 }
 
+/**
+ * Api service for partial update endpoint
+ *
+ * @template T model type
+ */
 export interface PartialUpdateService&lt;T&gt; {
+  /**
+   * Updates object with partial data
+   *
+   * @template T model type
+   * @param params request params
+   * @returns observable of results
+   */
   partialUpdate(params: unknown): Observable&lt;T&gt;;
 }
 
+/**
+ * Read only api end points
+ */
 export interface ReadOnlyApiService&lt;T&gt; extends ReadService&lt;T&gt;, ListService&lt;T&gt; {}
 
+/** Read and update api endpoints */
 export interface ReadUpdateApiService&lt;T&gt;
   extends ReadService&lt;T&gt;,
     UpdateService&lt;T&gt; {}
 
+/** Write and read api endpoints */
 export interface WriteableApiService&lt;T&gt;
   extends ReadOnlyApiService&lt;T&gt;,
     WriteService&lt;T&gt; {}
 
+/** CRUD Api service */
 export interface SquacApiService&lt;T&gt;
   extends WriteableApiService&lt;T&gt;,
     DeleteService&lt;T&gt; {}

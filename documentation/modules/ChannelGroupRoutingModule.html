@@ -76,7 +76,6 @@
 import { NgModule } from &quot;@angular/core&quot;;
 import { ChannelGroupComponent } from &quot;./components/channel-group.component&quot;;
 import { AuthGuard } from &quot;@core/guards/auth.guard&quot;;
-import { PermissionGuard } from &quot;@core/guards/permission.guard&quot;;
 import { ChannelGroupViewComponent } from &quot;./components/channel-group-view/channel-group-view.component&quot;;
 import { ChannelGroupEditComponent } from &quot;./components/channel-group-edit/channel-group-edit.component&quot;;
 import { ChannelGroupDetailComponent } from &quot;./components/channel-group-detail/channel-group-detail.component&quot;;
@@ -92,25 +91,24 @@ export const routes: Routes &#x3D; [
       {
         path: &quot;new&quot;,
         component: ChannelGroupEditComponent,
-        canActivate: [PermissionGuard],
+
         data: { subject: &quot;ChannelGroup&quot;, action: &quot;create&quot; },
       },
       {
         path: &quot;:channelGroupId/edit&quot;,
         component: ChannelGroupEditComponent,
-        canActivate: [PermissionGuard],
+
         data: { subject: &quot;ChannelGroup&quot;, action: &quot;update&quot; },
       },
       {
         path: &quot;&quot;,
         component: ChannelGroupViewComponent,
-        canActivate: [PermissionGuard],
+
         data: { subject: &quot;ChannelGroup&quot;, action: &quot;read&quot; },
         children: [
           {
             path: &quot;:channelGroupId&quot;,
             component: ChannelGroupDetailComponent,
-            canActivate: [PermissionGuard],
             data: { subject: &quot;ChannelGroup&quot;, action: &quot;update&quot; },
           },
         ],

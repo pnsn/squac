@@ -62,6 +62,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>adapt measurement</p>
+
+            </p>
 
 
 
@@ -119,8 +126,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">projects/squacapi/src/lib/models/measurement.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">projects/squacapi/src/lib/models/measurement.ts:36</a></div>
                 </td>
             </tr>
 
@@ -178,7 +185,7 @@
 import { Adapter, ReadMeasurement } from &quot;../interfaces&quot;;
 
 /**
- *
+ * describes a measurement
  */
 export class Measurement {
   constructor(
@@ -192,7 +199,7 @@ export class Measurement {
   ) {}
 
   /**
-   *
+   * @returns model name
    */
   static get modelName(): string {
     return &quot;Measurement&quot;;
@@ -200,7 +207,7 @@ export class Measurement {
 }
 
 /**
- *
+ * adapt measurement
  */
 @Injectable({
   providedIn: &quot;root&quot;,
@@ -208,10 +215,7 @@ export class Measurement {
 export class MeasurementAdapter
   implements Adapter&lt;Measurement, ReadMeasurement, unknown&gt;
 {
-  /**
-   *
-   * @param item
-   */
+  /** @override */
   adaptFromApi(item: ReadMeasurement): Measurement {
     const measurement &#x3D; new Measurement(
       item.id ? item.id : 0,
