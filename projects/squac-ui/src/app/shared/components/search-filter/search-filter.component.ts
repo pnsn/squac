@@ -2,7 +2,11 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { OrganizationService } from "squacapi";
 import { OrganizationPipe } from "squacapi";
 import { UserPipe } from "squacapi";
+import { SearchFilterConfig, SearchProps } from "./interfaces";
 
+/**
+ * Component for searching rows of data
+ */
 @Component({
   selector: "shared-search-filter",
   templateUrl: "./search-filter.component.html",
@@ -15,14 +19,18 @@ export class SearchFilterComponent {
   iterateCount = 0;
   @Output() filterChanged = new EventEmitter<any[]>();
   @Input() rows: any[];
-  @Input() config;
+  @Input() config: SearchFilterConfig;
 
   constructor(orgService: OrganizationService) {
     this.userPipe = new UserPipe(orgService);
     this.orgPipe = new OrganizationPipe(orgService);
   }
 
-  // search for value in the table rows
+  /**
+   * Search for value in table rows
+   *
+   * @param event html event
+   */
   update(event): void {
     let val = event.target.value;
 
@@ -49,7 +57,11 @@ export class SearchFilterComponent {
                   return this.hasValue(row[prop], val);
               }
               // prop has child props and row has child prop value
-            } else if (prop.prop && row[prop.prop]) {
+            } else if (
+              typeof prop !== "string" &&
+              prop.prop &&
+              row[prop.prop]
+            ) {
               return this.iterateProps(val, prop, row[prop.prop]);
             }
             return false;
@@ -63,51 +75,80 @@ export class SearchFilterComponent {
     }
   }
 
-  // returns true if val found in str
-  hasValue(str, val): boolean {
+  /**
+   * Searches for value in string
+   *
+   * @param str search string
+   * @param val search string
+   * @returns true if value found in string
+   */
+  hasValue(str: string, val: string): boolean {
     return str.toLowerCase().indexOf(val) !== -1;
   }
 
-  // recursive, travel props tree and search for value
-  // [
-  //   prop: "",
-  //   props: [
-  //     prop: ""
-  //   ]
-  // ]
-  iterateProps(val, prop, row): boolean {
+  /**
+   * Iterate through search properties and find value
+   *
+   * @param val value to search for
+   * @param prop search properties
+   * @param row row to search
+   * @returns true if value found in row
+   *
+   * recursive, travel props tree and search for value
+   *  [
+   *    prop: "",
+   *    props: [
+   *      prop: ""
+   *    ]
+   *  ]
+   */
+  iterateProps(val: string, prop: string | SearchProps, row: any): boolean {
     // row has prop
-    if (row[prop]) {
+    if (typeof prop === "string" && row[prop]) {
       return this.hasValue(row[prop], val);
     }
 
-    //prop has props
-    const temp = prop.props.filter((childProp) => {
-      // childprop has children, search deeper
-      if (childProp.prop) {
-        return this.iterateProps(val, childProp, row[childProp.prop]);
-      }
-      // row has childprop
-      if (row[childProp] && typeof row[childProp] === "string") {
-        return this.hasValue(row[childProp], val);
-      }
-      //handle array row
-      //[{channel:"", value:""}]
-      if (!row[childProp] && row && row.length > 0) {
-        //iterate row values and check
-        const childTemp = row.filter((rowValue) => {
-          return this.iterateProps(val, childProp, rowValue);
-        });
+    let temp = [];
+    if (typeof prop !== "string") {
+      //prop has props
+      temp = prop.props.filter((childProp: SearchProps | string) => {
+        // childprop has children, search deeper
+        if (typeof childProp !== "string" && childProp.prop) {
+          return this.iterateProps(val, childProp, row[childProp.prop]);
+        }
+        // row has childprop
+        if (
+          typeof childProp === "string" &&
+          row[childProp] &&
+          typeof row[childProp] === "string"
+        ) {
+          return this.hasValue(row[childProp], val);
+        }
+        //handle array row
+        //[{channel:"", value:""}]
+        if (
+          typeof childProp === "string" &&
+          !row[childProp] &&
+          row &&
+          row.length > 0
+        ) {
+          //iterate row values and check
+          const childTemp = row.filter((rowValue) => {
+            return this.iterateProps(val, childProp, rowValue);
+          });
 
-        return childTemp.length > 0;
-      }
-      return false;
-    });
+          return childTemp.length > 0;
+        }
+        return false;
+      });
+    }
 
     return temp.length > 0;
   }
 
-  // remove filter and set rows to all
+  /**
+   * Remove filter and emit all rows
+   */
   remove(): void {
     this.filterChanged.emit([...this.rows]);
     this.searchString = "";

@@ -6,6 +6,14 @@ import { Subscription } from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Dashboard } from "squacapi";
 import { AppAbility } from "@core/utils/ability";
+
+/** Gridster item with widget */
+interface WidgetGridsterItem extends GridsterItem {
+  widget: Widget;
+}
+/**
+ * Widget main component, handles grid view
+ */
 @Component({
   selector: "widget-main",
   templateUrl: "./widget-main.component.html",
@@ -57,7 +65,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     compactType: "compactUp&Left",
     displayGrid: "onDrag&Resize",
     // scrollToNewItems: true,
-    itemChangeCallback: (item) => {
+    itemChangeCallback: (item: WidgetGridsterItem) => {
       this.itemChange(item);
     },
     itemInitCallback: () => {
@@ -65,7 +73,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     },
   };
 
-  widgetItems: Array<GridsterItem> = [];
+  widgetItems: Array<WidgetGridsterItem> = [];
 
   constructor(
     private viewService: ViewService,
@@ -74,6 +82,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     private ability: AppAbility
   ) {}
 
+  /** subscrive to router and changes */
   ngOnInit(): void {
     const widgetSub = this.viewService.widgetUpdated.subscribe(
       (widgetId: number) => {
@@ -111,7 +120,13 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
   }
 
   // save widgets after resize or move
-  itemChange(item): void {
+  /**
+   * Save widgets after resize or move,
+   * if able to
+   *
+   * @param item changed grid item
+   */
+  itemChange(item: WidgetGridsterItem): void {
     item.widget.layout.columns = item.cols;
     item.widget.layout.rows = item.rows;
     item.widget.layout.x = item.x;
@@ -121,20 +136,34 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     }
   }
 
+  /** Navigate to add widget */
   addWidget(): void {
     this.router.navigate(["new"], { relativeTo: this.route });
   }
 
-  trackBy(_index, item): number {
-    return item.id;
+  /**
+   * Trackby function for html
+   *
+   * @param _index item index
+   * @param item item
+   * @returns id
+   */
+  trackBy(_index: number, item: WidgetGridsterItem): number {
+    return item.widget.id;
   }
 
+  /** Toggles dashboard sidenav */
   toggleSidenav(): void {
     if (this.options.api) {
       this.options.api.resize();
     }
   }
 
+  /**
+   * Adds widgets to view
+   *
+   * @param widgets widget array to add
+   */
   private addWidgetsToView(widgets: Widget[]): void {
     this.widgetItems = [];
     if (widgets && widgets.length > 0) {
@@ -145,9 +174,14 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     this.loading = false;
   }
 
-  // insert grid item into widget
+  /**
+   * Adds individual widget to grid
+   *
+   * @param widget widget to add
+   * @param rePosition true if widget position needs to be reset
+   */
   addWidgetToGrid(widget: Widget, rePosition?: boolean): void {
-    const item = {
+    const item: WidgetGridsterItem = {
       cols: widget.layout.columns ? widget.layout.columns : 10,
       rows: widget.layout.rows ? widget.layout.rows : 5,
       y: rePosition ? null : widget.layout.y,
@@ -157,7 +191,12 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     this.widgetItems.push(item);
   }
 
-  // update widget or remove widget
+  /**
+   * Updates or removes widget, widget will be removed if only id is passed
+   *
+   * @param widgetId id of widget to change
+   * @param widget widget to update or add
+   */
   private updateWidget(widgetId: number, widget?: Widget): void {
     const index = this.widgetItems.findIndex((item) => {
       return widgetId === item["widget"].id;
@@ -176,6 +215,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     }
   }
 
+  /** unsubscribe */
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

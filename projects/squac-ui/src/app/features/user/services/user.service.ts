@@ -6,7 +6,9 @@ import { tap } from "rxjs/operators";
 import { User } from "squacapi";
 import { UserMeService } from "squacapi";
 
-// Service to get user info & reset things
+/**
+ * Service for managing user info
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -18,12 +20,20 @@ export class UserService {
     private ability: AppAbility
   ) {}
 
-  // returns orgId for current user
+  /**
+   * Get organization id for current user
+   *
+   * @returns orgId
+   */
   get userOrg(): number {
     return this.currentUser.orgId;
   }
 
-  // gets current logged in user
+  /**
+   * Gets User info
+   *
+   * @returns Observable of loggedin user
+   */
   getUser(): Observable<User> {
     if (this.currentUser) {
       return of(this.currentUser);
@@ -38,19 +48,28 @@ export class UserService {
     );
   }
 
-  // get user and subcsribe
+  /**
+   * Get user & subscribe
+   */
   fetchUser(): void {
     this.getUser().subscribe();
   }
 
-  // logs current user out
+  /**
+   * Log current user out
+   */
   logout(): void {
     this.currentUser = null;
     this.user.next(this.currentUser);
     this.ability.update([]);
   }
 
-  // User needs to enter password to make changes
+  /**
+   * Update user information
+   *
+   * @param user changed user information
+   * @returns Observable of user information
+   */
   update(user: Partial<User>): Observable<User> {
     user.orgId = this.userOrg;
     // other user ifo

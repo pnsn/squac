@@ -14,6 +14,8 @@ import { Monitor } from "squacapi";
 
 // class for handling permissions, see Angular CASL for more info
 type Actions = "create" | "read" | "update" | "delete" | "manage";
+
+/** Subjects for abilities */
 type Subjects =
   | InferSubjects<
       | typeof Dashboard
@@ -25,9 +27,17 @@ type Subjects =
       true
     >
   | "all";
+
 export type AppAbility = Ability<[Actions, Subjects]>;
+/** App Ability permissions */
 export const AppAbility = Ability as AbilityClass<AppAbility>;
 
+/**
+ * Defines ability for a given user
+ *
+ * @param user current user
+ * @returns permissions
+ */
 export function defineAbilitiesFor(user: User): any {
   const { can, rules } = new AbilityBuilder(AppAbility);
   can("read", "all");

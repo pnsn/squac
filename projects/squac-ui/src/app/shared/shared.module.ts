@@ -22,6 +22,10 @@ import { LoadingDirective } from "./directives/loading-directive.directive";
 import { LoadingOverlayComponent } from "./components/loading-overlay/loading-overlay.component";
 import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-spinner.component";
 import { SquacapiModule } from "squacapi";
+
+/**
+ * Shared module for features
+ */
 @NgModule({
   declarations: [
     SearchFilterComponent,

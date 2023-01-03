@@ -12,27 +12,46 @@ import { ChannelService } from "squacapi";
 import { NgxCsvParser } from "ngx-csv-parser";
 import { switchMap, tap, map, merge, Observable } from "rxjs";
 
+/**
+ * Component for uploading csvs of channels
+ */
 @Component({
   selector: "channel-group-csv-upload",
   templateUrl: "./csv-upload.component.html",
   styleUrls: ["./csv-upload.component.scss"],
 })
 export class CsvUploadComponent {
+  /** csv rows */
   csvRecords: any;
+  /** csv headers */
   csvHeaders: any;
+  /** true if has headers */
   header = false;
+  /** channels found that match uploaded csv */
   matchingChannels: Channel[];
+  /** channels not found */
   missingChannels: any[];
+  /** network header regex */
   netRegex = new RegExp(/^Net\w{0,4}/, "i");
+  /** station header regex */
   staRegex = new RegExp(/^Sta\w{0,4}/, "i");
+  /** channel header regex */
   chanRegex = new RegExp(/^Chan\w{0,4}/, "i");
+  /** location header regex */
   locRegex = new RegExp(/^Loc\w{0,5}/, "i");
+  /** true if should only return current channels */
   @Input() showOnlyCurrent: boolean;
+  /** channels */
   @Input() channels: Channel[];
+  /** Found channels */
   @Output() channelsChange = new EventEmitter<Channel[]>();
+  /** error message */
   @Input() error: string | boolean;
+  /** error message */
   @Output() errorChange = new EventEmitter<string | boolean>();
-  @Input() context: any; //context for loading service
+  /** context for loading sevice */
+  @Input() context: any;
+  /** loading indicator */
   @Input() loadingIndicator: any;
   constructor(
     private ngxCsvParser: NgxCsvParser,
@@ -43,6 +62,11 @@ export class CsvUploadComponent {
 
   @ViewChild("fileImportInput") fileImportInput: any;
 
+  /**
+   * Listen to uploads of files
+   *
+   * @param $event file uploaded event
+   */
   fileChangeListener($event: any): void {
     this.missingChannels = [];
     this.matchingChannels = [];
@@ -55,6 +79,7 @@ export class CsvUploadComponent {
     let locIndex = -1;
     let staIndex = -1;
 
+    // Parse CSV when uploaded
     this.ngxCsvParser
       .parse(files[0], { header: this.header, delimiter: "," }) //allow |?
       .pipe(
@@ -63,6 +88,7 @@ export class CsvUploadComponent {
           this.csvHeaders = this.csvRecords.shift();
         }),
         map(() => {
+          // check it has correct headers
           const hasHeaders = this.csvHeaders.some((h, index) => {
             if (netIndex < 0) {
               netIndex = this.netRegex.test(h) ? index : netIndex;
@@ -87,6 +113,7 @@ export class CsvUploadComponent {
 
           const queryStrings = [];
           let channelsCount = 0;
+          // remove invalid
           this.csvRecords.reduce((previous, current, currentIndex) => {
             const nslc = `${current[netIndex]}.${current[staIndex]}.${
               current[locIndex] || "--"
@@ -149,6 +176,9 @@ export class CsvUploadComponent {
       });
   }
 
+  /**
+   * Emit channels that are found
+   */
   addChannels(): void {
     this.channelsChange.emit(this.matchingChannels);
   }

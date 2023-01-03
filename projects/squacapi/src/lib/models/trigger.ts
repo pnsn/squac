@@ -3,6 +3,9 @@ import { Adapter, ReadTrigger, WriteTrigger } from "../interfaces";
 import { Trigger as ApiTrigger } from "@pnsn/ngx-squacapi-client";
 import { Alert, Monitor } from "../models";
 
+/**
+ * Describes a trigger
+ */
 export class Trigger {
   constructor(
     public id: number,
@@ -15,6 +18,10 @@ export class Trigger {
     public val1: number,
     public val2?: number
   ) {}
+
+  /**
+   * @returns model name
+   */
   static get modelName(): string {
     return "Trigger";
   }
@@ -26,12 +33,16 @@ export class Trigger {
   monitor?: Monitor;
 }
 
+/**
+ * Adapts a trigger
+ */
 @Injectable({
   providedIn: "root",
 })
 export class TriggerAdapter
   implements Adapter<Trigger, ReadTrigger, WriteTrigger>
 {
+  /** @override */
   adaptFromApi(item: ReadTrigger): Trigger {
     const trigger = new Trigger(
       item.id ? +item.id : 0,
@@ -47,6 +58,7 @@ export class TriggerAdapter
     return trigger;
   }
 
+  /** @override */
   adaptToApi(item: Trigger): WriteTrigger {
     return {
       monitor: item.monitorId,

@@ -12,6 +12,9 @@ import {
 import { WIDGET_LAYOUT, WIDGET_PROPERTIES } from "../constants";
 import { WidgetStatType } from "../types";
 
+/**
+ * Model for a widget
+ */
 export class Widget {
   public _thresholds: Threshold[] = [];
   public _layout: WidgetLayout = WIDGET_LAYOUT;
@@ -28,6 +31,9 @@ export class Widget {
   }
 
   public type: string;
+  /**
+   * Saves thresholds to widgets
+   */
   public set thresholds(thresholds: string | Array<Threshold>) {
     let props: Threshold[] = [];
     if (!thresholds) {
@@ -45,10 +51,16 @@ export class Widget {
     this._thresholds = props.slice();
   }
 
+  /**
+   * @returns widget thresholds as array
+   */
   public get thresholds(): Threshold[] {
     return this._thresholds.slice();
   }
-  //can be entered as string or properties
+
+  /**
+   * Stores widget properties
+   */
   public set properties(properties: string | Partial<WidgetProperties>) {
     let props: Partial<WidgetProperties> = {};
     if (!properties) {
@@ -61,11 +73,16 @@ export class Widget {
     this._properties = { ...props };
   }
 
+  /**
+   * @returns widget properties
+   */
   public get properties(): WidgetProperties {
     return this._properties;
   }
 
-  //can be entered as string or properties
+  /**
+   * stores widget layout
+   */
   public set layout(layout: string | Partial<WidgetLayout> | undefined) {
     let props: Partial<WidgetLayout> = {};
     if (!layout) {
@@ -79,28 +96,43 @@ export class Widget {
     this._layout = { ...this._layout, ...props };
   }
 
+  /**
+   * @returns widget layout
+   */
   public get layout(): WidgetLayout {
     return this._layout;
   }
 
+  /**
+   * @returns true if widget is valid (has bare minimum required properties)
+   */
   public get isValid(): boolean {
     return !!this.name && !!this.metrics && !!this.type && !!this.stat;
   }
 
-  // get ids from the metrics
+  /**
+   * @returns array of metric ids for widget
+   */
   get metricsIds(): number[] {
     return this.metrics.map((m) => m.id);
   }
 
+  /**
+   * @returns model name
+   */
   static get modelName(): string {
     return "Widget";
   }
 }
 
+/**
+ * Adapts widget model and api info
+ */
 @Injectable({
   providedIn: "root",
 })
 export class WidgetAdapter implements Adapter<Widget, ReadWidget, WriteWidget> {
+  /** @override */
   adaptFromApi(item: ReadWidget): Widget {
     const metricAdapter = new MetricAdapter();
     let metrics: Metric[] = [];
@@ -129,6 +161,7 @@ export class WidgetAdapter implements Adapter<Widget, ReadWidget, WriteWidget> {
     return widget;
   }
 
+  /** @override */
   adaptToApi(item: Widget): WriteWidget {
     return {
       name: item.name,

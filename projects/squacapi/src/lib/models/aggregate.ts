@@ -2,12 +2,19 @@ import { Injectable } from "@angular/core";
 import { Adapter, ReadAggregate } from "../interfaces";
 import { MeasurementAggregatedListRequestParams } from "@pnsn/ngx-squacapi-client";
 
+/**
+ * Aggregate list params
+ */
 export class AggregateListParams
   implements MeasurementAggregatedListRequestParams {}
 
-// Describes an aggregate
+/**
+ * Describes an aggregate
+ */
 export class Aggregate {
+  /** aggregate id */
   id?: number;
+  /** aggregate value */
   public value?: number;
   constructor(
     public metricId: number,
@@ -29,17 +36,24 @@ export class Aggregate {
     public endtime: string
   ) {}
 
+  /** @returns model name */
   static get modelName(): string {
     return "Aggregate";
   }
 }
 
+/**
+ * Adapt aggregate
+ */
 @Injectable({
   providedIn: "root",
 })
 export class AggregateAdapter
   implements Adapter<Aggregate, ReadAggregate, unknown>
 {
+  /**
+   * @override
+   */
   adaptFromApi(item: ReadAggregate): Aggregate {
     const aggregate = new Aggregate(
       item.metric,

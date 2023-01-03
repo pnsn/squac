@@ -9,15 +9,22 @@ import { MessageService } from "@core/services/message.service";
 import { LoadingService } from "@core/services/loading.service";
 import { OrganizationUserService } from "squacapi";
 import { Observable } from "rxjs";
+import {
+  MenuAction,
+  TableControls,
+  TableFilters,
+  TableOptions,
+} from "@shared/components/table-view/interfaces";
 
+/**
+ * Displays info for single organization, mostly list of users
+ */
 @Component({
   selector: "user-organization-detail",
   templateUrl: "./organization-detail.component.html",
   styleUrls: ["./organization-detail.component.scss"],
 })
-export class OrganizationDetailComponent
-  implements OnInit, OnDestroy, AfterViewInit
-{
+export class OrganizationDetailComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   organization: Organization;
   orgId: number;
@@ -34,7 +41,7 @@ export class OrganizationDetailComponent
   selectedId: number;
   selected: User;
 
-  controls = {
+  controls: TableControls = {
     resource: "Organization",
     add: {
       text: "Add User", //      *ngIf="isAdmin"
@@ -45,15 +52,14 @@ export class OrganizationDetailComponent
     links: [{ text: "View All Organizations", path: "../" }],
   };
 
-  filters = {};
+  filters: TableFilters = {};
 
-  options = {
+  options: TableOptions = {
     autoRouteToDetail: false,
     messages: {
       emptyMessage: "No users found.",
     },
     footerLabel: "Users",
-    selectionType: "single",
   };
 
   // group options
@@ -83,6 +89,9 @@ export class OrganizationDetailComponent
     private loadingService: LoadingService
   ) {}
 
+  /**
+   * init data and user info
+   */
   ngOnInit(): void {
     const orgSub = this.route.data
       .pipe(
@@ -97,7 +106,7 @@ export class OrganizationDetailComponent
           this.isAdmin =
             this.user.isStaff ||
             (this.user.orgAdmin && this.user.orgId === this.organization.id);
-          // this.error = false;
+
           if (this.isAdmin) {
             this.controls.menu = {
               text: "Actions",
@@ -120,6 +129,7 @@ export class OrganizationDetailComponent
               ],
             };
           }
+          this.buildColumns();
         })
       )
       .subscribe();
@@ -127,12 +137,12 @@ export class OrganizationDetailComponent
     this.subscription.add(orgSub);
   }
 
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.buildColumns();
-    }, 0);
-  }
-
+  /**
+   * Get new organization data
+   *
+   * @param refresh true if cache should not be used
+   * @returns Observable of current organization
+   */
   fetchData(refresh?: boolean): Observable<Organization> {
     return this.loadingService
       .doLoading(this.orgService.read(this.orgId, refresh), this)
@@ -146,98 +156,59 @@ export class OrganizationDetailComponent
         })
       );
   }
-  // make columns for table
+
+  /**
+   * Make columns for table
+   */
   buildColumns(): void {
+    this.columns = [
+      {
+        name: "Name",
+        prop: "",
+        // canAutoResize: false,
+        // width: 70,
+        pipe: {
+          transform: (row): string => {
+            return row ? row.firstName + " " + row.lastName : "";
+          },
+        },
+      },
+      {
+        name: "Groups",
+        pipe: {
+          transform: (groups): string => {
+            return groups ? groups.join(", ") : "";
+          },
+        },
+      },
+      {
+        name: "Is Admin",
+        prop: "isAdmin",
+        canAutoResize: false,
+        width: 100,
+      },
+      {
+        name: "Is Active", //Admin only
+        prop: "isActive",
+        canAutoResize: false,
+        width: 100,
+      },
+    ];
+
     if (this.isAdmin) {
-      this.columns = [
-        {
-          name: "Name",
-          prop: "",
-          // canAutoResize: false,
-          // width: 70,
-          pipe: {
-            transform: (row): string => {
-              return row ? row.firstName + " " + row.lastName : "";
-            },
-          },
-        },
-        {
-          name: "Email", //FIXME: admin only
-          draggable: false,
-        },
-        {
-          name: "Groups",
-          pipe: {
-            transform: (groups): string => {
-              return groups ? groups.join(", ") : "";
-            },
-          },
-        },
-        {
-          name: "Last Login",
-          prop: "lastLogin",
-          pipe: {
-            transform: (value): string => {
-              return value
-                ? new Date(value).toLocaleString("en-US").split(",")[0]
-                : "";
-            },
-          },
-          canAutoResize: false,
-          width: 100,
-        },
-        {
-          name: "Is Admin",
-          prop: "isAdmin",
-          canAutoResize: false,
-          width: 100,
-        },
-        {
-          name: "Is Active", //Admin only
-          prop: "isActive",
-          canAutoResize: false,
-          width: 100,
-        },
-      ];
-    } else {
-      this.columns = [
-        {
-          name: "Name",
-          prop: "",
-          // canAutoResize: false,
-          // width: 70,
-          pipe: {
-            transform: (row): string => {
-              return row ? row.firstName + " " + row.lastName : "";
-            },
-          },
-        },
-        {
-          name: "Groups",
-          pipe: {
-            transform: (groups): string => {
-              return groups ? groups.join(", ") : "";
-            },
-          },
-        },
-        {
-          name: "Is Admin",
-          prop: "isAdmin",
-          canAutoResize: false,
-          width: 100,
-        },
-        {
-          name: "Is Active", //Admin only
-          prop: "isActive",
-          canAutoResize: false,
-          width: 100,
-        },
-      ];
+      this.columns.splice(1, 0, {
+        name: "Email", //FIXME: admin only
+        draggable: false,
+      });
     }
   }
 
-  // click event from table
-  onClick(event): void {
+  /**
+   * Click event from table
+   *
+   * @param event html click event
+   */
+  onClick(event: MenuAction): void {
     if (event === "deactivate" && this.selectedId) {
       this.deactivateUser();
     } else if (event === "invite" && this.selectedId) {
@@ -245,13 +216,19 @@ export class OrganizationDetailComponent
     }
   }
 
-  // select event from table
+  /**
+   * User selected in table
+   *
+   * @param row selected row with user info
+   */
   onSelect(row: User): void {
     this.selectedId = row.id;
     this.selected = row;
   }
 
-  // send deactivation for user
+  /**
+   * Marks users as inactive and sends to squacapi
+   */
   deactivateUser(): void {
     if (this.selected) {
       this.selected.isActive = false;
@@ -267,24 +244,27 @@ export class OrganizationDetailComponent
     }
   }
 
-  // get fresh user info
+  /** Refreshes data */
   refresh(): void {
     this.fetchData(true).subscribe();
   }
 
-  // send invitation to user
+  /**
+   * Sends invitation to selected user
+   */
   sendInvite(): void {
     this.inviteService.sendInviteToUser(this.selectedId).subscribe({
       next: () => {
         this.messageService.message("Invitation email sent.");
         this.refresh();
       },
-      error: (error) => {
-        this.messageService.error(error);
+      error: () => {
+        this.messageService.error("Error: invitation could not be sent.");
       },
     });
   }
 
+  /** unsubscribe */
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

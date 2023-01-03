@@ -11,10 +11,13 @@ import {
 } from "@angular/core";
 import { LoadingSpinnerComponent } from "../components/loading-spinner/loading-spinner.component";
 
+/** default overlay css class */
 const OVERLAY_CLASS = "loading-full-screen";
 
-// This directive places an overlay with a loading spinner over its host element
-// if isLoading equals to true and hides the overlay when isLoading becomes false.
+/**
+ * This directive places an overlay with a loading spinner over its host element
+ * if isLoading equals to true and hides the overlay when isLoading becomes false.
+ */
 @Directive({
   selector: "[appIsLoading]",
 })
@@ -40,9 +43,14 @@ export class LoadingDirective implements OnChanges {
     this.hostElement.style.position = "relative";
   }
 
+  /**
+   * Responds to input changes
+   *
+   * @param changes isLoading changes
+   */
   ngOnChanges(changes: SimpleChanges): void {
     if (!this.overlayElement || !this.spinnerElement) {
-      this.init();
+      this.initSpinnerComponent();
     }
 
     if (changes["isLoading"]) {
@@ -57,24 +65,18 @@ export class LoadingDirective implements OnChanges {
     }
   }
 
+  /** add loading indicator element */
   protected addLoadingIndicator(): void {
-    // this.renderer.appendChild(this.hostElement, this.overlayElement);
-    // this.renderer.appendChild(this.overlayElement, this.spinnerElement);
     this.renderer.appendChild(this.hostElement, this.spinnerElement);
   }
 
+  /** remove loading indicator element */
   protected removeLoadingIndicator(): void {
-    // this.renderer.removeChild(this.hostElement, this.overlayElement);
-    // this.renderer.removeChild(this.overlayElement, this.spinnerElement);
     this.renderer.removeChild(this.hostElement, this.spinnerElement);
     this.viewContainerRef.clear();
   }
 
-  protected init(): void {
-    this.initSpinnerComponent();
-    // this.initOverlayComponent();
-  }
-
+  /** Set up spinner componennts */
   protected initSpinnerComponent(): void {
     const spinnerComponentFactory =
       this.componentFactoryResolver.resolveComponentFactory(
@@ -92,19 +94,4 @@ export class LoadingDirective implements OnChanges {
       this.spinnerElement.classList.add("buffer");
     }
   }
-
-  // protected initOverlayComponent(): void {
-  //   const overlayComponentFactory =
-  //     this.componentFactoryResolver.resolveComponentFactory(
-  //       LoadingOverlayComponent
-  //     );
-  //   const overlayComponent = this.viewContainerRef.createComponent(
-  //     overlayComponentFactory
-  //   );
-
-  //   this.overlayElement = overlayComponent.location.nativeElement;
-  //   if (this.fullScreen) {
-  //     this.spinnerElement.classList.add(OVERLAY_CLASS);
-  //   }
-  // }
 }

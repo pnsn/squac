@@ -7,6 +7,10 @@ import { Metric } from "squacapi";
 import { Monitor } from "squacapi";
 import { ChannelGroupService } from "squacapi";
 
+/**
+ * Entry component for monitor edit modal
+ * Used for routing
+ */
 @Component({
   selector: "monitor-edit-entry",
   template: "",
@@ -26,6 +30,7 @@ export class MonitorEditEntryComponent implements OnInit, OnDestroy {
     private channelGroupService: ChannelGroupService
   ) {}
 
+  /** subscribe to route params */
   ngOnInit(): void {
     this.paramsSub = this.route.params
       .pipe(
@@ -36,7 +41,9 @@ export class MonitorEditEntryComponent implements OnInit, OnDestroy {
             this.monitor = this.route.snapshot.data["monitor"];
             this.metrics = this.route.snapshot.data["metrics"];
           }
-          return this.channelGroupService.getSortedChannelGroups();
+          return this.channelGroupService.getSortedChannelGroups({
+            order: "name",
+          });
         })
       )
       .subscribe((groups: any) => {
@@ -46,6 +53,7 @@ export class MonitorEditEntryComponent implements OnInit, OnDestroy {
       });
   }
 
+  /** opens dialog */
   openMonitor(): void {
     this.dialogRef = this.dialog.open(MonitorEditComponent, {
       closeOnNavigation: true,
@@ -70,6 +78,7 @@ export class MonitorEditEntryComponent implements OnInit, OnDestroy {
     });
   }
 
+  /** close dialog ref on exit */
   ngOnDestroy(): void {
     if (this.dialogRef) {
       this.dialogRef.close();

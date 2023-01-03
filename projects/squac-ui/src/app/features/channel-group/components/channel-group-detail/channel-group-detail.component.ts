@@ -9,6 +9,9 @@ import { ChannelGroupService } from "squacapi";
 import { Channel } from "squacapi";
 import { LoadingService } from "@core/services/loading.service";
 
+/**
+ * Channel group detail with table and map
+ */
 @Component({
   selector: "channel-group-detail",
   templateUrl: "./channel-group-detail.component.html",
@@ -35,6 +38,9 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
     public loadingService: LoadingService
   ) {}
 
+  /**
+   * subscribes to route params
+   */
   ngOnInit(): void {
     // get channel group info from route
 
@@ -64,29 +70,43 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
     this.subscription.add(chanSub);
   }
 
-  // route to edit path
+  /**
+   * Navigate to edit path
+   */
   editChannelGroup(): void {
     this.router.navigate(["edit"], { relativeTo: this.route });
   }
 
+  /**
+   * unsubscribe
+   */
   ngOnDestroy(): void {
-    // Called once, before the instance is destroyed.
-    // Add 'implements OnDestroy' to the class.
     this.subscription.unsubscribe();
   }
 
-  //channel selected on table
+  /**
+   * Channel selected on table
+   *
+   * @param _event selected row?
+   */
   onSelect(_event): void {
     this.showChannel = this.selectedRows[0];
   }
 
-  //channel selected on map
+  /**
+   * Channel selected on map
+   *
+   * @param event selected channel
+   */
   selectChannel(event): void {
     this.selectedRows = this.channels.filter(
       (channel: Channel) => channel.staCode === event.code
     );
   }
 
+  /**
+   * Add channel group to a dashboard
+   */
   addToDashboard(): void {
     this.router.navigate(["/", "dashboards", "new"], {
       relativeTo: this.route,
@@ -94,12 +114,16 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  // close container and route to parent
+  /**
+   * Close container and route to parent
+   */
   closeChannelGroup(): void {
     this.router.navigate(["../"], { relativeTo: this.route });
   }
 
-  // Give a warning to user that delete will also delete widgets
+  /**
+   * Delete group after confirmation
+   */
   onDelete(): void {
     this.confirmDialog.open({
       title: `Delete ${this.channelGroup.name}`,
@@ -114,7 +138,9 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  // Delete channel group
+  /**
+   * Delete channel group
+   */
   delete(): void {
     this.channelGroupService.delete(this.channelGroup.id).subscribe({
       next: () => {

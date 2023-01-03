@@ -1,0 +1,1293 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>squac documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">squac documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  CsvUploadComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/csv-upload/csv-upload.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Component for uploading csvs of channels</p>
+
+    </p>
+
+
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>channel-group-csv-upload</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./csv-upload.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./csv-upload.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#chanRegex" >chanRegex</a>
+                            </li>
+                            <li>
+                                <a href="#csvHeaders" >csvHeaders</a>
+                            </li>
+                            <li>
+                                <a href="#csvRecords" >csvRecords</a>
+                            </li>
+                            <li>
+                                <a href="#fileImportInput" >fileImportInput</a>
+                            </li>
+                            <li>
+                                <a href="#header" >header</a>
+                            </li>
+                            <li>
+                                <a href="#locRegex" >locRegex</a>
+                            </li>
+                            <li>
+                                <a href="#matchingChannels" >matchingChannels</a>
+                            </li>
+                            <li>
+                                <a href="#missingChannels" >missingChannels</a>
+                            </li>
+                            <li>
+                                <a href="#netRegex" >netRegex</a>
+                            </li>
+                            <li>
+                                <a href="#staRegex" >staRegex</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addChannels" >addChannels</a>
+                            </li>
+                            <li>
+                                <a href="#fileChangeListener" >fileChangeListener</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#channels" >channels</a>
+                            </li>
+                            <li>
+                                <a href="#context" >context</a>
+                            </li>
+                            <li>
+                                <a href="#error" >error</a>
+                            </li>
+                            <li>
+                                <a href="#loadingIndicator" >loadingIndicator</a>
+                            </li>
+                            <li>
+                                <a href="#showOnlyCurrent" >showOnlyCurrent</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#channelsChange" >channelsChange</a>
+                            </li>
+                            <li>
+                                <a href="#errorChange" >errorChange</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(ngxCsvParser: NgxCsvParser, channelService: <a href="../injectables/ChannelService.html" target="_self">ChannelService</a>, dateService: <a href="../injectables/DateService.html" target="_self">DateService</a>, loadingService: <a href="../injectables/LoadingService.html" target="_self">LoadingService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/csv-upload/csv-upload.component.ts:55</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>ngxCsvParser</td>
+                                                  
+                                                        <td>
+                                                                    <code>NgxCsvParser</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>channelService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ChannelService.html" target="_self" >ChannelService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dateService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DateService.html" target="_self" >DateService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>loadingService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/LoadingService.html" target="_self" >LoadingService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="channels"></a>
+                        <b>channels</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Channel.html" target="_self" >Channel[]</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/csv-upload/csv-upload.component.ts:45</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>channels</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="context"></a>
+                        <b>context</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/csv-upload/csv-upload.component.ts:53</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>context for loading sevice</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="error"></a>
+                        <b>error</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string | boolean</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/csv-upload/csv-upload.component.ts:49</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>error message</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="loadingIndicator"></a>
+                        <b>loadingIndicator</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/csv-upload/csv-upload.component.ts:55</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>loading indicator</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showOnlyCurrent"></a>
+                        <b>showOnlyCurrent</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/csv-upload/csv-upload.component.ts:43</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>true if should only return current channels</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="channelsChange"></a>
+                        <b>channelsChange</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/csv-upload/csv-upload.component.ts:47</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Found channels</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="errorChange"></a>
+                        <b>errorChange</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/csv-upload/csv-upload.component.ts:51</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>error message</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addChannels"></a>
+                    <span class="name">
+                        <span ><b>addChannels</b></span>
+                        <a href="#addChannels"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addChannels()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="182"
+                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/csv-upload/csv-upload.component.ts:182</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Emit channels that are found</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fileChangeListener"></a>
+                    <span class="name">
+                        <span ><b>fileChangeListener</b></span>
+                        <a href="#fileChangeListener"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fileChangeListener($event: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="70"
+                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/csv-upload/csv-upload.component.ts:70</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Listen to uploads of files</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>$event</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>file uploaded event</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="chanRegex"></a>
+                    <span class="name">
+                        <span ><b>chanRegex</b></span>
+                        <a href="#chanRegex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new RegExp(/^Chan\w{0,4}/, &quot;i&quot;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/csv-upload/csv-upload.component.ts:39</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>channel header regex</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="csvHeaders"></a>
+                    <span class="name">
+                        <span ><b>csvHeaders</b></span>
+                        <a href="#csvHeaders"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/csv-upload/csv-upload.component.ts:27</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>csv headers</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="csvRecords"></a>
+                    <span class="name">
+                        <span ><b>csvRecords</b></span>
+                        <a href="#csvRecords"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/csv-upload/csv-upload.component.ts:25</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>csv rows</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fileImportInput"></a>
+                    <span class="name">
+                        <span ><b>fileImportInput</b></span>
+                        <a href="#fileImportInput"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;fileImportInput&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/csv-upload/csv-upload.component.ts:63</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="header"></a>
+                    <span class="name">
+                        <span ><b>header</b></span>
+                        <a href="#header"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/csv-upload/csv-upload.component.ts:29</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>true if has headers</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="locRegex"></a>
+                    <span class="name">
+                        <span ><b>locRegex</b></span>
+                        <a href="#locRegex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new RegExp(/^Loc\w{0,5}/, &quot;i&quot;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/csv-upload/csv-upload.component.ts:41</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>location header regex</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="matchingChannels"></a>
+                    <span class="name">
+                        <span ><b>matchingChannels</b></span>
+                        <a href="#matchingChannels"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Channel.html" target="_self" >Channel[]</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/csv-upload/csv-upload.component.ts:31</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>channels found that match uploaded csv</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="missingChannels"></a>
+                    <span class="name">
+                        <span ><b>missingChannels</b></span>
+                        <a href="#missingChannels"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>any[]</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/csv-upload/csv-upload.component.ts:33</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>channels not found</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="netRegex"></a>
+                    <span class="name">
+                        <span ><b>netRegex</b></span>
+                        <a href="#netRegex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new RegExp(/^Net\w{0,4}/, &quot;i&quot;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/csv-upload/csv-upload.component.ts:35</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>network header regex</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="staRegex"></a>
+                    <span class="name">
+                        <span ><b>staRegex</b></span>
+                        <a href="#staRegex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new RegExp(/^Sta\w{0,4}/, &quot;i&quot;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/csv-upload/csv-upload.component.ts:37</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>station header regex</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from &quot;@angular/core&quot;;
+import { Channel } from &quot;squacapi&quot;;
+import { DateService } from &quot;@core/services/date.service&quot;;
+import { LoadingService } from &quot;@core/services/loading.service&quot;;
+import { ChannelService } from &quot;squacapi&quot;;
+import { NgxCsvParser } from &quot;ngx-csv-parser&quot;;
+import { switchMap, tap, map, merge, Observable } from &quot;rxjs&quot;;
+
+/**
+ * Component for uploading csvs of channels
+ */
+@Component({
+  selector: &quot;channel-group-csv-upload&quot;,
+  templateUrl: &quot;./csv-upload.component.html&quot;,
+  styleUrls: [&quot;./csv-upload.component.scss&quot;],
+})
+export class CsvUploadComponent {
+  /** csv rows */
+  csvRecords: any;
+  /** csv headers */
+  csvHeaders: any;
+  /** true if has headers */
+  header &#x3D; false;
+  /** channels found that match uploaded csv */
+  matchingChannels: Channel[];
+  /** channels not found */
+  missingChannels: any[];
+  /** network header regex */
+  netRegex &#x3D; new RegExp(/^Net\w{0,4}/, &quot;i&quot;);
+  /** station header regex */
+  staRegex &#x3D; new RegExp(/^Sta\w{0,4}/, &quot;i&quot;);
+  /** channel header regex */
+  chanRegex &#x3D; new RegExp(/^Chan\w{0,4}/, &quot;i&quot;);
+  /** location header regex */
+  locRegex &#x3D; new RegExp(/^Loc\w{0,5}/, &quot;i&quot;);
+  /** true if should only return current channels */
+  @Input() showOnlyCurrent: boolean;
+  /** channels */
+  @Input() channels: Channel[];
+  /** Found channels */
+  @Output() channelsChange &#x3D; new EventEmitter&lt;Channel[]&gt;();
+  /** error message */
+  @Input() error: string | boolean;
+  /** error message */
+  @Output() errorChange &#x3D; new EventEmitter&lt;string | boolean&gt;();
+  /** context for loading sevice */
+  @Input() context: any;
+  /** loading indicator */
+  @Input() loadingIndicator: any;
+  constructor(
+    private ngxCsvParser: NgxCsvParser,
+    private channelService: ChannelService,
+    private dateService: DateService,
+    private loadingService: LoadingService
+  ) {}
+
+  @ViewChild(&quot;fileImportInput&quot;) fileImportInput: any;
+
+  /**
+   * Listen to uploads of files
+   *
+   * @param $event file uploaded event
+   */
+  fileChangeListener($event: any): void {
+    this.missingChannels &#x3D; [];
+    this.matchingChannels &#x3D; [];
+    this.channelsChange.emit(this.matchingChannels);
+    this.errorChange.emit(false);
+    const files &#x3D; $event.srcElement.files;
+
+    let netIndex &#x3D; -1;
+    let chanIndex &#x3D; -1;
+    let locIndex &#x3D; -1;
+    let staIndex &#x3D; -1;
+
+    // Parse CSV when uploaded
+    this.ngxCsvParser
+      .parse(files[0], { header: this.header, delimiter: &quot;,&quot; }) //allow |?
+      .pipe(
+        tap((results: any[]) &#x3D;&gt; {
+          this.csvRecords &#x3D; results;
+          this.csvHeaders &#x3D; this.csvRecords.shift();
+        }),
+        map(() &#x3D;&gt; {
+          // check it has correct headers
+          const hasHeaders &#x3D; this.csvHeaders.some((h, index) &#x3D;&gt; {
+            if (netIndex &lt; 0) {
+              netIndex &#x3D; this.netRegex.test(h) ? index : netIndex;
+            }
+            if (staIndex &lt; 0) {
+              staIndex &#x3D; this.staRegex.test(h) ? index : staIndex;
+            }
+            if (locIndex &lt; 0) {
+              locIndex &#x3D; this.locRegex.test(h) ? index : locIndex;
+            }
+            if (chanIndex &lt; 0) {
+              chanIndex &#x3D; this.chanRegex.test(h) ? index : chanIndex;
+            }
+            return (
+              netIndex &gt;&#x3D; 0 &amp;&amp; staIndex &gt;&#x3D; 0 &amp;&amp; locIndex &gt;&#x3D; 0 &amp;&amp; chanIndex &gt;&#x3D; 0
+            );
+          });
+
+          if (!hasHeaders) {
+            throw new Error(&quot;Invalid or missing headers&quot;);
+          }
+
+          const queryStrings &#x3D; [];
+          let channelsCount &#x3D; 0;
+          // remove invalid
+          this.csvRecords.reduce((previous, current, currentIndex) &#x3D;&gt; {
+            const nslc &#x3D; &#x60;${current[netIndex]}.${current[staIndex]}.${
+              current[locIndex] || &quot;--&quot;
+            }.${current[chanIndex]}&#x60;;
+
+            const str &#x3D; previous
+              ? previous + &quot;,&quot; + nslc.toLowerCase()
+              : nslc.toLowerCase();
+            if (
+              channelsCount &gt; 500 ||
+              currentIndex &#x3D;&#x3D;&#x3D; this.csvRecords.length - 1
+            ) {
+              queryStrings.push(str);
+              channelsCount &#x3D; 0;
+              return &quot;&quot;;
+            }
+            channelsCount++;
+            return str;
+          }, &quot;&quot;);
+          return queryStrings;
+        }),
+        switchMap((nslcStrings: string[]) &#x3D;&gt; {
+          //stop before this point if no headers
+          const searchFilters: any &#x3D; {};
+          if (this.showOnlyCurrent) {
+            const now &#x3D; this.dateService.now();
+            searchFilters.endafter &#x3D; this.dateService.format(now);
+          }
+
+          //break up into smaller chunks to get around header size limit
+          const queries: Observable&lt;Channel[]&gt;[] &#x3D; nslcStrings.map(
+            (nslcString) &#x3D;&gt; {
+              return this.channelService.list({
+                nslc: nslcString,
+                ...searchFilters,
+              });
+            }
+          );
+
+          return this.loadingService.doLoading(
+            merge(...queries),
+            this.context,
+            this.loadingIndicator
+          );
+        })
+      )
+      .subscribe({
+        next: (channels: Channel[]): void &#x3D;&gt; {
+          this.matchingChannels.push(...channels);
+        },
+        complete: () &#x3D;&gt; {
+          if (this.matchingChannels.length &#x3D;&#x3D;&#x3D; 0) {
+            throw new Error(&quot;No matching channels found&quot;);
+          }
+          this.channelsChange.emit(this.matchingChannels);
+        },
+        error: (error: any): void &#x3D;&gt; {
+          this.errorChange.emit(error);
+        },
+      });
+  }
+
+  /**
+   * Emit channels that are found
+   */
+  addChannels(): void {
+    this.channelsChange.emit(this.matchingChannels);
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;csv-file-chooser-section&quot;&gt;
+  &lt;input
+    #csvInput
+    name&#x3D;&quot;File Upload&quot;
+    id&#x3D;&quot;csvFileUpload&quot;
+    hidden&#x3D;&quot;true&quot;
+    type&#x3D;&quot;file&quot;
+    onclick&#x3D;&quot;this.value&#x3D;null&quot;
+    (change)&#x3D;&quot;fileChangeListener($event)&quot;
+    accept&#x3D;&quot;.csv&quot;
+  /&gt;
+  &lt;button mat-stroked-button color&#x3D;&quot;primary&quot; (click)&#x3D;&quot;csvInput.click()&quot;&gt;
+    &lt;mat-icon&gt;upload_file&lt;/mat-icon&gt;
+    Load from CSV
+  &lt;/button&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./csv-upload.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss"></code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="csv-file-chooser-section">  <input    #csvInput    name="File Upload"    id="csvFileUpload"    hidden="true"    type="file"    onclick="this.value=null"    (change)="fileChangeListener($event)"    accept=".csv"  />  <button mat-stroked-button color="primary" (click)="csvInput.click()">    <mat-icon>upload_file</mat-icon>    Load from CSV  </button></div></div>'
+    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SnackbarComponent', 'selector': 'shared-snackbar'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
+    var DIRECTIVES = [{'name': 'LoadingDirective', 'selector': '[appIsLoading]'},{'name': 'WidgetTypeDirective', 'selector': '[widgetContainer]'},{'name': 'WidgetTypeExampleDirective', 'selector': '[appWidgetTypeExample]'}];
+    var ACTUAL_COMPONENT = {'name': 'CsvUploadComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'CsvUploadComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

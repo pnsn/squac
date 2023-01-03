@@ -13,6 +13,9 @@ import { WidgetConnectService } from "widgets";
 
 type CheckboxForm = Record<string, FormControl<boolean>>;
 
+/**
+ * Channel filter for dashboard
+ */
 @Component({
   selector: "dashboard-channel-filter",
   templateUrl: "./channel-filter.component.html",
@@ -34,9 +37,10 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
     private viewService: ViewService
   ) {}
 
+  /**
+   * Subscribe to group changes
+   */
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
     this.channelsSub = this.viewService.channelGroupId
       .pipe(distinctUntilChanged())
       .subscribe(() => {
@@ -45,10 +49,16 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
       });
   }
 
+  /**
+   * unsubscribe
+   */
   ngOnDestroy(): void {
     this.channelsSub.unsubscribe();
   }
 
+  /**
+   * Set up checkbox forms
+   */
   initForm(): void {
     if (!this.form) {
       this.form = this.formBuilder.group({
@@ -69,20 +79,38 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
     });
   }
 
-  mouseenter(item): void {
+  /**
+   * Emits channel nslc when mouse enters a channel
+   *
+   * @param item channel nslc
+   */
+  mouseenter(item: string): void {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
       this.widgetConnectService.emphasizedChannel.next(null);
       this.widgetConnectService.emphasizedChannel.next(item);
     }, 0);
   }
-  mouseleave(_item): void {
+
+  /**
+   * Emits empty when mouse leaves a channel
+   *
+   * @param _item channel nslc
+   */
+  mouseleave(_item: string): void {
     this.widgetConnectService.deemphasizeChannel.next(null);
   }
+
+  /**
+   * Collapses channel sidenav
+   */
   toggleSidenav(): void {
     this.closeSidenav.emit(true);
   }
 
+  /**
+   * Toggle all channel checkboxes
+   */
   toggleAll(): void {
     const checkboxes = this.form["controls"].checkboxes;
     Object.keys(checkboxes.controls).forEach((key) => {

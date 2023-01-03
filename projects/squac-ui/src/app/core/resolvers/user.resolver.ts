@@ -1,21 +1,24 @@
 import { Injectable } from "@angular/core";
 import { Resolve } from "@angular/router";
-import { Observable, of } from "rxjs";
-import { catchError } from "rxjs/operators";
+import { Observable } from "rxjs";
+import { User } from "squacapi";
 import { UserService } from "../../features/user/services/user.service";
 
+/**
+ * Resolver for currently logged in user
+ */
 @Injectable({
   providedIn: "root",
 })
-export class UserResolver implements Resolve<Observable<any>> {
+export class UserResolver implements Resolve<Observable<User>> {
   constructor(private userService: UserService) {}
 
-  resolve(): Observable<any> {
-    return this.userService.getUser().pipe(catchError(this.handleError));
-  }
-
-  handleError(error: unknown): Observable<any> {
-    // TODO: route to show error
-    return of({ error });
+  /**
+   * Resolve the current user
+   *
+   * @returns Observable of current user
+   */
+  resolve(): Observable<User> {
+    return this.userService.getUser();
   }
 }

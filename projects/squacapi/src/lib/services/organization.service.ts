@@ -9,6 +9,9 @@ import { BaseApiService } from "./generic-api.service";
 import { Organization, OrganizationAdapter } from "../models";
 import { Observable, tap } from "rxjs";
 
+/**
+ *
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -22,10 +25,20 @@ export class OrganizationService
     super(ApiEndpoint.ORGANIZATION, api);
   }
 
+  /**
+   *
+   * @param id
+   * @param refresh
+   */
   override read(id: number, refresh?: boolean): Observable<Organization> {
     return super.read(id, refresh);
   }
 
+  /**
+   *
+   * @param params
+   * @param refresh
+   */
   list(
     params?: OrganizationOrganizationsListRequestParams,
     refresh?: boolean
@@ -45,11 +58,19 @@ export class OrganizationService
     );
   }
 
+  /**
+   *
+   * @param id
+   */
   getOrgUserName(id: number): string {
     const orgUser = this.orgUsers[id];
     return orgUser ? orgUser.first + " " + orgUser.last : "unknown";
   }
 
+  /**
+   *
+   * @param id
+   */
   getOrgName(id: number): string {
     const org = this.localOrganizations.find((o) => o.id === id);
     return org ? org.name : "unknown";

@@ -2,6 +2,9 @@ import { Component } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
 import { filter } from "rxjs/operators";
 
+/**
+ * 404 page
+ */
 @Component({
   selector: "app-not-found",
   templateUrl: "./not-found.component.html",

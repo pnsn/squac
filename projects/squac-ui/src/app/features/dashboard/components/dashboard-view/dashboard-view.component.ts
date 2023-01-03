@@ -12,8 +12,16 @@ import { DashboardService } from "squacapi";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { Dashboard } from "squacapi";
 import { Observable } from "rxjs";
+import {
+  MenuAction,
+  TableControls,
+  TableFilters,
+  TableOptions,
+} from "@shared/components/table-view/interfaces";
 
-// List of dashboards
+/**
+ * Displays list of dashboards
+ */
 @Component({
   selector: "dashboard-view",
   templateUrl: "./dashboard-view.component.html",
@@ -32,16 +40,15 @@ export class DashboardViewComponent
   selectedDashboardId: number;
 
   // table config
-  options = {
+  options: TableOptions = {
     messages: {
       emptyMessage: "No dashboards found.",
     },
     footerLabel: "Dashboards",
-    selectionType: "single",
   };
 
   // controls in table head
-  controls = {
+  controls: TableControls = {
     listenToRouter: true,
     basePath: "/dashboards",
     resource: "Dashboard",
@@ -72,7 +79,7 @@ export class DashboardViewComponent
   };
 
   // search filters
-  filters = {
+  filters: TableFilters = {
     toggleShared: true,
     searchField: {
       text: "Filter dashboards...",
@@ -88,6 +95,9 @@ export class DashboardViewComponent
     public loadingService: LoadingService
   ) {}
 
+  /**
+   * subscribe to route params
+   */
   ngOnInit(): void {
     const dashboardsSub = this.route.params
       .pipe(
@@ -105,6 +115,9 @@ export class DashboardViewComponent
     this.subscription.add(dashboardsSub);
   }
 
+  /**
+   * set up table columns
+   */
   ngAfterViewInit(): void {
     // set up columns
     setTimeout(() => {
@@ -143,25 +156,41 @@ export class DashboardViewComponent
     }, 0);
   }
 
-  // onSelect function for data table selection
-  onSelect(dashboard): void {
-    this.selectedDashboardId = dashboard ? dashboard.id : dashboard;
+  /**
+   * On select from data table
+   *
+   * @param dashboard selected dashboard
+   */
+  onSelect(dashboard: Dashboard): void {
+    this.selectedDashboardId = dashboard ? dashboard.id : null;
   }
 
-  // click event from table
-  onClick(event): void {
+  /**
+   * Click event from table
+   *
+   * @param event menu action
+   */
+  onClick(event: MenuAction): void {
     if (event === "delete" && this.selectedDashboardId) {
       this.onDelete();
     }
   }
 
-  // delete dashboard
+  /**
+   * Deletes selected dashboard
+   */
   onDelete(): void {
     this.dashboardService.delete(this.selectedDashboardId).subscribe(() => {
       this.refresh();
     });
   }
 
+  /**
+   * Fetch dashboard data
+   *
+   * @param refresh true if cache should not be used
+   * @returns requested dashboards
+   */
   fetchData(refresh?: boolean): Observable<Dashboard[]> {
     return this.dashboardService.list(this.queryParams, refresh).pipe(
       tap((dashboards: Dashboard[]) => {
@@ -174,7 +203,11 @@ export class DashboardViewComponent
     );
   }
 
-  // get fresh dashboards
+  /**
+   * Get fresh dashboards
+   *
+   * @param filters search params
+   */
   refresh(filters?): void {
     if (filters) {
       this.queryParams = { ...filters };
@@ -182,6 +215,9 @@ export class DashboardViewComponent
     this.loadingService.doLoading(this.fetchData(true), this).subscribe();
   }
 
+  /**
+   * unsubscribe
+   */
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

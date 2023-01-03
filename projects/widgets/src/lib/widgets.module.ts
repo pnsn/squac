@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { ErrorComponent } from "./components/error/error.component";
+import { ErrorComponent } from "./shared/components/error/error.component";
 import { SquacapiModule } from "squacapi";
 import {
   Calendar,
@@ -9,9 +9,12 @@ import {
   Tabular,
   Timechart,
   Timeline,
-} from "./components";
+} from "./widget-types";
 import { WidgetTypeDirective } from "./directives/widget-type.directive";
 
+/**
+ * Module for squac widgets
+ */
 @NgModule({
   declarations: [WidgetTypeDirective, ErrorComponent],
   imports: [

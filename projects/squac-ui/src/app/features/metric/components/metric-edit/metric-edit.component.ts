@@ -10,6 +10,9 @@ import { MetricService } from "squacapi";
 import { Subscription } from "rxjs";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 
+/**
+ * Component for editing metric information
+ */
 @Component({
   selector: "widget-edit-metrics",
   templateUrl: "./metric-edit.component.html",
@@ -39,13 +42,14 @@ export class MetricEditComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
+  /** Set initial info */
   ngOnInit(): void {
     this.metric = this.data["metric"];
     this.editMode = !!this.metric;
     this.initForm();
   }
 
-  // set up form
+  /** populate form */
   initForm(): void {
     if (this.editMode) {
       this.metricForm.patchValue({
@@ -60,7 +64,8 @@ export class MetricEditComponent implements OnInit, OnDestroy {
       });
     }
   }
-  // Save metric information
+
+  /** Saves metric information */
   save(): void {
     const values = this.metricForm.value;
     this.metricService
@@ -85,11 +90,16 @@ export class MetricEditComponent implements OnInit, OnDestroy {
       });
   }
 
-  // route out of edit
+  /**
+   * Cancels editing without saving
+   *
+   * @param metricId metric id
+   */
   cancel(metricId?: number): void {
     this.dialogRef.close(metricId);
   }
 
+  /** unsubscribe */
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }

@@ -9,9 +9,18 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
 
-// Intercepts and formats http error responses for uniformity
+/**
+ * Intercepts and formats http error responses for uniformity
+ */
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
+  /**
+   * Intercepts request and catches errors
+   *
+   * @param request http request
+   * @param next http handler
+   * @returns throws error with formatted message
+   */
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler

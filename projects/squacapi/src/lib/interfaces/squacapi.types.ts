@@ -80,6 +80,7 @@ export type WriteWidget = squacapi.WriteOnlyWidgetSerializer;
 
 export type ApiToken = squacapi.Token;
 
+/** Read aggregate interface */
 export interface ReadAggregate {
   channel: number;
   metric: number;

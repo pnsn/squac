@@ -27,13 +27,11 @@ import {
   WIDGET_SOLID_COLORS,
   WIDGET_TYPE_INFO,
 } from "widgets";
+import { ThresholdForm } from "./interfaces";
 
-interface ThresholdForm {
-  dimension?: FormControl<string>;
-  min: FormControl<number>;
-  max: FormControl<number>;
-  metricId: FormControl<number>;
-}
+/**
+ * Component for editing widget options
+ */
 @Component({
   selector: "widget-edit-options",
   templateUrl: "./widget-edit-options.component.html",
@@ -72,6 +70,7 @@ export class WidgetEditOptionsComponent
     this.solidOptions = WIDGET_SOLID_COLORS;
   }
 
+  /** set up initial form values */
   ngOnInit(): void {
     this.thresholdArray.valueChanges.subscribe((values) => {
       // this.validateThresholds();
@@ -92,12 +91,19 @@ export class WidgetEditOptionsComponent
     this.initForm();
   }
 
+  /**
+   * Listen to changes in widget configuration
+   *
+   * @param changes changes object
+   */
   ngOnChanges(changes: SimpleChanges): void {
+    // if selected metrics change, redo thresholds
     if (changes["selectedMetrics"]) {
       this.thresholdArray.clear({ emitEvent: false });
       this.changeMetrics();
     }
 
+    // if type changes, redo options
     if (changes["type"] && this.type) {
       this.widgetConfig = this.WidgetTypeInfo[this.type].config;
       if (!this.widgetConfig) {
@@ -108,16 +114,14 @@ export class WidgetEditOptionsComponent
       this.validateThresholds();
       //update which display options available
     }
-
-    if (changes["displayType"] && !changes["displayType"]) {
-      this.validateOptions();
-      this.validateThresholds();
-    }
   }
 
-  // check form inputs
+  /**
+   * Validate form inputs
+   */
   validateOptions(): void {
     const numSplits = this.optionsForm.get("options").get("numSplits");
+    // disable number of splits for spotlight type
     if (this.properties.displayType === "stoplight") {
       this.properties.numSplits = 0;
       numSplits.patchValue(0, { emitEvent: false });
@@ -127,7 +131,7 @@ export class WidgetEditOptionsComponent
     }
   }
 
-  // set up form
+  /** set up form */
   initForm(): void {
     let inColors;
     if (this.properties.inRange) {
@@ -146,9 +150,17 @@ export class WidgetEditOptionsComponent
     );
   }
 
+  /**
+   * Validate thresholds to make sure they are compatible with
+   * selected display option, metrics and controls
+   *
+   * @param index index of threshold
+   */
   validateThresholds(index?: number): void {
     const thresholds = this.thresholdArray.controls;
     let dimensions = [];
+
+    // must have display type and widget config
     if (
       this.displayType &&
       this.widgetConfig &&
@@ -162,6 +174,7 @@ export class WidgetEditOptionsComponent
 
     const lastDimension = index ? thresholds[index].value.dimension : null;
 
+    // iterate thresholds and update dimensions
     thresholds.forEach((threshold, i) => {
       const dimension = threshold.value.dimension;
 
@@ -198,7 +211,9 @@ export class WidgetEditOptionsComponent
     });
   }
 
-  //check if metrics removed
+  /**
+   * Updates thresholds for metrics
+   */
   changeMetrics(): void {
     if (this.selectedMetrics && this.selectedMetrics.length > 0) {
       this.selectedMetrics.forEach((metric) => {
@@ -221,7 +236,12 @@ export class WidgetEditOptionsComponent
     }
   }
 
-  // populate form
+  /**
+   * makes thresholds form for threshold, empty if no threshold
+   *
+   * @param threshold threshold
+   * @returns form group
+   */
   makeThresholdForm(threshold?: Threshold): FormGroup<ThresholdForm> {
     return this.formBuilder.group<ThresholdForm>({
       dimension: new FormControl(threshold ? threshold.dimension : null),
@@ -233,7 +253,12 @@ export class WidgetEditOptionsComponent
     });
   }
 
-  //find colors in options using the type
+  /**
+   * Find colors in options using the type
+   *
+   * @param type color type
+   * @returns color
+   */
   findColor(type: string): any {
     const t = [...this.gradientOptions, ...this.solidOptions].find((option) => {
       return option.type === type;
@@ -241,8 +266,13 @@ export class WidgetEditOptionsComponent
     return t;
   }
 
-  // get color from color option
-  colors(option: any): string[] | void {
+  /**
+   * Finds color strings from color option
+   *
+   * @param option color option
+   * @returns array of color strings
+   */
+  colors(option: any): string[] {
     if (option.color) {
       return option.color;
     }
@@ -251,23 +281,35 @@ export class WidgetEditOptionsComponent
         colormap: option.type,
       });
     }
+    return [];
   }
 
+  /** unsubscribe */
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 
+  /** @returns threshold form array */
   get thresholdArray(): FormArray<FormGroup<ThresholdForm>> {
     return this.optionsForm.controls["thresholdArray"] as FormArray;
   }
 
-  // Add a new threshold
+  /**
+   * Adds new threshold to form
+   *
+   * @param threshold threshold to add
+   */
   addThreshold(threshold?: Threshold): void {
     const thresholdFormGroup = this.makeThresholdForm(threshold);
     this.thresholdArray.push(thresholdFormGroup, { emitEvent: true });
   }
 
-  // return metric name
+  /**
+   * Finds name of metric
+   *
+   * @param metricId metric id to find
+   * @returns name of metric
+   */
   getMetricName(metricId: number): string {
     const metric = this.selectedMetrics?.find((metric) => {
       return metric.id === +metricId;

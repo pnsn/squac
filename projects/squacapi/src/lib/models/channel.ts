@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Adapter, SquacObject, ReadChannel } from "../interfaces";
 
-// Describes a channel object
-
+/**
+ * Describes a channel object
+ */
 export class Channel implements SquacObject {
   nslc: string;
   constructor(
@@ -10,8 +11,6 @@ export class Channel implements SquacObject {
     public code: string,
     public name: string,
     public sampleRate: number,
-
-    // from loc
     public lat: number,
     public lon: number,
     public elev: number,
@@ -25,18 +24,28 @@ export class Channel implements SquacObject {
     this.nslc = _nslc ? _nslc : net + "." + sta + "." + loc + "." + code;
   }
 
+  /**
+   * @returns station code string
+   */
   get staCode(): string {
     return this.net + "." + this.sta;
   }
 
+  /**
+   * @returns model name
+   */
   static get modelName(): string {
     return "Channel";
   }
 }
+/**
+ * Adapt channel
+ */
 @Injectable({
   providedIn: "root",
 })
 export class ChannelAdapter implements Adapter<Channel, ReadChannel, unknown> {
+  /** @override */
   adaptFromApi(item: ReadChannel): Channel {
     return new Channel(
       item.id ? +item.id : 0,

@@ -10,16 +10,24 @@ import { WidgetConfig } from "widgets";
 import { WidgetType } from "widgets";
 import { WidgetProperties, WidgetStatType } from "squacapi";
 
+/**
+ * Component for editing widget info
+ */
 @Component({
   selector: "widget-edit-info",
   templateUrl: "./widget-edit-info.component.html",
   styleUrls: ["./widget-edit-info.component.scss"],
 })
 export class WidgetEditInfoComponent implements OnInit {
+  /** widget name */
   @Input() name: string;
+  /** widget type */
   @Input() type: WidgetType;
+  /** widget stat type */
   @Input() stat: WidgetStatType;
+  /** widget properties */
   @Input() properties: WidgetProperties;
+  /** widget display type */
   @Input() displayType: string;
   @Output() displayTypeChange = new EventEmitter<string>();
   @Output() propertiesChange = new EventEmitter<WidgetProperties>();
@@ -46,6 +54,7 @@ export class WidgetEditInfoComponent implements OnInit {
     displayType: new FormControl<string>(""),
   });
 
+  /** init widget form change subscriptions */
   ngOnInit(): void {
     this.widgetForm.get("displayType").valueChanges.subscribe((displayType) => {
       this.displayType = displayType;
@@ -77,6 +86,9 @@ export class WidgetEditInfoComponent implements OnInit {
     this.initForm();
   }
 
+  /**
+   * Change widget type
+   */
   updateType(): void {
     if (this.type !== this.previewType) {
       this.type === this.previewType;
@@ -88,7 +100,10 @@ export class WidgetEditInfoComponent implements OnInit {
       );
     }
   }
-  // set up form
+
+  /**
+   * Set up form
+   */
   initForm(): void {
     this.widgetForm.patchValue(
       {
@@ -99,7 +114,9 @@ export class WidgetEditInfoComponent implements OnInit {
     );
   }
 
-  // when the type of widget changes, update related options
+  /**
+   * When type of widget changes, updates related options
+   */
   changeTypes(): void {
     if (this.type) {
       this.widgetConfig = this.WidgetTypeInfo[this.type].config;
@@ -134,6 +151,11 @@ export class WidgetEditInfoComponent implements OnInit {
     }
   }
 
+  /**
+   * Change preview type for widget display
+   *
+   * @param e event
+   */
   changePreviewType(e?): void {
     if (!e) {
       this.previewType = this.type || this.previewType;
@@ -142,7 +164,9 @@ export class WidgetEditInfoComponent implements OnInit {
     }
   }
 
-  // check if has all properties
+  /**
+   * Checks widget has all properties
+   */
   checkValid(): void {
     this.done = !!this.name && !!this.type && !!this.stat;
     if (!this.done) {

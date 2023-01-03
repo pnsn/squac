@@ -1,4 +1,7 @@
 import { Component } from "@angular/core";
+/**
+ * Login page parent
+ */
 @Component({
   selector: "app-auth",
   templateUrl: "./auth.component.html",

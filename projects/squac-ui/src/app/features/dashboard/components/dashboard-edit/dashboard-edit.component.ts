@@ -12,6 +12,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MessageService } from "@core/services/message.service";
 import { ChannelGroup } from "squacapi";
 
+/**
+ * Dashbaord edit component
+ */
 @Component({
   selector: "dashboard-edit",
   templateUrl: "./dashboard-edit.component.html",
@@ -39,6 +42,9 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
+  /**
+   * Init properties
+   */
   ngOnInit(): void {
     this.dashboard = this.data["dashboard"];
     if (this.dashboard) {
@@ -53,11 +59,16 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
     this.initForm();
   }
 
+  /**
+   * unsubscribe
+   */
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 
-  // set up form
+  /**
+   * Set up edit form
+   */
   private initForm(): void {
     if (this.editMode) {
       let share = "private";
@@ -74,7 +85,9 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  // save dashboard
+  /**
+   * Saves dashboard
+   */
   save(): void {
     const values = this.dashboardForm.value;
     const shareAll = values.share === "shareAll";
@@ -105,9 +118,13 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
       },
     });
   }
-  // Cancel and don't save changes
+
+  /**
+   * Cancel and close modal
+   *
+   * @param dashboardId dashboard id
+   */
   cancel(dashboardId?: number): void {
     this.dialogRef.close(dashboardId);
-    // route out of edit
   }
 }

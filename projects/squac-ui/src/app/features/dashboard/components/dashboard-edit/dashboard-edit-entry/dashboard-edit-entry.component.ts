@@ -6,6 +6,9 @@ import { Dashboard } from "squacapi";
 import { Subscription } from "rxjs";
 import { DashboardEditComponent } from "../dashboard-edit.component";
 
+/**
+ * Entry component for dashboard edit modal
+ */
 @Component({
   selector: "dashboard-edit-entry",
   template: "",
@@ -23,6 +26,9 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
     private router: Router
   ) {}
 
+  /**
+   * subscribe to params
+   */
   ngOnInit(): void {
     // selected dashboard
     this.paramsSub = this.route.params.subscribe((params) => {
@@ -36,7 +42,9 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
     });
   }
 
-  // open dashboard modal
+  /**
+   * opens dashboard edit modal
+   */
   openDashboard(): void {
     this.dialogRef = this.dialog.open(DashboardEditComponent, {
       closeOnNavigation: true,
@@ -61,7 +69,9 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
     });
   }
 
-  //cleanup
+  /**
+   * destroy & cleanup
+   */
   ngOnDestroy(): void {
     if (this.dialogRef) {
       this.dialogRef.close();

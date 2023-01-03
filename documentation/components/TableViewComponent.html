@@ -1,0 +1,3412 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>squac documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">squac documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  TableViewComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Reusable table view component</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+                    <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>shared-table-view</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./table-view.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./table-view.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#checkboxTemplate" >checkboxTemplate</a>
+                            </li>
+                            <li>
+                                <a href="#clickCount" >clickCount</a>
+                            </li>
+                            <li>
+                                <a href="#hideShared" >hideShared</a>
+                            </li>
+                            <li>
+                                <a href="#nameTemplate" >nameTemplate</a>
+                            </li>
+                            <li>
+                                <a href="#orgPipe" >orgPipe</a>
+                            </li>
+                            <li>
+                                <a href="#searchString" >searchString</a>
+                            </li>
+                            <li>
+                                <a href="#selected" >selected</a>
+                            </li>
+                            <li>
+                                <a href="#selectedGroupKey" >selectedGroupKey</a>
+                            </li>
+                            <li>
+                                <a href="#selectedRow" >selectedRow</a>
+                            </li>
+                            <li>
+                                <a href="#shareFilter" >shareFilter</a>
+                            </li>
+                            <li>
+                                <a href="#subscription" >subscription</a>
+                            </li>
+                            <li>
+                                <a href="#table" >table</a>
+                            </li>
+                            <li>
+                                <a href="#tableColumns" >tableColumns</a>
+                            </li>
+                            <li>
+                                <a href="#tableOptions" >tableOptions</a>
+                            </li>
+                            <li>
+                                <a href="#tableRows" >tableRows</a>
+                            </li>
+                            <li>
+                                <a href="#user" >user</a>
+                            </li>
+                            <li>
+                                <a href="#userPipe" >userPipe</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addResource" >addResource</a>
+                            </li>
+                            <li>
+                                <a href="#controlClick" >controlClick</a>
+                            </li>
+                            <li>
+                                <a href="#deleteResource" >deleteResource</a>
+                            </li>
+                            <li>
+                                <a href="#editResource" >editResource</a>
+                            </li>
+                            <li>
+                                <a href="#menuOption" >menuOption</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onSelect" >onSelect</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#orgComparator" >orgComparator</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#processColumns" >processColumns</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#processRows" >processRows</a>
+                            </li>
+                            <li>
+                                <a href="#refreshResource" >refreshResource</a>
+                            </li>
+                            <li>
+                                <a href="#routeTo" >routeTo</a>
+                            </li>
+                            <li>
+                                <a href="#searchFieldChanged" >searchFieldChanged</a>
+                            </li>
+                            <li>
+                                <a href="#selectGroupHeader" >selectGroupHeader</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#selectResource" >selectResource</a>
+                            </li>
+                            <li>
+                                <a href="#toggleExpandGroup" >toggleExpandGroup</a>
+                            </li>
+                            <li>
+                                <a href="#toggleSharing" >toggleSharing</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#userComparator" >userComparator</a>
+                            </li>
+                            <li>
+                                <a href="#viewResource" >viewResource</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#columns" >columns</a>
+                            </li>
+                            <li>
+                                <a href="#controls" >controls</a>
+                            </li>
+                            <li>
+                                <a href="#dataService" >dataService</a>
+                            </li>
+                            <li>
+                                <a href="#filters" >filters</a>
+                            </li>
+                            <li>
+                                <a href="#groupHeaderTemplate" >groupHeaderTemplate</a>
+                            </li>
+                            <li>
+                                <a href="#isLoading" >isLoading</a>
+                            </li>
+                            <li>
+                                <a href="#options" >options</a>
+                            </li>
+                            <li>
+                                <a href="#resize" >resize</a>
+                            </li>
+                            <li>
+                                <a href="#rowDetailTemplate" >rowDetailTemplate</a>
+                            </li>
+                            <li>
+                                <a href="#rows" >rows</a>
+                            </li>
+                            <li>
+                                <a href="#selectedRowId" >selectedRowId</a>
+                            </li>
+                            <li>
+                                <a href="#tableFooterTemplate" >tableFooterTemplate</a>
+                            </li>
+                            <li>
+                                <a href="#title" >title</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#controlClicked" >controlClicked</a>
+                            </li>
+                            <li>
+                                <a href="#filtersChanged" >filtersChanged</a>
+                            </li>
+                            <li>
+                                <a href="#itemSelected" >itemSelected</a>
+                            </li>
+                            <li>
+                                <a href="#refresh" >refresh</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(userService: <a href="../injectables/UserService.html" target="_self">UserService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, route: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, confirmDialog: <a href="../injectables/ConfirmDialogService.html" target="_self">ConfirmDialogService</a>, orgService: <a href="../injectables/OrganizationService.html" target="_self">OrganizationService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:92</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>userService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UserService.html" target="_self" >UserService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>router</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>route</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>confirmDialog</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ConfirmDialogService.html" target="_self" >ConfirmDialogService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>orgService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/OrganizationService.html" target="_self" >OrganizationService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="columns"></a>
+                        <b>columns</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>any[]</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:37</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="controls"></a>
+                        <b>controls</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/TableControls.html" target="_self" >TableControls</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:38</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="dataService"></a>
+                        <b>dataService</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:46</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="filters"></a>
+                        <b>filters</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/TableFilters.html" target="_self" >TableFilters</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:39</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="groupHeaderTemplate"></a>
+                        <b>groupHeaderTemplate</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>TemplateRef&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:42</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isLoading"></a>
+                        <b>isLoading</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:45</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="options"></a>
+                        <b>options</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/TableOptions.html" target="_self" >TableOptions</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:35</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="resize"></a>
+                        <b>resize</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:41</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="rowDetailTemplate"></a>
+                        <b>rowDetailTemplate</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>TemplateRef&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:44</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="rows"></a>
+                        <b>rows</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>any[]</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:36</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectedRowId"></a>
+                        <b>selectedRowId</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:40</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="tableFooterTemplate"></a>
+                        <b>tableFooterTemplate</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>TemplateRef&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:43</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="title"></a>
+                        <b>title</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:34</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="controlClicked"></a>
+                        <b>controlClicked</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:48</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="filtersChanged"></a>
+                        <b>filtersChanged</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:50</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="itemSelected"></a>
+                        <b>itemSelected</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:47</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="refresh"></a>
+                        <b>refresh</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:49</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addResource"></a>
+                    <span class="name">
+                        <span ><b>addResource</b></span>
+                        <a href="#addResource"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addResource()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="324"
+                            class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:324</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Emit add resource event and route to &#39;new&#39; path</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="controlClick"></a>
+                    <span class="name">
+                        <span ><b>controlClick</b></span>
+                        <a href="#controlClick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>controlClick(type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="380"
+                            class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:380</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Emit control click event</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>type</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>type of click event</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteResource"></a>
+                    <span class="name">
+                        <span ><b>deleteResource</b></span>
+                        <a href="#deleteResource"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>deleteResource()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="281"
+                            class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:281</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Delete selected resource</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="editResource"></a>
+                    <span class="name">
+                        <span ><b>editResource</b></span>
+                        <a href="#editResource"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>editResource()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="310"
+                            class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:310</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Emit edit event and route to edit path</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="menuOption"></a>
+                    <span class="name">
+                        <span ><b>menuOption</b></span>
+                        <a href="#menuOption"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>menuOption(action: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="264"
+                            class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:264</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Respond to menu option</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>action</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>menu action</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <span ><b>ngOnChanges</b></span>
+                        <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: <a href="https://angular.io/api/core/SimpleChanges" target="_blank">SimpleChanges</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="145"
+                            class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:145</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Respond to input changes</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>changes</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/core/SimpleChanges" target="_blank" >SimpleChanges</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>changes object</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="464"
+                            class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:464</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Destroy</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="109"
+                            class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:109</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Init</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSelect"></a>
+                    <span class="name">
+                        <span ><b>onSelect</b></span>
+                        <a href="#onSelect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSelect(event)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="203"
+                            class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:203</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Respond to select row event and emit row id</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>click event</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="orgComparator"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>orgComparator</b></span>
+                        <a href="#orgComparator"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>orgComparator(orgIdA, orgIdB)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="448"
+                            class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:448</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Sort organization by name</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>orgIdA</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>first org</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>orgIdB</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>second org</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>sort numbera</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="processColumns"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>processColumns</b></span>
+                        <a href="#processColumns"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>processColumns()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="168"
+                            class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:168</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Build table columns</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="processRows"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>processRows</b></span>
+                        <a href="#processRows"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>processRows()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="191"
+                            class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:191</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Set up table rows and select default row</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="refreshResource"></a>
+                    <span class="name">
+                        <span ><b>refreshResource</b></span>
+                        <a href="#refreshResource"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>refreshResource()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="371"
+                            class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:371</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Emit refresh event</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="routeTo"></a>
+                    <span class="name">
+                        <span ><b>routeTo</b></span>
+                        <a href="#routeTo"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>routeTo(resource: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, action?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, path?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="342"
+                            class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:342</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Handles routing to a resource</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>resource</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>resource to route to</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>action</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>route action</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>path</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>additional path config</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="searchFieldChanged"></a>
+                    <span class="name">
+                        <span ><b>searchFieldChanged</b></span>
+                        <a href="#searchFieldChanged"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>searchFieldChanged(rows: any[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="363"
+                            class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:363</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Update rows after search performed</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>rows</td>
+                                    <td>
+                                            <code>any[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>filtered rows from search</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectGroupHeader"></a>
+                    <span class="name">
+                        <span ><b>selectGroupHeader</b></span>
+                        <a href="#selectGroupHeader"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>selectGroupHeader(group)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="231"
+                            class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:231</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>When group header option is enabled, will respond to selects
+on group header</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>group</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>id of group</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectResource"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>selectResource</b></span>
+                        <a href="#selectResource"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>selectResource(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="249"
+                            class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:249</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Select resource in table by id</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>id</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>id of resource</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleExpandGroup"></a>
+                    <span class="name">
+                        <span ><b>toggleExpandGroup</b></span>
+                        <a href="#toggleExpandGroup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleExpandGroup(group)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="390"
+                            class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:390</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Toggle expand or collapse group</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>group</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>group id</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>if should toggle</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleSharing"></a>
+                    <span class="name">
+                        <span ><b>toggleSharing</b></span>
+                        <a href="#toggleSharing"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleSharing()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="398"
+                            class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:398</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Change sharing settings and filter table to match</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="userComparator"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>userComparator</b></span>
+                        <a href="#userComparator"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>userComparator(userIdA, userIdB)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="428"
+                            class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:428</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Sort users by name</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userIdA</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>first user</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>userIdB</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>second user</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>sort number</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="viewResource"></a>
+                    <span class="name">
+                        <span ><b>viewResource</b></span>
+                        <a href="#viewResource"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>viewResource()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="298"
+                            class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:298</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Route to selected resource</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkboxTemplate"></a>
+                    <span class="name">
+                        <span ><b>checkboxTemplate</b></span>
+                        <a href="#checkboxTemplate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>TemplateRef&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;checkboxTemplate&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clickCount"></a>
+                    <span class="name">
+                        <span ><b>clickCount</b></span>
+                        <a href="#clickCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:64</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hideShared"></a>
+                    <span class="name">
+                        <span ><b>hideShared</b></span>
+                        <a href="#hideShared"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="nameTemplate"></a>
+                    <span class="name">
+                        <span ><b>nameTemplate</b></span>
+                        <a href="#nameTemplate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>TemplateRef&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;nameTemplate&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="orgPipe"></a>
+                    <span class="name">
+                        <span ><b>orgPipe</b></span>
+                        <a href="#orgPipe"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Organization.html" target="_self" >OrganizationPipe</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="searchString"></a>
+                    <span class="name">
+                        <span ><b>searchString</b></span>
+                        <a href="#searchString"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selected"></a>
+                    <span class="name">
+                        <span ><b>selected</b></span>
+                        <a href="#selected"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:61</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedGroupKey"></a>
+                    <span class="name">
+                        <span ><b>selectedGroupKey</b></span>
+                        <a href="#selectedGroupKey"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:65</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedRow"></a>
+                    <span class="name">
+                        <span ><b>selectedRow</b></span>
+                        <a href="#selectedRow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:62</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="shareFilter"></a>
+                    <span class="name">
+                        <span ><b>shareFilter</b></span>
+                        <a href="#shareFilter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;org&quot;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:66</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscription"></a>
+                    <span class="name">
+                        <span ><b>subscription</b></span>
+                        <a href="#subscription"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subscription()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:33</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="table"></a>
+                    <span class="name">
+                        <span ><b>table</b></span>
+                        <a href="#table"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;table&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tableColumns"></a>
+                    <span class="name">
+                        <span ><b>tableColumns</b></span>
+                        <a href="#tableColumns"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>any[]</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tableOptions"></a>
+                    <span class="name">
+                        <span ><b>tableOptions</b></span>
+                        <a href="#tableOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/TableOptions.html" target="_self" >TableOptions</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    columnMode: ColumnMode.force,
+    selectionType: undefined,
+    headerHeight: 30,
+    footerHeight: 30,
+    rowHeight: &quot;auto&quot;,
+    limit: undefined,
+    reorderable: false,
+    scrollbarH: false,
+    scrollbarV: true,
+    sortType: SortType.single,
+    sorts: [],
+    groupRowsBy: undefined,
+    groupExpansionDefault: false,
+    groupParentType: undefined,
+    autoRouteToDetail: true,
+    selectAllRowsOnPage: false,
+    displayCheck: false,
+    messages: {
+      emptyMessage: &quot;No data&quot;,
+      totalMessage: &quot;total&quot;,
+    },
+    virtualization: false,
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:69</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tableRows"></a>
+                    <span class="name">
+                        <span ><b>tableRows</b></span>
+                        <a href="#tableRows"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>any[]</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:56</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="user"></a>
+                    <span class="name">
+                        <span ><b>user</b></span>
+                        <a href="#user"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/User.html" target="_self" >User</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:63</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="userPipe"></a>
+                    <span class="name">
+                        <span ><b>userPipe</b></span>
+                        <a href="#userPipe"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/User.html" target="_self" >UserPipe</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
+  TemplateRef,
+  ViewChild,
+} from &quot;@angular/core&quot;;
+import { ActivatedRoute, NavigationEnd, Router } from &quot;@angular/router&quot;;
+import { ConfirmDialogService } from &quot;@core/services/confirm-dialog.service&quot;;
+import { User } from &quot;squacapi&quot;;
+import { OrganizationService } from &quot;squacapi&quot;;
+import { UserService } from &quot;@user/services/user.service&quot;;
+import { OrganizationPipe } from &quot;squacapi&quot;;
+import { UserPipe } from &quot;squacapi&quot;;
+import { ColumnMode, SortType } from &quot;@boring.devs/ngx-datatable&quot;;
+import { Subscription, tap, filter } from &quot;rxjs&quot;;
+import { TableControls, TableFilters, TableOptions } from &quot;./interfaces&quot;;
+
+/**
+ * Reusable table view component
+ */
+@Component({
+  selector: &quot;shared-table-view&quot;,
+  templateUrl: &quot;./table-view.component.html&quot;,
+  styleUrls: [&quot;./table-view.component.scss&quot;],
+})
+export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
+  subscription &#x3D; new Subscription();
+  @Input() title: string;
+  @Input() options: TableOptions;
+  @Input() rows: any[];
+  @Input() columns: any[];
+  @Input() controls: TableControls;
+  @Input() filters: TableFilters;
+  @Input() selectedRowId: number;
+  @Input() resize: boolean;
+  @Input() groupHeaderTemplate: TemplateRef&lt;any&gt;;
+  @Input() tableFooterTemplate: TemplateRef&lt;any&gt;;
+  @Input() rowDetailTemplate: TemplateRef&lt;any&gt;;
+  @Input() isLoading: boolean;
+  @Input() dataService: any;
+  @Output() itemSelected &#x3D; new EventEmitter&lt;any&gt;();
+  @Output() controlClicked &#x3D; new EventEmitter&lt;any&gt;();
+  @Output() refresh &#x3D; new EventEmitter&lt;any&gt;();
+  @Output() filtersChanged &#x3D; new EventEmitter&lt;any&gt;();
+  @ViewChild(&quot;table&quot;) table;
+  @ViewChild(&quot;nameTemplate&quot;) nameTemplate: TemplateRef&lt;any&gt;;
+  @ViewChild(&quot;checkboxTemplate&quot;) checkboxTemplate: TemplateRef&lt;any&gt;;
+  userPipe: UserPipe;
+  orgPipe: OrganizationPipe;
+  tableRows: any[];
+  tableColumns: any[];
+  searchString: string;
+  hideShared: boolean;
+
+  selected &#x3D; [];
+  selectedRow;
+  user: User;
+  clickCount &#x3D; 0;
+  selectedGroupKey;
+  shareFilter &#x3D; &quot;org&quot;;
+
+  //defaultOptions
+  tableOptions: TableOptions &#x3D; {
+    columnMode: ColumnMode.force,
+    selectionType: undefined,
+    headerHeight: 30,
+    footerHeight: 30,
+    rowHeight: &quot;auto&quot;,
+    limit: undefined,
+    reorderable: false,
+    scrollbarH: false,
+    scrollbarV: true,
+    sortType: SortType.single,
+    sorts: [],
+    groupRowsBy: undefined,
+    groupExpansionDefault: false,
+    groupParentType: undefined,
+    autoRouteToDetail: true,
+    selectAllRowsOnPage: false,
+    displayCheck: false,
+    messages: {
+      emptyMessage: &quot;No data&quot;,
+      totalMessage: &quot;total&quot;,
+    },
+    virtualization: false,
+  };
+
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private confirmDialog: ConfirmDialogService,
+    orgService: OrganizationService
+  ) {
+    this.userPipe &#x3D; new UserPipe(orgService);
+    this.orgPipe &#x3D; new OrganizationPipe(orgService);
+  }
+  //doubleclick on row to view detail?
+
+  /**
+   * Init
+   */
+  ngOnInit(): void {
+    Object.keys(this.options).forEach((key) &#x3D;&gt; {
+      this.tableOptions[key] &#x3D; this.options[key];
+    });
+    const userServ &#x3D; this.userService.user.subscribe({
+      next: (user) &#x3D;&gt; {
+        this.user &#x3D; user;
+        this.processRows();
+      },
+    });
+
+    this.subscription.add(userServ);
+    if (this.controls.listenToRouter) {
+      const currentPath &#x3D;
+        this.controls.basePath || this.router.routerState.snapshot.url;
+      const routerEvents &#x3D; this.router.events
+        .pipe(
+          filter((e) &#x3D;&gt; e instanceof NavigationEnd),
+          tap((e: NavigationEnd) &#x3D;&gt; {
+            if (e.urlAfterRedirects.toString() &#x3D;&#x3D;&#x3D; currentPath) {
+              // this.refreshResource();
+              this.selectResource(null);
+            }
+          })
+        )
+        .subscribe();
+
+      this.subscription.add(routerEvents);
+    }
+  }
+
+  /**
+   * Respond to input changes
+   *
+   * @param changes changes object
+   */
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add &#x27;${implements OnChanges}&#x27; to the class.
+    if (changes[&quot;columns&quot;] &amp;&amp; changes[&quot;columns&quot;].currentValue) {
+      this.processColumns();
+    }
+    if (changes[&quot;rows&quot;] &amp;&amp; changes[&quot;rows&quot;].currentValue) {
+      this.processRows();
+    }
+    if (changes[&quot;selectedRowId&quot;] &amp;&amp; !changes[&quot;selectedRowId&quot;].firstChange) {
+      this.selectResource(this.selectedRowId);
+    }
+
+    if (changes[&quot;resize&quot;]) {
+      if (this.table) {
+        this.table.recalculate();
+      }
+    }
+  }
+
+  /**
+   * Build table columns
+   */
+  private processColumns(): void {
+    this.columns.forEach((col) &#x3D;&gt; {
+      if (col.prop &#x3D;&#x3D;&#x3D; &quot;owner&quot; || col.name &#x3D;&#x3D;&#x3D; &quot;Owner&quot;) {
+        col.pipe &#x3D; this.userPipe;
+        col.comparator &#x3D; this.userComparator.bind(this);
+      }
+      if (col.prop &#x3D;&#x3D;&#x3D; &quot;orgId&quot; || col.name &#x3D;&#x3D;&#x3D; &quot;Organization&quot;) {
+        col.pipe &#x3D; this.orgPipe;
+        col.comparator &#x3D; this.orgComparator.bind(this);
+      }
+      if (
+        this.tableOptions.autoRouteToDetail &amp;&amp;
+        (col.prop &#x3D;&#x3D;&#x3D; &quot;name&quot; || col.name &#x3D;&#x3D;&#x3D; &quot;Name&quot;)
+      ) {
+        col.cellTemplate &#x3D; this.nameTemplate;
+      }
+    });
+    this.tableColumns &#x3D; [...this.columns];
+  }
+
+  /**
+   * Set up table rows and select default row
+   */
+  private processRows(): void {
+    this.tableRows &#x3D; [...this.rows];
+    if (this.selectedRowId &amp;&amp; this.tableRows.length &gt; 0) {
+      this.selectResource(this.selectedRowId);
+    }
+  }
+
+  /**
+   * Respond to select row event and emit row id
+   *
+   * @param event click event
+   */
+  onSelect(event): void {
+    if (event.selected &amp;&amp; event.selected[0]) {
+      if (this.selectedRow &amp;&amp; this.selectedRow.id &#x3D;&#x3D;&#x3D; event.selected[0].id) {
+        this.clickCount++;
+      } else {
+        this.clickCount &#x3D; 0;
+      }
+
+      this.selectResource(event.selected[0].id);
+      //view resource if doubleclicked
+      if (this.clickCount &#x3D;&#x3D;&#x3D; 2 &amp;&amp; this.tableOptions.autoRouteToDetail) {
+        this.clickCount &#x3D; 0;
+        this.viewResource();
+      }
+    }
+    if (!event.selected[0]) {
+      //unselect
+      this.selectResource(null);
+      this.clickCount &#x3D; 0;
+    }
+  }
+
+  /**
+   * When group header option is enabled, will respond to selects
+   * on group header
+   *
+   * @param group id of group
+   */
+  selectGroupHeader(group): void {
+    if (this.tableOptions.groupParentType) {
+      this.selectedGroupKey &#x3D; group.key;
+      const groupParent &#x3D; group.value[0][this.tableOptions.groupParentType];
+
+      this.selectedRow &#x3D; groupParent;
+      this.itemSelected.next(this.selectedRow);
+    } else {
+      this.selectedGroupKey &#x3D; null;
+      this.selectedRow &#x3D; null;
+    }
+  }
+
+  /**
+   * Select resource in table by id
+   *
+   * @param id id of resource
+   */
+  private selectResource(id: number): void {
+    this.selected &#x3D; [];
+    this.selected &#x3D; this.tableRows.filter((row) &#x3D;&gt; {
+      return row.id &#x3D;&#x3D;&#x3D; id;
+    });
+    this.selectedRow &#x3D; this.selected[0];
+    this.itemSelected.next(this.selectedRow);
+  }
+
+  // FIXME: make into types
+  /**
+   * Respond to menu option
+   *
+   * @param action menu action
+   */
+  menuOption(action: string): void {
+    if (action &#x3D;&#x3D;&#x3D; &quot;edit&quot;) {
+      this.editResource();
+    } else if (action &#x3D;&#x3D;&#x3D; &quot;add&quot;) {
+      this.addResource();
+    } else if (action &#x3D;&#x3D;&#x3D; &quot;view&quot;) {
+      this.viewResource();
+    } else if (action &#x3D;&#x3D;&#x3D; &quot;delete&quot;) {
+      this.deleteResource();
+    } else {
+      this.controlClicked.emit(action);
+    }
+  }
+
+  /**
+   * Delete selected resource
+   */
+  deleteResource(): void {
+    this.confirmDialog.open({
+      title: &#x60;Delete ${this.selectedRow.name}&#x60;,
+      message: &quot;Are you sure? This action is permanent.&quot;,
+      cancelText: &quot;Cancel&quot;,
+      confirmText: &quot;Delete&quot;,
+    });
+    this.confirmDialog.confirmed().subscribe((confirm) &#x3D;&gt; {
+      if (confirm) {
+        this.controlClicked.emit(&quot;delete&quot;);
+      }
+    });
+  }
+
+  /**
+   * Route to selected resource
+   */
+  viewResource(): void {
+    this.controlClicked.emit(&quot;view&quot;);
+    let path;
+    if (this.controls.menu &amp;&amp; this.controls.menu.path) {
+      path &#x3D; this.controls.menu.path;
+    }
+    this.routeTo(this.selectedRow.id, null, path);
+  }
+
+  /**
+   * Emit edit event and route to edit path
+   */
+  editResource(): void {
+    this.controlClicked.emit(&quot;edit&quot;);
+    let path;
+    if (this.controls.edit &amp;&amp; this.controls.edit.path) {
+      path &#x3D; this.controls.edit.path;
+    } else if (this.controls.menu &amp;&amp; this.controls.menu.path) {
+      path &#x3D; this.controls.menu.path;
+    }
+    this.routeTo(this.selectedRow.id, &quot;edit&quot;, path);
+  }
+
+  /**
+   * Emit add resource event and route to &#x27;new&#x27; path
+   */
+  addResource(): void {
+    this.controlClicked.emit(&quot;add&quot;);
+    let path;
+    if (this.controls.add &amp;&amp; this.controls.add.path) {
+      path &#x3D; this.controls.add.path;
+    } else if (this.controls.menu &amp;&amp; this.controls.menu.path) {
+      path &#x3D; this.controls.menu.path;
+    }
+    this.routeTo(null, &quot;new&quot;, path);
+  }
+
+  /**
+   * Handles routing to a resource
+   *
+   * @param resource resource to route to
+   * @param action route action
+   * @param path additional path config
+   */
+  routeTo(resource: string, action?: string, path?: string): void {
+    const route &#x3D; [];
+    if (path) {
+      route.push(path);
+    }
+    if (resource) {
+      route.push(resource);
+    }
+    if (action) {
+      route.push(action);
+    }
+    this.router.navigate(route, {
+      relativeTo: this.route,
+    });
+  }
+
+  /**
+   * Update rows after search performed
+   *
+   * @param rows filtered rows from search
+   */
+  searchFieldChanged(rows: any[]): void {
+    this.hideShared &#x3D; false;
+    this.tableRows &#x3D; [...rows];
+  }
+
+  /**
+   * Emit refresh event
+   */
+  refreshResource(): void {
+    this.refresh.emit(true);
+  }
+
+  /**
+   * Emit control click event
+   *
+   * @param type type of click event
+   */
+  controlClick(type: string): void {
+    this.controlClicked.emit(type);
+  }
+
+  /**
+   * Toggle expand or collapse group
+   *
+   * @param group group id
+   * @returns if should toggle
+   */
+  toggleExpandGroup(group): boolean {
+    this.table.groupHeader.toggleExpandGroup(group);
+    return false;
+  }
+
+  /**
+   * Change sharing settings and filter table to match
+   */
+  toggleSharing(): void {
+    const params: {
+      user?: number;
+      organization?: number;
+    } &#x3D; {};
+    if (this.filters.toggleShared) {
+      switch (this.shareFilter) {
+        case &quot;user&quot;:
+          params.user &#x3D; this.user.id;
+          break;
+
+        case &quot;org&quot;:
+          params.organization &#x3D; this.user.orgId;
+          break;
+
+        default:
+          break;
+      }
+
+      this.filtersChanged.emit(params);
+    }
+  }
+
+  /**
+   * Sort users by name
+   *
+   * @param userIdA first user
+   * @param userIdB second user
+   * @returns sort number
+   */
+  private userComparator(userIdA, userIdB): number {
+    const userNameA &#x3D; this.userPipe.transform(userIdA).toLowerCase();
+    const userNameB &#x3D; this.userPipe.transform(userIdB).toLowerCase();
+
+    if (userNameA &lt; userNameB) {
+      return -1;
+    }
+    if (userNameA &gt; userNameB) {
+      return 1;
+    }
+    return 0;
+  }
+
+  /**
+   * Sort organization by name
+   *
+   * @param orgIdA first org
+   * @param orgIdB second org
+   * @returns sort numbera
+   */
+  private orgComparator(orgIdA, orgIdB): number {
+    const orgNameA &#x3D; this.orgPipe.transform(orgIdA).toLowerCase();
+    const orgNameB &#x3D; this.orgPipe.transform(orgIdB).toLowerCase();
+
+    if (orgNameA &lt; orgNameB) {
+      return -1;
+    }
+    if (orgNameA &gt; orgNameB) {
+      return 1;
+    }
+    return 0;
+  }
+
+  /**
+   * Destroy
+   */
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div id&#x3D;&quot;table-view-container&quot; class&#x3D;&quot;gray-border box-shadow&quot;&gt;
+  &lt;div id&#x3D;&quot;table-head&quot; class&#x3D;&quot;lt-gray-background&quot;&gt;
+    &lt;div class&#x3D;&quot;row space-between&quot;&gt;
+      &lt;h2 id&#x3D;&quot;title&quot;&gt;
+        {{ title }}
+      &lt;/h2&gt;
+      &lt;div class&#x3D;&quot;row space-between&quot;&gt;
+        &lt;button
+          *ngIf&#x3D;&quot;controls.refresh&quot;
+          mat-icon-button
+          aria-label&#x3D;&quot;button that refreshes data&quot;
+          (click)&#x3D;&quot;refreshResource()&quot;
+        &gt;
+          &lt;mat-icon&gt;refresh&lt;/mat-icon&gt;
+        &lt;/button&gt;
+        &lt;ng-container *ngIf&#x3D;&quot;controls.links&quot;&gt;
+          &lt;button
+            *ngFor&#x3D;&quot;let link of controls.links&quot;
+            mat-button
+            [routerLink]&#x3D;&quot;[link.path]&quot;
+          &gt;
+            {{ link.text }}
+          &lt;/button&gt;
+        &lt;/ng-container&gt;
+        &lt;button
+          mat-button
+          (click)&#x3D;&quot;editResource()&quot;
+          *ngIf&#x3D;&quot;controls.edit &amp;&amp; (&#x27;update&#x27; | able: selectedRow)&quot;
+          [disabled]&#x3D;&quot;!selectedRow&quot;
+        &gt;
+          {{ controls.edit.text }}
+        &lt;/button&gt;
+        &lt;mat-menu #menu class&#x3D;&quot;mat-menu-dense&quot;&gt;
+          &lt;ng-container *ngFor&#x3D;&quot;let item of controls.menu?.options&quot;&gt;
+            &lt;button
+              mat-menu-item
+              (click)&#x3D;&quot;menuOption(item.action)&quot;
+              *ngIf&#x3D;&quot;item.permission | able: selectedRow&quot;
+            &gt;
+              {{ item.text }}
+            &lt;/button&gt;
+          &lt;/ng-container&gt;
+        &lt;/mat-menu&gt;
+        &lt;button
+          mat-flat-button
+          *ngIf&#x3D;&quot;controls.menu&quot;
+          [matMenuTriggerFor]&#x3D;&quot;menu&quot;
+          [disabled]&#x3D;&quot;!selectedRow&quot;
+        &gt;
+          {{ controls.menu.text }} &lt;mat-icon&gt;expand_more&lt;/mat-icon&gt;
+        &lt;/button&gt;
+
+        &lt;button
+          mat-flat-button
+          color&#x3D;&quot;accent&quot;
+          (click)&#x3D;&quot;addResource()&quot;
+          *ngIf&#x3D;&quot;controls.add &amp;&amp; (&#x27;create&#x27; | able: controls.resource)&quot;
+        &gt;
+          {{ controls.add.text }}
+        &lt;/button&gt;
+
+        &lt;ng-content select&#x3D;&quot;[tableHeadControls]&quot;&gt; &lt;/ng-content&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;row space-between&quot;&gt;
+      &lt;shared-search-filter
+        *ngIf&#x3D;&quot;filters.searchField&quot;
+        [config]&#x3D;&quot;filters.searchField&quot;
+        [rows]&#x3D;&quot;rows&quot;
+        (filterChanged)&#x3D;&quot;searchFieldChanged($event)&quot;
+      &gt;
+      &lt;/shared-search-filter&gt;
+      &lt;div *ngIf&#x3D;&quot;filters.toggleShared&quot;&gt;
+        &lt;mat-button-toggle-group
+          class&#x3D;&quot;dense-button-toggle&quot;
+          name&#x3D;&quot;sharing&quot;
+          aria-label&#x3D;&quot;&quot;
+          (change)&#x3D;&quot;toggleSharing()&quot;
+          [(ngModel)]&#x3D;&quot;shareFilter&quot;
+        &gt;
+          &lt;mat-button-toggle value&#x3D;&quot;user&quot;&gt;User&lt;/mat-button-toggle&gt;
+          &lt;mat-button-toggle value&#x3D;&quot;org&quot;&gt;{{
+            user?.orgId | organization
+          }}&lt;/mat-button-toggle&gt;
+          &lt;mat-button-toggle value&#x3D;&quot;all&quot;&gt;All&lt;/mat-button-toggle&gt;
+        &lt;/mat-button-toggle-group&gt;
+      &lt;/div&gt;
+
+      &lt;ng-content select&#x3D;&quot;[tableHeadFilters]&quot;&gt; &lt;/ng-content&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div id&#x3D;&quot;table-body&quot;&gt;
+    &lt;ngx-datatable
+      #table
+      id&#x3D;&quot;shared-data-table&quot;
+      class&#x3D;&quot;shared-view-table&quot;
+      [ngClass]&#x3D;&quot;resize ? &#x27;half&#x27; : &#x27;full&#x27;&quot;
+      [rows]&#x3D;&quot;tableRows&quot;
+      [columns]&#x3D;&quot;tableColumns&quot;
+      [columnMode]&#x3D;&quot;tableOptions.columnMode&quot;
+      [selectionType]&#x3D;&quot;tableOptions.selectionType&quot;
+      [headerHeight]&#x3D;&quot;tableOptions.headerHeight&quot;
+      [footerHeight]&#x3D;&quot;tableOptions.footerHeight&quot;
+      [rowHeight]&#x3D;&quot;tableOptions.rowHeight&quot;
+      [limit]&#x3D;&quot;tableOptions.limit&quot;
+      [reorderable]&#x3D;&quot;tableOptions.reorderable&quot;
+      [scrollbarH]&#x3D;&quot;tableOptions.scrollbarH&quot;
+      [scrollbarV]&#x3D;&quot;tableOptions.scrollbarV&quot;
+      [sortType]&#x3D;&quot;tableOptions.sortType&quot;
+      [sorts]&#x3D;&quot;tableOptions.sorts&quot;
+      [messages]&#x3D;&quot;tableOptions.messages&quot;
+      (select)&#x3D;&quot;onSelect($event)&quot;
+      [selected]&#x3D;&quot;selected&quot;
+      [groupRowsBy]&#x3D;&quot;tableOptions.groupRowsBy&quot;
+      [groupExpansionDefault]&#x3D;&quot;tableOptions.groupExpansionDefault&quot;
+      [selectAllRowsOnPage]&#x3D;&quot;tableOptions.selectAllRowsOnPage&quot;
+      [virtualization]&#x3D;&quot;tableOptions.virtualization&quot;
+      [loadingIndicator]&#x3D;&quot;isLoading&quot;
+    &gt;
+      &lt;ngx-datatable-group-header [rowHeight]&#x3D;&quot;50&quot; *ngIf&#x3D;&quot;groupHeaderTemplate&quot;&gt;
+        &lt;ng-template
+          let-group&#x3D;&quot;group&quot;
+          let-expanded&#x3D;&quot;expanded&quot;
+          ngx-datatable-group-header-template
+        &gt;
+          &lt;div
+            (click)&#x3D;&quot;selectGroupHeader(group)&quot;
+            class&#x3D;&quot;group-header-container&quot;
+            [ngClass]&#x3D;&quot;selectedGroupKey &#x3D;&#x3D;&#x3D; group.key ? &#x27;active&#x27; : &#x27;&#x27;&quot;
+          &gt;
+            &lt;ng-container
+              [ngTemplateOutlet]&#x3D;&quot;groupHeaderTemplate&quot;
+              [ngTemplateOutletContext]&#x3D;&quot;{ group: group, expanded: expanded }&quot;
+            &gt;&lt;/ng-container&gt;
+          &lt;/div&gt;
+        &lt;/ng-template&gt;
+      &lt;/ngx-datatable-group-header&gt;
+      &lt;ngx-datatable-row-detail
+        #rowDetail
+        [rowHeight]&#x3D;&quot;50&quot;
+        *ngIf&#x3D;&quot;rowDetailTemplate&quot;
+      &gt;
+        &lt;ng-template let-row&#x3D;&quot;row&quot; ngx-datatable-row-detail-template&gt;
+          &lt;ng-container
+            [ngTemplateOutlet]&#x3D;&quot;rowDetailTemplate&quot;
+            [ngTemplateOutletContext]&#x3D;&quot;{ row: row }&quot;
+          &gt;&lt;/ng-container&gt;
+        &lt;/ng-template&gt;
+      &lt;/ngx-datatable-row-detail&gt;
+      &lt;ngx-datatable-footer&gt;
+        &lt;ng-template
+          ngx-datatable-footer-template
+          let-selectedCount&#x3D;&quot;selectedCount&quot;
+          let-rowCount&#x3D;&quot;rowCount&quot;
+          let-pageSize&#x3D;&quot;pageSize&quot;
+          let-curPage&#x3D;&quot;curPage&quot;
+          let-offset&#x3D;&quot;offset&quot;
+        &gt;
+          &lt;ng-container *ngIf&#x3D;&quot;!tableFooterTemplate&quot;&gt;
+            &lt;div&gt;&lt;/div&gt;
+            &lt;div&gt;
+              Showing {{ tableRows?.length }} of {{ rows?.length }}
+              {{
+                tableOptions.footerLabel
+                  ? tableOptions.footerLabel
+                  : controls.resource + &quot;s&quot;
+              }}
+            &lt;/div&gt;
+          &lt;/ng-container&gt;
+          &lt;ng-container
+            [ngTemplateOutlet]&#x3D;&quot;tableFooterTemplate&quot;
+            [ngTemplateOutletContext]&#x3D;&quot;{
+              rowCount: rowCount,
+              selectedCount: selectedCount
+            }&quot;
+          &gt;&lt;/ng-container&gt;
+        &lt;/ng-template&gt;
+      &lt;/ngx-datatable-footer&gt;
+      &lt;ng-template ngx-datatable-cell-template let-row&#x3D;&quot;row&quot; #nameTemplate&gt;
+        &lt;a [routerLink]&#x3D;&quot;[row.id]&quot;&gt;{{ row.name }}&lt;/a&gt;
+      &lt;/ng-template&gt;
+      &lt;!-- &lt;ng-template ngx-datatable-cell-template let-row&#x3D;&quot;row&quot; #checkboxTemplate&gt;
+        &lt;mat-checkbox (click)&#x3D;&quot;checkboxChecked(row)&quot;&gt;&lt;/mat-checkbox&gt;
+      &lt;/ng-template&gt; --&gt;
+    &lt;/ngx-datatable&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- manage data in parent component --&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./table-view.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">#table-view-container {
+  width: 100%;
+  #table-head {
+    padding: 5px 10px;
+    #controls,
+    #filters {
+      align-items: center;
+      justify-content: space-between;
+    }
+    .row {
+      gap: 5px;
+    }
+  }
+  #table-body {
+    height: 100%;
+  }
+  ngx-datatable {
+    width: 100%;
+    height: 100%;
+    span.sort-button {
+      text-align: right;
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div id="table-view-container" class="gray-border box-shadow">  <div id="table-head" class="lt-gray-background">    <div class="row space-between">      <h2 id="title">        {{ title }}      </h2>      <div class="row space-between">        <button          *ngIf="controls.refresh"          mat-icon-button          aria-label="button that refreshes data"          (click)="refreshResource()"        >          <mat-icon>refresh</mat-icon>        </button>        <ng-container *ngIf="controls.links">          <button            *ngFor="let link of controls.links"            mat-button            [routerLink]="[link.path]"          >            {{ link.text }}          </button>        </ng-container>        <button          mat-button          (click)="editResource()"          *ngIf="controls.edit && (\'update\' | able: selectedRow)"          [disabled]="!selectedRow"        >          {{ controls.edit.text }}        </button>        <mat-menu #menu class="mat-menu-dense">          <ng-container *ngFor="let item of controls.menu?.options">            <button              mat-menu-item              (click)="menuOption(item.action)"              *ngIf="item.permission | able: selectedRow"            >              {{ item.text }}            </button>          </ng-container>        </mat-menu>        <button          mat-flat-button          *ngIf="controls.menu"          [matMenuTriggerFor]="menu"          [disabled]="!selectedRow"        >          {{ controls.menu.text }} <mat-icon>expand_more</mat-icon>        </button>        <button          mat-flat-button          color="accent"          (click)="addResource()"          *ngIf="controls.add && (\'create\' | able: controls.resource)"        >          {{ controls.add.text }}        </button>        <ng-content select="[tableHeadControls]"> </ng-content>      </div>    </div>    <div class="row space-between">      <shared-search-filter        *ngIf="filters.searchField"        [config]="filters.searchField"        [rows]="rows"        (filterChanged)="searchFieldChanged($event)"      >      </shared-search-filter>      <div *ngIf="filters.toggleShared">        <mat-button-toggle-group          class="dense-button-toggle"          name="sharing"          aria-label=""          (change)="toggleSharing()"          [(ngModel)]="shareFilter"        >          <mat-button-toggle value="user">User</mat-button-toggle>          <mat-button-toggle value="org">{{            user?.orgId | organization          }}</mat-button-toggle>          <mat-button-toggle value="all">All</mat-button-toggle>        </mat-button-toggle-group>      </div>      <ng-content select="[tableHeadFilters]"> </ng-content>    </div>  </div>  <div id="table-body">    <ngx-datatable      #table      id="shared-data-table"      class="shared-view-table"      [ngClass]="resize ? \'half\' : \'full\'"      [rows]="tableRows"      [columns]="tableColumns"      [columnMode]="tableOptions.columnMode"      [selectionType]="tableOptions.selectionType"      [headerHeight]="tableOptions.headerHeight"      [footerHeight]="tableOptions.footerHeight"      [rowHeight]="tableOptions.rowHeight"      [limit]="tableOptions.limit"      [reorderable]="tableOptions.reorderable"      [scrollbarH]="tableOptions.scrollbarH"      [scrollbarV]="tableOptions.scrollbarV"      [sortType]="tableOptions.sortType"      [sorts]="tableOptions.sorts"      [messages]="tableOptions.messages"      (select)="onSelect($event)"      [selected]="selected"      [groupRowsBy]="tableOptions.groupRowsBy"      [groupExpansionDefault]="tableOptions.groupExpansionDefault"      [selectAllRowsOnPage]="tableOptions.selectAllRowsOnPage"      [virtualization]="tableOptions.virtualization"      [loadingIndicator]="isLoading"    >      <ngx-datatable-group-header [rowHeight]="50" *ngIf="groupHeaderTemplate">        <ng-template          let-group="group"          let-expanded="expanded"          ngx-datatable-group-header-template        >          <div            (click)="selectGroupHeader(group)"            class="group-header-container"            [ngClass]="selectedGroupKey === group.key ? \'active\' : \'\'"          >            <ng-container              [ngTemplateOutlet]="groupHeaderTemplate"              [ngTemplateOutletContext]="{ group: group, expanded: expanded }"            ></ng-container>          </div>        </ng-template>      </ngx-datatable-group-header>      <ngx-datatable-row-detail        #rowDetail        [rowHeight]="50"        *ngIf="rowDetailTemplate"      >        <ng-template let-row="row" ngx-datatable-row-detail-template>          <ng-container            [ngTemplateOutlet]="rowDetailTemplate"            [ngTemplateOutletContext]="{ row: row }"          ></ng-container>        </ng-template>      </ngx-datatable-row-detail>      <ngx-datatable-footer>        <ng-template          ngx-datatable-footer-template          let-selectedCount="selectedCount"          let-rowCount="rowCount"          let-pageSize="pageSize"          let-curPage="curPage"          let-offset="offset"        >          <ng-container *ngIf="!tableFooterTemplate">            <div></div>            <div>              Showing {{ tableRows?.length }} of {{ rows?.length }}              {{                tableOptions.footerLabel                  ? tableOptions.footerLabel                  : controls.resource + "s"              }}            </div>          </ng-container>          <ng-container            [ngTemplateOutlet]="tableFooterTemplate"            [ngTemplateOutletContext]="{              rowCount: rowCount,              selectedCount: selectedCount            }"          ></ng-container>        </ng-template>      </ngx-datatable-footer>      <ng-template ngx-datatable-cell-template let-row="row" #nameTemplate>        <a [routerLink]="[row.id]">{{ row.name }}</a>      </ng-template>      <!-- <ng-template ngx-datatable-cell-template let-row="row" #checkboxTemplate>        <mat-checkbox (click)="checkboxChecked(row)"></mat-checkbox>      </ng-template> -->    </ngx-datatable>  </div></div><!-- manage data in parent component --></div>'
+    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SnackbarComponent', 'selector': 'shared-snackbar'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
+    var DIRECTIVES = [{'name': 'LoadingDirective', 'selector': '[appIsLoading]'},{'name': 'WidgetTypeDirective', 'selector': '[widgetContainer]'},{'name': 'WidgetTypeExampleDirective', 'selector': '[appWidgetTypeExample]'}];
+    var ACTUAL_COMPONENT = {'name': 'TableViewComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'TableViewComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

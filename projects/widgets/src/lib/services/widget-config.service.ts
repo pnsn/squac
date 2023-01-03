@@ -21,7 +21,10 @@ import {
   TooltipComponentFormatterCallbackParams,
 } from "echarts";
 
-//used to take widget data and transform to different formas
+/**
+ * Service to configure widgets
+ * Consider refactoring
+ */
 @Injectable()
 export class WidgetConfigService {
   readonly defaultPrecision = 4;
@@ -115,7 +118,7 @@ export class WidgetConfigService {
         moveOnMouseWheel: true,
         zoomOnMouseWheel: false,
         orient: "vertical",
-        filterMode: "filter",
+        filterMode: "none",
       },
       {
         type: "slider",
@@ -128,6 +131,7 @@ export class WidgetConfigService {
         bottom: 10,
         right: 20,
         xAxisIndex: [0, 1],
+        filterMode: "none",
       },
       {
         type: "slider",
@@ -138,13 +142,18 @@ export class WidgetConfigService {
         moveHandleSize: 10,
         showDetail: false,
         width: 15,
+        filterMode: "none",
       },
     ],
   };
 
-  // add new options onto defaults
-  // shallow copy
-  chartOptions(options): EChartsOption {
+  /**
+   * Copy new options onto defaults
+   *
+   * @param options - options to add
+   * @returns combined options
+   */
+  chartOptions(options: EChartsOption): EChartsOption {
     const newOptions = { ...this.chartDefaults };
 
     Object.keys(options).forEach((key) => {
@@ -165,6 +174,14 @@ export class WidgetConfigService {
   }
 
   //can use this.thresholds or another metric to color?
+  /**
+   * Creates visual maps for each metric using the widget properties
+   *
+   * @param metrics - metrics
+   * @param properties - widget properties
+   * @param dimension - series dimension
+   * @returns - visual maps
+   */
   getVisualMapFromThresholds(
     metrics: Metric[],
     properties: WidgetProperties,
@@ -278,6 +295,16 @@ export class WidgetConfigService {
     return visualMaps;
   }
 
+  /**
+   * Creates visual map pieces
+   *
+   * @param min - min value for map
+   * @param max - max value for map
+   * @param numSplits - number of pieces
+   * @param inColors - colors for in
+   * @param outColor - colors for out
+   * @returns array of pieces for visual map
+   */
   private getPieces(
     min: number,
     max: number,
@@ -347,7 +374,13 @@ export class WidgetConfigService {
     return pieces;
   }
 
-  // return if value is inrange
+  /**
+   * Checks if value is inside of range for visual map
+   *
+   * @param value number to check
+   * @param visualMap visual map to check
+   * @returns true if value is in range
+   */
   checkValue(value: number, visualMap: VisualMapTypes): boolean {
     let hasMin: boolean;
     let hasMax: boolean;
@@ -364,7 +397,15 @@ export class WidgetConfigService {
     return hasMin && hasMax;
   }
 
-  // find color corresponding to value
+  /**
+   * Find color that corresponds to the correct value
+   *
+   * @param value value to check
+   * @param visualMap visual map to use
+   * @param _dataMin min value of the data
+   * @param _dataMax max value of the data
+   * @returns color string
+   */
   getColorFromValue(
     value: number,
     visualMap: VisualMapTypes,
@@ -420,6 +461,15 @@ export class WidgetConfigService {
 
   //series for data with no time and multiple metrics
   // parallel and scatter
+  /**
+   * Creates echarts series for parallel and scatter charts
+   *
+   * @param metrics metrics to use
+   * @param channels channels to use
+   * @param data data
+   * @param series initial series data
+   * @returns processed series config
+   */
   getSeriesForMultipleMetrics(
     metrics: Metric[],
     channels: Channel[],
@@ -502,6 +552,12 @@ export class WidgetConfigService {
 
   // channel & list of metric values
   // used for scatter, parallel etc
+  /**
+   * Formats tooltips for multiple metric charts
+   *
+   * @param params toolip component callback params
+   * @returns html string for tooltip
+   */
   multiMetricTooltipFormatting(
     params: TooltipComponentFormatterCallbackParams
   ): string {
@@ -528,7 +584,12 @@ export class WidgetConfigService {
     return str;
   }
 
-  // tooltips for time x axis
+  /**
+   * Tooltip formatter for chart with time x axis
+   *
+   * @param params tooltip formatter params
+   * @returns html string for tooltip
+   */
   timeAxisFormatToolTip(
     params: Partial<TooltipComponentFormatterCallbackParams>
   ): string {
@@ -556,7 +617,12 @@ export class WidgetConfigService {
     return str;
   }
 
-  // label formatting for time axis ticks
+  /**
+   * Label formatting for x axis
+   *
+   * @param val unformatted string date
+   * @returns formatted date string
+   */
   timeAxisTickFormatting(val: string): string {
     const value = new Date(val);
     let formatOptions;
@@ -588,12 +654,15 @@ export class WidgetConfigService {
     return string;
   }
 
-  // label formatting for time axis pointer label
+  /**
+   * Hover pointer for time axis
+   *
+   * @param val - params for label
+   * @returns formatted label string
+   */
   timeAxisPointerLabelFormatting(val: LabelFormatterParams): string {
     const value = new Date(val.value);
-    let formatOptions = {};
-    formatOptions = {
-      //have to reassign it this way or linter won't allow it set
+    const formatOptions: Intl.DateTimeFormatOptions = {
       second: "2-digit",
       minute: "2-digit",
       hour: "2-digit",
@@ -610,12 +679,5 @@ export class WidgetConfigService {
       return string;
     }
     return "";
-  }
-
-  //calculate y axis position to prevent overlap
-  yAxisLabelPosition(min: number, max: number): number {
-    const minLen = (Math.round(min * 10) / 10).toString().length;
-    const maxLen = (Math.round(max * 10) / 10).toString().length;
-    return Math.min(Math.max(minLen, maxLen) * 9, 50);
   }
 }

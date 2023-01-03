@@ -1,0 +1,2172 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>squac documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">squac documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  ChannelGroupMapComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Shared map for channels</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>channel-group-map</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./channel-group-map.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./channel-group-map.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#drawnItems" >drawnItems</a>
+                            </li>
+                            <li>
+                                <a href="#drawOptions" >drawOptions</a>
+                            </li>
+                            <li>
+                                <a href="#fitBounds" >fitBounds</a>
+                            </li>
+                            <li>
+                                <a href="#lastZoom" >lastZoom</a>
+                            </li>
+                            <li>
+                                <a href="#layers" >layers</a>
+                            </li>
+                            <li>
+                                <a href="#legend" >legend</a>
+                            </li>
+                            <li>
+                                <a href="#map" >map</a>
+                            </li>
+                            <li>
+                                <a href="#options" >options</a>
+                            </li>
+                            <li>
+                                <a href="#rectLayer" >rectLayer</a>
+                            </li>
+                            <li>
+                                <a href="#stationLayer" >stationLayer</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#getBoundsFromRectangle" >getBoundsFromRectangle</a>
+                            </li>
+                            <li>
+                                <a href="#initMap" >initMap</a>
+                            </li>
+                            <li>
+                                <a href="#makeMarker" >makeMarker</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onDrawStart" >onDrawStart</a>
+                            </li>
+                            <li>
+                                <a href="#onMapReady" >onMapReady</a>
+                            </li>
+                            <li>
+                                <a href="#onRectangleCreated" >onRectangleCreated</a>
+                            </li>
+                            <li>
+                                <a href="#onRectangleDeleted" >onRectangleDeleted</a>
+                            </li>
+                            <li>
+                                <a href="#onRectangleEdited" >onRectangleEdited</a>
+                            </li>
+                            <li>
+                                <a href="#onZoomEnd" >onZoomEnd</a>
+                            </li>
+                            <li>
+                                <a href="#selectChannels" >selectChannels</a>
+                            </li>
+                            <li>
+                                <a href="#updateMap" >updateMap</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#autoExcludeChannels" >autoExcludeChannels</a>
+                            </li>
+                            <li>
+                                <a href="#autoIncludeChannels" >autoIncludeChannels</a>
+                            </li>
+                            <li>
+                                <a href="#editPage" >editPage</a>
+                            </li>
+                            <li>
+                                <a href="#searchedChannels" >searchedChannels</a>
+                            </li>
+                            <li>
+                                <a href="#selectedChannels" >selectedChannels</a>
+                            </li>
+                            <li>
+                                <a href="#showChannel" >showChannel</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#boundsChange" >boundsChange</a>
+                            </li>
+                            <li>
+                                <a href="#showChannelChange" >showChannelChange</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(zone: <a href="https://angular.io/api/core/NgZone" target="_blank">NgZone</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:47</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>zone</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/NgZone" target="_blank" >NgZone</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="autoExcludeChannels"></a>
+                        <b>autoExcludeChannels</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Channel.html" target="_self" >Channel[]</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:25</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="autoIncludeChannels"></a>
+                        <b>autoIncludeChannels</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Channel.html" target="_self" >Channel[]</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:26</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="editPage"></a>
+                        <b>editPage</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:28</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="searchedChannels"></a>
+                        <b>searchedChannels</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Channel.html" target="_self" >Channel[]</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:24</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectedChannels"></a>
+                        <b>selectedChannels</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Channel.html" target="_self" >Channel[]</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:27</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showChannel"></a>
+                        <b>showChannel</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Channel.html" target="_self" >Channel</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:29</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="boundsChange"></a>
+                        <b>boundsChange</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:31</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showChannelChange"></a>
+                        <b>showChannelChange</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:30</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getBoundsFromRectangle"></a>
+                    <span class="name">
+                        <span ><b>getBoundsFromRectangle</b></span>
+                        <a href="#getBoundsFromRectangle"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getBoundsFromRectangle()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="404"
+                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:404</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get bounds from leaflet rectangle and emit results</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initMap"></a>
+                    <span class="name">
+                        <span ><b>initMap</b></span>
+                        <a href="#initMap"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initMap()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="80"
+                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:80</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Set up leaflet map</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="makeMarker"></a>
+                    <span class="name">
+                        <span ><b>makeMarker</b></span>
+                        <a href="#makeMarker"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>makeMarker(station: <a href="../interfaces/MapStation.html" target="_self">MapStation</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="319"
+                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:319</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Make leaflet markes for station</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>station</td>
+                                    <td>
+                                                <code><a href="../interfaces/MapStation.html" target="_self" >MapStation</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>station</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>L.Marker</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>leaflet marker</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <span ><b>ngOnChanges</b></span>
+                        <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: <a href="https://angular.io/api/core/SimpleChanges" target="_blank">SimpleChanges</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="63"
+                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:63</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Listen to channel changes</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>changes</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/core/SimpleChanges" target="_blank" >SimpleChanges</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>input changes</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:54</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>init</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onDrawStart"></a>
+                    <span class="name">
+                        <span ><b>onDrawStart</b></span>
+                        <a href="#onDrawStart"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onDrawStart()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="396"
+                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:396</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Clear old drawn items</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onMapReady"></a>
+                    <span class="name">
+                        <span ><b>onMapReady</b></span>
+                        <a href="#onMapReady"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onMapReady(map: L.Map)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="134"
+                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:134</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>leaflet event for when map has loaded
+can save map and init things on map now</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>map</td>
+                                    <td>
+                                            <code>L.Map</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>leaflet map reference</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onRectangleCreated"></a>
+                    <span class="name">
+                        <span ><b>onRectangleCreated</b></span>
+                        <a href="#onRectangleCreated"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onRectangleCreated(e: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="421"
+                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:421</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Emit newly drawn bounds</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>e</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>draw event</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onRectangleDeleted"></a>
+                    <span class="name">
+                        <span ><b>onRectangleDeleted</b></span>
+                        <a href="#onRectangleDeleted"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onRectangleDeleted()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="438"
+                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:438</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Clear bounds when rectangle deleted</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onRectangleEdited"></a>
+                    <span class="name">
+                        <span ><b>onRectangleEdited</b></span>
+                        <a href="#onRectangleEdited"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onRectangleEdited()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="431"
+                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:431</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Listen to rectangle edit and change bounds</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onZoomEnd"></a>
+                    <span class="name">
+                        <span ><b>onZoomEnd</b></span>
+                        <a href="#onZoomEnd"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onZoomEnd()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="385"
+                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:385</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>After zoom triggers, if user changed bounds
+don&#39;t override, otherwise reset</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectChannels"></a>
+                    <span class="name">
+                        <span ><b>selectChannels</b></span>
+                        <a href="#selectChannels"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>selectChannels(channel: <a href="../classes/Channel.html" target="_self">Channel</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="149"
+                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:149</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Find station using channel nslc and show when
+channel is selected</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>channel</td>
+                                    <td>
+                                                <code><a href="../classes/Channel.html" target="_self" >Channel</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>selected channel</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateMap"></a>
+                    <span class="name">
+                        <span ><b>updateMap</b></span>
+                        <a href="#updateMap"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateMap(showChannel: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="171"
+                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:171</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Create channel markers for each station</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>showChannel</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>true if there is a channel selected</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawnItems"></a>
+                    <span class="name">
+                        <span ><b>drawnItems</b></span>
+                        <a href="#drawnItems"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>L.FeatureGroup</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:35</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawOptions"></a>
+                    <span class="name">
+                        <span ><b>drawOptions</b></span>
+                        <a href="#drawOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Record&lt;string | &gt;</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:42</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fitBounds"></a>
+                    <span class="name">
+                        <span ><b>fitBounds</b></span>
+                        <a href="#fitBounds"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>L.LatLngBounds</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="lastZoom"></a>
+                    <span class="name">
+                        <span ><b>lastZoom</b></span>
+                        <a href="#lastZoom"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="layers"></a>
+                    <span class="name">
+                        <span ><b>layers</b></span>
+                        <a href="#layers"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>L.Layer[]</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:43</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="legend"></a>
+                    <span class="name">
+                        <span ><b>legend</b></span>
+                        <a href="#legend"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>L.Control</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="map"></a>
+                    <span class="name">
+                        <span ><b>map</b></span>
+                        <a href="#map"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>L.Map</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="options"></a>
+                    <span class="name">
+                        <span ><b>options</b></span>
+                        <a href="#options"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>literal type</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:36</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="rectLayer"></a>
+                    <span class="name">
+                        <span ><b>rectLayer</b></span>
+                        <a href="#rectLayer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stationLayer"></a>
+                    <span class="name">
+                        <span ><b>stationLayer</b></span>
+                        <a href="#stationLayer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>L.FeatureGroup</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-map/channel-group-map.component.ts:34</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  Input,
+  OnChanges,
+  Output,
+  EventEmitter,
+  OnInit,
+  SimpleChanges,
+  NgZone,
+} from &quot;@angular/core&quot;;
+import { Channel } from &quot;squacapi&quot;;
+import * as L from &quot;leaflet&quot;;
+import { MapBounds, MapStation } from &quot;./interfaces&quot;;
+
+/**
+ * Shared map for channels
+ */
+@Component({
+  selector: &quot;channel-group-map&quot;,
+  templateUrl: &quot;./channel-group-map.component.html&quot;,
+  styleUrls: [&quot;./channel-group-map.component.scss&quot;],
+})
+export class ChannelGroupMapComponent implements OnInit, OnChanges {
+  @Input() searchedChannels: Channel[]; // channels already in group
+  @Input() autoExcludeChannels: Channel[];
+  @Input() autoIncludeChannels: Channel[];
+  @Input() selectedChannels: Channel[]; // channels selected
+  @Input() editPage: boolean; //is used on edit page or not
+  @Input() showChannel: Channel; // channel to show
+  @Output() showChannelChange &#x3D; new EventEmitter&lt;any&gt;(); //channel to show changed
+  @Output() boundsChange &#x3D; new EventEmitter&lt;MapBounds&gt;(); // in html (boundsChange)&#x3D;&quot;updateBounds($event)&quot;
+
+  //leaflet stuff
+  stationLayer: L.FeatureGroup;
+  drawnItems: L.FeatureGroup;
+  options: {
+    center: L.LatLng;
+    zoom: number;
+    layers: L.Layer[];
+  };
+  legend: L.Control;
+  drawOptions: Record&lt;string, unknown&gt;;
+  layers: L.Layer[];
+  fitBounds: L.LatLngBounds;
+  rectLayer: any;
+  map: L.Map;
+  lastZoom &#x3D; null;
+
+  constructor(private zone: NgZone) {}
+
+  /**
+   * init
+   */
+  ngOnInit(): void {
+    this.initMap();
+  }
+
+  /**
+   * Listen to channel changes
+   *
+   * @param changes input changes
+   */
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      changes[&quot;selectedChannels&quot;] ||
+      changes[&quot;autoIncludeChannels&quot;] ||
+      changes[&quot;autoExcludeChannels&quot;] ||
+      changes[&quot;searchedChannels&quot;]
+    ) {
+      this.updateMap(!!changes[&quot;showChannel&quot;]);
+    }
+    if (!changes[&quot;selectedChannels&quot;] &amp;&amp; changes[&quot;selectedChannels&quot;]) {
+      this.selectChannels(this.showChannel);
+    }
+  }
+
+  /**
+   * Set up leaflet map
+   */
+  initMap(): void {
+    // Setup the groups for map markers and the drawn square
+    this.stationLayer &#x3D; new L.FeatureGroup();
+    this.drawnItems &#x3D; new L.FeatureGroup();
+
+    this.legend &#x3D; new L.Control({
+      position: &quot;bottomleft&quot;,
+    });
+
+    // Add all the layers to the array that will be fed to options
+    this.layers &#x3D; [
+      L.tileLayer(&quot;https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&quot;, {
+        attribution:
+          &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://www.openstreetmap.org/copyright&quot;&gt;OpenStreetMap&lt;/a&gt;&#x27;,
+      }),
+      this.drawnItems,
+      this.stationLayer,
+    ];
+
+    const legend &#x3D; L.DomUtil.get(&quot;legend&quot;);
+    this.legend.onAdd &#x3D; (): any &#x3D;&gt; {
+      return legend;
+    };
+
+    // Giving options before view is initialized seemed to be causing issues with the map, so for init just fed it undefineds
+    this.options &#x3D; {
+      center: L.latLng(0, 0),
+      zoom: 5,
+      layers: this.layers,
+    };
+
+    // Options for the drawing menu
+    this.drawOptions &#x3D; {
+      position: &quot;topright&quot;,
+      draw: {
+        polygon: false,
+        polyline: false,
+        rectangle: {
+          showArea: false, // disable showArea
+        },
+        circle: false,
+        circlemarker: false,
+        marker: false,
+      },
+      edit: { featureGroup: this.drawnItems },
+    };
+  }
+
+  /**
+   * leaflet event for when map has loaded
+   * can save map and init things on map now
+   *
+   * @param map leaflet map reference
+   */
+  onMapReady(map: L.Map): void {
+    this.map &#x3D; map;
+    this.legend.addTo(this.map);
+    setTimeout(() &#x3D;&gt; {
+      this.map.invalidateSize();
+      this.updateMap(false);
+    }, 0);
+  }
+
+  /**
+   * Find station using channel nslc and show when
+   * channel is selected
+   *
+   * @param channel selected channel
+   */
+  selectChannels(channel: Channel): void {
+    if (channel) {
+      let stationMarker;
+      this.stationLayer.eachLayer((layer: any) &#x3D;&gt; {
+        if (layer.options.title &#x3D;&#x3D;&#x3D; channel.staCode) {
+          stationMarker &#x3D; layer;
+        }
+
+        // layer.title &#x3D;&#x3D;&#x3D; channel.nslc;
+      });
+      if (stationMarker) {
+        stationMarker.openPopup();
+      }
+    }
+  }
+
+  //TODO: too many iterations over similar groups
+  /**
+   * Create channel markers for each station
+   *
+   * @param showChannel true if there is a channel selected
+   */
+  updateMap(showChannel: boolean): void {
+    const stations: MapStation[] &#x3D; [];
+    if (this.stationLayer) {
+      this.layers.pop();
+      const stationMarkers &#x3D; []; // Marker array
+
+      this.searchedChannels?.forEach((channel) &#x3D;&gt; {
+        let station &#x3D; stations.find((s) &#x3D;&gt; {
+          return s.code &#x3D;&#x3D;&#x3D; channel.staCode;
+        });
+
+        if (!station) {
+          // make station if there isn&#x27;t one yet
+          station &#x3D; {
+            code: channel.staCode,
+            lat: channel.lat,
+            lon: channel.lon,
+            autoIncludeChannels: [],
+            autoExcludeChannels: [],
+            selectedChannels: [],
+            searchedChannels: [],
+          };
+          stations.push(station);
+        }
+
+        station.searchedChannels.push(channel);
+      });
+
+      this.autoIncludeChannels?.forEach((channel) &#x3D;&gt; {
+        let station &#x3D; stations.find((s) &#x3D;&gt; {
+          return s.code &#x3D;&#x3D;&#x3D; channel.staCode;
+        });
+
+        if (!station) {
+          // make station if there isn&#x27;t one yet
+          station &#x3D; {
+            code: channel.staCode,
+            lat: channel.lat,
+            lon: channel.lon,
+            autoIncludeChannels: [],
+            autoExcludeChannels: [],
+            selectedChannels: [],
+            searchedChannels: [],
+          };
+          stations.push(station);
+        }
+
+        station.autoIncludeChannels.push(channel);
+      });
+
+      this.autoExcludeChannels?.forEach((channel) &#x3D;&gt; {
+        let station &#x3D; stations.find((s) &#x3D;&gt; {
+          return s.code &#x3D;&#x3D;&#x3D; channel.staCode;
+        });
+
+        if (!station) {
+          // make station if there isn&#x27;t one yet
+          station &#x3D; {
+            code: channel.staCode,
+            lat: channel.lat,
+            lon: channel.lon,
+            autoIncludeChannels: [],
+            autoExcludeChannels: [],
+            selectedChannels: [],
+            searchedChannels: [],
+          };
+          stations.push(station);
+        }
+
+        station.autoExcludeChannels.push(channel);
+      });
+
+      this.selectedChannels?.forEach((channel) &#x3D;&gt; {
+        let station &#x3D; stations.find((s) &#x3D;&gt; {
+          return s.code &#x3D;&#x3D;&#x3D; channel.staCode;
+        });
+
+        if (!station) {
+          station &#x3D; {
+            code: channel.staCode,
+            lat: channel.lat,
+            lon: channel.lon,
+            autoIncludeChannels: [],
+            autoExcludeChannels: [],
+            selectedChannels: [],
+            searchedChannels: [],
+          };
+          stations.push(station);
+        }
+
+        // check if station is already in the group
+        const includeIndex &#x3D; station.autoIncludeChannels.findIndex(
+          (c) &#x3D;&gt; c.id &#x3D;&#x3D;&#x3D; channel.id
+        );
+
+        const excludeIndex &#x3D; station.autoExcludeChannels.findIndex(
+          (c) &#x3D;&gt; c.id &#x3D;&#x3D;&#x3D; channel.id
+        );
+
+        if (includeIndex &gt; -1) {
+          //remove channel from ingroups to stop duplicates
+          station.autoIncludeChannels.splice(includeIndex, 1);
+        }
+
+        if (excludeIndex &gt; -1) {
+          station.autoExcludeChannels.splice(includeIndex, 1);
+        }
+
+        station.selectedChannels.push(channel);
+      });
+
+      //make marker for each station
+      stations.forEach((station) &#x3D;&gt; {
+        const marker &#x3D; this.makeMarker(station);
+        stationMarkers.push(marker);
+      });
+
+      // create layer from markers
+      this.stationLayer &#x3D; L.featureGroup(stationMarkers);
+      this.layers.push(this.stationLayer);
+
+      // only reset map zoom &amp; bounds if user hasn&#x27;t yet
+      if (!this.lastZoom || this.lastZoom !&#x3D;&#x3D; &quot;user&quot;) {
+        try {
+          // adjust bounds to fit stations
+          const bounds &#x3D; this.stationLayer.getBounds();
+          this.map.fitBounds(bounds, {
+            padding: [11, 11],
+          });
+        } catch {
+          this.map.setZoom(1);
+        }
+        this.lastZoom &#x3D; &quot;auto&quot;;
+      }
+
+      // show selected channel
+      if (showChannel) {
+        this.selectChannels(this.showChannel);
+      }
+    }
+  }
+
+  /**
+   * Make leaflet markes for station
+   *
+   * @param station station
+   * @returns leaflet marker
+   */
+  makeMarker(station: MapStation): L.Marker {
+    let selectedChannelString &#x3D; &quot;&quot;;
+    let inGroupChannelString &#x3D; &quot;&quot;;
+    station.searchedChannels.forEach((channel: Channel) &#x3D;&gt; {
+      inGroupChannelString +&#x3D;
+        &quot;&lt;div&gt; &lt;div class&#x3D;&#x27;searched-channels map-icon&#x27;&gt;&lt;/div&gt;&quot; +
+        channel.nslc +
+        &quot;&lt;/div&gt;&quot;;
+    });
+
+    station.autoIncludeChannels.forEach((channel: Channel) &#x3D;&gt; {
+      inGroupChannelString +&#x3D;
+        &quot;&lt;div&gt; &lt;div class&#x3D;&#x27;included-channels map-icon&#x27;&gt;&lt;/div&gt;&quot; +
+        channel.nslc +
+        &quot;&lt;/div&gt;&quot;;
+    });
+    station.autoExcludeChannels.forEach((channel: Channel) &#x3D;&gt; {
+      inGroupChannelString +&#x3D;
+        &quot;&lt;div&gt; &lt;div class&#x3D;&#x27;excluded-channels map-icon&#x27;&gt;&lt;/div&gt;&quot; +
+        channel.nslc +
+        &quot;&lt;/div&gt;&quot;;
+    });
+    station.selectedChannels.forEach((channel: Channel) &#x3D;&gt; {
+      selectedChannelString +&#x3D;
+        &quot;&lt;div&gt; &lt;div class&#x3D;&#x27;new-channels map-icon&#x27;&gt;&lt;/div&gt;&quot; +
+        channel.nslc +
+        &quot;&lt;/div&gt;&quot;;
+    });
+
+    let className &#x3D; &quot;&quot;;
+
+    if (station.searchedChannels.length !&#x3D;&#x3D; 0) {
+      className &#x3D; &quot;searched-channels&quot;;
+    }
+
+    if (station.autoIncludeChannels.length !&#x3D;&#x3D; 0) {
+      className &#x3D; &quot;included-channels&quot;;
+    }
+    if (station.autoExcludeChannels.length !&#x3D;&#x3D; 0) {
+      className &#x3D; &quot;excluded-channels&quot;;
+    }
+    if (station.selectedChannels.length !&#x3D;&#x3D; 0) {
+      className &#x3D; &quot;new-channels&quot;;
+    }
+
+    const popup &#x3D; &#x60;&lt;h4&gt; ${station.code} &lt;/h4&gt; &lt;div class&#x3D;&#x27;channel-list&#x27;&gt;${selectedChannelString}&lt;/div&gt; &lt;div class&#x3D;&#x27;channel-list&#x27;&gt;${inGroupChannelString} &lt;/div&gt;&#x60;;
+    const marker &#x3D; L.marker([station.lat, station.lon], {
+      icon: L.divIcon({ className: className }),
+      title: station.code,
+    }).bindPopup(popup);
+
+    marker.on(&quot;click&quot;, (ev) &#x3D;&gt; {
+      ev.target.openPopup();
+      this.zone.run(() &#x3D;&gt; {
+        //ToDO: need to actually select channels
+        this.showChannelChange.emit(station);
+      });
+    });
+
+    return marker;
+  }
+
+  /**
+   * After zoom triggers, if user changed bounds
+   * don&#x27;t override, otherwise reset
+   */
+  onZoomEnd(): void {
+    if (this.lastZoom &#x3D;&#x3D;&#x3D; &quot;auto&quot;) {
+      this.lastZoom &#x3D; null;
+    } else {
+      this.lastZoom &#x3D; &quot;user&quot;;
+    }
+  }
+
+  /**
+   * Clear old drawn items
+   */
+  onDrawStart(): void {
+    this.drawnItems.clearLayers();
+    // this.boundsChange.emit(&quot;&quot;);
+  }
+
+  /**
+   * Get bounds from leaflet rectangle and emit results
+   */
+  getBoundsFromRectangle(): void {
+    const rectangleNE &#x3D; this.rectLayer._bounds._northEast; // Northeast corner lat lng
+    const rectangleSW &#x3D; this.rectLayer._bounds._southWest; // Southwest corner lat lng
+    const bounds: MapBounds &#x3D; {
+      latMax: rectangleNE.lat,
+      latMin: rectangleSW.lat,
+      lonMin: rectangleSW.lng,
+      lonMax: rectangleNE.lng,
+    };
+    this.boundsChange.emit(bounds);
+  }
+
+  /**
+   * Emit newly drawn bounds
+   *
+   * @param e draw event
+   */
+  onRectangleCreated(e: any): void {
+    this.rectLayer &#x3D; e.layer;
+    this.drawnItems.addLayer((e as L.DrawEvents.Created).layer);
+
+    this.getBoundsFromRectangle();
+  }
+
+  /**
+   * Listen to rectangle edit and change bounds
+   */
+  onRectangleEdited(): void {
+    this.getBoundsFromRectangle();
+  }
+
+  /**
+   * Clear bounds when rectangle deleted
+   */
+  onRectangleDeleted(): void {
+    this.boundsChange.emit(); // Clear old bounds
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div
+  id&#x3D;&quot;map&quot;
+  [ngClass]&#x3D;&quot;{ &#x27;edit-map&#x27;: editPage, &#x27;view-map&#x27;: !editPage }&quot;
+  leaflet
+  [leafletOptions]&#x3D;&quot;options&quot;
+  [leafletLayers]&#x3D;&quot;layers&quot;
+  (leafletMapReady)&#x3D;&quot;onMapReady($event)&quot;
+  (leafletMapZoomEnd)&#x3D;&quot;onZoomEnd()&quot;
+&gt;
+  &lt;div
+    *ngIf&#x3D;&quot;editPage&quot;
+    leafletDraw
+    [leafletDrawOptions]&#x3D;&quot;drawOptions&quot;
+    (leafletDrawStart)&#x3D;&quot;onDrawStart()&quot;
+    (leafletDrawCreated)&#x3D;&quot;onRectangleCreated($event)&quot;
+    (leafletDrawEdited)&#x3D;&quot;onRectangleEdited()&quot;
+    (leafletDrawDeleted)&#x3D;&quot;onRectangleDeleted()&quot;
+  &gt;&lt;/div&gt;
+  &lt;div id&#x3D;&quot;legend&quot; class&#x3D;&quot;leaflet-custom-control&quot;&gt;
+    &lt;div class&#x3D;&quot;channel-list&quot; *ngIf&#x3D;&quot;!editPage&quot;&gt;
+      &lt;div class&#x3D;&quot;included-channels&quot;&gt;&lt;/div&gt;
+      &lt;span&gt;Channels&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;channel-list&quot; *ngIf&#x3D;&quot;editPage&quot;&gt;
+      &lt;div class&#x3D;&quot;included-channels&quot;&gt;&lt;/div&gt;
+      &lt;span&gt;Included&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;channel-list&quot; *ngIf&#x3D;&quot;editPage&quot;&gt;
+      &lt;div class&#x3D;&quot;excluded-channels&quot;&gt;&lt;/div&gt;
+      &lt;span&gt;Excluded&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;channel-list&quot; *ngIf&#x3D;&quot;editPage&quot;&gt;
+      &lt;div class&#x3D;&quot;searched-channels&quot;&gt;&lt;/div&gt;
+      &lt;span&gt;Not Selected&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;channel-list&quot;&gt;
+      &lt;div class&#x3D;&quot;new-channels&quot;&gt;&lt;/div&gt;
+      &lt;span&gt;Selected&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./channel-group-map.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &quot;variables&quot;;
+#map {
+  height: 100%;
+  width: 100%;
+  min-height: 200px;
+  min-width: 200px;
+}
+
+.map-icon {
+  height: 9px !important;
+  width: 9px !important;
+  border-radius: 50%;
+  border: 1px solid black;
+}
+
+:host ::ng-deep .original-channels {
+  @extend .map-icon;
+  background-color: $sq-yellow !important;
+}
+:host ::ng-deep .searched-channels {
+  @extend .map-icon;
+  background-color: white !important;
+}
+
+:host ::ng-deep .new-channels {
+  @extend .map-icon;
+  background-color: $sq-blue !important;
+}
+:host ::ng-deep .included-channels {
+  @extend .map-icon;
+  background-color: $sq-yellow !important;
+}
+:host ::ng-deep .excluded-channels {
+  @extend .map-icon;
+  background-color: $sq-gray !important;
+}
+
+.channel-list {
+  div.map-icon {
+    display: inline-block;
+    margin-right: 3px;
+  }
+}
+
+span {
+  padding-left: 5px;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div  id="map"  [ngClass]="{ \'edit-map\': editPage, \'view-map\': !editPage }"  leaflet  [leafletOptions]="options"  [leafletLayers]="layers"  (leafletMapReady)="onMapReady($event)"  (leafletMapZoomEnd)="onZoomEnd()">  <div    *ngIf="editPage"    leafletDraw    [leafletDrawOptions]="drawOptions"    (leafletDrawStart)="onDrawStart()"    (leafletDrawCreated)="onRectangleCreated($event)"    (leafletDrawEdited)="onRectangleEdited()"    (leafletDrawDeleted)="onRectangleDeleted()"  ></div>  <div id="legend" class="leaflet-custom-control">    <div class="channel-list" *ngIf="!editPage">      <div class="included-channels"></div>      <span>Channels</span>    </div>    <div class="channel-list" *ngIf="editPage">      <div class="included-channels"></div>      <span>Included</span>    </div>    <div class="channel-list" *ngIf="editPage">      <div class="excluded-channels"></div>      <span>Excluded</span>    </div>    <div class="channel-list" *ngIf="editPage">      <div class="searched-channels"></div>      <span>Not Selected</span>    </div>    <div class="channel-list">      <div class="new-channels"></div>      <span>Selected</span>    </div>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SnackbarComponent', 'selector': 'shared-snackbar'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
+    var DIRECTIVES = [{'name': 'LoadingDirective', 'selector': '[appIsLoading]'},{'name': 'WidgetTypeDirective', 'selector': '[widgetContainer]'},{'name': 'WidgetTypeExampleDirective', 'selector': '[appWidgetTypeExample]'}];
+    var ACTUAL_COMPONENT = {'name': 'ChannelGroupMapComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'ChannelGroupMapComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

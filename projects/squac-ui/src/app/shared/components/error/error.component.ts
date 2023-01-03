@@ -1,5 +1,6 @@
 import { Component, Input } from "@angular/core";
 
+/** Component for displaying error messages */
 @Component({
   selector: "shared-error",
   template:
@@ -7,5 +8,5 @@ import { Component, Input } from "@angular/core";
   styleUrls: ["./error.component.scss"],
 })
 export class ErrorComponent {
-  @Input() errorMsg: string;
+  @Input() errorMsg: string; //message to display
 }

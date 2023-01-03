@@ -1,5 +1,8 @@
 import { Component } from "@angular/core";
 
+/**
+ * User Container
+ */
 @Component({
   selector: "user-main",
   template:

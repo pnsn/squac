@@ -2,7 +2,9 @@ import { Injectable } from "@angular/core";
 import { UserGroup } from "@pnsn/ngx-squacapi-client";
 import { Adapter, ReadUser, WriteUser } from "../interfaces";
 
-// Describes a user object
+/**
+ * Describes a user object
+ */
 export class User {
   constructor(
     public id: number,
@@ -29,23 +31,39 @@ export class User {
   isActive: boolean;
   groups: string[];
 
+  /**
+   * @returns true if user is staff
+   */
   get isStaff(): boolean {
     return this.squacAdmin ? this.squacAdmin : false;
   }
 
+  /**
+   * @returns true if user is an org admin
+   */
   get isAdmin(): boolean {
     return this.orgAdmin; // or is an admin of the current group?
   }
 
+  /**
+   * Checks if user is in the given group
+   *
+   * @param group group to test
+   * @returns true if user is in the group
+   */
   inGroup(group: string): boolean {
     return this.groups ? this.groups.indexOf(group) >= 0 : false;
   }
 
+  /**
+   * @returns model name
+   */
   static get modelName(): string {
     return "User";
   }
 }
 
+/** Adapt user model */
 @Injectable({
   providedIn: "root",
 })
@@ -58,6 +76,7 @@ export class UserAdapter implements Adapter<User, ReadUser, WriteUser> {
     { id: 4, name: "admin" },
   ];
 
+  /** @override */
   adaptFromApi(item: ReadUser): User {
     const groups = [];
     if ("groups" in item) {
@@ -94,6 +113,7 @@ export class UserAdapter implements Adapter<User, ReadUser, WriteUser> {
     return user;
   }
 
+  /** @override */
   adaptToApi(item: User): WriteUser {
     const groups = item.groups.map((g) => {
       const group = this.groupIds.find((groupId) => groupId.name === g);

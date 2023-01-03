@@ -8,8 +8,9 @@ import {
 import { Channel } from "../models";
 import { ChannelAdapter } from "../models/channel";
 
-// Describes a channel group object
-
+/**
+ * Describes a channel group object
+ */
 export class ChannelGroup {
   id?: number;
   owner?: number;
@@ -23,35 +24,41 @@ export class ChannelGroup {
   // which is why i've got these instead of channels.length
   channelsCount? = 0;
 
-  channels?: (Channel | number)[];
-  autoIncludeChannels?: (Channel | number)[];
-  autoExcludeChannels?: (Channel | number)[];
+  channels?: (Channel | number)[] = [];
+  autoIncludeChannels?: (Channel | number)[] = [];
+  autoExcludeChannels?: (Channel | number)[] = [];
 
+  /**
+   * @returns model name
+   */
   static get modelName(): string {
     return "ChannelGroup";
   }
 }
 
+/**
+ * ADapt channel group
+ */
 @Injectable({
   providedIn: "root",
 })
 export class ChannelGroupAdapter
   implements Adapter<ChannelGroup, ReadChannelGroup, WriteChannelGroup>
 {
+  /** @override */
   adaptFromApi(item: ReadChannelGroup): ChannelGroup {
     const channelAdapter = new ChannelAdapter();
     const id = item.id ? +item.id : undefined;
+    const channelGroup = new ChannelGroup();
 
-    const channelGroup: ChannelGroup = {
-      id,
-      owner: item.user,
-      name: item.name,
-      description: item.description,
-      orgId: item.organization,
-      channelsCount: item.channels_count,
-      shareAll: item.share_all ?? false,
-      shareOrg: item.share_org ?? false,
-    };
+    channelGroup.id = id;
+    channelGroup.owner = item.user;
+    channelGroup.name = item.name;
+    channelGroup.description = item.description;
+    channelGroup.orgId = item.organization;
+    channelGroup.channelsCount = item.channels_count;
+    channelGroup.shareAll = item.share_all ?? false;
+    channelGroup.shareOrg = item.share_org ?? false;
 
     if ("channels" in item && item.channels) {
       channelGroup.channels = item.channels.map((c: ApiChannel) =>
@@ -73,12 +80,12 @@ export class ChannelGroupAdapter
         }
       );
     }
-
     return channelGroup;
   }
 
+  /** @override */
   adaptToApi(item: ChannelGroup): WriteChannelGroup {
-    const incl = item.autoExcludeChannels?.map((c): number =>
+    const incl = item.autoIncludeChannels?.map((c): number =>
       typeof c === "number" ? c : c.id
     );
     const ex = item.autoExcludeChannels?.map((c) =>
@@ -89,10 +96,10 @@ export class ChannelGroupAdapter
       name: item.name,
       description: item.description,
       organization: item.orgId,
-      auto_exclude_channels: incl ?? [],
-      auto_include_channels: ex ?? [],
-      share_org: item.shareAll,
-      share_all: item.shareOrg,
+      auto_exclude_channels: ex ?? [],
+      auto_include_channels: incl ?? [],
+      share_org: item.shareOrg,
+      share_all: item.shareAll,
     };
   }
 }

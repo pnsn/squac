@@ -1,34 +1,33 @@
 import { Injectable } from "@angular/core";
 import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
-import { Observable, of } from "rxjs";
-import { catchError } from "rxjs/operators";
-import { OrganizationService } from "squacapi";
+import { Observable } from "rxjs";
+import { Organization, OrganizationService } from "squacapi";
 
+/**
+ * Resolver for organization or list of organizations
+ */
 @Injectable({
   providedIn: "root",
 })
-export class OrganizationResolver implements Resolve<Observable<any>> {
+export class OrganizationResolver
+  implements Resolve<Observable<Organization | Organization[]>>
+{
   constructor(private orgService: OrganizationService) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<any> {
+  /**
+   * Resolve organization or list of organizations
+   *
+   * @param route activated route
+   * @returns observable of results
+   */
+  resolve(
+    route: ActivatedRouteSnapshot
+  ): Observable<Organization | Organization[]> {
     const id = route.paramMap.get("orgId");
     if (id) {
-      return this.orgService.read(+id).pipe(
-        catchError((error) => {
-          return this.handleError(error);
-        })
-      );
+      return this.orgService.read(+id);
     } else {
-      return this.orgService.list().pipe(
-        catchError((error) => {
-          return this.handleError(error);
-        })
-      );
+      return this.orgService.list();
     }
-  }
-
-  handleError(error: unknown): Observable<any> {
-    // TODO: route to show error
-    return of({ error });
   }
 }

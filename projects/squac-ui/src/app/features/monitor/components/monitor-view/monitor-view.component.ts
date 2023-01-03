@@ -21,7 +21,16 @@ import {
   switchMap,
   tap,
 } from "rxjs";
+import {
+  MenuAction,
+  TableControls,
+  TableFilters,
+  TableOptions,
+} from "@shared/components/table-view/interfaces";
 
+/**
+ * Component for displaying list of monitors
+ */
 @Component({
   selector: "monitor-view",
   templateUrl: "./monitor-view.component.html",
@@ -39,7 +48,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
   rows = [];
   columns = [];
 
-  controls = {
+  controls: TableControls = {
     listenToRouter: true,
     basePath: "/monitors",
     resource: "Monitor",
@@ -65,7 +74,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     links: [{ text: "View All Alerts", path: "alerts" }],
   };
 
-  filters = {
+  filters: TableFilters = {
     searchField: {
       text: "Filter monitors...",
       props: [
@@ -84,7 +93,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     },
   };
 
-  options = {
+  options: TableOptions = {
     groupRowsBy: "monitorId",
     groupParentType: "monitor",
     groupExpansionDefault: true,
@@ -114,6 +123,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     public loadingService: LoadingService
   ) {}
 
+  /** Init subscriptions */
   ngOnInit(): void {
     const monitorsSub = this.route.params
       .pipe(
@@ -131,6 +141,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  /** Set up columns */
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.columns = [
@@ -182,14 +193,18 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 0);
   }
 
-  // click event from table
-  onClick(event): void {
+  /**
+   * Click event from table
+   *
+   * @param event click action
+   */
+  onClick(event: MenuAction): void {
     if (event === "delete" && this.selectedMonitorId) {
       this.onDelete();
     }
   }
 
-  // delete selected monitor
+  /** Delete selected monitor */
   onDelete(): void {
     this.monitorService.delete(this.selectedMonitorId).subscribe(() => {
       const index = this.monitors.findIndex(
@@ -200,7 +215,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  //populate rows for table
+  /** Populate rows in table */
   makeRows(): void {
     const temp = [];
     this.monitors.forEach((monitor) => {
@@ -223,11 +238,21 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.rows = [...temp];
   }
 
-  // select event from table
-  onSelect(monitor): void {
+  /**
+   * select event from table
+   *
+   * @param monitor selected monitor
+   */
+  onSelect(monitor?: Monitor): void {
     this.selectedMonitorId = monitor ? monitor.id : null;
   }
 
+  /**
+   * Fetch new monitors
+   *
+   * @param refresh true if cache should not be used
+   * @returns obsercable of monitors and alerts
+   */
   fetchData(refresh?: boolean): Observable<any> {
     const lastDay = this.dateService.subtractFromNow(1, "day").format();
     return forkJoin({
@@ -244,30 +269,46 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
       })
     );
   }
-  // get fresh alerts
+
+  /**
+   * Get fresh monitors
+   */
   refresh(): void {
     this.loadingService.doLoading(this.fetchData(true), this).subscribe();
   }
 
-  //** * @param */
-  // return alerts with monitorId
+  /**
+   * Get all alerts with given monitor id
+   *
+   * @param monitorId id to match
+   * @returns array of matching alerts
+   */
   getAlerts(monitorId: number): Alert[] {
     return this.alerts.filter((a) => a.trigger.monitorId === monitorId);
   }
 
-  // route to edit monitor page
+  /**
+   * Navigates to edit monitor page
+   *
+   * @param id monitor edit id
+   */
   editMonitor(id: number): void {
     this.router.navigate([id, "edit"], { relativeTo: this.route });
   }
 
-  // route to monitor page
-  viewMonitor(id): void {
+  /**
+   * Navigates to monitor detail page
+   *
+   * @param id monitor id
+   */
+  viewMonitor(id?: number): void {
     if (id) {
       this.router.navigate([id], { relativeTo: this.route });
       this.selectedMonitorId = id;
     }
   }
 
+  /** unsubscribes */
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

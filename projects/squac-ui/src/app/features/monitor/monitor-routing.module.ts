@@ -47,6 +47,7 @@ export const routes: Routes = [
   },
 ];
 
+/** Monitors routing module */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

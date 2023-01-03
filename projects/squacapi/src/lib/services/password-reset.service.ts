@@ -10,6 +10,9 @@ import {
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
 
+/**
+ * Service for passsword reset endpoints
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -17,7 +20,12 @@ export class PasswordResetService {
   private token = "";
   constructor(private apiService: ApiService) {}
 
-  // send email to squac, it sends token to user
+  /**
+   * Resets password for given email
+   *
+   * @param email user email
+   * @returns observable of request
+   */
   resetPassword(email: string): Observable<ReadOnlyEmailSerializer> {
     const params: PasswordResetCreateRequestParams = {
       data: { email },
@@ -25,7 +33,12 @@ export class PasswordResetService {
     return this.apiService.passwordResetCreate(params);
   }
 
-  // check token is valid
+  /**
+   * Verify if password reset token is valid
+   *
+   * @param token password token
+   * @returns observable of token response
+   */
   validateToken(token: string): Observable<ReadOnlyTokenSerializer> {
     this.token = token;
     const params: PasswordResetValidateTokenCreateRequestParams = {
@@ -34,7 +47,12 @@ export class PasswordResetService {
     return this.apiService.passwordResetValidateTokenCreate(params);
   }
 
-  // send new password
+  /**
+   * Updates user account with new password
+   *
+   * @param password new password to store
+   * @returns response of password update request
+   */
   confirmPassword(
     password: string
   ): Observable<ReadOnlyPasswordTokenSerializer> {

@@ -16,7 +16,7 @@ else
 fi
 
 mv dist/squac-ui/* dist
-rm dist/squac-ui
+rm -rf dist/squac-ui
 
 echo done
 

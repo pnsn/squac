@@ -17,6 +17,9 @@ import { atLeastOneValidator, regexValidator } from "@core/utils/validators";
 import { MatchingRule } from "squacapi";
 import { Subscription } from "rxjs";
 
+/**
+ * Component for editing matching rules
+ */
 @Component({
   selector: "channel-group-matching-rule-edit",
   templateUrl: "./matching-rule-edit.component.html",
@@ -37,6 +40,9 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
     rules: this.formBuilder.array([]),
   });
 
+  /**
+   * Subscrive to value changes on form
+   */
   ngOnInit(): void {
     const rulesSub = this.rules.valueChanges.subscribe((values) => {
       this._matchingRules = [];
@@ -54,6 +60,11 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
     this.subscription.add(rulesSub);
   }
 
+  /**
+   * Listen to input changes
+   *
+   * @param changes input changes
+   */
   ngOnChanges(changes: SimpleChanges): void {
     //only take initial values
     if (changes["matchingRules"] && this.matchingRules) {
@@ -61,10 +72,19 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  /**
+   * unsubscribe
+   */
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
+  /**
+   * make form for matching rule
+   *
+   * @param rule new matching rule to add
+   * @returns created form group
+   */
   makeRuleForm(rule?: MatchingRule): UntypedFormGroup {
     return this.formBuilder.group(
       {
@@ -101,16 +121,26 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
     );
   }
 
-  // // Access triggers
+  /**
+   * @returns form array of matching rules
+   */
   get rules(): UntypedFormArray {
     return this.matchingRulesForm.get("rules") as UntypedFormArray;
   }
 
+  /**
+   * Emit updated rules
+   */
   updateRules(): void {
     this.matchingRulesChange.emit(this._matchingRules);
   }
 
-  removeRule(index): void {
+  /**
+   * Removes rule at given index and emit results
+   *
+   * @param index rule index
+   */
+  removeRule(index: number): void {
     const rule = this.rules.at(index).value;
     if (rule.id) {
       this.removeRuleIds.push(+rule.id);
@@ -120,14 +150,20 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
     this.matchingRuleDeleteIds.emit(this.removeRuleIds);
   }
 
+  /**
+   * Add new matching rule
+   *
+   * @param rule rule to add
+   */
   addRule(rule?: MatchingRule): void {
     const ruleFormGroup = this.makeRuleForm(rule);
     this.rules.push(ruleFormGroup, { emitEvent: false });
   }
 
+  /**
+   * Set up rule form
+   */
   initForm(): void {
-    // this.rules.clear({ emitEvent: false });
-
     //only take initial matchingRules
     if (this.matchingRules.length > 0 && !this._matchingRules) {
       this._matchingRules = this.matchingRules.slice();
@@ -137,14 +173,23 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  /**
+   * Ensure form is uppercased
+   *
+   * @param eventTarget form field
+   * @param source form control
+   * @param index form index
+   */
   uppercase(eventTarget: any, source: string, index: number): void {
     this.rules.controls[index].patchValue({
       [source]: (eventTarget as HTMLInputElement).value.toUpperCase(),
     });
   }
 
+  /**
+   * Emit matching rules
+   */
   previewChannels(): void {
     this.previewRules.emit(this._matchingRules);
-    //request channels
   }
 }
