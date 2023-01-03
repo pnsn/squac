@@ -180,5 +180,6 @@ export class LocalStorageService {
         }
       }
     });
+    console.log(results);
   }
 }
