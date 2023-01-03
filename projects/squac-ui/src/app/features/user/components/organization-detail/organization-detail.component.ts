@@ -24,9 +24,7 @@ import {
   templateUrl: "./organization-detail.component.html",
   styleUrls: ["./organization-detail.component.scss"],
 })
-export class OrganizationDetailComponent
-  implements OnInit, OnDestroy, AfterViewInit
-{
+export class OrganizationDetailComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   organization: Organization;
   orgId: number;
@@ -108,7 +106,7 @@ export class OrganizationDetailComponent
           this.isAdmin =
             this.user.isStaff ||
             (this.user.orgAdmin && this.user.orgId === this.organization.id);
-          // this.error = false;
+
           if (this.isAdmin) {
             this.controls.menu = {
               text: "Actions",
@@ -131,18 +129,12 @@ export class OrganizationDetailComponent
               ],
             };
           }
+          this.buildColumns();
         })
       )
       .subscribe();
 
     this.subscription.add(orgSub);
-  }
-
-  /** Set timeout used to get around angular weirdness */
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.buildColumns();
-    }, 0);
   }
 
   /**
@@ -169,91 +161,45 @@ export class OrganizationDetailComponent
    * Make columns for table
    */
   buildColumns(): void {
+    this.columns = [
+      {
+        name: "Name",
+        prop: "",
+        // canAutoResize: false,
+        // width: 70,
+        pipe: {
+          transform: (row): string => {
+            return row ? row.firstName + " " + row.lastName : "";
+          },
+        },
+      },
+      {
+        name: "Groups",
+        pipe: {
+          transform: (groups): string => {
+            return groups ? groups.join(", ") : "";
+          },
+        },
+      },
+      {
+        name: "Is Admin",
+        prop: "isAdmin",
+        canAutoResize: false,
+        width: 100,
+      },
+      {
+        name: "Is Active", //Admin only
+        prop: "isActive",
+        canAutoResize: false,
+        width: 100,
+      },
+    ];
+
     if (this.isAdmin) {
-      this.columns = [
-        {
-          name: "Name",
-          prop: "",
-          // canAutoResize: false,
-          // width: 70,
-          pipe: {
-            transform: (row): string => {
-              return row ? row.firstName + " " + row.lastName : "";
-            },
-          },
-        },
-        {
-          name: "Email", //FIXME: admin only
-          draggable: false,
-        },
-        {
-          name: "Groups",
-          pipe: {
-            transform: (groups): string => {
-              return groups ? groups.join(", ") : "";
-            },
-          },
-        },
-        {
-          name: "Last Login",
-          prop: "lastLogin",
-          pipe: {
-            transform: (value): string => {
-              return value
-                ? new Date(value).toLocaleString("en-US").split(",")[0]
-                : "";
-            },
-          },
-          canAutoResize: false,
-          width: 100,
-        },
-        {
-          name: "Is Admin",
-          prop: "isAdmin",
-          canAutoResize: false,
-          width: 100,
-        },
-        {
-          name: "Is Active", //Admin only
-          prop: "isActive",
-          canAutoResize: false,
-          width: 100,
-        },
-      ];
-    } else {
-      this.columns = [
-        {
-          name: "Name",
-          prop: "",
-          // canAutoResize: false,
-          // width: 70,
-          pipe: {
-            transform: (row): string => {
-              return row ? row.firstName + " " + row.lastName : "";
-            },
-          },
-        },
-        {
-          name: "Groups",
-          pipe: {
-            transform: (groups): string => {
-              return groups ? groups.join(", ") : "";
-            },
-          },
-        },
-        {
-          name: "Is Admin",
-          prop: "isAdmin",
-          canAutoResize: false,
-          width: 100,
-        },
-        {
-          name: "Is Active", //Admin only
-          prop: "isActive",
-          canAutoResize: false,
-          width: 100,
-        },
-      ];
+      this.columns.splice(1, 0, {
+        name: "Email", //FIXME: admin only
+        draggable: false,
+      });
     }
   }
 
@@ -312,8 +258,8 @@ export class OrganizationDetailComponent
         this.messageService.message("Invitation email sent.");
         this.refresh();
       },
-      error: (error) => {
-        this.messageService.error(error);
+      error: () => {
+        this.messageService.error("Error: invitation could not be sent.");
       },
     });
   }

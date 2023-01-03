@@ -17,7 +17,11 @@ import { OrganizationService } from "squacapi";
 import { UserService } from "@user/services/user.service";
 import { OrganizationPipe } from "squacapi";
 import { UserPipe } from "squacapi";
-import { ColumnMode, SortType } from "@boring.devs/ngx-datatable";
+import {
+  ColumnMode,
+  SelectionType,
+  SortType,
+} from "@boring.devs/ngx-datatable";
 import { Subscription, tap, filter } from "rxjs";
 import { TableControls, TableFilters, TableOptions } from "./interfaces";
 
@@ -68,7 +72,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   //defaultOptions
   tableOptions: TableOptions = {
     columnMode: ColumnMode.force,
-    selectionType: undefined,
+    selectionType: SelectionType.single,
     headerHeight: 30,
     footerHeight: 30,
     rowHeight: "auto",
