@@ -12,7 +12,7 @@ export const CACHEABLE_ROUTE_PATTERNS: Record<string, any> = {
   "/measurement/hour-archives/": LocalStorageTypes.SESSION,
   "/measurement/week-archives/": LocalStorageTypes.SESSION,
   "/measurement/month-archives/": LocalStorageTypes.SESSION,
-  "/organization/organizations": LocalStorageTypes.SESSION,
+  "/organization/organizations/": LocalStorageTypes.SESSION,
   "/nslc/groups/": LocalStorageTypes.SESSION,
   "/nslc/groups/:id/": LocalStorageTypes.SESSION,
 };

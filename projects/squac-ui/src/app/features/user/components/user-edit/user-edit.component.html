@@ -9,31 +9,33 @@
   >
     <mat-form-field>
       <mat-label> First Name</mat-label>
-      <input matInput type="text" formControlName="firstName" />
+      <input matInput type="text" formControlName="firstName" required />
     </mat-form-field>
     <mat-form-field>
       <mat-label> Last Name</mat-label>
-      <input matInput type="text" formControlName="lastName" />
+      <input matInput type="text" formControlName="lastName" required />
     </mat-form-field>
     <ng-container formGroupName="passwords">
-      <mat-form-field class="">
+      <mat-form-field>
         <mat-label>New Password</mat-label>
 
         <input
           matInput
           formControlName="password"
           autocomplete="off"
+          required
           placeholder="Enter new password"
           [type]="hide ? 'password' : 'text'"
         />
       </mat-form-field>
-      <mat-form-field class="">
+      <mat-form-field>
         <mat-label>Confirm New Password</mat-label>
         <input
           matInput
           formControlName="confirm"
           autocomplete="off"
           placeholder="Confirm new password"
+          required
           [type]="hide ? 'password' : 'text'"
         />
         <button
@@ -46,17 +48,16 @@
         >
           <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
         </button>
-        <mat-error
-          *ngIf="
-            userForm.get('passwords').dirty &&
-            userForm.get('passwords').errors['mismatch']
-          "
-        >
-          Passwords do not match
-        </mat-error>
       </mat-form-field>
+      <mat-error
+        *ngIf="
+          userForm.get('passwords').dirty &&
+          userForm.get('passwords').hasError('mismatch')
+        "
+      >
+        Passwords do not match
+      </mat-error>
     </ng-container>
-
     <button mat-flat-button color="accent" [disabled]="!userForm.valid">
       Create Account
     </button>

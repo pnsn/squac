@@ -4,6 +4,7 @@ import {
   Validators,
   UntypedFormControl,
   UntypedFormGroup,
+  ValidationErrors,
 } from "@angular/forms";
 import { InviteService } from "squacapi";
 
@@ -43,7 +44,10 @@ export class UserEditComponent implements OnInit {
             Validators.minLength(8),
             Validators.required,
           ]),
-          confirm: new UntypedFormControl("", [Validators.required]),
+          confirm: new UntypedFormControl("", [
+            Validators.minLength(8),
+            Validators.required,
+          ]),
         },
         [this.passwordValidator]
       ),
@@ -56,16 +60,12 @@ export class UserEditComponent implements OnInit {
    * @param group form group
    * @returns validator function
    */
-  passwordValidator(group: UntypedFormGroup): { mismatch: boolean } {
-    if (
-      group.value.password &&
+  passwordValidator(group: UntypedFormGroup): ValidationErrors | null {
+    return group.value.password &&
       group.value.confirm &&
       group.value.password === group.value.confirm
-    ) {
-      return null;
-    } else {
-      return { mismatch: true };
-    }
+      ? null
+      : { mismatch: true };
   }
 
   /**
