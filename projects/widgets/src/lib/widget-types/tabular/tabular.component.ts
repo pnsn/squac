@@ -215,6 +215,16 @@ export class TabularComponent
    * @returns difference
    */
   private metricComparator(propA: RowMetric, propB: RowMetric): number {
+    if (propA.value === null && propB.value === null) {
+      // both are null, treat as equal
+      return 0;
+    } else if (propA.value === null && propB.value !== null) {
+      // treat second value as larger
+      return -1;
+    } else if (propA.value !== null && propB.value === null) {
+      // treat first as larger
+      return 1;
+    }
     return propA.value - propB.value;
   }
 
