@@ -23,7 +23,7 @@ import {
 } from "widgets";
 import { Measurement, Metric } from "squacapi";
 import { Threshold, WidgetProperties } from "squacapi";
-import { of } from "rxjs";
+import { config, of } from "rxjs";
 import {
   channels,
   endtime,
@@ -195,12 +195,12 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
       }
 
       this.widgetManager.properties = this.properties;
-
+      const configService = this.createConfigService();
       const injector = Injector.create({
         providers: [
           {
             provide: WidgetConfigService,
-            useValue: this.createConfigService,
+            useValue: configService,
           },
           {
             provide: WidgetManagerService,
@@ -224,7 +224,6 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
     configService.thresholds = this._thresholds;
     configService.dataRange = this.dataRange;
     configService.chartDefaults.dataZoom = [];
-
     configService.chartDefaults.grid = {
       ...configService.chartDefaults.grid,
       left: 10,
