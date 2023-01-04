@@ -24,7 +24,7 @@ import {
   WidgetTypeComponent,
 } from "../../interfaces";
 import { GenericWidgetComponent } from "../../shared/components";
-import { ChannelRow, RowMetric, RowMetrics, StationRow } from "./types";
+import { ChannelRow, RowMetrics, StationRow } from "./types";
 import { ChannelComparator, MetricComparator } from "./utils";
 
 /**

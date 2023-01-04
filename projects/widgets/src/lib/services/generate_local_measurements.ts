@@ -185,9 +185,7 @@ export class FakeMeasurementBackend {
     }
     params.metric.forEach((m: number) => {
       const metricMax = this.getRandom();
-      console.log(metricMax);
       channels.forEach((c: number) => {
-        if (c === 13) return;
         let currentTime = starttime;
         while (currentTime < endtime) {
           let newEnd;
