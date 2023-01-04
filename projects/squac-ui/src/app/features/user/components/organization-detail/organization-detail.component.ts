@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { OrganizationService } from "squacapi";
 import { User } from "squacapi";
 import { Organization } from "squacapi";
