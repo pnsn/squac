@@ -39,7 +39,7 @@ export class LoginComponent implements OnDestroy {
       return;
     }
 
-    const email = this.loginForm.value.email;
+    const email = this.loginForm.value.email.toLowerCase();
     const password = this.loginForm.value.password;
 
     // Send data and log user in
