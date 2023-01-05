@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { Adapter, ReadTrigger, WriteTrigger } from "../interfaces";
+import { Adapter, ReadTrigger, WriteTrigger } from "../src/lib/interfaces";
 import { Trigger as ApiTrigger } from "@pnsn/ngx-squacapi-client";
-import { Alert, Monitor } from "../models";
+import { Alert, Monitor } from ".";
 
 /**
  * Describes a trigger

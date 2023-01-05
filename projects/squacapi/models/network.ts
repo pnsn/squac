@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Adapter, ReadNetwork } from "../interfaces";
+import { Adapter, ReadNetwork } from "../src/lib/interfaces";
 
 /**
  * describes a network

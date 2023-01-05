@@ -8,6 +8,7 @@ import { AlertViewComponent } from "./components/alert-view/alert-view.component
 import { MonitorResolver } from "@core/resolvers/monitor.resolver";
 import { MetricResolver } from "@core/resolvers/metric.resolver";
 import { ChannelGroupResolver } from "@core/resolvers/channel-group.resolver";
+import { MonitorDetailComponent } from "./components/monitor-detail/monitor-detail.component";
 
 export const routes: Routes = [
   {
@@ -42,6 +43,13 @@ export const routes: Routes = [
             },
           },
         ],
+      },
+      {
+        path: ":monitorId",
+        component: MonitorDetailComponent,
+        resolve: {
+          monitor: MonitorResolver,
+        },
       },
     ],
   },

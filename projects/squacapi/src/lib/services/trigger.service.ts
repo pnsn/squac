@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { SquacApiService } from "../interfaces";
 import { BaseApiService } from "./generic-api.service";
-import { Trigger, TriggerAdapter } from "../models";
+import { Trigger, TriggerAdapter } from "../../../models";
 import {
   ApiService,
   MeasurementTriggersListRequestParams,

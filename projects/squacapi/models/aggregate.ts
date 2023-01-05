@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Adapter, ReadAggregate } from "../interfaces";
+import { Adapter, ReadAggregate } from "../src/lib/interfaces";
 import { MeasurementAggregatedListRequestParams } from "@pnsn/ngx-squacapi-client";
 
 /**

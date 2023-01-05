@@ -9,7 +9,7 @@ import {
   MeasurementWeekArchivesListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
-import { Archive, ArchiveAdapter } from "../models";
+import { Archive, ArchiveAdapter } from "../../../models";
 import { ApiEndpoint } from "../enums";
 
 /**

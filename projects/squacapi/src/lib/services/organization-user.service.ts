@@ -7,7 +7,7 @@ import { BaseApiService } from "./generic-api.service";
 import { ApiEndpoint } from "../enums";
 import { WriteableApiService } from "../interfaces";
 
-import { User, UserAdapter } from "../models";
+import { User, UserAdapter } from "../../../models";
 import { Observable } from "rxjs";
 
 /**

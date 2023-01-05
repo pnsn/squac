@@ -1,12 +1,12 @@
 import { Injectable } from "@angular/core";
-import { ChannelGroup, Widget } from "../models";
+import { ChannelGroup, Widget } from ".";
 import {
   Adapter,
   ReadDashboard,
   WriteDashboard,
   DashboardProperties,
-} from "../interfaces";
-import { DASHBOARD_PROPERTIES } from "../constants";
+} from "../src/lib/interfaces";
+import { DASHBOARD_PROPERTIES } from "../src/lib/constants";
 
 /**
  * Describes a dashboard

@@ -110,19 +110,19 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     this.configureChart();
-    if (this.widgetConfig.toggleKey) {
+    if (this.widgetConfig?.toggleKey) {
       this.initToggleKey();
     }
 
-    if (this.widgetConfig.zoomControls) {
+    if (this.widgetConfig?.zoomControls) {
       this.initZoom();
     }
-    const deemphsSub = this.widgetConnector.deemphasizeChannel.subscribe(
+    const deemphsSub = this.widgetConnector?.deemphasizeChannel.subscribe(
       (channel) => {
         this.deemphasizeChannel(channel);
       }
     );
-    const emphSub = this.widgetConnector.emphasizedChannel.subscribe(
+    const emphSub = this.widgetConnector?.emphasizedChannel.subscribe(
       (channel) => {
         this.emphasizeChannel(channel);
       }

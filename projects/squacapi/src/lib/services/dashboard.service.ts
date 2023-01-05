@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { SquacApiService } from "../interfaces";
 import { BaseApiService } from "./generic-api.service";
-import { Dashboard, DashboardAdapter } from "../models";
+import { Dashboard, DashboardAdapter } from "../../../models";
 import {
   ApiService,
   DashboardDashboardsListRequestParams,

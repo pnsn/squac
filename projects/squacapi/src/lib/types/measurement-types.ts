@@ -1,4 +1,4 @@
-import { Aggregate, Archive, Measurement } from "../models";
+import { Aggregate, Archive, Measurement } from "../../../models";
 
 /**
  * Measurement data types

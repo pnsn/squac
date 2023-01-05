@@ -9,8 +9,13 @@ import {
   Alert,
   Trigger,
   TriggerAdapter,
-} from "../models";
-import { Adapter, ApiTrigger, ReadMonitor, WriteMonitor } from "../interfaces";
+} from ".";
+import {
+  Adapter,
+  ApiTrigger,
+  ReadMonitor,
+  WriteMonitor,
+} from "../src/lib/interfaces";
 
 /**
  * describes a monitor

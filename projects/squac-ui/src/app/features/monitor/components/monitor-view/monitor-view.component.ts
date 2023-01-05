@@ -59,6 +59,11 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
       text: "Actions",
       options: [
         {
+          text: "View",
+          permission: "read",
+          action: "view",
+        },
+        {
           text: "Edit",
           permission: "update",
           action: "edit",
@@ -94,6 +99,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
   };
 
   options: TableOptions = {
+    selectionType: null,
     groupRowsBy: "monitorId",
     groupParentType: "monitor",
     groupExpansionDefault: true,

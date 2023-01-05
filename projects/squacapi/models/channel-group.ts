@@ -4,9 +4,9 @@ import {
   ApiChannel,
   ReadChannelGroup,
   WriteChannelGroup,
-} from "../interfaces";
-import { Channel } from "../models";
-import { ChannelAdapter } from "../models/channel";
+} from "../src/lib/interfaces";
+import { Channel } from ".";
+import { ChannelAdapter } from "./channel";
 
 /**
  * Describes a channel group object

@@ -6,7 +6,7 @@ import {
 import { ApiEndpoint } from "../enums";
 import { ReadOnlyApiService } from "../interfaces";
 import { BaseApiService } from "./generic-api.service";
-import { Organization, OrganizationAdapter } from "../models";
+import { Organization, OrganizationAdapter } from "../../../models";
 import { Observable, tap } from "rxjs";
 
 /**

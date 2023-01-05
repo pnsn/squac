@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { Adapter, ReadAlert } from "../interfaces";
-import { Monitor, Trigger } from "../models";
-import { TriggerAdapter } from "../models/trigger";
+import { Adapter, ReadAlert } from "../src/lib/interfaces";
+import { Monitor, Trigger } from ".";
+import { TriggerAdapter } from "./trigger";
 
 /**
  * Describes an alert

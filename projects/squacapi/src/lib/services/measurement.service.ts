@@ -6,7 +6,7 @@ import {
   MeasurementMeasurementsListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
-import { Measurement, MeasurementAdapter } from "../models";
+import { Measurement, MeasurementAdapter } from "../../../models";
 import { ApiEndpoint } from "../enums";
 
 /**
