@@ -135,7 +135,8 @@ export class FakeMeasurementBackend {
    * @returns aggregate
    */
   aggregate(params: DataParams): ReadAggregate {
-    const value = this.getRandom(params.maxValue);
+    const value = this.getRandom(params.maxValue) - 40;
+
     return {
       starttime: params.starttime,
       endtime: params.endtime,
@@ -183,8 +184,8 @@ export class FakeMeasurementBackend {
       endtime = s;
     }
     params.metric.forEach((m: number) => {
+      const metricMax = this.getRandom();
       channels.forEach((c: number) => {
-        const metricMax = this.getRandom();
         let currentTime = starttime;
         while (currentTime < endtime) {
           let newEnd;

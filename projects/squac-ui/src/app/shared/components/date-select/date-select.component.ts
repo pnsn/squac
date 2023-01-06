@@ -171,10 +171,9 @@ export class DateSelectComponent implements OnInit, OnChanges {
   datePickerChange(dates: TimePeriod): void {
     const startCopy = dayjs(dates.startDate as Dayjs).clone();
     const endCopy = dayjs(dates.endDate as Dayjs).clone();
+
     if (dates.startDate && dates.endDate) {
-      const startDate = this.dateService.fakeUtcFromLocal(startCopy);
-      const endDate = this.dateService.fakeUtcFromLocal(endCopy);
-      this.datesUpdated(startDate, endDate, false, null);
+      this.datesUpdated(startCopy, endCopy, false, null);
     }
   }
 

@@ -2,18 +2,29 @@
   <h1>Welcome to SQUAC!</h1>
   <form
     *ngIf="token; else noToken"
-    autocomplete="off"
     (ngSubmit)="sendPassword()"
     [formGroup]="userForm"
     class="form"
   >
     <mat-form-field>
       <mat-label> First Name</mat-label>
-      <input matInput type="text" formControlName="firstName" required />
+      <input
+        matInput
+        type="text"
+        formControlName="firstName"
+        autocomplete="given-name"
+        required
+      />
     </mat-form-field>
     <mat-form-field>
       <mat-label> Last Name</mat-label>
-      <input matInput type="text" formControlName="lastName" required />
+      <input
+        matInput
+        type="text"
+        formControlName="lastName"
+        autocomplete="family-name"
+        required
+      />
     </mat-form-field>
     <ng-container formGroupName="passwords">
       <mat-form-field>
@@ -22,9 +33,8 @@
         <input
           matInput
           formControlName="password"
-          autocomplete="off"
+          autocomplete="new-password"
           required
-          placeholder="Enter new password"
           [type]="hide ? 'password' : 'text'"
         />
       </mat-form-field>
@@ -33,8 +43,7 @@
         <input
           matInput
           formControlName="confirm"
-          autocomplete="off"
-          placeholder="Confirm new password"
+          autocomplete="new-password"
           required
           [type]="hide ? 'password' : 'text'"
         />
