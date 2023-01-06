@@ -89,36 +89,36 @@ import { AppAbility } from "@core/utils/ability";
     },
     { provide: AppAbility, useValue: new AppAbility() },
     { provide: PureAbility, useExisting: AppAbility },
-    // {
-    //   provide: MeasurementService,
-    //   useFactory: MeasurementFactory,
-    //   deps: [BASE_PATH, MeasurementAdapter, ApiService, FakeMeasurementBackend],
-    // },
-    // {
-    //   provide: DayArchiveService,
-    //   useFactory: DayArchiveFactory,
-    //   deps: [BASE_PATH, ArchiveAdapter, ApiService, FakeMeasurementBackend],
-    // },
-    // {
-    //   provide: HourArchiveService,
-    //   useFactory: HourArchiveFactory,
-    //   deps: [BASE_PATH, ArchiveAdapter, ApiService, FakeMeasurementBackend],
-    // },
-    // {
-    //   provide: WeekArchiveService,
-    //   useFactory: WeekArchiveFactory,
-    //   deps: [BASE_PATH, ArchiveAdapter, ApiService, FakeMeasurementBackend],
-    // },
-    // {
-    //   provide: MonthArchiveService,
-    //   useFactory: MonthArchiveFactory,
-    //   deps: [BASE_PATH, ArchiveAdapter, ApiService, FakeMeasurementBackend],
-    // },
-    // {
-    //   provide: AggregateService,
-    //   useFactory: AggregateFactory,
-    //   deps: [BASE_PATH, AggregateAdapter, ApiService, FakeMeasurementBackend],
-    // },
+    {
+      provide: MeasurementService,
+      useFactory: MeasurementFactory,
+      deps: [BASE_PATH, MeasurementAdapter, ApiService, FakeMeasurementBackend],
+    },
+    {
+      provide: DayArchiveService,
+      useFactory: DayArchiveFactory,
+      deps: [BASE_PATH, ArchiveAdapter, ApiService, FakeMeasurementBackend],
+    },
+    {
+      provide: HourArchiveService,
+      useFactory: HourArchiveFactory,
+      deps: [BASE_PATH, ArchiveAdapter, ApiService, FakeMeasurementBackend],
+    },
+    {
+      provide: WeekArchiveService,
+      useFactory: WeekArchiveFactory,
+      deps: [BASE_PATH, ArchiveAdapter, ApiService, FakeMeasurementBackend],
+    },
+    {
+      provide: MonthArchiveService,
+      useFactory: MonthArchiveFactory,
+      deps: [BASE_PATH, ArchiveAdapter, ApiService, FakeMeasurementBackend],
+    },
+    {
+      provide: AggregateService,
+      useFactory: AggregateFactory,
+      deps: [BASE_PATH, AggregateAdapter, ApiService, FakeMeasurementBackend],
+    },
   ],
   bootstrap: [AppComponent],
 })

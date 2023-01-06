@@ -4,7 +4,10 @@
 {{ monitor.metric.name }}
 {{ monitor.channelGroup.name }}
 <div id="monitor-history-chart-container">
-  <monitor-history-chart [monitor]="monitor"></monitor-history-chart>
+  <monitor-history-chart
+    #monitorChart
+    [monitor]="monitor"
+  ></monitor-history-chart>
 </div>
 
 <div>channels in/out go ehre</div>

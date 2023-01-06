@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
@@ -15,8 +15,10 @@ import {
   Widget,
 } from "squacapi";
 import {
+  ProcessedData,
   WidgetConfigService,
   WidgetDataService,
+  WidgetErrors,
   WidgetManagerService,
   WidgetType,
 } from "widgets";
@@ -31,6 +33,7 @@ import {
   providers: [WidgetConfigService, WidgetManagerService, WidgetDataService],
 })
 export class MonitorDetailComponent implements OnInit {
+  @ViewChild("monitorChart") monitorChart;
   error: boolean;
   alerts: Alert[];
   monitor: Monitor;
@@ -44,7 +47,9 @@ export class MonitorDetailComponent implements OnInit {
     private dateService: DateService,
     private widgetManager: WidgetManagerService,
     private channelGroupService: ChannelGroupService,
-    private metricService: MetricService
+    private metricService: MetricService,
+    private widgetDataService: WidgetDataService,
+    private widgetConfigService: WidgetConfigService
   ) {}
 
   /**
@@ -53,6 +58,31 @@ export class MonitorDetailComponent implements OnInit {
   ngOnInit(): void {
     // get channel group info from route
 
+    // listen to data changes
+    const dataSub = this.widgetDataService.data$
+      .pipe(
+        tap({
+          next: (data: ProcessedData | WidgetErrors) => {
+            //check if data is a map and has data
+            if (data instanceof Map) {
+              const minMetrics = this.widgetManager.widgetConfig.minMetrics;
+              const metricsWithData =
+                this.widgetDataService.measurementsWithData.length;
+              if (minMetrics > metricsWithData) {
+              } else {
+                // this.addWidget(this.widgetManager.widgetType);
+                this.widgetConfigService.thresholds =
+                  this.widgetManager.thresholds;
+                this.widgetConfigService.dataRange =
+                  this.widgetDataService.dataRange;
+                this.monitorChart.updateData(data);
+              }
+            } else {
+            }
+          },
+        })
+      )
+      .subscribe();
     const chanSub = this.route.data
       .pipe(
         tap(() => {
@@ -103,7 +133,6 @@ export class MonitorDetailComponent implements OnInit {
 
           this.widgetManager.updateWidgetType(WidgetType.TIMESERIES);
           this.widgetManager.updateMetrics([results.metric]);
-          console.log(this.monitor);
         },
       });
   }

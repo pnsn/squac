@@ -130,7 +130,7 @@ export class MonitorHistoryChartComponent extends EChartComponent {
         sampling: "lttb",
       };
       // this.addThresholds();
-
+      //start time to end time using intergal type and count, calulate metric
       const metric = this.selectedMetrics[0];
       this.channels.forEach((channel) => {
         const nslc = channel.nslc;
