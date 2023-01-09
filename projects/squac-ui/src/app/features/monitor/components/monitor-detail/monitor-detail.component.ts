@@ -38,6 +38,8 @@ export class MonitorDetailComponent implements OnInit {
   alerts: Alert[];
   monitor: Monitor;
   widget: Widget;
+  starttime: string;
+  endtime: string;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -121,10 +123,10 @@ export class MonitorDetailComponent implements OnInit {
           this.widget.type = WidgetType.TIMESERIES;
           this.widgetManager.initWidget(this.widget);
           this.widgetManager.widgetConfig;
-          const lastDay = this.dateService.subtractFromNow(1, "day").format();
-          const now = this.dateService.now().format();
+          this.starttime = this.dateService.subtractFromNow(1, "day").format();
+          this.endtime = this.dateService.now().format();
 
-          this.widgetManager.updateTimes(lastDay, now);
+          this.widgetManager.updateTimes(this.starttime, this.endtime);
           this.widgetManager.updateChannels(
             this.monitor.channelGroupId,
             results.channelGroup.channels as Channel[]
