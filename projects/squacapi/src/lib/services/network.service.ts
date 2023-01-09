@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Network, NetworkAdapter } from "../../../models";
+import { Network, NetworkAdapter } from "../models";
 import { ListService } from "../interfaces";
 import { BaseApiService } from "./generic-api.service";
 import {

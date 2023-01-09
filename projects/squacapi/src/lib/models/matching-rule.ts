@@ -1,9 +1,5 @@
 import { Injectable } from "@angular/core";
-import {
-  Adapter,
-  ReadMatchingRule,
-  WriteMatchingRule,
-} from "../src/lib/interfaces";
+import { Adapter, ReadMatchingRule, WriteMatchingRule } from "../interfaces";
 
 /**
  * Regular expression rules for building channel groups

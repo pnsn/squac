@@ -80,9 +80,6 @@ export class WidgetConfigService {
     legend: {
       show: false,
     },
-    visualMap: {
-      show: true,
-    },
     grid: {
       containLabel: true,
       top: 5,

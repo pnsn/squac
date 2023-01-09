@@ -4,7 +4,7 @@ import {
   UserMePartialUpdateRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { ApiEndpoint } from "../enums";
-import { User, UserAdapter } from "../../../models";
+import { User, UserAdapter } from "../models";
 
 import { map, Observable } from "rxjs";
 import { BaseApiService } from "./generic-api.service";

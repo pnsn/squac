@@ -10,6 +10,7 @@ import {
   Alert,
   AlertService,
   Measurement,
+  MeasurementPipe,
   Monitor,
   MonitorService,
 } from "squacapi";
@@ -30,6 +31,7 @@ import {
 })
 export class MonitorHistoryChartComponent extends EChartComponent {
   @Input() monitor: Monitor;
+  measurementPipe = new MeasurementPipe();
   error: boolean;
   alerts: Alert[];
   constructor(
@@ -77,6 +79,9 @@ export class MonitorHistoryChartComponent extends EChartComponent {
           show: true,
         },
       },
+      legend: {
+        show: true,
+      },
       yAxis: {
         type: "value",
         nameLocation: "middle",
@@ -105,11 +110,11 @@ export class MonitorHistoryChartComponent extends EChartComponent {
    */
   buildChartData(data): Promise<void> {
     return new Promise<void>((resolve) => {
-      this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
-        this.selectedMetrics,
-        this.properties,
-        2
-      );
+      // this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
+      //   this.selectedMetrics,
+      //   this.properties,
+      //   2
+      // );
       const stations = [];
       this.metricSeries = {};
       const series = {
@@ -150,31 +155,45 @@ export class MonitorHistoryChartComponent extends EChartComponent {
         let lastEnd: dayjs.Dayjs;
         if (data.has(channel.id)) {
           const measurements = data.get(channel.id).get(metric.id);
-          measurements?.forEach((measurement: Measurement) => {
-            // // If time between measurements is greater than gap, don't connect
-            const start = this.dateService.parseUtc(measurement.starttime);
-            const end = this.dateService.parseUtc(measurement.endtime);
 
-            const diff = start.diff(end, "seconds");
-            if (
-              station.data.length > 0 &&
-              lastEnd &&
-              diff >= metric.sampleRate * this.maxMeasurementGap
-            ) {
-              // time since last measurement
-              station.data.push({
-                name: nslc,
-                value: [lastEnd.toDate(), start.toDate(), "-"],
-              });
+          //start at start time
+          // increase at interval
+          // take all measurements within that and calculate
+          // iterate
+          const end = this.dateService.parseUtc(this.widgetManager.endtime);
+          let start = this.dateService.parseUtc(this.widgetManager.starttime);
+          let i = 0; //measurement index
+          while (start < end && measurements[i]) {
+            const intervalEnd = start.add(
+              this.monitor.intervalCount,
+              this.monitor.intervalType
+            );
+            const intervalMeasurements = [];
+            let lastMeasurementStart = this.dateService.parseUtc(
+              measurements[i].starttime
+            );
+            //find all measurements in the time range
+            while (lastMeasurementStart < intervalEnd) {
+              intervalMeasurements.push(measurements[i]);
+              i++;
+              if (!measurements[i]) break;
+              lastMeasurementStart = this.dateService.parseUtc(
+                measurements[i].starttime
+              );
             }
+
+            const value = this.measurementPipe.transform(
+              intervalMeasurements,
+              this.monitor.stat
+            );
 
             station.data.push({
               name: nslc,
-              value: [start.toDate(), end.toDate(), measurement.value],
+              value: [start.toDate(), end.toDate(), value],
             });
 
-            lastEnd = end;
-          });
+            start = intervalEnd;
+          }
         }
         stations.push(station);
       });
@@ -188,10 +207,9 @@ export class MonitorHistoryChartComponent extends EChartComponent {
    */
   changeMetrics(): void {
     const colorMetric = this.selectedMetrics[0];
-    const visualMaps = this.visualMaps[colorMetric.id];
+    // const visualMaps = this.visualMaps[colorMetric.id];
     this.updateOptions = {
       series: this.metricSeries.series,
-      visualMap: visualMaps,
       xAxis: {
         min: this.widgetManager.starttime,
         max: this.widgetManager.endtime,
@@ -200,7 +218,7 @@ export class MonitorHistoryChartComponent extends EChartComponent {
 
     if (this.echartsInstance) {
       this.echartsInstance.setOption(this.updateOptions, {
-        replaceMerge: ["series", "xAxis"],
+        replaceMerge: ["series"],
       });
     }
   }

@@ -8,7 +8,7 @@ import {
   DashboardWidgetsReadRequestParams,
   DashboardWidgetsUpdateRequestParams,
 } from "@pnsn/ngx-squacapi-client";
-import { Widget, WidgetAdapter } from "../../../models";
+import { Widget, WidgetAdapter } from "../models";
 import { Observable } from "rxjs";
 import { ApiEndpoint } from "../enums";
 

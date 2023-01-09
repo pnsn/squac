@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Threshold } from "../src/lib/interfaces";
+import { Threshold } from "../interfaces";
 import { Metric, MetricAdapter } from ".";
 import {
   Adapter,
@@ -8,9 +8,9 @@ import {
   WriteWidget,
   WidgetProperties,
   WidgetLayout,
-} from "../src/lib/interfaces";
-import { WIDGET_LAYOUT, WIDGET_PROPERTIES } from "../src/lib/constants";
-import { WidgetStatType } from "../src/lib/types";
+} from "../interfaces";
+import { WIDGET_LAYOUT, WIDGET_PROPERTIES } from "../constants";
+import { WidgetStatType } from "../types";
 
 /**
  * Model for a widget

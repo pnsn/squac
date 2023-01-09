@@ -10,12 +10,7 @@ import {
   Trigger,
   TriggerAdapter,
 } from ".";
-import {
-  Adapter,
-  ApiTrigger,
-  ReadMonitor,
-  WriteMonitor,
-} from "../src/lib/interfaces";
+import { Adapter, ApiTrigger, ReadMonitor, WriteMonitor } from "../interfaces";
 
 /**
  * describes a monitor

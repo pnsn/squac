@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ReadOnlyApiService } from "../interfaces";
 import { BaseApiService } from "./generic-api.service";
-import { Alert, AlertAdapter } from "../../../models";
+import { Alert, AlertAdapter } from "../models";
 import {
   ApiService,
   MeasurementAlertsListRequestParams,

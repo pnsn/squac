@@ -51,7 +51,7 @@ export class MonitorDetailComponent implements OnInit {
     private widgetDataService: WidgetDataService,
     private widgetConfigService: WidgetConfigService
   ) {}
-
+  // last n intervals
   /**
    * subscribes to route params
    */
@@ -101,7 +101,6 @@ export class MonitorDetailComponent implements OnInit {
               channelGroup: this.channelGroupService.read(
                 this.monitor.channelGroupId
               ),
-              metric: this.metricService.read(this.monitor.metricId),
             })
           );
         })
@@ -118,7 +117,7 @@ export class MonitorDetailComponent implements OnInit {
             [this.monitor.metric],
             "latest"
           );
-          this.widget.metrics = [results.metric];
+          this.widget.metrics = [this.monitor.metric];
           this.widget.type = WidgetType.TIMESERIES;
           this.widgetManager.initWidget(this.widget);
           this.widgetManager.widgetConfig;
@@ -132,7 +131,7 @@ export class MonitorDetailComponent implements OnInit {
           );
 
           this.widgetManager.updateWidgetType(WidgetType.TIMESERIES);
-          this.widgetManager.updateMetrics([results.metric]);
+          this.widgetManager.updateMetrics(this.widget.metrics);
         },
       });
   }

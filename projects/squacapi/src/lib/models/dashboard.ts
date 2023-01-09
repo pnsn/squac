@@ -5,8 +5,8 @@ import {
   ReadDashboard,
   WriteDashboard,
   DashboardProperties,
-} from "../src/lib/interfaces";
-import { DASHBOARD_PROPERTIES } from "../src/lib/constants";
+} from "../interfaces";
+import { DASHBOARD_PROPERTIES } from "../constants";
 
 /**
  * Describes a dashboard

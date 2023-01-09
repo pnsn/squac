@@ -4,7 +4,7 @@ import {
   ApiChannel,
   ReadChannelGroup,
   WriteChannelGroup,
-} from "../src/lib/interfaces";
+} from "../interfaces";
 import { Channel } from ".";
 import { ChannelAdapter } from "./channel";
 

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { UserGroup } from "@pnsn/ngx-squacapi-client";
-import { Adapter, ReadUser, WriteUser } from "../src/lib/interfaces";
+import { Adapter, ReadUser, WriteUser } from "../interfaces";
 
 /**
  * Describes a user object

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Adapter, ReadMeasurement } from "../src/lib/interfaces";
+import { Adapter, ReadMeasurement } from "../interfaces";
 
 /**
  * describes a measurement

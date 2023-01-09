@@ -6,7 +6,7 @@ import {
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
 
-import { Channel, ChannelAdapter, MatchingRule } from "../../../models";
+import { Channel, ChannelAdapter, MatchingRule } from "../models";
 import { ReadOnlyApiService } from "../interfaces";
 import { BaseApiService } from "./generic-api.service";
 import { ApiEndpoint } from "../enums";

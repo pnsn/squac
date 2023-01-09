@@ -9,7 +9,7 @@ import {
   NslcMatchingRulesUpdateRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
-import { MatchingRule, MatchingRuleAdapter } from "../../../models";
+import { MatchingRule, MatchingRuleAdapter } from "../models";
 import { ApiEndpoint } from "../enums";
 
 /**

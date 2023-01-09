@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Adapter, ReadArchive } from "../src/lib/interfaces";
+import { Adapter, ReadArchive } from "../interfaces";
 
 /** Describes an archive */
 export class Archive {

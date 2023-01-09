@@ -1,10 +1,6 @@
 import { Injectable } from "@angular/core";
 import { User, UserAdapter } from ".";
-import {
-  Adapter,
-  ReadOrganization,
-  ApiUserSimple,
-} from "../src/lib/interfaces";
+import { Adapter, ReadOrganization, ApiUserSimple } from "../interfaces";
 
 /**
  * Describes an organization

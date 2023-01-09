@@ -6,7 +6,7 @@ import {
 import { Observable } from "rxjs";
 import { SquacApiService } from "../interfaces";
 import { BaseApiService } from "./generic-api.service";
-import { Monitor, MonitorAdapter } from "../../../models";
+import { Monitor, MonitorAdapter } from "../models";
 import { ApiEndpoint } from "../enums";
 
 /**
