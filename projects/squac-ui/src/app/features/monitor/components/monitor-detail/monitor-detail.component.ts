@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
+import { DATE_PICKER_TIMERANGES } from "@dashboard/components/dashboard-detail/dashboard-time-ranges";
 import { catchError, EMPTY, forkJoin, switchMap, tap } from "rxjs";
 import {
   Alert,
@@ -38,6 +39,10 @@ export class MonitorDetailComponent implements OnInit {
   alerts: Alert[];
   monitor: Monitor;
   widget: Widget;
+
+  timeRange: number;
+  // time picker config
+  datePickerTimeRanges = DATE_PICKER_TIMERANGES;
   starttime: string;
   endtime: string;
   constructor(
@@ -51,40 +56,47 @@ export class MonitorDetailComponent implements OnInit {
     private channelGroupService: ChannelGroupService,
     private metricService: MetricService,
     private widgetDataService: WidgetDataService,
-    private widgetConfigService: WidgetConfigService
+    private widgetConfigService: WidgetConfigService,
+    private changeDetector: ChangeDetectorRef
   ) {}
   // last n intervals
   /**
    * subscribes to route params
    */
   ngOnInit(): void {
+    let data: ProcessedData;
     // get channel group info from route
 
     // listen to data changes
     const dataSub = this.widgetDataService.data$
       .pipe(
-        tap({
-          next: (data: ProcessedData | WidgetErrors) => {
-            //check if data is a map and has data
-            if (data instanceof Map) {
-              const minMetrics = this.widgetManager.widgetConfig.minMetrics;
-              const metricsWithData =
-                this.widgetDataService.measurementsWithData.length;
-              if (minMetrics > metricsWithData) {
-              } else {
-                // this.addWidget(this.widgetManager.widgetType);
-                this.widgetConfigService.thresholds =
-                  this.widgetManager.thresholds;
-                this.widgetConfigService.dataRange =
-                  this.widgetDataService.dataRange;
-                this.monitorChart.updateData(data);
-              }
+        switchMap((processedData: ProcessedData | WidgetErrors) => {
+          //check if data is a map and has data
+          if (processedData instanceof Map) {
+            const minMetrics = this.widgetManager.widgetConfig.minMetrics;
+            const metricsWithData =
+              this.widgetDataService.measurementsWithData.length;
+            if (minMetrics > metricsWithData) {
             } else {
+              // this.addWidget(this.widgetManager.widgetType);
+              this.widgetConfigService.thresholds =
+                this.widgetManager.thresholds;
+              this.widgetConfigService.dataRange =
+                this.widgetDataService.dataRange;
+              data = processedData;
             }
-          },
+          }
+
+          return this.getAlerts();
         })
       )
-      .subscribe();
+      .subscribe({
+        next: (alerts: Alert[]) => {
+          this.alerts = alerts;
+          this.changeDetector.detectChanges();
+          this.monitorChart.updateData(data);
+        },
+      });
     const chanSub = this.route.data
       .pipe(
         tap(() => {
@@ -92,25 +104,13 @@ export class MonitorDetailComponent implements OnInit {
         }),
         switchMap((data) => {
           this.monitor = data["monitor"];
-          const lastDay = this.dateService.subtractFromNow(1, "day").format();
-          const params = {
-            timestampGte: lastDay,
-            monitor: this.route.params["monitorId"],
-          };
           return this.loadingService.doLoading(
-            forkJoin({
-              alerts: this.alertService.list(params),
-              channelGroup: this.channelGroupService.read(
-                this.monitor.channelGroupId
-              ),
-            })
+            this.channelGroupService.read(this.monitor.channelGroupId)
           );
         })
       )
       .subscribe({
-        next: (results) => {
-          this.alerts = results.alerts;
-
+        next: (channelGroup: ChannelGroup) => {
           this.widget = new Widget(
             0,
             0,
@@ -123,18 +123,44 @@ export class MonitorDetailComponent implements OnInit {
           this.widget.type = WidgetType.TIMESERIES;
           this.widgetManager.initWidget(this.widget);
           this.widgetManager.widgetConfig;
-          this.starttime = this.dateService.subtractFromNow(1, "day").format();
-          this.endtime = this.dateService.now().format();
+          this.starttime = this.dateService.format(
+            this.dateService.subtractFromNow(1, "day")
+          );
+          this.endtime = this.dateService.format(this.dateService.now());
 
           this.widgetManager.updateTimes(this.starttime, this.endtime);
           this.widgetManager.updateChannels(
             this.monitor.channelGroupId,
-            results.channelGroup.channels as Channel[]
+            channelGroup.channels as Channel[]
           );
 
           this.widgetManager.updateWidgetType(WidgetType.TIMESERIES);
           this.widgetManager.updateMetrics(this.widget.metrics);
         },
       });
+  }
+
+  getAlerts() {
+    return this.alertService.list({
+      timestampGte: this.widgetManager.starttime,
+      timestampLt: this.widgetManager.endtime,
+      monitor: this.monitor.id,
+    });
+  }
+
+  update() {
+    this.widgetManager.fetchData();
+  }
+
+  datesChanged({ startDate, endDate, liveMode, rangeInSeconds }) {
+    if (!startDate || !endDate) {
+      startDate = this.dateService.subtractFromNow(rangeInSeconds, "seconds");
+      endDate = this.dateService.now();
+    }
+    console.log(startDate, endDate);
+    this.widgetManager.updateTimes(
+      this.dateService.format(startDate),
+      this.dateService.format(endDate)
+    );
   }
 }

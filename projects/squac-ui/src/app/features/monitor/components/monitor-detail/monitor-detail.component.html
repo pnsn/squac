@@ -4,6 +4,16 @@
 {{ monitor.metric.name }}
 {{ monitor.channelGroup.name }}
 {{ starttime }} {{ endtime }}
+<shared-date-select
+  [secondsAgoFromNow]="timeRange"
+  [initialStartDate]="starttime"
+  [initialEndDate]="endtime"
+  [timeRanges]="datePickerTimeRanges"
+  (datesChanged)="datesChanged($event)"
+>
+</shared-date-select>
+<button (click)="update()">update</button>
+
 <div id="monitor-history-chart-container">
   <monitor-history-chart
     #monitorChart

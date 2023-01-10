@@ -1,30 +1,16 @@
-import { trigger } from "@angular/animations";
-import { Component, Input, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import dayjs from "dayjs";
-import { parseUtc } from "dist/widgets/lib/shared/utils";
 import {
   CustomSeriesRenderItemAPI,
   CustomSeriesRenderItemReturn,
   EChartsOption,
   graphic,
-  number,
   TooltipComponentFormatterCallbackParams,
-  TooltipComponentPositionCallbackParams,
 } from "echarts";
-import { catchError, EMPTY, of, Subject, switchMap, tap } from "rxjs";
+import { Alert, MeasurementPipe, Monitor } from "squacapi";
 import {
-  Alert,
-  AlertService,
-  Measurement,
-  MeasurementPipe,
-  Monitor,
-  MonitorService,
-} from "squacapi";
-import {
-  DataRange,
   EChartComponent,
   LabelFormatterParams,
   WidgetConfigService,
@@ -39,7 +25,10 @@ import {
   templateUrl: "./monitor-history-chart.component.html",
   styleUrls: ["./monitor-history-chart.component.scss"],
 })
-export class MonitorHistoryChartComponent extends EChartComponent {
+export class MonitorHistoryChartComponent
+  extends EChartComponent
+  implements OnChanges
+{
   @Input() monitor: Monitor;
   @Input() alerts: Alert[];
   measurementPipe = new MeasurementPipe();
@@ -57,6 +46,13 @@ export class MonitorHistoryChartComponent extends EChartComponent {
   // Max allowable time between measurements to connect
   maxMeasurementGap = 1.5;
 
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+    if (changes["alerts"]) {
+      console.log(changes["alerts"]);
+    }
+  }
   /**
    * @override
    */
@@ -90,15 +86,18 @@ export class MonitorHistoryChartComponent extends EChartComponent {
           show: true,
         },
       },
+      yAxis: {},
       legend: {
         show: true,
+        orient: "vertical",
+        right: 0,
       },
       tooltip: {
         formatter: (params: TooltipComponentFormatterCallbackParams) => {
           if ("componentType" in params) {
-            if (params.seriesName === "Monitor") {
-              console.log(params);
-              return "";
+            if (params.seriesName === "Alerts") {
+              console.log(params["data"]["name"]);
+              return params["data"]["name"];
             }
             return "";
           }
@@ -226,6 +225,7 @@ export class MonitorHistoryChartComponent extends EChartComponent {
         stations.push(station);
       });
       this.metricSeries.series = stations;
+      console.log(this.alerts);
       const monitorSeries = this.addMonitor();
       const triggerSeries = this.addTriggers();
       this.metricSeries.series.push(triggerSeries);
@@ -255,7 +255,7 @@ export class MonitorHistoryChartComponent extends EChartComponent {
         // },
         data: [],
       },
-
+      data: [],
       markLine: {
         data: [],
       },
@@ -370,10 +370,14 @@ export class MonitorHistoryChartComponent extends EChartComponent {
   addMonitor() {
     const triggerSeries = {
       type: "custom",
-      name: "Monitor",
+      name: "Alerts",
       yAxisIndex: 1,
       dataGroupId: "monitor",
       data: [],
+      itemStyle: {
+        color: "#808080",
+        opacity: 0.7,
+      },
       markArea: {
         data: [],
       },
@@ -384,7 +388,8 @@ export class MonitorHistoryChartComponent extends EChartComponent {
       renderItem: this.renderItem,
     };
 
-    this.alerts.forEach((alert) => {
+    this.alerts?.forEach((alert) => {
+      console.log(alert);
       if (alert.inAlarm) {
         const start = this.dateService.parseUtc(alert.timestamp);
         triggerSeries.data.push({
@@ -408,8 +413,6 @@ export class MonitorHistoryChartComponent extends EChartComponent {
    * @override
    */
   changeMetrics(): void {
-    const colorMetric = this.selectedMetrics[0];
-    // const visualMaps = this.visualMaps[colorMetric.id];
     this.updateOptions = {
       series: this.metricSeries.series,
       xAxis: {
@@ -443,7 +446,6 @@ export class MonitorHistoryChartComponent extends EChartComponent {
         },
       ],
     };
-    console.log("options updates");
     if (this.echartsInstance) {
       this.echartsInstance.setOption(this.updateOptions, {
         replaceMerge: ["series"],
@@ -499,6 +501,7 @@ export class MonitorHistoryChartComponent extends EChartComponent {
         },
         style: {
           fill: api.visual("color"),
+          opacity: 0.7,
         },
       }
     );
