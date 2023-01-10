@@ -172,6 +172,13 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
           name: "Metric",
           prop: "metricId",
         },
+        {
+          name: "Owner",
+          prop: "owner",
+          draggable: false,
+          sortable: true,
+          width: 120,
+        },
       ];
     }, 0);
   }
