@@ -12,6 +12,7 @@ import { MonitorDetailComponent } from "./components/monitor-detail/monitor-deta
 import { MonitorHistoryChartComponent } from "./components/monitor-detail/monitor-history-chart/monitor-history-chart.component";
 import { WidgetsModule } from "widgets";
 import { NgxEchartsModule } from "ngx-echarts";
+import { MonitorAlarmStatusComponent } from "./components/monitor-alarm-status/monitor-alarm-status.component";
 
 /**
  * Module for monitors
@@ -25,6 +26,7 @@ import { NgxEchartsModule } from "ngx-echarts";
     MonitorEditEntryComponent,
     AlertViewComponent,
     MonitorHistoryChartComponent,
+    MonitorAlarmStatusComponent,
   ],
   imports: [
     CommonModule,

@@ -36,7 +36,7 @@ export class MonitorEditEntryComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap((params) => {
           this.monitorId = +params["monitorId"];
-
+          console.log(this.route.snapshot.data);
           if (this.route.snapshot && this.route.snapshot.data) {
             this.monitor = this.route.snapshot.data["monitor"];
             this.metrics = this.route.snapshot.data["metrics"];
@@ -69,7 +69,7 @@ export class MonitorEditEntryComponent implements OnInit, OnDestroy {
     this.dialogRef.afterClosed().subscribe({
       next: () => {
         if (this.monitorId) {
-          this.router.navigate(["../../"], { relativeTo: this.route });
+          this.router.navigate(["../"], { relativeTo: this.route });
         } else {
           this.router.navigate(["../"], { relativeTo: this.route });
         }

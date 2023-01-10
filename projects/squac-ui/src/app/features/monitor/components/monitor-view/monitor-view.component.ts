@@ -27,6 +27,7 @@ import {
   TableFilters,
   TableOptions,
 } from "@shared/components/table-view/interfaces";
+import { SelectionType } from "@boring.devs/ngx-datatable";
 
 /**
  * Component for displaying list of monitors
@@ -99,10 +100,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
   };
 
   options: TableOptions = {
-    selectionType: null,
-    groupRowsBy: "monitorId",
-    groupParentType: "monitor",
-    groupExpansionDefault: true,
+    selectionType: SelectionType.single,
     messages: {
       emptyMessage: "No monitors found.",
     },
@@ -113,19 +111,11 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild("monitorTable") table: any;
   @ViewChild("stateTemplate") stateTemplate: any;
   @ViewChild("updateTemplate") updateTemplate: any;
-  @ViewChild("conditionsTemplate") conditionsTemplate: any;
-  @ViewChild("notificationTemplate") notificationTemplate: any;
-  @ViewChild("emailListTemplate") emailListTemplate: any;
-  @ViewChild("channelsTemplate") channelsTemplate: any;
-  @ViewChild("groupHeaderTemplate") groupHeaderTemplate: any;
-  @ViewChild("groupHeaderTemplate") rowDetailTemplate: any;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private alertService: AlertService,
     private monitorService: MonitorService,
-    private dateService: DateService,
     public loadingService: LoadingService
   ) {}
 
@@ -161,6 +151,11 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
           cellTemplate: this.stateTemplate,
         },
         {
+          name: "Name",
+          draggable: false,
+          sortable: true,
+        },
+        {
           name: "Last state update",
           draggable: false,
           canAutoResize: false,
@@ -170,30 +165,12 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
           cellTemplate: this.updateTemplate,
         },
         {
-          name: "# channels",
-          canAutoResize: false,
-          sortable: false,
-          width: 100,
-          cellTemplate: this.channelsTemplate,
+          name: "Channel Group",
+          prop: "channelGroupId",
         },
         {
-          name: "'In Alarm' conditions",
-          sortable: false,
-          width: 200,
-          cellTemplate: this.conditionsTemplate,
-        },
-        {
-          name: "Actions",
-          draggable: false,
-          sortable: false,
-          width: 50,
-          cellTemplate: this.notificationTemplate,
-        },
-        {
-          name: "Recipients",
-          sortable: false,
-          width: 200,
-          cellTemplate: this.emailListTemplate,
+          name: "Metric",
+          prop: "metricId",
         },
       ];
     }, 0);
@@ -223,25 +200,14 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /** Populate rows in table */
   makeRows(): void {
-    const temp = [];
     this.monitors.forEach((monitor) => {
-      monitor.alerts = this.getAlerts(monitor.id);
-      monitor.inAlarm = false;
       monitor.triggers.forEach((trigger) => {
-        trigger.lastAlarm = monitor.alerts.find(
-          (a) => a.trigger.id === trigger.id
-        );
-        if (trigger.lastAlarm && trigger.lastAlarm.inAlarm) {
-          monitor.inAlarm = true;
-        }
-        // add copy to avoid monitor having triggers that have monitor
-        const monitorCopy = Object.assign({}, monitor);
-        monitorCopy.triggers = [];
-        trigger.monitor = monitorCopy;
-        temp.push(trigger);
+        // if (trigger.inAlarm) {
+        //   monitor.inAlarm = true;
+        // }
       });
     });
-    this.rows = [...temp];
+    this.rows = [...this.monitors];
   }
 
   /**
@@ -260,14 +226,9 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
    * @returns obsercable of monitors and alerts
    */
   fetchData(refresh?: boolean): Observable<any> {
-    const lastDay = this.dateService.subtractFromNow(1, "day").format();
-    return forkJoin({
-      alerts: this.alertService.list({ timestampGte: lastDay }, refresh),
-      monitors: this.monitorService.list(),
-    }).pipe(
-      tap((results) => {
-        this.monitors = results.monitors;
-        this.alerts = results.alerts;
+    return this.monitorService.list({}, refresh).pipe(
+      tap((monitors) => {
+        this.monitors = monitors;
         this.makeRows();
       }),
       catchError(() => {
