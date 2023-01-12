@@ -16,35 +16,17 @@ import { Observable } from "rxjs";
 @Injectable({
   providedIn: "root",
 })
-export class OrganizationUserService
-  extends BaseApiService<User>
-  implements WriteableApiService<User>
-{
+export class OrganizationUserService extends BaseApiService<User> {
   constructor(override adapter: UserAdapter, override api: ApiService) {
     super(ApiEndpoint.ORGANIZATION_USER, api);
   }
+}
 
-  /**
-   * @override
-   */
-  override read(id: number, refresh?: boolean): Observable<User> {
-    return super.read(id, refresh);
-  }
-
-  /**
-   * @override
-   */
+export interface OrganizationUserService extends WriteableApiService<User> {
+  read(id: number, refresh?: boolean): Observable<User>;
   list(
     params: OrganizationUsersListRequestParams,
     refresh?: boolean
-  ): Observable<User[]> {
-    return super._list(params, { refresh });
-  }
-
-  /**
-   * @override
-   */
-  updateOrCreate(t: User): Observable<User> {
-    return super._updateOrCreate(t);
-  }
+  ): Observable<User[]>;
+  updateOrCreate(t: User): Observable<User>;
 }

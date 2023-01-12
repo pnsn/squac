@@ -27,6 +27,40 @@ export class Alert {
   static get modelName(): string {
     return "Alert";
   }
+
+  /** deserializes */
+  static deserialize(item: ReadAlert): Alert {
+    const alert = new Alert();
+
+    let breachingChannels: BreachingChannel[] = [];
+
+    if (typeof item.breaching_channels === "string") {
+      try {
+        breachingChannels = JSON.parse(
+          item.breaching_channels
+        ) as BreachingChannel[];
+      } catch {
+        breachingChannels = [];
+      }
+    }
+
+    Object.assign(alert, {
+      id: item.id,
+      owner: item.user,
+      timestamp: item.timestamp,
+      inAlarm: item.in_alarm,
+      breachingChannels,
+      triggerId: item.trigger,
+      monitorId: item.monitor,
+      monitorName: item.monitor_name,
+      val1: item.val1,
+      val2: item.val2,
+      valueOperator: item.value_operator,
+      numChannels: item.num_channels,
+      numChannelsOperator: item.num_channels_operator,
+    });
+    return alert;
+  }
 }
 
 /** Adapt alert */

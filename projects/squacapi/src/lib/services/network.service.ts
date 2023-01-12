@@ -15,26 +15,18 @@ import { ApiEndpoint } from "../enums";
 @Injectable({
   providedIn: "root",
 })
-
-// Service for handling networks
-export class NetworkService
-  extends BaseApiService<Network>
-  implements ListService<Network>
-{
+export class NetworkService extends BaseApiService<Network> {
   constructor(
     override api: ApiService,
     protected networkAdapter: NetworkAdapter
   ) {
     super(ApiEndpoint.NETWORK, api);
   }
+}
 
-  /**
-   * @override
-   */
+export interface NetworkService extends ListService<Network> {
   list(
     params?: NslcNetworksListRequestParams,
     refresh?: boolean
-  ): Observable<Network[]> {
-    return super._list(params, { refresh });
-  }
+  ): Observable<Network[]>;
 }

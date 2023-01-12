@@ -15,28 +15,16 @@ import { ApiEndpoint } from "../enums";
 @Injectable({
   providedIn: "root",
 })
-export class AlertService
-  extends BaseApiService<Alert>
-  implements ReadOnlyApiService<Alert>
-{
+export class AlertService extends BaseApiService<Alert> {
   constructor(override adapter: AlertAdapter, override api: ApiService) {
     super(ApiEndpoint.ALERT, api);
   }
+}
 
-  /**
-   * @override
-   */
-  override read(id: number, refresh?: boolean): Observable<Alert> {
-    return super.read(id, refresh);
-  }
-
-  /**
-   * @override
-   */
+export interface AlertService extends ReadOnlyApiService<Alert> {
+  read(id: number, refresh?: boolean): Observable<Alert>;
   list(
     params?: MeasurementAlertsListRequestParams,
     refresh?: boolean
-  ): Observable<Alert[]> {
-    return super._list(params, { refresh });
-  }
+  ): Observable<Alert[]>;
 }

@@ -25,7 +25,9 @@ export class UserMeService
   }
 
   /**
-   * @override
+   * Request current user
+   *
+   * @returns observable of current user
    */
   override read(): Observable<User> {
     return super._read();

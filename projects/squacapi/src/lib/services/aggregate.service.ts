@@ -15,21 +15,15 @@ import { BaseApiService } from "./generic-api.service";
 @Injectable({
   providedIn: "root",
 })
-export class AggregateService
-  extends BaseApiService<Aggregate>
-  implements ListService<Aggregate>
-{
+export class AggregateService extends BaseApiService<Aggregate> {
   constructor(override adapter: AggregateAdapter, override api: ApiService) {
     super(ApiEndpoint.AGGREGATE, api);
   }
+}
 
-  /**
-   * @override
-   */
+export interface AggregateService extends ListService<Aggregate> {
   list(
     params: MeasurementAggregatedListRequestParams,
     refresh?: boolean
-  ): Observable<Aggregate[]> {
-    return super._list(params, { refresh });
-  }
+  ): Observable<Aggregate[]>;
 }

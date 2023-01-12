@@ -17,29 +17,9 @@ import { ApiEndpoint } from "../enums";
 @Injectable({
   providedIn: "root",
 })
-export class ChannelService
-  extends BaseApiService<Channel>
-  implements ReadOnlyApiService<Channel>
-{
+export class ChannelService extends BaseApiService<Channel> {
   constructor(override api: ApiService, override adapter: ChannelAdapter) {
     super(ApiEndpoint.CHANNEL, api);
-  }
-
-  /**
-   * @override
-   */
-  override read(id: number, refresh?: boolean): Observable<Channel> {
-    return super.read(id, refresh);
-  }
-
-  /**
-   * @override
-   */
-  list(
-    params: NslcChannelsListRequestParams,
-    refresh?: boolean
-  ): Observable<Channel[]> {
-    return super._list(params, { refresh });
   }
 
   /**
@@ -71,4 +51,12 @@ export class ChannelService
 
     return ruleSubs;
   }
+}
+
+export interface ChannelService extends ReadOnlyApiService<Channel> {
+  read(id: number, refresh?: boolean): Observable<Channel>;
+  list(
+    params: NslcChannelsListRequestParams,
+    refresh?: boolean
+  ): Observable<Channel[]>;
 }

@@ -192,6 +192,21 @@ export abstract class BaseApiService<T extends SquacObject> {
   }
 
   /**
+   * Returns list of requested data type
+   *
+   * @param params
+   * @param refresh
+   * @returns
+   */
+  protected list(params?: unknown, refresh?: boolean): Observable<T[]> {
+    return this._list(params, { refresh });
+  }
+
+  protected updateOrCreate(t: T): Observable<T> {
+    return this._updateOrCreate(t);
+  }
+
+  /**
    * Create read request
    *
    * @param id id of object to request

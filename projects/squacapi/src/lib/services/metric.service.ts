@@ -15,35 +15,17 @@ import { ApiEndpoint } from "../enums";
 @Injectable({
   providedIn: "root",
 })
-export class MetricService
-  extends BaseApiService<Metric>
-  implements WriteableApiService<Metric>
-{
+export class MetricService extends BaseApiService<Metric> {
   constructor(override adapter: MetricAdapter, override api: ApiService) {
     super(ApiEndpoint.METRIC, api);
   }
+}
 
-  /**
-   * @override
-   */
-  override read(id: number, refresh?: boolean): Observable<Metric> {
-    return super.read(id, refresh);
-  }
-
-  /**
-   * @override
-   */
+export interface MetricService extends WriteableApiService<Metric> {
+  read(id: number, refresh?: boolean): Observable<Metric>;
   list(
     params?: MeasurementMetricsListRequestParams,
     refresh?: boolean
-  ): Observable<Metric[]> {
-    return super._list(params, { refresh });
-  }
-
-  /**
-   * @override
-   */
-  updateOrCreate(t: Metric): Observable<Metric> {
-    return super._updateOrCreate(t);
-  }
+  ): Observable<Metric[]>;
+  updateOrCreate(t: Metric): Observable<Metric>;
 }

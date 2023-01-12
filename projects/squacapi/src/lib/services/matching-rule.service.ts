@@ -18,10 +18,7 @@ import { ApiEndpoint } from "../enums";
 @Injectable({
   providedIn: "root",
 })
-export class MatchingRuleService
-  extends BaseApiService<MatchingRule>
-  implements SquacApiService<MatchingRule>
-{
+export class MatchingRuleService extends BaseApiService<MatchingRule> {
   constructor(override api: ApiService, override adapter: MatchingRuleAdapter) {
     super(ApiEndpoint.MATCHING_RULE, api);
   }
@@ -42,29 +39,6 @@ export class MatchingRuleService
       id: m.id,
       data: this.adapter.adaptToApi(m),
     };
-  }
-
-  /** @override */
-  override read(id: number, refresh?: boolean): Observable<MatchingRule> {
-    return super.read(id, refresh);
-  }
-
-  /** @override */
-  list(
-    params: NslcMatchingRulesListRequestParams,
-    refresh?: boolean
-  ): Observable<MatchingRule[]> {
-    return super._list(params, { refresh });
-  }
-
-  /** @override */
-  updateOrCreate(t: MatchingRule): Observable<MatchingRule> {
-    return super._updateOrCreate(t);
-  }
-
-  /** @override */
-  override delete(id: number): Observable<MatchingRule> {
-    return super.delete(id);
   }
 
   /**
@@ -90,4 +64,14 @@ export class MatchingRuleService
     }
     return ruleSubs;
   }
+}
+
+export interface MatchingRuleService extends SquacApiService<MatchingRule> {
+  read(id: number, refresh?: boolean): Observable<MatchingRule>;
+  list(
+    params: NslcMatchingRulesListRequestParams,
+    refresh?: boolean
+  ): Observable<MatchingRule[]>;
+  updateOrCreate(t: MatchingRule): Observable<MatchingRule>;
+  delete(id: number): Observable<MatchingRule>;
 }

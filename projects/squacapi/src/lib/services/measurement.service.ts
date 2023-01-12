@@ -15,21 +15,15 @@ import { ApiEndpoint } from "../enums";
 @Injectable({
   providedIn: "root",
 })
-export class MeasurementService
-  extends BaseApiService<Measurement>
-  implements ListService<Measurement>
-{
+export class MeasurementService extends BaseApiService<Measurement> {
   constructor(override adapter: MeasurementAdapter, override api: ApiService) {
     super(ApiEndpoint.MEASUREMENT, api);
   }
+}
 
-  /**
-   * @override
-   */
+export interface MeasurementService extends ListService<Measurement> {
   list(
     params: MeasurementMeasurementsListRequestParams,
     refresh?: boolean
-  ): Observable<Measurement[]> {
-    return super._list(params, { refresh });
-  }
+  ): Observable<Measurement[]>;
 }

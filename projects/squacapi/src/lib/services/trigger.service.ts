@@ -15,43 +15,9 @@ import { ApiEndpoint } from "../enums";
 @Injectable({
   providedIn: "root",
 })
-export class TriggerService
-  extends BaseApiService<Trigger>
-  implements SquacApiService<Trigger>
-{
+export class TriggerService extends BaseApiService<Trigger> {
   constructor(override adapter: TriggerAdapter, override api: ApiService) {
     super(ApiEndpoint.TRIGGER, api);
-  }
-
-  /**
-   * @override
-   */
-  override read(id: number, refresh?: boolean): Observable<Trigger> {
-    return super.read(id, refresh);
-  }
-
-  /**
-   * @override
-   */
-  list(
-    params?: MeasurementTriggersListRequestParams,
-    refresh?: boolean
-  ): Observable<Trigger[]> {
-    return super._list(params, { refresh });
-  }
-
-  /**
-   * @override
-   */
-  updateOrCreate(t: Trigger): Observable<Trigger> {
-    return super._updateOrCreate(t);
-  }
-
-  /**
-   * @override
-   */
-  override delete(id: number): Observable<Trigger> {
-    return super.delete(id);
   }
 
   /**
@@ -77,4 +43,14 @@ export class TriggerService
     }
     return triggerSubs;
   }
+}
+
+export interface TriggerService extends SquacApiService<Trigger> {
+  read(id: number, refresh?: boolean): Observable<Trigger>;
+  list(
+    params?: MeasurementTriggersListRequestParams,
+    refresh?: boolean
+  ): Observable<Trigger[]>;
+  updateOrCreate(t: Trigger): Observable<Trigger>;
+  delete(id: number): Observable<Trigger>;
 }

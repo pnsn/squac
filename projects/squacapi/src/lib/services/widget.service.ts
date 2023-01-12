@@ -18,10 +18,7 @@ import { ApiEndpoint } from "../enums";
 @Injectable({
   providedIn: "root",
 })
-export class WidgetService
-  extends BaseApiService<Widget>
-  implements SquacApiService<Widget>
-{
+export class WidgetService extends BaseApiService<Widget> {
   constructor(override adapter: WidgetAdapter, override api: ApiService) {
     super(ApiEndpoint.WIDGET, api);
   }
@@ -49,39 +46,14 @@ export class WidgetService
       data: this.adapter.adaptToApi(w),
     };
   }
+}
 
-  /**
-   * @override
-   */
-  override read(id: number, refresh?: boolean): Observable<Widget> {
-    return super.read(id, refresh);
-  }
-
-  /**
-   *
-   * @param params - squacapi widget request params
-   * @param refresh - fresh request, default false
-   * @returns array of widgets
-   * @override
-   */
+export interface WidgetService extends SquacApiService<Widget> {
+  read(id: number, refresh?: boolean): Observable<Widget>;
   list(
     params?: DashboardWidgetsListRequestParams,
     refresh?: boolean
-  ): Observable<Widget[]> {
-    return super._list(params, { refresh });
-  }
-
-  /**
-   * @override
-   */
-  updateOrCreate(t: Widget): Observable<Widget> {
-    return super._updateOrCreate(t);
-  }
-
-  /**
-   * @override
-   */
-  override delete(id: number): Observable<Widget> {
-    return super.delete(id);
-  }
+  ): Observable<Widget[]>;
+  updateOrCreate(t: Widget): Observable<Widget>;
+  delete(id: number): Observable<Widget>;
 }

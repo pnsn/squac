@@ -16,43 +16,9 @@ import { ApiEndpoint } from "../enums";
 @Injectable({
   providedIn: "root",
 })
-export class ChannelGroupService
-  extends BaseApiService<ChannelGroup>
-  implements SquacApiService<ChannelGroup>
-{
+export class ChannelGroupService extends BaseApiService<ChannelGroup> {
   constructor(override adapter: ChannelGroupAdapter, override api: ApiService) {
     super(ApiEndpoint.CHANNEL_GROUP, api);
-  }
-
-  /**
-   * @override
-   */
-  override read(id: number, refresh?: boolean): Observable<ChannelGroup> {
-    return super.read(id, refresh);
-  }
-
-  /**
-   * @override
-   */
-  list(
-    params?: NslcGroupsListRequestParams,
-    refresh?: boolean
-  ): Observable<ChannelGroup[]> {
-    return super._list(params, { refresh });
-  }
-
-  /**
-   * @override
-   */
-  updateOrCreate(t: ChannelGroup): Observable<ChannelGroup> {
-    return super._updateOrCreate(t);
-  }
-
-  /**
-   * @override
-   */
-  override delete(id: number): Observable<ChannelGroup> {
-    return super.delete(id);
   }
 
   /*returns channel groups sorted into
@@ -103,4 +69,14 @@ export class ChannelGroupService
       })
     );
   }
+}
+
+export interface ChannelGroupService extends SquacApiService<ChannelGroup> {
+  read(id: number, refresh?: boolean): Observable<ChannelGroup>;
+  list(
+    params?: NslcGroupsListRequestParams,
+    refresh?: boolean
+  ): Observable<ChannelGroup[]>;
+  updateOrCreate(t: ChannelGroup): Observable<ChannelGroup>;
+  delete(id: number): Observable<ChannelGroup>;
 }

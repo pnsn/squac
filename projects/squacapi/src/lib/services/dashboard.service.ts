@@ -15,42 +15,18 @@ import { ApiEndpoint } from "../enums";
 @Injectable({
   providedIn: "root",
 })
-export class DashboardService
-  extends BaseApiService<Dashboard>
-  implements SquacApiService<Dashboard>
-{
+export class DashboardService extends BaseApiService<Dashboard> {
   constructor(override api: ApiService, override adapter: DashboardAdapter) {
     super(ApiEndpoint.DASHBOARD, api);
   }
+}
 
-  /**
-   * @override
-   */
-  override read(id: number, refresh?: boolean): Observable<Dashboard> {
-    return super.read(id, refresh);
-  }
-
-  /**
-   * @override
-   */
+export interface DashboardService extends SquacApiService<Dashboard> {
+  read(id: number, refresh?: boolean): Observable<Dashboard>;
   list(
     params?: DashboardDashboardsListRequestParams,
     refresh?: boolean
-  ): Observable<Dashboard[]> {
-    return super._list(params, { refresh });
-  }
-
-  /**
-   * @override
-   */
-  updateOrCreate(d: Dashboard): Observable<Dashboard> {
-    return super._updateOrCreate(d);
-  }
-
-  /**
-   * @override
-   */
-  override delete(id: number): Observable<Dashboard> {
-    return super.delete(id);
-  }
+  ): Observable<Dashboard[]>;
+  updateOrCreate(d: Dashboard): Observable<Dashboard>;
+  delete(id: number): Observable<Dashboard>;
 }

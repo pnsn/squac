@@ -15,10 +15,7 @@ import { Observable, tap } from "rxjs";
 @Injectable({
   providedIn: "root",
 })
-export class OrganizationService
-  extends BaseApiService<Organization>
-  implements ReadOnlyApiService<Organization>
-{
+export class OrganizationService extends BaseApiService<Organization> {
   private localOrganizations: Organization[] = [];
   private orgUsers: Record<number, { first: string; last: string }> = {};
   constructor(override adapter: OrganizationAdapter, override api: ApiService) {
@@ -28,18 +25,11 @@ export class OrganizationService
   /**
    * @override
    */
-  override read(id: number, refresh?: boolean): Observable<Organization> {
-    return super.read(id, refresh);
-  }
-
-  /**
-   * @override
-   */
-  list(
+  override list(
     params?: OrganizationOrganizationsListRequestParams,
     refresh?: boolean
   ): Observable<Organization[]> {
-    return super._list(params, { refresh }).pipe(
+    return super.list(params, refresh).pipe(
       tap((organizations: Organization[]) => {
         this.localOrganizations = organizations.slice();
         organizations.forEach((org) => {
@@ -75,4 +65,12 @@ export class OrganizationService
     const org = this.localOrganizations.find((o) => o.id === id);
     return org ? org.name : "unknown";
   }
+}
+
+export interface OrganizationService extends ReadOnlyApiService<Organization> {
+  read(id: number, refresh?: boolean): Observable<Organization>;
+  list(
+    params?: OrganizationOrganizationsListRequestParams,
+    refresh?: boolean
+  ): Observable<Organization[]>;
 }

@@ -15,42 +15,18 @@ import { ApiEndpoint } from "../enums";
 @Injectable({
   providedIn: "root",
 })
-export class MonitorService
-  extends BaseApiService<Monitor>
-  implements SquacApiService<Monitor>
-{
+export class MonitorService extends BaseApiService<Monitor> {
   constructor(override adapter: MonitorAdapter, override api: ApiService) {
     super(ApiEndpoint.MONITOR, api);
   }
+}
 
-  /**
-   * @override
-   */
-  override read(id: number, refresh?: boolean): Observable<Monitor> {
-    return super.read(id, refresh);
-  }
-
-  /**
-   * @override
-   */
+export interface MonitorService extends SquacApiService<Monitor> {
+  read(id: number, refresh?: boolean): Observable<Monitor>;
   list(
     params?: MeasurementMonitorsListRequestParams,
     refresh?: boolean
-  ): Observable<Monitor[]> {
-    return super._list(params, { refresh });
-  }
-
-  /**
-   * @override
-   */
-  updateOrCreate(t: Monitor): Observable<Monitor> {
-    return super._updateOrCreate(t);
-  }
-
-  /**
-   * @override
-   */
-  override delete(id: number): Observable<Monitor> {
-    return super.delete(id);
-  }
+  ): Observable<Monitor[]>;
+  updateOrCreate(t: Monitor): Observable<Monitor>;
+  delete(id: number): Observable<Monitor>;
 }

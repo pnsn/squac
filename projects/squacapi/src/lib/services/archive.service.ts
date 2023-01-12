@@ -18,23 +18,17 @@ import { ApiEndpoint } from "../enums";
 @Injectable({
   providedIn: "root",
 })
-export class HourArchiveService
-  extends BaseApiService<Archive>
-  implements ListService<Archive>
-{
+export class HourArchiveService extends BaseApiService<Archive> {
   constructor(override adapter: ArchiveAdapter, override api: ApiService) {
     super(ApiEndpoint.HOUR_ARCHIVE, api);
   }
+}
 
-  /**
-   * @override
-   */
+export interface HourArchiveService extends ListService<Archive> {
   list(
     params: MeasurementHourArchivesListRequestParams,
     refresh?: boolean
-  ): Observable<Archive[]> {
-    return super._list(params, { refresh });
-  }
+  ): Observable<Archive[]>;
 }
 
 /**
@@ -43,23 +37,16 @@ export class HourArchiveService
 @Injectable({
   providedIn: "root",
 })
-export class DayArchiveService
-  extends BaseApiService<Archive>
-  implements ListService<Archive>
-{
+export class DayArchiveService extends BaseApiService<Archive> {
   constructor(override adapter: ArchiveAdapter, override api: ApiService) {
     super(ApiEndpoint.DAY_ARCHIVE, api);
   }
-
-  /**
-   * @override
-   */
+}
+export interface DayArchiveService extends ListService<Archive> {
   list(
     params: MeasurementDayArchivesListRequestParams,
     refresh?: boolean
-  ): Observable<Archive[]> {
-    return super._list(params, { refresh });
-  }
+  ): Observable<Archive[]>;
 }
 
 /**
@@ -68,23 +55,16 @@ export class DayArchiveService
 @Injectable({
   providedIn: "root",
 })
-export class WeekArchiveService
-  extends BaseApiService<Archive>
-  implements ListService<Archive>
-{
+export class WeekArchiveService extends BaseApiService<Archive> {
   constructor(override adapter: ArchiveAdapter, override api: ApiService) {
     super(ApiEndpoint.WEEK_ARCHIVE, api);
   }
-
-  /**
-   * @override
-   */
+}
+export interface WeekArchiveService extends ListService<Archive> {
   list(
     params: MeasurementWeekArchivesListRequestParams,
     refresh?: boolean
-  ): Observable<Archive[]> {
-    return super._list(params, { refresh });
-  }
+  ): Observable<Archive[]>;
 }
 
 /**
@@ -93,21 +73,15 @@ export class WeekArchiveService
 @Injectable({
   providedIn: "root",
 })
-export class MonthArchiveService
-  extends BaseApiService<Archive>
-  implements ListService<Archive>
-{
+export class MonthArchiveService extends BaseApiService<Archive> {
   constructor(override adapter: ArchiveAdapter, override api: ApiService) {
     super(ApiEndpoint.MONTH_ARCHIVE, api);
   }
+}
 
-  /**
-   * @override
-   */
+export interface MonthArchiveService extends ListService<Archive> {
   list(
     params: MeasurementMonthArchivesListRequestParams,
     refresh?: boolean
-  ): Observable<Archive[]> {
-    return super._list(params, { refresh });
-  }
+  ): Observable<Archive[]>;
 }
