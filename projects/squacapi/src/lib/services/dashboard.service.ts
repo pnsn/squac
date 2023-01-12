@@ -10,7 +10,7 @@ import { Observable } from "rxjs";
 import { ApiEndpoint } from "../enums";
 
 /**
- *
+ * Service for managing dashboards in squacapi
  */
 @Injectable({
   providedIn: "root",
@@ -24,18 +24,14 @@ export class DashboardService
   }
 
   /**
-   *
-   * @param id
-   * @param refresh
+   * @override
    */
   override read(id: number, refresh?: boolean): Observable<Dashboard> {
     return super.read(id, refresh);
   }
 
   /**
-   *
-   * @param params
-   * @param refresh
+   * @override
    */
   list(
     params?: DashboardDashboardsListRequestParams,
@@ -45,16 +41,14 @@ export class DashboardService
   }
 
   /**
-   *
-   * @param d
+   * @override
    */
   updateOrCreate(d: Dashboard): Observable<Dashboard> {
     return super._updateOrCreate(d);
   }
 
   /**
-   *
-   * @param id
+   * @override
    */
   override delete(id: number): Observable<Dashboard> {
     return super.delete(id);

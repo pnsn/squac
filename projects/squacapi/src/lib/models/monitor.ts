@@ -1,15 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ReadOnlyMonitorDetailSerializer } from "@pnsn/ngx-squacapi-client";
-import {
-  // ApiGetChannelGroup,
-  ChannelGroup,
-  ChannelGroupAdapter,
-  Metric,
-  MetricAdapter,
-  Alert,
-  Trigger,
-  TriggerAdapter,
-} from ".";
+import { Alert, Trigger, TriggerAdapter } from ".";
 import { Adapter, ApiTrigger, ReadMonitor, WriteMonitor } from "../interfaces";
 
 /**
@@ -30,8 +21,8 @@ export class Monitor {
     public triggers: Trigger[]
   ) {}
 
-  channelGroup?: ChannelGroup;
-  metric?: Metric;
+  channelGroupName: string;
+  metricName: string;
   alerts?: Alert[];
   inAlarm?: boolean;
   /**
@@ -55,29 +46,8 @@ export class MonitorAdapter
    * @override
    */
   adaptFromApi(item: ReadMonitor): Monitor {
-    const channelGroupAdapter = new ChannelGroupAdapter();
-    const metricAdapter = new MetricAdapter();
     const triggerAdapter = new TriggerAdapter();
-    let channelGroupId;
-    let metricId;
-    let channelGroup: ChannelGroup;
-    let metric: Metric;
     let triggers: Trigger[] = [];
-    // sometimes API returns number, sometimes group
-    if (typeof item.channel_group === "number") {
-      channelGroupId = item.channel_group;
-    } else if (item.channel_group) {
-      channelGroupId = item.channel_group.id;
-      channelGroup = channelGroupAdapter.adaptFromApi(item.channel_group);
-    }
-
-    if (typeof item.metric === "number") {
-      metricId = item.metric;
-    } else if (item.metric) {
-      metricId = item.metric.id;
-      metric = metricAdapter.adaptFromApi(item.metric);
-    }
-
     if ("triggers" in item && item.triggers) {
       triggers = item.triggers.map((t: ApiTrigger) =>
         triggerAdapter.adaptFromApi(t)
@@ -87,8 +57,8 @@ export class MonitorAdapter
     const monitor = new Monitor(
       item.id ? +item.id : 0,
       item.name,
-      channelGroupId,
-      metricId,
+      item.channel_group,
+      item.metric,
       item.interval_type,
       item.interval_count,
       item.stat,
@@ -96,8 +66,12 @@ export class MonitorAdapter
       triggers
     );
 
-    monitor.channelGroup = channelGroup;
-    monitor.metric = metric;
+    if ("channel_group_name" in item) {
+      monitor.channelGroupName = item.channel_group_name;
+    }
+    if ("metric_name" in item) {
+      monitor.metricName = item.metric_name;
+    }
 
     return monitor;
   }

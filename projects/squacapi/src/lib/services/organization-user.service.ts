@@ -11,7 +11,7 @@ import { User, UserAdapter } from "../models";
 import { Observable } from "rxjs";
 
 /**
- *
+ * Service for managing organization users
  */
 @Injectable({
   providedIn: "root",
@@ -25,18 +25,14 @@ export class OrganizationUserService
   }
 
   /**
-   *
-   * @param id
-   * @param refresh
+   * @override
    */
   override read(id: number, refresh?: boolean): Observable<User> {
     return super.read(id, refresh);
   }
 
   /**
-   *
-   * @param params
-   * @param refresh
+   * @override
    */
   list(
     params: OrganizationUsersListRequestParams,
@@ -46,8 +42,7 @@ export class OrganizationUserService
   }
 
   /**
-   *
-   * @param t
+   * @override
    */
   updateOrCreate(t: User): Observable<User> {
     return super._updateOrCreate(t);

@@ -1,8 +1,8 @@
 <p>Monitor detail component</p>
 {{ monitor.name }}
 {{ monitor.owner | user }}
-{{ monitor.metric.name }}
-{{ monitor.channelGroup.name }}
+{{ monitor.metricName }}
+{{ monitor.channelGroupName }}
 {{ starttime }} {{ endtime }}
 <shared-date-select
   [secondsAgoFromNow]="timeRange"

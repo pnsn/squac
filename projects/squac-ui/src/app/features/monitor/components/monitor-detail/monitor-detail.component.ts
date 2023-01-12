@@ -3,12 +3,11 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { DATE_PICKER_TIMERANGES } from "@dashboard/components/dashboard-detail/dashboard-time-ranges";
-import { catchError, EMPTY, forkJoin, switchMap, tap } from "rxjs";
+import { forkJoin, Observable, Subscription, switchMap, tap } from "rxjs";
 import {
   Alert,
   AlertService,
   Channel,
-  ChannelGroup,
   ChannelGroupService,
   MetricService,
   Monitor,
@@ -45,6 +44,7 @@ export class MonitorDetailComponent implements OnInit {
   datePickerTimeRanges = DATE_PICKER_TIMERANGES;
   starttime: string;
   endtime: string;
+  subscriptions = new Subscription();
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -73,18 +73,11 @@ export class MonitorDetailComponent implements OnInit {
         switchMap((processedData: ProcessedData | WidgetErrors) => {
           //check if data is a map and has data
           if (processedData instanceof Map) {
-            const minMetrics = this.widgetManager.widgetConfig.minMetrics;
-            const metricsWithData =
-              this.widgetDataService.measurementsWithData.length;
-            if (minMetrics > metricsWithData) {
-            } else {
-              // this.addWidget(this.widgetManager.widgetType);
-              this.widgetConfigService.thresholds =
-                this.widgetManager.thresholds;
-              this.widgetConfigService.dataRange =
-                this.widgetDataService.dataRange;
-              data = processedData;
-            }
+            // this.addWidget(this.widgetManager.widgetType);
+            this.widgetConfigService.thresholds = this.widgetManager.thresholds;
+            this.widgetConfigService.dataRange =
+              this.widgetDataService.dataRange;
+            data = processedData;
           }
 
           return this.getAlerts();
@@ -105,21 +98,19 @@ export class MonitorDetailComponent implements OnInit {
         switchMap((data) => {
           this.monitor = data["monitor"];
           return this.loadingService.doLoading(
-            this.channelGroupService.read(this.monitor.channelGroupId)
+            forkJoin({
+              channelGroup: this.channelGroupService.read(
+                this.monitor.channelGroupId
+              ),
+              metric: this.metricService.read(this.monitor.metricId),
+            })
           );
         })
       )
       .subscribe({
-        next: (channelGroup: ChannelGroup) => {
-          this.widget = new Widget(
-            0,
-            0,
-            "example",
-            0,
-            [this.monitor.metric],
-            "latest"
-          );
-          this.widget.metrics = [this.monitor.metric];
+        next: (results) => {
+          this.widget = new Widget(0, 0, "example", 0, [], "latest");
+          this.widget.metrics = [results.metric];
           this.widget.type = WidgetType.TIMESERIES;
           this.widgetManager.initWidget(this.widget);
           this.widgetManager.widgetConfig;
@@ -131,16 +122,23 @@ export class MonitorDetailComponent implements OnInit {
           this.widgetManager.updateTimes(this.starttime, this.endtime);
           this.widgetManager.updateChannels(
             this.monitor.channelGroupId,
-            channelGroup.channels as Channel[]
+            results.channelGroup.channels as Channel[]
           );
 
           this.widgetManager.updateWidgetType(WidgetType.TIMESERIES);
           this.widgetManager.updateMetrics(this.widget.metrics);
         },
       });
+    this.subscriptions.add(chanSub);
+    this.subscriptions.add(dataSub);
   }
 
-  getAlerts() {
+  /**
+   * Requests alerts iwthin time range
+   *
+   * @returns alerts
+   */
+  getAlerts(): Observable<Alert[]> {
     return this.alertService.list({
       timestampGte: this.widgetManager.starttime,
       timestampLt: this.widgetManager.endtime,
@@ -148,11 +146,24 @@ export class MonitorDetailComponent implements OnInit {
     });
   }
 
-  update() {
+  /**
+   * Requests new data
+   */
+  update(): void {
     this.widgetManager.fetchData();
   }
 
-  datesChanged({ startDate, endDate, liveMode, rangeInSeconds }) {
+  /**
+   * Dates emitted when user changes time ranges, updates
+   * dates in widget manager
+   *
+   * @param root0 emitted dates
+   * @param root0.startDate time range start date
+   * @param root0.endDate end of time range
+   * @param root0.liveMode is time range live
+   * @param root0.rangeInSeconds width of time range
+   */
+  datesChanged({ startDate, endDate, liveMode, rangeInSeconds }): void {
     if (!startDate || !endDate) {
       startDate = this.dateService.subtractFromNow(rangeInSeconds, "seconds");
       endDate = this.dateService.now();

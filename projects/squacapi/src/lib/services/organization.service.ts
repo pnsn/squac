@@ -10,7 +10,7 @@ import { Organization, OrganizationAdapter } from "../models";
 import { Observable, tap } from "rxjs";
 
 /**
- *
+ * Service for requesting organization data from squacapi
  */
 @Injectable({
   providedIn: "root",
@@ -26,18 +26,14 @@ export class OrganizationService
   }
 
   /**
-   *
-   * @param id
-   * @param refresh
+   * @override
    */
   override read(id: number, refresh?: boolean): Observable<Organization> {
     return super.read(id, refresh);
   }
 
   /**
-   *
-   * @param params
-   * @param refresh
+   * @override
    */
   list(
     params?: OrganizationOrganizationsListRequestParams,
@@ -59,8 +55,10 @@ export class OrganizationService
   }
 
   /**
+   * Returns name of a user in an organization with the given id
    *
-   * @param id
+   * @param id user id
+   * @returns user's name if found
    */
   getOrgUserName(id: number): string {
     const orgUser = this.orgUsers[id];
@@ -68,8 +66,10 @@ export class OrganizationService
   }
 
   /**
+   * Returns name of an organization with the given id
    *
-   * @param id
+   * @param id organization id
+   * @returns organization name
    */
   getOrgName(id: number): string {
     const org = this.localOrganizations.find((o) => o.id === id);

@@ -10,7 +10,7 @@ import { Observable } from "rxjs";
 import { ApiEndpoint } from "../enums";
 
 /**
- *
+ * Service for requesting networks from squacapi
  */
 @Injectable({
   providedIn: "root",
@@ -29,9 +29,7 @@ export class NetworkService
   }
 
   /**
-   *
-   * @param params
-   * @param refresh
+   * @override
    */
   list(
     params?: NslcNetworksListRequestParams,

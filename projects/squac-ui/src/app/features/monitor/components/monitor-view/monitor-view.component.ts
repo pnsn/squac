@@ -6,16 +6,13 @@ import {
   ViewChild,
 } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { Alert } from "squacapi";
 import { Monitor } from "squacapi";
-import { AlertService } from "squacapi";
 import { MonitorService } from "squacapi";
 import {
   catchError,
   EMPTY,
-  forkJoin,
   Observable,
   Subscription,
   switchMap,
@@ -166,11 +163,11 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
         },
         {
           name: "Channel Group",
-          prop: "channelGroupId",
+          prop: "channelGroupName",
         },
         {
           name: "Metric",
-          prop: "metricId",
+          prop: "metricName",
         },
         {
           name: "Owner",
@@ -208,7 +205,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
   /** Populate rows in table */
   makeRows(): void {
     this.monitors.forEach((monitor) => {
-      monitor.triggers.forEach((trigger) => {
+      monitor.triggers.forEach((_trigger) => {
         // if (trigger.inAlarm) {
         //   monitor.inAlarm = true;
         // }
@@ -258,7 +255,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
    * @returns array of matching alerts
    */
   getAlerts(monitorId: number): Alert[] {
-    return this.alerts.filter((a) => a.trigger.monitorId === monitorId);
+    return this.alerts.filter((a) => a.monitorId === monitorId);
   }
 
   /**

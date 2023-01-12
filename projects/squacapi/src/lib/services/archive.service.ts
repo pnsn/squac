@@ -13,7 +13,7 @@ import { Archive, ArchiveAdapter } from "../models";
 import { ApiEndpoint } from "../enums";
 
 /**
- *
+ * Service for requesting archives
  */
 @Injectable({
   providedIn: "root",
@@ -27,9 +27,7 @@ export class HourArchiveService
   }
 
   /**
-   *
-   * @param params
-   * @param refresh
+   * @override
    */
   list(
     params: MeasurementHourArchivesListRequestParams,
@@ -40,7 +38,7 @@ export class HourArchiveService
 }
 
 /**
- *
+ * Service for requesting day archives
  */
 @Injectable({
   providedIn: "root",
@@ -54,9 +52,7 @@ export class DayArchiveService
   }
 
   /**
-   *
-   * @param params
-   * @param refresh
+   * @override
    */
   list(
     params: MeasurementDayArchivesListRequestParams,
@@ -67,7 +63,7 @@ export class DayArchiveService
 }
 
 /**
- *
+ * Service for requesting week archives
  */
 @Injectable({
   providedIn: "root",
@@ -81,9 +77,7 @@ export class WeekArchiveService
   }
 
   /**
-   *
-   * @param params
-   * @param refresh
+   * @override
    */
   list(
     params: MeasurementWeekArchivesListRequestParams,
@@ -94,7 +88,7 @@ export class WeekArchiveService
 }
 
 /**
- *
+ * Service for requesting month archives
  */
 @Injectable({
   providedIn: "root",
@@ -108,9 +102,7 @@ export class MonthArchiveService
   }
 
   /**
-   *
-   * @param params
-   * @param refresh
+   * @override
    */
   list(
     params: MeasurementMonthArchivesListRequestParams,

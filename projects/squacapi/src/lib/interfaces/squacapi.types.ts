@@ -10,11 +10,9 @@ export type ApiChannel = squacapi.Channel;
 export type ReadChannel = squacapi.ReadOnlyChannelSerializer | ApiChannel;
 
 // channel groups
-export type ApiChannelGroup = squacapi.NslcGroup;
 export type ReadChannelGroup =
   | squacapi.ReadOnlyGroupDetailSerializer
-  | squacapi.ReadOnlyGroupSerializer
-  | squacapi.NslcGroup;
+  | squacapi.ReadOnlyGroupSerializer;
 export type WriteChannelGroup = squacapi.WriteOnlyGroupSerializer;
 
 // metrics
@@ -35,9 +33,7 @@ export type ReadDashboard =
 export type WriteDashboard = squacapi.WriteOnlyDashboardSerializer;
 
 // Alerts
-export type ReadAlert =
-  | squacapi.ReadOnlyAlertDetailSerializer
-  | squacapi.ReadOnlyAlertSerializer;
+export type ReadAlert = squacapi.ReadOnlyAlertDetailSerializer;
 
 // monitors
 export type ReadMonitor =

@@ -12,7 +12,7 @@ import { BaseApiService } from "./generic-api.service";
 import { ApiEndpoint } from "../enums";
 
 /**
- *
+ * Service for managing channels
  */
 @Injectable({
   providedIn: "root",
@@ -26,18 +26,14 @@ export class ChannelService
   }
 
   /**
-   *
-   * @param id
-   * @param refresh
+   * @override
    */
   override read(id: number, refresh?: boolean): Observable<Channel> {
     return super.read(id, refresh);
   }
 
   /**
-   *
-   * @param params
-   * @param refresh
+   * @override
    */
   list(
     params: NslcChannelsListRequestParams,
@@ -47,9 +43,11 @@ export class ChannelService
   }
 
   /**
+   * Requests channels using params and matching rules
    *
-   * @param rules
-   * @param params
+   * @param rules matching rules
+   * @param params channel request params
+   * @returns channels matching requests
    */
   getChannelsByRules(
     rules: MatchingRule[],

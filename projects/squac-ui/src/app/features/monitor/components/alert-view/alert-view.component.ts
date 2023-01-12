@@ -172,7 +172,8 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
       }).pipe(
         tap((results: any) => {
           this.monitors = results.monitors;
-          this.findMonitorForAlerts(results.alerts);
+          this.alerts = results.alerts;
+          this.rows = [...this.alerts];
         }),
         catchError(() => {
           return EMPTY;
@@ -185,24 +186,6 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
   /** Get fresh data */
   refresh(): void {
     this.fetchData(true).subscribe();
-  }
-
-  /**
-   * Matches up alerts and monitors
-   *
-   * @param alerts array of available alerts
-   */
-  findMonitorForAlerts(alerts: Alert[]): void {
-    this.alerts = [];
-    if (this.monitors.length > 0 && alerts.length > 0) {
-      this.alerts = alerts.map((alert) => {
-        alert.monitor = this.monitors.find(
-          (m) => m.id === alert.trigger.monitorId
-        );
-        return alert;
-      });
-    }
-    this.rows = [...this.alerts];
   }
 
   /** unsubscribe */

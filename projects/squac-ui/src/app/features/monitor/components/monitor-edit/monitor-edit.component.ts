@@ -264,7 +264,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       this.id = this.monitor.id;
 
       this.selectedMetric = this.metrics.find(
-        (m) => m.id === this.monitor.metric.id
+        (m) => m.id === this.monitor.metricId
       );
 
       this.monitorForm.patchValue({
@@ -272,7 +272,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
         intervalCount: this.monitor.intervalCount,
         intervalType: this.monitor.intervalType,
         stat: this.monitor.stat,
-        channelGroup: this.monitor.channelGroup.id,
+        channelGroup: this.monitor.channelGroupId,
         metric: this.selectedMetric,
       });
 

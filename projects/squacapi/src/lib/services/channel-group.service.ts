@@ -11,7 +11,7 @@ import { Observable } from "rxjs";
 import { ApiEndpoint } from "../enums";
 
 /**
- *
+ * Service for managing channel groups
  */
 @Injectable({
   providedIn: "root",
@@ -25,18 +25,14 @@ export class ChannelGroupService
   }
 
   /**
-   *
-   * @param id
-   * @param refresh
+   * @override
    */
   override read(id: number, refresh?: boolean): Observable<ChannelGroup> {
     return super.read(id, refresh);
   }
 
   /**
-   *
-   * @param params
-   * @param refresh
+   * @override
    */
   list(
     params?: NslcGroupsListRequestParams,
@@ -46,16 +42,14 @@ export class ChannelGroupService
   }
 
   /**
-   *
-   * @param t
+   * @override
    */
   updateOrCreate(t: ChannelGroup): Observable<ChannelGroup> {
     return super._updateOrCreate(t);
   }
 
   /**
-   *
-   * @param id
+   * @override
    */
   override delete(id: number): Observable<ChannelGroup> {
     return super.delete(id);
@@ -67,9 +61,12 @@ export class ChannelGroupService
   groups: [channelGroups]
   }
   */
+
   /**
+   * Returns channel groups sorted into public, private or org
    *
-   * @param params
+   * @param params search params
+   * @returns channel groups sorted
    */
   getSortedChannelGroups(
     params?: NslcGroupsListRequestParams

@@ -10,7 +10,7 @@ import { Observable } from "rxjs";
 import { ApiEndpoint } from "../enums";
 
 /**
- *
+ * Service for requesting triggers from squac
  */
 @Injectable({
   providedIn: "root",
@@ -24,18 +24,14 @@ export class TriggerService
   }
 
   /**
-   *
-   * @param id
-   * @param refresh
+   * @override
    */
   override read(id: number, refresh?: boolean): Observable<Trigger> {
     return super.read(id, refresh);
   }
 
   /**
-   *
-   * @param params
-   * @param refresh
+   * @override
    */
   list(
     params?: MeasurementTriggersListRequestParams,
@@ -45,27 +41,26 @@ export class TriggerService
   }
 
   /**
-   *
-   * @param t
+   * @override
    */
   updateOrCreate(t: Trigger): Observable<Trigger> {
     return super._updateOrCreate(t);
   }
 
   /**
-   *
-   * @param id
+   * @override
    */
   override delete(id: number): Observable<Trigger> {
     return super.delete(id);
   }
 
-  // combine observables for update or create triggers
   /**
+   * Combine observables for updating or deleting triggers
    *
-   * @param triggers
-   * @param deleteTriggers
-   * @param monitorId
+   * @param triggers triggers to update
+   * @param deleteTriggers array of ids of triggers to delete
+   * @param monitorId trigger monitor id
+   * @returns combined observables of results
    */
   updateTriggers(
     triggers: Trigger[],

@@ -101,7 +101,6 @@ export class WidgetManagerService {
   initWidget(widget: Widget): void {
     if (widget.isValid) {
       this._widget = widget;
-      console.log(this._widget);
       this.updateWidgetType(widget.type as WidgetType);
 
       // send widget

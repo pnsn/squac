@@ -13,7 +13,7 @@ export class Network {
   ) {}
 
   /**
-   * @return model name
+   * @returns model name
    */
   static get modelName(): string {
     return "Network";

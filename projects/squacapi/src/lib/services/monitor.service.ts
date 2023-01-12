@@ -10,7 +10,7 @@ import { Monitor, MonitorAdapter } from "../models";
 import { ApiEndpoint } from "../enums";
 
 /**
- *
+ * Service for managing monitors
  */
 @Injectable({
   providedIn: "root",
@@ -24,17 +24,14 @@ export class MonitorService
   }
 
   /**
-   *
-   * @param id
-   * @param refresh
+   * @override
    */
   override read(id: number, refresh?: boolean): Observable<Monitor> {
     return super.read(id, refresh);
   }
+
   /**
-   *
-   * @param params
-   * @param refresh
+   * @override
    */
   list(
     params?: MeasurementMonitorsListRequestParams,
@@ -42,16 +39,16 @@ export class MonitorService
   ): Observable<Monitor[]> {
     return super._list(params, { refresh });
   }
+
   /**
-   *
-   * @param t
+   * @override
    */
   updateOrCreate(t: Monitor): Observable<Monitor> {
     return super._updateOrCreate(t);
   }
+
   /**
-   *
-   * @param id
+   * @override
    */
   override delete(id: number): Observable<Monitor> {
     return super.delete(id);

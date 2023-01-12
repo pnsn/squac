@@ -10,7 +10,7 @@ import { Measurement, MeasurementAdapter } from "../models";
 import { ApiEndpoint } from "../enums";
 
 /**
- *
+ * Service for requesting measurements from squacapi
  */
 @Injectable({
   providedIn: "root",
@@ -24,10 +24,7 @@ export class MeasurementService
   }
 
   /**
-   * Request list of measurements
-   *
-   * @param params
-   * @param refresh
+   * @override
    */
   list(
     params: MeasurementMeasurementsListRequestParams,

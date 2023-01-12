@@ -25,10 +25,7 @@ import {
   templateUrl: "./monitor-history-chart.component.html",
   styleUrls: ["./monitor-history-chart.component.scss"],
 })
-export class MonitorHistoryChartComponent
-  extends EChartComponent
-  implements OnChanges
-{
+export class MonitorHistoryChartComponent extends EChartComponent {
   @Input() monitor: Monitor;
   @Input() alerts: Alert[];
   measurementPipe = new MeasurementPipe();
@@ -46,13 +43,6 @@ export class MonitorHistoryChartComponent
   // Max allowable time between measurements to connect
   maxMeasurementGap = 1.5;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
-    if (changes["alerts"]) {
-      console.log(changes["alerts"]);
-    }
-  }
   /**
    * @override
    */
@@ -161,7 +151,6 @@ export class MonitorHistoryChartComponent
             },
           },
         };
-        let lastEnd: dayjs.Dayjs;
         if (data.has(channel.id)) {
           const measurements = data.get(channel.id).get(metric.id);
 
@@ -225,7 +214,6 @@ export class MonitorHistoryChartComponent
         stations.push(station);
       });
       this.metricSeries.series = stations;
-      console.log(this.alerts);
       const monitorSeries = this.addMonitor();
       const triggerSeries = this.addTriggers();
       this.metricSeries.series.push(triggerSeries);
@@ -234,7 +222,12 @@ export class MonitorHistoryChartComponent
     });
   }
 
-  addTriggers() {
+  /**
+   * Add triggers to plots
+   *
+   * @returns trigger series
+   */
+  addTriggers(): unknown {
     const triggerSeries = {
       type: "line",
       name: "Triggers",
@@ -367,7 +360,12 @@ export class MonitorHistoryChartComponent
     return triggerSeries;
   }
 
-  addMonitor() {
+  /**
+   * Adds alarms to charts
+   *
+   * @returns alarm series
+   */
+  addMonitor(): unknown {
     const triggerSeries = {
       type: "custom",
       name: "Alerts",

@@ -10,7 +10,7 @@ import { ApiEndpoint } from "../enums";
 import { BaseApiService } from "./generic-api.service";
 
 /**
- *
+ * Service for requesting aggregates
  */
 @Injectable({
   providedIn: "root",
@@ -24,9 +24,7 @@ export class AggregateService
   }
 
   /**
-   *
-   * @param params
-   * @param refresh
+   * @override
    */
   list(
     params: MeasurementAggregatedListRequestParams,

@@ -10,7 +10,7 @@ import { Observable } from "rxjs";
 import { ApiEndpoint } from "../enums";
 
 /**
- *
+ * Service for requesting alerts from squacapi
  */
 @Injectable({
   providedIn: "root",
@@ -24,18 +24,14 @@ export class AlertService
   }
 
   /**
-   *
-   * @param id
-   * @param refresh
+   * @override
    */
   override read(id: number, refresh?: boolean): Observable<Alert> {
     return super.read(id, refresh);
   }
 
   /**
-   *
-   * @param params
-   * @param refresh
+   * @override
    */
   list(
     params?: MeasurementAlertsListRequestParams,

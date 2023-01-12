@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Adapter, ReadAlert } from "../interfaces";
-import { Monitor, Trigger } from ".";
-import { TriggerAdapter } from "./trigger";
+import { Trigger as ApiTrigger } from "@pnsn/ngx-squacapi-client";
 
+type BreachingChannel = Record<string, string | number>;
 /**
  * Describes an alert
  */
@@ -12,11 +12,16 @@ export class Alert {
   timestamp!: string;
   message!: string;
   inAlarm?: boolean;
-  breachingChannels!: string[];
-  triggerId?: number;
+  breachingChannels!: BreachingChannel[];
 
-  monitor?: Monitor;
-  trigger?: Trigger;
+  triggerId?: number;
+  monitorId: number;
+  monitorName: string;
+  val1: number;
+  val2?: number;
+  valueOperator?: ApiTrigger.ValueOperatorEnum;
+  numChannels: number;
+  numChannelsOperator: ApiTrigger.NumChannelsOperatorEnum;
 
   /** @returns model name */
   static get modelName(): string {
@@ -31,36 +36,34 @@ export class Alert {
 export class AlertAdapter implements Adapter<Alert, ReadAlert, unknown> {
   /** @override */
   adaptFromApi(item: ReadAlert): Alert {
-    const triggerAdapter = new TriggerAdapter();
-    let breachingChannels: string[] = [];
-    let trigger;
-    let triggerId;
+    let breachingChannels: BreachingChannel[] = [];
 
     if (typeof item.breaching_channels === "string") {
       try {
-        breachingChannels = JSON.parse(item.breaching_channels) as string[];
+        breachingChannels = JSON.parse(
+          item.breaching_channels
+        ) as BreachingChannel[];
       } catch {
         breachingChannels = [];
       }
     }
 
-    if (typeof item.trigger === "number") {
-      triggerId = item.trigger;
-    } else if (item.trigger) {
-      triggerId = item.trigger.id;
-      trigger = triggerAdapter.adaptFromApi(item.trigger);
-    }
-
-    const alert: Alert = {
+    const alert: Alert = new Alert();
+    Object.assign(alert, {
       id: item.id,
       owner: item.user,
       timestamp: item.timestamp,
-      message: item.message,
       inAlarm: item.in_alarm,
       breachingChannels,
-      triggerId,
-      trigger,
-    };
+      triggerId: item.trigger,
+      monitorId: item.monitor,
+      monitorName: item.monitor_name,
+      val1: item.val1,
+      val2: item.val2,
+      valueOperator: item.value_operator,
+      numChannels: item.num_channels,
+      numChannelsOperator: item.num_channels_operator,
+    });
 
     return alert;
   }
