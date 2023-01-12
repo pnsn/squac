@@ -160,10 +160,10 @@ export class MonitorDetailComponent implements OnInit {
    * @param root0 emitted dates
    * @param root0.startDate time range start date
    * @param root0.endDate end of time range
-   * @param root0.liveMode is time range live
+   * @param root0._liveMode is time range live
    * @param root0.rangeInSeconds width of time range
    */
-  datesChanged({ startDate, endDate, liveMode, rangeInSeconds }): void {
+  datesChanged({ startDate, endDate, _liveMode, rangeInSeconds }): void {
     if (!startDate || !endDate) {
       startDate = this.dateService.subtractFromNow(rangeInSeconds, "seconds");
       endDate = this.dateService.now();

@@ -1,7 +1,6 @@
-import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
-import dayjs from "dayjs";
 import {
   CustomSeriesRenderItemAPI,
   CustomSeriesRenderItemReturn,
