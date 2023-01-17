@@ -133,6 +133,22 @@ export abstract class BaseApiService<T extends SquacObject> {
   }
 
   /**
+   * Create or update object of type T from squacapi
+   *
+   * @template T type of model to be created
+   * @param t http params for request
+   * @returns results of http request
+   */
+  protected _updateOrCreate(t: T): Observable<T> {
+    if (t.id) {
+      const params = this.updateParams(t);
+      return this._update(params);
+    }
+    const params = this.createParams(t);
+    return this._create(params);
+  }
+
+  /**
    * Delete object of type T from squacapi
    *
    * @template T type of model to be deleted
@@ -194,14 +210,21 @@ export abstract class BaseApiService<T extends SquacObject> {
   /**
    * Returns list of requested data type
    *
-   * @param params
-   * @param refresh
-   * @returns
+   * @param params request params
+   * @param refresh true if cache should not be used
+   * @returns observable of list of results
    */
   protected list(params?: unknown, refresh?: boolean): Observable<T[]> {
     return this._list(params, { refresh });
   }
 
+  /**
+   * Create or update object of type T from squacapi
+   *
+   * @template T type of model to be created
+   * @param t http params for request
+   * @returns results of http request
+   */
   protected updateOrCreate(t: T): Observable<T> {
     return this._updateOrCreate(t);
   }
@@ -227,21 +250,5 @@ export abstract class BaseApiService<T extends SquacObject> {
   protected delete(id: number): Observable<T> {
     const params = this.deleteParams(id);
     return this._delete(params);
-  }
-
-  /**
-   * Create or update object of type T from squacapi
-   *
-   * @template T type of model to be created
-   * @param t http params for request
-   * @returns results of http request
-   */
-  protected _updateOrCreate(t: T): Observable<T> {
-    if (t.id) {
-      const params = this.updateParams(t);
-      return this._update(params);
-    }
-    const params = this.createParams(t);
-    return this._create(params);
   }
 }
