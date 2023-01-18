@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { SquacApiService } from "../interfaces";
-import { BaseApiService } from "./generic-api.service";
-import { Trigger, TriggerAdapter } from "../models";
+import { SquacApiService, WriteTrigger } from "../interfaces";
+import { BaseWriteableApiService } from "./generic-api.service";
+import { Trigger } from "../models";
 import {
   ApiService,
   MeasurementTriggersListRequestParams,
@@ -15,9 +15,14 @@ import { ApiEndpoint } from "../enums";
 @Injectable({
   providedIn: "root",
 })
-export class TriggerService extends BaseApiService<Trigger> {
-  constructor(override adapter: TriggerAdapter, override api: ApiService) {
+export class TriggerService extends BaseWriteableApiService<Trigger> {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.TRIGGER, api);
+  }
+
+  deserialize = Trigger.deserialize;
+  serialize(model: Trigger): WriteTrigger {
+    return model.serialize();
   }
 
   /**

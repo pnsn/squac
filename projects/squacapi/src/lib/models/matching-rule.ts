@@ -1,5 +1,4 @@
-import { Injectable } from "@angular/core";
-import { Adapter, ReadMatchingRule, WriteMatchingRule } from "../interfaces";
+import { ReadMatchingRule, WriteMatchingRule } from "../interfaces";
 
 /**
  * Regular expression rules for building channel groups
@@ -15,19 +14,12 @@ export class MatchingRule {
   stationRegex?: string;
   locationRegex?: string;
   channelRegex?: string;
-}
 
-/**
- * adapt matching rule
- */
-@Injectable({
-  providedIn: "root",
-})
-export class MatchingRuleAdapter
-  implements Adapter<MatchingRule, ReadMatchingRule, WriteMatchingRule>
-{
-  /** @override */
-  adaptFromApi(item: ReadMatchingRule): MatchingRule {
+  /**
+   *
+   * @param item
+   */
+  static deserialize(item: ReadMatchingRule): MatchingRule {
     const matchingRule = new MatchingRule(
       item.id ? +item.id : 0,
       item.user ? item.user : 0,
@@ -43,15 +35,17 @@ export class MatchingRuleAdapter
     return matchingRule;
   }
 
-  /** @override */
-  adaptToApi(item: MatchingRule): WriteMatchingRule {
+  /**
+   *
+   */
+  serialize(): WriteMatchingRule {
     return {
-      group: item.channelGroupId,
-      network_regex: item.networkRegex,
-      station_regex: item.stationRegex,
-      location_regex: item.locationRegex,
-      channel_regex: item.channelRegex,
-      is_include: item.isInclude,
+      group: this.channelGroupId,
+      network_regex: this.networkRegex,
+      station_regex: this.stationRegex,
+      location_regex: this.locationRegex,
+      channel_regex: this.channelRegex,
+      is_include: this.isInclude,
     };
   }
 }

@@ -1,5 +1,4 @@
-import { Injectable } from "@angular/core";
-import { Adapter, SquacObject, ReadChannel } from "../interfaces";
+import { SquacObject, ReadChannel } from "../interfaces";
 
 /**
  * Describes a channel object
@@ -37,16 +36,12 @@ export class Channel implements SquacObject {
   static get modelName(): string {
     return "Channel";
   }
-}
-/**
- * Adapt channel
- */
-@Injectable({
-  providedIn: "root",
-})
-export class ChannelAdapter implements Adapter<Channel, ReadChannel, unknown> {
-  /** @override */
-  adaptFromApi(item: ReadChannel): Channel {
+
+  /**
+   *
+   * @param item
+   */
+  static deserialize(item: ReadChannel): Channel {
     return new Channel(
       item.id ? +item.id : 0,
       item.code.toUpperCase(),

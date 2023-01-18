@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { Network, NetworkAdapter } from "../models";
+import { Network } from "../models";
 import { ListService } from "../interfaces";
-import { BaseApiService } from "./generic-api.service";
+import { BaseReadOnlyApiService } from "./generic-api.service";
 import {
   ApiService,
   NslcNetworksListRequestParams,
@@ -15,13 +15,11 @@ import { ApiEndpoint } from "../enums";
 @Injectable({
   providedIn: "root",
 })
-export class NetworkService extends BaseApiService<Network> {
-  constructor(
-    override api: ApiService,
-    protected networkAdapter: NetworkAdapter
-  ) {
+export class NetworkService extends BaseReadOnlyApiService<Network> {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.NETWORK, api);
   }
+  deserialize = Network.deserialize;
 }
 
 export interface NetworkService extends ListService<Network> {

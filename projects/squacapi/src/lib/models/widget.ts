@@ -1,8 +1,6 @@
-import { Injectable } from "@angular/core";
 import { Threshold } from "../interfaces";
-import { Metric, MetricAdapter } from ".";
+import { Metric } from ".";
 import {
-  Adapter,
   ApiMetric,
   ReadWidget,
   WriteWidget,
@@ -123,24 +121,16 @@ export class Widget {
   static get modelName(): string {
     return "Widget";
   }
-}
 
-/**
- * Adapts widget model and api info
- */
-@Injectable({
-  providedIn: "root",
-})
-export class WidgetAdapter implements Adapter<Widget, ReadWidget, WriteWidget> {
-  /** @override */
-  adaptFromApi(item: ReadWidget): Widget {
-    const metricAdapter = new MetricAdapter();
+  /**
+   *
+   * @param item
+   */
+  static deserialize(item: ReadWidget): Widget {
     let metrics: Metric[] = [];
 
     if (item.metrics) {
-      metrics = item.metrics.map((m: ApiMetric) =>
-        metricAdapter.adaptFromApi(m)
-      );
+      metrics = item.metrics.map((m: ApiMetric) => Metric.deserialize(m));
     }
 
     const stat = item.stat as WidgetStatType;
@@ -161,17 +151,19 @@ export class WidgetAdapter implements Adapter<Widget, ReadWidget, WriteWidget> {
     return widget;
   }
 
-  /** @override */
-  adaptToApi(item: Widget): WriteWidget {
+  /**
+   *
+   */
+  serialize(): WriteWidget {
     return {
-      name: item.name,
-      metrics: item.metricsIds,
-      dashboard: item.dashboardId,
-      type: item.type,
-      stat: item.stat,
-      layout: JSON.stringify(item.layout),
-      properties: JSON.stringify(item.properties),
-      thresholds: JSON.stringify(item.thresholds),
+      name: this.name,
+      metrics: this.metricsIds,
+      dashboard: this.dashboardId,
+      type: this.type,
+      stat: this.stat,
+      layout: JSON.stringify(this.layout),
+      properties: JSON.stringify(this.properties),
+      thresholds: JSON.stringify(this.thresholds),
     };
   }
 }

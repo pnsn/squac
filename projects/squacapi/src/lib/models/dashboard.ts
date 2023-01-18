@@ -1,7 +1,5 @@
-import { Injectable } from "@angular/core";
 import { ChannelGroup, Widget } from ".";
 import {
-  Adapter,
   ReadDashboard,
   WriteDashboard,
   DashboardProperties,
@@ -76,19 +74,12 @@ export class Dashboard {
   static get modelName(): string {
     return "Dashboard";
   }
-}
 
-/**
- * Adapts dashboard
- */
-@Injectable({
-  providedIn: "root",
-})
-export class DashboardAdapter
-  implements Adapter<Dashboard, ReadDashboard, WriteDashboard>
-{
-  /** @override */
-  adaptFromApi(item: ReadDashboard): Dashboard {
+  /**
+   *
+   * @param item
+   */
+  static deserialize(item: ReadDashboard): Dashboard {
     const dashboard = new Dashboard(
       item.id ? +item.id : 0,
       item.user ? +item.user : 0,
@@ -105,18 +96,20 @@ export class DashboardAdapter
     return dashboard;
   }
 
-  /** @override */
-  adaptToApi(item: Dashboard): WriteDashboard {
+  /**
+   *
+   */
+  serialize(): WriteDashboard {
     const d: WriteDashboard = {
-      name: item.name,
-      description: item.description,
-      share_all: item.shareAll,
-      share_org: item.shareOrg,
-      organization: item.orgId,
-      properties: JSON.stringify(item.properties),
+      name: this.name,
+      description: this.description,
+      share_all: this.shareAll,
+      share_org: this.shareOrg,
+      organization: this.orgId,
+      properties: JSON.stringify(this.properties),
     };
-    if (item.channelGroupId) {
-      d.channel_group = item.channelGroupId;
+    if (this.channelGroupId) {
+      d.channel_group = this.channelGroupId;
     }
     return d;
   }

@@ -1,5 +1,4 @@
-import { Injectable } from "@angular/core";
-import { Adapter, ReadArchive } from "../interfaces";
+import { ReadArchive } from "../interfaces";
 
 /** Describes an archive */
 export class Archive {
@@ -22,15 +21,13 @@ export class Archive {
   static get modelName(): string {
     return "Archive";
   }
-}
 
-/** adapt archive */
-@Injectable({
-  providedIn: "root",
-})
-export class ArchiveAdapter implements Adapter<Archive, ReadArchive, unknown> {
-  /** @override */
-  adaptFromApi(item: ReadArchive): Archive {
+  /**
+   *
+   * @param item
+   * @returns
+   */
+  static deserialize(item: ReadArchive): Archive {
     // squacapi openapi thinks min & maxabs are strings
     const id = item.id ? +item.id : undefined;
     const minabs = item.minabs ? +item.minabs : undefined;

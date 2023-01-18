@@ -3,11 +3,11 @@ import {
   ApiService,
   OrganizationUsersListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
-import { BaseApiService } from "./generic-api.service";
+import { BaseReadOnlyApiService } from "./generic-api.service";
 import { ApiEndpoint } from "../enums";
 import { WriteableApiService } from "../interfaces";
 
-import { User, UserAdapter } from "../models";
+import { User } from "../models";
 import { Observable } from "rxjs";
 
 /**
@@ -16,10 +16,12 @@ import { Observable } from "rxjs";
 @Injectable({
   providedIn: "root",
 })
-export class OrganizationUserService extends BaseApiService<User> {
-  constructor(override adapter: UserAdapter, override api: ApiService) {
+export class OrganizationUserService extends BaseReadOnlyApiService<User> {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.ORGANIZATION_USER, api);
   }
+
+  deserialize = User.deserialize;
 }
 
 export interface OrganizationUserService extends WriteableApiService<User> {

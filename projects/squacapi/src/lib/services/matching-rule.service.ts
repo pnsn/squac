@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { SquacApiService } from "../interfaces";
-import { BaseApiService } from "./generic-api.service";
+import { SquacApiService, WriteMatchingRule } from "../interfaces";
+import { BaseWriteableApiService } from "./generic-api.service";
 import {
   ApiService,
   NslcMatchingRulesDeleteRequestParams,
@@ -9,7 +9,7 @@ import {
   NslcMatchingRulesUpdateRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
-import { MatchingRule, MatchingRuleAdapter } from "../models";
+import { MatchingRule } from "../models";
 import { ApiEndpoint } from "../enums";
 
 /**
@@ -18,9 +18,18 @@ import { ApiEndpoint } from "../enums";
 @Injectable({
   providedIn: "root",
 })
-export class MatchingRuleService extends BaseApiService<MatchingRule> {
-  constructor(override api: ApiService, override adapter: MatchingRuleAdapter) {
+export class MatchingRuleService extends BaseWriteableApiService<MatchingRule> {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.MATCHING_RULE, api);
+  }
+
+  deserialize = MatchingRule.deserialize;
+  /**
+   *
+   * @param model
+   */
+  serialize(model: MatchingRule): WriteMatchingRule {
+    return model.serialize();
   }
 
   /** @override */
@@ -37,7 +46,7 @@ export class MatchingRuleService extends BaseApiService<MatchingRule> {
   override updateParams(m: MatchingRule): NslcMatchingRulesUpdateRequestParams {
     return {
       id: m.id,
-      data: this.adapter.adaptToApi(m),
+      data: m.serialize(),
     };
   }
 

@@ -1,5 +1,4 @@
-import { Injectable } from "@angular/core";
-import { Adapter, ReadMetric, WriteMetric } from "../interfaces";
+import { ReadMetric, WriteMetric } from "../interfaces";
 
 /**
  * Describes a metric object
@@ -24,17 +23,12 @@ export class Metric {
   static get modelName(): string {
     return "Metric";
   }
-}
 
-/**
- * adapts metric
- */
-@Injectable({
-  providedIn: "root",
-})
-export class MetricAdapter implements Adapter<Metric, ReadMetric, WriteMetric> {
-  /** @override */
-  adaptFromApi(item: ReadMetric): Metric {
+  /**
+   *
+   * @param item
+   */
+  static deserialize(item: ReadMetric): Metric {
     return new Metric(
       item.id ? +item.id : 0,
       item.user ? +item.user : 0,
@@ -49,16 +43,18 @@ export class MetricAdapter implements Adapter<Metric, ReadMetric, WriteMetric> {
     );
   }
 
-  /** @override */
-  adaptToApi(item: Metric): WriteMetric {
+  /**
+   *
+   */
+  serialize(): WriteMetric {
     return {
-      name: item.name,
-      code: item.code,
-      description: item.description,
-      reference_url: item.refUrl,
-      unit: item.unit,
-      default_minval: item.minVal,
-      default_maxval: item.maxVal,
+      name: this.name,
+      code: this.code,
+      description: this.description,
+      reference_url: this.refUrl,
+      unit: this.unit,
+      default_minval: this.minVal,
+      default_maxval: this.maxVal,
     };
   }
 }

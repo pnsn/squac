@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { WriteableApiService } from "../interfaces";
-import { BaseApiService } from "./generic-api.service";
-import { Metric, MetricAdapter } from "../models";
+import { WriteableApiService, WriteMetric } from "../interfaces";
+import { BaseWriteableApiService } from "./generic-api.service";
+import { Metric } from "../models";
 import {
   ApiService,
   MeasurementMetricsListRequestParams,
@@ -15,9 +15,18 @@ import { ApiEndpoint } from "../enums";
 @Injectable({
   providedIn: "root",
 })
-export class MetricService extends BaseApiService<Metric> {
-  constructor(override adapter: MetricAdapter, override api: ApiService) {
+export class MetricService extends BaseWriteableApiService<Metric> {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.METRIC, api);
+  }
+  deserialize = Metric.deserialize;
+
+  /**
+   *
+   * @param model
+   */
+  serialize(model: Metric): WriteMetric {
+    return model.serialize();
   }
 }
 

@@ -4,11 +4,11 @@ import {
   UserMePartialUpdateRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { ApiEndpoint } from "../enums";
-import { User, UserAdapter } from "../models";
+import { User } from "../models";
 
 import { map, Observable } from "rxjs";
-import { BaseApiService } from "./generic-api.service";
-import { PartialUpdateService, ReadService } from "../interfaces";
+import { BaseWriteableApiService } from "./generic-api.service";
+import { PartialUpdateService, ReadService, WriteUser } from "../interfaces";
 
 /**
  * Service for interacting with User Me squacapi endpoints
@@ -17,13 +17,18 @@ import { PartialUpdateService, ReadService } from "../interfaces";
   providedIn: "root",
 })
 export class UserMeService
-  extends BaseApiService<User>
+  extends BaseWriteableApiService<User>
   implements ReadService<User>, PartialUpdateService<User>
 {
-  constructor(override adapter: UserAdapter, override api: ApiService) {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.USER_ME, api);
   }
 
+  deserialize = User.deserialize;
+
+  serialize(model: User): WriteUser {
+    return model.serialize();
+  }
   /**
    * Request current user
    *
@@ -51,6 +56,6 @@ export class UserMeService
       params,
       this.observe,
       this.reportProgress
-    ).pipe(map(this.adapter.adaptFromApi.bind(this)));
+    ).pipe(map(User.deserialize));
   }
 }

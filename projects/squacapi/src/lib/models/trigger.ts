@@ -1,5 +1,4 @@
-import { Injectable } from "@angular/core";
-import { Adapter, ReadTrigger, WriteTrigger } from "../interfaces";
+import { ReadTrigger, WriteTrigger } from "../interfaces";
 import { Trigger as ApiTrigger } from "@pnsn/ngx-squacapi-client";
 import { Alert, Monitor } from ".";
 
@@ -31,19 +30,12 @@ export class Trigger {
   // }
   lastAlarm?: Alert;
   monitor?: Monitor;
-}
 
-/**
- * Adapts a trigger
- */
-@Injectable({
-  providedIn: "root",
-})
-export class TriggerAdapter
-  implements Adapter<Trigger, ReadTrigger, WriteTrigger>
-{
-  /** @override */
-  adaptFromApi(item: ReadTrigger): Trigger {
+  /**
+   *
+   * @param item
+   */
+  static deserialize(item: ReadTrigger): Trigger {
     const trigger = new Trigger(
       item.id ? +item.id : 0,
       item.monitor,
@@ -58,17 +50,19 @@ export class TriggerAdapter
     return trigger;
   }
 
-  /** @override */
-  adaptToApi(item: Trigger): WriteTrigger {
+  /**
+   *
+   */
+  serialize(): WriteTrigger {
     return {
-      monitor: item.monitorId,
-      val1: item.val1,
-      val2: item.val2,
-      value_operator: item.valueOperator,
-      num_channels: item.numChannels,
-      num_channels_operator: item.numChannelsOperator,
-      alert_on_out_of_alarm: item.alertOnOutOfAlarm,
-      email_list: item.emailList,
+      monitor: this.monitorId,
+      val1: this.val1,
+      val2: this.val2,
+      value_operator: this.valueOperator,
+      num_channels: this.numChannels,
+      num_channels_operator: this.numChannelsOperator,
+      alert_on_out_of_alarm: this.alertOnOutOfAlarm,
+      email_list: this.emailList,
     };
   }
 }

@@ -1,6 +1,5 @@
-import { Injectable } from "@angular/core";
-import { User, UserAdapter } from ".";
-import { Adapter, ReadOrganization, ApiUserSimple } from "../interfaces";
+import { User } from ".";
+import { ReadOrganization, ApiUserSimple } from "../interfaces";
 
 /**
  * Describes an organization
@@ -19,22 +18,15 @@ export class Organization {
   static get modelName(): string {
     return "Organization";
   }
-}
-/**
- * Adapt an organization
- */
-@Injectable({
-  providedIn: "root",
-})
-export class OrganizationAdapter
-  implements Adapter<Organization, ReadOrganization, unknown>
-{
-  /** @override */
-  adaptFromApi(item: ReadOrganization): Organization {
-    const userAdapter = new UserAdapter();
+
+  /**
+   *
+   * @param item
+   */
+  static deserialize(item: ReadOrganization): Organization {
     let users: User[] = [];
     if (item.users) {
-      users = item.users.map((u: ApiUserSimple) => userAdapter.adaptFromApi(u));
+      users = item.users.map((u: ApiUserSimple) => User.deserialize(u));
     }
     return new Organization(item.id, item.name, item.description, users);
   }

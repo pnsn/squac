@@ -1,7 +1,6 @@
-import { Injectable } from "@angular/core";
 import { ReadOnlyMonitorDetailSerializer } from "@pnsn/ngx-squacapi-client";
-import { Alert, Trigger, TriggerAdapter } from ".";
-import { Adapter, ApiTrigger, ReadMonitor, WriteMonitor } from "../interfaces";
+import { Alert, Trigger } from ".";
+import { ApiTrigger, ReadMonitor, WriteMonitor } from "../interfaces";
 
 /**
  * describes a monitor
@@ -31,27 +30,15 @@ export class Monitor {
   static get modelName(): string {
     return "Monitor";
   }
-}
 
-/**
- * adapts monitor
- */
-@Injectable({
-  providedIn: "root",
-})
-export class MonitorAdapter
-  implements Adapter<Monitor, ReadMonitor, WriteMonitor>
-{
   /**
-   * @override
+   *
+   * @param item
    */
-  adaptFromApi(item: ReadMonitor): Monitor {
-    const triggerAdapter = new TriggerAdapter();
+  static deserialize(item: ReadMonitor): Monitor {
     let triggers: Trigger[] = [];
     if ("triggers" in item && item.triggers) {
-      triggers = item.triggers.map((t: ApiTrigger) =>
-        triggerAdapter.adaptFromApi(t)
-      );
+      triggers = item.triggers.map((t: ApiTrigger) => Trigger.deserialize(t));
     }
 
     const monitor = new Monitor(
@@ -77,16 +64,16 @@ export class MonitorAdapter
   }
 
   /**
-   * @override
+   *
    */
-  adaptToApi(item: Monitor): WriteMonitor {
+  serialize(): WriteMonitor {
     return {
-      interval_type: item.intervalType,
-      interval_count: item.intervalCount,
-      channel_group: item.channelGroupId,
-      metric: item.metricId,
-      stat: item.stat,
-      name: item.name,
+      interval_type: this.intervalType,
+      interval_count: this.intervalCount,
+      channel_group: this.channelGroupId,
+      metric: this.metricId,
+      stat: this.stat,
+      name: this.name,
     };
   }
 }

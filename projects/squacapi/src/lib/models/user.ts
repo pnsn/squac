@@ -1,11 +1,16 @@
-import { Injectable } from "@angular/core";
 import { UserGroup } from "@pnsn/ngx-squacapi-client";
-import { Adapter, ReadUser, WriteUser } from "../interfaces";
+import { ReadUser, WriteUser } from "../interfaces";
 
 /**
  * Describes a user object
  */
 export class User {
+  static groupIds = [
+    { id: 1, name: "viewer" },
+    { id: 2, name: "reporter" },
+    { id: 3, name: "contributor" },
+    { id: 4, name: "admin" },
+  ];
   constructor(
     public id: number,
     public email: string,
@@ -46,44 +51,23 @@ export class User {
   }
 
   /**
-   * Checks if user is in the given group
-   *
-   * @param group group to test
-   * @returns true if user is in the group
-   */
-  inGroup(group: string): boolean {
-    return this.groups ? this.groups.indexOf(group) >= 0 : false;
-  }
-
-  /**
    * @returns model name
    */
   static get modelName(): string {
     return "User";
   }
-}
 
-/** Adapt user model */
-@Injectable({
-  providedIn: "root",
-})
-export class UserAdapter implements Adapter<User, ReadUser, WriteUser> {
-  // Temp until Jon fixes
-  private groupIds = [
-    { id: 1, name: "viewer" },
-    { id: 2, name: "reporter" },
-    { id: 3, name: "contributor" },
-    { id: 4, name: "admin" },
-  ];
-
-  /** @override */
-  adaptFromApi(item: ReadUser): User {
+  /**
+   *
+   * @param item
+   */
+  static deserialize(item: ReadUser): User {
     const groups = [];
     if ("groups" in item) {
       item.groups.forEach((g) => {
         let group = g;
         if (typeof g === "number") {
-          group = this.groupIds.find((groupId) => groupId.id === g);
+          group = User.groupIds.find((groupId) => groupId.id === g);
         }
         groups.push(group.name);
       });
@@ -113,19 +97,31 @@ export class UserAdapter implements Adapter<User, ReadUser, WriteUser> {
     return user;
   }
 
-  /** @override */
-  adaptToApi(item: User): WriteUser {
-    const groups = item.groups.map((g) => {
-      const group = this.groupIds.find((groupId) => groupId.name === g);
+  /**
+   * Checks if user is in the given group
+   *
+   * @param group group to test
+   * @returns true if user is in the group
+   */
+  inGroup(group: string): boolean {
+    return this.groups ? this.groups.indexOf(group) >= 0 : false;
+  }
+
+  /**
+   *
+   */
+  serialize(): WriteUser {
+    const groups = this.groups.map((g) => {
+      const group = User.groupIds.find((groupId) => groupId.name === g);
       return group.id;
     });
     return {
-      email: item.email,
-      firstname: item.firstName,
-      lastname: item.lastName,
-      organization: item.orgId,
-      is_org_admin: item.orgAdmin,
-      is_active: item.isActive,
+      email: this.email,
+      firstname: this.firstName,
+      lastname: this.lastName,
+      organization: this.orgId,
+      is_org_admin: this.orgAdmin,
+      is_active: this.isActive,
       groups,
     };
   }

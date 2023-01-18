@@ -1,5 +1,4 @@
-import { Injectable } from "@angular/core";
-import { Adapter, ReadNetwork } from "../interfaces";
+import { ReadNetwork } from "../interfaces";
 
 /**
  * describes a network
@@ -18,17 +17,12 @@ export class Network {
   static get modelName(): string {
     return "Network";
   }
-}
 
-/**
- * Adapt network
- */
-@Injectable({
-  providedIn: "root",
-})
-export class NetworkAdapter implements Adapter<Network, ReadNetwork, unknown> {
-  /** @override */
-  adaptFromApi(item: ReadNetwork): Network {
+  /**
+   *
+   * @param item
+   */
+  static deserialize(item: ReadNetwork): Network {
     return new Network(item.code, item.name, item.description);
   }
 }

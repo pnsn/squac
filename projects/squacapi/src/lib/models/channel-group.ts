@@ -1,12 +1,5 @@
-import { Injectable } from "@angular/core";
-import {
-  Adapter,
-  ApiChannel,
-  ReadChannelGroup,
-  WriteChannelGroup,
-} from "../interfaces";
+import { ApiChannel, ReadChannelGroup, WriteChannelGroup } from "../interfaces";
 import { Channel } from ".";
-import { ChannelAdapter } from "./channel";
 
 /**
  * Describes a channel group object
@@ -34,20 +27,12 @@ export class ChannelGroup {
   static get modelName(): string {
     return "ChannelGroup";
   }
-}
 
-/**
- * ADapt channel group
- */
-@Injectable({
-  providedIn: "root",
-})
-export class ChannelGroupAdapter
-  implements Adapter<ChannelGroup, ReadChannelGroup, WriteChannelGroup>
-{
-  /** @override */
-  adaptFromApi(item: ReadChannelGroup): ChannelGroup {
-    const channelAdapter = new ChannelAdapter();
+  /**
+   *
+   * @param item
+   */
+  static deserialize(item: ReadChannelGroup): ChannelGroup {
     const id = item.id ? +item.id : undefined;
     const channelGroup = new ChannelGroup();
 
@@ -62,13 +47,13 @@ export class ChannelGroupAdapter
 
     if ("channels" in item && item.channels) {
       channelGroup.channels = item.channels.map((c: ApiChannel) =>
-        channelAdapter.adaptFromApi(c)
+        Channel.deserialize(c)
       );
     }
     if ("auto_exclude_channels" in item && item.auto_exclude_channels) {
       channelGroup.autoExcludeChannels = [...item.auto_exclude_channels].map(
         (c: ApiChannel | number) => {
-          return typeof c === "number" ? c : channelAdapter.adaptFromApi(c);
+          return typeof c === "number" ? c : Channel.deserialize(c);
         }
       );
     }
@@ -76,30 +61,32 @@ export class ChannelGroupAdapter
     if ("auto_include_channels" in item && item.auto_include_channels) {
       channelGroup.autoIncludeChannels = [...item.auto_include_channels].map(
         (c: ApiChannel | number) => {
-          return typeof c === "number" ? c : channelAdapter.adaptFromApi(c);
+          return typeof c === "number" ? c : Channel.deserialize(c);
         }
       );
     }
     return channelGroup;
   }
 
-  /** @override */
-  adaptToApi(item: ChannelGroup): WriteChannelGroup {
-    const incl = item.autoIncludeChannels?.map((c): number =>
+  /**
+   *
+   */
+  serialize(): WriteChannelGroup {
+    const incl = this.autoIncludeChannels?.map((c): number =>
       typeof c === "number" ? c : c.id
     );
-    const ex = item.autoExcludeChannels?.map((c) =>
+    const ex = this.autoExcludeChannels?.map((c) =>
       typeof c === "number" ? c : c.id
     );
 
     return {
-      name: item.name,
-      description: item.description,
-      organization: item.orgId,
+      name: this.name,
+      description: this.description,
+      organization: this.orgId,
       auto_exclude_channels: ex ?? [],
       auto_include_channels: incl ?? [],
-      share_org: item.shareOrg,
-      share_all: item.shareAll,
+      share_org: this.shareOrg,
+      share_all: this.shareAll,
     };
   }
 }

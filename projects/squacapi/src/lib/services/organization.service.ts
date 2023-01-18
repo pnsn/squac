@@ -5,8 +5,8 @@ import {
 } from "@pnsn/ngx-squacapi-client";
 import { ApiEndpoint } from "../enums";
 import { ReadOnlyApiService } from "../interfaces";
-import { BaseApiService } from "./generic-api.service";
-import { Organization, OrganizationAdapter } from "../models";
+import { BaseReadOnlyApiService } from "./generic-api.service";
+import { Organization } from "../models";
 import { Observable, tap } from "rxjs";
 
 /**
@@ -15,13 +15,14 @@ import { Observable, tap } from "rxjs";
 @Injectable({
   providedIn: "root",
 })
-export class OrganizationService extends BaseApiService<Organization> {
+export class OrganizationService extends BaseReadOnlyApiService<Organization> {
   private localOrganizations: Organization[] = [];
   private orgUsers: Record<number, { first: string; last: string }> = {};
-  constructor(override adapter: OrganizationAdapter, override api: ApiService) {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.ORGANIZATION, api);
   }
 
+  deserialize = Organization.deserialize;
   /**
    * @override
    */

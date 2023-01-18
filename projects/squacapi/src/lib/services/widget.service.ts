@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { SquacApiService } from "../interfaces";
-import { BaseApiService } from "./generic-api.service";
+import { SquacApiService, WriteWidget } from "../interfaces";
+import { BaseWriteableApiService } from "./generic-api.service";
 import {
   ApiService,
   DashboardWidgetsDeleteRequestParams,
@@ -8,7 +8,7 @@ import {
   DashboardWidgetsReadRequestParams,
   DashboardWidgetsUpdateRequestParams,
 } from "@pnsn/ngx-squacapi-client";
-import { Widget, WidgetAdapter } from "../models";
+import { Widget } from "../models";
 import { Observable } from "rxjs";
 import { ApiEndpoint } from "../enums";
 
@@ -18,11 +18,18 @@ import { ApiEndpoint } from "../enums";
 @Injectable({
   providedIn: "root",
 })
-export class WidgetService extends BaseApiService<Widget> {
-  constructor(override adapter: WidgetAdapter, override api: ApiService) {
+export class WidgetService extends BaseWriteableApiService<Widget> {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.WIDGET, api);
   }
-
+  deserialize = Widget.deserialize;
+  /**
+   *
+   * @param item
+   */
+  serialize(item: Widget): WriteWidget {
+    return item.serialize();
+  }
   /**
    * @override
    */
@@ -43,7 +50,7 @@ export class WidgetService extends BaseApiService<Widget> {
   override updateParams(w: Widget): DashboardWidgetsUpdateRequestParams {
     return {
       id: w.id,
-      data: this.adapter.adaptToApi(w),
+      data: w.serialize(),
     };
   }
 }

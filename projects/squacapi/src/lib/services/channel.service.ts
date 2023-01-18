@@ -6,9 +6,9 @@ import {
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
 
-import { Channel, ChannelAdapter, MatchingRule } from "../models";
+import { Channel, MatchingRule } from "../models";
 import { ReadOnlyApiService } from "../interfaces";
-import { BaseApiService } from "./generic-api.service";
+import { BaseReadOnlyApiService } from "./generic-api.service";
 import { ApiEndpoint } from "../enums";
 
 /**
@@ -17,10 +17,11 @@ import { ApiEndpoint } from "../enums";
 @Injectable({
   providedIn: "root",
 })
-export class ChannelService extends BaseApiService<Channel> {
-  constructor(override api: ApiService, override adapter: ChannelAdapter) {
+export class ChannelService extends BaseReadOnlyApiService<Channel> {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.CHANNEL, api);
   }
+  deserialize = Channel.deserialize;
 
   /**
    * Requests channels using params and matching rules

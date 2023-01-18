@@ -1,5 +1,4 @@
-import { Injectable } from "@angular/core";
-import { Adapter, ReadAlert } from "../interfaces";
+import { ReadAlert } from "../interfaces";
 import { Trigger as ApiTrigger } from "@pnsn/ngx-squacapi-client";
 
 type BreachingChannel = Record<string, string | number>;
@@ -28,7 +27,12 @@ export class Alert {
     return "Alert";
   }
 
-  /** deserializes */
+  /**
+   *
+   *
+   * @param item
+   * @returns new alert
+   */
   static deserialize(item: ReadAlert): Alert {
     const alert = new Alert();
 
@@ -59,46 +63,6 @@ export class Alert {
       numChannels: item.num_channels,
       numChannelsOperator: item.num_channels_operator,
     });
-    return alert;
-  }
-}
-
-/** Adapt alert */
-@Injectable({
-  providedIn: "root",
-})
-export class AlertAdapter implements Adapter<Alert, ReadAlert, unknown> {
-  /** @override */
-  adaptFromApi(item: ReadAlert): Alert {
-    let breachingChannels: BreachingChannel[] = [];
-
-    if (typeof item.breaching_channels === "string") {
-      try {
-        breachingChannels = JSON.parse(
-          item.breaching_channels
-        ) as BreachingChannel[];
-      } catch {
-        breachingChannels = [];
-      }
-    }
-
-    const alert: Alert = new Alert();
-    Object.assign(alert, {
-      id: item.id,
-      owner: item.user,
-      timestamp: item.timestamp,
-      inAlarm: item.in_alarm,
-      breachingChannels,
-      triggerId: item.trigger,
-      monitorId: item.monitor,
-      monitorName: item.monitor_name,
-      val1: item.val1,
-      val2: item.val2,
-      valueOperator: item.value_operator,
-      numChannels: item.num_channels,
-      numChannelsOperator: item.num_channels_operator,
-    });
-
     return alert;
   }
 }

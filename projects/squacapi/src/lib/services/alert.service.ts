@@ -1,10 +1,11 @@
 import { Injectable } from "@angular/core";
 import { ReadOnlyApiService } from "../interfaces";
-import { BaseApiService } from "./generic-api.service";
-import { Alert, AlertAdapter } from "../models";
+import { BaseReadOnlyApiService } from "./generic-api.service";
+import { Alert } from "../models";
 import {
   ApiService,
   MeasurementAlertsListRequestParams,
+  ReadOnlyAlertDetailSerializer,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
 import { ApiEndpoint } from "../enums";
@@ -15,9 +16,17 @@ import { ApiEndpoint } from "../enums";
 @Injectable({
   providedIn: "root",
 })
-export class AlertService extends BaseApiService<Alert> {
-  constructor(override adapter: AlertAdapter, override api: ApiService) {
+export class AlertService extends BaseReadOnlyApiService<Alert> {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.ALERT, api);
+  }
+
+  /**
+   *
+   * @param data
+   */
+  deserialize(data: ReadOnlyAlertDetailSerializer): Alert {
+    return Alert.deserialize(data);
   }
 }
 

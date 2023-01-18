@@ -1,5 +1,4 @@
-import { Injectable } from "@angular/core";
-import { Adapter, ReadAggregate } from "../interfaces";
+import { ReadAggregate } from "../interfaces";
 import { MeasurementAggregatedListRequestParams } from "@pnsn/ngx-squacapi-client";
 
 /**
@@ -40,21 +39,12 @@ export class Aggregate {
   static get modelName(): string {
     return "Aggregate";
   }
-}
 
-/**
- * Adapt aggregate
- */
-@Injectable({
-  providedIn: "root",
-})
-export class AggregateAdapter
-  implements Adapter<Aggregate, ReadAggregate, unknown>
-{
   /**
-   * @override
+   * @param item
+   * @returns new aggregate
    */
-  adaptFromApi(item: ReadAggregate): Aggregate {
+  static deserialize(item: ReadAggregate): Aggregate {
     const aggregate = new Aggregate(
       item.metric,
       item.channel,

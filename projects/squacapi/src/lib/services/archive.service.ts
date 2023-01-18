@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ListService } from "../interfaces";
-import { BaseApiService } from "./generic-api.service";
+import { BaseReadOnlyApiService } from "./generic-api.service";
 import {
   ApiService,
   MeasurementDayArchivesListRequestParams,
@@ -9,7 +9,7 @@ import {
   MeasurementWeekArchivesListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
-import { Archive, ArchiveAdapter } from "../models";
+import { Archive } from "../models";
 import { ApiEndpoint } from "../enums";
 
 /**
@@ -18,9 +18,14 @@ import { ApiEndpoint } from "../enums";
 @Injectable({
   providedIn: "root",
 })
-export class HourArchiveService extends BaseApiService<Archive> {
-  constructor(override adapter: ArchiveAdapter, override api: ApiService) {
+export class HourArchiveService extends BaseReadOnlyApiService<Archive> {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.HOUR_ARCHIVE, api);
+  }
+
+  /** @inheritdoc */
+  deserialize(apiData: any): Archive {
+    return Archive.deserialize(apiData);
   }
 }
 
@@ -37,9 +42,14 @@ export interface HourArchiveService extends ListService<Archive> {
 @Injectable({
   providedIn: "root",
 })
-export class DayArchiveService extends BaseApiService<Archive> {
-  constructor(override adapter: ArchiveAdapter, override api: ApiService) {
+export class DayArchiveService extends BaseReadOnlyApiService<Archive> {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.DAY_ARCHIVE, api);
+  }
+
+  /** @inheritdoc */
+  deserialize(apiData: any): Archive {
+    return Archive.deserialize(apiData);
   }
 }
 export interface DayArchiveService extends ListService<Archive> {
@@ -55,9 +65,14 @@ export interface DayArchiveService extends ListService<Archive> {
 @Injectable({
   providedIn: "root",
 })
-export class WeekArchiveService extends BaseApiService<Archive> {
-  constructor(override adapter: ArchiveAdapter, override api: ApiService) {
+export class WeekArchiveService extends BaseReadOnlyApiService<Archive> {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.WEEK_ARCHIVE, api);
+  }
+
+  /** @inheritdoc */
+  deserialize(apiData: any): Archive {
+    return Archive.deserialize(apiData);
   }
 }
 export interface WeekArchiveService extends ListService<Archive> {
@@ -73,9 +88,14 @@ export interface WeekArchiveService extends ListService<Archive> {
 @Injectable({
   providedIn: "root",
 })
-export class MonthArchiveService extends BaseApiService<Archive> {
-  constructor(override adapter: ArchiveAdapter, override api: ApiService) {
+export class MonthArchiveService extends BaseReadOnlyApiService<Archive> {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.MONTH_ARCHIVE, api);
+  }
+
+  /** @inheritdoc */
+  deserialize(apiData: any): Archive {
+    return Archive.deserialize(apiData);
   }
 }
 

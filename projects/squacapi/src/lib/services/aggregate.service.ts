@@ -5,9 +5,9 @@ import {
   MeasurementAggregatedListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
-import { Aggregate, AggregateAdapter } from "../models";
+import { Aggregate } from "../models";
 import { ApiEndpoint } from "../enums";
-import { BaseApiService } from "./generic-api.service";
+import { BaseReadOnlyApiService } from "./generic-api.service";
 
 /**
  * Service for requesting aggregates
@@ -15,9 +15,14 @@ import { BaseApiService } from "./generic-api.service";
 @Injectable({
   providedIn: "root",
 })
-export class AggregateService extends BaseApiService<Aggregate> {
-  constructor(override adapter: AggregateAdapter, override api: ApiService) {
+export class AggregateService extends BaseReadOnlyApiService<Aggregate> {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.AGGREGATE, api);
+  }
+
+  /** @inheritdoc */
+  deserialize(apiData: any): Aggregate {
+    return Aggregate.deserialize(apiData);
   }
 }
 

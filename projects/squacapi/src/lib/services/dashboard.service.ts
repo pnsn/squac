@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { SquacApiService } from "../interfaces";
-import { BaseApiService } from "./generic-api.service";
-import { Dashboard, DashboardAdapter } from "../models";
+import { SquacApiService, WriteDashboard } from "../interfaces";
+import { BaseWriteableApiService } from "./generic-api.service";
+import { Dashboard } from "../models";
 import {
   ApiService,
   DashboardDashboardsListRequestParams,
@@ -15,9 +15,17 @@ import { ApiEndpoint } from "../enums";
 @Injectable({
   providedIn: "root",
 })
-export class DashboardService extends BaseApiService<Dashboard> {
-  constructor(override api: ApiService, override adapter: DashboardAdapter) {
+export class DashboardService extends BaseWriteableApiService<Dashboard> {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.DASHBOARD, api);
+  }
+  deserialize = Dashboard.deserialize;
+  /**
+   *
+   * @param item
+   */
+  serialize(item: Dashboard): WriteDashboard {
+    return item.serialize();
   }
 }
 

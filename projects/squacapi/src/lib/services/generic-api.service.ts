@@ -1,7 +1,7 @@
 import { HttpResponse, HttpContext } from "@angular/common/http";
 import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { map, Observable } from "rxjs";
-import { Adapter, SquacObject } from "../interfaces";
+import { SquacObject } from "../interfaces";
 import { ApiEndpoint } from "../enums";
 import { REFRESH_REQUEST } from "../constants/refresh-request.constant";
 
@@ -22,27 +22,21 @@ export interface HttpOptions {
 export type Params = any;
 
 /**
- * Abstract service for interacting with squacapi models
  *
- * @template T model type
  */
-export abstract class BaseApiService<T extends SquacObject> {
+export abstract class BaseReadOnlyApiService<T extends SquacObject> {
   observe = "body";
   reportProgress = false;
-
-  protected adapter: Adapter<T, unknown, unknown>;
-
   constructor(protected apiEndpoint: ApiEndpoint, protected api: ApiService) {}
 
   /**
    * Convert api object to model
    *
-   * @param apiObject api item
+   * @template T model type
+   * @param apiData api item
    * @returns model
    */
-  private mapFromApi(apiObject: any): T {
-    return this.adapter.adaptFromApi(apiObject);
-  }
+  abstract deserialize(apiData: any): T;
 
   /**
    * Adds context to options
@@ -50,7 +44,7 @@ export abstract class BaseApiService<T extends SquacObject> {
    * @param options request options
    * @returns options with context
    */
-  private getHttpOptions(options: Options): HttpOptions {
+  protected getHttpOptions(options: Options): HttpOptions {
     const httpOptions: HttpOptions = {};
     if (options && options.refresh) {
       httpOptions.context = new HttpContext().set(REFRESH_REQUEST, true);
@@ -76,7 +70,7 @@ export abstract class BaseApiService<T extends SquacObject> {
       this.observe,
       this.reportProgress,
       httpOptions
-    ).pipe(map((r: Array<any>) => r.map(this.mapFromApi.bind(this))));
+    ).pipe(map((r: Array<any>) => r.map(this.deserialize)));
   }
 
   /**
@@ -94,8 +88,63 @@ export abstract class BaseApiService<T extends SquacObject> {
       this.observe,
       this.reportProgress,
       httpOptions
-    ).pipe(map(this.mapFromApi.bind(this)));
+    ).pipe(map(this.deserialize));
   }
+
+  /**
+   * Convert inputted id to correct param format for squacapi
+   *
+   * @param id - id of object
+   * @returns id params
+   */
+  protected readParams(id: number | string): { id: string | number } {
+    return { id: `${id}` };
+  }
+
+  /**
+   * Create read request
+   *
+   * @param id id of object to request
+   * @param refresh refresh request
+   * @returns observable for request
+   */
+  protected read(id: number, refresh?: boolean): Observable<T> {
+    const params = this.readParams(id);
+    return this._read(params, { refresh });
+  }
+
+  /**
+   * Returns list of requested data type
+   *
+   * @param params request params
+   * @param refresh true if cache should not be used
+   * @returns observable of list of results
+   */
+  protected list(params?: unknown, refresh?: boolean): Observable<T[]> {
+    return this._list(params, { refresh });
+  }
+}
+
+/**
+ * Abstract service for interacting with squacapi models
+ *
+ * @template T model type
+ */
+export abstract class BaseWriteableApiService<
+  T extends SquacObject
+> extends BaseReadOnlyApiService<T> {
+  constructor(override apiEndpoint: ApiEndpoint, override api: ApiService) {
+    super(apiEndpoint, api);
+  }
+
+  /**
+   * Converts model to api data
+   *
+   * @template T model type
+   * @param model model
+   * @returns data for backend
+   */
+  abstract serialize(model: T): any;
 
   /**
    * Update single object of type T from squacapi
@@ -109,7 +158,7 @@ export abstract class BaseApiService<T extends SquacObject> {
       params,
       this.observe,
       this.reportProgress
-    ).pipe(map(this.mapFromApi.bind(this)));
+    ).pipe(map(this.deserialize));
   }
 
   /**
@@ -128,7 +177,7 @@ export abstract class BaseApiService<T extends SquacObject> {
       map((response: HttpResponse<any>) => {
         return response.body;
       }),
-      map(this.mapFromApi.bind(this))
+      map(this.deserialize)
     );
   }
 
@@ -164,16 +213,6 @@ export abstract class BaseApiService<T extends SquacObject> {
   }
 
   /**
-   * Convert inputted id to correct param format for squacapi
-   *
-   * @param id - id of object
-   * @returns id params
-   */
-  protected readParams(id: number | string): { id: string | number } {
-    return { id: `${id}` };
-  }
-
-  /**
    * Formats inputted object for squacapi
    *
    * @template T type of object to update
@@ -181,7 +220,7 @@ export abstract class BaseApiService<T extends SquacObject> {
    * @returns returns data object
    */
   protected updateParams(t: T): { id: string | number; data: unknown } {
-    const data = this.adapter.adaptToApi(t);
+    const data = this.serialize(t);
     return { id: `${t.id}`, data };
   }
 
@@ -193,7 +232,7 @@ export abstract class BaseApiService<T extends SquacObject> {
    * @returns returns data object
    */
   protected createParams(t: T): { data: unknown } {
-    const data = this.adapter.adaptToApi(t);
+    const data = this.serialize(t);
     return { data };
   }
 
@@ -208,17 +247,6 @@ export abstract class BaseApiService<T extends SquacObject> {
   }
 
   /**
-   * Returns list of requested data type
-   *
-   * @param params request params
-   * @param refresh true if cache should not be used
-   * @returns observable of list of results
-   */
-  protected list(params?: unknown, refresh?: boolean): Observable<T[]> {
-    return this._list(params, { refresh });
-  }
-
-  /**
    * Create or update object of type T from squacapi
    *
    * @template T type of model to be created
@@ -227,18 +255,6 @@ export abstract class BaseApiService<T extends SquacObject> {
    */
   protected updateOrCreate(t: T): Observable<T> {
     return this._updateOrCreate(t);
-  }
-
-  /**
-   * Create read request
-   *
-   * @param id id of object to request
-   * @param refresh refresh request
-   * @returns observable for request
-   */
-  protected read(id: number, refresh?: boolean): Observable<T> {
-    const params = this.readParams(id);
-    return this._read(params, { refresh });
   }
 
   /**
