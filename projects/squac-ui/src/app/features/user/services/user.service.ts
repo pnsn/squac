@@ -41,8 +41,10 @@ export class UserService {
 
     return this.userMeService.read().pipe(
       tap((user) => {
+        console.log(user);
         this.currentUser = user;
         this.ability.update(defineAbilitiesFor(this.currentUser));
+        console.log("here");
         this.user.next(this.currentUser);
       })
     );

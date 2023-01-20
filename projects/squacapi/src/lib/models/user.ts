@@ -43,25 +43,26 @@ export class User {
    * @param item
    */
   static deserialize(item: ReadUser): User {
+    const groups = new Set<string>(item.groups);
     const user = new User(
       item.id,
       item.email,
       item.firstname,
       item.lastname,
       item.organization,
-      item.isOrgAdmin,
-      item.groups
+      item.is_org_admin,
+      groups
     );
-    if ("lastLogin" in item) {
-      user.lastLogin = item.lastLogin;
+    if ("last_login" in item) {
+      user.lastLogin = item.last_login;
     }
 
-    if ("isStaff" in item) {
-      user.squacAdmin = item.isStaff;
+    if ("is_staff" in item) {
+      user.squacAdmin = item.is_staff;
     }
 
-    if ("isActive" in item) {
-      user.isActive = item.isActive;
+    if ("is_active" in item) {
+      user.isActive = item.is_active;
     }
 
     return user;
@@ -74,7 +75,7 @@ export class User {
    * @returns true if user is in the group
    */
   inGroup(group: string): boolean {
-    return this.groups && this.groups.has(group);
+    return this.groups.has(group);
   }
 
   /**
@@ -86,8 +87,8 @@ export class User {
       firstname: this.firstName,
       lastname: this.lastName,
       organization: this.orgId,
-      isOrgAdmin: this.orgAdmin,
-      isActive: this.isActive,
+      is_org_admin: this.orgAdmin,
+      is_active: this.isActive,
       groups: this.groups,
     };
   }

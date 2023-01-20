@@ -85,10 +85,10 @@ export class Dashboard {
       item.user ? +item.user : 0,
       item.name,
       item.description ?? "",
-      item.shareOrg ?? false,
-      item.shareAll ?? false,
+      item.share_org ?? false,
+      item.share_all ?? false,
       item.organization,
-      item.channelGroup
+      item.channel_group
     );
 
     dashboard.properties = item.properties ?? "";
@@ -103,13 +103,13 @@ export class Dashboard {
     const d: WriteDashboard = {
       name: this.name,
       description: this.description,
-      shareAll: this.shareAll,
-      shareOrg: this.shareOrg,
+      share_all: this.shareAll,
+      share_org: this.shareOrg,
       organization: this.orgId,
       properties: JSON.stringify(this.properties),
     };
     if (this.channelGroupId) {
-      d.channelGroup = this.channelGroupId;
+      d.channel_group = this.channelGroupId;
     }
     return d;
   }

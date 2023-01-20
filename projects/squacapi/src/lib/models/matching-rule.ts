@@ -24,13 +24,13 @@ export class MatchingRule {
       item.id ? +item.id : 0,
       item.user ? item.user : 0,
       item.group,
-      item.isInclude ?? true
+      item.is_include ?? true
     );
 
-    matchingRule.channelRegex = item.channelRegex;
-    matchingRule.networkRegex = item.networkRegex;
-    matchingRule.locationRegex = item.locationRegex;
-    matchingRule.stationRegex = item.stationRegex;
+    matchingRule.channelRegex = item.channel_regex;
+    matchingRule.networkRegex = item.network_regex;
+    matchingRule.locationRegex = item.location_regex;
+    matchingRule.stationRegex = item.station_regex;
 
     return matchingRule;
   }
@@ -41,11 +41,11 @@ export class MatchingRule {
   serialize(): WriteMatchingRule {
     return {
       group: this.channelGroupId,
-      networkRegex: this.networkRegex,
-      stationRegex: this.stationRegex,
-      locationRegex: this.locationRegex,
-      channelRegex: this.channelRegex,
-      isInclude: this.isInclude,
+      network_regex: this.networkRegex,
+      station_regex: this.stationRegex,
+      location_regex: this.locationRegex,
+      channel_regex: this.channelRegex,
+      is_include: this.isInclude,
     };
   }
 }

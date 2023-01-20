@@ -35,11 +35,11 @@ export class Metric {
       item.name,
       item.code,
       item.description ?? "",
-      item.referenceUrl,
+      item.reference_url,
       item.unit,
-      item.sampleRate ?? 0,
-      item.defaultMinval,
-      item.defaultMaxval
+      item.sample_rate ?? 0,
+      item.default_minval,
+      item.default_maxval
     );
   }
 
@@ -51,10 +51,10 @@ export class Metric {
       name: this.name,
       code: this.code,
       description: this.description,
-      referenceUrl: this.refUrl,
+      reference_url: this.refUrl,
       unit: this.unit,
-      defaultMinval: this.minVal,
-      defaultMaxval: this.maxVal,
+      default_minval: this.minVal,
+      default_maxval: this.maxVal,
     };
   }
 }

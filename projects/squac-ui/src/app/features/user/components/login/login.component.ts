@@ -48,7 +48,8 @@ export class LoginComponent implements OnDestroy {
         this.error = "";
         this.message = "Login successful.";
       },
-      error: () => {
+      error: (error) => {
+        console.log(error);
         this.message = "";
         this.error = "Failed to log in - please try again";
       },
