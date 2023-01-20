@@ -44,20 +44,20 @@ export class Monitor {
     const monitor = new Monitor(
       item.id ? +item.id : 0,
       item.name,
-      item.channel_group,
+      item.channelGroup,
       item.metric,
-      item.interval_type,
-      item.interval_count,
+      item.intervalType,
+      item.intervalCount,
       item.stat,
       item.user,
       triggers
     );
 
-    if ("channel_group_name" in item) {
-      monitor.channelGroupName = item.channel_group_name;
+    if ("channelGroupName" in item) {
+      monitor.channelGroupName = item.channelGroupName;
     }
-    if ("metric_name" in item) {
-      monitor.metricName = item.metric_name;
+    if ("metricName" in item) {
+      monitor.metricName = item.metricName;
     }
 
     return monitor;
@@ -68,9 +68,9 @@ export class Monitor {
    */
   serialize(): WriteMonitor {
     return {
-      interval_type: this.intervalType,
-      interval_count: this.intervalCount,
-      channel_group: this.channelGroupId,
+      intervalType: this.intervalType,
+      intervalCount: this.intervalCount,
+      channelGroup: this.channelGroupId,
       metric: this.metricId,
       stat: this.stat,
       name: this.name,

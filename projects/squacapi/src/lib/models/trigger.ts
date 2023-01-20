@@ -39,11 +39,11 @@ export class Trigger {
     const trigger = new Trigger(
       item.id ? +item.id : 0,
       item.monitor,
-      item.value_operator, //outsideof, within, ==, <, <=, >, >=
-      item.num_channels,
-      item.num_channels_operator, //any, ==, <, >
-      item.alert_on_out_of_alarm,
-      item.email_list, //comma separated
+      item.valueOperator, //outsideof, within, ==, <, <=, >, >=
+      item.numChannels,
+      item.numChannelsOperator, //any, ==, <, >
+      item.alertOnOutOfAlarm,
+      item.emailList, //comma separated
       item.val1,
       item.val2
     );
@@ -58,11 +58,11 @@ export class Trigger {
       monitor: this.monitorId,
       val1: this.val1,
       val2: this.val2,
-      value_operator: this.valueOperator,
-      num_channels: this.numChannels,
-      num_channels_operator: this.numChannelsOperator,
-      alert_on_out_of_alarm: this.alertOnOutOfAlarm,
-      email_list: this.emailList,
+      valueOperator: this.valueOperator,
+      numChannels: this.numChannels,
+      numChannelsOperator: this.numChannelsOperator,
+      alertOnOutOfAlarm: this.alertOnOutOfAlarm,
+      emailList: this.emailList,
     };
   }
 }

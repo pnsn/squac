@@ -47,7 +47,6 @@ export class UserMeService
   partialUpdate(t: Partial<User>): Observable<User> {
     const params: UserMePartialUpdateRequestParams = {
       data: {
-        organization: t.orgId ?? 0,
         firstname: t.firstName,
         lastname: t.lastName,
       },

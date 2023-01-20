@@ -42,7 +42,7 @@ export class Archive {
       mean: item.mean,
       median: item.median,
       stdev: item.stdev,
-      num_samps: item.num_samps,
+      num_samps: item.numSamps,
       minabs,
       maxabs,
       starttime: item.starttime,

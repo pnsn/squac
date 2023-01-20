@@ -52,7 +52,7 @@ export type ReadOrganization = squacapi.ReadOnlyOrganizationSerializer;
 
 // users
 export type ApiUserSimple = squacapi.UserSimple;
-export type ApiUserGroup = squacapi.UserGroup;
+
 export type ReadUser =
   | squacapi.ReadOnlyUserMeSerializer
   | squacapi.ReadOnlyUserSerializer

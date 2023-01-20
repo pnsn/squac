@@ -118,13 +118,13 @@ export class FakeMeasurementBackend {
       mean: value,
       median: value,
       stdev: value,
-      num_samps: value,
+      numSamps: value,
       p05: value,
       p10: value,
       p90: value,
       p95: value,
-      minabs: `${value}`,
-      maxabs: `${value}`,
+      minabs: value,
+      maxabs: value,
     };
   }
 

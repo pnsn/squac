@@ -5,9 +5,9 @@ import {
   MeasurementAggregatedListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
-import { Aggregate } from "../models";
 import { ApiEndpoint } from "../enums";
 import { BaseReadOnlyApiService } from "./generic-api.service";
+import { Aggregate } from "../models";
 
 /**
  * Service for requesting aggregates

@@ -41,25 +41,25 @@ export class ChannelGroup {
     channelGroup.name = item.name;
     channelGroup.description = item.description;
     channelGroup.orgId = item.organization;
-    channelGroup.channelsCount = item.channels_count;
-    channelGroup.shareAll = item.share_all ?? false;
-    channelGroup.shareOrg = item.share_org ?? false;
+    channelGroup.channelsCount = item.channelsCount;
+    channelGroup.shareAll = item.shareAll ?? false;
+    channelGroup.shareOrg = item.shareOrg ?? false;
 
     if ("channels" in item && item.channels) {
       channelGroup.channels = item.channels.map((c: ApiChannel) =>
         Channel.deserialize(c)
       );
     }
-    if ("auto_exclude_channels" in item && item.auto_exclude_channels) {
-      channelGroup.autoExcludeChannels = [...item.auto_exclude_channels].map(
+    if ("autoExcludeChannels" in item && item.autoExcludeChannels) {
+      channelGroup.autoExcludeChannels = [...item.autoExcludeChannels].map(
         (c: ApiChannel | number) => {
           return typeof c === "number" ? c : Channel.deserialize(c);
         }
       );
     }
 
-    if ("auto_include_channels" in item && item.auto_include_channels) {
-      channelGroup.autoIncludeChannels = [...item.auto_include_channels].map(
+    if ("autoIncludeChannels" in item && item.autoIncludeChannels) {
+      channelGroup.autoIncludeChannels = [...item.autoIncludeChannels].map(
         (c: ApiChannel | number) => {
           return typeof c === "number" ? c : Channel.deserialize(c);
         }
@@ -83,10 +83,10 @@ export class ChannelGroup {
       name: this.name,
       description: this.description,
       organization: this.orgId,
-      auto_exclude_channels: ex ?? [],
-      auto_include_channels: incl ?? [],
-      share_org: this.shareOrg,
-      share_all: this.shareAll,
+      autoExcludeChannels: ex ?? [],
+      autoIncludeChannels: incl ?? [],
+      shareOrg: this.shareOrg,
+      shareAll: this.shareAll,
     };
   }
 }

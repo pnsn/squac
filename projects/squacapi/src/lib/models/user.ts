@@ -1,16 +1,9 @@
-import { UserGroup } from "@pnsn/ngx-squacapi-client";
 import { ReadUser, WriteUser } from "../interfaces";
 
 /**
  * Describes a user object
  */
 export class User {
-  static groupIds = [
-    { id: 1, name: "viewer" },
-    { id: 2, name: "reporter" },
-    { id: 3, name: "contributor" },
-    { id: 4, name: "admin" },
-  ];
   constructor(
     public id: number,
     public email: string,
@@ -18,23 +11,11 @@ export class User {
     public lastName: string,
     public orgId: number,
     public orgAdmin: boolean,
-    groupsArr?: (string | UserGroup)[]
-  ) {
-    this.groups = [];
-    if (groupsArr) {
-      for (const group of groupsArr) {
-        if (group instanceof Object) {
-          this.groups.push(group.name);
-        } else {
-          this.groups.push(group.toString());
-        }
-      }
-    }
-  }
+    public groups: Set<string>
+  ) {}
   lastLogin: string;
   squacAdmin: boolean;
   isActive: boolean;
-  groups: string[];
 
   /**
    * @returns true if user is staff
@@ -62,36 +43,25 @@ export class User {
    * @param item
    */
   static deserialize(item: ReadUser): User {
-    const groups = [];
-    if ("groups" in item) {
-      item.groups.forEach((g) => {
-        let group = g;
-        if (typeof g === "number") {
-          group = User.groupIds.find((groupId) => groupId.id === g);
-        }
-        groups.push(group.name);
-      });
-    }
-
     const user = new User(
       item.id,
       item.email,
       item.firstname,
       item.lastname,
       item.organization,
-      item.is_org_admin,
-      groups
+      item.isOrgAdmin,
+      item.groups
     );
-    if ("last_login" in item) {
-      user.lastLogin = item.last_login;
+    if ("lastLogin" in item) {
+      user.lastLogin = item.lastLogin;
     }
 
-    if ("is_staff" in item) {
-      user.squacAdmin = item.is_staff;
+    if ("isStaff" in item) {
+      user.squacAdmin = item.isStaff;
     }
 
-    if ("is_active" in item) {
-      user.isActive = item.is_active;
+    if ("isActive" in item) {
+      user.isActive = item.isActive;
     }
 
     return user;
@@ -104,25 +74,21 @@ export class User {
    * @returns true if user is in the group
    */
   inGroup(group: string): boolean {
-    return this.groups ? this.groups.indexOf(group) >= 0 : false;
+    return this.groups && this.groups.has(group);
   }
 
   /**
    *
    */
   serialize(): WriteUser {
-    const groups = this.groups.map((g) => {
-      const group = User.groupIds.find((groupId) => groupId.name === g);
-      return group.id;
-    });
     return {
       email: this.email,
       firstname: this.firstName,
       lastname: this.lastName,
       organization: this.orgId,
-      is_org_admin: this.orgAdmin,
-      is_active: this.isActive,
-      groups,
+      isOrgAdmin: this.orgAdmin,
+      isActive: this.isActive,
+      groups: this.groups,
     };
   }
 }
