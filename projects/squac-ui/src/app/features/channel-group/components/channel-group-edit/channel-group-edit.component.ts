@@ -457,7 +457,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     cg.id = this.id;
     cg.name = values.name;
     cg.description = values.description;
-    cg.orgId = this.orgId;
+    cg.organization = this.orgId;
 
     //need to updatematching rules
 
@@ -567,7 +567,9 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
    * @param filter search filter
    */
   addFilterToRegex(filter: SearchFilter): void {
-    const newRule = new MatchingRule(null, null, this.id, true);
+    const newRule = new MatchingRule();
+    newRule.channelGroupId = this.id;
+    newRule.isInclude = true;
     newRule.networkRegex = filter.netSearch?.toUpperCase();
     newRule.stationRegex = filter.staSearch?.toUpperCase();
     newRule.locationRegex = filter.locSearch?.toUpperCase();

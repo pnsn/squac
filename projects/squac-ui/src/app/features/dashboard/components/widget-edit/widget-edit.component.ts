@@ -39,7 +39,7 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
     this.editMode = !!this.data["widget"];
     const dashboardId = this.data["dashboardId"];
     this.widget =
-      this.data.widget || new Widget(null, null, "", dashboardId, null);
+      this.data.widget || new Widget({ dashboard: dashboardId, name: "" });
 
     //check if copying to new dashboard
     this.copyWidget = this.widget.dashboardId !== dashboardId;

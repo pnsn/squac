@@ -1,10 +1,3 @@
-/**
- * Base squacapi object
- */
-export interface SquacObject {
-  id?: number;
-}
-
 export interface SquacModel {
   id?: number;
   user?: number;

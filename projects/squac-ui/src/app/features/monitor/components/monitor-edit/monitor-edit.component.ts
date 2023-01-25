@@ -211,17 +211,18 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   /** Saves monitor to squacapi */
   save(): void {
     const values = this.monitorForm.value;
-    const monitor = new Monitor(
-      this.id,
-      values.name,
-      values.channelGroup,
-      values.metric.id,
-      values.intervalType,
-      values.intervalCount,
-      values.stat,
-      null,
-      this.triggers.value
-    );
+    const monitorValues = {
+      id: this.id,
+      name: values.name,
+      channelGroupId: values.channelGroup,
+      metricId: values.metric.id,
+      intervalType: values.intervalType,
+      intervalCount: values.intervalCount,
+      stat: values.stat,
+      triggers: this.triggers.value,
+    };
+    const monitor = new Monitor();
+    Object.apply(monitor, monitorValues);
     this.monitorService
       .updateOrCreate(monitor)
       .pipe(

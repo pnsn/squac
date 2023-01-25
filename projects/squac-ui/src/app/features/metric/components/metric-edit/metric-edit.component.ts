@@ -68,26 +68,24 @@ export class MetricEditComponent implements OnInit, OnDestroy {
   /** Saves metric information */
   save(): void {
     const values = this.metricForm.value;
-    this.metricService
-      .updateOrCreate(
-        new Metric(
-          this.id,
-          null,
-          values.name,
-          values.code,
-          values.description,
-          values.refUrl,
-          values.unit,
-          values.sampleRate,
-          values.minVal,
-          values.maxVal
-        )
-      )
-      .subscribe({
-        next: (result) => {
-          this.cancel(result.id);
-        },
-      });
+    const metricValues = {
+      id: this.id,
+      name: values.name,
+      code: values.code,
+      description: values.description,
+      refUrl: values.refUrl,
+      unit: values.unit,
+      sampleRate: values.sampleRate,
+      minVal: values.minVal,
+      maxVal: values.maxVal,
+    };
+    const metric = new Metric();
+    Object.apply(metric, metricValues);
+    this.metricService.updateOrCreate(metric).subscribe({
+      next: (result) => {
+        this.cancel(result.id);
+      },
+    });
   }
 
   /**

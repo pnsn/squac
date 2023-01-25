@@ -109,7 +109,7 @@ export class MonitorDetailComponent implements OnInit {
       )
       .subscribe({
         next: (results) => {
-          this.widget = new Widget(0, 0, "example", 0, [], "latest");
+          this.widget = new Widget();
           this.widget.metrics = [results.metric];
           this.widget.type = WidgetType.TIMESERIES;
           this.widgetManager.initWidget(this.widget);
