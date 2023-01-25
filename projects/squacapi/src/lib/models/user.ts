@@ -1,18 +1,16 @@
-import { ReadUser, WriteUser } from "../interfaces";
+import { WriteOnlyUserSerializer } from "@pnsn/ngx-squacapi-client";
+import { ReadUser, ResourceModel, WriteUser } from "../interfaces";
 
 /**
  * Describes a user object
  */
-export class User {
-  constructor(
-    public id: number,
-    public email: string,
-    public firstName: string,
-    public lastName: string,
-    public orgId: number,
-    public orgAdmin: boolean,
-    public groups: Set<string>
-  ) {}
+export class User extends ResourceModel<ReadUser, WriteUser> {
+  email: string;
+  firstName: string;
+  lastName: string;
+  orgId: number;
+  orgAdmin: boolean;
+  groups: Set<string>;
   lastLogin: string;
   squacAdmin: boolean;
   isActive: boolean;
@@ -38,34 +36,38 @@ export class User {
     return "User";
   }
 
-  /**
-   *
-   * @param item
-   */
-  static deserialize(item: ReadUser): User {
-    const groups = new Set<string>(item.groups);
-    const user = new User(
-      item.id,
-      item.email,
-      item.firstname,
-      item.lastname,
-      item.organization,
-      item.is_org_admin,
-      groups
-    );
-    if ("last_login" in item) {
-      user.lastLogin = item.last_login;
+  fromRaw(data: ReadUser): void {
+    Object.assign(this, data);
+
+    this.firstName = data.firstname;
+    this.lastName = data.lastname;
+    this.orgId = data.organization;
+    this.orgAdmin = data.is_org_admin;
+    this.groups = new Set<string>(data.groups);
+
+    if ("last_login" in data) {
+      this.lastLogin = data.last_login;
     }
 
-    if ("is_staff" in item) {
-      user.squacAdmin = item.is_staff;
+    if ("is_staff" in data) {
+      this.squacAdmin = data.is_staff;
     }
 
-    if ("is_active" in item) {
-      user.isActive = item.is_active;
+    if ("is_active" in data) {
+      this.isActive = data.is_active;
     }
+  }
 
-    return user;
+  toJson(): WriteOnlyUserSerializer {
+    return {
+      email: this.email,
+      firstname: this.firstName,
+      lastname: this.lastName,
+      organization: this.orgId,
+      is_org_admin: this.orgAdmin,
+      is_active: this.isActive,
+      groups: this.groups,
+    };
   }
 
   /**
@@ -76,20 +78,5 @@ export class User {
    */
   inGroup(group: string): boolean {
     return this.groups.has(group);
-  }
-
-  /**
-   *
-   */
-  serialize(): WriteUser {
-    return {
-      email: this.email,
-      firstname: this.firstName,
-      lastname: this.lastName,
-      organization: this.orgId,
-      is_org_admin: this.orgAdmin,
-      is_active: this.isActive,
-      groups: this.groups,
-    };
   }
 }

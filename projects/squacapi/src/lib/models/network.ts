@@ -1,15 +1,13 @@
-import { ReadNetwork } from "../interfaces";
+import { ReadOnlyNetworkSerializer } from "@pnsn/ngx-squacapi-client";
+import { ReadNetwork, ReadOnlyResourceModel } from "../interfaces";
 
 /**
  * describes a network
  */
-export class Network {
-  id: number;
-  constructor(
-    public code: string,
-    public name: string,
-    public description: string
-  ) {}
+export class Network extends ReadOnlyResourceModel<ReadNetwork> {
+  code: string;
+  name: string;
+  description: string;
 
   /**
    * @returns model name
@@ -18,11 +16,7 @@ export class Network {
     return "Network";
   }
 
-  /**
-   *
-   * @param item
-   */
-  static deserialize(item: ReadNetwork): Network {
-    return new Network(item.code, item.name, item.description);
+  fromRaw(data: ReadOnlyNetworkSerializer): void {
+    Object.assign(this, data);
   }
 }

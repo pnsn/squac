@@ -1,12 +1,19 @@
-import { ReadAlert } from "../interfaces";
+import { ReadAlert, ReadOnlyResourceModel } from "../interfaces";
 import { Trigger as ApiTrigger } from "@pnsn/ngx-squacapi-client";
 
-type BreachingChannel = Record<string, string | number>;
+export interface BreachingChannel {
+  channel: string;
+  channel_id: number;
+  min?: number;
+  max?: number;
+  count?: number;
+  sum?: number;
+  avg?: number;
+}
 /**
  * Describes an alert
  */
-export class Alert {
-  id?: number;
+export class Alert extends ReadOnlyResourceModel<ReadAlert> {
   owner?: number;
   timestamp!: string;
   message!: string;
@@ -27,42 +34,33 @@ export class Alert {
     return "Alert";
   }
 
-  /**
-   *
-   *
-   * @param item
-   * @returns new alert
-   */
-  static deserialize(item: ReadAlert): Alert {
-    const alert = new Alert();
-
+  fromRaw(data: ReadAlert): void {
     let breachingChannels: BreachingChannel[] = [];
 
-    if (typeof item.breaching_channels === "string") {
+    if (typeof data.breaching_channels === "string") {
       try {
         breachingChannels = JSON.parse(
-          item.breaching_channels
+          data.breaching_channels
         ) as BreachingChannel[];
       } catch {
         breachingChannels = [];
       }
     }
 
-    Object.assign(alert, {
-      id: item.id,
-      owner: item.user,
-      timestamp: item.timestamp,
-      inAlarm: item.in_alarm,
+    Object.assign(this, {
+      id: data.id,
+      owner: data.user,
+      timestamp: data.timestamp,
+      inAlarm: data.in_alarm,
       breachingChannels,
-      triggerId: item.trigger,
-      monitorId: item.monitor,
-      monitorName: item.monitor_name,
-      val1: item.val1,
-      val2: item.val2,
-      valueOperator: item.value_operator,
-      numChannels: item.num_channels,
-      numChannelsOperator: item.num_channels_operator,
+      triggerId: data.trigger,
+      monitorId: data.monitor,
+      monitorName: data.monitor_name,
+      val1: data.val1,
+      val2: data.val2,
+      valueOperator: data.value_operator,
+      numChannels: data.num_channels,
+      numChannelsOperator: data.num_channels_operator,
     });
-    return alert;
   }
 }

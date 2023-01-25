@@ -118,7 +118,7 @@ export class FakeMeasurementBackend {
       mean: value,
       median: value,
       stdev: value,
-      numSamps: value,
+      num_samps: value,
       p05: value,
       p10: value,
       p90: value,

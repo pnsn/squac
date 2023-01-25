@@ -3,27 +3,27 @@ import {
   ReadDashboard,
   WriteDashboard,
   DashboardProperties,
+  ResourceModel,
 } from "../interfaces";
 import { DASHBOARD_PROPERTIES } from "../constants";
+import { WriteOnlyDashboardSerializer } from "@pnsn/ngx-squacapi-client";
 
 /**
  * Describes a dashboard
  */
-export class Dashboard {
+export class Dashboard extends ResourceModel<ReadDashboard, WriteDashboard> {
   public channelGroup?: ChannelGroup;
   private _widgets: Widget[] = [];
   public _properties: DashboardProperties = DASHBOARD_PROPERTIES;
   widgetIds?: number[];
-  constructor(
-    public id: number,
-    public owner: number,
-    public name: string,
-    public description: string,
-    public shareOrg: boolean,
-    public shareAll: boolean,
-    public orgId: number,
-    public channelGroupId?: number
-  ) {}
+
+  owner: number;
+  name: string;
+  description: string;
+  shareOrg: boolean;
+  shareAll: boolean;
+  orgId: number;
+  channelGroupId?: number;
 
   /**
    * stores dashboard properties
@@ -75,31 +75,22 @@ export class Dashboard {
     return "Dashboard";
   }
 
-  /**
-   *
-   * @param item
-   */
-  static deserialize(item: ReadDashboard): Dashboard {
-    const dashboard = new Dashboard(
-      item.id ? +item.id : 0,
-      item.user ? +item.user : 0,
-      item.name,
-      item.description ?? "",
-      item.share_org ?? false,
-      item.share_all ?? false,
-      item.organization,
-      item.channel_group
-    );
+  fromRaw(data: ReadDashboard): void {
+    Object.assign(this, {
+      id: data.id,
+      owner: data.user,
+      name: data.name,
+      description: data.description,
+      shareAll: data.share_all,
+      shareOrg: data.share_org,
+      orgId: data.organization,
+      channelGroupId: data.channel_group,
+    });
 
-    dashboard.properties = item.properties ?? "";
-
-    return dashboard;
+    this.properties = data.properties;
   }
 
-  /**
-   *
-   */
-  serialize(): WriteDashboard {
+  toJson(): WriteOnlyDashboardSerializer {
     const d: WriteDashboard = {
       name: this.name,
       description: this.description,

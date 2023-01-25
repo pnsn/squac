@@ -1,4 +1,4 @@
-import { ReadAggregate } from "../interfaces";
+import { ReadAggregate, ReadOnlyResourceModel } from "../interfaces";
 import { MeasurementAggregatedListRequestParams } from "@pnsn/ngx-squacapi-client";
 
 /**
@@ -10,9 +10,7 @@ export class AggregateListParams
 /**
  * Describes an aggregate
  */
-export class Aggregate {
-  /** aggregate id */
-  id?: number;
+export class Aggregate extends ReadOnlyResourceModel<ReadAggregate> {
   /** aggregate value */
   value: number;
   metricId: number;
@@ -39,15 +37,13 @@ export class Aggregate {
   }
 
   /**
+   * Applies properties from item to aggregate
+   *
    * @param item
-   * @returns new aggregate
    */
-  static deserialize(item: ReadAggregate): Aggregate {
-    const aggregate = new Aggregate();
-
-    Object.apply(aggregate, item);
-    aggregate.metricId = item.metric;
-    aggregate.channelId = item.channel;
-    return aggregate;
+  fromRaw(item: ReadAggregate): void {
+    Object.apply(this, item);
+    this.metricId = item.metric;
+    this.channelId = item.channel;
   }
 }

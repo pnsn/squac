@@ -1,29 +1,32 @@
-import { ReadOnlyMonitorDetailSerializer } from "@pnsn/ngx-squacapi-client";
+import {
+  ReadOnlyMonitorDetailSerializer,
+  WriteOnlyMonitorSerializer,
+} from "@pnsn/ngx-squacapi-client";
 import { Alert, Trigger } from ".";
-import { ApiTrigger, ReadMonitor, WriteMonitor } from "../interfaces";
+import {
+  ApiTrigger,
+  ReadMonitor,
+  ResourceModel,
+  WriteMonitor,
+} from "../interfaces";
 
 /**
  * describes a monitor
  */
-export class Monitor {
-  constructor(
-    public id: number,
-    public name: string | undefined,
-    public channelGroupId: number | undefined,
-    public metricId: number | undefined,
-    public intervalType:
-      | ReadOnlyMonitorDetailSerializer.IntervalTypeEnum
-      | undefined,
-    public intervalCount: number,
-    public stat: ReadOnlyMonitorDetailSerializer.StatEnum | undefined,
-    public owner: number | undefined,
-    public triggers: Trigger[]
-  ) {}
-
+export class Monitor extends ResourceModel<ReadMonitor, WriteMonitor> {
+  name: string;
+  channelGroupId: number;
+  metricId: number;
+  intervalType: ReadOnlyMonitorDetailSerializer.IntervalTypeEnum;
+  intervalCount: number;
+  stat: ReadOnlyMonitorDetailSerializer.StatEnum;
+  owner: number;
+  triggers: Trigger[];
   channelGroupName: string;
   metricName: string;
   alerts?: Alert[];
   inAlarm?: boolean;
+
   /**
    * @returns model name
    */
@@ -31,42 +34,30 @@ export class Monitor {
     return "Monitor";
   }
 
-  /**
-   *
-   * @param item
-   */
-  static deserialize(item: ReadMonitor): Monitor {
-    let triggers: Trigger[] = [];
-    if ("triggers" in item && item.triggers) {
-      triggers = item.triggers.map((t: ApiTrigger) => Trigger.deserialize(t));
+  fromRaw(data: ReadMonitor): void {
+    if ("triggers" in data && data.triggers) {
+      this.triggers = data.triggers.map((t: ApiTrigger) =>
+        Trigger.deserialize(t)
+      );
     }
 
-    const monitor = new Monitor(
-      item.id ? +item.id : 0,
-      item.name,
-      item.channel_group,
-      item.metric,
-      item.interval_type,
-      item.interval_count,
-      item.stat,
-      item.user,
-      triggers
-    );
+    this.id = +data.id;
+    this.channelGroupId = data.channel_group;
+    this.metricId = data.metric;
+    this.intervalType = data.interval_type;
+    this.intervalCount = data.interval_count;
+    this.stat = data.stat;
+    this.owner = data.user;
 
-    if ("channel_group_name" in item) {
-      monitor.channelGroupName = item.channel_group_name;
+    if ("channel_group_name" in data) {
+      this.channelGroupName = data.channel_group_name;
     }
-    if ("metric_name" in item) {
-      monitor.metricName = item.metric_name;
+    if ("metric_name" in data) {
+      this.metricName = data.metric_name;
     }
-
-    return monitor;
   }
 
-  /**
-   *
-   */
-  serialize(): WriteMonitor {
+  toJson(): WriteOnlyMonitorSerializer {
     return {
       interval_type: this.intervalType,
       interval_count: this.intervalCount,

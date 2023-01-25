@@ -1,22 +1,24 @@
-import { ReadTrigger, WriteTrigger } from "../interfaces";
-import { Trigger as ApiTrigger } from "@pnsn/ngx-squacapi-client";
+import { ReadTrigger, ResourceModel, WriteTrigger } from "../interfaces";
+import {
+  Trigger as ApiTrigger,
+  WriteOnlyTriggerSerializer,
+} from "@pnsn/ngx-squacapi-client";
 import { Alert, Monitor } from ".";
 
 /**
  * Describes a trigger
  */
-export class Trigger {
-  constructor(
-    public id: number,
-    public monitorId: number,
-    public valueOperator: ApiTrigger.ValueOperatorEnum | undefined, //outsideof, within, ==, <, <=, >, >=
-    public numChannels: number,
-    public numChannelsOperator: ApiTrigger.NumChannelsOperatorEnum | undefined, //any, ==, <, >
-    public alertOnOutOfAlarm: boolean,
-    public emailList: string, //comma separated
-    public val1: number,
-    public val2?: number
-  ) {}
+export class Trigger extends ResourceModel<ReadTrigger, WriteTrigger> {
+  monitorId: number;
+  valueOperator: ApiTrigger.ValueOperatorEnum; //outsideof, within, ==, <, <=, >, >=
+  numChannels: number;
+  numChannelsOperator: ApiTrigger.NumChannelsOperatorEnum; //any, ==, <, >
+  alertOnOutOfAlarm: boolean;
+  emailList: string; //comma separated
+  val1: number;
+  val2?: number;
+  lastAlarm?: Alert;
+  monitor?: Monitor;
 
   /**
    * @returns model name
@@ -25,35 +27,21 @@ export class Trigger {
     return "Trigger";
   }
 
-  // get conditionString(): string {
-  //   return `Alarm if ${this.num_channels_operator} ${this.num_channels}`
-  // }
-  lastAlarm?: Alert;
-  monitor?: Monitor;
-
-  /**
-   *
-   * @param item
-   */
-  static deserialize(item: ReadTrigger): Trigger {
-    const trigger = new Trigger(
-      item.id ? +item.id : 0,
-      item.monitor,
-      item.value_operator, //outsideof, within, ==, <, <=, >, >=
-      item.num_channels,
-      item.num_channels_operator, //any, ==, <, >
-      item.alert_on_out_of_alarm,
-      item.email_list, //comma separated
-      item.val1,
-      item.val2
-    );
-    return trigger;
+  fromRaw(data: ReadTrigger): void {
+    Object.assign(this, {
+      id: +data.id,
+      monitorId: data.monitor,
+      valueOperator: data.value_operator, //outsideof, within, ==, <, <=, >, >=
+      numChannels: data.num_channels,
+      numChannelsOperator: data.num_channels_operator, //any, ==, <, >
+      alertOnOutOfAlarm: data.alert_on_out_of_alarm,
+      emailList: data.email_list, //comma separated
+      val1: data.val1,
+      val2: data.val2,
+    });
   }
 
-  /**
-   *
-   */
-  serialize(): WriteTrigger {
+  toJson(): WriteOnlyTriggerSerializer {
     return {
       monitor: this.monitorId,
       val1: this.val1,

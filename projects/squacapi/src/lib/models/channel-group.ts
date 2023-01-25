@@ -1,11 +1,18 @@
-import { ApiChannel, ReadChannelGroup, WriteChannelGroup } from "../interfaces";
+import {
+  ApiChannel,
+  ReadChannelGroup,
+  ResourceModel,
+  WriteChannelGroup,
+} from "../interfaces";
 import { Channel } from ".";
 
 /**
  * Describes a channel group object
  */
-export class ChannelGroup {
-  id?: number;
+export class ChannelGroup extends ResourceModel<
+  ReadChannelGroup,
+  WriteChannelGroup
+> {
   owner?: number;
   name = "";
   description? = "";
@@ -28,50 +35,41 @@ export class ChannelGroup {
     return "ChannelGroup";
   }
 
-  /**
-   *
-   * @param item
-   */
-  static deserialize(item: ReadChannelGroup): ChannelGroup {
-    const id = item.id ? +item.id : undefined;
-    const channelGroup = new ChannelGroup();
+  fromRaw(data: ReadChannelGroup): void {
+    Object.apply(this, {
+      id: +data.id,
+      owner: data.user,
+      name: data.name,
+      description: data.description,
+      orgId: data.organization,
+      channelsCount: data.channels_count,
+      shareAll: data.share_all,
+      shareOrg: data.share_org,
+    });
 
-    channelGroup.id = id;
-    channelGroup.owner = item.user;
-    channelGroup.name = item.name;
-    channelGroup.description = item.description;
-    channelGroup.orgId = item.organization;
-    channelGroup.channelsCount = item.channels_count;
-    channelGroup.shareAll = item.share_all ?? false;
-    channelGroup.shareOrg = item.share_org ?? false;
-
-    if ("channels" in item && item.channels) {
-      channelGroup.channels = item.channels.map((c: ApiChannel) =>
+    if ("channels" in data && data.channels) {
+      this.channels = data.channels.map((c: ApiChannel) =>
         Channel.deserialize(c)
       );
     }
-    if ("auto_exclude_channels" in item && item.auto_exclude_channels) {
-      channelGroup.autoExcludeChannels = [...item.auto_exclude_channels].map(
+    if ("auto_exclude_channels" in data && data.auto_exclude_channels) {
+      this.autoExcludeChannels = [...data.auto_exclude_channels].map(
         (c: ApiChannel | number) => {
           return typeof c === "number" ? c : Channel.deserialize(c);
         }
       );
     }
 
-    if ("auto_include_channels" in item && item.auto_include_channels) {
-      channelGroup.autoIncludeChannels = [...item.auto_include_channels].map(
+    if ("auto_include_channels" in data && data.auto_include_channels) {
+      this.autoIncludeChannels = [...data.auto_include_channels].map(
         (c: ApiChannel | number) => {
           return typeof c === "number" ? c : Channel.deserialize(c);
         }
       );
     }
-    return channelGroup;
   }
 
-  /**
-   *
-   */
-  serialize(): WriteChannelGroup {
+  toJson(): WriteChannelGroup {
     const incl = this.autoIncludeChannels?.map((c): number =>
       typeof c === "number" ? c : c.id
     );

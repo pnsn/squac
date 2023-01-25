@@ -1,44 +1,38 @@
-import { ReadMatchingRule, WriteMatchingRule } from "../interfaces";
+import {
+  ReadMatchingRule,
+  ResourceModel,
+  WriteMatchingRule,
+} from "../interfaces";
 
 /**
  * Regular expression rules for building channel groups
  */
-export class MatchingRule {
-  constructor(
-    public id: number,
-    public owner: number,
-    public channelGroupId: number,
-    public isInclude: boolean
-  ) {}
+export class MatchingRule extends ResourceModel<
+  ReadMatchingRule,
+  WriteMatchingRule
+> {
+  owner: number;
+  channelGroupId: number;
+  isInclude: boolean;
   networkRegex?: string;
   stationRegex?: string;
   locationRegex?: string;
   channelRegex?: string;
 
-  /**
-   *
-   * @param item
-   */
-  static deserialize(item: ReadMatchingRule): MatchingRule {
-    const matchingRule = new MatchingRule(
-      item.id ? +item.id : 0,
-      item.user ? item.user : 0,
-      item.group,
-      item.is_include ?? true
-    );
-
-    matchingRule.channelRegex = item.channel_regex;
-    matchingRule.networkRegex = item.network_regex;
-    matchingRule.locationRegex = item.location_regex;
-    matchingRule.stationRegex = item.station_regex;
-
-    return matchingRule;
+  fromRaw(data: ReadMatchingRule): void {
+    Object.assign(this, {
+      id: data.id,
+      owner: data.user,
+      channelGroupId: data.group,
+      isInclude: data.is_include,
+      channelRegex: data.channel_regex,
+      networkRegex: data.network_regex,
+      locationRegex: data.location_regex,
+      stationRegex: data.station_regex,
+    });
   }
 
-  /**
-   *
-   */
-  serialize(): WriteMatchingRule {
+  toJson(): WriteMatchingRule {
     return {
       group: this.channelGroupId,
       network_regex: this.networkRegex,

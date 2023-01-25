@@ -1,4 +1,4 @@
-import { Threshold } from "../interfaces";
+import { ResourceModel, Threshold } from "../interfaces";
 import { Metric } from ".";
 import {
   ApiMetric,
@@ -9,26 +9,26 @@ import {
 } from "../interfaces";
 import { WIDGET_LAYOUT, WIDGET_PROPERTIES } from "../constants";
 import { WidgetStatType } from "../types";
+import {
+  ReadOnlyWidgetDetailSerializer,
+  WriteOnlyWidgetSerializer,
+} from "@pnsn/ngx-squacapi-client";
 
 /**
  * Model for a widget
  */
-export class Widget {
+export class Widget extends ResourceModel<ReadWidget, WriteWidget> {
   public _thresholds: Threshold[] = [];
   public _layout: WidgetLayout = WIDGET_LAYOUT;
   public _properties: WidgetProperties = WIDGET_PROPERTIES;
-  constructor(
-    public id: number,
-    public owner: number,
-    public name: string,
-    public dashboardId: number,
-    public metrics: Metric[],
-    public stat?: WidgetStatType //if use aggregate
-  ) {
-    //this will override settings when created
-  }
 
+  public owner: number;
+  public name: string;
+  public dashboardId: number;
+  public metrics: Metric[];
+  public stat?: WidgetStatType; //if use aggregate
   public type: string;
+
   /**
    * Saves thresholds to widgets
    */
@@ -122,39 +122,16 @@ export class Widget {
     return "Widget";
   }
 
-  /**
-   *
-   * @param item
-   */
-  static deserialize(item: ReadWidget): Widget {
-    let metrics: Metric[] = [];
-
-    if (item.metrics) {
-      metrics = item.metrics.map((m: ApiMetric) => Metric.deserialize(m));
+  fromRaw(data: ReadOnlyWidgetDetailSerializer): void {
+    Object.assign(this, data);
+    this.owner = data.user;
+    this.dashboardId = data.dashboard;
+    if (data.metrics) {
+      this.metrics = data.metrics.map((m: ApiMetric) => Metric.deserialize(m));
     }
-
-    const stat = item.stat as WidgetStatType;
-    const widget = new Widget(
-      item.id,
-      item.user,
-      item.name,
-      item.dashboard,
-      metrics,
-      stat
-    );
-
-    widget.type = item.type;
-    widget.thresholds = item.thresholds || [];
-
-    widget.layout = item.layout;
-    widget.properties = item.properties;
-    return widget;
   }
 
-  /**
-   *
-   */
-  serialize(): WriteWidget {
+  toJson(): WriteOnlyWidgetSerializer {
     return {
       name: this.name,
       metrics: this.metricsIds,

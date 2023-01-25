@@ -1,18 +1,15 @@
-import { ReadMeasurement } from "../interfaces";
+import { ReadMeasurement, ReadOnlyResourceModel } from "../interfaces";
 
 /**
  * describes a measurement
  */
-export class Measurement {
-  constructor(
-    public id: number,
-    public owner: number,
-    public metricId: number,
-    public channelId: number,
-    public value: number,
-    public starttime: string,
-    public endtime: string
-  ) {}
+export class Measurement extends ReadOnlyResourceModel<ReadMeasurement> {
+  owner: number;
+  metricId: number;
+  channelId: number;
+  value: number;
+  starttime: string;
+  endtime: string;
 
   /**
    * @returns model name
@@ -21,20 +18,15 @@ export class Measurement {
     return "Measurement";
   }
 
-  /**
-   *
-   * @param item
-   */
-  static deserialize(item: ReadMeasurement): Measurement {
-    const measurement = new Measurement(
-      item.id ? item.id : 0,
-      item.user ? item.user : 0,
-      item.metric,
-      item.channel,
-      item.value,
-      item.starttime,
-      item.endtime
-    );
-    return measurement;
+  fromRaw(data: ReadMeasurement): void {
+    Object.assign(this, {
+      id: data.id,
+      owner: data.user,
+      metricId: data.metric,
+      channelId: data.channel,
+      value: data.value,
+      starttime: data.starttime,
+      endtime: data.endtime,
+    });
   }
 }
