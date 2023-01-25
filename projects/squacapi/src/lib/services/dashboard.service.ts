@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { SquacApiService, WriteDashboard } from "../interfaces";
+import { SquacApiService } from "../interfaces";
 import { BaseWriteableApiService } from "./generic-api.service";
 import { Dashboard } from "../models";
 import {
@@ -18,14 +18,6 @@ import { ApiEndpoint } from "../enums";
 export class DashboardService extends BaseWriteableApiService<Dashboard> {
   constructor(override api: ApiService) {
     super(ApiEndpoint.DASHBOARD, api);
-  }
-  deserialize = Dashboard.deserialize;
-  /**
-   *
-   * @param item
-   */
-  serialize(item: Dashboard): WriteDashboard {
-    return item.serialize();
   }
 }
 

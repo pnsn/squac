@@ -1,5 +1,8 @@
-import { ReadAlert, ReadOnlyResourceModel } from "../interfaces";
-import { Trigger as ApiTrigger } from "@pnsn/ngx-squacapi-client";
+import { ReadOnlyResourceModel } from "../interfaces";
+import {
+  Trigger as ApiTrigger,
+  ReadOnlyAlertDetailSerializer,
+} from "@pnsn/ngx-squacapi-client";
 
 export interface BreachingChannel {
   channel: string;
@@ -13,13 +16,11 @@ export interface BreachingChannel {
 /**
  * Describes an alert
  */
-export class Alert extends ReadOnlyResourceModel<ReadAlert> {
-  owner?: number;
+export class Alert extends ReadOnlyResourceModel<ReadOnlyAlertDetailSerializer> {
   timestamp!: string;
   message!: string;
   inAlarm?: boolean;
   breachingChannels!: BreachingChannel[];
-
   triggerId?: number;
   monitorId: number;
   monitorName: string;
@@ -34,7 +35,8 @@ export class Alert extends ReadOnlyResourceModel<ReadAlert> {
     return "Alert";
   }
 
-  fromRaw(data: ReadAlert): void {
+  override fromRaw(data: ReadOnlyAlertDetailSerializer): void {
+    super.fromRaw(data);
     let breachingChannels: BreachingChannel[] = [];
 
     if (typeof data.breaching_channels === "string") {
@@ -46,18 +48,12 @@ export class Alert extends ReadOnlyResourceModel<ReadAlert> {
         breachingChannels = [];
       }
     }
-
+    this.breachingChannels = breachingChannels;
     Object.assign(this, {
-      id: data.id,
-      owner: data.user,
-      timestamp: data.timestamp,
       inAlarm: data.in_alarm,
-      breachingChannels,
       triggerId: data.trigger,
       monitorId: data.monitor,
       monitorName: data.monitor_name,
-      val1: data.val1,
-      val2: data.val2,
       valueOperator: data.value_operator,
       numChannels: data.num_channels,
       numChannelsOperator: data.num_channels_operator,

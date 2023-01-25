@@ -47,13 +47,23 @@ export class SquacModel implements SquacModel {
  * Resource model for read only resources
  */
 export abstract class ReadOnlyResourceModel<R> extends SquacModel {
-  abstract override fromRaw(data: R): void;
+  override fromRaw(data: R): void {
+    Object.assign(this, data);
+  }
 
   constructor(model?: R) {
     super();
     if (model) {
       this.fromRaw(model);
     }
+  }
+
+  get owner(): number {
+    return this.user;
+  }
+
+  get orgId(): number {
+    return this.organization;
   }
 }
 

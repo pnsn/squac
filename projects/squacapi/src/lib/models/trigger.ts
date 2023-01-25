@@ -1,14 +1,18 @@
-import { ReadTrigger, ResourceModel, WriteTrigger } from "../interfaces";
+import { ResourceModel } from "../interfaces";
 import {
   Trigger as ApiTrigger,
   WriteOnlyTriggerSerializer,
+  ReadOnlyTriggerSerializer,
 } from "@pnsn/ngx-squacapi-client";
 import { Alert, Monitor } from ".";
 
 /**
  * Describes a trigger
  */
-export class Trigger extends ResourceModel<ReadTrigger, WriteTrigger> {
+export class Trigger extends ResourceModel<
+  ApiTrigger | ReadOnlyTriggerSerializer,
+  WriteOnlyTriggerSerializer
+> {
   monitorId: number;
   valueOperator: ApiTrigger.ValueOperatorEnum; //outsideof, within, ==, <, <=, >, >=
   numChannels: number;
@@ -27,17 +31,16 @@ export class Trigger extends ResourceModel<ReadTrigger, WriteTrigger> {
     return "Trigger";
   }
 
-  fromRaw(data: ReadTrigger): void {
+  override fromRaw(data: ApiTrigger | ReadOnlyTriggerSerializer): void {
+    super.fromRaw(data);
+
     Object.assign(this, {
-      id: +data.id,
       monitorId: data.monitor,
       valueOperator: data.value_operator, //outsideof, within, ==, <, <=, >, >=
       numChannels: data.num_channels,
       numChannelsOperator: data.num_channels_operator, //any, ==, <, >
       alertOnOutOfAlarm: data.alert_on_out_of_alarm,
       emailList: data.email_list, //comma separated
-      val1: data.val1,
-      val2: data.val2,
     });
   }
 

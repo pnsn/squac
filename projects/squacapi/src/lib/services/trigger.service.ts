@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { SquacApiService, WriteTrigger } from "../interfaces";
+import { SquacApiService } from "../interfaces";
 import { BaseWriteableApiService } from "./generic-api.service";
 import { Trigger } from "../models";
 import {
@@ -18,11 +18,6 @@ import { ApiEndpoint } from "../enums";
 export class TriggerService extends BaseWriteableApiService<Trigger> {
   constructor(override api: ApiService) {
     super(ApiEndpoint.TRIGGER, api);
-  }
-
-  deserialize = Trigger.deserialize;
-  serialize(model: Trigger): WriteTrigger {
-    return model.serialize();
   }
 
   /**

@@ -1,7 +1,7 @@
 import { HttpResponse, HttpContext } from "@angular/common/http";
 import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { map, Observable } from "rxjs";
-import { SquacObject } from "../interfaces";
+import { SquacModel } from "../interfaces";
 import { ApiEndpoint } from "../enums";
 import { REFRESH_REQUEST } from "../constants/refresh-request.constant";
 
@@ -24,7 +24,7 @@ export type Params = any;
 /**
  *
  */
-export abstract class BaseReadOnlyApiService<T extends SquacObject> {
+export abstract class BaseReadOnlyApiService<T extends SquacModel> {
   observe = "body";
   reportProgress = false;
   constructor(protected apiEndpoint: ApiEndpoint, protected api: ApiService) {}
@@ -36,7 +36,9 @@ export abstract class BaseReadOnlyApiService<T extends SquacObject> {
    * @param apiData api item
    * @returns model
    */
-  abstract deserialize(apiData: any): T;
+  protected deserialize(ctor: { new (data: any): T }, apiData: any): T {
+    return new ctor(apiData);
+  }
 
   /**
    * Adds context to options
@@ -131,20 +133,11 @@ export abstract class BaseReadOnlyApiService<T extends SquacObject> {
  * @template T model type
  */
 export abstract class BaseWriteableApiService<
-  T extends SquacObject
+  T extends SquacModel
 > extends BaseReadOnlyApiService<T> {
   constructor(override apiEndpoint: ApiEndpoint, override api: ApiService) {
     super(apiEndpoint, api);
   }
-
-  /**
-   * Converts model to api data
-   *
-   * @template T model type
-   * @param model model
-   * @returns data for backend
-   */
-  abstract serialize(model: T): any;
 
   /**
    * Update single object of type T from squacapi
@@ -220,7 +213,7 @@ export abstract class BaseWriteableApiService<
    * @returns returns data object
    */
   protected updateParams(t: T): { id: string | number; data: unknown } {
-    const data = this.serialize(t);
+    const data = t.toJson();
     return { id: `${t.id}`, data };
   }
 
@@ -232,7 +225,7 @@ export abstract class BaseWriteableApiService<
    * @returns returns data object
    */
   protected createParams(t: T): { data: unknown } {
-    const data = this.serialize(t);
+    const data = t.toJson();
     return { data };
   }
 

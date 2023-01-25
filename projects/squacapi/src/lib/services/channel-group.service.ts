@@ -1,10 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ChannelGroup } from "../models";
-import {
-  ReadChannelGroup,
-  SquacApiService,
-  WriteChannelGroup,
-} from "../interfaces";
+import { SquacApiService } from "../interfaces";
 import {
   ApiService,
   NslcGroupsListRequestParams,
@@ -23,16 +19,6 @@ import { BaseWriteableApiService } from "./generic-api.service";
 export class ChannelGroupService extends BaseWriteableApiService<ChannelGroup> {
   constructor(override api: ApiService) {
     super(ApiEndpoint.CHANNEL_GROUP, api);
-  }
-
-  /** @inheritdoc */
-  serialize(model: ChannelGroup): WriteChannelGroup {
-    return model.serialize();
-  }
-
-  /** @inheritdoc */
-  deserialize(apiData: ReadChannelGroup): ChannelGroup {
-    return ChannelGroup.deserialize(apiData);
   }
   /*returns channel groups sorted into
   // {

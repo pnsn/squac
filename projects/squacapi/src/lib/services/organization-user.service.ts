@@ -20,8 +20,6 @@ export class OrganizationUserService extends BaseReadOnlyApiService<User> {
   constructor(override api: ApiService) {
     super(ApiEndpoint.ORGANIZATION_USER, api);
   }
-
-  deserialize = User.deserialize;
 }
 
 export interface OrganizationUserService extends WriteableApiService<User> {

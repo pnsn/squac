@@ -19,7 +19,6 @@ export class NetworkService extends BaseReadOnlyApiService<Network> {
   constructor(override api: ApiService) {
     super(ApiEndpoint.NETWORK, api);
   }
-  deserialize = Network.deserialize;
 }
 
 export interface NetworkService extends ListService<Network> {

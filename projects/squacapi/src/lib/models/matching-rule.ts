@@ -1,17 +1,16 @@
-import {
-  ReadMatchingRule,
-  ResourceModel,
-  WriteMatchingRule,
-} from "../interfaces";
+import { ResourceModel } from "../interfaces";
 
+import {
+  ReadOnlyMatchingRuleSerializer,
+  WriteOnlyMatchingRuleSerializer,
+} from "@pnsn/ngx-squacapi-client";
 /**
  * Regular expression rules for building channel groups
  */
 export class MatchingRule extends ResourceModel<
-  ReadMatchingRule,
-  WriteMatchingRule
+  ReadOnlyMatchingRuleSerializer,
+  WriteOnlyMatchingRuleSerializer
 > {
-  owner: number;
   channelGroupId: number;
   isInclude: boolean;
   networkRegex?: string;
@@ -19,10 +18,9 @@ export class MatchingRule extends ResourceModel<
   locationRegex?: string;
   channelRegex?: string;
 
-  fromRaw(data: ReadMatchingRule): void {
+  override fromRaw(data: ReadOnlyMatchingRuleSerializer): void {
+    super.fromRaw(data);
     Object.assign(this, {
-      id: data.id,
-      owner: data.user,
       channelGroupId: data.group,
       isInclude: data.is_include,
       channelRegex: data.channel_regex,
@@ -32,7 +30,7 @@ export class MatchingRule extends ResourceModel<
     });
   }
 
-  toJson(): WriteMatchingRule {
+  toJson(): WriteOnlyMatchingRuleSerializer {
     return {
       group: this.channelGroupId,
       network_regex: this.networkRegex,

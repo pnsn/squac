@@ -1,28 +1,27 @@
 import { ChannelGroup, Widget } from ".";
-import {
-  ReadDashboard,
-  WriteDashboard,
-  DashboardProperties,
-  ResourceModel,
-} from "../interfaces";
+import { DashboardProperties, ResourceModel } from "../interfaces";
 import { DASHBOARD_PROPERTIES } from "../constants";
-import { WriteOnlyDashboardSerializer } from "@pnsn/ngx-squacapi-client";
+import {
+  ReadOnlyDashboardDetailSerializer,
+  ReadOnlyDashboardSerializer,
+  WriteOnlyDashboardSerializer,
+} from "@pnsn/ngx-squacapi-client";
 
 /**
  * Describes a dashboard
  */
-export class Dashboard extends ResourceModel<ReadDashboard, WriteDashboard> {
+export class Dashboard extends ResourceModel<
+  ReadOnlyDashboardDetailSerializer | ReadOnlyDashboardSerializer,
+  WriteOnlyDashboardSerializer
+> {
   public channelGroup?: ChannelGroup;
   private _widgets: Widget[] = [];
   public _properties: DashboardProperties = DASHBOARD_PROPERTIES;
   widgetIds?: number[];
-
-  owner: number;
   name: string;
   description: string;
   shareOrg: boolean;
   shareAll: boolean;
-  orgId: number;
   channelGroupId?: number;
 
   /**
@@ -75,23 +74,18 @@ export class Dashboard extends ResourceModel<ReadDashboard, WriteDashboard> {
     return "Dashboard";
   }
 
-  fromRaw(data: ReadDashboard): void {
-    Object.assign(this, {
-      id: data.id,
-      owner: data.user,
-      name: data.name,
-      description: data.description,
-      shareAll: data.share_all,
-      shareOrg: data.share_org,
-      orgId: data.organization,
-      channelGroupId: data.channel_group,
-    });
+  override fromRaw(
+    data: ReadOnlyDashboardDetailSerializer | ReadOnlyDashboardSerializer
+  ): void {
+    super.fromRaw(data);
 
-    this.properties = data.properties;
+    this.shareAll = data.share_all;
+    this.shareOrg = data.share_org;
+    this.channelGroupId = data.channel_group;
   }
 
   toJson(): WriteOnlyDashboardSerializer {
-    const d: WriteDashboard = {
+    const d: WriteOnlyDashboardSerializer = {
       name: this.name,
       description: this.description,
       share_all: this.shareAll,

@@ -1,5 +1,26 @@
-import { ReadAggregate, ReadOnlyResourceModel } from "../interfaces";
+import { ReadOnlyResourceModel } from "../interfaces";
 import { MeasurementAggregatedListRequestParams } from "@pnsn/ngx-squacapi-client";
+
+/** Read aggregate interface */
+export interface ReadOnlyAggregateSerializer {
+  channel: number;
+  metric: number;
+  min: number;
+  max: number;
+  mean: number;
+  median: number;
+  stdev: number;
+  num_samps: number;
+  p05: number;
+  p10: number;
+  p90: number;
+  p95: number;
+  minabs: number;
+  maxabs: number;
+  latest: number;
+  starttime: string;
+  endtime: string;
+}
 
 /**
  * Aggregate list params
@@ -10,11 +31,11 @@ export class AggregateListParams
 /**
  * Describes an aggregate
  */
-export class Aggregate extends ReadOnlyResourceModel<ReadAggregate> {
+export class Aggregate extends ReadOnlyResourceModel<ReadOnlyAggregateSerializer> {
   /** aggregate value */
   value: number;
-  metricId: number;
-  channelId: number;
+  metric: number;
+  channel: number;
   min: number;
   max: number;
   mean: number;
@@ -34,16 +55,5 @@ export class Aggregate extends ReadOnlyResourceModel<ReadAggregate> {
   /** @returns model name */
   static get modelName(): string {
     return "Aggregate";
-  }
-
-  /**
-   * Applies properties from item to aggregate
-   *
-   * @param item
-   */
-  fromRaw(item: ReadAggregate): void {
-    Object.apply(this, item);
-    this.metricId = item.metric;
-    this.channelId = item.channel;
   }
 }

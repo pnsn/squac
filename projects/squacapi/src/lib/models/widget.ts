@@ -1,28 +1,25 @@
 import { ResourceModel, Threshold } from "../interfaces";
 import { Metric } from ".";
-import {
-  ApiMetric,
-  ReadWidget,
-  WriteWidget,
-  WidgetProperties,
-  WidgetLayout,
-} from "../interfaces";
-import { WIDGET_LAYOUT, WIDGET_PROPERTIES } from "../constants";
-import { WidgetStatType } from "../types";
+import { WidgetProperties, WidgetLayout } from "../interfaces";
+
 import {
   ReadOnlyWidgetDetailSerializer,
   WriteOnlyWidgetSerializer,
+  Metric as ApiMetric,
 } from "@pnsn/ngx-squacapi-client";
+import { WIDGET_LAYOUT, WIDGET_PROPERTIES } from "../constants";
+import { WidgetStatType } from "../types";
 
 /**
  * Model for a widget
  */
-export class Widget extends ResourceModel<ReadWidget, WriteWidget> {
+export class Widget extends ResourceModel<
+  ReadOnlyWidgetDetailSerializer,
+  WriteOnlyWidgetSerializer
+> {
   public _thresholds: Threshold[] = [];
   public _layout: WidgetLayout = WIDGET_LAYOUT;
   public _properties: WidgetProperties = WIDGET_PROPERTIES;
-
-  public owner: number;
   public name: string;
   public dashboardId: number;
   public metrics: Metric[];
@@ -122,12 +119,12 @@ export class Widget extends ResourceModel<ReadWidget, WriteWidget> {
     return "Widget";
   }
 
-  fromRaw(data: ReadOnlyWidgetDetailSerializer): void {
-    Object.assign(this, data);
-    this.owner = data.user;
+  override fromRaw(data: ReadOnlyWidgetDetailSerializer): void {
+    super.fromRaw(data);
+
     this.dashboardId = data.dashboard;
     if (data.metrics) {
-      this.metrics = data.metrics.map((m: ApiMetric) => Metric.deserialize(m));
+      this.metrics = data.metrics.map((m: ApiMetric) => new Metric(m));
     }
   }
 

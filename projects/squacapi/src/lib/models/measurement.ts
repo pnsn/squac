@@ -1,12 +1,11 @@
-import { ReadMeasurement, ReadOnlyResourceModel } from "../interfaces";
-
+import { ReadOnlyResourceModel } from "../interfaces";
+import { ReadOnlyMeasurementSerializer } from "@pnsn/ngx-squacapi-client";
 /**
  * describes a measurement
  */
-export class Measurement extends ReadOnlyResourceModel<ReadMeasurement> {
-  owner: number;
-  metricId: number;
-  channelId: number;
+export class Measurement extends ReadOnlyResourceModel<ReadOnlyMeasurementSerializer> {
+  metric: number;
+  channel: number;
   value: number;
   starttime: string;
   endtime: string;
@@ -16,17 +15,5 @@ export class Measurement extends ReadOnlyResourceModel<ReadMeasurement> {
    */
   static get modelName(): string {
     return "Measurement";
-  }
-
-  fromRaw(data: ReadMeasurement): void {
-    Object.assign(this, {
-      id: data.id,
-      owner: data.user,
-      metricId: data.metric,
-      channelId: data.channel,
-      value: data.value,
-      starttime: data.starttime,
-      endtime: data.endtime,
-    });
   }
 }

@@ -1,9 +1,15 @@
-import { ReadChannel, ReadOnlyResourceModel } from "../interfaces";
+import { ReadOnlyResourceModel } from "../interfaces";
+import {
+  ReadOnlyChannelSerializer,
+  Channel as ApiChannel,
+} from "@pnsn/ngx-squacapi-client";
 
 /**
  * Describes a channel object
  */
-export class Channel extends ReadOnlyResourceModel<ReadChannel> {
+export class Channel extends ReadOnlyResourceModel<
+  ReadOnlyChannelSerializer | ApiChannel
+> {
   nslc: string;
   code: string;
   name: string;
@@ -31,8 +37,9 @@ export class Channel extends ReadOnlyResourceModel<ReadChannel> {
     return "Channel";
   }
 
-  fromRaw(data: ReadChannel): void {
-    Object.apply(this, data);
+  override fromRaw(data: ReadOnlyChannelSerializer | ApiChannel): void {
+    super.fromRaw(data);
+
     this.code = data.code.toUpperCase();
     this.sampleRate = data.sample_rate;
     this.loc = data.loc ? data.loc.toUpperCase() : "--";

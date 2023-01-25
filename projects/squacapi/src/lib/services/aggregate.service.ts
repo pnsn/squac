@@ -19,11 +19,6 @@ export class AggregateService extends BaseReadOnlyApiService<Aggregate> {
   constructor(override api: ApiService) {
     super(ApiEndpoint.AGGREGATE, api);
   }
-
-  /** @inheritdoc */
-  deserialize(apiData: any): Aggregate {
-    return Aggregate.deserialize(apiData);
-  }
 }
 
 export interface AggregateService extends ListService<Aggregate> {

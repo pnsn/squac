@@ -8,7 +8,7 @@ import { User } from "../models";
 
 import { map, Observable } from "rxjs";
 import { BaseWriteableApiService } from "./generic-api.service";
-import { PartialUpdateService, ReadService, WriteUser } from "../interfaces";
+import { PartialUpdateService, ReadService } from "../interfaces";
 
 /**
  * Service for interacting with User Me squacapi endpoints
@@ -24,11 +24,6 @@ export class UserMeService
     super(ApiEndpoint.USER_ME, api);
   }
 
-  deserialize = User.deserialize;
-
-  serialize(model: User): WriteUser {
-    return model.serialize();
-  }
   /**
    * Request current user
    *

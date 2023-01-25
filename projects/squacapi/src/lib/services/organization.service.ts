@@ -22,7 +22,6 @@ export class OrganizationService extends BaseReadOnlyApiService<Organization> {
     super(ApiEndpoint.ORGANIZATION, api);
   }
 
-  deserialize = Organization.deserialize;
   /**
    * @override
    */

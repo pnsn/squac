@@ -19,7 +19,6 @@ export class MeasurementService extends BaseReadOnlyApiService<Measurement> {
   constructor(override api: ApiService) {
     super(ApiEndpoint.MEASUREMENT, api);
   }
-  deserialize = Measurement.deserialize;
 }
 
 export interface MeasurementService extends ListService<Measurement> {

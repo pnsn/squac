@@ -5,7 +5,6 @@ import { Alert } from "../models";
 import {
   ApiService,
   MeasurementAlertsListRequestParams,
-  ReadOnlyAlertDetailSerializer,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
 import { ApiEndpoint } from "../enums";
@@ -19,14 +18,6 @@ import { ApiEndpoint } from "../enums";
 export class AlertService extends BaseReadOnlyApiService<Alert> {
   constructor(override api: ApiService) {
     super(ApiEndpoint.ALERT, api);
-  }
-
-  /**
-   *
-   * @param data
-   */
-  deserialize(data: ReadOnlyAlertDetailSerializer): Alert {
-    return Alert.deserialize(data);
   }
 }
 

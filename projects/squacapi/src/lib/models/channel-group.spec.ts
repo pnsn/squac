@@ -1,5 +1,5 @@
 import { TestBed } from "@angular/core/testing";
-import { ChannelGroup, ChannelGroupAdapter } from "./channel-group";
+import { ChannelGroup } from "./channel-group";
 
 describe("ChannelGroup", () => {
   let adapter: ChannelGroupAdapter;

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { SquacApiService, WriteWidget } from "../interfaces";
+import { SquacApiService } from "../interfaces";
 import { BaseWriteableApiService } from "./generic-api.service";
 import {
   ApiService,
@@ -22,14 +22,7 @@ export class WidgetService extends BaseWriteableApiService<Widget> {
   constructor(override api: ApiService) {
     super(ApiEndpoint.WIDGET, api);
   }
-  deserialize = Widget.deserialize;
-  /**
-   *
-   * @param item
-   */
-  serialize(item: Widget): WriteWidget {
-    return item.serialize();
-  }
+
   /**
    * @override
    */
@@ -50,7 +43,7 @@ export class WidgetService extends BaseWriteableApiService<Widget> {
   override updateParams(w: Widget): DashboardWidgetsUpdateRequestParams {
     return {
       id: w.id,
-      data: w.serialize(),
+      data: w.toJson(),
     };
   }
 }

@@ -21,8 +21,6 @@ export class ChannelService extends BaseReadOnlyApiService<Channel> {
   constructor(override api: ApiService) {
     super(ApiEndpoint.CHANNEL, api);
   }
-  deserialize = Channel.deserialize;
-
   /**
    * Requests channels using params and matching rules
    *

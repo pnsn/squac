@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { WriteableApiService, WriteMetric } from "../interfaces";
+import { WriteableApiService } from "../interfaces";
 import { BaseWriteableApiService } from "./generic-api.service";
 import { Metric } from "../models";
 import {
@@ -18,15 +18,6 @@ import { ApiEndpoint } from "../enums";
 export class MetricService extends BaseWriteableApiService<Metric> {
   constructor(override api: ApiService) {
     super(ApiEndpoint.METRIC, api);
-  }
-  deserialize = Metric.deserialize;
-
-  /**
-   *
-   * @param model
-   */
-  serialize(model: Metric): WriteMetric {
-    return model.serialize();
   }
 }
 

@@ -4,7 +4,7 @@ import {
   MeasurementMonitorsListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
-import { SquacApiService, WriteMonitor } from "../interfaces";
+import { SquacApiService } from "../interfaces";
 import { BaseWriteableApiService } from "./generic-api.service";
 import { Monitor } from "../models";
 import { ApiEndpoint } from "../enums";
@@ -18,16 +18,6 @@ import { ApiEndpoint } from "../enums";
 export class MonitorService extends BaseWriteableApiService<Monitor> {
   constructor(override api: ApiService) {
     super(ApiEndpoint.MONITOR, api);
-  }
-
-  deserialize = Monitor.deserialize;
-
-  /**
-   *
-   * @param model
-   */
-  serialize(model: Monitor): WriteMonitor {
-    return model.serialize();
   }
 }
 

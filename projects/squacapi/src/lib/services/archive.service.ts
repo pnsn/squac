@@ -22,11 +22,6 @@ export class HourArchiveService extends BaseReadOnlyApiService<Archive> {
   constructor(override api: ApiService) {
     super(ApiEndpoint.HOUR_ARCHIVE, api);
   }
-
-  /** @inheritdoc */
-  deserialize(apiData: any): Archive {
-    return Archive.deserialize(apiData);
-  }
 }
 
 export interface HourArchiveService extends ListService<Archive> {
@@ -46,11 +41,6 @@ export class DayArchiveService extends BaseReadOnlyApiService<Archive> {
   constructor(override api: ApiService) {
     super(ApiEndpoint.DAY_ARCHIVE, api);
   }
-
-  /** @inheritdoc */
-  deserialize(apiData: any): Archive {
-    return Archive.deserialize(apiData);
-  }
 }
 export interface DayArchiveService extends ListService<Archive> {
   list(
@@ -69,11 +59,6 @@ export class WeekArchiveService extends BaseReadOnlyApiService<Archive> {
   constructor(override api: ApiService) {
     super(ApiEndpoint.WEEK_ARCHIVE, api);
   }
-
-  /** @inheritdoc */
-  deserialize(apiData: any): Archive {
-    return Archive.deserialize(apiData);
-  }
 }
 export interface WeekArchiveService extends ListService<Archive> {
   list(
@@ -91,11 +76,6 @@ export interface WeekArchiveService extends ListService<Archive> {
 export class MonthArchiveService extends BaseReadOnlyApiService<Archive> {
   constructor(override api: ApiService) {
     super(ApiEndpoint.MONTH_ARCHIVE, api);
-  }
-
-  /** @inheritdoc */
-  deserialize(apiData: any): Archive {
-    return Archive.deserialize(apiData);
   }
 }
 

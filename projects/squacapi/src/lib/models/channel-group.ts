@@ -1,22 +1,21 @@
+import { ResourceModel } from "../interfaces";
 import {
-  ApiChannel,
-  ReadChannelGroup,
-  ResourceModel,
-  WriteChannelGroup,
-} from "../interfaces";
-import { Channel } from ".";
+  WriteOnlyGroupSerializer,
+  ReadOnlyGroupDetailSerializer,
+  ReadOnlyGroupSerializer,
+  Channel as ApiChannel,
+} from "@pnsn/ngx-squacapi-client";
+import { Channel } from "../models";
 
 /**
  * Describes a channel group object
  */
 export class ChannelGroup extends ResourceModel<
-  ReadChannelGroup,
-  WriteChannelGroup
+  ReadOnlyGroupDetailSerializer | ReadOnlyGroupSerializer,
+  WriteOnlyGroupSerializer
 > {
-  owner?: number;
   name = "";
   description? = "";
-  orgId = 0;
   shareAll = false;
   shareOrg = false;
 
@@ -35,27 +34,22 @@ export class ChannelGroup extends ResourceModel<
     return "ChannelGroup";
   }
 
-  fromRaw(data: ReadChannelGroup): void {
-    Object.apply(this, {
-      id: +data.id,
-      owner: data.user,
-      name: data.name,
-      description: data.description,
-      orgId: data.organization,
-      channelsCount: data.channels_count,
-      shareAll: data.share_all,
-      shareOrg: data.share_org,
-    });
+  override fromRaw(
+    data: ReadOnlyGroupDetailSerializer | ReadOnlyGroupSerializer
+  ): void {
+    super.fromRaw(data);
+
+    this.channelsCount = data.channels_count;
+    this.shareAll = data.share_all;
+    this.shareOrg = data.share_org;
 
     if ("channels" in data && data.channels) {
-      this.channels = data.channels.map((c: ApiChannel) =>
-        Channel.deserialize(c)
-      );
+      this.channels = data.channels.map((c: ApiChannel) => new Channel(c));
     }
     if ("auto_exclude_channels" in data && data.auto_exclude_channels) {
       this.autoExcludeChannels = [...data.auto_exclude_channels].map(
         (c: ApiChannel | number) => {
-          return typeof c === "number" ? c : Channel.deserialize(c);
+          return typeof c === "number" ? c : new Channel(c);
         }
       );
     }
@@ -63,13 +57,13 @@ export class ChannelGroup extends ResourceModel<
     if ("auto_include_channels" in data && data.auto_include_channels) {
       this.autoIncludeChannels = [...data.auto_include_channels].map(
         (c: ApiChannel | number) => {
-          return typeof c === "number" ? c : Channel.deserialize(c);
+          return typeof c === "number" ? c : new Channel(c);
         }
       );
     }
   }
 
-  toJson(): WriteChannelGroup {
+  toJson(): WriteOnlyGroupSerializer {
     const incl = this.autoIncludeChannels?.map((c): number =>
       typeof c === "number" ? c : c.id
     );

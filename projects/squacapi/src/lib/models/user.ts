@@ -1,14 +1,27 @@
-import { WriteOnlyUserSerializer } from "@pnsn/ngx-squacapi-client";
-import { ReadUser, ResourceModel, WriteUser } from "../interfaces";
+import {
+  WriteOnlyUserSerializer,
+  ReadOnlyUserMeSerializer,
+  ReadOnlyUserSerializer,
+  ReadOnlyUserSimpleSerializer,
+  ReadOnlyUserUpdateSerializer,
+  UserSimple,
+} from "@pnsn/ngx-squacapi-client";
+import { ResourceModel } from "../interfaces";
 
 /**
  * Describes a user object
  */
-export class User extends ResourceModel<ReadUser, WriteUser> {
+export class User extends ResourceModel<
+  | ReadOnlyUserMeSerializer
+  | ReadOnlyUserSerializer
+  | ReadOnlyUserSimpleSerializer
+  | ReadOnlyUserUpdateSerializer
+  | UserSimple,
+  WriteOnlyUserSerializer
+> {
   email: string;
   firstName: string;
   lastName: string;
-  orgId: number;
   orgAdmin: boolean;
   groups: Set<string>;
   lastLogin: string;
@@ -36,12 +49,18 @@ export class User extends ResourceModel<ReadUser, WriteUser> {
     return "User";
   }
 
-  fromRaw(data: ReadUser): void {
-    Object.assign(this, data);
+  override fromRaw(
+    data:
+      | ReadOnlyUserMeSerializer
+      | ReadOnlyUserSerializer
+      | ReadOnlyUserSimpleSerializer
+      | ReadOnlyUserUpdateSerializer
+      | UserSimple
+  ): void {
+    super.fromRaw(data);
 
     this.firstName = data.firstname;
     this.lastName = data.lastname;
-    this.orgId = data.organization;
     this.orgAdmin = data.is_org_admin;
     this.groups = new Set<string>(data.groups);
 

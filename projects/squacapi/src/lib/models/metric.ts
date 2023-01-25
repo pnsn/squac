@@ -1,10 +1,17 @@
-import { ReadMetric, ResourceModel, WriteMetric } from "../interfaces";
+import { ResourceModel } from "../interfaces";
+import {
+  ReadOnlyMetricSerializer,
+  Metric as ApiMetric,
+  WriteOnlyMetricSerializer,
+} from "@pnsn/ngx-squacapi-client";
 
 /**
  * Describes a metric object
  */
-export class Metric extends ResourceModel<ReadMetric, WriteMetric> {
-  owner: number;
+export class Metric extends ResourceModel<
+  ReadOnlyMetricSerializer | ApiMetric,
+  WriteOnlyMetricSerializer
+> {
   name: string;
   code: string;
   description: string;
@@ -21,15 +28,15 @@ export class Metric extends ResourceModel<ReadMetric, WriteMetric> {
     return "Metric";
   }
 
-  fromRaw(data: ReadMetric): void {
-    Object.assign(this, data);
-    this.owner = data.user;
+  override fromRaw(data: ReadOnlyMetricSerializer | ApiMetric): void {
+    super.fromRaw(data);
+
     this.refUrl = data.reference_url;
     this.sampleRate = data.sample_rate;
     this.minVal = data.default_minval;
     this.maxVal = data.default_maxval;
   }
-  toJson(): WriteMetric {
+  toJson(): WriteOnlyMetricSerializer {
     return {
       name: this.name,
       code: this.code,

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { SquacApiService, WriteMatchingRule } from "../interfaces";
+import { SquacApiService } from "../interfaces";
 import { BaseWriteableApiService } from "./generic-api.service";
 import {
   ApiService,
@@ -22,16 +22,6 @@ export class MatchingRuleService extends BaseWriteableApiService<MatchingRule> {
   constructor(override api: ApiService) {
     super(ApiEndpoint.MATCHING_RULE, api);
   }
-
-  deserialize = MatchingRule.deserialize;
-  /**
-   *
-   * @param model
-   */
-  serialize(model: MatchingRule): WriteMatchingRule {
-    return model.serialize();
-  }
-
   /** @override */
   override readParams(id: number): NslcMatchingRulesReadRequestParams {
     return { id };
@@ -46,7 +36,7 @@ export class MatchingRuleService extends BaseWriteableApiService<MatchingRule> {
   override updateParams(m: MatchingRule): NslcMatchingRulesUpdateRequestParams {
     return {
       id: m.id,
-      data: m.serialize(),
+      data: m.toJson(),
     };
   }
 

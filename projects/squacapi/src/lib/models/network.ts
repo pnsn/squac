@@ -1,10 +1,10 @@
 import { ReadOnlyNetworkSerializer } from "@pnsn/ngx-squacapi-client";
-import { ReadNetwork, ReadOnlyResourceModel } from "../interfaces";
+import { ReadOnlyResourceModel } from "../interfaces";
 
 /**
  * describes a network
  */
-export class Network extends ReadOnlyResourceModel<ReadNetwork> {
+export class Network extends ReadOnlyResourceModel<ReadOnlyNetworkSerializer> {
   code: string;
   name: string;
   description: string;
@@ -14,9 +14,5 @@ export class Network extends ReadOnlyResourceModel<ReadNetwork> {
    */
   static get modelName(): string {
     return "Network";
-  }
-
-  fromRaw(data: ReadOnlyNetworkSerializer): void {
-    Object.assign(this, data);
   }
 }
