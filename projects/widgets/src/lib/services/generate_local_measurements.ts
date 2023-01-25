@@ -11,12 +11,11 @@ import {
   ReadOnlyArchiveHourSerializer,
   ReadOnlyArchiveMonthSerializer,
   ReadOnlyArchiveWeekSerializer,
+  ReadOnlyMeasurementSerializer,
 } from "@pnsn/ngx-squacapi-client";
 import {
-  ReadArchive,
-  ReadAggregate,
+  ReadOnlyAggregateSerializer,
   Channel,
-  ReadMeasurement,
   MeasurementParams,
 } from "squacapi";
 import { ChannelGroupService } from "squacapi";
@@ -90,7 +89,7 @@ export class FakeMeasurementBackend {
    * @param params measurement params
    * @returns measurement
    */
-  measurement(params: DataParams): ReadMeasurement {
+  measurement(params: DataParams): ReadOnlyMeasurementSerializer {
     return {
       starttime: params.starttime,
       endtime: params.endtime,
@@ -106,7 +105,13 @@ export class FakeMeasurementBackend {
    * @param params archive params
    * @returns archive
    */
-  archive(params: DataParams): ReadArchive {
+  archive(
+    params: DataParams
+  ):
+    | ReadOnlyArchiveDaySerializer
+    | ReadOnlyArchiveHourSerializer
+    | ReadOnlyArchiveMonthSerializer
+    | ReadOnlyArchiveWeekSerializer {
     const value = this.getRandom(params.maxValue);
     return {
       starttime: params.starttime,
@@ -134,7 +139,7 @@ export class FakeMeasurementBackend {
    * @param params aggregate params
    * @returns aggregate
    */
-  aggregate(params: DataParams): ReadAggregate {
+  aggregate(params: DataParams): ReadOnlyAggregateSerializer {
     const value = this.getRandom(params.maxValue) - 40;
 
     return {
@@ -248,8 +253,8 @@ export class FakeMeasurementBackend {
    */
   measurementMeasurementsList(
     params: MeasurementMeasurementsListRequestParams
-  ): Observable<ReadMeasurement[]> {
-    return this.getList<ReadMeasurement>(
+  ): Observable<ReadOnlyMeasurementSerializer[]> {
+    return this.getList<ReadOnlyMeasurementSerializer>(
       params,
       this.measurement.bind(this),
       10,
@@ -265,8 +270,11 @@ export class FakeMeasurementBackend {
    */
   measurementAggregatedList(
     params: MeasurementAggregatedListRequestParams
-  ): Observable<ReadAggregate[]> {
-    return this.getList<ReadAggregate>(params, this.aggregate.bind(this));
+  ): Observable<ReadOnlyAggregateSerializer[]> {
+    return this.getList<ReadOnlyAggregateSerializer>(
+      params,
+      this.aggregate.bind(this)
+    );
   }
 
   /**
@@ -278,7 +286,7 @@ export class FakeMeasurementBackend {
   measurementDayArchivesList(
     params: MeasurementDayArchivesListRequestParams
   ): Observable<ReadOnlyArchiveDaySerializer[]> {
-    return this.getList<ReadArchive>(
+    return this.getList<ReadOnlyArchiveDaySerializer>(
       params,
       this.archive.bind(this),
       1,
@@ -295,7 +303,7 @@ export class FakeMeasurementBackend {
   measurementHourArchivesList(
     params: MeasurementHourArchivesListRequestParams
   ): Observable<ReadOnlyArchiveHourSerializer[]> {
-    return this.getList<ReadArchive>(
+    return this.getList<ReadOnlyArchiveHourSerializer>(
       params,
       this.archive.bind(this),
       1,
@@ -312,7 +320,7 @@ export class FakeMeasurementBackend {
   measurementWeekArchivesList(
     params: MeasurementWeekArchivesListRequestParams
   ): Observable<ReadOnlyArchiveWeekSerializer[]> {
-    return this.getList<ReadArchive>(
+    return this.getList<ReadOnlyArchiveWeekSerializer>(
       params,
       this.archive.bind(this),
       1,
@@ -329,7 +337,7 @@ export class FakeMeasurementBackend {
   measurementMonthArchivesList(
     params: MeasurementMonthArchivesListRequestParams
   ): Observable<ReadOnlyArchiveMonthSerializer[]> {
-    return this.getList<ReadArchive>(
+    return this.getList<ReadOnlyArchiveMonthSerializer>(
       params,
       this.archive.bind(this),
       1,
