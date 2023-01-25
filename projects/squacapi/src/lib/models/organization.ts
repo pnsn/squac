@@ -5,14 +5,15 @@ import {
 import { User } from ".";
 import { ReadOnlyResourceModel } from "../interfaces";
 
+export interface Organization {
+  name: string;
+  description: string;
+  users: User[];
+}
 /**
  * Describes an organization
  */
 export class Organization extends ReadOnlyResourceModel<ReadOnlyOrganizationSerializer> {
-  name: string;
-  description: string;
-  users: User[];
-
   /**
    * @returns model name
    */

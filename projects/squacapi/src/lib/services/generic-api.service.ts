@@ -1,7 +1,7 @@
 import { HttpResponse, HttpContext } from "@angular/common/http";
 import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { map, Observable } from "rxjs";
-import { SquacModel } from "../interfaces";
+import { BaseModel } from "../interfaces";
 import { ApiEndpoint } from "../enums";
 import { REFRESH_REQUEST } from "../constants/refresh-request.constant";
 
@@ -24,7 +24,7 @@ export type Params = any;
 /**
  *
  */
-export abstract class BaseReadOnlyApiService<T extends SquacModel> {
+export abstract class BaseReadOnlyApiService<T extends BaseModel> {
   observe = "body";
   reportProgress = false;
   constructor(protected apiEndpoint: ApiEndpoint, protected api: ApiService) {}
@@ -133,7 +133,7 @@ export abstract class BaseReadOnlyApiService<T extends SquacModel> {
  * @template T model type
  */
 export abstract class BaseWriteableApiService<
-  T extends SquacModel
+  T extends BaseModel
 > extends BaseReadOnlyApiService<T> {
   constructor(override apiEndpoint: ApiEndpoint, override api: ApiService) {
     super(apiEndpoint, api);

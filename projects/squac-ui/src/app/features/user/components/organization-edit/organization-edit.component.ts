@@ -66,8 +66,8 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
         { value: "", disabled: this.editMode },
         this.editMode ? [] : [Validators.required, Validators.email],
       ],
-      firstName: ["", Validators.required],
-      lastName: ["", Validators.required],
+      firstname: ["", Validators.required],
+      lastname: ["", Validators.required],
       isAdmin: [false, Validators.required],
       groups: ["", Validators.required],
     });
@@ -85,8 +85,8 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
     if (this.editMode) {
       this.userForm.patchValue({
         email: this.user.email,
-        firstName: this.user.firstName,
-        lastName: this.user.lastName,
+        firstname: this.user.firstname,
+        lastname: this.user.lastname,
         isAdmin: this.user.isAdmin,
         groups: this.user.groups,
       });
@@ -102,18 +102,16 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
   /** saves new user */
   save(): void {
     const values = this.userForm.value;
-    const userData = {
+    const user = new User({
       id: this.user ? this.user.id : null,
       email: values.email ?? this.user.email,
-      firstName: values.firstName,
-      lastName: values.lastName,
+      firstname: values.firstname,
+      lastname: values.lastname,
       organization: this.orgId,
       orgAdmin: values.isAdmin,
       groups: values.groups,
       isActive: this.userIsActive,
-    };
-    const user = new User();
-    Object.apply(user, userData);
+    });
 
     this.orgUserService.updateOrCreate(user).subscribe({
       next: (user) => {

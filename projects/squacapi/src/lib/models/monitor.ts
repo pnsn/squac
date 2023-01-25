@@ -7,18 +7,7 @@ import {
 import { Alert, Trigger } from ".";
 import { ResourceModel } from "../interfaces";
 
-// monitors
-export type ReadMonitor =
-  | ReadOnlyMonitorDetailSerializer
-  | ReadOnlyMonitorSerializer;
-
-/**
- * describes a monitor
- */
-export class Monitor extends ResourceModel<
-  ReadOnlyMonitorDetailSerializer | ReadOnlyMonitorSerializer,
-  WriteOnlyMonitorSerializer
-> {
+export interface Monitor {
   name: string;
   channelGroupId: number;
   metricId: number;
@@ -30,7 +19,14 @@ export class Monitor extends ResourceModel<
   metricName: string;
   alerts?: Alert[];
   inAlarm?: boolean;
-
+}
+/**
+ * describes a monitor
+ */
+export class Monitor extends ResourceModel<
+  ReadOnlyMonitorDetailSerializer | ReadOnlyMonitorSerializer | Monitor,
+  WriteOnlyMonitorSerializer
+> {
   /**
    * @returns model name
    */
@@ -39,24 +35,23 @@ export class Monitor extends ResourceModel<
   }
 
   override fromRaw(
-    data: ReadOnlyMonitorDetailSerializer | ReadOnlyMonitorSerializer
+    data: ReadOnlyMonitorDetailSerializer | ReadOnlyMonitorSerializer | Monitor
   ): void {
     super.fromRaw(data);
 
     if ("triggers" in data && data.triggers) {
-      this.triggers = data.triggers.map((t: ApiTrigger) => new Trigger(t));
+      this.triggers = data.triggers.map(
+        (t: ApiTrigger | Trigger) => new Trigger(t)
+      );
     }
-
-    this.channelGroupId = data.channel_group;
-    this.metricId = data.metric;
-    this.intervalType = data.interval_type;
-    this.intervalCount = data.interval_count;
 
     if ("channel_group_name" in data) {
       this.channelGroupName = data.channel_group_name;
-    }
-    if ("metric_name" in data) {
       this.metricName = data.metric_name;
+      this.channelGroupId = data.channel_group;
+      this.metricId = data.metric;
+      this.intervalType = data.interval_type;
+      this.intervalCount = data.interval_count;
     }
   }
 

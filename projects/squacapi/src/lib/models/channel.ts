@@ -4,12 +4,7 @@ import {
   Channel as ApiChannel,
 } from "@pnsn/ngx-squacapi-client";
 
-/**
- * Describes a channel object
- */
-export class Channel extends ReadOnlyResourceModel<
-  ReadOnlyChannelSerializer | ApiChannel
-> {
+export interface Channel {
   nslc: string;
   code: string;
   name: string;
@@ -22,7 +17,13 @@ export class Channel extends ReadOnlyResourceModel<
   net: string;
   starttime?: string;
   endttime?: string;
-
+}
+/**
+ * Describes a channel object
+ */
+export class Channel extends ReadOnlyResourceModel<
+  ReadOnlyChannelSerializer | ApiChannel | Channel
+> {
   /**
    * @returns station code string
    */
@@ -37,16 +38,21 @@ export class Channel extends ReadOnlyResourceModel<
     return "Channel";
   }
 
-  override fromRaw(data: ReadOnlyChannelSerializer | ApiChannel): void {
+  override fromRaw(
+    data: ReadOnlyChannelSerializer | ApiChannel | Channel
+  ): void {
     super.fromRaw(data);
 
-    this.code = data.code.toUpperCase();
-    this.sampleRate = data.sample_rate;
-    this.loc = data.loc ? data.loc.toUpperCase() : "--";
-    this.sta = data.station_code.toUpperCase();
-    this.net = data.network.toUpperCase();
-    this.nslc = data.nslc
-      ? data.nslc.toUpperCase()
-      : this.net + "." + this.sta + "." + this.loc + "." + this.code;
+    if ("sample_rate" in data) {
+      //is serialized data
+      this.code = data.code.toUpperCase();
+      this.sampleRate = data.sample_rate;
+      this.loc = data.loc ? data.loc.toUpperCase() : "--";
+      this.sta = data.station_code.toUpperCase();
+      this.net = data.network.toUpperCase();
+      this.nslc = data.nslc
+        ? data.nslc.toUpperCase()
+        : this.net + "." + this.sta + "." + this.loc + "." + this.code;
+    }
   }
 }

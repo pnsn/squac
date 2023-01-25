@@ -28,10 +28,7 @@ export interface ReadOnlyAggregateSerializer {
 export class AggregateListParams
   implements MeasurementAggregatedListRequestParams {}
 
-/**
- * Describes an aggregate
- */
-export class Aggregate extends ReadOnlyResourceModel<ReadOnlyAggregateSerializer> {
+export interface Aggregate {
   /** aggregate value */
   value: number;
   metric: number;
@@ -51,7 +48,13 @@ export class Aggregate extends ReadOnlyResourceModel<ReadOnlyAggregateSerializer
   latest: number;
   starttime: string;
   endtime: string;
-
+}
+/**
+ * Describes an aggregate
+ */
+export class Aggregate extends ReadOnlyResourceModel<
+  ReadOnlyAggregateSerializer | Aggregate
+> {
   /** @returns model name */
   static get modelName(): string {
     return "Aggregate";

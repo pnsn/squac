@@ -36,8 +36,8 @@ export class UserEditComponent implements OnInit {
     });
 
     this.userForm = new UntypedFormGroup({
-      firstName: new UntypedFormControl("", [Validators.required]),
-      lastName: new UntypedFormControl("", [Validators.required]),
+      firstname: new UntypedFormControl("", [Validators.required]),
+      lastname: new UntypedFormControl("", [Validators.required]),
       passwords: new UntypedFormGroup(
         {
           password: new UntypedFormControl("", [
@@ -80,7 +80,7 @@ export class UserEditComponent implements OnInit {
       return;
     }
     this.inviteService
-      .registerUser(values.firstName, values.lastName, this.token, password1)
+      .registerUser(values.firstname, values.lastname, this.token, password1)
       .subscribe({
         next: (response) => {
           // go to next step

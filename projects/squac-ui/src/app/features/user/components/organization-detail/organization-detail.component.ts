@@ -168,8 +168,8 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
         // canAutoResize: false,
         // width: 70,
         pipe: {
-          transform: (row): string => {
-            return row ? row.firstName + " " + row.lastName : "";
+          transform: (row: User): string => {
+            return row ? row.firstname + " " + row.lastname : "";
           },
         },
       },

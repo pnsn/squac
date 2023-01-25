@@ -5,13 +5,7 @@ import {
   WriteOnlyMetricSerializer,
 } from "@pnsn/ngx-squacapi-client";
 
-/**
- * Describes a metric object
- */
-export class Metric extends ResourceModel<
-  ReadOnlyMetricSerializer | ApiMetric,
-  WriteOnlyMetricSerializer
-> {
+export interface Metric {
   name: string;
   code: string;
   description: string;
@@ -20,7 +14,15 @@ export class Metric extends ResourceModel<
   sampleRate: number; //seconds
   minVal?: number | null;
   maxVal?: number | null;
+}
 
+/**
+ * Describes a metric object
+ */
+export class Metric extends ResourceModel<
+  ReadOnlyMetricSerializer | ApiMetric | Metric,
+  WriteOnlyMetricSerializer
+> {
   /**
    * @returns model name
    */
@@ -28,13 +30,15 @@ export class Metric extends ResourceModel<
     return "Metric";
   }
 
-  override fromRaw(data: ReadOnlyMetricSerializer | ApiMetric): void {
+  override fromRaw(data: ReadOnlyMetricSerializer | ApiMetric | Metric): void {
     super.fromRaw(data);
 
-    this.refUrl = data.reference_url;
-    this.sampleRate = data.sample_rate;
-    this.minVal = data.default_minval;
-    this.maxVal = data.default_maxval;
+    if ("default_minval" in data || "default_maxval" in data) {
+      this.refUrl = data.reference_url;
+      this.sampleRate = data.sample_rate;
+      this.minVal = data.default_minval;
+      this.maxVal = data.default_maxval;
+    }
   }
   toJson(): WriteOnlyMetricSerializer {
     return {

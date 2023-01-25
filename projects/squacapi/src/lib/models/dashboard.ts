@@ -7,23 +7,24 @@ import {
   WriteOnlyDashboardSerializer,
 } from "@pnsn/ngx-squacapi-client";
 
-/**
- * Describes a dashboard
- */
-export class Dashboard extends ResourceModel<
-  ReadOnlyDashboardDetailSerializer | ReadOnlyDashboardSerializer,
-  WriteOnlyDashboardSerializer
-> {
-  public channelGroup?: ChannelGroup;
-  private _widgets: Widget[] = [];
-  public _properties: DashboardProperties = DASHBOARD_PROPERTIES;
+export interface Dashboard {
+  channelGroup?: ChannelGroup;
   widgetIds?: number[];
   name: string;
   description: string;
   shareOrg: boolean;
   shareAll: boolean;
   channelGroupId?: number;
-
+}
+/**
+ * Describes a dashboard
+ */
+export class Dashboard extends ResourceModel<
+  ReadOnlyDashboardDetailSerializer | ReadOnlyDashboardSerializer | Dashboard,
+  WriteOnlyDashboardSerializer
+> {
+  private _widgets: Widget[] = [];
+  public _properties: DashboardProperties = DASHBOARD_PROPERTIES;
   /**
    * stores dashboard properties
    */
@@ -75,13 +76,17 @@ export class Dashboard extends ResourceModel<
   }
 
   override fromRaw(
-    data: ReadOnlyDashboardDetailSerializer | ReadOnlyDashboardSerializer
+    data:
+      | ReadOnlyDashboardDetailSerializer
+      | ReadOnlyDashboardSerializer
+      | Dashboard
   ): void {
     super.fromRaw(data);
-
-    this.shareAll = data.share_all;
-    this.shareOrg = data.share_org;
-    this.channelGroupId = data.channel_group;
+    if ("channel_group" in data) {
+      this.shareAll = data.share_all;
+      this.shareOrg = data.share_org;
+      this.channelGroupId = data.channel_group;
+    }
   }
 
   toJson(): WriteOnlyDashboardSerializer {

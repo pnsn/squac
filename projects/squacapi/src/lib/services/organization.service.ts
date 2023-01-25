@@ -35,8 +35,8 @@ export class OrganizationService extends BaseReadOnlyApiService<Organization> {
         organizations.forEach((org) => {
           for (const user of org.users) {
             this.orgUsers[user.id] = {
-              first: user.firstName,
-              last: user.lastName,
+              first: user.firstname,
+              last: user.lastname,
             };
           }
         });

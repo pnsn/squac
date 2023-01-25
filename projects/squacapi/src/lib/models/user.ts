@@ -8,6 +8,16 @@ import {
 } from "@pnsn/ngx-squacapi-client";
 import { ResourceModel } from "../interfaces";
 
+export interface User {
+  email: string;
+  firstname: string;
+  lastname: string;
+  orgAdmin: boolean;
+  groups: Set<string>;
+  lastLogin: string;
+  squacAdmin: boolean;
+  isActive: boolean;
+}
 /**
  * Describes a user object
  */
@@ -16,18 +26,10 @@ export class User extends ResourceModel<
   | ReadOnlyUserSerializer
   | ReadOnlyUserSimpleSerializer
   | ReadOnlyUserUpdateSerializer
-  | UserSimple,
+  | UserSimple
+  | User,
   WriteOnlyUserSerializer
 > {
-  email: string;
-  firstName: string;
-  lastName: string;
-  orgAdmin: boolean;
-  groups: Set<string>;
-  lastLogin: string;
-  squacAdmin: boolean;
-  isActive: boolean;
-
   /**
    * @returns true if user is staff
    */
@@ -56,12 +58,14 @@ export class User extends ResourceModel<
       | ReadOnlyUserSimpleSerializer
       | ReadOnlyUserUpdateSerializer
       | UserSimple
+      | User
   ): void {
     super.fromRaw(data);
 
-    this.firstName = data.firstname;
-    this.lastName = data.lastname;
-    this.orgAdmin = data.is_org_admin;
+    if ("is_org_admin" in data) {
+      this.orgAdmin = data.is_org_admin;
+    }
+
     this.groups = new Set<string>(data.groups);
 
     if ("last_login" in data) {
@@ -80,8 +84,8 @@ export class User extends ResourceModel<
   toJson(): WriteOnlyUserSerializer {
     return {
       email: this.email,
-      firstname: this.firstName,
-      lastname: this.lastName,
+      firstname: this.firstname,
+      lastname: this.lastname,
       organization: this.orgId,
       is_org_admin: this.orgAdmin,
       is_active: this.isActive,

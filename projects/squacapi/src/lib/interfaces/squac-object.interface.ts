@@ -1,4 +1,4 @@
-export interface SquacModel {
+export interface BaseModel {
   id?: number;
   user?: number;
   organization?: number;
@@ -11,15 +11,15 @@ export interface SquacModel {
 /**
  * Static method class
  */
-export class SquacModel implements SquacModel {
+export class BaseModel implements BaseModel {
   /**
    * Deserialize and return object
    *
    * @param data
    * @returns
    */
-  static deserialize<T extends SquacModel>(
-    this: { new (data: any): T } & typeof SquacModel,
+  static deserialize<T extends BaseModel>(
+    this: { new (data: any): T } & typeof BaseModel,
     data: any
   ): T {
     return new this(data);
@@ -31,7 +31,7 @@ export class SquacModel implements SquacModel {
    * @param obj
    * @returns
    */
-  static serialize<T extends SquacModel, W>(obj: T): W {
+  static serialize<T extends BaseModel, W>(obj: T): W {
     return obj.toJson();
   }
 }
@@ -39,7 +39,7 @@ export class SquacModel implements SquacModel {
 /**
  * Resource model for read only resources
  */
-export abstract class ReadOnlyResourceModel<R> extends SquacModel {
+export abstract class ReadOnlyResourceModel<R> extends BaseModel {
   override fromRaw(data: R): void {
     Object.assign(this, data);
   }

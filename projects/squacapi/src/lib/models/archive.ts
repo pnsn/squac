@@ -6,13 +6,7 @@ import {
   ReadOnlyArchiveMonthSerializer,
 } from "@pnsn/ngx-squacapi-client";
 
-/** Describes an archive */
-export class Archive extends ReadOnlyResourceModel<
-  | ReadOnlyArchiveDaySerializer
-  | ReadOnlyArchiveHourSerializer
-  | ReadOnlyArchiveWeekSerializer
-  | ReadOnlyArchiveMonthSerializer
-> {
+export interface Archive {
   value: number;
   metric: number;
   channel: number;
@@ -26,7 +20,16 @@ export class Archive extends ReadOnlyResourceModel<
   maxabs: number;
   starttime: string;
   endtime: string;
+}
 
+/** Describes an archive */
+export class Archive extends ReadOnlyResourceModel<
+  | ReadOnlyArchiveDaySerializer
+  | ReadOnlyArchiveHourSerializer
+  | ReadOnlyArchiveWeekSerializer
+  | ReadOnlyArchiveMonthSerializer
+  | Archive
+> {
   /** @returns model name */
   static get modelName(): string {
     return "Archive";

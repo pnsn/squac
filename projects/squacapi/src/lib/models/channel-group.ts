@@ -7,26 +7,23 @@ import {
 } from "@pnsn/ngx-squacapi-client";
 import { Channel } from "../models";
 
+export interface ChannelGroup {
+  name: string;
+  description: string;
+  shareAll: boolean;
+  shareOrg: boolean;
+  channelsCount: number;
+  channels?: (Channel | number)[];
+  autoIncludeChannels?: (Channel | number)[];
+  autoExcludeChannels?: (Channel | number)[];
+}
 /**
  * Describes a channel group object
  */
 export class ChannelGroup extends ResourceModel<
-  ReadOnlyGroupDetailSerializer | ReadOnlyGroupSerializer,
+  ReadOnlyGroupDetailSerializer | ReadOnlyGroupSerializer | ChannelGroup,
   WriteOnlyGroupSerializer
 > {
-  name = "";
-  description? = "";
-  shareAll = false;
-  shareOrg = false;
-
-  // eventually group list wont return array of channels
-  // which is why i've got these instead of channels.length
-  channelsCount? = 0;
-
-  channels?: (Channel | number)[] = [];
-  autoIncludeChannels?: (Channel | number)[] = [];
-  autoExcludeChannels?: (Channel | number)[] = [];
-
   /**
    * @returns model name
    */
@@ -35,16 +32,23 @@ export class ChannelGroup extends ResourceModel<
   }
 
   override fromRaw(
-    data: ReadOnlyGroupDetailSerializer | ReadOnlyGroupSerializer
+    data: ReadOnlyGroupDetailSerializer | ReadOnlyGroupSerializer | ChannelGroup
   ): void {
     super.fromRaw(data);
 
-    this.channelsCount = data.channels_count;
-    this.shareAll = data.share_all;
-    this.shareOrg = data.share_org;
-
+    if ("channels_count" in data) {
+      this.channelsCount = data.channels_count;
+    }
+    if ("share_all" in data) {
+      this.shareAll = data.share_all;
+    }
+    if ("share_org" in data) {
+      this.shareOrg = data.share_org;
+    }
     if ("channels" in data && data.channels) {
-      this.channels = data.channels.map((c: ApiChannel) => new Channel(c));
+      this.channels = data.channels.map((c: ApiChannel | number | Channel) =>
+        typeof c === "number" || "net" in c ? c : new Channel(c)
+      );
     }
     if ("auto_exclude_channels" in data && data.auto_exclude_channels) {
       this.autoExcludeChannels = [...data.auto_exclude_channels].map(

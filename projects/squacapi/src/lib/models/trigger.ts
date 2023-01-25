@@ -6,13 +6,7 @@ import {
 } from "@pnsn/ngx-squacapi-client";
 import { Alert, Monitor } from ".";
 
-/**
- * Describes a trigger
- */
-export class Trigger extends ResourceModel<
-  ApiTrigger | ReadOnlyTriggerSerializer,
-  WriteOnlyTriggerSerializer
-> {
+export interface Trigger {
   monitorId: number;
   valueOperator: ApiTrigger.ValueOperatorEnum; //outsideof, within, ==, <, <=, >, >=
   numChannels: number;
@@ -23,7 +17,14 @@ export class Trigger extends ResourceModel<
   val2?: number;
   lastAlarm?: Alert;
   monitor?: Monitor;
-
+}
+/**
+ * Describes a trigger
+ */
+export class Trigger extends ResourceModel<
+  ApiTrigger | ReadOnlyTriggerSerializer | Trigger,
+  WriteOnlyTriggerSerializer
+> {
   /**
    * @returns model name
    */
@@ -31,17 +32,21 @@ export class Trigger extends ResourceModel<
     return "Trigger";
   }
 
-  override fromRaw(data: ApiTrigger | ReadOnlyTriggerSerializer): void {
+  override fromRaw(
+    data: ApiTrigger | ReadOnlyTriggerSerializer | Trigger
+  ): void {
     super.fromRaw(data);
 
-    Object.assign(this, {
-      monitorId: data.monitor,
-      valueOperator: data.value_operator, //outsideof, within, ==, <, <=, >, >=
-      numChannels: data.num_channels,
-      numChannelsOperator: data.num_channels_operator, //any, ==, <, >
-      alertOnOutOfAlarm: data.alert_on_out_of_alarm,
-      emailList: data.email_list, //comma separated
-    });
+    if ("value_operator" in data) {
+      Object.assign(this, {
+        monitorId: data.monitor,
+        valueOperator: data.value_operator, //outsideof, within, ==, <, <=, >, >=
+        numChannels: data.num_channels,
+        numChannelsOperator: data.num_channels_operator, //any, ==, <, >
+        alertOnOutOfAlarm: data.alert_on_out_of_alarm,
+        emailList: data.email_list, //comma separated
+      });
+    }
   }
 
   toJson(): WriteOnlyTriggerSerializer {
