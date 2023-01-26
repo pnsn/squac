@@ -10,21 +10,23 @@ import {
 import { WIDGET_LAYOUT, WIDGET_PROPERTIES } from "../constants";
 import { WidgetStatType } from "../types";
 
+export interface Widget {
+  name: string;
+  dashboardId: number;
+  metrics: Metric[];
+  stat?: WidgetStatType; //if use aggregate
+  type: string;
+}
 /**
  * Model for a widget
  */
 export class Widget extends ResourceModel<
-  ReadOnlyWidgetDetailSerializer,
+  ReadOnlyWidgetDetailSerializer | Widget,
   WriteOnlyWidgetSerializer
 > {
   public _thresholds: Threshold[] = [];
   public _layout: WidgetLayout = WIDGET_LAYOUT;
   public _properties: WidgetProperties = WIDGET_PROPERTIES;
-  public name: string;
-  public dashboardId: number;
-  public metrics: Metric[];
-  public stat?: WidgetStatType; //if use aggregate
-  public type: string;
 
   /**
    * Saves thresholds to widgets
@@ -119,12 +121,14 @@ export class Widget extends ResourceModel<
     return "Widget";
   }
 
-  override fromRaw(data: ReadOnlyWidgetDetailSerializer): void {
+  override fromRaw(data: ReadOnlyWidgetDetailSerializer | Widget): void {
     super.fromRaw(data);
 
-    this.dashboardId = data.dashboard;
-    if (data.metrics) {
-      this.metrics = data.metrics.map((m: ApiMetric) => new Metric(m));
+    if ("dashboard" in data) {
+      this.dashboardId = data.dashboard;
+      if (data.metrics) {
+        this.metrics = data.metrics.map((m: ApiMetric) => new Metric(m));
+      }
     }
   }
 

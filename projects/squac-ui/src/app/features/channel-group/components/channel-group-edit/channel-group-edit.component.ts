@@ -452,19 +452,16 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     const values = this.channelGroupForm.value;
     const shareAll = values.share === "shareAll";
     const shareOrg = values.share === "shareOrg" || shareAll;
-    const cg = new ChannelGroup();
-
-    cg.id = this.id;
-    cg.name = values.name;
-    cg.description = values.description;
-    cg.organization = this.orgId;
-
-    //need to updatematching rules
-
-    cg.autoExcludeChannels = this.autoExcludeChannels;
-    cg.autoIncludeChannels = this.autoIncludeChannels;
-    cg.shareAll = shareAll;
-    cg.shareOrg = shareOrg;
+    const cg = new ChannelGroup({
+      id: this.id,
+      name: values.name,
+      description: values.description,
+      organization: this.orgId,
+      autoExcludeChannels: this.autoExcludeChannels,
+      autoIncludeChannels: this.autoIncludeChannels,
+      shareAll,
+      shareOrg,
+    });
 
     /*
       Temp fix for channel groups not updating with channels on

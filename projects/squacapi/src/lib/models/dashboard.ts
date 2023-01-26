@@ -95,7 +95,7 @@ export class Dashboard extends ResourceModel<
       description: this.description,
       share_all: this.shareAll,
       share_org: this.shareOrg,
-      organization: this.orgId,
+      organization: this.organization,
       properties: JSON.stringify(this.properties),
     };
     if (this.channelGroupId) {
