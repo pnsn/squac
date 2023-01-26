@@ -8,6 +8,12 @@ export interface BaseModel {
   fromRaw(data: any): void;
 }
 
+export function modelConstructor<T extends BaseModel>(
+  type: { new (data): T },
+  apiData: any
+): T {
+  return new type(apiData);
+}
 /**
  * Static method class
  */

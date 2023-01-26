@@ -3,10 +3,7 @@ import { SquacApiService } from "../interfaces";
 import { BaseWriteableApiService } from "./generic-api.service";
 import {
   ApiService,
-  DashboardWidgetsDeleteRequestParams,
   DashboardWidgetsListRequestParams,
-  DashboardWidgetsReadRequestParams,
-  DashboardWidgetsUpdateRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Widget } from "../models";
 import { Observable } from "rxjs";
@@ -21,30 +18,6 @@ import { ApiEndpoint } from "../enums";
 export class WidgetService extends BaseWriteableApiService<Widget> {
   constructor(override api: ApiService) {
     super(ApiEndpoint.WIDGET, api);
-  }
-
-  /**
-   * @override
-   */
-  override readParams(id: number): DashboardWidgetsReadRequestParams {
-    return { id };
-  }
-
-  /**
-   * @override
-   */
-  override deleteParams(id: number): DashboardWidgetsDeleteRequestParams {
-    return { id };
-  }
-
-  /**
-   * @override
-   */
-  override updateParams(w: Widget): DashboardWidgetsUpdateRequestParams {
-    return {
-      id: w.id,
-      data: w.toJson(),
-    };
   }
 }
 

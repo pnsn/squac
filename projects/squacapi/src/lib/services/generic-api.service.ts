@@ -1,8 +1,12 @@
 import { HttpResponse, HttpContext } from "@angular/common/http";
 import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { map, Observable } from "rxjs";
-import { BaseModel } from "../interfaces";
-import { ApiEndpoint } from "../enums";
+import {
+  BaseModel,
+  modelConstructor,
+  ReadOnlyResourceModel,
+} from "../interfaces";
+import { ApiEndpoint, ApiEndpointToClass, getKlass } from "../enums";
 import { REFRESH_REQUEST } from "../constants/refresh-request.constant";
 
 /**
@@ -21,13 +25,33 @@ export interface HttpOptions {
 
 export type Params = any;
 
+export interface ReadParams {
+  id: number;
+}
+
+export interface DeleteParams {
+  id: number;
+}
+
+export interface UpdateParams {
+  id: number;
+  data: any;
+}
+
+export interface CreateParams {
+  data: any;
+}
+
 /**
  *
  */
 export abstract class BaseReadOnlyApiService<T extends BaseModel> {
   observe = "body";
   reportProgress = false;
-  constructor(protected apiEndpoint: ApiEndpoint, protected api: ApiService) {}
+  klass;
+  constructor(protected apiEndpoint: ApiEndpoint, protected api: ApiService) {
+    this.klass = getKlass<T>(this.apiEndpoint);
+  }
 
   /**
    * Convert api object to model
@@ -36,8 +60,8 @@ export abstract class BaseReadOnlyApiService<T extends BaseModel> {
    * @param apiData api item
    * @returns model
    */
-  protected deserialize(ctor: { new (data: any): T }, apiData: any): T {
-    return new ctor(apiData);
+  protected deserialize(apiData: any): T {
+    return modelConstructor(this.klass, apiData);
   }
 
   /**
@@ -72,7 +96,7 @@ export abstract class BaseReadOnlyApiService<T extends BaseModel> {
       this.observe,
       this.reportProgress,
       httpOptions
-    ).pipe(map((r: Array<any>) => r.map(this.deserialize)));
+    ).pipe(map((r: Array<any>) => r.map(this.deserialize.bind(this))));
   }
 
   /**
@@ -83,24 +107,14 @@ export abstract class BaseReadOnlyApiService<T extends BaseModel> {
    * @param options - http options for request
    * @returns - results of http request
    */
-  protected _read(params?: Params, options?: Options): Observable<T> {
+  protected _read(params?: ReadParams, options?: Options): Observable<T> {
     const httpOptions = this.getHttpOptions(options);
     return this.api[`${this.apiEndpoint}Read`](
       params,
       this.observe,
       this.reportProgress,
       httpOptions
-    ).pipe(map(this.deserialize));
-  }
-
-  /**
-   * Convert inputted id to correct param format for squacapi
-   *
-   * @param id - id of object
-   * @returns id params
-   */
-  protected readParams(id: number | string): { id: string | number } {
-    return { id: `${id}` };
+    ).pipe(map(this.deserialize.bind(this)));
   }
 
   /**
@@ -111,8 +125,7 @@ export abstract class BaseReadOnlyApiService<T extends BaseModel> {
    * @returns observable for request
    */
   protected read(id: number, refresh?: boolean): Observable<T> {
-    const params = this.readParams(id);
-    return this._read(params, { refresh });
+    return this._read({ id }, { refresh });
   }
 
   /**
@@ -146,12 +159,12 @@ export abstract class BaseWriteableApiService<
    * @param params  http params for request
    * @returns results of http request
    */
-  protected _update(params?: Params): Observable<T> {
+  protected _update(params?: UpdateParams): Observable<T> {
     return this.api[`${this.apiEndpoint}Update`](
       params,
       this.observe,
       this.reportProgress
-    ).pipe(map(this.deserialize));
+    ).pipe(map(this.deserialize.bind(this)));
   }
 
   /**
@@ -161,7 +174,7 @@ export abstract class BaseWriteableApiService<
    * @param params  http params for request
    * @returns results of http request
    */
-  protected _create(params?: Params): Observable<T> {
+  protected _create(params?: CreateParams): Observable<T> {
     return this.api[`${this.apiEndpoint}Create`](
       params,
       "response",
@@ -170,7 +183,7 @@ export abstract class BaseWriteableApiService<
       map((response: HttpResponse<any>) => {
         return response.body;
       }),
-      map(this.deserialize)
+      map(this.deserialize.bind(this))
     );
   }
 
@@ -183,10 +196,13 @@ export abstract class BaseWriteableApiService<
    */
   protected _updateOrCreate(t: T): Observable<T> {
     if (t.id) {
-      const params = this.updateParams(t);
+      const data = t.toJson();
+      const params = { id: t.id, data };
       return this._update(params);
     }
-    const params = this.createParams(t);
+    const params = {
+      data: t.toJson(),
+    };
     return this._create(params);
   }
 
@@ -197,46 +213,12 @@ export abstract class BaseWriteableApiService<
    * @param params  http params for request
    * @returns results of http request
    */
-  protected _delete(params?: Params): Observable<T> {
+  protected _delete(params?: DeleteParams): Observable<T> {
     return this.api[`${this.apiEndpoint}Delete`](
       params,
       this.observe,
       this.reportProgress
     );
-  }
-
-  /**
-   * Formats inputted object for squacapi
-   *
-   * @template T type of object to update
-   * @param t object to update
-   * @returns returns data object
-   */
-  protected updateParams(t: T): { id: string | number; data: unknown } {
-    const data = t.toJson();
-    return { id: `${t.id}`, data };
-  }
-
-  /**
-   * Formats inputted object for squacapi
-   *
-   * @template T type of object to create
-   * @param t object to create
-   * @returns returns data object
-   */
-  protected createParams(t: T): { data: unknown } {
-    const data = t.toJson();
-    return { data };
-  }
-
-  /**
-   * Convert inputted id to correct param format for squacapi
-   *
-   * @param id  id of object
-   * @returns id params
-   */
-  protected deleteParams(id: number | string): { id: string | number } {
-    return { id: `${id}` };
   }
 
   /**
@@ -257,7 +239,7 @@ export abstract class BaseWriteableApiService<
    * @returns delete request
    */
   protected delete(id: number): Observable<T> {
-    const params = this.deleteParams(id);
+    const params = { id };
     return this._delete(params);
   }
 }

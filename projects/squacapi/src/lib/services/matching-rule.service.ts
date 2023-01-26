@@ -3,10 +3,7 @@ import { SquacApiService } from "../interfaces";
 import { BaseWriteableApiService } from "./generic-api.service";
 import {
   ApiService,
-  NslcMatchingRulesDeleteRequestParams,
   NslcMatchingRulesListRequestParams,
-  NslcMatchingRulesReadRequestParams,
-  NslcMatchingRulesUpdateRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
 import { MatchingRule } from "../models";
@@ -21,23 +18,6 @@ import { ApiEndpoint } from "../enums";
 export class MatchingRuleService extends BaseWriteableApiService<MatchingRule> {
   constructor(override api: ApiService) {
     super(ApiEndpoint.MATCHING_RULE, api);
-  }
-  /** @override */
-  override readParams(id: number): NslcMatchingRulesReadRequestParams {
-    return { id };
-  }
-
-  /** @override */
-  override deleteParams(id: number): NslcMatchingRulesDeleteRequestParams {
-    return { id };
-  }
-
-  /** @override */
-  override updateParams(m: MatchingRule): NslcMatchingRulesUpdateRequestParams {
-    return {
-      id: m.id,
-      data: m.toJson(),
-    };
   }
 
   /**
