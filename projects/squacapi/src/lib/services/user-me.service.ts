@@ -46,10 +46,6 @@ export class UserMeService
         lastname: t.lastname,
       },
     };
-    return this.api[`${this.apiEndpoint}PartialUpdate`](
-      params,
-      this.observe,
-      this.reportProgress
-    ).pipe(map(User.deserialize));
+    return super._partialUpdate(params);
   }
 }

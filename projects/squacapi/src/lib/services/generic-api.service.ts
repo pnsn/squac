@@ -290,4 +290,18 @@ export abstract class BaseWriteableApiService<
     const params = { id };
     return this._delete(params);
   }
+
+  /**
+   * Sends given information to squacapi for partial update
+   *
+   * @param params - information to update
+   * @returns information
+   */
+  protected _partialUpdate(params: Params): Observable<T> {
+    return this.api[`${this.apiEndpoint}PartialUpdate`](
+      params,
+      this.observe,
+      this.reportProgress
+    ).pipe(map(this.deserialize.bind(this)));
+  }
 }
