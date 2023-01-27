@@ -63,8 +63,8 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
   /** Saves widget */
   save(): void {
     this.widgetService.updateOrCreate(this.widget).subscribe({
-      next: (widget: Widget) => {
-        this.widget.id = widget.id;
+      next: (widgetId: number) => {
+        this.widget.id = widgetId;
         this.viewService.updateWidget(this.widget.id, this.widget);
         this.messageService.message("Widget saved.");
         this.cancel(this.widget);

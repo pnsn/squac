@@ -46,12 +46,14 @@ export class BaseModel implements BaseModel {
  * Resource model for read only resources
  */
 export abstract class ReadOnlyResourceModel<R> extends BaseModel {
+  testKey: string;
   override fromRaw(data: R | Partial<ReadOnlyResourceModel<R>>): void {
     Object.assign(this, data);
   }
 
   constructor(model?: R | Partial<ReadOnlyResourceModel<R>>) {
     super();
+
     if (model) {
       this.fromRaw(model);
     }

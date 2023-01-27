@@ -114,13 +114,13 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
     });
 
     this.orgUserService.updateOrCreate(user).subscribe({
-      next: (user) => {
+      next: (userId: number) => {
         if (!user.isActive) {
-          this.sendInvite(user.id, user.email);
+          this.sendInvite(userId, user.email);
         }
 
         this.messageService.message(`Updated user ${user.email}.`);
-        this.cancel(user.id);
+        this.cancel(userId);
       },
       error: () => {
         this.messageService.error(`Could not add user.`);

@@ -27,6 +27,7 @@ export interface WidgetService extends SquacApiService<Widget> {
     params?: DashboardWidgetsListRequestParams,
     refresh?: boolean
   ): Observable<Widget[]>;
-  updateOrCreate(t: Widget): Observable<Widget>;
-  delete(id: number): Observable<Widget>;
+  updateOrCreate(t: Widget): Observable<number>;
+  delete(id: number): Observable<any>;
+  updateOrDelete(t: Widget[], ids: number[]): Observable<number>[];
 }

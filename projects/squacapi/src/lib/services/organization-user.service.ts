@@ -28,5 +28,5 @@ export interface OrganizationUserService extends WriteableApiService<User> {
     params: OrganizationUsersListRequestParams,
     refresh?: boolean
   ): Observable<User[]>;
-  updateOrCreate(t: User): Observable<User>;
+  updateOrCreate(t: User): Observable<number>;
 }

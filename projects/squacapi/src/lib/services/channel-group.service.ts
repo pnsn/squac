@@ -76,6 +76,7 @@ export interface ChannelGroupService extends SquacApiService<ChannelGroup> {
     params?: NslcGroupsListRequestParams,
     refresh?: boolean
   ): Observable<ChannelGroup[]>;
-  updateOrCreate(t: ChannelGroup): Observable<ChannelGroup>;
-  delete(id: number): Observable<ChannelGroup>;
+  updateOrCreate(t: ChannelGroup): Observable<number>;
+  delete(id: number): Observable<any>;
+  updateOrDelete(groups: ChannelGroup[], ids: number[]): Observable<number>[];
 }

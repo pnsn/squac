@@ -39,7 +39,6 @@ export const AppAbility = Ability as AbilityClass<AppAbility>;
  * @returns permissions
  */
 export function defineAbilitiesFor(user: User): any {
-  console.log(user.groups);
   const { can, rules } = new AbilityBuilder(AppAbility);
   can("read", "all");
   if (user.inGroup("viewer")) {

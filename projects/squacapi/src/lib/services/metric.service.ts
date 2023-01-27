@@ -27,5 +27,5 @@ export interface MetricService extends WriteableApiService<Metric> {
     params?: MeasurementMetricsListRequestParams,
     refresh?: boolean
   ): Observable<Metric[]>;
-  updateOrCreate(t: Metric): Observable<Metric>;
+  updateOrCreate(t: Metric): Observable<number>;
 }

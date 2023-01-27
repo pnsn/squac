@@ -19,30 +19,6 @@ export class TriggerService extends BaseWriteableApiService<Trigger> {
   constructor(override api: ApiService) {
     super(ApiEndpoint.TRIGGER, api);
   }
-
-  /**
-   * Combine observables for updating or deleting triggers
-   *
-   * @param triggers triggers to update
-   * @param deleteTriggers array of ids of triggers to delete
-   * @param monitorId trigger monitor id
-   * @returns combined observables of results
-   */
-  updateTriggers(
-    triggers: Trigger[],
-    deleteTriggers: number[],
-    monitorId: number
-  ): Observable<Trigger>[] {
-    const triggerSubs: Observable<Trigger>[] = [];
-    for (const trigger of triggers) {
-      trigger.monitorId = monitorId;
-      triggerSubs.push(this.updateOrCreate(trigger));
-    }
-    for (const id of deleteTriggers) {
-      triggerSubs.push(this.delete(id));
-    }
-    return triggerSubs;
-  }
 }
 
 export interface TriggerService extends SquacApiService<Trigger> {
@@ -51,6 +27,7 @@ export interface TriggerService extends SquacApiService<Trigger> {
     params?: MeasurementTriggersListRequestParams,
     refresh?: boolean
   ): Observable<Trigger[]>;
-  updateOrCreate(t: Trigger): Observable<Trigger>;
-  delete(id: number): Observable<Trigger>;
+  updateOrCreate(t: Trigger): Observable<number>;
+  delete(id: number): Observable<any>;
+  updateOrDelete(groups: Trigger[], ids: number[]): Observable<number>[];
 }

@@ -27,6 +27,7 @@ export interface MonitorService extends SquacApiService<Monitor> {
     params?: MeasurementMonitorsListRequestParams,
     refresh?: boolean
   ): Observable<Monitor[]>;
-  updateOrCreate(t: Monitor): Observable<Monitor>;
-  delete(id: number): Observable<Monitor>;
+  updateOrCreate(t: Monitor): Observable<number>;
+  delete(id: number): Observable<any>;
+  updateOrDelete(groups: Monitor[], ids: number[]): Observable<number>[];
 }

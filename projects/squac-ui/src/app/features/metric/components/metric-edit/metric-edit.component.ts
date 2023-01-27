@@ -80,8 +80,8 @@ export class MetricEditComponent implements OnInit, OnDestroy {
       maxVal: values.maxVal,
     });
     this.metricService.updateOrCreate(metric).subscribe({
-      next: (result) => {
-        this.cancel(result.id);
+      next: (metricId) => {
+        this.cancel(metricId);
       },
     });
   }

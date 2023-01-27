@@ -42,6 +42,9 @@ export interface CreateParams {
   data: any;
 }
 
+export interface ReadSerializer {
+  id?: number;
+}
 /**
  *
  */
@@ -157,14 +160,26 @@ export abstract class BaseWriteableApiService<
    *
    * @template T type of model to be updated
    * @param params  http params for request
+   * @param mapId
    * @returns results of http request
    */
-  protected _update(params?: UpdateParams): Observable<T> {
+  protected _update(
+    params?: UpdateParams,
+    mapId: boolean = true
+  ): Observable<T | number> {
     return this.api[`${this.apiEndpoint}Update`](
       params,
       this.observe,
       this.reportProgress
-    ).pipe(map(this.deserialize.bind(this)));
+    ).pipe(
+      map((response: ReadSerializer) => {
+        if (mapId && response.id) {
+          return response.id;
+        } else {
+          return this.deserialize(response);
+        }
+      })
+    );
   }
 
   /**
@@ -172,18 +187,25 @@ export abstract class BaseWriteableApiService<
    *
    * @template T type of model to be created
    * @param params  http params for request
+   * @param mapIdmap response to id, if true returns only id
    * @returns results of http request
    */
-  protected _create(params?: CreateParams): Observable<T> {
+  protected _create(
+    params?: CreateParams,
+    mapId: boolean = true
+  ): Observable<T | number> {
     return this.api[`${this.apiEndpoint}Create`](
       params,
-      "response",
+      this.observe,
       this.reportProgress
     ).pipe(
-      map((response: HttpResponse<any>) => {
-        return response.body;
-      }),
-      map(this.deserialize.bind(this))
+      map((response: ReadSerializer) => {
+        if (mapId && response.id) {
+          return response.id;
+        } else {
+          return this.deserialize(response);
+        }
+      })
     );
   }
 
@@ -192,18 +214,22 @@ export abstract class BaseWriteableApiService<
    *
    * @template T type of model to be created
    * @param t http params for request
+   * @param mapId map response to id, if true returns only id
    * @returns results of http request
    */
-  protected _updateOrCreate(t: T): Observable<T> {
+  protected _updateOrCreate(
+    t: T,
+    mapId: boolean = true
+  ): Observable<T | number> {
     if (t.id) {
       const data = t.toJson();
       const params = { id: t.id, data };
-      return this._update(params);
+      return this._update(params, mapId);
     }
     const params = {
       data: t.toJson(),
     };
-    return this._create(params);
+    return this._create(params, mapId);
   }
 
   /**
@@ -213,7 +239,7 @@ export abstract class BaseWriteableApiService<
    * @param params  http params for request
    * @returns results of http request
    */
-  protected _delete(params?: DeleteParams): Observable<T> {
+  protected _delete(params?: DeleteParams): Observable<any> {
     return this.api[`${this.apiEndpoint}Delete`](
       params,
       this.observe,
@@ -226,10 +252,32 @@ export abstract class BaseWriteableApiService<
    *
    * @template T type of model to be created
    * @param t http params for request
+   * @param mapId map response to id, if true returns only id
    * @returns results of http request
    */
-  protected updateOrCreate(t: T): Observable<T> {
-    return this._updateOrCreate(t);
+  protected updateOrCreate(t: T, mapId?: boolean): Observable<T | number> {
+    return this._updateOrCreate(t, mapId);
+  }
+
+  /**
+   * Creates array of observables for updateing or deleteing multiple
+   *
+   * @param objects array of objects to update or create
+   * @param deleteIds ids of objects to delete
+   * @returns observable of requests
+   */
+  protected updateOrDelete(
+    objects: T[],
+    deleteIds: number[]
+  ): Observable<number>[] {
+    const subs: Observable<number>[] = [];
+    for (const obj of objects) {
+      subs.push(this._updateOrCreate(obj) as Observable<number>);
+    }
+    for (const id of deleteIds) {
+      subs.push(this.delete(id));
+    }
+    return subs;
   }
 
   /**
@@ -238,7 +286,7 @@ export abstract class BaseWriteableApiService<
    * @param id id of object to delete
    * @returns delete request
    */
-  protected delete(id: number): Observable<T> {
+  protected delete(id: number): Observable<any> {
     const params = { id };
     return this._delete(params);
   }

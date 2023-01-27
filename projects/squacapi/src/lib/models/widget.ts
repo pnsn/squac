@@ -6,6 +6,7 @@ import {
   ReadOnlyWidgetDetailSerializer,
   WriteOnlyWidgetSerializer,
   Metric as ApiMetric,
+  ReadOnlyWidgetSerializer,
 } from "@pnsn/ngx-squacapi-client";
 import { WIDGET_LAYOUT, WIDGET_PROPERTIES } from "../constants";
 import { WidgetStatType } from "../types";
@@ -21,13 +22,12 @@ export interface Widget {
  * Model for a widget
  */
 export class Widget extends ResourceModel<
-  ReadOnlyWidgetDetailSerializer | Widget,
+  ReadOnlyWidgetDetailSerializer | ReadOnlyWidgetSerializer | Widget,
   WriteOnlyWidgetSerializer
 > {
-  public _thresholds: Threshold[] = [];
-  public _layout: WidgetLayout = WIDGET_LAYOUT;
-  public _properties: WidgetProperties = WIDGET_PROPERTIES;
-
+  private _thresholds: Threshold[];
+  private _layout: WidgetLayout;
+  private _properties: WidgetProperties;
   /**
    * Saves thresholds to widgets
    */
@@ -121,13 +121,24 @@ export class Widget extends ResourceModel<
     return "Widget";
   }
 
-  override fromRaw(data: ReadOnlyWidgetDetailSerializer | Widget): void {
+  override fromRaw(
+    data: ReadOnlyWidgetDetailSerializer | ReadOnlyWidgetSerializer | Widget
+  ): void {
     super.fromRaw(data);
-
+    this.properties = data.properties;
+    this.thresholds = data.thresholds;
+    this.layout = data.layout;
     if ("dashboard" in data) {
       this.dashboardId = data.dashboard;
-      if (data.metrics) {
-        this.metrics = data.metrics.map((m: ApiMetric) => new Metric(m));
+      if (data.metrics && Array.isArray(data.metrics)) {
+        const metrics: Metric[] = [];
+
+        data.metrics.forEach((m: ApiMetric | number) => {
+          if (typeof m !== "number") {
+            metrics.push(new Metric(m));
+          }
+        });
+        this.metrics = metrics;
       }
     }
   }

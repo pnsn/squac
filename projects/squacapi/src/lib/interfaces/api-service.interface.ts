@@ -45,7 +45,7 @@ export interface UpdateService<T> {
    * @param params request params
    * @returns observable of results
    */
-  update(params: unknown): Observable<T>;
+  update(params: unknown): Observable<T | number>;
 }
 
 /**
@@ -61,7 +61,7 @@ export interface WriteService<T> {
    * @param params request params
    * @returns observable of results
    */
-  updateOrCreate(t: T): Observable<T>;
+  updateOrCreate(t: T): Observable<T | number>;
 }
 
 /**
@@ -77,7 +77,8 @@ export interface DeleteService<T> {
    * @param params request params
    * @returns observable of results
    */
-  delete(params: unknown): Observable<T>;
+  delete(params: unknown): Observable<any>;
+  updateOrDelete(objects: T[], ids: number[]): Observable<number>[];
 }
 
 /**
@@ -93,7 +94,7 @@ export interface PartialUpdateService<T> {
    * @param params request params
    * @returns observable of results
    */
-  partialUpdate(params: unknown): Observable<T>;
+  partialUpdate(params: unknown): Observable<T | number>;
 }
 
 /**

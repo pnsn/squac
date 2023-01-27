@@ -452,9 +452,9 @@ export class ViewService {
   saveWidget(widget: Widget, silentUpdate?: boolean): void {
     if (this.ability.can("update", widget)) {
       this.widgetService.updateOrCreate(widget).subscribe({
-        next: (widget) => {
+        next: (widgetId) => {
           if (!silentUpdate) {
-            this.resizeWidget(widget.id);
+            this.resizeWidget(widgetId);
           }
         },
       });

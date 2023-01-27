@@ -108,9 +108,9 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
     }
 
     this.dashboardService.updateOrCreate(dashboard).subscribe({
-      next: (result) => {
+      next: (dashboardId: number) => {
         this.messageService.message("Dashboard saved.");
-        this.cancel(result.id);
+        this.cancel(dashboardId);
       },
       error: () => {
         this.messageService.error("Could not save dashboard.");

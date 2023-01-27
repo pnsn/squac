@@ -27,6 +27,7 @@ export interface DashboardService extends SquacApiService<Dashboard> {
     params?: DashboardDashboardsListRequestParams,
     refresh?: boolean
   ): Observable<Dashboard[]>;
-  updateOrCreate(d: Dashboard): Observable<Dashboard>;
-  delete(id: number): Observable<Dashboard>;
+  updateOrCreate(d: Dashboard): Observable<number>;
+  delete(id: number): Observable<any>;
+  updateOrDelete(groups: Dashboard[], ids: number[]): Observable<number>[];
 }

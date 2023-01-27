@@ -475,19 +475,21 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     this.loadingService
       .doLoading(
         this.channelGroupService.updateOrCreate(cg).pipe(
-          switchMap((group) => {
-            id = group.id;
+          switchMap((groupId: number) => {
+            id = groupId;
             if (
               this.matchingRules.length === 0 &&
               this.deleteMatchingRulesIds.length === 0
             ) {
               return of([]);
             }
+            this.matchingRules.forEach((m) => {
+              m.channelGroupId = id;
+            });
             return merge(
-              ...this.matchingRuleService.updateMatchingRules(
+              ...this.matchingRuleService.updateOrDelete(
                 this.matchingRules,
-                this.deleteMatchingRulesIds,
-                id
+                this.deleteMatchingRulesIds
               )
             );
           })
