@@ -447,12 +447,13 @@ export class ViewService {
    * is true
    *
    * @param widget widget to update
+   * @param keys keys to update in model
    * @param silentUpdate true if widget should not resize after update
    */
-  saveWidget(widget: Widget, silentUpdate?: boolean): void {
+  saveWidget(widget: Widget, keys: string[], silentUpdate?: boolean): void {
     if (this.ability.can("update", widget)) {
-      this.widgetService.updateOrCreate(widget).subscribe({
-        next: (widgetId) => {
+      this.widgetService.partialUpdate(widget, keys, true).subscribe({
+        next: (widgetId: number) => {
           if (!silentUpdate) {
             this.resizeWidget(widgetId);
           }

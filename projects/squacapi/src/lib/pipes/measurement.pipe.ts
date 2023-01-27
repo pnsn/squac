@@ -13,6 +13,7 @@ import {
 
 export type MeasurementTransformTypes =
   | "avg"
+  | "ave"
   | "med"
   | "min"
   | "max"
@@ -48,6 +49,9 @@ export class MeasurementPipe implements PipeTransform {
     if (values && values.length > 0) {
       switch (type) {
         case "avg":
+          return average(values);
+
+        case "ave":
           return average(values);
 
         case "med":

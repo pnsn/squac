@@ -41,6 +41,11 @@ export interface CreateParams {
 export interface ReadSerializer {
   id?: number;
 }
+
+export interface PartialUpdateParams {
+  id?: number;
+  data: any;
+}
 /**
  *
  */
@@ -75,6 +80,28 @@ export abstract class BaseReadOnlyApiService<T extends BaseModel> {
       httpOptions.context = new HttpContext().set(REFRESH_REQUEST, true);
     }
     return httpOptions;
+  }
+
+  private readHttpRequest(
+    request: "List" | "Read",
+    options?: Options,
+    params?: Params | ReadParams
+  ): Observable<T | T[]> {
+    const httpOptions = this.getHttpOptions(options);
+    return this.api[`${this.apiEndpoint}${request}`](
+      params,
+      this.observe,
+      this.reportProgress,
+      httpOptions
+    ).pipe(
+      map((response: Array<ReadSerializer> | ReadSerializer) => {
+        if (Array.isArray(response)) {
+          return response.map(this.deserialize.bind(this));
+        } else {
+          return this.deserialize(response);
+        }
+      })
+    );
   }
 
   /**
@@ -124,7 +151,11 @@ export abstract class BaseReadOnlyApiService<T extends BaseModel> {
    * @returns observable for request
    */
   protected read(id: number, refresh?: boolean): Observable<T> {
-    return this._read({ id }, { refresh });
+    let params;
+    if (id) {
+      params = { id };
+    }
+    return this.readHttpRequest("Read", { refresh }, params) as Observable<T>;
   }
 
   /**
@@ -134,8 +165,8 @@ export abstract class BaseReadOnlyApiService<T extends BaseModel> {
    * @param refresh true if cache should not be used
    * @returns observable of list of results
    */
-  protected list(params?: unknown, refresh?: boolean): Observable<T[]> {
-    return this._list(params, { refresh });
+  protected list(params: unknown = {}, refresh?: boolean): Observable<T[]> {
+    return this.readHttpRequest("List", { refresh }, params) as Observable<T[]>;
   }
 }
 
@@ -151,81 +182,26 @@ export abstract class BaseWriteableApiService<
     super(apiEndpoint, api);
   }
 
-  /**
-   * Update single object of type T from squacapi
-   *
-   * @template T type of model to be updated
-   * @param params  http params for request
-   * @param mapId map response to id, if true returns only id
-   * @returns results of http request
-   */
-  protected _update(
-    params?: UpdateParams,
-    mapId: boolean = true
+  private writeHttpRequest(
+    request: "Update" | "Create" | "PartialUpdate" | "Delete",
+    mapId: boolean,
+    params?: CreateParams | UpdateParams | PartialUpdateParams | DeleteParams
   ): Observable<T | number> {
-    return this.api[`${this.apiEndpoint}Update`](
+    return this.api[`${this.apiEndpoint}${request}`](
       params,
       this.observe,
       this.reportProgress
     ).pipe(
       map((response: ReadSerializer) => {
-        if (mapId && response.id) {
+        if (request === "Delete") {
+          return response;
+        } else if (mapId && response.id) {
           return response.id;
         } else {
           return this.deserialize(response);
         }
       })
     );
-  }
-
-  /**
-   * Create objects of type T from squacapi
-   *
-   * @template T type of model to be created
-   * @param params  http params for request
-   * @param mapId map response to id, if true returns only id
-   * @returns results of http request
-   */
-  protected _create(
-    params?: CreateParams,
-    mapId: boolean = true
-  ): Observable<T | number> {
-    return this.api[`${this.apiEndpoint}Create`](
-      params,
-      this.observe,
-      this.reportProgress
-    ).pipe(
-      map((response: ReadSerializer) => {
-        if (mapId && response.id) {
-          return response.id;
-        } else {
-          return this.deserialize(response);
-        }
-      })
-    );
-  }
-
-  /**
-   * Create or update object of type T from squacapi
-   *
-   * @template T type of model to be created
-   * @param t http params for request
-   * @param mapId map response to id, if true returns only id
-   * @returns results of http request
-   */
-  protected _updateOrCreate(
-    t: T,
-    mapId: boolean = true
-  ): Observable<T | number> {
-    if (t.id) {
-      const data = t.toJson();
-      const params = { id: t.id, data };
-      return this._update(params, mapId);
-    }
-    const params = {
-      data: t.toJson(),
-    };
-    return this._create(params, mapId);
   }
 
   /**
@@ -248,15 +224,23 @@ export abstract class BaseWriteableApiService<
    *
    * @template T type of model to be created
    * @param t http params for request
-   * @param mapId map response to id, if true returns only id
+   * @param mapId map response to id, if false returns object
    * @returns results of http request
    */
-  protected updateOrCreate(t: T, mapId?: boolean): Observable<T | number> {
-    return this._updateOrCreate(t, mapId);
+  protected updateOrCreate(t: T, mapId = true): Observable<T | number> {
+    if (t.id) {
+      const data = t.toJson();
+      const params = { id: t.id, data };
+      return this.writeHttpRequest("Update", mapId, params);
+    }
+    const params = {
+      data: t.toJson(),
+    };
+    return this.writeHttpRequest("Create", mapId, params);
   }
 
   /**
-   * Creates array of observables for updateing or deleteing multiple
+   * Creates array of observables for updateing or deleting multiple
    *
    * @param objects array of objects to update or create
    * @param deleteIds ids of objects to delete
@@ -268,7 +252,7 @@ export abstract class BaseWriteableApiService<
   ): Observable<number>[] {
     const subs: Observable<number>[] = [];
     for (const obj of objects) {
-      subs.push(this._updateOrCreate(obj) as Observable<number>);
+      subs.push(this.updateOrCreate(obj) as Observable<number>);
     }
     for (const id of deleteIds) {
       subs.push(this.delete(id));
@@ -285,19 +269,31 @@ export abstract class BaseWriteableApiService<
   protected delete(id: number): Observable<any> {
     const params = { id };
     return this._delete(params);
+    return this.writeHttpRequest("Delete", false, params);
   }
 
-  /**
-   * Sends given information to squacapi for partial update
-   *
-   * @param params - information to update
-   * @returns information
-   */
-  protected _partialUpdate(params: Params): Observable<T> {
-    return this.api[`${this.apiEndpoint}PartialUpdate`](
-      params,
-      this.observe,
-      this.reportProgress
-    ).pipe(map(this.deserialize.bind(this)));
+  protected _partialUpdateParams(
+    object: Partial<T>,
+    keys: string[]
+  ): PartialUpdateParams {
+    const data = {};
+    const objectJson = object.toJson();
+    keys.forEach((key) => {
+      data[key] = objectJson[key];
+    });
+
+    return {
+      id: object.id,
+      data,
+    };
+  }
+
+  protected partialUpdate(
+    object: Partial<T>,
+    keys: string[],
+    mapId = true
+  ): Observable<T | number> {
+    const params = this._partialUpdateParams(object, keys);
+    return this.writeHttpRequest("PartialUpdate", mapId, params);
   }
 }

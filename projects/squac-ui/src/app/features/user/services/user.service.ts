@@ -73,7 +73,11 @@ export class UserService {
   update(user: Partial<User>): Observable<User> {
     user.organization = this.userOrg;
     // other user ifo
-    return this.userMeService.partialUpdate(user);
+    return this.userMeService.partialUpdate(
+      user,
+      ["firstname", "lastname"],
+      false
+    ) as Observable<User>;
     // TODO: after it puts, update current user
   }
 }

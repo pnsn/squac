@@ -15,7 +15,7 @@ describe("User", () => {
       is_staff: true,
     });
 
-    expect(testUser.isAdmin).toBeTruthy();
+    expect(testUser.isStaff).toBeTruthy();
   });
 
   it("should check group", () => {

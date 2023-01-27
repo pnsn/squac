@@ -6,14 +6,7 @@ import { Observable } from "rxjs";
  * @template T model type
  */
 export interface ListService<T> {
-  /**
-   * Requests list of data
-   *
-   * @template T model type
-   * @param params request params
-   * @returns observable of results
-   */
-  list(params?: unknown): Observable<Array<T>>;
+  list(params?: unknown, refresh?: boolean): Observable<Array<T>>;
 }
 
 /**
@@ -22,14 +15,7 @@ export interface ListService<T> {
  * @template T model type
  */
 export interface ReadService<T> {
-  /**
-   * Requests single item of data
-   *
-   * @template T model type
-   * @param params request params
-   * @returns observable of results
-   */
-  read(params: unknown): Observable<T>;
+  read(id: number, refresh?: boolean): Observable<T>;
 }
 
 /**
@@ -38,14 +24,7 @@ export interface ReadService<T> {
  * @template T model type
  */
 export interface UpdateService<T> {
-  /**
-   * Updates object
-   *
-   * @template T model type
-   * @param params request params
-   * @returns observable of results
-   */
-  update(params: unknown): Observable<T | number>;
+  update(t: T, mapId?: boolean): Observable<T | number>;
 }
 
 /**
@@ -54,14 +33,7 @@ export interface UpdateService<T> {
  * @template T model type
  */
 export interface WriteService<T> {
-  /**
-   * Updates or creates object
-   *
-   * @template T model type
-   * @param params request params
-   * @returns observable of results
-   */
-  updateOrCreate(t: T): Observable<T | number>;
+  updateOrCreate(t: T, mapId?: boolean): Observable<T | number>;
 }
 
 /**
@@ -70,14 +42,7 @@ export interface WriteService<T> {
  * @template T model type
  */
 export interface DeleteService<T> {
-  /**
-   * Deletes object
-   *
-   * @template T model type
-   * @param params request params
-   * @returns observable of results
-   */
-  delete(params: unknown): Observable<any>;
+  delete(id: number): Observable<any>;
   updateOrDelete(objects: T[], ids: number[]): Observable<number>[];
 }
 
@@ -87,14 +52,11 @@ export interface DeleteService<T> {
  * @template T model type
  */
 export interface PartialUpdateService<T> {
-  /**
-   * Updates object with partial data
-   *
-   * @template T model type
-   * @param params request params
-   * @returns observable of results
-   */
-  partialUpdate(params: unknown): Observable<T | number>;
+  partialUpdate(
+    object: Partial<T>,
+    keys: string[],
+    mapId?: boolean
+  ): Observable<T | number>;
 }
 
 /**

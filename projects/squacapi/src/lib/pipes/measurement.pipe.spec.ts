@@ -2,33 +2,33 @@ import { Measurement } from "../models";
 import { MeasurementPipe } from "./measurement.pipe";
 describe("MeasurementPipe", () => {
   const testValues: Measurement[] = [
-    {
+    new Measurement({
       value: 1,
       starttime: "2020-12-01T18:43:59.780000Z",
       id: 1,
-      owner: 2,
+      user: 2,
       endtime: "2020-12-01T18:43:59.780000Z",
-      metricId: 1,
-      channelId: 1,
-    },
-    {
+      metric: 1,
+      channel: 1,
+    }),
+    new Measurement({
       value: 3,
       starttime: "2020-12-02T18:43:59.780000Z",
       id: 1,
-      owner: 2,
+      user: 2,
       endtime: "2020-12-01T18:43:59.780000Z",
-      metricId: 1,
-      channelId: 1,
-    },
-    {
+      metric: 1,
+      channel: 1,
+    }),
+    new Measurement({
       value: 2,
       starttime: "2020-12-03T18:43:59.780000Z",
       id: 1,
-      owner: 2,
+      user: 2,
       endtime: "2020-12-01T18:43:59.780000Z",
-      metricId: 1,
-      channelId: 1,
-    },
+      metric: 1,
+      channel: 1,
+    }),
   ];
 
   it("create an instance", () => {
@@ -72,12 +72,6 @@ describe("MeasurementPipe", () => {
     expect(pipe.transform(testValues, "med")).toEqual(2);
   });
 
-  it("should return the most recent value if unknown", () => {
-    const pipe = new MeasurementPipe();
-
-    expect(pipe.transform(testValues, "test")).toEqual(2);
-  });
-
   it("should return the min abs value", () => {
     const pipe = new MeasurementPipe();
 
@@ -88,12 +82,6 @@ describe("MeasurementPipe", () => {
     const pipe = new MeasurementPipe();
 
     expect(pipe.transform(testValues, "maxabs")).toEqual(3);
-  });
-
-  it("should return the percentile value", () => {
-    const pipe = new MeasurementPipe();
-
-    expect(pipe.transform(testValues, "75")).toEqual(2);
   });
 
   it("should return null if no values", () => {

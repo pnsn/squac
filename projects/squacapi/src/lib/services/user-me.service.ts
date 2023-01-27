@@ -18,7 +18,7 @@ import { PartialUpdateService, ReadService } from "../interfaces";
 })
 export class UserMeService
   extends BaseWriteableApiService<User>
-  implements ReadService<User>, PartialUpdateService<User>
+  implements ReadService<User>
 {
   constructor(override api: ApiService) {
     super(ApiEndpoint.USER_ME, api);
@@ -30,22 +30,30 @@ export class UserMeService
    * @returns observable of current user
    */
   override read(): Observable<User> {
-    return super._read();
+    return super.read(null);
   }
 
-  /**
-   * Sends user information to squacapi for partial update
-   *
-   * @param t - user information to update
-   * @returns updated user information
-   */
-  partialUpdate(t: Partial<User>): Observable<User> {
+  override _partialUpdateParams(
+    u: Partial<User>,
+    _keys: string[]
+  ): UserMePartialUpdateRequestParams {
     const params: UserMePartialUpdateRequestParams = {
       data: {
-        firstname: t.firstname,
-        lastname: t.lastname,
+        firstname: u.firstname,
+        lastname: u.lastname,
       },
     };
-    return super._partialUpdate(params);
+    return params;
   }
+}
+
+export interface UserMeService
+  extends ReadService<User>,
+    PartialUpdateService<User> {
+  read(): Observable<User>;
+  partialUpdate(
+    t: Partial<User>,
+    keys: string[],
+    mapId: boolean
+  ): Observable<User>;
 }
