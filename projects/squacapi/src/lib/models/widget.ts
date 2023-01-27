@@ -121,6 +121,7 @@ export class Widget extends ResourceModel<
     return "Widget";
   }
 
+  /** @override */
   override fromRaw(
     data: ReadOnlyWidgetDetailSerializer | ReadOnlyWidgetSerializer | Widget
   ): void {
@@ -143,6 +144,7 @@ export class Widget extends ResourceModel<
     }
   }
 
+  /** @override */
   toJson(): WriteOnlyWidgetSerializer {
     return {
       name: this.name,

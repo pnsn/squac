@@ -21,6 +21,7 @@ export class MatchingRule extends ResourceModel<
   ReadOnlyMatchingRuleSerializer | MatchingRule,
   WriteOnlyMatchingRuleSerializer
 > {
+  /** @override */
   override fromRaw(data: ReadOnlyMatchingRuleSerializer | MatchingRule): void {
     super.fromRaw(data);
     if ("group" in data) {
@@ -35,6 +36,7 @@ export class MatchingRule extends ResourceModel<
     }
   }
 
+  /** @override */
   toJson(): WriteOnlyMatchingRuleSerializer {
     return {
       group: this.channelGroupId,

@@ -32,6 +32,7 @@ export class Trigger extends ResourceModel<
     return "Trigger";
   }
 
+  /** @override */
   override fromRaw(
     data: ApiTrigger | ReadOnlyTriggerSerializer | Trigger
   ): void {
@@ -49,6 +50,7 @@ export class Trigger extends ResourceModel<
     }
   }
 
+  /** @override */
   toJson(): WriteOnlyTriggerSerializer {
     return {
       monitor: this.monitorId,

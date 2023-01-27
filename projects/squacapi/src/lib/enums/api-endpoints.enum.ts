@@ -70,6 +70,12 @@ export const ApiEndpointToClass: { [key in ApiEndpoint]?: any } = {
   [ApiEndpoint.WIDGET]: Widget,
 };
 
+/**
+ * Returns class from given endpoint
+ *
+ * @param endpoint api endpoint to search for
+ * @returns object class
+ */
 export function getKlass<T extends BaseModel>(endpoint: ApiEndpoint): T {
   return ApiEndpointToClass[endpoint] as T;
 }

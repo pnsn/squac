@@ -8,21 +8,30 @@ export interface BaseModel {
   fromRaw(data: any): void;
 }
 
+/**
+ * Constructs object of type
+ *
+ * @param type type of class to construct
+ * @param apiData data to populate object with
+ * @returns created object
+ */
 export function modelConstructor<T extends BaseModel>(
   type: { new (data): T },
   apiData: any
 ): T {
   return new type(apiData);
 }
+
 /**
  * Static method class
  */
 export class BaseModel implements BaseModel {
   /**
-   * Deserialize and return object
+   * Deserializes json data and creates an object with it
    *
-   * @param data
-   * @returns
+   * @param this this constructor
+   * @param data data to create with
+   * @returns newly created object
    */
   static deserialize<T extends BaseModel>(
     this: { new (data: any): T } & typeof BaseModel,
@@ -34,8 +43,8 @@ export class BaseModel implements BaseModel {
   /**
    * Serializes object
    *
-   * @param obj
-   * @returns
+   * @param obj object to serialize
+   * @returns json response
    */
   static serialize<T extends BaseModel, W>(obj: T): W {
     return obj.toJson();
@@ -47,6 +56,12 @@ export class BaseModel implements BaseModel {
  */
 export abstract class ReadOnlyResourceModel<R> extends BaseModel {
   testKey: string;
+
+  /**
+   * Converts raw data to object
+   *
+   * @param data raw data
+   */
   override fromRaw(data: R | Partial<ReadOnlyResourceModel<R>>): void {
     Object.assign(this, data);
   }
@@ -59,10 +74,14 @@ export abstract class ReadOnlyResourceModel<R> extends BaseModel {
     }
   }
 
+  /**
+   * @returns id of object owner
+   */
   get owner(): number {
     return this.user;
   }
 
+  /** @returns if of object organization */
   get orgId(): number {
     return this.organization;
   }

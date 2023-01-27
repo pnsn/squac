@@ -31,6 +31,7 @@ export class ChannelGroup extends ResourceModel<
     return "ChannelGroup";
   }
 
+  /** @override */
   override fromRaw(
     data: ReadOnlyGroupDetailSerializer | ReadOnlyGroupSerializer | ChannelGroup
   ): void {
@@ -67,6 +68,7 @@ export class ChannelGroup extends ResourceModel<
     }
   }
 
+  /** @override */
   toJson(): WriteOnlyGroupSerializer {
     const incl = this.autoIncludeChannels?.map((c): number =>
       typeof c === "number" ? c : c.id

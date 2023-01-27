@@ -38,6 +38,7 @@ export class Channel extends ReadOnlyResourceModel<
     return "Channel";
   }
 
+  /** @override */
   override fromRaw(
     data: ReadOnlyChannelSerializer | ApiChannel | Channel
   ): void {

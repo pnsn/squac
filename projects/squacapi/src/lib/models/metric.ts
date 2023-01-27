@@ -30,6 +30,7 @@ export class Metric extends ResourceModel<
     return "Metric";
   }
 
+  /** @override */
   override fromRaw(data: ReadOnlyMetricSerializer | ApiMetric | Metric): void {
     super.fromRaw(data);
 
@@ -40,6 +41,8 @@ export class Metric extends ResourceModel<
       this.maxVal = data.default_maxval;
     }
   }
+
+  /** @override */
   toJson(): WriteOnlyMetricSerializer {
     return {
       name: this.name,

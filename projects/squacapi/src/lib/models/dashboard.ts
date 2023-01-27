@@ -75,6 +75,7 @@ export class Dashboard extends ResourceModel<
     return "Dashboard";
   }
 
+  /** @override */
   override fromRaw(
     data:
       | ReadOnlyDashboardDetailSerializer
@@ -89,6 +90,7 @@ export class Dashboard extends ResourceModel<
     }
   }
 
+  /** @override */
   toJson(): WriteOnlyDashboardSerializer {
     const d: WriteOnlyDashboardSerializer = {
       name: this.name,

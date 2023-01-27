@@ -51,6 +51,7 @@ export class User extends ResourceModel<
     return "User";
   }
 
+  /** @override */
   override fromRaw(
     data:
       | ReadOnlyUserMeSerializer
@@ -81,6 +82,7 @@ export class User extends ResourceModel<
     }
   }
 
+  /** @override */
   toJson(): WriteOnlyUserSerializer {
     return {
       email: this.email,

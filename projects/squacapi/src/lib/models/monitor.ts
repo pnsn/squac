@@ -34,6 +34,7 @@ export class Monitor extends ResourceModel<
     return "Monitor";
   }
 
+  /** @override */
   override fromRaw(
     data: ReadOnlyMonitorDetailSerializer | ReadOnlyMonitorSerializer | Monitor
   ): void {
@@ -55,6 +56,7 @@ export class Monitor extends ResourceModel<
     }
   }
 
+  /** @override */
   toJson(): WriteOnlyMonitorSerializer {
     return {
       interval_type: this.intervalType,

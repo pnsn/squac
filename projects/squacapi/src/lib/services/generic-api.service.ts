@@ -1,12 +1,8 @@
-import { HttpResponse, HttpContext } from "@angular/common/http";
+import { HttpContext } from "@angular/common/http";
 import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { map, Observable } from "rxjs";
-import {
-  BaseModel,
-  modelConstructor,
-  ReadOnlyResourceModel,
-} from "../interfaces";
-import { ApiEndpoint, ApiEndpointToClass, getKlass } from "../enums";
+import { BaseModel, modelConstructor } from "../interfaces";
+import { ApiEndpoint, getKlass } from "../enums";
 import { REFRESH_REQUEST } from "../constants/refresh-request.constant";
 
 /**
@@ -160,7 +156,7 @@ export abstract class BaseWriteableApiService<
    *
    * @template T type of model to be updated
    * @param params  http params for request
-   * @param mapId
+   * @param mapId map response to id, if true returns only id
    * @returns results of http request
    */
   protected _update(
@@ -187,7 +183,7 @@ export abstract class BaseWriteableApiService<
    *
    * @template T type of model to be created
    * @param params  http params for request
-   * @param mapIdmap response to id, if true returns only id
+   * @param mapId map response to id, if true returns only id
    * @returns results of http request
    */
   protected _create(

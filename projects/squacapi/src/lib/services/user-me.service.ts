@@ -6,7 +6,7 @@ import {
 import { ApiEndpoint } from "../enums";
 import { User } from "../models";
 
-import { map, Observable } from "rxjs";
+import { Observable } from "rxjs";
 import { BaseWriteableApiService } from "./generic-api.service";
 import { PartialUpdateService, ReadService } from "../interfaces";
 

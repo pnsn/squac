@@ -17,7 +17,13 @@ describe("ViewService", () => {
   let service: ViewService;
   let widgetService;
   let dashboardService;
-  const testWidget = new Widget(1, 1, "name", 1, [], "mean");
+  const testWidget = new Widget({
+    id: 1,
+    user: 1,
+    name: "name",
+    organization: 1,
+    metrics: [],
+  });
   let testDashboard;
   // const mockSquacApiService = new MockSquacApiService( testMetric );
 
@@ -67,7 +73,7 @@ describe("ViewService", () => {
     service = TestBed.inject(ViewService);
     widgetService = TestBed.inject(WidgetService);
     dashboardService = TestBed.inject(DashboardService);
-    testDashboard = new Dashboard(1, 1, "name", "description", false, false, 1);
+    testDashboard = new Dashboard({ id: 1, user: 1, organization: 1 });
   });
   it("should be created", () => {
     expect(service).toBeTruthy();

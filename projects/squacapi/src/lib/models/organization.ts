@@ -21,6 +21,7 @@ export class Organization extends ReadOnlyResourceModel<ReadOnlyOrganizationSeri
     return "Organization";
   }
 
+  /** @override */
   override fromRaw(data: ReadOnlyOrganizationSerializer): void {
     super.fromRaw(data);
 

@@ -12,7 +12,6 @@ import { MeasurementService } from "squacapi";
  * using localhost
  *
  * @param path url path
- * @param adapter data adapter
  * @param service api service
  * @param fakeService fake api service
  * @returns measurement service
@@ -34,7 +33,6 @@ export function MeasurementFactory(
  * using localhost
  *
  * @param path url path
- * @param adapter data adapter
  * @param service api service
  * @param fakeService fake api service
  * @returns aggregate service
@@ -56,7 +54,6 @@ export function AggregateFactory(
  * using localhost
  *
  * @param path url path
- * @param adapter data adapter
  * @param service api service
  * @param fakeService fake api service
  * @returns day archive service
@@ -78,7 +75,6 @@ export function DayArchiveFactory(
  * using localhost
  *
  * @param path url path
- * @param adapter data adapter
  * @param service api service
  * @param fakeService fake api service
  * @returns hour archive service
@@ -100,7 +96,6 @@ export function HourArchiveFactory(
  * using localhost
  *
  * @param path url path
- * @param adapter data adapter
  * @param service api service
  * @param fakeService fake api service
  * @returns week archive service
@@ -122,7 +117,6 @@ export function WeekArchiveFactory(
  * using localhost
  *
  * @param path url path
- * @param adapter data adapter
  * @param service api service
  * @param fakeService fake api service
  * @returns month archive service

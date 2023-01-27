@@ -40,6 +40,7 @@ export class Alert extends ReadOnlyResourceModel<
     return "Alert";
   }
 
+  /** @override */
   override fromRaw(data: ReadOnlyAlertDetailSerializer | Alert): void {
     super.fromRaw(data);
     let breachingChannels: BreachingChannel[] = [];
@@ -51,7 +52,6 @@ export class Alert extends ReadOnlyResourceModel<
             data.breaching_channels
           ) as BreachingChannel[];
         } catch (e) {
-          console.log("breaching channels error", e);
           breachingChannels = [];
         }
       }
