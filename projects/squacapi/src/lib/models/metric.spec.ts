@@ -1,27 +1,11 @@
-import { TestBed } from "@angular/core/testing";
-import { Metric, MetricAdapter } from "./metric";
+import { Metric } from "./metric";
 
 describe("Metric", () => {
-  let adapter: MetricAdapter;
   it("should create an instance", () => {
-    expect(
-      new Metric(
-        5,
-        1,
-        "name",
-        "code",
-        "description",
-        "reference",
-        "unit",
-        1,
-        1,
-        10
-      )
-    ).toBeTruthy();
+    expect(new Metric()).toBeTruthy();
   });
 
   it("should create new metric from api ", () => {
-    adapter = TestBed.inject(MetricAdapter);
     const testData = {
       id: 1,
       name: "testName",
@@ -37,27 +21,8 @@ describe("Metric", () => {
       reference_url: "string",
       sample_rate: 1,
     };
-    const metric = adapter.adaptFromApi(testData);
+    const metric = new Metric(testData);
     expect(metric).toBeDefined();
     expect(metric.id).toBe(1);
-  });
-
-  it("should return api json from metric", () => {
-    adapter = TestBed.inject(MetricAdapter);
-    const testMetric: Metric = new Metric(
-      1,
-      1,
-      "testName",
-      "code",
-      "description",
-      "ref",
-      "unit",
-      1,
-      2,
-      1
-    );
-    const metricJson = adapter.adaptToApi(testMetric);
-    expect(metricJson).toBeDefined();
-    expect(metricJson.name).toBe("testName");
   });
 });
