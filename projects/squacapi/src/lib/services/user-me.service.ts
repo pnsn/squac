@@ -33,6 +33,9 @@ export class UserMeService
     return super.read(null);
   }
 
+  /**
+   * @override
+   */
   override _partialUpdateParams(
     u: Partial<User>,
     _keys: string[]

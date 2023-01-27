@@ -7,5 +7,5 @@ export * from "./widget-layout.interface";
 export * from "./dashboard-properties.interface";
 
 export * from "./api-service.interface";
-
+export * from "./api-service-params.interface";
 export * from "./squacapi.types";

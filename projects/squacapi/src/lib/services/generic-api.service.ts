@@ -1,51 +1,21 @@
 import { HttpContext } from "@angular/common/http";
 import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { map, Observable } from "rxjs";
-import { BaseModel, modelConstructor } from "../interfaces";
+import {
+  BaseModel,
+  CreateParams,
+  DeleteParams,
+  HttpOptions,
+  modelConstructor,
+  Options,
+  Params,
+  PartialUpdateParams,
+  ReadParams,
+  ReadSerializer,
+  UpdateParams,
+} from "../interfaces";
 import { ApiEndpoint, getKlass } from "../enums";
 import { REFRESH_REQUEST } from "../constants/refresh-request.constant";
-
-/**
- * Options for requests
- */
-export interface Options {
-  /** if true, will not use the cache */
-  refresh?: boolean;
-}
-
-/** HttpOptions for requests */
-export interface HttpOptions {
-  /** Http context */
-  context?: HttpContext;
-}
-
-export type Params = any;
-
-export interface ReadParams {
-  id: number;
-}
-
-export interface DeleteParams {
-  id: number;
-}
-
-export interface UpdateParams {
-  id: number;
-  data: any;
-}
-
-export interface CreateParams {
-  data: any;
-}
-
-export interface ReadSerializer {
-  id?: number;
-}
-
-export interface PartialUpdateParams {
-  id?: number;
-  data: any;
-}
 /**
  *
  */
@@ -82,6 +52,14 @@ export abstract class BaseReadOnlyApiService<T extends BaseModel> {
     return httpOptions;
   }
 
+  /**
+   * Make http request
+   *
+   * @param request request type
+   * @param options request options
+   * @param params request params
+   * @returns Observable of request response
+   */
   private readHttpRequest(
     request: "List" | "Read",
     options?: Options,
@@ -102,45 +80,6 @@ export abstract class BaseReadOnlyApiService<T extends BaseModel> {
         }
       })
     );
-  }
-
-  /**
-   * Request list of objects of type T from squacapi
-   *
-   * @template T type of model to be requested
-   * @param params  http params for request
-   * @param options - http options for request
-   * @returns results of http request
-   */
-  protected _list(
-    params: Params = {},
-    options: Options = {}
-  ): Observable<Array<T>> {
-    const httpOptions = this.getHttpOptions(options);
-    return this.api[`${this.apiEndpoint}List`](
-      params,
-      this.observe,
-      this.reportProgress,
-      httpOptions
-    ).pipe(map((r: Array<any>) => r.map(this.deserialize.bind(this))));
-  }
-
-  /**
-   * Request single object detail of type T from squacapi
-   *
-   * @template T type of model to be requested
-   * @param params  http params for request
-   * @param options - http options for request
-   * @returns - results of http request
-   */
-  protected _read(params?: ReadParams, options?: Options): Observable<T> {
-    const httpOptions = this.getHttpOptions(options);
-    return this.api[`${this.apiEndpoint}Read`](
-      params,
-      this.observe,
-      this.reportProgress,
-      httpOptions
-    ).pipe(map(this.deserialize.bind(this)));
   }
 
   /**
@@ -205,21 +144,6 @@ export abstract class BaseWriteableApiService<
   }
 
   /**
-   * Delete object of type T from squacapi
-   *
-   * @template T type of model to be deleted
-   * @param params  http params for request
-   * @returns results of http request
-   */
-  protected _delete(params?: DeleteParams): Observable<any> {
-    return this.api[`${this.apiEndpoint}Delete`](
-      params,
-      this.observe,
-      this.reportProgress
-    );
-  }
-
-  /**
    * Create or update object of type T from squacapi
    *
    * @template T type of model to be created
@@ -268,10 +192,16 @@ export abstract class BaseWriteableApiService<
    */
   protected delete(id: number): Observable<any> {
     const params = { id };
-    return this._delete(params);
     return this.writeHttpRequest("Delete", false, params);
   }
 
+  /**
+   * Builds partial update params from keys
+   *
+   * @param object object being updates
+   * @param keys keys to update
+   * @returns params
+   */
   protected _partialUpdateParams(
     object: Partial<T>,
     keys: string[]
@@ -288,6 +218,14 @@ export abstract class BaseWriteableApiService<
     };
   }
 
+  /**
+   *  Partial update request for an object
+   *
+   * @param object object to update
+   * @param keys keys being changed
+   * @param mapId true if id should be returned
+   * @returns id of changed object or updated object
+   */
   protected partialUpdate(
     object: Partial<T>,
     keys: string[],
