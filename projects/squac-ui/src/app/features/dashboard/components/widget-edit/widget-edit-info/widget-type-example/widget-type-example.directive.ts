@@ -23,7 +23,7 @@ import {
 } from "widgets";
 import { Measurement, Metric } from "squacapi";
 import { Threshold, WidgetProperties } from "squacapi";
-import { config, of } from "rxjs";
+import { of } from "rxjs";
 import {
   channels,
   endtime,

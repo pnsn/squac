@@ -15,6 +15,8 @@
         id="email"
         formControlName="email"
         placeholder="Email"
+        autocomplete="email"
+        auto
         name="email"
         required
       />
@@ -25,6 +27,7 @@
       <input
         matInput
         formControlName="password"
+        autocomplete="current-password"
         appearance="outline"
         placeholder="Password"
         [type]="hide ? 'password' : 'text'"
