@@ -257,6 +257,7 @@ export class TabularComponent
 
           if (data.get(channel.id)) {
             const rowData = data.get(channel.id).get(metric.id);
+            console.log(rowData);
             val = rowData && rowData[0] ? rowData[0].value : null;
           }
 
