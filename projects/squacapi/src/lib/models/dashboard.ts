@@ -24,7 +24,7 @@ export class Dashboard extends ResourceModel<
   WriteOnlyDashboardSerializer
 > {
   private _widgets: Widget[] = [];
-  public _properties: DashboardProperties = DASHBOARD_PROPERTIES;
+  public _properties: DashboardProperties;
   /**
    * stores dashboard properties
    */
@@ -83,6 +83,7 @@ export class Dashboard extends ResourceModel<
       | Dashboard
   ): void {
     super.fromRaw(data);
+    this.properties = data.properties;
     if ("channel_group" in data) {
       this.channelGroupId = data.channel_group;
     }

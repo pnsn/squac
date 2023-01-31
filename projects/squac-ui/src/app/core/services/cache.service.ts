@@ -128,7 +128,6 @@ export class HttpCacheService implements HttpCache {
    * @returns true if route should be cached
    */
   shouldCache(urlWithParams: string): boolean {
-    console.log(urlWithParams, !!this.matchRoutes(urlWithParams).route);
     return !!this.matchRoutes(urlWithParams).route;
   }
 

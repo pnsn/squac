@@ -148,9 +148,9 @@ export class ViewService {
 
     // set dashboard
     this._dashboard = dashboard;
-
+    console.log(this._dashboard.properties);
     // set dates
-    this.setIntialDates();
+    this.setInitialDates();
   }
 
   /**
@@ -282,7 +282,7 @@ export class ViewService {
   /**
    * Sets up initial dates for dashboard
    */
-  private setIntialDates(): void {
+  private setInitialDates(): void {
     let startDate;
     let endDate;
     let autoRefresh;
@@ -394,6 +394,9 @@ export class ViewService {
   setArchive(archiveType: ArchiveType, archiveStat: ArchiveStatType): void {
     this._dashboard.properties.archiveStat = archiveStat;
     this._dashboard.properties.archiveType = archiveType;
+    if (archiveType === "raw") {
+      this._dashboard.properties.archiveStat = null;
+    }
     this.hasUnsavedChanges = true;
   }
 

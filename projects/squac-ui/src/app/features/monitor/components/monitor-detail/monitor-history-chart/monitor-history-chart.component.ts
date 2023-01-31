@@ -133,7 +133,6 @@ export class MonitorHistoryChartComponent extends EChartComponent {
   override onChartEvent($event, type) {
     if (type === "chartClick" && $event.seriesName === this.alertsSeriesName) {
       this.selectedAlertChange.emit($event.value[4]);
-      console.log($event);
     }
   }
   /**

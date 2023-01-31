@@ -49,6 +49,7 @@ export class DataTypeSelectorComponent implements OnChanges {
    */
   selectDataType(type: ArchiveType, stat: ArchiveStatType): void {
     this.statType = stat;
+    console.log(this.statType);
     this.dataType = type;
 
     this.dataTypeSelected.emit({
