@@ -1,7 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
+import { MessageService } from "@core/services/message.service";
 import { DATE_PICKER_TIMERANGES } from "@dashboard/components/dashboard-detail/dashboard-time-ranges";
 import {
   TableControls,
@@ -80,7 +82,9 @@ export class MonitorDetailComponent implements OnInit {
     private metricService: MetricService,
     private widgetDataService: WidgetDataService,
     private widgetConfigService: WidgetConfigService,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private confirmDialog: ConfirmDialogService,
+    private messageService: MessageService
   ) {}
   // last n intervals
   /**
@@ -188,6 +192,61 @@ export class MonitorDetailComponent implements OnInit {
    */
   update(): void {
     this.widgetManager.fetchData();
+  }
+
+  /**
+   * Delete monitor after confirmation
+   */
+  onDelete(): void {
+    this.confirmDialog.open({
+      title: `Delete ${this.monitor.name}`,
+      message: "Are you sure? This action is permanent.",
+      cancelText: "Cancel",
+      confirmText: "Delete",
+    });
+    this.confirmDialog.confirmed().subscribe((confirm) => {
+      if (confirm) {
+        this.delete();
+      }
+    });
+  }
+
+  /**
+   * Delete monitor
+   */
+  delete(): void {
+    this.channelGroupService.delete(this.monitor.id).subscribe({
+      next: () => {
+        this.closeMonitor();
+        this.messageService.message("Monitor deleted.");
+      },
+      error: () => {
+        this.messageService.error("Could not delete monitor");
+      },
+    });
+  }
+
+  /**
+   * Navigate to edit path
+   */
+  editMonitor(): void {
+    this.router.navigate(["edit"], { relativeTo: this.route });
+  }
+
+  /**
+   * Add new monitor
+   */
+  addNewMonitor(): void {
+    this.router.navigate(["/", "monitors", "new"], {
+      relativeTo: this.route,
+    });
+  }
+
+  /**
+   * Close container and route to parent
+   */
+  closeMonitor(): void {
+    this.router.navigate(["../"], { relativeTo: this.route });
   }
 
   /**

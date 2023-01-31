@@ -1,28 +1,90 @@
-<p>Monitor detail component</p>
-{{ monitor.name }}
-{{ monitor.owner | user }}
-<p>{{ monitor.metricName }}</p>
-<p>{{ monitor.stat }}</p>
-<p>{{ monitor.channelGroupName }}</p>
-<p>alarms evaluated on the 5</p>
-<shared-date-select
-  [secondsAgoFromNow]="timeRange"
-  [initialStartDate]="starttime"
-  [initialEndDate]="endtime"
-  [timeRanges]="datePickerTimeRanges"
-  (datesChanged)="datesChanged($event)"
->
-</shared-date-select>
-<button (click)="update()">update</button>
+<div id="group-view-container" class="box">
+  <div class="header-title">
+    <div id="channel-group-info">
+      <h3>{{ monitor?.name }}</h3>
+      <span class="help-text"> by {{ monitor?.owner | user }} </span>
+    </div>
+    <div id="button-container row space-between">
+      <button
+        *ngIf="'delete' | able: monitor"
+        mat-icon-button
+        color="warn"
+        (click)="onDelete()"
+        matTooltip="Delete monitor"
+        aria-label="Button that deletes the monitor"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button
+        *ngIf="'create' | able: 'Monitor'"
+        mat-icon-button
+        (click)="addNewMonitor()"
+        matTooltip="Create new monitor"
+        aria-label="Button that creates new monitor"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+      <button
+        *ngIf="'update' | able: monitor"
+        mat-icon-button
+        color="primary"
+        (click)="editMonitor()"
+        matTooltip="Edit monitor"
+        aria-label="Button that navigates to edit monitor page"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        (click)="closeMonitor()"
+        matTooltip="Close monitor"
+        aria-label="Button that navigates to all monitors"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
 
-<div id="monitor-history-chart-container">
-  <monitor-history-chart
-    #monitorChart
-    [monitor]="monitor"
-    [alerts]="alerts"
-    [(selectedAlert)]="selectedAlert"
-  ></monitor-history-chart>
+  <div id="monitor-container" class="column">
+    <div class="row space-between">
+      <div>
+        <p>
+          <strong>Metric: </strong> {{ monitor.stat }} of
+          {{ monitor.metricName }}
+        </p>
+        <p>
+          <strong> Channel Group: </strong
+          ><a [routerLink]="['/channel-groups', monitor.channelGroupId]">
+            {{ monitor.channelGroupName }}</a
+          >
+        </p>
+      </div>
+      <div class="row">
+        <shared-date-select
+          [secondsAgoFromNow]="timeRange"
+          [initialStartDate]="starttime"
+          [initialEndDate]="endtime"
+          [timeRanges]="datePickerTimeRanges"
+          (datesChanged)="datesChanged($event)"
+        >
+        </shared-date-select>
+        <button mat-raised-button color="accent" (click)="update()">
+          Update
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="monitor-history-chart-container">
+    <monitor-history-chart
+      #monitorChart
+      [monitor]="monitor"
+      [alerts]="alerts"
+      [(selectedAlert)]="selectedAlert"
+    ></monitor-history-chart>
+  </div>
 </div>
+<p>alarms evaluated on the 5</p>
 
 <div *ngIf="selectedAlert">
   {{ selectedAlert.breachingChannels?.length }}

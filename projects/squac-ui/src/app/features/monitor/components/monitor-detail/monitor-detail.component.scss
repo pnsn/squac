@@ -1,4 +1,17 @@
+@import "variables";
+
 #monitor-history-chart {
   height: 400px;
   width: 500px;
+}
+
+#monitor-container {
+  border-top: 1px solid lighten($sq-gray, 15);
+  overflow: hidden;
+  padding: 10px;
+}
+
+#group-view-container {
+  margin-top: 10px;
+  overflow: hidden;
 }
