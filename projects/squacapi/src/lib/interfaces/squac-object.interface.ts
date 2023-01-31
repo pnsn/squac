@@ -66,7 +66,7 @@ export abstract class ReadOnlyResourceModel<R> extends BaseModel {
     Object.assign(this, data);
   }
 
-  constructor(model?: R | Partial<ReadOnlyResourceModel<R>>) {
+  constructor(model?: Partial<R> | Partial<ReadOnlyResourceModel<R>>) {
     super();
 
     if (model) {

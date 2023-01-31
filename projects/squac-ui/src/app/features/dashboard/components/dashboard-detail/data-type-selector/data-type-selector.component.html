@@ -46,7 +46,7 @@
       [ngClass]="type === dataType && stat === statType ? 'active' : ''"
       (click)="selectDataType(type, stat)"
     >
-      {{ stat }}
+      {{ statTypeOptions[stat] }}
     </button>
   </ng-template>
 </mat-menu>

@@ -158,7 +158,7 @@ export class WidgetConfigService {
         newOptions[key] = {};
       }
       const keyOptions = options[key];
-      if (Object.keys(keyOptions).length > 0) {
+      if (Object.keys(keyOptions).length > 0 && !Array.isArray(keyOptions)) {
         Object.keys(keyOptions).forEach((childKey) => {
           newOptions[key][childKey] = keyOptions[childKey];
         });
@@ -166,7 +166,6 @@ export class WidgetConfigService {
         newOptions[key] = options[key];
       }
     });
-
     return newOptions;
   }
 

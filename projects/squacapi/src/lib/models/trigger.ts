@@ -4,7 +4,8 @@ import {
   WriteOnlyTriggerSerializer,
   ReadOnlyTriggerSerializer,
 } from "@pnsn/ngx-squacapi-client";
-import { Alert, Monitor } from ".";
+import { Alert } from ".";
+import { NUM_CHANNELS_OPERATORS, VALUE_OPERATORS } from "../constants";
 
 export interface Trigger {
   monitorId: number;
@@ -16,7 +17,7 @@ export interface Trigger {
   val1: number;
   val2?: number;
   lastAlarm?: Alert;
-  monitor?: Monitor;
+  inAlarm?: boolean;
 }
 /**
  * Describes a trigger
@@ -25,6 +26,26 @@ export class Trigger extends ResourceModel<
   ApiTrigger | ReadOnlyTriggerSerializer | Trigger,
   WriteOnlyTriggerSerializer
 > {
+  /** @returns formatted number of channels operator */
+  get numChannelsString(): string {
+    let message = `${NUM_CHANNELS_OPERATORS[this.numChannelsOperator]} `;
+    if (this.numChannels !== null && this.numChannels !== undefined) {
+      message += `${this.numChannels} `;
+    }
+    message +=
+      this.numChannels && this.numChannels > 1 ? "channels" : "channel";
+    return message;
+  }
+
+  /** @returns formatted value string */
+  get valueString(): string {
+    let message = `${VALUE_OPERATORS[this.valueOperator]} ${this.val1}`;
+    if (this.val2 !== null && this.val2 !== undefined) {
+      message += ` and ${this.val2}`;
+    }
+    return message;
+  }
+
   /**
    * @returns model name
    */

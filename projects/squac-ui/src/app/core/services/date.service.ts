@@ -118,7 +118,7 @@ export class DateService {
    * @param date string to parse
    * @returns new date from string
    */
-  parseUtc(date: string): Dayjs {
+  parseUtc(date: string | number | Dayjs | Date): Dayjs {
     return dayjs.utc(date).clone();
   }
 

@@ -1,6 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
+import { NUM_CHANNELS_OPERATORS, VALUE_OPERATORS } from "squacapi";
 import {
   CustomSeriesRenderItemAPI,
   CustomSeriesRenderItemReturn,
@@ -8,10 +9,11 @@ import {
   graphic,
   TooltipComponentFormatterCallbackParams,
 } from "echarts";
-import { Alert, MeasurementPipe, Monitor } from "squacapi";
+import { Alert, MeasurementPipe, Monitor, Trigger } from "squacapi";
 import {
   EChartComponent,
   LabelFormatterParams,
+  ProcessedData,
   WidgetConfigService,
   WidgetManagerService,
 } from "widgets";
@@ -55,8 +57,9 @@ export class MonitorHistoryChartComponent extends EChartComponent {
         axisPointer: {
           show: true,
           label: {
-            formatter: (params: LabelFormatterParams) =>
-              this.widgetConfigService.timeAxisPointerLabelFormatting(params),
+            formatter: (params: LabelFormatterParams) => {
+              return this.getOffsetStart(params.value);
+            },
           },
         },
         axisLabel: {
@@ -75,18 +78,44 @@ export class MonitorHistoryChartComponent extends EChartComponent {
           show: true,
         },
       },
-      yAxis: {},
+      yAxis: {
+        type: "category",
+        position: "left",
+      },
       legend: {
         show: true,
         orient: "vertical",
         right: 0,
       },
+      grid: {
+        containLabel: true,
+        top: 5,
+        right: 8,
+        bottom: 38,
+        left: 25,
+      },
+      dataZoom: [
+        {
+          type: "slider",
+          realtime: true,
+          orient: "horizontal",
+          moveHandleSize: 10,
+          height: 15,
+          showDetail: false,
+          showDataShadow: false,
+          bottom: 10,
+          right: 20,
+          xAxisIndex: [0, 1],
+          filterMode: "none",
+        },
+      ],
       tooltip: {
         formatter: (params: TooltipComponentFormatterCallbackParams) => {
           if ("componentType" in params) {
             if (params.seriesName === "Alerts") {
-              console.log(params["data"]["name"]);
-              return params["data"]["name"];
+              return `${this.getOffsetStart(params[0])} ${
+                params.value[5]
+              } breaching channels`;
             }
             return "";
           }
@@ -101,7 +130,7 @@ export class MonitorHistoryChartComponent extends EChartComponent {
   /**
    * @override
    */
-  buildChartData(data): Promise<void> {
+  buildChartData(data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {
       // this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
       //   this.selectedMetrics,
@@ -110,24 +139,6 @@ export class MonitorHistoryChartComponent extends EChartComponent {
       // );
       const stations = [];
       this.metricSeries = {};
-      const series = {
-        type: "line",
-        step: "start",
-        large: true,
-        largeThreshold: 1000,
-        legendHoverLink: true,
-        lineStyle: {
-          width: 1,
-          opacity: 1,
-        },
-        emphasis: {
-          focus: "series",
-        },
-
-        symbol: "circle",
-        symbolSize: 2,
-        sampling: "lttb",
-      };
 
       //start time to end time using intergal type and count, calulate metric
       const metric = this.selectedMetrics[0];
@@ -135,90 +146,24 @@ export class MonitorHistoryChartComponent extends EChartComponent {
         min: undefined,
         max: undefined,
       };
-      this.channels.forEach((channel) => {
-        const nslc = channel.nslc;
-        const station = {
-          ...series,
-          ...{
-            name: nslc,
-            id: nslc,
-            data: [],
-            count: 0,
-            encode: {
-              x: [0, 1],
-              y: 2,
-            },
-          },
-        };
-        if (data.has(channel.id)) {
-          const measurements = data.get(channel.id).get(metric.id);
-
-          //start at start time
-          // increase at interval
-          // take all measurements within that and calculate
-          // iterate
-          // value represents the calculated value for the last interval
-          const end = this.dateService
-            .parseUtc(this.widgetManager.endtime)
-            .startOf("hour");
-          let start = this.dateService
-            .parseUtc(this.widgetManager.starttime)
-            .startOf("hour");
-          let i = 0; //measurement index
-          while (start < end && measurements[i]) {
-            const intervalEnd = start.add(
-              this.monitor.intervalCount,
-              this.monitor.intervalType
-            );
-            const intervalMeasurements = [];
-            let lastMeasurementStart = this.dateService.parseUtc(
-              measurements[i].starttime
-            );
-            //find all measurements in the time range
-            while (lastMeasurementStart < intervalEnd) {
-              intervalMeasurements.push(measurements[i]);
-              i++;
-              if (!measurements[i]) break;
-              lastMeasurementStart = this.dateService.parseUtc(
-                measurements[i].starttime
-              );
-            }
-
-            const value = this.measurementPipe.transform(
-              intervalMeasurements,
-              this.monitor.stat
-            );
-
-            if (
-              this.dataRange.min === undefined ||
-              value < this.dataRange.min
-            ) {
-              this.dataRange.min = value;
-            }
-            if (
-              this.dataRange.max === undefined ||
-              value > this.dataRange.max
-            ) {
-              this.dataRange.max = value;
-            }
-
-            station.data.push({
-              name: nslc,
-              value: [intervalEnd.toDate(), start.toDate(), value],
-            });
-
-            start = intervalEnd;
-          }
-        }
-        stations.push(station);
+      this.metricSeries.yAxisLabels = [];
+      this.monitor.triggers.forEach((trigger) => {
+        this.metricSeries.yAxisLabels.push(this.getTriggerLabel(trigger));
       });
-      this.metricSeries.series = stations;
-      const monitorSeries = this.addMonitor();
-      const triggerSeries = this.addTriggers();
-      this.metricSeries.series.push(triggerSeries);
-      this.metricSeries.series.push(monitorSeries);
+
+      this.metricSeries.series = [];
+      const alertSeries = this.addAlerts();
+      // const triggerSeries = this.addTriggers();
+      // this.metricSeries.series.push(triggerSeries);
+      this.metricSeries.series.push(alertSeries);
       resolve();
     });
+  }
+
+  getOffsetStart(rawDate: Date | number | string): string {
+    const date = this.dateService.parseUtc(rawDate);
+    const newD = date.startOf("hour").add(5, "minutes");
+    return this.dateService.displayFormat(newD);
   }
 
   /**
@@ -364,12 +309,11 @@ export class MonitorHistoryChartComponent extends EChartComponent {
    *
    * @returns alarm series
    */
-  addMonitor(): unknown {
-    const triggerSeries = {
+  addAlerts(): unknown {
+    const alertSeries = {
       type: "custom",
       name: "Alerts",
-      yAxisIndex: 1,
-      dataGroupId: "monitor",
+      dataGroupId: "alert",
       data: [],
       itemStyle: {
         color: "#808080",
@@ -386,10 +330,11 @@ export class MonitorHistoryChartComponent extends EChartComponent {
     };
 
     this.alerts?.forEach((alert) => {
-      console.log(alert);
       if (alert.inAlarm) {
         const start = this.dateService.parseUtc(alert.timestamp);
-        triggerSeries.data.push({
+        const index = this.getTriggerIndex(alert.triggerId);
+        const breachingChannels = alert.breachingChannels.length;
+        alertSeries.data.push({
           name: alert.triggerId,
           value: [
             start.toDate(),
@@ -397,15 +342,27 @@ export class MonitorHistoryChartComponent extends EChartComponent {
               .add(this.monitor.intervalCount, this.monitor.intervalType)
               .toDate(),
             "In Alarm",
-            0,
+            index,
+            alert.id,
+            breachingChannels,
           ],
         });
       }
     });
     // console.log(triggerSeries);
-    return triggerSeries;
+    return alertSeries;
   }
 
+  getTriggerLabel(trigger: Trigger): string {
+    /** Return string representation of trigger info */
+    return `${trigger.numChannelsString} ${trigger.valueString}`;
+  }
+
+  getTriggerIndex(triggerId: number): number {
+    return this.monitor.triggers.findIndex(
+      (trigger) => trigger.id === triggerId
+    );
+  }
   /**
    * @override
    */
@@ -416,32 +373,9 @@ export class MonitorHistoryChartComponent extends EChartComponent {
         min: this.widgetManager.starttime,
         max: this.widgetManager.endtime,
       },
-      yAxis: [
-        {
-          type: "value",
-          nameLocation: "middle",
-          axisLabel: {
-            fontSize: 11,
-          },
-          axisLine: {
-            show: true,
-          },
-          axisTick: {
-            show: true,
-          },
-          max: this.dataRange.max,
-          min: this.dataRange.min,
-        },
-        {
-          show: false,
-          data: ["In Alarm"],
-          type: "category",
-          position: "right",
-          axisLine: {
-            show: false,
-          },
-        },
-      ],
+      yAxis: {
+        data: this.metricSeries.yAxisLabels,
+      },
     };
     if (this.echartsInstance) {
       this.echartsInstance.setOption(this.updateOptions, {
@@ -498,7 +432,6 @@ export class MonitorHistoryChartComponent extends EChartComponent {
         },
         style: {
           fill: api.visual("color"),
-          opacity: 0.7,
         },
       }
     );

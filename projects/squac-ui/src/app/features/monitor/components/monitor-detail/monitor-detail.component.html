@@ -1,9 +1,12 @@
 <p>Monitor detail component</p>
 {{ monitor.name }}
 {{ monitor.owner | user }}
-{{ monitor.metricName }}
-{{ monitor.channelGroupName }}
+<p>{{ monitor.metricName }}</p>
+<p>{{ monitor.stat }}</p>
+<p>{{ monitor.channelGroupName }}</p>
+
 {{ starttime }} {{ endtime }}
+<p>alarms evaluated on the 5</p>
 <shared-date-select
   [secondsAgoFromNow]="timeRange"
   [initialStartDate]="starttime"
@@ -30,3 +33,9 @@
 <div>alerts go here</div>
 <div>history goes here</div>
 <div>{{ monitor.triggers?.length }}</div>
+
+<div>
+  <div *ngFor="let alert of alerts">
+    <p>{{ alert.id }}</p>
+  </div>
+</div>
