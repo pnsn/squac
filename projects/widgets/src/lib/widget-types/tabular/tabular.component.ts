@@ -24,7 +24,8 @@ import {
   WidgetTypeComponent,
 } from "../../interfaces";
 import { GenericWidgetComponent } from "../../shared/components";
-import { ChannelRow, RowMetric, RowMetrics, StationRow } from "./types";
+import { ChannelRow, RowMetrics, StationRow } from "./types";
+import { ChannelComparator, MetricComparator } from "./utils";
 
 /**
  * Table based widget
@@ -128,7 +129,7 @@ export class TabularComponent
         canAutoResize: false,
         frozenLeft: true,
         resizeable: true,
-        comparator: this.channelComparator.bind(this),
+        comparator: ChannelComparator,
       },
     ];
 
@@ -148,7 +149,7 @@ export class TabularComponent
         this.columns.push({
           name: metric.name,
           prop: metric.id,
-          comparator: this.metricComparator.bind(this),
+          comparator: MetricComparator,
           width: 65,
           canAutoResize: true,
           sortable: true,
@@ -205,28 +206,6 @@ export class TabularComponent
     return this.rows.findIndex((row) => {
       return row.nslc === nslc;
     });
-  }
-
-  /**
-   * Sort function for metric values
-   *
-   * @param propA first value
-   * @param propB second value
-   * @returns difference
-   */
-  private metricComparator(propA: RowMetric, propB: RowMetric): number {
-    return propA.value - propB.value;
-  }
-
-  /**
-   * Sort function for channels/station rows
-   *
-   * @param propA first value
-   * @param propB second value
-   * @returns difference
-   */
-  private channelComparator(propA: string, propB: string): number {
-    return propA.localeCompare(propB);
   }
 
   /**
