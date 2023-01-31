@@ -15,7 +15,7 @@ export interface Archive {
   mean: number;
   median: number;
   stdev: number;
-  num_samps: number;
+  numSamps: number;
   p05: number;
   p10: number;
   p90: number;
@@ -34,6 +34,11 @@ export class Archive extends ReadOnlyResourceModel<
   | ReadOnlyArchiveMonthSerializer
   | Archive
 > {
+  /** @returns number of samps */
+  get num_samps(): number {
+    return this.numSamps;
+  }
+
   /** @returns model name */
   static get modelName(): string {
     return "Archive";

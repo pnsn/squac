@@ -37,15 +37,6 @@ export class ChannelGroup extends ResourceModel<
   ): void {
     super.fromRaw(data);
 
-    if ("channels_count" in data) {
-      this.channelsCount = data.channels_count;
-    }
-    if ("share_all" in data) {
-      this.shareAll = data.share_all;
-    }
-    if ("share_org" in data) {
-      this.shareOrg = data.share_org;
-    }
     if ("channels" in data && data.channels) {
       this.channels = data.channels.map((c: ApiChannel | number | Channel) =>
         typeof c === "number" || "net" in c ? c : new Channel(c)

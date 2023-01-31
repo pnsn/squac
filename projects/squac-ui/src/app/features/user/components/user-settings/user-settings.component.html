@@ -18,7 +18,7 @@
     <p>Hello, {{ user.firstname }} {{ user.lastname }}!</p>
 
     <p>
-      Role: {{ user.orgAdmin ? "Admin" : "User" }} in the
+      Role: {{ user.isOrgAdmin ? "Admin" : "User" }} in the
       <a [routerLink]="['../organizations', user.orgId]"
         >{{ user.orgId | organization }}
       </a>

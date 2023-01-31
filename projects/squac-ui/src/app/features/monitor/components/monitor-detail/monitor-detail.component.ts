@@ -43,7 +43,7 @@ export class MonitorDetailComponent implements OnInit {
   alerts: Alert[];
   monitor: Monitor;
   widget: Widget;
-
+  selectedAlert: Alert;
   timeRange: number;
   // time picker config
   datePickerTimeRanges = DATE_PICKER_TIMERANGES;
@@ -151,7 +151,7 @@ export class MonitorDetailComponent implements OnInit {
           this.widgetManager.initWidget(this.widget);
           this.widgetManager.widgetConfig;
           this.starttime = this.dateService.format(
-            this.dateService.subtractFromNow(1, "day")
+            this.dateService.subtractFromNow(2, "day")
           );
           this.endtime = this.dateService.format(this.dateService.now());
 
@@ -205,7 +205,6 @@ export class MonitorDetailComponent implements OnInit {
       startDate = this.dateService.subtractFromNow(rangeInSeconds, "seconds");
       endDate = this.dateService.now();
     }
-    console.log(startDate, endDate);
     this.widgetManager.updateTimes(
       this.dateService.format(startDate),
       this.dateService.format(endDate)

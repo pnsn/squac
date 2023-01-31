@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { NUM_CHANNELS_OPERATORS, VALUE_OPERATORS } from "squacapi";
@@ -29,9 +29,12 @@ import {
 export class MonitorHistoryChartComponent extends EChartComponent {
   @Input() monitor: Monitor;
   @Input() alerts: Alert[];
+  @Input() selectedAlert: Alert;
+  @Output() selectedAlertChange: EventEmitter<Alert> = new EventEmitter();
   measurementPipe = new MeasurementPipe();
   error: boolean;
   dataRange: { min: number; max: number };
+  alertsSeriesName = "In Alarm";
   constructor(
     public loadingService: LoadingService,
     private dateService: DateService,
@@ -112,9 +115,9 @@ export class MonitorHistoryChartComponent extends EChartComponent {
       tooltip: {
         formatter: (params: TooltipComponentFormatterCallbackParams) => {
           if ("componentType" in params) {
-            if (params.seriesName === "Alerts") {
+            if (params.seriesName === this.alertsSeriesName) {
               return `${this.getOffsetStart(params[0])} ${
-                params.value[5]
+                params.value[4].breachingChannels?.length
               } breaching channels`;
             }
             return "";
@@ -127,6 +130,12 @@ export class MonitorHistoryChartComponent extends EChartComponent {
     this.options = this.widgetConfigService.chartOptions(chartOptions);
   }
 
+  override onChartEvent($event, type) {
+    if (type === "chartClick" && $event.seriesName === this.alertsSeriesName) {
+      this.selectedAlertChange.emit($event.value[4]);
+      console.log($event);
+    }
+  }
   /**
    * @override
    */
@@ -147,12 +156,30 @@ export class MonitorHistoryChartComponent extends EChartComponent {
         max: undefined,
       };
       this.metricSeries.yAxisLabels = [];
+      const alertSeries = {
+        type: "custom",
+        name: this.alertsSeriesName,
+        dataGroupId: "alert",
+        data: [],
+        itemStyle: {
+          color: "#808080",
+          opacity: 0.7,
+        },
+        markArea: {
+          data: [],
+        },
+        encode: {
+          x: [0, 1],
+          y: 2,
+        },
+        renderItem: this.renderItem,
+      };
       this.monitor.triggers.forEach((trigger) => {
         this.metricSeries.yAxisLabels.push(this.getTriggerLabel(trigger));
+        alertSeries.data.push(...this.addAlerts(trigger.id));
       });
 
       this.metricSeries.series = [];
-      const alertSeries = this.addAlerts();
       // const triggerSeries = this.addTriggers();
       // this.metricSeries.series.push(triggerSeries);
       this.metricSeries.series.push(alertSeries);
@@ -309,48 +336,28 @@ export class MonitorHistoryChartComponent extends EChartComponent {
    *
    * @returns alarm series
    */
-  addAlerts(): unknown {
-    const alertSeries = {
-      type: "custom",
-      name: "Alerts",
-      dataGroupId: "alert",
-      data: [],
-      itemStyle: {
-        color: "#808080",
-        opacity: 0.7,
-      },
-      markArea: {
-        data: [],
-      },
-      encode: {
-        x: [0, 1],
-        y: 2,
-      },
-      renderItem: this.renderItem,
-    };
-
-    this.alerts?.forEach((alert) => {
-      if (alert.inAlarm) {
-        const start = this.dateService.parseUtc(alert.timestamp);
-        const index = this.getTriggerIndex(alert.triggerId);
-        const breachingChannels = alert.breachingChannels.length;
-        alertSeries.data.push({
-          name: alert.triggerId,
-          value: [
-            start.toDate(),
-            start
-              .add(this.monitor.intervalCount, this.monitor.intervalType)
-              .toDate(),
-            "In Alarm",
-            index,
-            alert.id,
-            breachingChannels,
-          ],
-        });
-      }
-    });
-    // console.log(triggerSeries);
-    return alertSeries;
+  addAlerts(triggerId: number): any[] {
+    const seriesData = [];
+    this.alerts
+      ?.filter((a) => a.triggerId === triggerId)
+      .forEach((alert) => {
+        if (alert.inAlarm) {
+          const start = this.dateService.parseUtc(alert.timestamp);
+          const index = this.getTriggerIndex(alert.triggerId);
+          const breachingChannels = alert.breachingChannels.length;
+          seriesData.push({
+            name: alert.triggerId,
+            value: [
+              start.toDate(),
+              start.add(1, "hour").toDate(),
+              breachingChannels,
+              index,
+              alert,
+            ],
+          });
+        }
+      });
+    return seriesData;
   }
 
   getTriggerLabel(trigger: Trigger): string {

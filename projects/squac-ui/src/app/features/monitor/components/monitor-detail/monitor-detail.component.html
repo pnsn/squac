@@ -4,8 +4,6 @@
 <p>{{ monitor.metricName }}</p>
 <p>{{ monitor.stat }}</p>
 <p>{{ monitor.channelGroupName }}</p>
-
-{{ starttime }} {{ endtime }}
 <p>alarms evaluated on the 5</p>
 <shared-date-select
   [secondsAgoFromNow]="timeRange"
@@ -22,10 +20,14 @@
     #monitorChart
     [monitor]="monitor"
     [alerts]="alerts"
+    [(selectedAlert)]="selectedAlert"
   ></monitor-history-chart>
 </div>
 
-<shared-table-view
+<div *ngIf="selectedAlert">
+  {{ selectedAlert.breachingChannels?.length }}
+</div>
+<!-- <shared-table-view
   title="Alerts"
   [isLoading]="loadingService.isLoading(this)"
   [options]="options"
@@ -34,4 +36,4 @@
   (refresh)="refresh()"
   [rows]="alerts"
 >
-</shared-table-view>
+</shared-table-view> -->

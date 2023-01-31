@@ -105,7 +105,7 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
         tap(() => {
           this.isAdmin =
             this.user.isStaff ||
-            (this.user.orgAdmin && this.user.orgId === this.organization.id);
+            (this.user.isOrgAdmin && this.user.orgId === this.organization.id);
 
           if (this.isAdmin) {
             this.controls.menu = {

@@ -84,8 +84,6 @@ export class Dashboard extends ResourceModel<
   ): void {
     super.fromRaw(data);
     if ("channel_group" in data) {
-      this.shareAll = data.share_all;
-      this.shareOrg = data.share_org;
       this.channelGroupId = data.channel_group;
     }
   }

@@ -25,14 +25,7 @@ export class MatchingRule extends ResourceModel<
   override fromRaw(data: ReadOnlyMatchingRuleSerializer | MatchingRule): void {
     super.fromRaw(data);
     if ("group" in data) {
-      Object.assign(this, {
-        channelGroupId: data.group,
-        isInclude: data.is_include,
-        channelRegex: data.channel_regex,
-        networkRegex: data.network_regex,
-        locationRegex: data.location_regex,
-        stationRegex: data.station_regex,
-      });
+      this.channelGroupId = data.group;
     }
   }
 

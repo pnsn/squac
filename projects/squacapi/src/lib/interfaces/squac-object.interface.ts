@@ -1,3 +1,5 @@
+import { camelCase } from "../utils/utils";
+
 export interface BaseModel {
   id?: number;
   user?: number;
@@ -63,7 +65,10 @@ export abstract class ReadOnlyResourceModel<R> extends BaseModel {
    * @param data raw data
    */
   override fromRaw(data: R | Partial<ReadOnlyResourceModel<R>>): void {
-    Object.assign(this, data);
+    Object.keys(data).forEach((key) => {
+      const camelcasedKey = camelCase(key);
+      this[camelcasedKey] = data[key];
+    });
   }
 
   constructor(model?: Partial<R> | Partial<ReadOnlyResourceModel<R>>) {

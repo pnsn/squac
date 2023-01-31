@@ -43,9 +43,12 @@ export class Alert extends ReadOnlyResourceModel<
   /** @override */
   override fromRaw(data: ReadOnlyAlertDetailSerializer | Alert): void {
     super.fromRaw(data);
+
     let breachingChannels: BreachingChannel[] = [];
 
     if ("breaching_channels" in data) {
+      this.triggerId = data.trigger;
+      this.monitorId = +data.monitor;
       if (typeof data.breaching_channels === "string") {
         try {
           breachingChannels = JSON.parse(
@@ -56,15 +59,6 @@ export class Alert extends ReadOnlyResourceModel<
         }
       }
       this.breachingChannels = breachingChannels;
-      Object.assign(this, {
-        inAlarm: data.in_alarm,
-        triggerId: data.trigger,
-        monitorId: data.monitor,
-        monitorName: data.monitor_name,
-        valueOperator: data.value_operator,
-        numChannels: data.num_channels,
-        numChannelsOperator: data.num_channels_operator,
-      });
     }
   }
 }

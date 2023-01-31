@@ -108,7 +108,7 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
       firstname: values.firstname,
       lastname: values.lastname,
       organization: this.orgId,
-      orgAdmin: values.isAdmin,
+      isOrgAdmin: values.isAdmin,
       groups: values.groups,
       isActive: this.userIsActive,
     });
