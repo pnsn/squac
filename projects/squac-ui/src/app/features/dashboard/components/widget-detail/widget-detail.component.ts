@@ -73,7 +73,7 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
           const channels = this.viewService.channels.getValue();
 
           this.widgetManager.updateStat(
-            this.widget.stat || this.viewService.archiveStat,
+            this.viewService.archiveStat || this.widget.stat,
             this.viewService.archiveType
           );
           this.widgetManager.updateTimes(

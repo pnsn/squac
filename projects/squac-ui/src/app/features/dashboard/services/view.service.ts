@@ -394,6 +394,9 @@ export class ViewService {
   setArchive(archiveType: ArchiveType, archiveStat: ArchiveStatType): void {
     this._dashboard.properties.archiveStat = archiveStat;
     this._dashboard.properties.archiveType = archiveType;
+    if (archiveType === "raw") {
+      this._dashboard.properties.archiveStat = null;
+    }
     this.hasUnsavedChanges = true;
   }
 

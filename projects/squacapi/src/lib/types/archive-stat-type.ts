@@ -3,7 +3,6 @@
  */
 export const ArchiveStatType = [
   "mean",
-  "latest",
   "num_samps",
   "median",
   "min",
