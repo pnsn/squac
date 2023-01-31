@@ -14,13 +14,15 @@ import {
 export type MeasurementTransformTypes =
   | "avg"
   | "ave"
+  | "mean"
   | "med"
+  | "median"
   | "min"
   | "max"
   | "count"
   | "num_samps"
   | "sum"
-  | "p99"
+  | "p95"
   | "p90"
   | "p10"
   | "p05"
@@ -54,7 +56,13 @@ export class MeasurementPipe implements PipeTransform {
         case "ave":
           return average(values);
 
+        case "mean":
+          return average(values);
+
         case "med":
+          return median(values);
+
+        case "median":
           return median(values);
 
         case "min":
@@ -72,8 +80,8 @@ export class MeasurementPipe implements PipeTransform {
         case "sum":
           return sum(values);
 
-        case "p99":
-          return percentile(values, 99);
+        case "p95":
+          return percentile(values, 95);
 
         case "p90":
           return percentile(values, 90);

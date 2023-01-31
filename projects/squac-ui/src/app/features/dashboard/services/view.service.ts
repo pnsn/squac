@@ -148,7 +148,6 @@ export class ViewService {
 
     // set dashboard
     this._dashboard = dashboard;
-    console.log(this._dashboard.properties);
     // set dates
     this.setInitialDates();
   }

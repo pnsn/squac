@@ -26,6 +26,7 @@ import {
 import { GenericWidgetComponent } from "../../shared/components";
 import { ChannelRow, RowMetrics, StationRow } from "./types";
 import { ChannelComparator, MetricComparator } from "./utils";
+import { MeasurementPipe } from "squacapi";
 
 /**
  * Table based widget
@@ -54,6 +55,7 @@ export class TabularComponent
   rows = [];
   columns = [];
   selectedRow = [];
+  measurementPipe = new MeasurementPipe();
 
   messages = {
     // Message to show when array is presented
@@ -236,7 +238,10 @@ export class TabularComponent
 
           if (data.get(channel.id)) {
             const rowData = data.get(channel.id).get(metric.id);
-            val = rowData && rowData[0] ? rowData[0].value : null;
+            val = this.measurementPipe.transform(
+              rowData,
+              this.widgetManager.stat
+            );
           }
 
           const visualMap = this.visualMaps[metric.id];

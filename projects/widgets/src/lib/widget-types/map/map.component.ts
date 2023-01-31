@@ -23,7 +23,7 @@ import {
 } from "../../interfaces";
 import { GenericWidgetComponent } from "../../shared/components";
 import { ChannelRow, StationChannels, StationRow } from "./types";
-import { MeasurementTypes, Metric } from "squacapi";
+import { MeasurementPipe, MeasurementTypes, Metric } from "squacapi";
 
 /**
  * Leaflet map widget
@@ -54,6 +54,7 @@ export class MapComponent
   displayMap: VisualMapTypes;
   legend: L.Control;
   stations: StationRow[];
+  measurementPipe = new MeasurementPipe();
 
   isPiecewise = isPiecewise;
   isStoplight = isStoplight;
@@ -252,7 +253,10 @@ export class MapComponent
               const rowData: MeasurementTypes[] = data
                 .get(channel.id)
                 .get(metric.id);
-              val = rowData && rowData[0] ? rowData[0].value : val;
+              val = this.measurementPipe.transform(
+                rowData,
+                this.widgetManager.stat
+              );
             }
 
             const visualMap = this.visualMaps[metric.id];

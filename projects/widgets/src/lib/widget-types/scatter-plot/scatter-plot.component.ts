@@ -121,7 +121,8 @@ export class ScatterPlotComponent
         this.selectedMetrics,
         this.channels,
         data,
-        metricSeries
+        metricSeries,
+        this.widgetManager.stat
       );
       resolve();
     });

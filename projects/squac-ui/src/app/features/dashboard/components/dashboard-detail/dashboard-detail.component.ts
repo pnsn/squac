@@ -68,7 +68,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
                 this.dashboard = this.viewService.dashboard;
                 this.archiveStat = this.viewService.archiveStat;
                 this.archiveType = this.viewService.archiveType;
-                console.log(this.archiveStat, this.archiveType);
                 this.timeRange = this.viewService.range;
                 this.startTime = this.viewService.startTime;
                 this.endTime = this.viewService.endTime;

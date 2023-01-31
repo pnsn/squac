@@ -5,7 +5,6 @@ export const ARCHIVE_STAT_OPTIONS: {
   [key in ArchiveStatType]: string;
 } = {
   mean: "mean",
-  latest: "latest",
   num_samps: "# samples",
   median: "median",
   min: "min",
