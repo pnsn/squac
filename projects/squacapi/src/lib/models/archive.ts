@@ -16,6 +16,10 @@ export interface Archive {
   median: number;
   stdev: number;
   num_samps: number;
+  p05: number;
+  p10: number;
+  p90: number;
+  p95: number;
   minabs: number;
   maxabs: number;
   starttime: string;

@@ -10,24 +10,7 @@
 >
   <ng-container tableBody>
     <ng-template let-row="row" #stateTemplate>
-      <a
-        *ngIf="row.inAlarm"
-        mat-icon-button
-        color="accent"
-        aria-label="monitor in alarm"
-      >
-        <mat-icon>error_outline</mat-icon>
-      </a>
-      <a
-        *ngIf="!row.inAlarm"
-        mat-icon-button
-        color="primary"
-        aria-label="
-                monitor not in alarm
-              "
-      >
-        <mat-icon>check_circle_outline</mat-icon>
-      </a>
+      <monitor-alarm-status [inAlarm]="row.inAlarm"></monitor-alarm-status>
     </ng-template>
     <ng-template let-row="row" #updateTemplate>
       <div>
@@ -38,19 +21,28 @@
       </div>
     </ng-template>
     <ng-template
+      #monitorTemplate
+      let-row="row"
+      let-value="value"
+      ngx-datatable-cell-template
+    >
+      <a [routerLink]="['/monitors', row.monitorId]">{{ value }}</a>
+    </ng-template>
+    <ng-template
       #triggerTemplate
       let-value="value"
       let-row="row"
       ngx-datatable-cell-template
     >
       values for
-      <span *ngIf="value.numChannelsOperator !== '=='">
-        {{ value.numChannelsOperator }}
+      <span *ngIf="row.numChannelsOperator !== '=='">
+        {{ row.numChannelsOperator }}
       </span>
-      {{ value.numChannels }} channel(s) in
-      {{ row.monitor.channelGroup.name }} are {{ value.valueOperator }}
-      {{ value.val1 }}
-      <span *ngIf="value.val2"> and {{ value.val2 }} </span>
+      {{ row.numChannels }} channel(s) in are {{ row.valueOperator }}
+      {{ row.val1 }}
+      <span *ngIf="row.val2 !== null && row.val2 !== undefined">
+        and {{ row.val2 }}
+      </span>
     </ng-template>
     <ng-template
       #channelsTemplate
@@ -58,14 +50,7 @@
       let-row="row"
       ngx-datatable-cell-template
     >
-      <ul>
-        <li *ngFor="let chan of value">
-          <span>
-            {{ chan.channel }}
-            {{ row.monitor.stat }}: {{ chan[row.monitor.stat] }}
-          </span>
-        </li>
-      </ul>
+      {{ value.length }}
     </ng-template>
   </ng-container>
 </shared-table-view>

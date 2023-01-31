@@ -89,11 +89,11 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild("triggerTemplate") public triggerTemplate: TemplateRef<any>;
   @ViewChild("updateTemplate") public updateTemplate: TemplateRef<any>;
   @ViewChild("channelsTemplate") public channelsTemplate: TemplateRef<any>;
+  @ViewChild("monitorTemplate") public monitorTemplate: TemplateRef<any>;
 
   constructor(
     private alertService: AlertService,
     private route: ActivatedRoute,
-    private monitorService: MonitorService,
     private dateService: DateService,
     public loadingService: LoadingService
   ) {}
@@ -126,19 +126,14 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           name: "Time",
           prop: "",
-
           canAutoResize: false,
           cellTemplate: this.updateTemplate,
         },
         {
           name: "Monitor",
-          canAutoResize: false,
+          prop: "monitorName",
           width: 150,
-          pipe: {
-            transform: (monitor): string => {
-              return monitor.name;
-            },
-          },
+          cellTemplate: this.monitorTemplate,
         },
         {
           name: "Trigger",
@@ -150,7 +145,8 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
           name: "Breaching Channels",
           prop: "breachingChannels",
           sortable: false,
-          width: 50,
+          width: 150,
+          canAutoResize: false,
           cellTemplate: this.channelsTemplate,
         },
       ];
@@ -166,13 +162,9 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
   fetchData(refresh?: boolean): Observable<any> {
     const lastDay = this.dateService.subtractFromNow(1, "day").format();
     return this.loadingService.doLoading(
-      forkJoin({
-        alerts: this.alertService.list({ timestampGte: lastDay }, refresh),
-        monitors: this.monitorService.list({}, refresh),
-      }).pipe(
-        tap((results: any) => {
-          this.monitors = results.monitors;
-          this.alerts = results.alerts;
+      this.alertService.list({ timestampGte: lastDay }, refresh).pipe(
+        tap((alerts: Alert[]) => {
+          this.alerts = alerts;
           this.rows = [...this.alerts];
         }),
         catchError(() => {

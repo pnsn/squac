@@ -25,17 +25,13 @@
   ></monitor-history-chart>
 </div>
 
-<p *ngFor="let trigger of monitor.triggers">
-  {{ trigger.valueOperator }}
-  {{ trigger.val1 }} {{ trigger.val2 }}
-</p>
-<div>channels in/out go ehre</div>
-<div>alerts go here</div>
-<div>history goes here</div>
-<div>{{ monitor.triggers?.length }}</div>
-
-<div>
-  <div *ngFor="let alert of alerts">
-    <p>{{ alert.id }}</p>
-  </div>
-</div>
+<shared-table-view
+  title="Alerts"
+  [isLoading]="loadingService.isLoading(this)"
+  [options]="options"
+  [columns]="columns"
+  [controls]="controls"
+  (refresh)="refresh()"
+  [rows]="alerts"
+>
+</shared-table-view>

@@ -3,6 +3,11 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { DATE_PICKER_TIMERANGES } from "@dashboard/components/dashboard-detail/dashboard-time-ranges";
+import {
+  TableControls,
+  TableFilters,
+  TableOptions,
+} from "@shared/components/table-view/interfaces";
 import { forkJoin, Observable, Subscription, switchMap, tap } from "rxjs";
 import {
   Alert,
@@ -45,6 +50,24 @@ export class MonitorDetailComponent implements OnInit {
   starttime: string;
   endtime: string;
   subscriptions = new Subscription();
+
+  controls: TableControls = {
+    listenToRouter: true,
+    resource: "Monitor",
+    add: {
+      text: "Add Monitor",
+      path: "/monitors",
+    },
+    links: [{ text: "View All Monitors", path: "/monitors" }],
+  };
+
+  options: TableOptions = {
+    messages: {
+      emptyMessage: "No alerts found.",
+    },
+    footerLabel: "Alerts",
+  };
+  columns = [];
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -64,6 +87,13 @@ export class MonitorDetailComponent implements OnInit {
    * subscribes to route params
    */
   ngOnInit(): void {
+    this.columns = [
+      { name: "Monitor", prop: "monitorName" },
+      {
+        name: "Status",
+        prop: "inAlarm",
+      },
+    ];
     let data: ProcessedData;
     // get channel group info from route
 
@@ -152,6 +182,7 @@ export class MonitorDetailComponent implements OnInit {
     });
   }
 
+  refresh() {}
   /**
    * Requests new data
    */

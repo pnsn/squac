@@ -65,13 +65,13 @@
 
     <div class="row space-between">
       <shared-search-filter
-        *ngIf="filters.searchField"
+        *ngIf="filters && filters.searchField"
         [config]="filters.searchField"
         [rows]="rows"
         (filterChanged)="searchFieldChanged($event)"
       >
       </shared-search-filter>
-      <div *ngIf="filters.toggleShared">
+      <div *ngIf="filters && filters.toggleShared">
         <mat-button-toggle-group
           class="dense-button-toggle"
           name="sharing"
