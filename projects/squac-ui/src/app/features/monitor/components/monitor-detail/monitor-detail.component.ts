@@ -137,7 +137,8 @@ export class MonitorDetailComponent implements OnInit {
                 this.monitor.channelGroupId
               ),
               metric: this.metricService.read(this.monitor.metricId),
-            })
+            }),
+            this
           );
         })
       )

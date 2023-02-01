@@ -17,6 +17,7 @@ import {
   WidgetConfigService,
   WidgetManagerService,
 } from "widgets";
+import { tooltip } from "leaflet";
 
 /**
  * Component for viewing single monitor
@@ -80,6 +81,9 @@ export class MonitorHistoryChartComponent extends EChartComponent {
         axisLine: {
           show: true,
         },
+        splitLine: {
+          show: true,
+        },
       },
       yAxis: {
         type: "category",
@@ -90,9 +94,16 @@ export class MonitorHistoryChartComponent extends EChartComponent {
         orient: "vertical",
         right: 0,
       },
+      visualMap: {
+        ...this.widgetConfigService.continuousDefaults,
+        dimension: 2,
+        text: ["Channels", ""],
+        top: 15,
+        precision: 0,
+      },
       grid: {
         containLabel: true,
-        top: 5,
+        top: 10,
         right: 8,
         bottom: 38,
         left: 25,
@@ -116,9 +127,10 @@ export class MonitorHistoryChartComponent extends EChartComponent {
         formatter: (params: TooltipComponentFormatterCallbackParams) => {
           if ("componentType" in params) {
             if (params.seriesName === this.alertsSeriesName) {
-              return `${this.getOffsetStart(params[0])} ${
+              const tooltipstr = `${this.getOffsetStart(params.value[0])} ${
                 params.value[4].breachingChannels?.length
               } breaching channels`;
+              return tooltipstr;
             }
             return "";
           }
@@ -169,13 +181,14 @@ export class MonitorHistoryChartComponent extends EChartComponent {
         },
         encode: {
           x: [0, 1],
-          y: 2,
+          y: 3,
         },
         renderItem: this.renderItem,
       };
-      this.monitor.triggers.forEach((trigger) => {
+      console.log(this.channels.length);
+      this.monitor.triggers.forEach((trigger: Trigger, i: number) => {
         this.metricSeries.yAxisLabels.push(this.getTriggerLabel(trigger));
-        alertSeries.data.push(...this.addAlerts(trigger.id));
+        alertSeries.data.push(...this.addAlerts(trigger.id, i));
       });
 
       this.metricSeries.series = [];
@@ -335,14 +348,13 @@ export class MonitorHistoryChartComponent extends EChartComponent {
    *
    * @returns alarm series
    */
-  addAlerts(triggerId: number): any[] {
+  addAlerts(triggerId: number, triggerIndex: number): any[] {
     const seriesData = [];
     this.alerts
       ?.filter((a) => a.triggerId === triggerId)
       .forEach((alert) => {
         if (alert.inAlarm) {
           const start = this.dateService.parseUtc(alert.timestamp);
-          const index = this.getTriggerIndex(alert.triggerId);
           const breachingChannels = alert.breachingChannels.length;
           seriesData.push({
             name: alert.triggerId,
@@ -350,7 +362,7 @@ export class MonitorHistoryChartComponent extends EChartComponent {
               start.toDate(),
               start.add(1, "hour").toDate(),
               breachingChannels,
-              index,
+              triggerIndex,
               alert,
             ],
           });
@@ -381,6 +393,10 @@ export class MonitorHistoryChartComponent extends EChartComponent {
       },
       yAxis: {
         data: this.metricSeries.yAxisLabels,
+      },
+      visualMap: {
+        min: 0,
+        max: this.channels.length,
       },
     };
     if (this.echartsInstance) {

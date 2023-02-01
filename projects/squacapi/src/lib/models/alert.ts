@@ -44,9 +44,8 @@ export class Alert extends ReadOnlyResourceModel<
   override fromRaw(data: ReadOnlyAlertDetailSerializer | Alert): void {
     super.fromRaw(data);
 
-    let breachingChannels: BreachingChannel[] = [];
-
     if ("breaching_channels" in data) {
+      let breachingChannels: BreachingChannel[] = [];
       this.triggerId = data.trigger;
       this.monitorId = +data.monitor;
       if (typeof data.breaching_channels === "string") {
