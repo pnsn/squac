@@ -57,6 +57,7 @@
           ><a [routerLink]="['/channel-groups', monitor.channelGroupId]">
             {{ monitor.channelGroupName }}</a
           >
+          ({{ channelGroup?.channels.length }} channels)
         </p>
         <p>
           <strong>Interval: </strong> {{ monitor.intervalCount }}
@@ -72,7 +73,12 @@
           (datesChanged)="datesChanged($event)"
         >
         </shared-date-select>
-        <button mat-raised-button color="accent" (click)="update()">
+        <button
+          mat-raised-button
+          color="accent"
+          (click)="update()"
+          [disabled]="!this.unsavedChanges"
+        >
           Update
         </button>
       </div>
@@ -95,7 +101,8 @@
   </div>
   <div *ngIf="selectedAlert as alert" id="alert-detail">
     <h3>Alert</h3>
-    <strong>Evaluated at: </strong>{{ alert.timestamp }}
+    <strong>{{ alert.inAlarm ? "In Alarm" : "Out of Alarm" }} at: </strong
+    >{{ alert.timestamp }}
     <table>
       <thead>
         <td>Channel</td>
@@ -113,14 +120,3 @@
 <ng-template #noAlerts>
   <div>No alerts found in this time range.</div>
 </ng-template>
-
-<!-- <shared-table-view
-  title="Alerts"
-  [isLoading]="loadingService.isLoading(this)"
-  [options]="options"
-  [columns]="columns"
-  [controls]="controls"
-  (refresh)="refresh()"
-  [rows]="alerts"
->
-</shared-table-view> -->

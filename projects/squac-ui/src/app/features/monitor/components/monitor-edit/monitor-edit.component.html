@@ -36,8 +36,11 @@
               <mat-form-field class="xsmall">
                 <mat-label>statistic</mat-label>
                 <mat-select formControlName="stat" name="stat">
-                  <mat-option *ngFor="let stat of stats" [value]="stat.value">
-                    {{ stat.name }}
+                  <mat-option
+                    *ngFor="let stat of MONITOR_STATS | keyvalue"
+                    [value]="stat.key"
+                  >
+                    {{ stat.value }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -69,10 +72,10 @@
                       name="valueOperator"
                     >
                       <mat-option
-                        *ngFor="let o of valueOperators"
-                        [value]="o.value"
+                        *ngFor="let o of VALUE_OPERATORS | keyvalue"
+                        [value]="o.key"
                       >
-                        {{ o.name }}
+                        {{ o.value }}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -106,10 +109,10 @@
                       name="numChannelsOperator"
                     >
                       <mat-option
-                        *ngFor="let n of numChannelsOperators"
-                        [value]="n.value"
+                        *ngFor="let n of NUM_CHANNELS_OPERATORS | keyvalue"
+                        [value]="n.key"
                       >
-                        {{ n.name }}
+                        {{ n.value }}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -160,7 +163,10 @@
               <mat-form-field class="xsmall">
                 <mat-label for="IntervalType">interval</mat-label>
                 <mat-select formControlName="intervalType" name="intervalType">
-                  <mat-option *ngFor="let type of intervalTypes" [value]="type">
+                  <mat-option
+                    *ngFor="let type of INTERVAL_TYPES"
+                    [value]="type"
+                  >
                     {{ type
                     }}{{ monitorForm.value.intervalCount > 1 ? "s" : "" }}
                   </mat-option>
@@ -207,10 +213,10 @@
                           name="valueOperator"
                         >
                           <mat-option
-                            *ngFor="let o of valueOperators"
-                            [value]="o.value"
+                            *ngFor="let o of VALUE_OPERATORS | keyvalue"
+                            [value]="o.key"
                           >
-                            {{ o.name }}
+                            {{ o.value }}
                           </mat-option>
                         </mat-select>
                         <mat-error
@@ -257,10 +263,10 @@
                           name="numChannelsOperator"
                         >
                           <mat-option
-                            *ngFor="let n of numChannelsOperators"
-                            [value]="n.value"
+                            *ngFor="let n of NUM_CHANNELS_OPERATORS | keyvalue"
+                            [value]="n.key"
                           >
-                            {{ n.name }}
+                            {{ n.value }}
                           </mat-option>
                         </mat-select>
                         <mat-error

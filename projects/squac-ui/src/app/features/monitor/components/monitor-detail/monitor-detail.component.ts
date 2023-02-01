@@ -15,6 +15,7 @@ import {
   Alert,
   AlertService,
   Channel,
+  ChannelGroup,
   ChannelGroupService,
   MetricService,
   Monitor,
@@ -47,11 +48,13 @@ export class MonitorDetailComponent implements OnInit {
   widget: Widget;
   selectedAlert: Alert;
   timeRange: number;
+  channelGroup: ChannelGroup;
   // time picker config
   datePickerTimeRanges = DATE_PICKER_TIMERANGES;
   starttime: string;
   endtime: string;
   subscriptions = new Subscription();
+  unsavedChanges = false;
 
   controls: TableControls = {
     listenToRouter: true,
@@ -98,32 +101,7 @@ export class MonitorDetailComponent implements OnInit {
         prop: "inAlarm",
       },
     ];
-    let data: ProcessedData;
-    // get channel group info from route
 
-    // listen to data changes
-    const dataSub = this.widgetDataService.data$
-      .pipe(
-        switchMap((processedData: ProcessedData | WidgetErrors) => {
-          //check if data is a map and has data
-          if (processedData instanceof Map) {
-            // this.addWidget(this.widgetManager.widgetType);
-            this.widgetConfigService.thresholds = this.widgetManager.thresholds;
-            this.widgetConfigService.dataRange =
-              this.widgetDataService.dataRange;
-            data = processedData;
-          }
-
-          return this.getAlerts();
-        })
-      )
-      .subscribe({
-        next: (alerts: Alert[]) => {
-          this.alerts = alerts;
-          this.changeDetector.detectChanges();
-          this.monitorChart.updateData(data);
-        },
-      });
     const chanSub = this.route.data
       .pipe(
         tap(() => {
@@ -161,17 +139,18 @@ export class MonitorDetailComponent implements OnInit {
           this.endtime = this.dateService.format(this.dateService.now());
 
           this.widgetManager.updateTimes(this.starttime, this.endtime);
+          this.widgetManager.updateMetrics(this.widget.metrics);
+          this.channelGroup = results.channelGroup;
           this.widgetManager.updateChannels(
             this.monitor.channelGroupId,
             results.channelGroup.channels as Channel[]
           );
 
           this.widgetManager.updateWidgetType(WidgetType.TIMESERIES);
-          this.widgetManager.updateMetrics(this.widget.metrics);
+          this.update();
         },
       });
     this.subscriptions.add(chanSub);
-    this.subscriptions.add(dataSub);
   }
 
   /**
@@ -192,7 +171,15 @@ export class MonitorDetailComponent implements OnInit {
    * Requests new data
    */
   update(): void {
-    this.widgetManager.fetchData();
+    this.getAlerts().subscribe({
+      next: (alerts: Alert[]) => {
+        this.unsavedChanges = false;
+        this.alerts = alerts;
+        this.changeDetector.detectChanges();
+
+        this.monitorChart?.updateData();
+      },
+    });
   }
 
   /**
@@ -269,5 +256,6 @@ export class MonitorDetailComponent implements OnInit {
       this.dateService.format(startDate),
       this.dateService.format(endDate)
     );
+    this.unsavedChanges = true;
   }
 }

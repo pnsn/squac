@@ -16,7 +16,6 @@ export interface BreachingChannel {
 
 export interface Alert {
   timestamp: string;
-  message: string;
   inAlarm: boolean;
   breachingChannels: BreachingChannel[];
   triggerId: number;
@@ -56,6 +55,8 @@ export class Alert extends ReadOnlyResourceModel<
         } catch (e) {
           breachingChannels = [];
         }
+      } else if (Array.isArray(data.breaching_channels)) {
+        breachingChannels = data.breaching_channels as BreachingChannel[];
       }
       this.breachingChannels = breachingChannels;
     }

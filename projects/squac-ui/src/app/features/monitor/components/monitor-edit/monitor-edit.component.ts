@@ -7,7 +7,13 @@ import {
   Validators,
 } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { ChannelGroup } from "squacapi";
+import {
+  ChannelGroup,
+  INTERVAL_TYPES,
+  MONITOR_STATS,
+  NUM_CHANNELS_OPERATORS,
+  VALUE_OPERATORS,
+} from "squacapi";
 import { Metric } from "squacapi";
 import { MessageService } from "@core/services/message.service";
 import { Monitor } from "squacapi";
@@ -46,31 +52,10 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   floatLabel = "always";
   removeTriggerIDs = [];
 
-  // form options
-  intervalTypes: string[] = ["minute", "hour", "day"];
-  stats: any[] = [
-    { value: "count", name: "count" },
-    { value: "sum", name: "sum" },
-    { value: "avg", name: "average" },
-    { value: "min", name: "minimum" },
-    { value: "max", name: "maximum" },
-  ];
-  valueOperators: any[] = [
-    { value: "outsideof", name: "outside of" },
-    { value: "within", name: "within" },
-    { value: "==", name: "equal to" },
-    { value: "<", name: "less than" },
-    { value: "<=", name: "less than or equal to" },
-    { value: ">", name: "greater than" },
-    { value: ">=", name: "greater than or equal to" },
-  ];
-  numChannelsOperators: any[] = [
-    { value: "any", name: "any" },
-    { value: "all", name: "all" },
-    { value: "==", name: "exactly" },
-    { value: ">", name: "more than" },
-    { value: "<", name: "less than" },
-  ];
+  INTERVAL_TYPES = INTERVAL_TYPES;
+  MONITOR_STATS = MONITOR_STATS;
+  VALUE_OPERATORS = VALUE_OPERATORS;
+  NUM_CHANNELS_OPERATORS = NUM_CHANNELS_OPERATORS;
 
   selectedChannelGroup: ChannelGroup;
   selectedMetric: Metric;
@@ -230,7 +215,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
           });
           return merge(
             ...this.triggerService.updateOrDelete(
-              this.triggers.value,
+              this.triggers.value as Trigger[],
               this.removeTriggerIDs
             )
           );
@@ -241,7 +226,8 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
           this.messageService.message("Monitor saved.");
           this.cancel();
         },
-        error: () => {
+        error: (e) => {
+          console.log(e);
           this.messageService.error("Could not save monitor.");
         },
       });

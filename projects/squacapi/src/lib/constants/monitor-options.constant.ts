@@ -4,7 +4,7 @@ import {
 } from "@pnsn/ngx-squacapi-client";
 
 export const INTERVAL_TYPES: ReadOnlyMonitorDetailSerializer.IntervalTypeEnum[] =
-  ["minute", "hour", "day"];
+  ["minute", "hour", "day", "last n"];
 
 export const MONITOR_STATS: {
   [key in ReadOnlyMonitorDetailSerializer.StatEnum]: string;

@@ -157,8 +157,14 @@ export abstract class BaseWriteableApiService<
       const params = { id: t.id, data };
       return this.writeHttpRequest("Update", mapId, params);
     }
+    let data;
+    try {
+      data = t.toJson();
+    } catch {
+      data = this.deserialize(t).toJson();
+    }
     const params = {
-      data: t.toJson(),
+      data,
     };
     return this.writeHttpRequest("Create", mapId, params);
   }

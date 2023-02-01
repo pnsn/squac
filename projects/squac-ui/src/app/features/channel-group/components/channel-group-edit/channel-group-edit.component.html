@@ -13,7 +13,6 @@
           mat-icon-button
           *ngIf="editMode"
           color="warn"
-          class="add-btn"
           (click)="onDelete()"
           matTooltip="Delete channel group"
           aria-label="Button that deletes the channel group"
@@ -24,7 +23,6 @@
           *ngIf="'update' | able: channelGroup"
           mat-flat-button
           color="accent"
-          class="add-btn"
           (click)="save()"
           [disabled]="
             !channelGroupForm.valid ||
@@ -41,7 +39,6 @@
           *ngIf="'create' | able: 'ChannelGroup'"
           mat-flat-button
           color="accent"
-          class="add-btn"
           (click)="save()"
           [disabled]="
             !channelGroupForm.valid ||
