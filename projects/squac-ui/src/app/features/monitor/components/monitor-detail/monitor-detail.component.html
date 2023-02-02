@@ -84,37 +84,46 @@
       </div>
     </div>
   </div>
-
-  <div
-    id="monitor-history-chart-container"
-    [appIsLoading]="loadingService.isLoading(this)"
-  >
-    <h3>Alert History</h3>
-    <p class="help-text">click on an alert to view details</p>
-    <monitor-history-chart
+  <div class="chart-container" [appIsLoading]="loadingService.isLoading(this)">
+    <h3>Breaching Channel History</h3>
+    <p class="help-text">
+      Channels shown are only those that are considered "breaching". Values
+      shown are the calculated values used to evaluate if a monitor is in alarm,
+      not raw measurements at that time.
+    </p>
+    <monitor-channel-history-chart
       *ngIf="alerts?.length > 0; else noAlerts"
-      #monitorChart
+      #channelChart
       [monitor]="monitor"
       [alerts]="alerts"
       [(selectedAlert)]="selectedAlert"
-    ></monitor-history-chart>
+    ></monitor-channel-history-chart>
+  </div>
+  <div class="chart-container" [appIsLoading]="loadingService.isLoading(this)">
+    <h3>Alert History</h3>
+    <p class="help-text">click on an alert to view details</p>
+    <div id="monitor-history-chart-container">
+      <monitor-history-chart
+        *ngIf="alerts?.length > 0; else noAlerts"
+        #monitorChart
+        [monitor]="monitor"
+        [alerts]="alerts"
+        [(selectedAlert)]="selectedAlert"
+      ></monitor-history-chart>
+    </div>
   </div>
   <div *ngIf="selectedAlert as alert" id="alert-detail">
-    <h3>Alert</h3>
+    <h3>Alert Detail</h3>
     <strong>{{ alert.inAlarm ? "In Alarm" : "Out of Alarm" }} at: </strong
     >{{ alert.timestamp }}
-    <table>
-      <thead>
-        <td>Channel</td>
-        <td>{{ this.monitor.stat }}</td>
-      </thead>
-      <tbody>
-        <tr *ngFor="let channel of alert.breachingChannels">
-          <td>{{ channel.channel }}</td>
-          <td>{{ channel[this.monitor.stat] }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <ngx-datatable
+      class="material lt-gray-border"
+      [rowHeight]="23"
+      [scrollbarV]="true"
+      [columns]="columns"
+      [rows]="alert.breachingChannels"
+    >
+    </ngx-datatable>
   </div>
 </div>
 <ng-template #noAlerts>

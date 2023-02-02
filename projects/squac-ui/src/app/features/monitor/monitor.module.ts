@@ -13,6 +13,7 @@ import { MonitorHistoryChartComponent } from "./components/monitor-detail/monito
 import { WidgetsModule } from "widgets";
 import { NgxEchartsModule } from "ngx-echarts";
 import { MonitorAlarmStatusComponent } from "./components/monitor-alarm-status/monitor-alarm-status.component";
+import { MonitorChannelHistoryChartComponent } from "./components/monitor-detail/monitor-channel-history-chart copy/monitor-channel-history-chart.component";
 
 /**
  * Module for monitors
@@ -26,6 +27,7 @@ import { MonitorAlarmStatusComponent } from "./components/monitor-alarm-status/m
     MonitorEditEntryComponent,
     AlertViewComponent,
     MonitorHistoryChartComponent,
+    MonitorChannelHistoryChartComponent,
     MonitorAlarmStatusComponent,
   ],
   imports: [

@@ -7,7 +7,6 @@ import { MessageService } from "@core/services/message.service";
 import { DATE_PICKER_TIMERANGES } from "@dashboard/components/dashboard-detail/dashboard-time-ranges";
 import {
   TableControls,
-  TableFilters,
   TableOptions,
 } from "@shared/components/table-view/interfaces";
 import { forkJoin, Observable, Subscription, switchMap, tap } from "rxjs";
@@ -23,10 +22,8 @@ import {
   Widget,
 } from "squacapi";
 import {
-  ProcessedData,
   WidgetConfigService,
   WidgetDataService,
-  WidgetErrors,
   WidgetManagerService,
   WidgetType,
 } from "widgets";
@@ -42,6 +39,7 @@ import {
 })
 export class MonitorDetailComponent implements OnInit {
   @ViewChild("monitorChart") monitorChart;
+  @ViewChild("channelChart") channelChart;
   error: boolean;
   alerts: Alert[];
   monitor: Monitor;
@@ -95,10 +93,18 @@ export class MonitorDetailComponent implements OnInit {
    */
   ngOnInit(): void {
     this.columns = [
-      { name: "Monitor", prop: "monitorName" },
+      { name: "Channel", prop: "channel" },
       {
-        name: "Status",
-        prop: "inAlarm",
+        name: "Value",
+        prop: "",
+        pipe: {
+          transform: (row) => {
+            return row[this.monitor.stat];
+          },
+        },
+        comparator: (a, b) => {
+          return a[this.monitor.stat] - b[this.monitor.stat];
+        },
       },
     ];
 
@@ -176,7 +182,7 @@ export class MonitorDetailComponent implements OnInit {
         this.unsavedChanges = false;
         this.alerts = alerts;
         this.changeDetector.detectChanges();
-
+        this.channelChart?.updateData();
         this.monitorChart?.updateData();
       },
     });

@@ -1,8 +1,7 @@
 @import "variables";
 
-#monitor-history-chart {
-  height: 400px;
-  width: 500px;
+#monitor-history-chart-container {
+  height: 300px;
 }
 
 #monitor-container {
@@ -15,7 +14,7 @@
   margin-top: 10px;
   overflow: hidden;
 }
-#monitor-history-chart-container {
+.chart-container {
   padding: 10px;
   z-index: 10;
 }
