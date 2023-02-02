@@ -46,6 +46,7 @@ export class TimechartComponent
         nameGap: 14,
         axisPointer: {
           show: true,
+          triggerTooltip: false,
           label: {
             formatter: (params: LabelFormatterParams) =>
               this.widgetConfigService.timeAxisPointerLabelFormatting(params),
@@ -113,6 +114,9 @@ export class TimechartComponent
         },
         emphasis: {
           focus: "series",
+          endLabel: {
+            show: true,
+          },
         },
 
         symbol: "circle",
