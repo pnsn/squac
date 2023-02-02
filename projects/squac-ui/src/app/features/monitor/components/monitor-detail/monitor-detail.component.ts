@@ -71,6 +71,7 @@ export class MonitorDetailComponent implements OnInit {
     footerLabel: "Alerts",
   };
   columns = [];
+  viewTriggers = true;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -172,7 +173,6 @@ export class MonitorDetailComponent implements OnInit {
     });
   }
 
-  refresh() {}
   /**
    * Requests new data
    */

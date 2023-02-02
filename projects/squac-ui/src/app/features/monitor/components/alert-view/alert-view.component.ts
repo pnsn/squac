@@ -12,15 +12,7 @@ import { LoadingService } from "@core/services/loading.service";
 import { Alert } from "squacapi";
 import { Monitor } from "squacapi";
 import { AlertService } from "squacapi";
-import { MonitorService } from "squacapi";
-import {
-  catchError,
-  EMPTY,
-  forkJoin,
-  Subscription,
-  switchMap,
-  tap,
-} from "rxjs";
+import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { Observable } from "rxjs";
 import {
   TableControls,

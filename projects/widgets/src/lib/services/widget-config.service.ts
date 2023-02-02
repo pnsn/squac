@@ -472,6 +472,7 @@ export class WidgetConfigService {
    * @param channels channels to use
    * @param data data
    * @param series initial series data
+   * @param stat widget statistic to calculate
    * @returns processed series config
    */
   getSeriesForMultipleMetrics(

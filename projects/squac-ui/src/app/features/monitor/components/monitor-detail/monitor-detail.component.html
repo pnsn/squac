@@ -64,6 +64,7 @@
           {{ monitor.intervalType }}
         </p>
       </div>
+
       <div class="row">
         <shared-date-select
           [secondsAgoFromNow]="timeRange"
@@ -84,20 +85,22 @@
       </div>
     </div>
   </div>
-  <div class="chart-container" [appIsLoading]="loadingService.isLoading(this)">
-    <h3>Breaching Channel History</h3>
-    <p class="help-text">
-      Channels shown are only those that are considered "breaching". Values
-      shown are the calculated values used to evaluate if a monitor is in alarm,
-      not raw measurements at that time.
-    </p>
-    <monitor-channel-history-chart
-      *ngIf="alerts?.length > 0; else noAlerts"
-      #channelChart
-      [monitor]="monitor"
-      [alerts]="alerts"
-      [(selectedAlert)]="selectedAlert"
-    ></monitor-channel-history-chart>
+  <div class="chart-container" *ngIf="viewTriggers">
+    <h3>Triggers</h3>
+    <table id="trigger-table">
+      <thead>
+        <th>Alert when:</th>
+        <th>Also alert on exit:</th>
+        <th>Recipients</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let trigger of monitor.triggers">
+          <td>{{ trigger.numChannelsString }} {{ trigger.valueString }}</td>
+          <td>{{ trigger.alertOnOutOfAlarm }}</td>
+          <td>{{ trigger.emailList }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   <div class="chart-container" [appIsLoading]="loadingService.isLoading(this)">
     <h3>Alert History</h3>
@@ -124,6 +127,21 @@
       [rows]="alert.breachingChannels"
     >
     </ngx-datatable>
+  </div>
+  <div class="chart-container" [appIsLoading]="loadingService.isLoading(this)">
+    <h3>Breaching Channel History</h3>
+    <p class="help-text">
+      Channels shown are only those that are considered "breaching". Values
+      shown are the calculated values used to evaluate if a monitor is in alarm,
+      not raw measurements at that time.
+    </p>
+    <monitor-channel-history-chart
+      *ngIf="alerts?.length > 0; else noAlerts"
+      #channelChart
+      [monitor]="monitor"
+      [alerts]="alerts"
+      [(selectedAlert)]="selectedAlert"
+    ></monitor-channel-history-chart>
   </div>
 </div>
 <ng-template #noAlerts>

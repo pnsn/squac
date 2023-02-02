@@ -121,6 +121,14 @@ export abstract class BaseWriteableApiService<
     super(apiEndpoint, api);
   }
 
+  /**
+   * Creates a write http request of given 'request' type
+   *
+   * @param request request type
+   * @param mapId true if response should be mapped to id
+   * @param params request params
+   * @returns Http request
+   */
   private writeHttpRequest(
     request: "Update" | "Create" | "PartialUpdate" | "Delete",
     mapId: boolean,

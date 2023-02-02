@@ -1,14 +1,7 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
-import {
-  CustomSeriesRenderItemAPI,
-  CustomSeriesRenderItemReturn,
-  DatasetComponentOption,
-  EChartsOption,
-  graphic,
-  TooltipComponentFormatterCallbackParams,
-} from "echarts";
+import { DatasetComponentOption, EChartsOption } from "echarts";
 import {
   Alert,
   BreachingChannel,
@@ -203,9 +196,6 @@ export class MonitorChannelHistoryChartComponent extends EChartComponent {
         source,
       });
       this.alerts.forEach((alert) => {
-        if (!alert.inAlarm) {
-          console.log(alert);
-        }
         const start = this.dateService.parseUtc(alert.timestamp);
         const end = start.add(1, "hour").toDate();
         alert.breachingChannels.forEach((bc: BreachingChannel) => {
