@@ -116,6 +116,7 @@ export class TimechartComponent
           focus: "series",
           endLabel: {
             show: true,
+            offset: [-100, 0],
           },
         },
 
@@ -138,6 +139,7 @@ export class TimechartComponent
             encode: {
               x: [0, 1],
               y: 2,
+              label: 3,
             },
           },
         };
@@ -164,7 +166,7 @@ export class TimechartComponent
 
             station.data.push({
               name: nslc,
-              value: [start.toDate(), end.toDate(), measurement.value],
+              value: [start.toDate(), end.toDate(), measurement.value, nslc],
             });
 
             lastEnd = end;
