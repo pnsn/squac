@@ -15,10 +15,10 @@
   </div>
 
   <div id="user-settings-content">
-    <p>Hello, {{ user.firstName }} {{ user.lastName }}!</p>
+    <p>Hello, {{ user.firstname }} {{ user.lastname }}!</p>
 
     <p>
-      Role: {{ user.orgAdmin ? "Admin" : "User" }} in the
+      Role: {{ user.isOrgAdmin ? "Admin" : "User" }} in the
       <a [routerLink]="['../organizations', user.orgId]"
         >{{ user.orgId | organization }}
       </a>
@@ -55,13 +55,13 @@
       <div class="row">
         <span id="label">First Name:</span>
         <mat-form-field class="medium">
-          <input matInput formControlName="firstName" [readonly]="!editMode" />
+          <input matInput formControlName="firstname" [readonly]="!editMode" />
         </mat-form-field>
       </div>
       <div class="row">
         <span id="label">Last Name:</span>
         <mat-form-field class="medium">
-          <input matInput formControlName="lastName" [readonly]="!editMode" />
+          <input matInput formControlName="lastname" [readonly]="!editMode" />
         </mat-form-field>
       </div>
     </form>

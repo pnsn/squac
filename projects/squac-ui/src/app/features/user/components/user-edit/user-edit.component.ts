@@ -4,6 +4,7 @@ import {
   Validators,
   UntypedFormControl,
   UntypedFormGroup,
+  ValidationErrors,
 } from "@angular/forms";
 import { InviteService } from "squacapi";
 
@@ -35,15 +36,18 @@ export class UserEditComponent implements OnInit {
     });
 
     this.userForm = new UntypedFormGroup({
-      firstName: new UntypedFormControl("", [Validators.required]),
-      lastName: new UntypedFormControl("", [Validators.required]),
+      firstname: new UntypedFormControl("", [Validators.required]),
+      lastname: new UntypedFormControl("", [Validators.required]),
       passwords: new UntypedFormGroup(
         {
           password: new UntypedFormControl("", [
             Validators.minLength(8),
             Validators.required,
           ]),
-          confirm: new UntypedFormControl("", [Validators.required]),
+          confirm: new UntypedFormControl("", [
+            Validators.minLength(8),
+            Validators.required,
+          ]),
         },
         [this.passwordValidator]
       ),
@@ -56,16 +60,12 @@ export class UserEditComponent implements OnInit {
    * @param group form group
    * @returns validator function
    */
-  passwordValidator(group: UntypedFormGroup): { mismatch: boolean } {
-    if (
-      group.value.password &&
+  passwordValidator(group: UntypedFormGroup): ValidationErrors | null {
+    return group.value.password &&
       group.value.confirm &&
       group.value.password === group.value.confirm
-    ) {
-      return null;
-    } else {
-      return { mismatch: true };
-    }
+      ? null
+      : { mismatch: true };
   }
 
   /**
@@ -80,7 +80,7 @@ export class UserEditComponent implements OnInit {
       return;
     }
     this.inviteService
-      .registerUser(values.firstName, values.lastName, this.token, password1)
+      .registerUser(values.firstname, values.lastname, this.token, password1)
       .subscribe({
         next: (response) => {
           // go to next step

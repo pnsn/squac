@@ -94,24 +94,23 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
     const shareOrg = values.share === "shareOrg" || shareAll;
     const id = this.dashboard ? this.dashboard.id : null;
 
-    const dashboard = new Dashboard(
-      id,
-      null,
-      values.name,
-      values.description,
-      shareOrg,
+    const dashboard = new Dashboard({
+      id: id,
+      name: values.name,
       shareAll,
-      this.orgId,
-      this.channelGroupId
-    );
+      shareOrg,
+      organization: this.orgId,
+      channelGroupId: this.channelGroupId,
+    });
+
     if (id) {
       dashboard.properties = this.dashboard.properties;
     }
 
     this.dashboardService.updateOrCreate(dashboard).subscribe({
-      next: (result) => {
+      next: (dashboardId: number) => {
         this.messageService.message("Dashboard saved.");
-        this.cancel(result.id);
+        this.cancel(dashboardId);
       },
       error: () => {
         this.messageService.error("Could not save dashboard.");

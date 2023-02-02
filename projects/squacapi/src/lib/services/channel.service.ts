@@ -6,50 +6,27 @@ import {
 } from "@pnsn/ngx-squacapi-client";
 import { Observable } from "rxjs";
 
-import { Channel, ChannelAdapter, MatchingRule } from "../models";
+import { Channel, MatchingRule } from "../models";
 import { ReadOnlyApiService } from "../interfaces";
-import { BaseApiService } from "./generic-api.service";
+import { BaseReadOnlyApiService } from "./generic-api.service";
 import { ApiEndpoint } from "../enums";
 
 /**
- *
+ * Service for managing channels
  */
 @Injectable({
   providedIn: "root",
 })
-export class ChannelService
-  extends BaseApiService<Channel>
-  implements ReadOnlyApiService<Channel>
-{
-  constructor(override api: ApiService, override adapter: ChannelAdapter) {
+export class ChannelService extends BaseReadOnlyApiService<Channel> {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.CHANNEL, api);
   }
-
   /**
+   * Requests channels using params and matching rules
    *
-   * @param id
-   * @param refresh
-   */
-  override read(id: number, refresh?: boolean): Observable<Channel> {
-    return super.read(id, refresh);
-  }
-
-  /**
-   *
-   * @param params
-   * @param refresh
-   */
-  list(
-    params: NslcChannelsListRequestParams,
-    refresh?: boolean
-  ): Observable<Channel[]> {
-    return super._list(params, { refresh });
-  }
-
-  /**
-   *
-   * @param rules
-   * @param params
+   * @param rules matching rules
+   * @param params channel request params
+   * @returns channels matching requests
    */
   getChannelsByRules(
     rules: MatchingRule[],
@@ -73,4 +50,12 @@ export class ChannelService
 
     return ruleSubs;
   }
+}
+
+export interface ChannelService extends ReadOnlyApiService<Channel> {
+  read(id: number, refresh?: boolean): Observable<Channel>;
+  list(
+    params: NslcChannelsListRequestParams,
+    refresh?: boolean
+  ): Observable<Channel[]>;
 }

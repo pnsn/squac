@@ -1,5 +1,12 @@
 import { Injectable } from "@angular/core";
-import { Channel, Color, Metric, WidgetProperties } from "squacapi";
+import {
+  Channel,
+  Color,
+  MeasurementPipe,
+  Metric,
+  WidgetProperties,
+  WidgetStatType,
+} from "squacapi";
 import { PrecisionPipe } from "../shared/pipes/precision.pipe";
 import colormap from "colormap";
 import { Threshold } from "squacapi";
@@ -31,6 +38,7 @@ export class WidgetConfigService {
   thresholds: Threshold[];
   dataRange: DataRange;
   precisionPipe = new PrecisionPipe();
+  measurementPipe = new MeasurementPipe();
 
   // defaults for piecewise visualmap
   piecewiseDefaults: PiecewiseVisualMapOption = {
@@ -79,9 +87,6 @@ export class WidgetConfigService {
     animation: false,
     legend: {
       show: false,
-    },
-    visualMap: {
-      show: true,
     },
     grid: {
       containLabel: true,
@@ -161,7 +166,7 @@ export class WidgetConfigService {
         newOptions[key] = {};
       }
       const keyOptions = options[key];
-      if (Object.keys(keyOptions).length > 0) {
+      if (Object.keys(keyOptions).length > 0 && !Array.isArray(keyOptions)) {
         Object.keys(keyOptions).forEach((childKey) => {
           newOptions[key][childKey] = keyOptions[childKey];
         });
@@ -169,7 +174,6 @@ export class WidgetConfigService {
         newOptions[key] = options[key];
       }
     });
-
     return newOptions;
   }
 
@@ -468,13 +472,15 @@ export class WidgetConfigService {
    * @param channels channels to use
    * @param data data
    * @param series initial series data
+   * @param stat widget statistic to calculate
    * @returns processed series config
    */
   getSeriesForMultipleMetrics(
     metrics: Metric[],
     channels: Channel[],
     data: ProcessedData,
-    series: any
+    series: any,
+    stat: WidgetStatType
   ): { series: any; axis?: ParallelAxisOption[] } {
     const stations = [];
     const axis: ParallelAxisOption[] = [];
@@ -541,7 +547,7 @@ export class WidgetConfigService {
         let val: number = null;
         if (data.has(channel.id)) {
           const rowData = data.get(channel.id).get(metric.id);
-          val = rowData && rowData[0] ? rowData[0].value : val;
+          val = this.measurementPipe.transform(rowData, stat);
         }
         channelData.value.push(val);
       });

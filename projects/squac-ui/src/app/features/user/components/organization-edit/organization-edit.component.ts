@@ -66,8 +66,8 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
         { value: "", disabled: this.editMode },
         this.editMode ? [] : [Validators.required, Validators.email],
       ],
-      firstName: ["", Validators.required],
-      lastName: ["", Validators.required],
+      firstname: ["", Validators.required],
+      lastname: ["", Validators.required],
       isAdmin: [false, Validators.required],
       groups: ["", Validators.required],
     });
@@ -85,8 +85,8 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
     if (this.editMode) {
       this.userForm.patchValue({
         email: this.user.email,
-        firstName: this.user.firstName,
-        lastName: this.user.lastName,
+        firstname: this.user.firstname,
+        lastname: this.user.lastname,
         isAdmin: this.user.isAdmin,
         groups: this.user.groups,
       });
@@ -102,41 +102,30 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
   /** saves new user */
   save(): void {
     const values = this.userForm.value;
-    const user = new User(
-      this.user ? this.user.id : null,
-      values.email ? values.email : this.user.email,
-      values.firstName,
-      values.lastName,
-      this.orgId,
-      values.isAdmin,
-      values.groups
-    );
-    user.isActive = this.userIsActive;
-    this.orgUserService
-      .updateOrCreate(
-        new User(
-          this.user ? this.user.id : null,
-          values.email ? values.email : this.user.email,
-          values.firstName,
-          values.lastName,
-          this.orgId,
-          values.isAdmin,
-          values.groups
-        )
-      )
-      .subscribe({
-        next: (user) => {
-          if (!user.isActive) {
-            this.sendInvite(user.id, user.email);
-          }
+    const user = new User({
+      id: this.user ? this.user.id : null,
+      email: values.email ?? this.user.email,
+      firstname: values.firstname,
+      lastname: values.lastname,
+      organization: this.orgId,
+      isOrgAdmin: values.isAdmin,
+      groups: values.groups,
+      isActive: this.userIsActive,
+    });
 
-          this.messageService.message(`Updated user ${user.email}.`);
-          this.cancel(user.id);
-        },
-        error: () => {
-          this.messageService.error(`Could not add user.`);
-        },
-      });
+    this.orgUserService.updateOrCreate(user).subscribe({
+      next: (userId: number) => {
+        if (!user.isActive) {
+          this.sendInvite(userId, user.email);
+        }
+
+        this.messageService.message(`Updated user ${user.email}.`);
+        this.cancel(userId);
+      },
+      error: () => {
+        this.messageService.error(`Could not add user.`);
+      },
+    });
   }
 
   /**

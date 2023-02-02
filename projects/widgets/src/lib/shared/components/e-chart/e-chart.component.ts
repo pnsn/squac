@@ -56,7 +56,7 @@ export abstract class EChartComponent
    * Toggle visual map component
    */
   toggleKey(): void {
-    if (this.echartsInstance && this.options.visualMap) {
+    if (this.echartsInstance) {
       this.echartsInstance.setOption({
         visualMap: { show: this.showKey },
       });

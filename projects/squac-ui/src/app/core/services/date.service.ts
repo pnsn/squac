@@ -27,16 +27,6 @@ export class DateService {
   }
 
   /**
-   * Adjust date adding utc offset
-   *
-   * @param localDate date in local time to adjust to utc
-   * @returns adjusted date
-   */
-  fakeUtcFromLocal(localDate: Dayjs): Dayjs {
-    return localDate.add(localDate.utcOffset(), "minutes").utc();
-  }
-
-  /**
    * Adjust date by subtracting utc offset
    *
    * @param localDate local date
@@ -128,7 +118,7 @@ export class DateService {
    * @param date string to parse
    * @returns new date from string
    */
-  parseUtc(date: string): Dayjs {
+  parseUtc(date: string | number | Dayjs | Date): Dayjs {
     return dayjs.utc(date).clone();
   }
 

@@ -7,7 +7,13 @@ import {
   Validators,
 } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { ChannelGroup } from "squacapi";
+import {
+  ChannelGroup,
+  INTERVAL_TYPES,
+  MONITOR_STATS,
+  NUM_CHANNELS_OPERATORS,
+  VALUE_OPERATORS,
+} from "squacapi";
 import { Metric } from "squacapi";
 import { MessageService } from "@core/services/message.service";
 import { Monitor } from "squacapi";
@@ -46,31 +52,10 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   floatLabel = "always";
   removeTriggerIDs = [];
 
-  // form options
-  intervalTypes: string[] = ["minute", "hour", "day"];
-  stats: any[] = [
-    { value: "count", name: "count" },
-    { value: "sum", name: "sum" },
-    { value: "avg", name: "average" },
-    { value: "min", name: "minimum" },
-    { value: "max", name: "maximum" },
-  ];
-  valueOperators: any[] = [
-    { value: "outsideof", name: "outside of" },
-    { value: "within", name: "within" },
-    { value: "==", name: "equal to" },
-    { value: "<", name: "less than" },
-    { value: "<=", name: "less than or equal to" },
-    { value: ">", name: "greater than" },
-    { value: ">=", name: "greater than or equal to" },
-  ];
-  numChannelsOperators: any[] = [
-    { value: "any", name: "any" },
-    { value: "all", name: "all" },
-    { value: "==", name: "exactly" },
-    { value: ">", name: "more than" },
-    { value: "<", name: "less than" },
-  ];
+  INTERVAL_TYPES = INTERVAL_TYPES;
+  MONITOR_STATS = MONITOR_STATS;
+  VALUE_OPERATORS = VALUE_OPERATORS;
+  NUM_CHANNELS_OPERATORS = NUM_CHANNELS_OPERATORS;
 
   selectedChannelGroup: ChannelGroup;
   selectedMetric: Metric;
@@ -211,26 +196,27 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   /** Saves monitor to squacapi */
   save(): void {
     const values = this.monitorForm.value;
-    const monitor = new Monitor(
-      this.id,
-      values.name,
-      values.channelGroup,
-      values.metric.id,
-      values.intervalType,
-      values.intervalCount,
-      values.stat,
-      null,
-      this.triggers.value
-    );
+    const monitor = new Monitor({
+      id: this.id,
+      name: values.name,
+      channelGroupId: values.channelGroup,
+      metricId: values.metric.id,
+      intervalType: values.intervalType,
+      intervalCount: values.intervalCount,
+      stat: values.stat,
+      triggers: this.triggers.value,
+    });
     this.monitorService
       .updateOrCreate(monitor)
       .pipe(
-        switchMap((m) => {
+        switchMap((monitorId: number) => {
+          this.triggers.value.forEach((t) => {
+            t.monitorId = monitorId;
+          });
           return merge(
-            ...this.triggerService.updateTriggers(
-              this.triggers.value,
-              this.removeTriggerIDs,
-              m.id
+            ...this.triggerService.updateOrDelete(
+              this.triggers.value as Trigger[],
+              this.removeTriggerIDs
             )
           );
         })
@@ -240,7 +226,8 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
           this.messageService.message("Monitor saved.");
           this.cancel();
         },
-        error: () => {
+        error: (e) => {
+          console.log(e);
           this.messageService.error("Could not save monitor.");
         },
       });
@@ -264,7 +251,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       this.id = this.monitor.id;
 
       this.selectedMetric = this.metrics.find(
-        (m) => m.id === this.monitor.metric.id
+        (m) => m.id === this.monitor.metricId
       );
 
       this.monitorForm.patchValue({
@@ -272,7 +259,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
         intervalCount: this.monitor.intervalCount,
         intervalType: this.monitor.intervalType,
         stat: this.monitor.stat,
-        channelGroup: this.monitor.channelGroup.id,
+        channelGroup: this.monitor.channelGroupId,
         metric: this.selectedMetric,
       });
 

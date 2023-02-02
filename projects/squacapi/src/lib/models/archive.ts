@@ -1,56 +1,46 @@
-import { Injectable } from "@angular/core";
-import { Adapter, ReadArchive } from "../interfaces";
+import { ReadOnlyResourceModel } from "../interfaces";
+import {
+  ReadOnlyArchiveDaySerializer,
+  ReadOnlyArchiveHourSerializer,
+  ReadOnlyArchiveWeekSerializer,
+  ReadOnlyArchiveMonthSerializer,
+} from "@pnsn/ngx-squacapi-client";
+
+export interface Archive {
+  value: number;
+  metric: number;
+  channel: number;
+  min: number;
+  max: number;
+  mean: number;
+  median: number;
+  stdev: number;
+  numSamps: number;
+  p05: number;
+  p10: number;
+  p90: number;
+  p95: number;
+  minabs: number;
+  maxabs: number;
+  starttime: string;
+  endtime: string;
+}
 
 /** Describes an archive */
-export class Archive {
-  value?: number;
-  id?: number;
-  metricId!: number;
-  channelId!: number;
-  min!: number;
-  max!: number;
-  mean!: number;
-  median!: number;
-  stdev!: number;
-  num_samps!: number;
-  minabs?: number;
-  maxabs?: number;
-  starttime!: string;
-  endtime!: string;
+export class Archive extends ReadOnlyResourceModel<
+  | ReadOnlyArchiveDaySerializer
+  | ReadOnlyArchiveHourSerializer
+  | ReadOnlyArchiveWeekSerializer
+  | ReadOnlyArchiveMonthSerializer
+  | Archive
+> {
+  /** @returns number of samps */
+  get num_samps(): number {
+    return this.numSamps;
+  }
 
   /** @returns model name */
   static get modelName(): string {
     return "Archive";
-  }
-}
-
-/** adapt archive */
-@Injectable({
-  providedIn: "root",
-})
-export class ArchiveAdapter implements Adapter<Archive, ReadArchive, unknown> {
-  /** @override */
-  adaptFromApi(item: ReadArchive): Archive {
-    // squacapi openapi thinks min & maxabs are strings
-    const id = item.id ? +item.id : undefined;
-    const minabs = item.minabs ? +item.minabs : undefined;
-    const maxabs = item.maxabs ? +item.maxabs : undefined;
-
-    const archive: Archive = {
-      id,
-      metricId: item.metric,
-      channelId: item.channel,
-      min: item.min,
-      max: item.max,
-      mean: item.mean,
-      median: item.median,
-      stdev: item.stdev,
-      num_samps: item.num_samps,
-      minabs,
-      maxabs,
-      starttime: item.starttime,
-      endtime: item.endtime,
-    };
-    return archive;
   }
 }

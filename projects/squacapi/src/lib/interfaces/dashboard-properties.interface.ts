@@ -15,3 +15,7 @@ export interface DashboardProperties {
   /** true if dashboard should refresh data automatically */
   autoRefresh: boolean;
 }
+
+//TODO: add more props for
+//  show/hide channels/detail etc.
+// disable chart-link for large charts

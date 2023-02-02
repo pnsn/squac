@@ -452,19 +452,16 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     const values = this.channelGroupForm.value;
     const shareAll = values.share === "shareAll";
     const shareOrg = values.share === "shareOrg" || shareAll;
-    const cg = new ChannelGroup();
-
-    cg.id = this.id;
-    cg.name = values.name;
-    cg.description = values.description;
-    cg.orgId = this.orgId;
-
-    //need to updatematching rules
-
-    cg.autoExcludeChannels = this.autoExcludeChannels;
-    cg.autoIncludeChannels = this.autoIncludeChannels;
-    cg.shareAll = shareAll;
-    cg.shareOrg = shareOrg;
+    const cg = new ChannelGroup({
+      id: this.id,
+      name: values.name,
+      description: values.description,
+      organization: this.orgId,
+      autoExcludeChannels: this.autoExcludeChannels,
+      autoIncludeChannels: this.autoIncludeChannels,
+      shareAll,
+      shareOrg,
+    });
 
     /*
       Temp fix for channel groups not updating with channels on
@@ -478,19 +475,21 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     this.loadingService
       .doLoading(
         this.channelGroupService.updateOrCreate(cg).pipe(
-          switchMap((group) => {
-            id = group.id;
+          switchMap((groupId: number) => {
+            id = groupId;
             if (
               this.matchingRules.length === 0 &&
               this.deleteMatchingRulesIds.length === 0
             ) {
               return of([]);
             }
+            this.matchingRules.forEach((m) => {
+              m.channelGroupId = id;
+            });
             return merge(
-              ...this.matchingRuleService.updateMatchingRules(
+              ...this.matchingRuleService.updateOrDelete(
                 this.matchingRules,
-                this.deleteMatchingRulesIds,
-                id
+                this.deleteMatchingRulesIds
               )
             );
           })
@@ -567,7 +566,9 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
    * @param filter search filter
    */
   addFilterToRegex(filter: SearchFilter): void {
-    const newRule = new MatchingRule(null, null, this.id, true);
+    const newRule = new MatchingRule();
+    newRule.channelGroupId = this.id;
+    newRule.isInclude = true;
     newRule.networkRegex = filter.netSearch?.toUpperCase();
     newRule.stationRegex = filter.staSearch?.toUpperCase();
     newRule.locationRegex = filter.locSearch?.toUpperCase();

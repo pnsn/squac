@@ -73,7 +73,7 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
           const channels = this.viewService.channels.getValue();
 
           this.widgetManager.updateStat(
-            this.widget.stat || this.viewService.archiveStat,
+            this.viewService.archiveStat || this.widget.stat,
             this.viewService.archiveType
           );
           this.widgetManager.updateTimes(
@@ -151,7 +151,7 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
     this.widgetManager.updateThresholds(this.thresholds);
     this.widgetManager.updateMetrics(metrics);
     this.widget.thresholds = this.thresholds;
-    this.viewService.saveWidget(this.widget, true);
+    this.viewService.saveWidget(this.widget, ["thresholds", "metrics"], true);
   }
 
   /**

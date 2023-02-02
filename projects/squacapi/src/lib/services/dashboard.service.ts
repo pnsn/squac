@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { SquacApiService } from "../interfaces";
-import { BaseApiService } from "./generic-api.service";
-import { Dashboard, DashboardAdapter } from "../models";
+import { BaseWriteableApiService } from "./generic-api.service";
+import { Dashboard } from "../models";
 import {
   ApiService,
   DashboardDashboardsListRequestParams,
@@ -10,53 +10,24 @@ import { Observable } from "rxjs";
 import { ApiEndpoint } from "../enums";
 
 /**
- *
+ * Service for managing dashboards in squacapi
  */
 @Injectable({
   providedIn: "root",
 })
-export class DashboardService
-  extends BaseApiService<Dashboard>
-  implements SquacApiService<Dashboard>
-{
-  constructor(override api: ApiService, override adapter: DashboardAdapter) {
+export class DashboardService extends BaseWriteableApiService<Dashboard> {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.DASHBOARD, api);
   }
+}
 
-  /**
-   *
-   * @param id
-   * @param refresh
-   */
-  override read(id: number, refresh?: boolean): Observable<Dashboard> {
-    return super.read(id, refresh);
-  }
-
-  /**
-   *
-   * @param params
-   * @param refresh
-   */
+export interface DashboardService extends SquacApiService<Dashboard> {
+  read(id: number, refresh?: boolean): Observable<Dashboard>;
   list(
     params?: DashboardDashboardsListRequestParams,
     refresh?: boolean
-  ): Observable<Dashboard[]> {
-    return super._list(params, { refresh });
-  }
-
-  /**
-   *
-   * @param d
-   */
-  updateOrCreate(d: Dashboard): Observable<Dashboard> {
-    return super._updateOrCreate(d);
-  }
-
-  /**
-   *
-   * @param id
-   */
-  override delete(id: number): Observable<Dashboard> {
-    return super.delete(id);
-  }
+  ): Observable<Dashboard[]>;
+  updateOrCreate(d: Dashboard): Observable<number>;
+  delete(id: number): Observable<any>;
+  updateOrDelete(groups: Dashboard[], ids: number[]): Observable<number>[];
 }

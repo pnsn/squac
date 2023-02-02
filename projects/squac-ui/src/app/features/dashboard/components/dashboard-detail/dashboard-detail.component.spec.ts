@@ -57,15 +57,13 @@ describe("DashboardDetailComponent", () => {
         useValue: {
           params: of({ id: 123 }),
           data: of({
-            dashboard: new Dashboard(
-              1,
-              1,
-              "name",
-              "description",
-              false,
-              false,
-              1
-            ),
+            dashboard: new Dashboard({
+              id: 1,
+              user: 1,
+              name: "name",
+              description: "description",
+              organization: 1,
+            }),
           }),
         },
       })

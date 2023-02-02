@@ -45,8 +45,8 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
    */
   initForm(user: User): void {
     this.userForm = new UntypedFormGroup({
-      firstName: new UntypedFormControl(user.firstName, Validators.required),
-      lastName: new UntypedFormControl(user.lastName, Validators.required),
+      firstname: new UntypedFormControl(user.firstname, Validators.required),
+      lastname: new UntypedFormControl(user.lastname, Validators.required),
     });
   }
 

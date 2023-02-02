@@ -14,10 +14,8 @@ export interface WidgetProperties {
   displayType?: string; //worst, channel, stoplight
   /** number of splits for coloring */
   numSplits?: number;
-  // show_legend: boolean; TODO: add these
-  // show_tooltips: boolean;
-  // zoom: boolean;
-  // sampling: string;
+  /** widget display configuration */
+  display?: DisplayProperties;
 }
 
 /** Color configuration */
@@ -29,3 +27,16 @@ export interface Color {
   /** opacity value */
   opacity?: number;
 }
+
+/**
+ * Display config options, varies by widget type,
+ * allows for user to save configured view
+ */
+export interface DisplayProperties {
+  show_legend?: boolean;
+}
+
+// show_legend: boolean; TODO: add these
+// show_tooltips: boolean;
+// zoom: boolean;
+// sampling: string;

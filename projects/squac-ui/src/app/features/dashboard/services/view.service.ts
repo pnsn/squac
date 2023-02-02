@@ -148,9 +148,8 @@ export class ViewService {
 
     // set dashboard
     this._dashboard = dashboard;
-
     // set dates
-    this.setIntialDates();
+    this.setInitialDates();
   }
 
   /**
@@ -282,7 +281,7 @@ export class ViewService {
   /**
    * Sets up initial dates for dashboard
    */
-  private setIntialDates(): void {
+  private setInitialDates(): void {
     let startDate;
     let endDate;
     let autoRefresh;
@@ -394,6 +393,9 @@ export class ViewService {
   setArchive(archiveType: ArchiveType, archiveStat: ArchiveStatType): void {
     this._dashboard.properties.archiveStat = archiveStat;
     this._dashboard.properties.archiveType = archiveType;
+    if (archiveType === "raw") {
+      this._dashboard.properties.archiveStat = null;
+    }
     this.hasUnsavedChanges = true;
   }
 
@@ -447,14 +449,15 @@ export class ViewService {
    * is true
    *
    * @param widget widget to update
+   * @param keys keys to update in model
    * @param silentUpdate true if widget should not resize after update
    */
-  saveWidget(widget: Widget, silentUpdate?: boolean): void {
+  saveWidget(widget: Widget, keys: string[], silentUpdate?: boolean): void {
     if (this.ability.can("update", widget)) {
-      this.widgetService.updateOrCreate(widget).subscribe({
-        next: (widget) => {
+      this.widgetService.partialUpdate(widget, keys, true).subscribe({
+        next: (widgetId: number) => {
           if (!silentUpdate) {
-            this.resizeWidget(widget.id);
+            this.resizeWidget(widgetId);
           }
         },
       });

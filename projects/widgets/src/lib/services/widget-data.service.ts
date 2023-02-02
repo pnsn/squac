@@ -190,8 +190,8 @@ export class WidgetDataService implements OnDestroy {
     >();
     try {
       response.forEach((item: MeasurementTypes) => {
-        const channelId: number = item.channelId;
-        const metricId: number = item.metricId;
+        const channelId: number = item.channel;
+        const metricId: number = item.metric;
 
         let channelMap = dataMap.get(channelId);
 

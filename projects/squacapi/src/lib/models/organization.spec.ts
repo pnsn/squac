@@ -1,14 +1,11 @@
-import { TestBed } from "@angular/core/testing";
-import { Organization, OrganizationAdapter } from "./organization";
+import { Organization } from "./organization";
 
 describe("Organization", () => {
-  let adapter: OrganizationAdapter;
   it("should create an instance", () => {
-    expect(new Organization(1, "", "", [])).toBeTruthy();
+    expect(new Organization()).toBeTruthy();
   });
 
   it("should adapt from api to organization", () => {
-    adapter = TestBed.inject(OrganizationAdapter);
     const testData = {
       name: "testName",
       id: 1,
@@ -17,7 +14,7 @@ describe("Organization", () => {
       users: [],
     };
 
-    const organization = adapter.adaptFromApi(testData);
+    const organization = new Organization(testData);
     expect(organization).toBeDefined();
   });
 });

@@ -1,14 +1,11 @@
 import { Injectable } from "@angular/core";
-import { SquacApiService } from "../interfaces";
-import { BaseApiService } from "./generic-api.service";
+import { PartialUpdateService, SquacApiService } from "../interfaces";
+import { BaseWriteableApiService } from "./generic-api.service";
 import {
   ApiService,
-  DashboardWidgetsDeleteRequestParams,
   DashboardWidgetsListRequestParams,
-  DashboardWidgetsReadRequestParams,
-  DashboardWidgetsUpdateRequestParams,
 } from "@pnsn/ngx-squacapi-client";
-import { Widget, WidgetAdapter } from "../models";
+import { Widget } from "../models";
 import { Observable } from "rxjs";
 import { ApiEndpoint } from "../enums";
 
@@ -18,70 +15,26 @@ import { ApiEndpoint } from "../enums";
 @Injectable({
   providedIn: "root",
 })
-export class WidgetService
-  extends BaseApiService<Widget>
-  implements SquacApiService<Widget>
-{
-  constructor(override adapter: WidgetAdapter, override api: ApiService) {
+export class WidgetService extends BaseWriteableApiService<Widget> {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.WIDGET, api);
   }
+}
 
-  /**
-   * @override
-   */
-  override readParams(id: number): DashboardWidgetsReadRequestParams {
-    return { id };
-  }
-
-  /**
-   * @override
-   */
-  override deleteParams(id: number): DashboardWidgetsDeleteRequestParams {
-    return { id };
-  }
-
-  /**
-   * @override
-   */
-  override updateParams(w: Widget): DashboardWidgetsUpdateRequestParams {
-    return {
-      id: w.id,
-      data: this.adapter.adaptToApi(w),
-    };
-  }
-
-  /**
-   * @override
-   */
-  override read(id: number, refresh?: boolean): Observable<Widget> {
-    return super.read(id, refresh);
-  }
-
-  /**
-   *
-   * @param params - squacapi widget request params
-   * @param refresh - fresh request, default false
-   * @returns array of widgets
-   * @override
-   */
+export interface WidgetService
+  extends SquacApiService<Widget>,
+    PartialUpdateService<Widget> {
+  read(id: number, refresh?: boolean): Observable<Widget>;
   list(
     params?: DashboardWidgetsListRequestParams,
     refresh?: boolean
-  ): Observable<Widget[]> {
-    return super._list(params, { refresh });
-  }
-
-  /**
-   * @override
-   */
-  updateOrCreate(t: Widget): Observable<Widget> {
-    return super._updateOrCreate(t);
-  }
-
-  /**
-   * @override
-   */
-  override delete(id: number): Observable<Widget> {
-    return super.delete(id);
-  }
+  ): Observable<Widget[]>;
+  updateOrCreate(t: Widget): Observable<number>;
+  delete(id: number): Observable<any>;
+  updateOrDelete(t: Widget[], ids: number[]): Observable<number>[];
+  partialUpdate(
+    t: Partial<Widget>,
+    keys: string[],
+    mapId?: boolean
+  ): Observable<number | Widget>;
 }

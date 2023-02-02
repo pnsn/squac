@@ -46,6 +46,7 @@ export class TimechartComponent
         nameGap: 14,
         axisPointer: {
           show: true,
+          triggerTooltip: false,
           label: {
             formatter: (params: LabelFormatterParams) =>
               this.widgetConfigService.timeAxisPointerLabelFormatting(params),
@@ -113,6 +114,10 @@ export class TimechartComponent
         },
         emphasis: {
           focus: "series",
+          endLabel: {
+            show: true,
+            offset: [-100, 0],
+          },
         },
 
         symbol: "circle",
@@ -134,6 +139,7 @@ export class TimechartComponent
             encode: {
               x: [0, 1],
               y: 2,
+              label: 3,
             },
           },
         };
@@ -160,7 +166,7 @@ export class TimechartComponent
 
             station.data.push({
               name: nslc,
-              value: [start.toDate(), end.toDate(), measurement.value],
+              value: [start.toDate(), end.toDate(), measurement.value, nslc],
             });
 
             lastEnd = end;

@@ -23,7 +23,6 @@
         *ngIf="'delete' | able: channelGroup"
         mat-icon-button
         color="warn"
-        class="add-btn"
         (click)="onDelete()"
         matTooltip="Delete channel group"
         aria-label="Button that deletes the channel group"
@@ -33,7 +32,6 @@
       <button
         *ngIf="'create' | able: 'Dashboard'"
         mat-icon-button
-        class="add-btn"
         (click)="addToDashboard()"
         matTooltip="Create dasboard with group"
         aria-label="Button that creates dashboard with group"
@@ -44,7 +42,6 @@
         *ngIf="'update' | able: channelGroup"
         mat-icon-button
         color="primary"
-        class="add-btn"
         (click)="editChannelGroup()"
         matTooltip="Edit channel group"
         aria-label="Button that navigates to edit channel group page"
@@ -53,7 +50,6 @@
       </button>
       <button
         mat-icon-button
-        class="add-btn"
         (click)="closeChannelGroup()"
         matTooltip="Close channel group"
         aria-label="Button that navigates to all channels"

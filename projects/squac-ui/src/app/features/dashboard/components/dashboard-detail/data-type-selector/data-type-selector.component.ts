@@ -6,7 +6,7 @@ import {
   Output,
   SimpleChanges,
 } from "@angular/core";
-import { ARCHIVE_TYPE_OPTIONS } from "squacapi";
+import { ARCHIVE_STAT_OPTIONS, ARCHIVE_TYPE_OPTIONS } from "squacapi";
 import { ArchiveStatType, ArchiveType } from "squacapi";
 
 /**
@@ -26,6 +26,7 @@ export class DataTypeSelectorComponent implements OnChanges {
 
   ArchiveType = ArchiveType;
   archiveTypeOptions = ARCHIVE_TYPE_OPTIONS;
+  statTypeOptions = ARCHIVE_STAT_OPTIONS;
 
   /**
    * Listen to input changes
@@ -63,8 +64,8 @@ export class DataTypeSelectorComponent implements OnChanges {
       const full = this.archiveTypeOptions[this.dataType].full;
       string += full;
     }
-    if (this.statType) {
-      string += ` ${this.statType}`;
+    if (this.statType && this.statTypeOptions[this.statType]) {
+      string += `: ${this.statTypeOptions[this.statType]}`;
     }
     return string;
   }

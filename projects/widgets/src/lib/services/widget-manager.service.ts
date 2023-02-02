@@ -93,6 +93,11 @@ export class WidgetManagerService {
     return this._widgetType;
   }
 
+  /** @returns widget stat */
+  get stat(): WidgetStatType {
+    return this._widget.stat;
+  }
+
   /**
    * Initializes widget and checks if it is valid.
    *

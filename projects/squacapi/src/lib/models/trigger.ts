@@ -1,23 +1,50 @@
-import { Injectable } from "@angular/core";
-import { Adapter, ReadTrigger, WriteTrigger } from "../interfaces";
-import { Trigger as ApiTrigger } from "@pnsn/ngx-squacapi-client";
-import { Alert, Monitor } from "../models";
+import { ResourceModel } from "../interfaces";
+import {
+  Trigger as ApiTrigger,
+  WriteOnlyTriggerSerializer,
+  ReadOnlyTriggerSerializer,
+} from "@pnsn/ngx-squacapi-client";
+import { Alert } from ".";
+import { NUM_CHANNELS_OPERATORS, VALUE_OPERATORS } from "../constants";
 
+export interface Trigger {
+  monitorId: number;
+  valueOperator: ApiTrigger.ValueOperatorEnum; //outsideof, within, ==, <, <=, >, >=
+  numChannels: number;
+  numChannelsOperator: ApiTrigger.NumChannelsOperatorEnum; //any, ==, <, >
+  alertOnOutOfAlarm: boolean;
+  emailList: string; //comma separated
+  val1: number;
+  val2?: number;
+  lastAlarm?: Alert;
+  inAlarm?: boolean;
+}
 /**
  * Describes a trigger
  */
-export class Trigger {
-  constructor(
-    public id: number,
-    public monitorId: number,
-    public valueOperator: ApiTrigger.ValueOperatorEnum | undefined, //outsideof, within, ==, <, <=, >, >=
-    public numChannels: number,
-    public numChannelsOperator: ApiTrigger.NumChannelsOperatorEnum | undefined, //any, ==, <, >
-    public alertOnOutOfAlarm: boolean,
-    public emailList: string, //comma separated
-    public val1: number,
-    public val2?: number
-  ) {}
+export class Trigger extends ResourceModel<
+  ApiTrigger | ReadOnlyTriggerSerializer | Trigger,
+  WriteOnlyTriggerSerializer
+> {
+  /** @returns formatted number of channels operator */
+  get numChannelsString(): string {
+    let message = `${NUM_CHANNELS_OPERATORS[this.numChannelsOperator]} `;
+    if (this.numChannels !== null && this.numChannels !== undefined) {
+      message += `${this.numChannels} `;
+    }
+    message +=
+      this.numChannels && this.numChannels > 1 ? "channels" : "channel";
+    return message;
+  }
+
+  /** @returns formatted value string */
+  get valueString(): string {
+    let message = `${VALUE_OPERATORS[this.valueOperator]} ${this.val1}`;
+    if (this.val2 !== null && this.val2 !== undefined) {
+      message += ` and ${this.val2}`;
+    }
+    return message;
+  }
 
   /**
    * @returns model name
@@ -26,49 +53,35 @@ export class Trigger {
     return "Trigger";
   }
 
-  // get conditionString(): string {
-  //   return `Alarm if ${this.num_channels_operator} ${this.num_channels}`
-  // }
-  lastAlarm?: Alert;
-  monitor?: Monitor;
-}
-
-/**
- * Adapts a trigger
- */
-@Injectable({
-  providedIn: "root",
-})
-export class TriggerAdapter
-  implements Adapter<Trigger, ReadTrigger, WriteTrigger>
-{
   /** @override */
-  adaptFromApi(item: ReadTrigger): Trigger {
-    const trigger = new Trigger(
-      item.id ? +item.id : 0,
-      item.monitor,
-      item.value_operator, //outsideof, within, ==, <, <=, >, >=
-      item.num_channels,
-      item.num_channels_operator, //any, ==, <, >
-      item.alert_on_out_of_alarm,
-      item.email_list, //comma separated
-      item.val1,
-      item.val2
-    );
-    return trigger;
+  override fromRaw(
+    data: ApiTrigger | ReadOnlyTriggerSerializer | Trigger
+  ): void {
+    super.fromRaw(data);
+
+    if ("value_operator" in data) {
+      Object.assign(this, {
+        monitorId: data.monitor,
+        valueOperator: data.value_operator, //outsideof, within, ==, <, <=, >, >=
+        numChannels: data.num_channels,
+        numChannelsOperator: data.num_channels_operator, //any, ==, <, >
+        alertOnOutOfAlarm: data.alert_on_out_of_alarm,
+        emailList: data.email_list, //comma separated
+      });
+    }
   }
 
   /** @override */
-  adaptToApi(item: Trigger): WriteTrigger {
+  toJson(): WriteOnlyTriggerSerializer {
     return {
-      monitor: item.monitorId,
-      val1: item.val1,
-      val2: item.val2,
-      value_operator: item.valueOperator,
-      num_channels: item.numChannels,
-      num_channels_operator: item.numChannelsOperator,
-      alert_on_out_of_alarm: item.alertOnOutOfAlarm,
-      email_list: item.emailList,
+      monitor: this.monitorId,
+      val1: this.val1,
+      val2: this.val2,
+      value_operator: this.valueOperator,
+      num_channels: this.numChannels,
+      num_channels_operator: this.numChannelsOperator,
+      alert_on_out_of_alarm: this.alertOnOutOfAlarm,
+      email_list: this.emailList,
     };
   }
 }

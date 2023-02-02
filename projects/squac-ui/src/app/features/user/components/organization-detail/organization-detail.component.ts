@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { OrganizationService } from "squacapi";
 import { User } from "squacapi";
 import { Organization } from "squacapi";
@@ -105,7 +105,7 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
         tap(() => {
           this.isAdmin =
             this.user.isStaff ||
-            (this.user.orgAdmin && this.user.orgId === this.organization.id);
+            (this.user.isOrgAdmin && this.user.orgId === this.organization.id);
 
           if (this.isAdmin) {
             this.controls.menu = {
@@ -168,8 +168,8 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
         // canAutoResize: false,
         // width: 70,
         pipe: {
-          transform: (row): string => {
-            return row ? row.firstName + " " + row.lastName : "";
+          transform: (row: User): string => {
+            return row ? row.firstname + " " + row.lastname : "";
           },
         },
       },

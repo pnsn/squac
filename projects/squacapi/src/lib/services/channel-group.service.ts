@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
-import { ChannelGroup, ChannelGroupAdapter } from "../models";
+import { ChannelGroup } from "../models";
 import { SquacApiService } from "../interfaces";
-import { BaseApiService } from "./generic-api.service";
 import {
   ApiService,
   NslcGroupsListRequestParams,
@@ -9,67 +8,30 @@ import {
 import { map } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { ApiEndpoint } from "../enums";
+import { BaseWriteableApiService } from "./generic-api.service";
 
 /**
- *
+ * Service for managing channel groups
  */
 @Injectable({
   providedIn: "root",
 })
-export class ChannelGroupService
-  extends BaseApiService<ChannelGroup>
-  implements SquacApiService<ChannelGroup>
-{
-  constructor(override adapter: ChannelGroupAdapter, override api: ApiService) {
+export class ChannelGroupService extends BaseWriteableApiService<ChannelGroup> {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.CHANNEL_GROUP, api);
   }
-
-  /**
-   *
-   * @param id
-   * @param refresh
-   */
-  override read(id: number, refresh?: boolean): Observable<ChannelGroup> {
-    return super.read(id, refresh);
-  }
-
-  /**
-   *
-   * @param params
-   * @param refresh
-   */
-  list(
-    params?: NslcGroupsListRequestParams,
-    refresh?: boolean
-  ): Observable<ChannelGroup[]> {
-    return super._list(params, { refresh });
-  }
-
-  /**
-   *
-   * @param t
-   */
-  updateOrCreate(t: ChannelGroup): Observable<ChannelGroup> {
-    return super._updateOrCreate(t);
-  }
-
-  /**
-   *
-   * @param id
-   */
-  override delete(id: number): Observable<ChannelGroup> {
-    return super.delete(id);
-  }
-
   /*returns channel groups sorted into
   // {
   name: (public | private | organization),
   groups: [channelGroups]
   }
   */
+
   /**
+   * Returns channel groups sorted into public, private or org
    *
-   * @param params
+   * @param params search params
+   * @returns channel groups sorted
    */
   getSortedChannelGroups(
     params?: NslcGroupsListRequestParams
@@ -106,4 +68,15 @@ export class ChannelGroupService
       })
     );
   }
+}
+
+export interface ChannelGroupService extends SquacApiService<ChannelGroup> {
+  read(id: number, refresh?: boolean): Observable<ChannelGroup>;
+  list(
+    params?: NslcGroupsListRequestParams,
+    refresh?: boolean
+  ): Observable<ChannelGroup[]>;
+  updateOrCreate(t: ChannelGroup): Observable<number>;
+  delete(id: number): Observable<any>;
+  updateOrDelete(groups: ChannelGroup[], ids: number[]): Observable<number>[];
 }

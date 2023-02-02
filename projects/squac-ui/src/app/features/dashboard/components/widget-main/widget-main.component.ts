@@ -132,7 +132,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     item.widget.layout.x = item.x;
     item.widget.layout.y = item.y;
     if (this.canUpdate) {
-      this.viewService.saveWidget(item.widget);
+      this.viewService.saveWidget(item.widget, ["layout"]);
     }
   }
 

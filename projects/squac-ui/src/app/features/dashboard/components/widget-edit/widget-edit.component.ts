@@ -39,7 +39,7 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
     this.editMode = !!this.data["widget"];
     const dashboardId = this.data["dashboardId"];
     this.widget =
-      this.data.widget || new Widget(null, null, "", dashboardId, null);
+      this.data.widget || new Widget({ dashboard: dashboardId, name: "" });
 
     //check if copying to new dashboard
     this.copyWidget = this.widget.dashboardId !== dashboardId;
@@ -63,12 +63,11 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
   /** Saves widget */
   save(): void {
     this.widgetService.updateOrCreate(this.widget).subscribe({
-      next: (response) => {
-        const widget = response as Widget;
-        this.widget.id = response.id;
+      next: (widgetId: number) => {
+        this.widget.id = widgetId;
         this.viewService.updateWidget(this.widget.id, this.widget);
         this.messageService.message("Widget saved.");
-        this.cancel(widget);
+        this.cancel(this.widget);
       },
       error: () => {
         this.messageService.error("Could not save widget.");

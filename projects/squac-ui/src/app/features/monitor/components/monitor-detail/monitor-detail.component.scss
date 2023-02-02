@@ -1,0 +1,29 @@
+@import "variables";
+
+#monitor-history-chart-container {
+  height: 300px;
+}
+
+#monitor-container {
+  border-top: 1px solid lighten($sq-gray, 15);
+  overflow: hidden;
+  padding: 10px;
+}
+
+#group-view-container {
+  margin-top: 10px;
+  overflow: hidden;
+}
+.chart-container {
+  padding: 10px;
+  z-index: 10;
+}
+
+#alert-detail {
+  padding: 10px;
+}
+
+#trigger-table {
+  width: 100%;
+  text-align: left;
+}

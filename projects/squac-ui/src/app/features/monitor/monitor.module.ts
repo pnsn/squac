@@ -8,6 +8,12 @@ import { SharedModule } from "@shared/shared.module";
 import { MonitorEditEntryComponent } from "./components/monitor-edit-entry/monitor-edit-entry.component";
 import { AlertViewComponent } from "./components/alert-view/alert-view.component";
 import { AbilityModule } from "@casl/angular";
+import { MonitorDetailComponent } from "./components/monitor-detail/monitor-detail.component";
+import { MonitorHistoryChartComponent } from "./components/monitor-detail/monitor-history-chart/monitor-history-chart.component";
+import { WidgetsModule } from "widgets";
+import { NgxEchartsModule } from "ngx-echarts";
+import { MonitorAlarmStatusComponent } from "./components/monitor-alarm-status/monitor-alarm-status.component";
+import { MonitorChannelHistoryChartComponent } from "./components/monitor-detail/monitor-channel-history-chart/monitor-channel-history-chart.component";
 
 /**
  * Module for monitors
@@ -16,10 +22,21 @@ import { AbilityModule } from "@casl/angular";
   declarations: [
     MonitorComponent,
     MonitorEditComponent,
+    MonitorDetailComponent,
     MonitorViewComponent,
     MonitorEditEntryComponent,
     AlertViewComponent,
+    MonitorHistoryChartComponent,
+    MonitorChannelHistoryChartComponent,
+    MonitorAlarmStatusComponent,
   ],
-  imports: [CommonModule, MonitorRoutingModule, SharedModule, AbilityModule],
+  imports: [
+    CommonModule,
+    MonitorRoutingModule,
+    SharedModule,
+    AbilityModule,
+    WidgetsModule,
+    NgxEchartsModule,
+  ],
 })
 export class MonitorModule {}
