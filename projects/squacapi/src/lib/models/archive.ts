@@ -14,6 +14,7 @@ export interface Archive {
   max: number;
   mean: number;
   median: number;
+  sum: number;
   stdev: number;
   numSamps: number;
   p05: number;

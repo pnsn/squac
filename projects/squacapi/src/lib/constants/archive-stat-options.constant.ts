@@ -16,4 +16,5 @@ export const ARCHIVE_STAT_OPTIONS: {
   p10: "10%-ile",
   p05: "05%-ile",
   stdev: "stdev",
+  sum: "sum",
 };
