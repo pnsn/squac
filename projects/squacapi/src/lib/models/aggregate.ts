@@ -11,6 +11,7 @@ export interface ReadOnlyAggregateSerializer {
   median: number;
   stdev: number;
   num_samps: number;
+  sum: number;
   p05: number;
   p10: number;
   p90: number;
@@ -33,6 +34,7 @@ export interface Aggregate {
   value: number;
   metric: number;
   channel: number;
+  sum: number;
   min: number;
   max: number;
   mean: number;

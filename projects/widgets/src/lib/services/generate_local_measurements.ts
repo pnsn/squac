@@ -130,6 +130,7 @@ export class FakeMeasurementBackend {
       p95: value,
       minabs: value,
       maxabs: value,
+      sum: value,
     };
   }
 
@@ -160,6 +161,7 @@ export class FakeMeasurementBackend {
       minabs: value,
       maxabs: value,
       latest: value,
+      sum: value,
     };
   }
 
