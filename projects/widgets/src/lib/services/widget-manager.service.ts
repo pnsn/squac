@@ -176,18 +176,17 @@ export class WidgetManagerService {
    * @param channels - array of channels
    */
   updateChannels(group: number, channels: Channel[]): void {
-    if (group && group !== this._group) {
-      //group has changed, use for next request
-      delete this._params.channel;
-      this._params.group = [group];
-    } else {
+    if (!group || (group === this._group && channels.length < 2000)) {
+      //for less that 2000 channels request using id
       this._params.channel = channels.map((c) => c.id);
       delete this._params.group;
+    } else {
+      delete this._params.channel;
+      this._params.group = [group];
     }
 
     this._group = group;
     this._channels = channels;
-
     if (this._channels.length === 0) {
       this.errors$.next(WidgetErrors.NO_CHANNELS);
     }

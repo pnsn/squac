@@ -66,7 +66,7 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
       });
     }
 
-    this.form["controls"].checkboxes.reset();
+    this.form["controls"].checkboxes = new FormGroup<CheckboxForm>({});
     const checkboxes = this.form["controls"].checkboxes;
 
     this.channels.forEach((channel: Channel) => {

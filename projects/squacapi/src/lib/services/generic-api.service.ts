@@ -160,17 +160,18 @@ export abstract class BaseWriteableApiService<
    * @returns results of http request
    */
   protected updateOrCreate(t: T, mapId = true): Observable<T | number> {
-    if (t.id) {
-      const data = t.toJson();
-      const params = { id: t.id, data };
-      return this.writeHttpRequest("Update", mapId, params);
-    }
     let data;
     try {
       data = t.toJson();
     } catch {
       data = this.deserialize(t).toJson();
     }
+
+    if (t.id) {
+      const params = { id: t.id, data };
+      return this.writeHttpRequest("Update", mapId, params);
+    }
+
     const params = {
       data,
     };
