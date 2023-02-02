@@ -39,7 +39,7 @@ describe("Ability", () => {
       is_staff: true,
       groups: new Set([]),
     });
-    adminUser.squacAdmin = true;
+    adminUser.isStaff = true;
     testAbility.update(defineAbilitiesFor(adminUser));
     expect(testAbility.can("manage", "all")).toEqual(true);
   });

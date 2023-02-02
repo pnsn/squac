@@ -29,14 +29,6 @@ export class Widget extends ResourceModel<
   private _layout: WidgetLayout;
   private _properties: WidgetProperties;
 
-  constructor(
-    model?: ReadOnlyWidgetDetailSerializer | ReadOnlyWidgetSerializer | Widget
-  ) {
-    super(model);
-    if (!this._properties) {
-      this._properties = WIDGET_PROPERTIES;
-    }
-  }
   /**
    * Saves thresholds to widgets
    */
@@ -55,6 +47,9 @@ export class Widget extends ResourceModel<
     }
 
     this._thresholds = props.slice();
+    if (!this._properties) {
+      this._properties = WIDGET_PROPERTIES;
+    }
   }
 
   /**
