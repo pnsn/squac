@@ -89,12 +89,14 @@
     <h3>Triggers</h3>
     <table id="trigger-table">
       <thead>
+        <th>In Alarm:</th>
         <th>Alert when:</th>
         <th>Also alert on exit:</th>
         <th>Recipients</th>
       </thead>
       <tbody>
         <tr *ngFor="let trigger of monitor.triggers">
+          <td>{{ trigger.inAlarm }}</td>
           <td>{{ trigger.numChannelsString }} {{ trigger.valueString }}</td>
           <td>{{ trigger.alertOnOutOfAlarm }}</td>
           <td>{{ trigger.emailList }}</td>

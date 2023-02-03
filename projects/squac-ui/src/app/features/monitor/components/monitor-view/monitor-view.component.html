@@ -21,12 +21,12 @@
   </ng-template>
 </ng-template>
 <ng-template let-row="row" #updateTemplate>
-  <ng-container *ngIf="row.lastAlarm; else noAlert">
+  <ng-container *ngIf="row.lastUpdate; else noAlert">
     <div>
-      {{ row.lastAlarm.inAlarm ? "in alarm" : "out of alarm" }}
+      {{ row.inAlarm ? "in alarm" : "out of alarm" }}
     </div>
     <div>
-      {{ row.lastAlarm.timestamp | date: "short" }}
+      {{ row.lastUpdate | date: "short" }}
     </div>
   </ng-container>
   <ng-template #noAlert>no alerts</ng-template>

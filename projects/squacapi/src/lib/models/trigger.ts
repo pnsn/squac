@@ -4,8 +4,8 @@ import {
   WriteOnlyTriggerSerializer,
   ReadOnlyTriggerSerializer,
 } from "@pnsn/ngx-squacapi-client";
-import { Alert } from ".";
 import { NUM_CHANNELS_OPERATORS, VALUE_OPERATORS } from "../constants";
+import { Alert } from "./alert";
 
 export interface Trigger {
   monitorId: number;
@@ -16,8 +16,7 @@ export interface Trigger {
   emailList: string; //comma separated
   val1: number;
   val2?: number;
-  lastAlarm?: Alert;
-  inAlarm?: boolean;
+  latestAlert: Alert;
 }
 /**
  * Describes a trigger
@@ -46,6 +45,16 @@ export class Trigger extends ResourceModel<
     return message;
   }
 
+  /** @returns true if most recent alert is in alarm */
+  get inAlarm(): boolean | undefined {
+    return this.latestAlert ? this.latestAlert.inAlarm : undefined;
+  }
+
+  /** @returns time stamp of most recent alert */
+  get lastUpdate(): string | undefined {
+    return this.latestAlert ? this.latestAlert.timestamp : undefined;
+  }
+
   /**
    * @returns model name
    */
@@ -59,15 +68,11 @@ export class Trigger extends ResourceModel<
   ): void {
     super.fromRaw(data);
 
-    if ("value_operator" in data) {
-      Object.assign(this, {
-        monitorId: data.monitor,
-        valueOperator: data.value_operator, //outsideof, within, ==, <, <=, >, >=
-        numChannels: data.num_channels,
-        numChannelsOperator: data.num_channels_operator, //any, ==, <, >
-        alertOnOutOfAlarm: data.alert_on_out_of_alarm,
-        emailList: data.email_list, //comma separated
-      });
+    if ("latest_alert" in data) {
+      this.latestAlert = new Alert(data.latest_alert);
+    }
+    if ("monitor" in data) {
+      this.monitorId = data.monitor;
     }
   }
 

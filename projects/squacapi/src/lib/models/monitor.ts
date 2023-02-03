@@ -3,8 +3,9 @@ import {
   ReadOnlyMonitorSerializer,
   WriteOnlyMonitorSerializer,
   Trigger as ApiTrigger,
+  MeasurementTriggersCreateRequestParams,
 } from "@pnsn/ngx-squacapi-client";
-import { Alert, Trigger } from ".";
+import { Trigger } from "../models";
 import { ResourceModel } from "../interfaces";
 
 export interface Monitor {
@@ -17,8 +18,6 @@ export interface Monitor {
   triggers: Trigger[];
   channelGroupName: string;
   metricName: string;
-  alerts?: Alert[];
-  inAlarm?: boolean;
 }
 /**
  * describes a monitor
@@ -27,11 +26,29 @@ export class Monitor extends ResourceModel<
   ReadOnlyMonitorDetailSerializer | ReadOnlyMonitorSerializer | Monitor,
   WriteOnlyMonitorSerializer
 > {
+  // triggers sorted by last alert, descending
+  private _sortedTriggers: Trigger[];
   /**
    * @returns model name
    */
   static get modelName(): string {
     return "Monitor";
+  }
+
+  /**
+   * @returns true if any trigger is in alarm
+   */
+  get inAlarm(): boolean | undefined {
+    return this.triggers.length > 0
+      ? this.triggers.some((t) => t.inAlarm)
+      : undefined;
+  }
+
+  /** @returns date monitor last went into alarm or last state change */
+  get lastUpdate(): string | undefined {
+    const trigger =
+      this._sortedTriggers.find((t) => t.inAlarm) ?? this._sortedTriggers[0];
+    return trigger?.lastUpdate;
   }
 
   /** @override */
@@ -44,6 +61,11 @@ export class Monitor extends ResourceModel<
       this.triggers = data.triggers.map(
         (t: ApiTrigger | Trigger) => new Trigger(t)
       );
+      this._sortedTriggers = this.triggers?.sort((t1: Trigger, t2: Trigger) => {
+        return (
+          new Date(t2.lastUpdate).valueOf() - new Date(t1.lastUpdate).valueOf()
+        );
+      });
     }
 
     if ("channel_group_name" in data) {

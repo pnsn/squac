@@ -10,5 +10,5 @@ import { Component, Input } from "@angular/core";
   providers: [],
 })
 export class MonitorAlarmStatusComponent {
-  @Input() inAlarm: boolean;
+  @Input() inAlarm: boolean | undefined;
 }

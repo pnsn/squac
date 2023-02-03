@@ -9,6 +9,7 @@ import {
   TableControls,
   TableOptions,
 } from "@shared/components/table-view/interfaces";
+import { connect, getInstanceByDom } from "echarts";
 import { forkJoin, Observable, Subscription, switchMap, tap } from "rxjs";
 import {
   Alert,
@@ -184,6 +185,17 @@ export class MonitorDetailComponent implements OnInit {
         this.changeDetector.detectChanges();
         this.channelChart?.updateData();
         this.monitorChart?.updateData();
+
+        setTimeout(() => {
+          if (this.channelChart && this.monitorChart) {
+            const channelChart = this.channelChart.echartsInstance;
+            const monitorChart = this.monitorChart.echartsInstance;
+            console.log(channelChart, monitorChart);
+            if (monitorChart && channelChart) {
+              connect([channelChart, monitorChart]);
+            }
+          }
+        }, 0);
       },
     });
   }

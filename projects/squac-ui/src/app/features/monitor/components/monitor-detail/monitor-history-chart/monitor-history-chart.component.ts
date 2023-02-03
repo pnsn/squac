@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from "@angular/core";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import {
@@ -36,10 +42,12 @@ export class MonitorHistoryChartComponent extends EChartComponent {
   @Input() alerts: Alert[];
   @Input() selectedAlert: Alert;
   @Output() selectedAlertChange: EventEmitter<Alert> = new EventEmitter();
+  @ViewChild("chartInstance") chartInstance;
   measurementPipe = new MeasurementPipe();
   error: boolean;
   dataRange: { min: number; max: number };
   alertsSeriesName = "Alerts";
+  alertsSeries = [];
   // channelsSeriesName = "Channels";
   // channelsSeries = [];
   // channelsSeriesConf: any = {
@@ -60,7 +68,7 @@ export class MonitorHistoryChartComponent extends EChartComponent {
   //   sampling: "lttb",
   // };
 
-  alertsSeries: any = {
+  alertsSeriesConfig: any = {
     yAxisIndex: 0,
     type: "custom",
     name: this.alertsSeriesName,
@@ -104,6 +112,7 @@ export class MonitorHistoryChartComponent extends EChartComponent {
         nameGap: 14,
         axisPointer: {
           show: true,
+          triggerTooltip: false,
           label: {
             formatter: (params: LabelFormatterParams) => {
               return this.getOffsetStart(params.value);
@@ -134,15 +143,13 @@ export class MonitorHistoryChartComponent extends EChartComponent {
         position: "left",
       },
       legend: {
-        show: true,
-        orient: "vertical",
-        right: 0,
+        show: false,
       },
       visualMap: {
         ...this.widgetConfigService.continuousDefaults,
         dimension: 2,
         text: ["Breaching Channels", ""],
-        top: 17,
+        top: 10,
         precision: 0,
         seriesIndex: 0,
       },
@@ -202,7 +209,7 @@ export class MonitorHistoryChartComponent extends EChartComponent {
       //   this.properties,
       //   2
       // );
-      this.alertsSeries.data = [];
+      this.alertsSeries = [];
       // this.channelsSeries = [];
 
       //start time to end time using intergal type and count, calulate metric
@@ -390,7 +397,13 @@ export class MonitorHistoryChartComponent extends EChartComponent {
    * @returns alarm series
    */
   addAlerts(triggerId: number, triggerIndex: number): void {
-    const seriesData = [];
+    const series = {
+      ...this.alertsSeriesConfig,
+      ...{
+        name: triggerId,
+        data: [],
+      },
+    };
     this.alerts
       ?.filter((a) => a.triggerId === triggerId)
       .forEach((alert) => {
@@ -398,8 +411,8 @@ export class MonitorHistoryChartComponent extends EChartComponent {
           this.addBreachingChannels(alert);
           const start = this.dateService.parseUtc(alert.timestamp);
           const breachingChannels = alert.breachingChannels.length;
-          seriesData.push({
-            name: alert.triggerId,
+          series.data.push({
+            name: alert.id,
             value: [
               start.toDate(),
               start.add(1, "hour").toDate(),
@@ -410,7 +423,7 @@ export class MonitorHistoryChartComponent extends EChartComponent {
           });
         }
       });
-    this.alertsSeries.data.push(...seriesData);
+    this.alertsSeries.push(series);
   }
 
   addBreachingChannels(alert: Alert) {
@@ -439,7 +452,7 @@ export class MonitorHistoryChartComponent extends EChartComponent {
    */
   changeMetrics(): void {
     this.updateOptions = {
-      series: [this.alertsSeries],
+      series: this.alertsSeries,
       xAxis: {
         min: this.widgetManager.starttime,
         max: this.widgetManager.endtime,
