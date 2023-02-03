@@ -9,7 +9,7 @@ import {
   TableControls,
   TableOptions,
 } from "@shared/components/table-view/interfaces";
-import { connect, getInstanceByDom } from "echarts";
+import { connect } from "echarts";
 import { forkJoin, Observable, Subscription, switchMap, tap } from "rxjs";
 import {
   Alert,
