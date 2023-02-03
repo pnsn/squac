@@ -9,7 +9,7 @@ export interface Metric {
   name: string;
   code: string;
   description: string;
-  refUrl: string;
+  referenceUrl: string;
   unit: string;
   sampleRate: number; //seconds
   minVal?: number | null;
@@ -35,8 +35,6 @@ export class Metric extends ResourceModel<
     super.fromRaw(data);
 
     if ("default_minval" in data || "default_maxval" in data) {
-      this.refUrl = data.reference_url;
-      this.sampleRate = data.sample_rate;
       this.minVal = data.default_minval;
       this.maxVal = data.default_maxval;
     }
@@ -48,7 +46,7 @@ export class Metric extends ResourceModel<
       name: this.name,
       code: this.code,
       description: this.description,
-      reference_url: this.refUrl,
+      reference_url: this.referenceUrl,
       unit: this.unit,
       default_minval: this.minVal,
       default_maxval: this.maxVal,

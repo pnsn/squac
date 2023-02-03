@@ -3,7 +3,6 @@ import {
   ReadOnlyMonitorSerializer,
   WriteOnlyMonitorSerializer,
   Trigger as ApiTrigger,
-  MeasurementTriggersCreateRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { Trigger } from "../models";
 import { ResourceModel } from "../interfaces";
@@ -67,14 +66,9 @@ export class Monitor extends ResourceModel<
         );
       });
     }
-
-    if ("channel_group_name" in data) {
-      this.channelGroupName = data.channel_group_name;
-      this.metricName = data.metric_name;
+    if ("channel_group" in data) {
       this.channelGroupId = data.channel_group;
       this.metricId = data.metric;
-      this.intervalType = data.interval_type;
-      this.intervalCount = data.interval_count;
     }
   }
 
