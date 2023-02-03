@@ -90,6 +90,7 @@
     <table id="trigger-table">
       <thead>
         <th>In Alarm:</th>
+        <th>Last State Change:</th>
         <th>Alert when:</th>
         <th>Also alert on exit:</th>
         <th>Recipients</th>
@@ -97,6 +98,7 @@
       <tbody>
         <tr *ngFor="let trigger of monitor.triggers">
           <td>{{ trigger.inAlarm }}</td>
+          <td>{{ trigger.lastUpdate | date: "short" }}</td>
           <td>{{ trigger.numChannelsString }} {{ trigger.valueString }}</td>
           <td>{{ trigger.alertOnOutOfAlarm }}</td>
           <td>{{ trigger.emailList }}</td>
@@ -107,9 +109,11 @@
   <div class="chart-container" [appIsLoading]="loadingService.isLoading(this)">
     <h3>Alert History</h3>
     <p class="help-text">click on an alert to view details</p>
-    <div id="monitor-history-chart-container">
+    <div
+      id="monitor-history-chart-container"
+      *ngIf="alerts?.length > 0; else noAlerts"
+    >
       <monitor-history-chart
-        *ngIf="alerts?.length > 0; else noAlerts"
         #monitorChart
         [monitor]="monitor"
         [alerts]="alerts"
@@ -137,13 +141,14 @@
       shown are the calculated values used to evaluate if a monitor is in alarm,
       not raw measurements at that time.
     </p>
-    <monitor-channel-history-chart
-      *ngIf="alerts?.length > 0; else noAlerts"
-      #channelChart
-      [monitor]="monitor"
-      [alerts]="alerts"
-      [(selectedAlert)]="selectedAlert"
-    ></monitor-channel-history-chart>
+    <div *ngIf="alerts?.length > 0; else noAlerts">
+      <monitor-channel-history-chart
+        #channelChart
+        [monitor]="monitor"
+        [alerts]="alerts"
+        [(selectedAlert)]="selectedAlert"
+      ></monitor-channel-history-chart>
+    </div>
   </div>
 </div>
 <ng-template #noAlerts>

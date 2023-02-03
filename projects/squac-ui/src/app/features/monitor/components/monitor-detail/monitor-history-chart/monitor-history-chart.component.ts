@@ -48,26 +48,6 @@ export class MonitorHistoryChartComponent extends EChartComponent {
   dataRange: { min: number; max: number };
   alertsSeriesName = "Alerts";
   alertsSeries = [];
-  // channelsSeriesName = "Channels";
-  // channelsSeries = [];
-  // channelsSeriesConf: any = {
-  //   type: "line",
-  //   large: true,
-  //   largeThreshold: 1000,
-  //   legendHoverLink: true,
-  //   lineStyle: {
-  //     width: 1,
-  //     opacity: 1,
-  //   },
-  //   emphasis: {
-  //     focus: "series",
-  //   },
-
-  //   symbol: "circle",
-  //   symbolSize: 2,
-  //   sampling: "lttb",
-  // };
-
   alertsSeriesConfig: any = {
     yAxisIndex: 0,
     type: "custom",
@@ -176,17 +156,15 @@ export class MonitorHistoryChartComponent extends EChartComponent {
         },
       ],
       tooltip: {
+        show: true,
+        trigger: "item",
         formatter: (params: TooltipComponentFormatterCallbackParams) => {
           if ("componentType" in params) {
-            if (params.seriesName === this.alertsSeriesName) {
-              const tooltipstr = `${this.getOffsetStart(params.value[0])} ${
-                params.value[4].breachingChannels?.length
-              } breaching channels`;
-              return tooltipstr;
-            }
-            return "";
-          }
-          return this.widgetConfigService.timeAxisFormatToolTip(params);
+            const tooltipstr = `${this.getOffsetStart(params.value[0])} ${
+              params.value[4].breachingChannels?.length
+            } breaching channels`;
+            return tooltipstr;
+          } else return this.widgetConfigService.timeAxisFormatToolTip(params);
         },
       },
     };
@@ -195,7 +173,7 @@ export class MonitorHistoryChartComponent extends EChartComponent {
   }
 
   override onChartEvent($event, type) {
-    if (type === "chartClick" && $event.seriesName === this.alertsSeriesName) {
+    if (type === "chartClick") {
       this.selectedAlertChange.emit($event.value[4]);
     }
   }
@@ -249,8 +227,8 @@ export class MonitorHistoryChartComponent extends EChartComponent {
 
   getOffsetStart(rawDate: Date | number | string): string {
     const date = this.dateService.parseUtc(rawDate);
-    const newD = date.startOf("hour").add(5, "minutes");
-    return this.dateService.displayFormat(newD);
+    // const newD = date.startOf("hour").add(5, "minutes");
+    return this.dateService.displayFormat(date);
   }
 
   /**

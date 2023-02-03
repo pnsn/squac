@@ -137,11 +137,11 @@ export class ChannelGroupViewComponent
         },
         { name: "Description", draggable: false, sortable: true },
         {
-          name: "# Channels",
+          name: "Channels",
           prop: "channelsCount",
           draggable: false,
           sortable: true,
-          width: 20,
+          width: 25,
         },
         {
           name: "Owner",

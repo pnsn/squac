@@ -44,9 +44,16 @@ export class MonitorDetailComponent implements OnInit {
   error: boolean;
   alerts: Alert[];
   monitor: Monitor;
-  widget: Widget;
+  widget: Widget = new Widget({
+    name: "Monitor",
+    stat: "latest",
+    dashboard: 1,
+    metrics: [],
+    properties: {},
+    type: WidgetType.TIMESERIES,
+  });
   selectedAlert: Alert;
-  timeRange: number;
+  timeRange: number = 1 * 24 * 60 * 60;
   channelGroup: ChannelGroup;
   // time picker config
   datePickerTimeRanges = DATE_PICKER_TIMERANGES;
@@ -130,19 +137,11 @@ export class MonitorDetailComponent implements OnInit {
       )
       .subscribe({
         next: (results) => {
-          this.widget = new Widget({
-            name: "Monitor",
-            stat: "latest",
-            dashboard: 1,
-            metrics: [],
-          });
           this.widget.metrics = [results.metric];
-          this.widget.properties = {};
-          this.widget.type = WidgetType.TIMESERIES;
           this.widgetManager.initWidget(this.widget);
-          this.widgetManager.widgetConfig;
+
           this.starttime = this.dateService.format(
-            this.dateService.subtractFromNow(2, "day")
+            this.dateService.subtractFromNow(this.timeRange, "seconds")
           );
           this.endtime = this.dateService.format(this.dateService.now());
 
@@ -274,6 +273,7 @@ export class MonitorDetailComponent implements OnInit {
       this.dateService.format(startDate),
       this.dateService.format(endDate)
     );
+    console.log("dates changed");
     this.unsavedChanges = true;
   }
 }
