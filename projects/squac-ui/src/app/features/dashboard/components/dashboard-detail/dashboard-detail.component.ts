@@ -32,6 +32,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   channelGroupId: number;
 
   timeRange: number;
+  hideRows: boolean;
   // time picker config
   datePickerTimeRanges = DATE_PICKER_TIMERANGES;
 

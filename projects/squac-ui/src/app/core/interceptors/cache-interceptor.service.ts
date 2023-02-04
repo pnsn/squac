@@ -32,6 +32,7 @@ export class CacheInterceptor implements HttpInterceptor {
     let cachedResponse: HttpResponse<any>;
     if (request.method === "GET") {
       cachedResponse = this._cache.get(request);
+      console.log(cachedResponse);
     } else if (
       request.method === "POST" ||
       request.method === "PUT" ||

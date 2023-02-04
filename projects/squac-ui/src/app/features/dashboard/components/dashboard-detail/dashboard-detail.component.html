@@ -20,6 +20,8 @@
         ></shared-sharing-indicator>
       </div>
 
+      <mat-checkbox [(ngModel)]="hideRows"> Configure </mat-checkbox>
+
       <shared-error *ngIf="error" [errorMsg]="error"></shared-error>
       <button
         mat-icon-button
@@ -79,7 +81,7 @@
         <mat-icon>settings_application</mat-icon>
       </button>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="!hideRows">
       <div class="auto-margin">
         <shared-channel-group-selector
           [channelGroupId]="channelGroupId"
@@ -103,7 +105,7 @@
         (datesChanged)="datesChanged($event)"
       ></shared-date-select>
     </div>
-    <div class="row" *ngIf="dashboard?.properties">
+    <div class="row" *ngIf="dashboard?.properties && !hideRows">
       <mat-icon>tune</mat-icon>
       <mat-checkbox> Show Channels Without Data </mat-checkbox>
       <mat-checkbox> Link Charts </mat-checkbox>

@@ -50,8 +50,8 @@ export class HttpCacheService implements HttpCache {
     const cachedItem = storageLocation
       ? LocalStorageService.getItem(storageLocation, urlWithParams)
       : this.cache[urlWithParams];
-    if (cachedItem && cachedItem instanceof HttpResponse) {
-      return cachedItem;
+    if (cachedItem) {
+      return new HttpResponse(cachedItem);
     }
     return null;
   }
