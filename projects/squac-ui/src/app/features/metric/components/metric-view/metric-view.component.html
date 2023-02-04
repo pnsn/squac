@@ -9,7 +9,7 @@
   [isLoading]="loadingService.isLoading(this)"
 >
   <ng-template ngx-datatable-cell-template let-row="row" #nameTemplate>
-    <a [routerLink]="[row.refUrl]">{{ row.name }}</a>
+    <a [routerLink]="[row.referenceUrl]">{{ row.name }}</a>
   </ng-template>
 </shared-table-view>
 

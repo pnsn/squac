@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from "@angular/core";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { DatasetComponentOption, EChartsOption } from "echarts";
@@ -30,6 +36,7 @@ export class MonitorChannelHistoryChartComponent extends EChartComponent {
   @Input() alerts: Alert[];
   @Input() selectedAlert: Alert;
   @Output() selectedAlertChange: EventEmitter<Alert> = new EventEmitter();
+  @ViewChild("chartInstance") chartInstance;
   measurementPipe = new MeasurementPipe();
   error: boolean;
   dataRange: { min: number; max: number };

@@ -47,7 +47,6 @@ export class Channel extends ReadOnlyResourceModel<
     if ("sample_rate" in data) {
       //is serialized data
       this.code = data.code.toUpperCase();
-      this.sampleRate = data.sample_rate;
       this.loc = data.loc ? data.loc.toUpperCase() : "--";
       this.sta = data.station_code.toUpperCase();
       this.net = data.network.toUpperCase();
