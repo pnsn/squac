@@ -6,10 +6,7 @@ import {
 } from "../../services";
 import { ProcessedData, WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../../shared/components";
-import {
-  EChartsOption,
-  TooltipComponentFormatterCallbackParams,
-} from "echarts";
+import { TooltipComponentFormatterCallbackParams } from "echarts";
 
 /**
  * Scatter plot widget
@@ -32,16 +29,47 @@ export class ScatterPlotComponent
   }
 
   /**
+   * Toggles zoom controls and grid view to make widgets more dense
+   * @param useDenseView true if widget should use dense view
+   */
+  override useDenseView(useDenseView: boolean): void {
+    if (this.echartsInstance) {
+      if (useDenseView) {
+        this.echartsInstance.setOption(
+          {
+            grid: {
+              left: 30,
+              bottom: 15,
+            },
+            dataZoom: [],
+          },
+          {
+            replaceMerge: ["dataZoom"],
+          }
+        );
+      } else {
+        this.echartsInstance.setOption({
+          grid: { ...this.chartDefaultOptions.grid, left: 50 },
+          dataZoom: this.chartDefaultOptions.dataZoom,
+        });
+      }
+    }
+  }
+
+  /**
    * @override
    */
   configureChart(): void {
-    const chartOptions: EChartsOption = {
+    this.options = {
+      ...this.chartDefaultOptions,
       series: [],
       grid: {
+        ...this.chartDefaultOptions.grid,
         left: 50,
       },
       xAxis: {
         axisLabel: {
+          fontSize: 11,
           formatter: (value: number): string => {
             return value.toPrecision(4);
           },
@@ -72,12 +100,11 @@ export class ScatterPlotComponent
         nameGap: 10,
       },
       tooltip: {
+        ...this.chartDefaultOptions.tooltip,
         formatter: (params: TooltipComponentFormatterCallbackParams) =>
           this.widgetConfigService.multiMetricTooltipFormatting(params),
       },
     };
-
-    this.options = this.widgetConfigService.chartOptions(chartOptions);
   }
 
   /**

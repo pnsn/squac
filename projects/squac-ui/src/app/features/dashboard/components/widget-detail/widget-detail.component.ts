@@ -12,7 +12,11 @@ import { filter, Subscription, tap } from "rxjs";
 import { ViewService } from "@dashboard/services/view.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
-import { WidgetDataService, WidgetManagerService } from "widgets";
+import {
+  WidgetConnectService,
+  WidgetDataService,
+  WidgetManagerService,
+} from "widgets";
 import { Threshold } from "squacapi";
 import { WidgetDisplayOption, WidgetConfig, Widget } from "widgets";
 
@@ -43,6 +47,7 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
   displayType: WidgetDisplayOption;
   @ViewChild("widgetChild") widgetChild: any;
 
+  hideControls: boolean;
   zooming: string;
   showKey = true;
   constructor(
@@ -50,7 +55,8 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private confirmDialog: ConfirmDialogService,
-    private viewService: ViewService
+    private viewService: ViewService,
+    private widgetConnectService: WidgetConnectService
   ) {}
 
   /**
@@ -88,6 +94,11 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
       )
       .subscribe();
 
+    const denseViewSub = this.widgetConnectService.useDenseView.subscribe(
+      (useDenseView: boolean) => {
+        this.hideControls = useDenseView;
+      }
+    );
     // listen to widget changes
     const widgetSub = this.widgetManager.widget$.subscribe((widget: Widget) => {
       this.initWidget(widget);
@@ -159,6 +170,8 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
    */
   toggleKey(): void {
     this.widgetManager.toggleKey$.next(!this.showKey);
+    this.widget.properties.showLegend = !this.showKey;
+    this.viewService.saveWidget(this.widget, ["properties"], true);
   }
 
   /**

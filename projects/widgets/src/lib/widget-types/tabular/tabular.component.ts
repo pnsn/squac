@@ -87,6 +87,10 @@ export class TabularComponent
     super.ngOnInit();
   }
 
+  override useDenseView(useDenseView: boolean): void {
+    return;
+  }
+
   /**
    * Disabled zoom
    */

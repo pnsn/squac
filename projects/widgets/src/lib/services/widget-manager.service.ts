@@ -129,6 +129,9 @@ export class WidgetManagerService {
     const displayType =
       this._widget.properties.displayType ?? this._widgetConfig.defaultDisplay;
 
+    const showKey = this._widget.properties?.showLegend ?? true;
+    this.toggleKey$.next(showKey);
+
     if (this.widgetConfig?.displayOptions && displayType) {
       this._widgetDisplayOption = this.widgetConfig.displayOptions[displayType];
     }

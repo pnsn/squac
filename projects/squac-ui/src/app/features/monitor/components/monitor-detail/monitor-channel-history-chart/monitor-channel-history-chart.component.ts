@@ -82,7 +82,8 @@ export class MonitorChannelHistoryChartComponent extends EChartComponent {
    * @override
    */
   configureChart(): void {
-    const chartOptions: EChartsOption = {
+    this.options = {
+      ...this.chartDefaultOptions.tooltip,
       xAxis: {
         type: "time",
         nameLocation: "middle",
@@ -141,6 +142,7 @@ export class MonitorChannelHistoryChartComponent extends EChartComponent {
         left: 25,
       },
       tooltip: {
+        ...this.chartDefaultOptions.tooltip,
         trigger: "item",
         show: true,
         appendToBody: true,
@@ -164,8 +166,6 @@ export class MonitorChannelHistoryChartComponent extends EChartComponent {
         },
       ],
     };
-
-    this.options = chartOptions;
   }
 
   override onChartEvent($event, type) {

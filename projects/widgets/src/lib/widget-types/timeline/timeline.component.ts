@@ -49,7 +49,8 @@ export class TimelineComponent
    * @override
    */
   configureChart(): void {
-    const chartOptions: EChartsOption = {
+    this.options = {
+      ...this.chartDefaultOptions,
       xAxis: {
         type: "time",
         nameLocation: "middle",
@@ -79,6 +80,7 @@ export class TimelineComponent
         },
       },
       tooltip: {
+        ...this.chartDefaultOptions.tooltip,
         formatter: (params: TooltipComponentFormatterCallbackParams) =>
           this.widgetConfigService.timeAxisFormatToolTip(params),
       },
@@ -87,13 +89,14 @@ export class TimelineComponent
         axisTick: {
           interval: 0,
         },
+        axisLabel: {
+          fontSize: 11,
+        },
         type: "category",
-        nameGap: 40, //max characters
+        // nameGap: 35, //max characters
       },
       series: [],
     };
-
-    this.options = this.widgetConfigService.chartOptions(chartOptions);
   }
 
   /**

@@ -103,6 +103,17 @@
         (datesChanged)="datesChanged($event)"
       ></shared-date-select>
     </div>
+    <div class="row" *ngIf="dashboard?.properties">
+      <mat-icon>tune</mat-icon>
+      <mat-checkbox> Show Channels Without Data </mat-checkbox>
+      <mat-checkbox> Link Charts </mat-checkbox>
+      <mat-checkbox
+        [(ngModel)]="dashboard.properties.denseView"
+        (change)="toggleView()"
+      >
+        Dense View
+      </mat-checkbox>
+    </div>
   </div>
 
   <div id="dashboard-body"><router-outlet> </router-outlet></div>

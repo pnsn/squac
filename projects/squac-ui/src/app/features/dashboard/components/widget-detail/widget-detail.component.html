@@ -1,5 +1,8 @@
 <div class="widget-container box" *ngIf="widget">
-  <div class="widget-header row space-between">
+  <div
+    class="widget-header row space-between"
+    [ngClass]="{ 'hide-controls': hideControls }"
+  >
     <span>{{ widget.name }}</span>
     <div id="controls" *ngIf="!error">
       <button

@@ -16,6 +16,14 @@
     font-size: 11pt;
     font-weight: 500;
   }
+  &.hide-controls {
+    #controls {
+      display: none;
+      &:hover {
+        display: inline-block;
+      }
+    }
+  }
 }
 .text-button {
   height: 20px;

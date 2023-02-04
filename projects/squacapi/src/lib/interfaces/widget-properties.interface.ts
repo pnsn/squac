@@ -1,7 +1,16 @@
 /**
+ * Display config options, varies by widget type,
+ * allows for user to save configured view
+ */
+export interface WidgetDisplayProperties {
+  /** show legend */
+  showLegend?: boolean;
+}
+
+/**
  * Widget display properties that are stored in squacapi
  */
-export interface WidgetProperties {
+export interface WidgetProperties extends WidgetDisplayProperties {
   /** dimensions for metrics (varies by widget type) */
   dimensions?: any; //order of display
   /** in range colors */
@@ -14,8 +23,6 @@ export interface WidgetProperties {
   displayType?: string; //worst, channel, stoplight
   /** number of splits for coloring */
   numSplits?: number;
-  /** widget display configuration */
-  display?: DisplayProperties;
 }
 
 /** Color configuration */
@@ -26,14 +33,6 @@ export interface Color {
   type: string;
   /** opacity value */
   opacity?: number;
-}
-
-/**
- * Display config options, varies by widget type,
- * allows for user to save configured view
- */
-export interface DisplayProperties {
-  show_legend?: boolean;
 }
 
 // show_legend: boolean; TODO: add these

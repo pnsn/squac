@@ -29,11 +29,14 @@
           <mat-checkbox
             type="checkbox"
             [formControlName]="item.key"
-            (mouseenter)="mouseenter(item.key)"
-            (mouseleave)="mouseleave(item.key)"
             [disableRipple]="true"
           >
-            {{ item.key }}
+            <div
+              (mouseenter)="mouseenter(item.key)"
+              (mouseleave)="mouseleave(item.key)"
+            >
+              {{ item.key }}
+            </div>
           </mat-checkbox>
         </li>
       </ul>

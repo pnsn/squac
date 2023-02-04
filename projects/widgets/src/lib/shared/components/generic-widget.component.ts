@@ -47,6 +47,11 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
   abstract changeMetrics(): void;
 
   /**
+   * Use dense widget view
+   */
+  abstract useDenseView(useDenseView: boolean): void;
+
+  /**
    * Takes in processed data and convert to format for chart
    *
    * @param data - date to update chart with
@@ -127,8 +132,14 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
         this.emphasizeChannel(channel);
       }
     );
+    const denseViewSub = this.widgetConnector?.useDenseView.subscribe(
+      (useDenseView) => {
+        this.useDenseView(useDenseView);
+      }
+    );
     this.subscription.add(emphSub);
     this.subscription.add(deemphsSub);
+    this.subscription.add(denseViewSub);
   }
 
   /** Unsubscribe on destroy */

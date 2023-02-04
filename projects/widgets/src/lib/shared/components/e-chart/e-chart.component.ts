@@ -4,6 +4,7 @@ import { EChartsOption, EChartsType } from "echarts";
 import { WidgetConnectService, WidgetManagerService } from "../../../services";
 import { GenericWidgetComponent } from "..";
 import { WidgetTypeComponent } from "../../../interfaces";
+import { ECHART_DEFAULTS } from "./chart-config";
 
 /**
  * Abstract class to make creation of Echart widgets simpler
@@ -33,6 +34,35 @@ export abstract class EChartComponent
   } = {}; //It may contain devicePixelRatio, renderer, width or height properties.
   echartsInstance: EChartsType;
   metricSeries: any = {};
+  chartDefaultOptions: EChartsOption = ECHART_DEFAULTS;
+
+  /**
+   * Toggles zoom controls and grid view to make widgets more dense
+   * @param useDenseView true if widget should use dense view
+   */
+  override useDenseView(useDenseView: boolean): void {
+    if (this.echartsInstance) {
+      if (useDenseView) {
+        this.echartsInstance.setOption(
+          {
+            grid: {
+              left: 10,
+              bottom: 15,
+            },
+            dataZoom: [],
+          },
+          {
+            replaceMerge: ["dataZoom"],
+          }
+        );
+      } else {
+        this.echartsInstance.setOption({
+          grid: this.chartDefaultOptions.grid,
+          dataZoom: this.chartDefaultOptions.dataZoom,
+        });
+      }
+    }
+  }
 
   /**
    * @override

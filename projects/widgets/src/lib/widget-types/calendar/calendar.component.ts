@@ -46,10 +46,13 @@ export class CalendarComponent
    * @override
    */
   configureChart(): void {
-    const chartOptions: EChartsOption = {
+    this.options = {
+      ...this.chartDefaultOptions,
       xAxis: {
         type: "category",
-
+        axisLabel: {
+          fontSize: 11,
+        },
         axisTick: {
           show: true,
         },
@@ -86,13 +89,17 @@ export class CalendarComponent
       },
       yAxis: {
         inverse: true,
+        axisLabel: {
+          fontSize: 11,
+        },
         axisTick: {
           interval: 0,
         },
         type: "category",
-        nameGap: 40, //max characters
+        // nameGap: 35, //max characters
       },
       tooltip: {
+        ...this.chartDefaultOptions.tooltip,
         formatter: (
           params: TooltipComponentFormatterCallbackParams
         ): string => {
@@ -112,8 +119,6 @@ export class CalendarComponent
       },
       series: [],
     };
-
-    this.options = this.widgetConfigService.chartOptions(chartOptions);
   }
 
   /**

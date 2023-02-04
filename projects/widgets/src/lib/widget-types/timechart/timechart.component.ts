@@ -39,6 +39,7 @@ export class TimechartComponent
    */
   configureChart(): void {
     const chartOptions: EChartsOption = {
+      ...this.chartDefaultOptions,
       xAxis: {
         type: "time",
         nameLocation: "middle",
@@ -82,13 +83,16 @@ export class TimechartComponent
         },
       },
       tooltip: {
+        ...this.chartDefaultOptions.tooltip,
         formatter: (params: TooltipComponentPositionCallbackParams) => {
           return this.widgetConfigService.timeAxisFormatToolTip(params);
         },
       },
     };
 
-    this.options = this.widgetConfigService.chartOptions(chartOptions);
+    this.options = chartOptions;
+    console.log("timechart", this.options);
+    this.widgetConfigService.chartOptions(chartOptions);
   }
 
   /**

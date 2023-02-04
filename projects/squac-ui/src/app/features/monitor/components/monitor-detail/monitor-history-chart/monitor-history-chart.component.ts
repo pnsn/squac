@@ -84,7 +84,8 @@ export class MonitorHistoryChartComponent extends EChartComponent {
    * @override
    */
   configureChart(): void {
-    const chartOptions: EChartsOption = {
+    this.options = {
+      ...this.chartDefaultOptions,
       xAxis: {
         type: "time",
         nameLocation: "middle",
@@ -156,6 +157,7 @@ export class MonitorHistoryChartComponent extends EChartComponent {
         },
       ],
       tooltip: {
+        ...this.chartDefaultOptions.tooltip,
         show: true,
         trigger: "item",
         formatter: (params: TooltipComponentFormatterCallbackParams) => {
@@ -168,8 +170,6 @@ export class MonitorHistoryChartComponent extends EChartComponent {
         },
       },
     };
-
-    this.options = this.widgetConfigService.chartOptions(chartOptions);
   }
 
   override onChartEvent($event, type) {
@@ -182,13 +182,7 @@ export class MonitorHistoryChartComponent extends EChartComponent {
    */
   buildChartData(data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {
-      // this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
-      //   this.selectedMetrics,
-      //   this.properties,
-      //   2
-      // );
       this.alertsSeries = [];
-      // this.channelsSeries = [];
 
       //start time to end time using intergal type and count, calulate metric
       this.dataRange = {
@@ -196,31 +190,11 @@ export class MonitorHistoryChartComponent extends EChartComponent {
         max: undefined,
       };
       this.metricSeries.yAxisLabels = [];
-      // this.channels.forEach((channel) => {
-      //   const nslc = channel.nslc;
-      //   const channelSeries = {
-      //     ...this.channelsSeriesConf,
-      //     ...{
-      //       name: nslc,
-      //       id: nslc,
-      //       data: [],
-      //       count: 0,
-      //       encode: {
-      //         x: [0, 1],
-      //         y: 2,
-      //       },
-      //     },
-      //   };
-      //   this.channelsSeries.push(channelSeries);
-      // });
       this.monitor.triggers.forEach((trigger: Trigger, i: number) => {
         this.metricSeries.yAxisLabels.push(this.getTriggerLabel(trigger));
         this.addAlerts(trigger.id, i);
       });
 
-      // const triggerSeries = this.addTriggers();
-      // this.metricSeries.series.push(triggerSeries);
-      // this.metricSeries.series.push(alertSeries);
       resolve();
     });
   }
@@ -229,144 +203,6 @@ export class MonitorHistoryChartComponent extends EChartComponent {
     const date = this.dateService.parseUtc(rawDate);
     // const newD = date.startOf("hour").add(5, "minutes");
     return this.dateService.displayFormat(date);
-  }
-
-  /**
-   * Add triggers to plots
-   *
-   * @returns trigger series
-   */
-  addTriggers(): unknown {
-    const triggerSeries = {
-      type: "line",
-      name: "Triggers",
-      dataGroupId: "triggers",
-      markArea: {
-        itemStyle: {
-          color: "rgb(128,128,128)",
-          opacity: 0.25,
-        },
-
-        // label: {
-        //   position: "insideright",
-        // },
-        // emphasis: {
-        //   label: {
-        //     position: "insideright",
-        //   },
-        // },
-        data: [],
-      },
-      data: [],
-      markLine: {
-        data: [],
-      },
-    };
-    this.monitor.triggers.forEach((trigger) => {
-      const val2 = trigger.val2 ?? trigger.val1;
-
-      const min = Math.min(trigger.val1, val2);
-      const max = Math.max(trigger.val1, val2);
-      if (min < this.dataRange.min) {
-        this.dataRange.min = min;
-      }
-      if (max > this.dataRange.max) {
-        this.dataRange.max = max;
-      }
-      switch (trigger.valueOperator) {
-        case "within":
-          triggerSeries.markArea.data.push([
-            {
-              name: trigger.valueOperator,
-              yAxis: min,
-            },
-            {
-              yAxis: max,
-            },
-          ]);
-          break;
-        case "outsideof":
-          triggerSeries.markArea.data.push(
-            [
-              {
-                name: trigger.valueOperator,
-                yAxis: Number.MIN_SAFE_INTEGER,
-              },
-              {
-                yAxis: min,
-              },
-            ],
-            [
-              {
-                name: trigger.valueOperator,
-                yAxis: max,
-              },
-              {
-                yAxis: Number.MAX_SAFE_INTEGER,
-              },
-            ]
-          );
-          break;
-
-        case "<":
-          triggerSeries.markArea.data.push([
-            {
-              name: trigger.valueOperator,
-              yAxis: Number.MIN_SAFE_INTEGER,
-            },
-            {
-              yAxis: min,
-            },
-          ]);
-          break;
-        case "<=":
-          triggerSeries.markArea.data.push([
-            {
-              name: trigger.valueOperator,
-              yAxis: Number.MIN_SAFE_INTEGER,
-            },
-            {
-              yAxis: min,
-            },
-          ]);
-          break;
-
-        case ">":
-          triggerSeries.markArea.data.push([
-            {
-              name: trigger.valueOperator,
-              yAxis: min,
-            },
-            {
-              yAxis: Number.MAX_SAFE_INTEGER,
-            },
-          ]);
-          break;
-        case ">=":
-          triggerSeries.markArea.data.push([
-            {
-              name: trigger.valueOperator,
-              yAxis: min,
-            },
-            {
-              yAxis: Number.MAX_SAFE_INTEGER,
-            },
-          ]);
-          break;
-        case "==":
-          triggerSeries.markLine.data.push([
-            {
-              name: trigger.valueOperator,
-              yAxis: min - 0.5,
-            },
-            {
-              yAxis: min + 0.5,
-            },
-          ]);
-          break;
-      }
-    });
-    return triggerSeries;
   }
 
   /**

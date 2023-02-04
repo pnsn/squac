@@ -9,6 +9,7 @@ import { MessageService } from "@core/services/message.service";
 import { LoadingService } from "@core/services/loading.service";
 import { DATE_PICKER_TIMERANGES } from "./dashboard-time-ranges";
 import { ArchiveStatType, ArchiveType } from "squacapi";
+import { WidgetConnectService } from "widgets";
 
 /**
  * Individual dashboard view
@@ -41,7 +42,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     private ability: AppAbility,
     private confirmDialog: ConfirmDialogService,
     private messageService: MessageService,
-    public loadingService: LoadingService
+    public loadingService: LoadingService,
+    private widgetConnectService: WidgetConnectService
   ) {}
 
   /**
@@ -120,6 +122,12 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.archiveType = event.dataType;
     this.archiveStat = event.statType;
     this.updateArchiveType();
+  }
+
+  toggleView() {
+    this.widgetConnectService.useDenseView.next(
+      this.dashboard.properties.denseView
+    );
   }
 
   /**
