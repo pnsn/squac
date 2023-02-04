@@ -3,7 +3,7 @@
     class="widget-header row space-between"
     [ngClass]="{ 'hide-controls': hideControls }"
   >
-    <span>{{ widget.name }}</span>
+    <div id="widget-name">{{ widget.name }}</div>
     <div id="controls" *ngIf="!error">
       <button
         *ngIf="widgetType && widgetType.zoomControls"
@@ -56,37 +56,35 @@
         <mat-icon>more_vert</mat-icon>
       </button>
     </div>
-
-    <mat-menu
-      #widgetMenu="matMenu"
-      class="mat-menu-dense"
-      yPosition="below"
-      xPosition="before"
-    >
-      <button mat-menu-item (click)="editWidget()" *ngIf="canUpdate">
-        Edit Widget
-      </button>
-      <!-- TODO: add option for no dashboards -->
-      <button
-        mat-menu-item
-        [matMenuTriggerFor]="dashboardMenu"
-        [matMenuTriggerData]="{ dashboards: dashboards }"
-        *ngIf="dashboards && dashboards.length > 0"
-      >
-        Add Widget to Dashboard
-      </button>
-      <button
-        mat-menu-item
-        class="warn"
-        (click)="deleteWidget()"
-        color="warn"
-        *ngIf="canUpdate"
-      >
-        Delete Widget
-      </button>
-    </mat-menu>
   </div>
-
+  <mat-menu
+    #widgetMenu="matMenu"
+    class="mat-menu-dense"
+    yPosition="below"
+    xPosition="before"
+  >
+    <button mat-menu-item (click)="editWidget()" *ngIf="canUpdate">
+      Edit Widget
+    </button>
+    <!-- TODO: add option for no dashboards -->
+    <button
+      mat-menu-item
+      [matMenuTriggerFor]="dashboardMenu"
+      [matMenuTriggerData]="{ dashboards: dashboards }"
+      *ngIf="dashboards && dashboards.length > 0"
+    >
+      Add Widget to Dashboard
+    </button>
+    <button
+      mat-menu-item
+      class="warn"
+      (click)="deleteWidget()"
+      color="warn"
+      *ngIf="canUpdate"
+    >
+      Delete Widget
+    </button>
+  </mat-menu>
   <mat-menu #dashboardMenu="matMenu" class="mat-menu-dense">
     <ng-template matMenuContent let-dashboards="dashboards">
       <ng-container *ngFor="let dashboard of dashboards">

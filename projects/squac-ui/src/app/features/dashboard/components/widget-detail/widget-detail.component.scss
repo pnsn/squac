@@ -11,18 +11,17 @@
   width: 100%;
   padding-right: 5px;
   padding-left: 3px;
-  height: 25px;
-  span {
-    font-size: 11pt;
-    font-weight: 500;
+  // height: 25px;
+
+  #widget-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   &.hide-controls {
-    #controls {
-      display: none;
-      &:hover {
-        display: inline-block;
-      }
-    }
+    // #controls {
+    //   display: none;
+    // }
   }
 }
 .text-button {

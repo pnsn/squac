@@ -57,8 +57,8 @@ export abstract class EChartComponent
         );
       } else {
         this.echartsInstance.setOption({
-          grid: this.chartDefaultOptions.grid,
-          dataZoom: this.chartDefaultOptions.dataZoom,
+          grid: this.options.grid,
+          dataZoom: this.options.dataZoom,
         });
       }
     }

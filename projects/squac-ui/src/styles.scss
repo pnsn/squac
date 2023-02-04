@@ -13,7 +13,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-size: 11pt;
+  font-size: 10pt;
   font-family: "Source Sans Pro", sans-serif;
 }
 
@@ -187,7 +187,7 @@ a[disabled] {
 
 a {
   color: $sq-dk-gray;
-  font-size: 1rem;
+  // font-size: 1rem;
 }
 
 .box-shadow {
@@ -333,4 +333,13 @@ a {
   .dialog-responsive {
     width: 100%;
   }
+}
+
+.leaflet-touch .leaflet-bar a {
+  width: 20px;
+  height: 20px;
+  line-height: 15px;
+}
+.leaflet-control-attribution a {
+  font-size: 10pt;
 }

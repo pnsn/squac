@@ -51,6 +51,13 @@ export class TimelineComponent
   configureChart(): void {
     this.options = {
       ...this.chartDefaultOptions,
+      grid: {
+        containLabel: true,
+        top: 0,
+        right: 5,
+        bottom: 38,
+        left: 30,
+      },
       xAxis: {
         type: "time",
         nameLocation: "middle",
