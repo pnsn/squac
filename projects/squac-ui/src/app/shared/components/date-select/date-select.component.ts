@@ -29,6 +29,7 @@ export class DateSelectComponent implements OnInit, OnChanges {
   @ViewChild(DaterangepickerDirective, { static: true })
   pickerDirective!: DaterangepickerDirective;
   @Output() datesChanged = new EventEmitter<any>();
+  @Output() selectedRangeChanged = new EventEmitter<any>();
   @Input() secondsAgoFromNow: number | undefined;
   @Input() initialStartDate: string | undefined;
   @Input() initialEndDate: string | undefined;
@@ -91,11 +92,10 @@ export class DateSelectComponent implements OnInit, OnChanges {
       this.selectedRange = this.findRangeFromSeconds(this.secondsAgoFromNow);
 
       this.selected = {
-        startDate: this.dateService.subtractFromNow(
-          this.secondsAgoFromNow,
-          "seconds"
-        ),
-        endDate: this.dateService.now(),
+        startDate: this.dateService
+          .subtractFromNow(this.secondsAgoFromNow, "seconds")
+          .startOf("minute"),
+        endDate: this.dateService.now().startOf("minute"),
       };
       // has fixed start and end
     } else if (this.initialEndDate && this.initialStartDate) {
@@ -103,13 +103,16 @@ export class DateSelectComponent implements OnInit, OnChanges {
       const startLocal = this.dateService.parse(this.initialStartDate);
       const endLocal = this.dateService.parse(this.initialEndDate);
       this.selected = {
-        startDate: this.dateService.fakeLocalFromUtc(startLocal),
-        endDate: this.dateService.fakeLocalFromUtc(endLocal),
+        startDate: this.dateService
+          .fakeLocalFromUtc(startLocal)
+          .startOf("minute"),
+        endDate: this.dateService.fakeLocalFromUtc(endLocal).startOf("minute"),
       };
       this.selectedRange = "custom";
     } else {
       //no dates
     }
+    this.selectedRangeChanged.emit(this.selectedRange);
   }
 
   /**
@@ -159,6 +162,7 @@ export class DateSelectComponent implements OnInit, OnChanges {
       const range = event.value;
       const rangeInSeconds = this.getRangeAsSeconds(range);
       this.datesUpdated(null, null, true, rangeInSeconds);
+      this.selectedRangeChanged.emit(range);
     }
   }
 

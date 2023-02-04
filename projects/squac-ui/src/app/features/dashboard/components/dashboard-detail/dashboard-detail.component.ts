@@ -10,6 +10,7 @@ import { LoadingService } from "@core/services/loading.service";
 import { DATE_PICKER_TIMERANGES } from "./dashboard-time-ranges";
 import { ArchiveStatType, ArchiveType } from "squacapi";
 import { WidgetConnectService } from "widgets";
+import { TimeRange } from "@shared/components/date-select/time-range.interface";
 
 /**
  * Individual dashboard view
@@ -30,9 +31,10 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   startTime: string;
   endTime: string;
   channelGroupId: number;
+  selectedRange: TimeRange;
 
   timeRange: number;
-  hideRows: boolean;
+  hideRows = false;
   // time picker config
   datePickerTimeRanges = DATE_PICKER_TIMERANGES;
 
@@ -129,6 +131,11 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.widgetConnectService.useDenseView.next(
       this.dashboard.properties.denseView
     );
+  }
+
+  selectedRangeChange(event) {
+    console.log(event);
+    this.selectedRange = event;
   }
 
   /**

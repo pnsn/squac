@@ -3,10 +3,6 @@ import { TimeRange } from "@shared/components/date-select/time-range.interface";
 /** Default time ranges for dashboard */
 export const DATE_PICKER_TIMERANGES: TimeRange[] = [
   {
-    amount: 30,
-    unit: "minutes",
-  },
-  {
     amount: 1,
     unit: "hour",
   },
