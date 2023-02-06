@@ -88,7 +88,9 @@ export class ViewService {
   get startTime(): string {
     let startTime;
     if (this.range) {
-      startTime = this.dateService.subtractFromNow(this.range, "seconds");
+      startTime = this.dateService
+        .subtractFromNow(this.range, "seconds")
+        .startOf("minute");
       startTime = this.dateService.format(startTime);
     } else {
       startTime = this.dashboard?.properties.startTime;
@@ -100,7 +102,7 @@ export class ViewService {
   get endTime(): string {
     let endTime;
     if (this.range) {
-      endTime = this.dateService.now();
+      endTime = this.dateService.now().startOf("minute");
       endTime = this.dateService.format(endTime);
     } else {
       endTime = this.dashboard?.properties.endTime;

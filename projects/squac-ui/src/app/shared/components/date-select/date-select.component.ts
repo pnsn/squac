@@ -52,8 +52,8 @@ export class DateSelectComponent implements OnInit, OnChanges {
   constructor(private dateService: DateService) {
     dayjs.extend(utc);
     dayjs.extend(timezone);
-    this.maxDate = this.dateService.now();
-    this.startDate = this.dateService.now();
+    this.maxDate = this.dateService.now().startOf("minute");
+    this.startDate = this.dateService.now().startOf("minute");
     this.locale = this.dateService.locale;
   }
 
@@ -146,7 +146,9 @@ export class DateSelectComponent implements OnInit, OnChanges {
   makeTimeRanges(): void {
     this.timeRanges.forEach((range) => {
       this.rangesForDatePicker[range.amount + " " + range.unit] = [
-        this.dateService.subtractFromNow(+range.amount, range.unit),
+        this.dateService
+          .subtractFromNow(+range.amount, range.unit)
+          .startOf("minute"),
         this.startDate,
       ];
     });
@@ -173,8 +175,12 @@ export class DateSelectComponent implements OnInit, OnChanges {
    * @param dates dates from selection
    */
   datePickerChange(dates: TimePeriod): void {
-    const startCopy = dayjs(dates.startDate as Dayjs).clone();
-    const endCopy = dayjs(dates.endDate as Dayjs).clone();
+    const startCopy = dayjs(dates.startDate as Dayjs)
+      .startOf("minute")
+      .clone();
+    const endCopy = dayjs(dates.endDate as Dayjs)
+      .startOf("minute")
+      .clone();
 
     if (dates.startDate && dates.endDate) {
       this.datesUpdated(startCopy, endCopy, false, null);
