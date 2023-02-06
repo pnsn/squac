@@ -18,25 +18,20 @@
           [shareOrg]="dashboard?.shareOrg"
           resource="dashboard"
         ></shared-sharing-indicator>
-        <button
-          mat-icon-button
-          [matMenuTriggerFor]="appMenu"
-          color="primary"
-          *ngIf="'update' | able: dashboard"
-          matTooltip="Dashboard configuration"
-        >
-          <mat-icon>settings_application</mat-icon>
-        </button>
       </div>
 
       <div>
-        {{ this.archiveType }} {{ this.archiveStat }}
-        <ng-container *ngIf="this.viewService.range; else timespan">
-          Last {{ selectedRange?.amount }} {{ selectedRange?.unit }}(s)
+        {{ archiveType ? archiveTypeOptions[archiveType]?.full : "" }}
+        <ng-container *ngIf="archiveStat"
+          >: {{ statTypeOptions[archiveStat] }}
+        </ng-container>
+        <ng-container *ngIf="viewService.range && selectedRange; else timespan">
+          Last {{ selectedRange.amount }} {{ selectedRange.unit
+          }}{{ selectedRange.amount > 1 ? "s" : "" }}
         </ng-container>
         <ng-template #timespan>
-          {{ this.viewService.startTime }} -
-          {{ this.viewService.endTime }}
+          {{ viewService.startTime }} -
+          {{ viewService.endTime }}
         </ng-template>
       </div>
 
@@ -52,7 +47,27 @@
         <mat-icon>tune</mat-icon>
       </button>
     </div>
+    <div class="row" *ngIf="error">
+      <shared-error [errorMsg]="error"></shared-error>
+    </div>
     <div class="row" *ngIf="!hideRows">
+      <!-- if they have permission, otherwise show copy only -->
+
+      <shared-channel-group-selector
+        [channelGroupId]="channelGroupId"
+        (channelGroupIdChange)="channelGroupChange($event)"
+        appearance="outline"
+        [dense]="true"
+      >
+      </shared-channel-group-selector>
+
+      <dashboard-data-type-selector
+        [dataType]="archiveType"
+        [statType]="archiveStat"
+        (dataTypeSelected)="selectArchiveType($event)"
+      >
+      </dashboard-data-type-selector>
+
       <shared-date-select
         [secondsAgoFromNow]="timeRange"
         [initialStartDate]="startTime"
@@ -61,7 +76,6 @@
         (datesChanged)="datesChanged($event)"
         (selectedRangeChanged)="selectedRangeChange($event)"
       ></shared-date-select>
-      <shared-error *ngIf="error" [errorMsg]="error"></shared-error>
       <button
         mat-raised-button
         color="accent"
@@ -70,25 +84,17 @@
       >
         Apply Changes
       </button>
-      <!-- if they have permission, otherwise show copy only -->
-      <div class="auto-margin">
-        <shared-channel-group-selector
-          [channelGroupId]="channelGroupId"
-          (channelGroupIdChange)="channelGroupChange($event)"
-          appearance="outline"
-          [dense]="true"
-        >
-        </shared-channel-group-selector>
-      </div>
-      <dashboard-data-type-selector
-        [dataType]="archiveType"
-        [statType]="archiveStat"
-        (dataTypeSelected)="selectArchiveType($event)"
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="appMenu"
+        color="primary"
+        *ngIf="'update' | able: dashboard"
+        matTooltip="Dashboard configuration"
       >
-      </dashboard-data-type-selector>
+        <mat-icon>settings_application</mat-icon>
+      </button>
     </div>
     <div class="row" *ngIf="dashboard?.properties && !hideRows">
-      <mat-checkbox> Only Show Channels With Data </mat-checkbox>
       <mat-checkbox> Link Charts </mat-checkbox>
       <mat-checkbox
         [(ngModel)]="dashboard.properties.denseView"

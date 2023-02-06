@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { SquacApiService } from "../interfaces";
+import { SquacApiService, PartialUpdateService } from "../interfaces";
 import { BaseWriteableApiService } from "./generic-api.service";
 import { Dashboard } from "../models";
 import {
@@ -21,7 +21,9 @@ export class DashboardService extends BaseWriteableApiService<Dashboard> {
   }
 }
 
-export interface DashboardService extends SquacApiService<Dashboard> {
+export interface DashboardService
+  extends SquacApiService<Dashboard>,
+    PartialUpdateService<Dashboard> {
   read(id: number, refresh?: boolean): Observable<Dashboard>;
   list(
     params?: DashboardDashboardsListRequestParams,
@@ -30,4 +32,9 @@ export interface DashboardService extends SquacApiService<Dashboard> {
   updateOrCreate(d: Dashboard): Observable<number>;
   delete(id: number): Observable<any>;
   updateOrDelete(groups: Dashboard[], ids: number[]): Observable<number>[];
+  partialUpdate(
+    t: Partial<Dashboard>,
+    keys: string[],
+    mapId?: boolean
+  ): Observable<number | Dashboard>;
 }

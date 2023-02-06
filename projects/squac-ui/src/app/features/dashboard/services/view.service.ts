@@ -411,6 +411,15 @@ export class ViewService {
   }
 
   /**
+   * Updates dashboard properties
+   *
+   * @param
+   */
+  updateDashboardProperty(propertyKey: string, value: unknown) {
+    this._dashboard.properties[propertyKey] = value;
+  }
+
+  /**
    * Adds, updates or deletes a widget. If no widget is passed,
    * it will be removed from the saved widgets.
    *
@@ -498,13 +507,20 @@ export class ViewService {
   }
 
   /**
-   * Saves current dashboard to squacapi
+   * Saves dashboard using partial update
+   *
+   * @param keys keys to update in model
+   * @param silentUpdate true if widget should not resize after update
    */
-  saveDashboard(): void {
-    this.dashboardService.updateOrCreate(this.dashboard).subscribe({
-      error: () => {
-        this.messageService.error("Could not save dashboard.");
-      },
-    });
+  saveDashboard(keys: string[] = []): void {
+    if (this.ability.can("update", this.dashboard)) {
+      this.dashboardService
+        .partialUpdate(this.dashboard, keys, true)
+        .subscribe({
+          error: () => {
+            this.messageService.error("Could not save dashboard.");
+          },
+        });
+    }
   }
 }

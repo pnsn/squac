@@ -33,13 +33,21 @@ export class TimechartComponent
   }
   // Max allowable time between measurements to connect
   maxMeasurementGap = 1.5;
-
   /**
    * @override
    */
   configureChart(): void {
+    const dataZoom = this.denseView
+      ? this.denseOptions.dataZoom
+      : this.fullOptions.dataZoom;
+    const grid = this.denseView
+      ? this.denseOptions.grid
+      : this.fullOptions.grid;
+
     const chartOptions: EChartsOption = {
       ...this.chartDefaultOptions,
+      dataZoom,
+      grid,
       xAxis: {
         type: "time",
         nameLocation: "middle",
@@ -91,8 +99,6 @@ export class TimechartComponent
     };
 
     this.options = chartOptions;
-    console.log("timechart", this.options);
-    this.widgetConfigService.chartOptions(chartOptions);
   }
 
   /**

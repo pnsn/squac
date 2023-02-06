@@ -20,6 +20,7 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
   selectedMetrics: Metric[];
   properties: WidgetProperties;
   visualMaps: VisualMap = {};
+  denseView: boolean;
 
   /**
    * Trigger emphasis action for channel
@@ -114,7 +115,6 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
    * Set up initial subscriptions
    */
   ngOnInit(): void {
-    this.configureChart();
     if (this.widgetConfig?.toggleKey) {
       this.initToggleKey();
     }
@@ -132,11 +132,12 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
         this.emphasizeChannel(channel);
       }
     );
-    const denseViewSub = this.widgetConnector?.useDenseView.subscribe(
+    const denseViewSub = this.widgetConnector.useDenseView.subscribe(
       (useDenseView) => {
         this.useDenseView(useDenseView);
       }
     );
+    this.configureChart();
     this.subscription.add(emphSub);
     this.subscription.add(deemphsSub);
     this.subscription.add(denseViewSub);

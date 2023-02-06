@@ -1,5 +1,9 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Dashboard } from "squacapi";
+import {
+  ARCHIVE_STAT_OPTIONS,
+  ARCHIVE_TYPE_OPTIONS,
+  Dashboard,
+} from "squacapi";
 import { ActivatedRoute, Router } from "@angular/router";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { ViewService } from "@dashboard/services/view.service";
@@ -37,6 +41,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   hideRows = false;
   // time picker config
   datePickerTimeRanges = DATE_PICKER_TIMERANGES;
+  archiveTypeOptions = ARCHIVE_TYPE_OPTIONS;
+  statTypeOptions = ARCHIVE_STAT_OPTIONS;
 
   constructor(
     private route: ActivatedRoute,
@@ -71,6 +77,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
                   this.channelGroupId = channelGroup.id;
                 }
                 this.dashboard = this.viewService.dashboard;
+                this.widgetConnectService.useDenseView.next(
+                  this.dashboard.properties.denseView
+                );
                 this.archiveStat = this.viewService.archiveStat;
                 this.archiveType = this.viewService.archiveType;
                 this.timeRange = this.viewService.range;
@@ -129,6 +138,10 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   toggleView() {
     this.widgetConnectService.useDenseView.next(
+      this.dashboard.properties.denseView
+    );
+    this.viewService.updateDashboardProperty(
+      "denseView",
       this.dashboard.properties.denseView
     );
   }

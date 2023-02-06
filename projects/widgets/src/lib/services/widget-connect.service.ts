@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Subject } from "rxjs";
+import { ReplaySubject, Subject } from "rxjs";
 
 /**
  * Service for communication between widgets,
@@ -14,5 +14,5 @@ export class WidgetConnectService {
   /** channel to deemphasize */
   deemphasizeChannel = new Subject<string>();
   /** hide zoom controls */
-  useDenseView = new Subject<boolean>();
+  useDenseView = new ReplaySubject<boolean>(1);
 }

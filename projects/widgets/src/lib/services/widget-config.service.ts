@@ -83,31 +83,6 @@ export class WidgetConfigService {
   // defaults for echarts charts
   chartDefaults: EChartsOption = ECHART_DEFAULTS;
 
-  /**
-   * Copy new options onto defaults
-   *
-   * @param options - options to add
-   * @returns combined options
-   */
-  chartOptions(options: EChartsOption): EChartsOption {
-    const newOptions = { ...this.chartDefaults };
-
-    Object.keys(options).forEach((key) => {
-      if (!(key in newOptions)) {
-        newOptions[key] = {};
-      }
-      const keyOptions = options[key];
-      if (Object.keys(keyOptions).length > 0 && !Array.isArray(keyOptions)) {
-        Object.keys(keyOptions).forEach((childKey) => {
-          newOptions[key][childKey] = keyOptions[childKey];
-        });
-      } else {
-        newOptions[key] = options[key];
-      }
-    });
-    return newOptions;
-  }
-
   //can use this.thresholds or another metric to color?
   /**
    * Creates visual maps for each metric using the widget properties

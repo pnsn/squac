@@ -4,7 +4,7 @@ import { EChartsOption, EChartsType } from "echarts";
 import { WidgetConnectService, WidgetManagerService } from "../../../services";
 import { GenericWidgetComponent } from "..";
 import { WidgetTypeComponent } from "../../../interfaces";
-import { ECHART_DEFAULTS } from "./chart-config";
+import { ECHART_DEFAULTS, ECHART_DENSE_DEFAULTS } from "./chart-config";
 
 /**
  * Abstract class to make creation of Echart widgets simpler
@@ -36,30 +36,32 @@ export abstract class EChartComponent
   metricSeries: any = {};
   chartDefaultOptions: EChartsOption = ECHART_DEFAULTS;
 
+  denseOptions = ECHART_DENSE_DEFAULTS;
+  fullOptions = {
+    grid: this.chartDefaultOptions.grid,
+    dataZoom: this.chartDefaultOptions.dataZoom,
+  };
+
   /**
    * Toggles zoom controls and grid view to make widgets more dense
    * @param useDenseView true if widget should use dense view
    */
   override useDenseView(useDenseView: boolean): void {
+    this.denseView = useDenseView;
     if (this.echartsInstance) {
       if (useDenseView) {
         this.echartsInstance.setOption(
-          {
-            grid: {
-              left: 10,
-              bottom: 15,
-            },
-            dataZoom: [],
-          },
+          { ...this.denseOptions },
           {
             replaceMerge: ["dataZoom"],
           }
         );
       } else {
-        this.echartsInstance.setOption({
-          grid: this.options.grid,
-          dataZoom: this.options.dataZoom,
-        });
+        console.log(this.fullOptions);
+        this.echartsInstance.setOption(
+          { ...this.fullOptions },
+          { replaceMerge: ["dataZoom"] }
+        );
       }
     }
   }
@@ -100,6 +102,9 @@ export abstract class EChartComponent
    */
   onChartInit(event): void {
     this.echartsInstance = event;
+    if (this.denseView) {
+      this.useDenseView(this.denseView);
+    }
   }
 
   /**

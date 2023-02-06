@@ -5,6 +5,7 @@ import { PrecisionPipe } from "../../shared/pipes/precision.pipe";
 import {
   EChartsOption,
   TooltipComponentFormatterCallbackParams,
+  XAXisComponentOption,
 } from "echarts";
 import {
   WidgetConnectService,
@@ -41,59 +42,127 @@ export class CalendarComponent
   // Max allowable time between measurements to connect
   maxMeasurementGap: number = 1 * 1000;
   precisionPipe = new PrecisionPipe();
+  override denseOptions: {
+    grid: {
+      containLabel: true;
+      left: number;
+      top: number;
+      right: number;
+      bottom?: number;
+    };
+    dataZoom: any[];
+  } = {
+    grid: {
+      containLabel: true,
+      top: 0,
+      right: 5,
+      left: 10,
+    },
+    dataZoom: [],
+  };
+  override fullOptions = {
+    grid: {
+      containLabel: true,
+      top: 0,
+      right: 5,
+      left: 30,
+    },
+    dataZoom: this.chartDefaultOptions.dataZoom,
+  };
 
+  xAxisConfig: XAXisComponentOption = {
+    type: "category",
+    axisLabel: {
+      fontSize: 11,
+      margin: 3,
+    },
+    position: "bottom",
+    axisTick: {
+      show: true,
+    },
+    axisLine: {
+      show: true,
+    },
+    nameLocation: "middle",
+  };
+
+  axisPointer = {
+    show: true,
+    label: {
+      formatter: (params: LabelFormatterParams): string => {
+        const pa = (params.value as string).split("-");
+        const labels = [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+        ];
+        if (pa.length > 1) {
+          const week = pa[0];
+          const time = pa[1];
+          return `${labels[+week]} ${time}:00`;
+        } else {
+          if (+pa[0]) {
+            return `${pa[0]}:00`;
+          }
+          return `${pa[0]}`;
+        }
+      },
+    },
+  };
+
+  /**
+   * Toggles zoom controls and grid view to make widgets more dense
+   * @param useDenseView true if widget should use dense view
+   */
+  override useDenseView(useDenseView: boolean): void {
+    this.denseView = useDenseView;
+
+    if (this.echartsInstance) {
+      if (useDenseView) {
+        this.echartsInstance.setOption(
+          {
+            grid: {
+              ...this.denseOptions.grid,
+              bottom: this.xAxisLabels2.length > 0 ? 0 : 14,
+            },
+            dataZoom: this.denseOptions.dataZoom,
+          },
+          {
+            replaceMerge: ["dataZoom"],
+          }
+        );
+      } else {
+        this.echartsInstance.setOption(
+          {
+            grid: {
+              ...this.fullOptions.grid,
+              bottom: this.xAxisLabels2.length > 0 ? 24 : 38,
+            },
+            dataZoom: this.fullOptions.dataZoom,
+          },
+          { replaceMerge: ["dataZoom", "grid"] }
+        );
+      }
+    }
+  }
   /**
    * @override
    */
   configureChart(): void {
+    const dataZoom = this.denseView
+      ? this.denseOptions.dataZoom
+      : this.fullOptions.dataZoom;
+    const grid = this.denseView
+      ? this.denseOptions.grid
+      : this.fullOptions.grid;
     this.options = {
       ...this.chartDefaultOptions,
-      grid: {
-        containLabel: true,
-        top: 0,
-        right: 5,
-        bottom: 38,
-        left: 30,
-      },
-      xAxis: {
-        type: "category",
-        axisLabel: {
-          fontSize: 11,
-        },
-        axisTick: {
-          show: true,
-        },
-        axisLine: {
-          show: true,
-        },
-        axisPointer: {
-          show: true,
-          label: {
-            formatter: (params: LabelFormatterParams) => {
-              const pa = (params.value as string).split("-");
-              const labels = [
-                "Sunday",
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday",
-              ];
-              if (pa.length > 1) {
-                const week = pa[0];
-                const time = pa[1];
-                return `${labels[+week]} ${time}:00`;
-              } else {
-                if (+pa[0]) {
-                  return `${pa[0]}:00`;
-                }
-                return `${pa[0]}`;
-              }
-            },
-          },
-        },
-      },
+      grid,
+      dataZoom,
       yAxis: {
         inverse: true,
         axisLabel: {
@@ -105,6 +174,7 @@ export class CalendarComponent
         type: "category",
         // nameGap: 35, //max characters
       },
+      xAxis: { ...this.xAxisConfig }, //have default xaxis config or error occurs
       tooltip: {
         ...this.chartDefaultOptions.tooltip,
         formatter: (
@@ -278,28 +348,19 @@ export class CalendarComponent
     const axes = [];
 
     let xAxis1: EChartsOption = {
-      type: "category",
-
-      axisLine: {
-        show: true,
-      },
-      axisPointer: {
-        show: true,
-      },
-      name: "",
-      position: "bottom",
+      ...this.xAxisConfig,
     };
     let name = "";
     if (this.properties.displayType) {
       name = this.properties.displayType.replace("-", " of ");
     }
 
-    xAxis1["name"] = name;
-
+    let xAxisOffset = this.denseView ? 0 : 24;
     if (this.xAxisLabels2.length > 0) {
       xAxis1 = {
         ...xAxis1,
         axisTick: {
+          show: true,
           alignWithLabel: false,
           length: 16,
           inside: false,
@@ -308,7 +369,7 @@ export class CalendarComponent
           },
         },
         axisLabel: {
-          margin: 16,
+          margin: 14,
           fontSize: 11,
           align: "left",
           interval: (_index: number, value: string): boolean => {
@@ -325,10 +386,11 @@ export class CalendarComponent
           },
         },
       };
+
       const xAxis2 = {
-        position: "bottom",
+        ...this.xAxisConfig,
         data: this.xAxisLabels,
-        nameGap: 28,
+        nameGap: 26,
         name,
         axisLabel: {
           fontSize: 11,
@@ -337,22 +399,28 @@ export class CalendarComponent
             return val === "00" ? "" : val;
           },
         },
+        axisPointer: this.axisPointer,
       };
       xAxis1["data"] = this.xAxisLabels2;
 
       axes.push(xAxis2);
       axes.push(xAxis1);
+      xAxisOffset += 0;
     } else {
       //just one axis
       xAxis1["data"] = this.xAxisLabels;
+      xAxis1["axisPointer"] = this.axisPointer;
+      xAxis1["name"] = name;
       axes.push(xAxis1);
+      xAxisOffset += 14;
     }
     this.updateOptions = {
       series: this.metricSeries[displayMetric.id].series,
       visualMap: visualMaps,
       xAxis: axes,
       grid: {
-        bottom: axes.length > 1 ? 24 : 38,
+        // bottom: axes.length > 1 ? 24 : 38,
+        bottom: xAxisOffset,
       },
       yAxis: {
         data: this.metricSeries[displayMetric.id].yAxisLabels,

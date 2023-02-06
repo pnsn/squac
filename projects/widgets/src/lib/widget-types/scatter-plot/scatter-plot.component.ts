@@ -28,45 +28,47 @@ export class ScatterPlotComponent
     super(widgetManager, widgetConnectService);
   }
 
-  /**
-   * Toggles zoom controls and grid view to make widgets more dense
-   * @param useDenseView true if widget should use dense view
-   */
-  override useDenseView(useDenseView: boolean): void {
-    if (this.echartsInstance) {
-      if (useDenseView) {
-        this.echartsInstance.setOption(
-          {
-            grid: {
-              left: 30,
-              bottom: 15,
-            },
-            dataZoom: [],
-          },
-          {
-            replaceMerge: ["dataZoom"],
-          }
-        );
-      } else {
-        this.echartsInstance.setOption({
-          grid: { ...this.chartDefaultOptions.grid, left: 50 },
-          dataZoom: this.chartDefaultOptions.dataZoom,
-        });
-      }
-    }
-  }
+  override denseOptions: {
+    grid: {
+      containLabel: true;
+      left: number;
+      bottom: number;
+      top: number;
+      right: number;
+    };
+    dataZoom: any[];
+  } = {
+    grid: {
+      containLabel: true,
+      top: 5,
+      right: 8,
+      left: 30,
+      bottom: 15,
+    },
+    dataZoom: [],
+  };
+
+  override fullOptions = {
+    grid: { containLabel: true, top: 5, right: 8, bottom: 38, left: 50 },
+    dataZoom: this.chartDefaultOptions.dataZoom,
+  };
 
   /**
    * @override
    */
   configureChart(): void {
+    const dataZoom = this.denseView
+      ? this.denseOptions.dataZoom
+      : this.fullOptions.dataZoom;
+    const grid = this.denseView
+      ? this.denseOptions.grid
+      : this.fullOptions.grid;
+    console.log("in configure chart", this.denseView);
     this.options = {
       ...this.chartDefaultOptions,
       series: [],
-      grid: {
-        ...this.chartDefaultOptions.grid,
-        left: 50,
-      },
+      grid,
+      dataZoom,
       xAxis: {
         axisLabel: {
           fontSize: 11,
@@ -178,5 +180,6 @@ export class ScatterPlotComponent
         replaceMerge: ["series"],
       });
     }
+    console.log("scatter change metrics");
   }
 }
