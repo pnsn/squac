@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ViewService } from "@dashboard/services/view.service";
-import { Widget } from "widgets";
+import { Widget, WidgetConnectService } from "widgets";
 import { GridsterConfig, GridsterItem } from "angular-gridster2";
 import { Subscription } from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -79,7 +79,8 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     private viewService: ViewService,
     private route: ActivatedRoute,
     private router: Router,
-    private ability: AppAbility
+    private ability: AppAbility,
+    private widgetConnectService: WidgetConnectService
   ) {}
 
   /** subscrive to router and changes */
@@ -90,6 +91,13 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
         this.updateWidget(widgetId, widget);
       }
     );
+
+    const toggleChannelListSub =
+      this.widgetConnectService.toggleChannelList.subscribe(
+        (toggleChannelList: boolean) => {
+          this.sideNavOpened = toggleChannelList;
+        }
+      );
 
     //subscribe to router changes for when dashboards change
     const dataSub = this.route.data.subscribe((data) => {
@@ -115,6 +123,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.subscription.add(toggleChannelListSub);
     this.subscription.add(widgetSub);
     this.subscription.add(dataSub);
   }

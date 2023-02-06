@@ -15,4 +15,6 @@ export class WidgetConnectService {
   deemphasizeChannel = new Subject<string>();
   /** hide zoom controls */
   useDenseView = new ReplaySubject<boolean>(1);
+  /** toggle channel list */
+  toggleChannelList = new ReplaySubject<boolean>(1);
 }

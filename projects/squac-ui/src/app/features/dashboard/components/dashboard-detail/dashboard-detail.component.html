@@ -95,14 +95,15 @@
       </button>
     </div>
     <div class="row" *ngIf="dashboard?.properties && !hideRows">
-      <mat-checkbox> Link Charts </mat-checkbox>
       <mat-checkbox
         [(ngModel)]="dashboard.properties.denseView"
         (change)="toggleView()"
       >
         Dense View
       </mat-checkbox>
-      <mat-checkbox> show channel list</mat-checkbox>
+      <mat-checkbox [(ngModel)]="channelList" (change)="toggleChannelList()">
+        show channel list</mat-checkbox
+      >
     </div>
   </div>
 

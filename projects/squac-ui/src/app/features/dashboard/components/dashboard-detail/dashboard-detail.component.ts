@@ -36,6 +36,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   endTime: string;
   channelGroupId: number;
   selectedRange: TimeRange;
+  channelList = true;
 
   timeRange: number;
   hideRows = false;
@@ -146,8 +147,11 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     );
   }
 
+  toggleChannelList() {
+    this.widgetConnectService.toggleChannelList.next(this.channelList);
+  }
+
   selectedRangeChange(event) {
-    console.log(event);
     this.selectedRange = event;
   }
 
