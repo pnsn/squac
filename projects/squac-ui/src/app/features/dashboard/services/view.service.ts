@@ -417,6 +417,7 @@ export class ViewService {
    */
   updateDashboardProperty(propertyKey: string, value: unknown) {
     this._dashboard.properties[propertyKey] = value;
+    this.hasUnsavedChanges = true;
   }
 
   /**

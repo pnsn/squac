@@ -25,9 +25,9 @@
         <ng-container *ngIf="archiveStat"
           >: {{ statTypeOptions[archiveStat] }}
         </ng-container>
-        <ng-container *ngIf="viewService.range && selectedRange; else timespan">
-          Last {{ selectedRange.amount }} {{ selectedRange.unit
-          }}{{ selectedRange.amount > 1 ? "s" : "" }}
+        <ng-container *ngIf="viewService.range; else timespan">
+          Last {{ selectedRange?.amount }} {{ selectedRange?.unit
+          }}{{ selectedRange?.amount > 1 ? "s" : "" }}
         </ng-container>
         <ng-template #timespan>
           {{ viewService.startTime }} -
