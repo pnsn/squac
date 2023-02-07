@@ -182,6 +182,5 @@ export class ScatterPlotComponent
         replaceMerge: ["series"],
       });
     }
-    console.log("scatter change metrics");
   }
 }

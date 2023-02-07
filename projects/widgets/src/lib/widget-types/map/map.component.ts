@@ -68,7 +68,8 @@ export class MapComponent
     super(widgetManager, widgetConnectService);
   }
 
-  override useDenseView(useDenseView: boolean): void {
+  /** @override */
+  override useDenseView(_useDenseView: boolean): void {
     return;
   }
 

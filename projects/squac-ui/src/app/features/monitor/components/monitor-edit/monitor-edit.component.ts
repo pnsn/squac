@@ -226,8 +226,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
           this.messageService.message("Monitor saved.");
           this.cancel();
         },
-        error: (e) => {
-          console.log(e);
+        error: () => {
           this.messageService.error("Could not save monitor.");
         },
       });

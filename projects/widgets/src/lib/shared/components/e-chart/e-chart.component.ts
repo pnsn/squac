@@ -44,6 +44,7 @@ export abstract class EChartComponent
 
   /**
    * Toggles zoom controls and grid view to make widgets more dense
+   *
    * @param useDenseView true if widget should use dense view
    */
   override useDenseView(useDenseView: boolean): void {

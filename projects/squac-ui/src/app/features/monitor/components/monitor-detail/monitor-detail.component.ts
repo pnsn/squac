@@ -14,6 +14,7 @@ import { forkJoin, Observable, Subscription, switchMap, tap } from "rxjs";
 import {
   Alert,
   AlertService,
+  BreachingChannel,
   Channel,
   ChannelGroup,
   ChannelGroupService,
@@ -107,11 +108,11 @@ export class MonitorDetailComponent implements OnInit {
         name: "Value",
         prop: "",
         pipe: {
-          transform: (row) => {
+          transform: (row: BreachingChannel): number => {
             return row[this.monitor.stat];
           },
         },
-        comparator: (a, b) => {
+        comparator: (a: BreachingChannel, b: BreachingChannel): number => {
           return a[this.monitor.stat] - b[this.monitor.stat];
         },
       },
@@ -189,7 +190,6 @@ export class MonitorDetailComponent implements OnInit {
           if (this.channelChart && this.monitorChart) {
             const channelChart = this.channelChart.echartsInstance;
             const monitorChart = this.monitorChart.echartsInstance;
-            console.log(channelChart, monitorChart);
             if (monitorChart && channelChart) {
               connect([channelChart, monitorChart]);
             }
@@ -273,7 +273,6 @@ export class MonitorDetailComponent implements OnInit {
       this.dateService.format(startDate),
       this.dateService.format(endDate)
     );
-    console.log("dates changed");
     this.unsavedChanges = true;
   }
 }

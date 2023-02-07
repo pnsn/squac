@@ -122,6 +122,7 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
         this.widgetManager.resize$.next(true);
       });
 
+    this.subscription.add(denseViewSub);
     this.subscription.add(resizeSub);
     this.subscription.add(zoomSub);
     this.subscription.add(toggleSub);

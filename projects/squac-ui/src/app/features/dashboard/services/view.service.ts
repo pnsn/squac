@@ -401,7 +401,6 @@ export class ViewService {
     this.hasUnsavedChanges = true;
   }
 
-  // broadcast id of changed widget
   /**
    * Emits id of changed widget and clears errors
    *
@@ -415,9 +414,10 @@ export class ViewService {
   /**
    * Updates dashboard properties
    *
-   * @param
+   * @param propertyKey property key
+   * @param value property value
    */
-  updateDashboardProperty(propertyKey: string, value: unknown) {
+  updateDashboardProperty(propertyKey: string, value: unknown): void {
     this._dashboard.properties[propertyKey] = value;
     this.hasUnsavedChanges = true;
   }
@@ -481,7 +481,7 @@ export class ViewService {
    *
    * @param widgetId widget to delete
    */
-  deleteWidget(widgetId): void {
+  deleteWidget(widgetId: number): void {
     this.widgetService.delete(widgetId).subscribe({
       next: () => {
         this.updateWidget(widgetId);
@@ -498,7 +498,7 @@ export class ViewService {
    *
    * @param dashboardId dashboard to delete
    */
-  deleteDashboard(dashboardId): void {
+  deleteDashboard(dashboardId: number): void {
     this.dashboardService.delete(dashboardId).subscribe({
       next: () => {
         this.messageService.message("Dashboard deleted.");
@@ -513,7 +513,6 @@ export class ViewService {
    * Saves dashboard using partial update
    *
    * @param keys keys to update in model
-   * @param silentUpdate true if widget should not resize after update
    */
   saveDashboard(keys: string[] = []): void {
     if (this.ability.can("update", this.dashboard)) {

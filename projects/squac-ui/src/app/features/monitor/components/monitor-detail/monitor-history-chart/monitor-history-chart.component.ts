@@ -10,7 +10,6 @@ import { LoadingService } from "@core/services/loading.service";
 import {
   CustomSeriesRenderItemAPI,
   CustomSeriesRenderItemReturn,
-  EChartsOption,
   graphic,
   TooltipComponentFormatterCallbackParams,
 } from "echarts";
@@ -95,7 +94,7 @@ export class MonitorHistoryChartComponent extends EChartComponent {
           show: true,
           triggerTooltip: false,
           label: {
-            formatter: (params: LabelFormatterParams) => {
+            formatter: (params: LabelFormatterParams): string => {
               return this.getOffsetStart(params.value);
             },
           },
@@ -161,7 +160,9 @@ export class MonitorHistoryChartComponent extends EChartComponent {
         ...this.chartDefaultOptions.tooltip,
         show: true,
         trigger: "item",
-        formatter: (params: TooltipComponentFormatterCallbackParams) => {
+        formatter: (
+          params: TooltipComponentFormatterCallbackParams
+        ): string => {
           if ("componentType" in params) {
             const tooltipstr = `${this.getOffsetStart(params.value[0])} ${
               params.value[4].breachingChannels?.length
@@ -173,7 +174,8 @@ export class MonitorHistoryChartComponent extends EChartComponent {
     };
   }
 
-  override onChartEvent($event, type) {
+  /** @override */
+  override onChartEvent($event, type): void {
     if (type === "chartClick") {
       this.selectedAlertChange.emit($event.value[4]);
     }
@@ -181,7 +183,7 @@ export class MonitorHistoryChartComponent extends EChartComponent {
   /**
    * @override
    */
-  buildChartData(data: ProcessedData): Promise<void> {
+  buildChartData(_data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {
       this.alertsSeries = [];
 
@@ -192,7 +194,7 @@ export class MonitorHistoryChartComponent extends EChartComponent {
       };
       this.metricSeries.yAxisLabels = [];
       this.monitor.triggers.forEach((trigger: Trigger, i: number) => {
-        this.metricSeries.yAxisLabels.push(this.getTriggerLabel(trigger));
+        this.metricSeries.yAxisLabels.push(trigger.fullString);
         this.addAlerts(trigger.id, i);
       });
 
@@ -200,6 +202,12 @@ export class MonitorHistoryChartComponent extends EChartComponent {
     });
   }
 
+  /**
+   * Get date and format
+   *
+   * @param rawDate date to process
+   * @returns formatted date
+   */
   getOffsetStart(rawDate: Date | number | string): string {
     const date = this.dateService.parseUtc(rawDate);
     // const newD = date.startOf("hour").add(5, "minutes");
@@ -209,7 +217,8 @@ export class MonitorHistoryChartComponent extends EChartComponent {
   /**
    * Adds alarms to charts
    *
-   * @returns alarm series
+   * @param triggerId if of trigger
+   * @param triggerIndex index of trigger in monitor
    */
   addAlerts(triggerId: number, triggerIndex: number): void {
     const series = {
@@ -241,7 +250,12 @@ export class MonitorHistoryChartComponent extends EChartComponent {
     this.alertsSeries.push(series);
   }
 
-  addBreachingChannels(alert: Alert) {
+  /**
+   * Adds breaching channels for alert
+   *
+   * @param alert alert to add channels for
+   */
+  addBreachingChannels(alert: Alert): void {
     const channelsData = [];
     alert.breachingChannels.forEach((bc: BreachingChannel) => {
       const start = this.dateService.parseUtc(alert.timestamp);
@@ -258,10 +272,6 @@ export class MonitorHistoryChartComponent extends EChartComponent {
     // this.channelsSeries.push(...channelsData);
   }
 
-  getTriggerLabel(trigger: Trigger): string {
-    /** Return string representation of trigger info */
-    return `${trigger.numChannelsString} ${trigger.valueString}`;
-  }
   /**
    * @override
    */

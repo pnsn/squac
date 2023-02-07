@@ -137,7 +137,10 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.updateArchiveType();
   }
 
-  toggleView() {
+  /**
+   * Toggles dense view setting for dashboard
+   */
+  toggleView(): void {
     this.widgetConnectService.useDenseView.next(
       this.dashboard.properties.denseView
     );
@@ -147,11 +150,19 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     );
   }
 
-  toggleChannelList() {
+  /**
+   * Toggles channel list setting for dashboard
+   */
+  toggleChannelList(): void {
     this.widgetConnectService.toggleChannelList.next(this.channelList);
   }
 
-  selectedRangeChange(event) {
+  /**
+   * Stores changed time range
+   *
+   * @param event timeRange from date select component
+   */
+  selectedRangeChange(event: TimeRange): void {
     this.selectedRange = event;
   }
 

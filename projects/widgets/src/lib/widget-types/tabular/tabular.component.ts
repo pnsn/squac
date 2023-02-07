@@ -87,7 +87,8 @@ export class TabularComponent
     super.ngOnInit();
   }
 
-  override useDenseView(useDenseView: boolean): void {
+  /** @override */
+  override useDenseView(_useDenseView: boolean): void {
     return;
   }
 

@@ -45,6 +45,11 @@ export class Trigger extends ResourceModel<
     return message;
   }
 
+  /** @returns string representation of trigger */
+  get fullString(): string {
+    return `${this.numChannelsString} ${this.valueString}`;
+  }
+
   /** @returns true if most recent alert is in alarm */
   get inAlarm(): boolean | undefined {
     return this.latestAlert ? this.latestAlert.inAlarm : undefined;

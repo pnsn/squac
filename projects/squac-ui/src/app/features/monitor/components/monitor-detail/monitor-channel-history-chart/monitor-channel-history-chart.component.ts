@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
-import { DatasetComponentOption, EChartsOption } from "echarts";
+import { DatasetComponentOption } from "echarts";
 import {
   Alert,
   BreachingChannel,
@@ -93,7 +93,7 @@ export class MonitorChannelHistoryChartComponent extends EChartComponent {
           show: true,
           triggerTooltip: false,
           label: {
-            formatter: (params: LabelFormatterParams) => {
+            formatter: (params: LabelFormatterParams): string => {
               return this.getOffsetStart(params.value);
             },
           },
@@ -169,15 +169,17 @@ export class MonitorChannelHistoryChartComponent extends EChartComponent {
     };
   }
 
-  override onChartEvent($event, type) {
+  /** @override */
+  override onChartEvent($event, type): void {
     if (type === "chartClick" && $event.seriesName === this.alertsSeriesName) {
       this.selectedAlertChange.emit($event.value[4]);
     }
   }
+
   /**
    * @override
    */
-  buildChartData(data: ProcessedData): Promise<void> {
+  buildChartData(_data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {
       // this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
       //   this.selectedMetrics,
@@ -253,6 +255,12 @@ export class MonitorChannelHistoryChartComponent extends EChartComponent {
     });
   }
 
+  /**
+   * Gets date with offset
+   *
+   * @param rawDate raw date value to process
+   * @returns formatted date string
+   */
   getOffsetStart(rawDate: Date | number | string): string {
     const date = this.dateService.parseUtc(rawDate);
     // const newD = date.startOf("hour").add(5, "minutes");
@@ -281,7 +289,7 @@ export class MonitorChannelHistoryChartComponent extends EChartComponent {
         data: [],
       },
     };
-    this.monitor.triggers.forEach((trigger) => {
+    this.monitor.triggers.forEach((trigger: Trigger) => {
       const val2 = trigger.val2 ?? trigger.val1;
 
       const min = Math.min(trigger.val1, val2);
@@ -292,7 +300,7 @@ export class MonitorChannelHistoryChartComponent extends EChartComponent {
       if (max > this.dataRange.max) {
         this.dataRange.max = max;
       }
-      const name = this.getTriggerLabel(trigger);
+      const name = trigger.fullString;
       let yAxis0;
       let yAxis1;
       if (trigger.valueOperator === "within") {
@@ -343,55 +351,6 @@ export class MonitorChannelHistoryChartComponent extends EChartComponent {
     return triggerSeries;
   }
 
-  /**
-   * Adds alarms to charts
-   *
-   * @returns alarm series
-   */
-  addAlerts(triggerId: number, triggerIndex: number): void {
-    const seriesData = [];
-    this.alerts
-      ?.filter((a) => a.triggerId === triggerId)
-      .forEach((alert) => {
-        if (alert.inAlarm) {
-          this.addBreachingChannels(alert);
-          const start = this.dateService.parseUtc(alert.timestamp);
-          const breachingChannels = alert.breachingChannels.length;
-          seriesData.push({
-            name: alert.triggerId,
-            value: [
-              start.toDate(),
-              start.add(1, "hour").toDate(),
-              breachingChannels,
-              triggerIndex,
-              alert,
-            ],
-          });
-        }
-      });
-  }
-
-  addBreachingChannels(alert: Alert) {
-    const channelsData = [];
-    alert.breachingChannels.forEach((bc: BreachingChannel) => {
-      const start = this.dateService.parseUtc(alert.timestamp);
-      channelsData.push({
-        name: bc.channel,
-        value: [
-          start.toDate(),
-          start.add(1, "hour").toDate(),
-          bc[this.monitor.stat],
-          alert,
-        ],
-      });
-    });
-    // this.channelsSeries.push(...channelsData);
-  }
-
-  getTriggerLabel(trigger: Trigger): string {
-    /** Return string representation of trigger info */
-    return `${trigger.numChannelsString} ${trigger.valueString}`;
-  }
   /**
    * @override
    */
