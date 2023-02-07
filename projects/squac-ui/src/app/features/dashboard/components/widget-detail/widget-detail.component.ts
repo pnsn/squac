@@ -50,6 +50,7 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
   hideControls: boolean;
   zooming: string;
   showKey = true;
+  firstMetricUpdate = true; //don't save metrics after initial update
   constructor(
     protected widgetManager: WidgetManagerService,
     private router: Router,
@@ -166,7 +167,10 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
     this.widgetManager.updateThresholds(this.thresholds);
     this.widgetManager.updateMetrics(metrics);
     this.widget.thresholds = this.thresholds;
-    this.viewService.saveWidget(this.widget, ["thresholds", "metrics"], true);
+    if (!this.firstMetricUpdate) {
+      this.viewService.saveWidget(this.widget, ["thresholds", "metrics"], true);
+    }
+    this.firstMetricUpdate = false;
   }
 
   /**
