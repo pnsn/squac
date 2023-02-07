@@ -62,6 +62,7 @@ export class TimechartComponent
           },
         },
         axisLabel: {
+          hideOverlap: true,
           fontSize: 11,
           margin: 3,
           formatter: (params: string) =>
@@ -195,6 +196,7 @@ export class TimechartComponent
   changeMetrics(): void {
     const colorMetric = this.selectedMetrics[0];
     const visualMaps = this.visualMaps[colorMetric.id];
+    visualMaps.show = this.showKey;
     this.updateOptions = {
       series: this.metricSeries.series,
       visualMap: visualMaps,

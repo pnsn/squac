@@ -101,6 +101,7 @@ export class MonitorHistoryChartComponent extends EChartComponent {
           },
         },
         axisLabel: {
+          hideOverlap: true,
           fontSize: 11,
           margin: 3,
           formatter: (params: string) =>

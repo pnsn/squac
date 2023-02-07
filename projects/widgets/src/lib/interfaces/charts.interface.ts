@@ -82,6 +82,8 @@ export interface StoplightVisualMapOption extends VisualMapBase {
   min: number;
   /** visual map max */
   max: number;
+  /** show visual map component */
+  show?: boolean;
 }
 
 export type VisualMap = Record<number, VisualMapTypes>;

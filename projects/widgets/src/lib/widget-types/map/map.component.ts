@@ -132,6 +132,7 @@ export class MapComponent
       });
       this.buildChartData(this.data).then(() => {
         this.changeMetrics();
+        this.toggleKey();
       });
     }
   }

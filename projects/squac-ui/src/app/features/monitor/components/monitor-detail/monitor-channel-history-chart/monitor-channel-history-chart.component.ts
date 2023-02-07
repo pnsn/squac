@@ -101,6 +101,7 @@ export class MonitorChannelHistoryChartComponent extends EChartComponent {
         axisLabel: {
           fontSize: 11,
           margin: 3,
+          hideOverlap: true,
           formatter: (params: string) =>
             this.widgetConfigService.timeAxisTickFormatting(params),
         },

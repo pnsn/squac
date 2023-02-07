@@ -41,7 +41,7 @@ export class ScatterPlotComponent
     grid: {
       containLabel: true,
       top: 5,
-      right: 8,
+      right: 10,
       left: 30,
       bottom: 15,
     },
@@ -49,7 +49,7 @@ export class ScatterPlotComponent
   };
 
   override fullOptions = {
-    grid: { containLabel: true, top: 5, right: 8, bottom: 38, left: 50 },
+    grid: { containLabel: true, top: 5, right: 10, bottom: 38, left: 50 },
     dataZoom: this.chartDefaultOptions.dataZoom,
   };
 
@@ -63,7 +63,7 @@ export class ScatterPlotComponent
     const grid = this.denseView
       ? this.denseOptions.grid
       : this.fullOptions.grid;
-    console.log("in configure chart", this.denseView);
+
     this.options = {
       ...this.chartDefaultOptions,
       series: [],
@@ -71,6 +71,7 @@ export class ScatterPlotComponent
       dataZoom,
       xAxis: {
         axisLabel: {
+          hideOverlap: true,
           fontSize: 11,
           formatter: (value: number): string => {
             return value.toPrecision(4);
@@ -165,6 +166,7 @@ export class ScatterPlotComponent
     const yMetric = this.selectedMetrics[1];
     const colorMetric = this.selectedMetrics[2];
     const visualMaps = this.visualMaps[colorMetric.id];
+    visualMaps.show = this.showKey;
     this.updateOptions = {
       series: this.metricSeries.series,
       xAxis: {

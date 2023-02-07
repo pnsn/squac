@@ -74,7 +74,7 @@ export const ECHART_DENSE_DEFAULTS: EChartsOption = {
   grid: {
     containLabel: true,
     top: 5,
-    right: 8,
+    right: 10,
     bottom: 15,
     left: 10,
   },

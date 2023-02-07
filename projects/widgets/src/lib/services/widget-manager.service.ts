@@ -36,7 +36,7 @@ export class WidgetManagerService {
   resize$ = new Subject<boolean>();
 
   // communication between external widget controls and actual widget
-  toggleKey$ = new Subject<boolean>();
+  toggleKey$ = new ReplaySubject<boolean>(1);
   zoomStatus$ = new Subject<string>();
 
   private _params: MeasurementParams = {};

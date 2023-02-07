@@ -75,6 +75,7 @@ export class CalendarComponent
     axisLabel: {
       fontSize: 11,
       margin: 3,
+      hideOverlap: true,
     },
     position: "bottom",
     axisTick: {
@@ -370,6 +371,7 @@ export class CalendarComponent
         },
         axisLabel: {
           margin: 14,
+          hideOverlap: true,
           fontSize: 11,
           align: "left",
           interval: (_index: number, value: string): boolean => {
@@ -393,6 +395,7 @@ export class CalendarComponent
         nameGap: 26,
         name,
         axisLabel: {
+          hideOverlap: true,
           fontSize: 11,
           formatter: (value: string): string => {
             const val = value.split("-")[1];
@@ -414,12 +417,12 @@ export class CalendarComponent
       axes.push(xAxis1);
       xAxisOffset += 14;
     }
+    visualMaps.show = this.showKey;
     this.updateOptions = {
       series: this.metricSeries[displayMetric.id].series,
       visualMap: visualMaps,
       xAxis: axes,
       grid: {
-        // bottom: axes.length > 1 ? 24 : 38,
         bottom: xAxisOffset,
       },
       yAxis: {

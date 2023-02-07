@@ -304,7 +304,7 @@ export class TimelineComponent
     const displayMetric = this.selectedMetrics[0];
     const colorMetric = this.selectedMetrics[0];
     const visualMaps = this.visualMaps[colorMetric.id];
-
+    visualMaps.show = this.showKey;
     let xAxis = { ...this.options.xAxis };
     if (
       this.properties.displayType === "hour" ||
@@ -332,6 +332,7 @@ export class TimelineComponent
           formatter: this.widgetConfigService.timeAxisTickFormatting.bind(this),
           fontSize: 11,
           margin: 3,
+          hideOverlap: true,
         },
         axisPointer: {
           show: true,

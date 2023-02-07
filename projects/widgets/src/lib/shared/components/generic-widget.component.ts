@@ -115,13 +115,6 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
    * Set up initial subscriptions
    */
   ngOnInit(): void {
-    if (this.widgetConfig?.toggleKey) {
-      this.initToggleKey();
-    }
-
-    if (this.widgetConfig?.zoomControls) {
-      this.initZoom();
-    }
     const deemphsSub = this.widgetConnector?.deemphasizeChannel.subscribe(
       (channel) => {
         this.deemphasizeChannel(channel);
@@ -138,6 +131,13 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
       }
     );
     this.configureChart();
+    if (this.widgetConfig?.toggleKey) {
+      this.initToggleKey();
+    }
+
+    if (this.widgetConfig?.zoomControls) {
+      this.initZoom();
+    }
     this.subscription.add(emphSub);
     this.subscription.add(deemphsSub);
     this.subscription.add(denseViewSub);

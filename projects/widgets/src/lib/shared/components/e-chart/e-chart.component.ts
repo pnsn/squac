@@ -57,7 +57,6 @@ export abstract class EChartComponent
           }
         );
       } else {
-        console.log(this.fullOptions);
         this.echartsInstance.setOption(
           { ...this.fullOptions },
           { replaceMerge: ["dataZoom"] }

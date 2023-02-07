@@ -151,6 +151,10 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
     this.expectedMetrics = this.widgetType.minMetrics;
     this.initialMetrics = widget.metrics.slice();
     this.thresholds = widget.thresholds.slice();
+    if ("showLegend" in this.widget.properties) {
+      this.showKey = this.widget.properties.showLegend;
+      this.widgetManager.toggleKey$.next(this.showKey);
+    }
   }
 
   /**
@@ -170,7 +174,7 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
    */
   toggleKey(): void {
     this.widgetManager.toggleKey$.next(!this.showKey);
-    this.widget.properties.showLegend = !this.showKey;
+    this.widget.properties.showLegend = this.showKey;
     this.viewService.saveWidget(this.widget, ["properties"], true);
   }
 
