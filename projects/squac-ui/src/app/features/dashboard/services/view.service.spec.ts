@@ -37,6 +37,7 @@ describe("ViewService", () => {
           update: (_i) => of(true),
           delete: (_i) => of(true),
           updateOrCreate: (_i) => of(true),
+          partialUpdate: (_i) => of(true),
         },
       })
       .mock(MessageService)
@@ -169,7 +170,7 @@ describe("ViewService", () => {
 
   it("should save dashboard", () => {
     service.setDashboard(testDashboard);
-    const dashSpy = spyOn(dashboardService, "updateOrCreate").and.returnValue(
+    const dashSpy = spyOn(dashboardService, "partialUpdate").and.returnValue(
       of(testDashboard)
     );
 

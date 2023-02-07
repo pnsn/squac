@@ -24,13 +24,7 @@ describe("TimelineComponent", () => {
           widgetConfig: {},
         },
       })
-      .provide({
-        provide: WidgetConnectService,
-        useValue: {
-          deemphasizeChannel: of(),
-          emphasizedChannel: of(),
-        },
-      });
+      .keep(WidgetConnectService);
   });
 
   beforeEach(() => {

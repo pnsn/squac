@@ -12,7 +12,7 @@ describe("DateSelectComponent", () => {
   beforeEach(() => {
     return MockBuilder(DateSelectComponent)
       .mock(SharedModule)
-      .mock(DateService);
+      .keep(DateService);
   });
 
   it("should create", () => {
