@@ -20,28 +20,37 @@
         ></shared-sharing-indicator>
       </div>
 
-      <div>
-        {{ archiveType ? archiveTypeOptions[archiveType]?.full : "" }}
-        <ng-container *ngIf="archiveStat"
-          >: {{ statTypeOptions[archiveStat] }}
-        </ng-container>
-        <ng-container *ngIf="viewService.range; else timespan">
-          Last {{ selectedRange?.amount }} {{ selectedRange?.unit
-          }}{{ selectedRange?.amount > 1 ? "s" : "" }}
-        </ng-container>
-        <ng-template #timespan>
-          {{ viewService.startTime }} -
-          {{ viewService.endTime }}
-        </ng-template>
-      </div>
+      <dashboard-data-type-selector
+        [dataType]="archiveType"
+        [statType]="archiveStat"
+        (dataTypeSelected)="selectArchiveType($event)"
+      >
+      </dashboard-data-type-selector>
+
+      <shared-date-select
+        [secondsAgoFromNow]="timeRange"
+        [initialStartDate]="startTime"
+        [initialEndDate]="endTime"
+        [timeRanges]="datePickerTimeRanges"
+        (datesChanged)="datesChanged($event)"
+      ></shared-date-select>
 
       <button
+        *ngIf="!viewService.hasUnsavedChanges"
         mat-icon-button
         (click)="refreshData()"
         matTooltip="Refresh data"
         aria-label="Button that requests new data from the database"
       >
         <mat-icon>refresh</mat-icon>
+      </button>
+      <button
+        *ngIf="viewService.hasUnsavedChanges"
+        mat-raised-button
+        color="accent"
+        (click)="updateDashboard()"
+      >
+        Apply Changes
       </button>
       <button mat-icon-button (click)="hideRows = !hideRows">
         <mat-icon>tune</mat-icon>
@@ -61,29 +70,6 @@
       >
       </shared-channel-group-selector>
 
-      <dashboard-data-type-selector
-        [dataType]="archiveType"
-        [statType]="archiveStat"
-        (dataTypeSelected)="selectArchiveType($event)"
-      >
-      </dashboard-data-type-selector>
-
-      <shared-date-select
-        [secondsAgoFromNow]="timeRange"
-        [initialStartDate]="startTime"
-        [initialEndDate]="endTime"
-        [timeRanges]="datePickerTimeRanges"
-        (datesChanged)="datesChanged($event)"
-        (selectedRangeChanged)="selectedRangeChange($event)"
-      ></shared-date-select>
-      <button
-        mat-raised-button
-        color="accent"
-        (click)="updateDashboard()"
-        [disabled]="!viewService.hasUnsavedChanges"
-      >
-        Apply Changes
-      </button>
       <button
         mat-icon-button
         [matMenuTriggerFor]="appMenu"

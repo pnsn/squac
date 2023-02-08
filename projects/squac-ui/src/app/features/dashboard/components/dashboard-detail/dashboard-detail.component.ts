@@ -35,16 +35,13 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   startTime: string;
   endTime: string;
   channelGroupId: number;
-  selectedRange: TimeRange;
+
   channelList = true;
 
   timeRange: number;
   hideRows = false;
   // time picker config
   datePickerTimeRanges = DATE_PICKER_TIMERANGES;
-  archiveTypeOptions = ARCHIVE_TYPE_OPTIONS;
-  statTypeOptions = ARCHIVE_STAT_OPTIONS;
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -155,15 +152,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
    */
   toggleChannelList(): void {
     this.widgetConnectService.toggleChannelList.next(this.channelList);
-  }
-
-  /**
-   * Stores changed time range
-   *
-   * @param event timeRange from date select component
-   */
-  selectedRangeChange(event: TimeRange): void {
-    this.selectedRange = event;
   }
 
   /**
