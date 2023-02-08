@@ -6,14 +6,15 @@ import {
 } from "@pnsn/ngx-squacapi-client";
 import { Trigger } from "../models";
 import { ResourceModel } from "../interfaces";
+import { IntervalType, MonitorStatType } from "../types";
 
 export interface Monitor {
   name: string;
   channelGroupId: number;
   metricId: number;
-  intervalType: ReadOnlyMonitorDetailSerializer.IntervalTypeEnum;
+  intervalType: IntervalType;
   intervalCount: number;
-  stat: ReadOnlyMonitorDetailSerializer.StatEnum;
+  stat: MonitorStatType;
   triggers: Trigger[];
   channelGroupName: string;
   metricName: string;

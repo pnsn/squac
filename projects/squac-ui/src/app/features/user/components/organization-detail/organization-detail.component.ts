@@ -177,7 +177,7 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
         name: "Groups",
         pipe: {
           transform: (groups): string => {
-            return groups ? groups.join(", ") : "";
+            return groups ? Array.from(groups).join(", ") : "";
           },
         },
       },

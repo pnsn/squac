@@ -28,9 +28,9 @@ export interface WidgetProperties extends WidgetDisplayProperties {
 /** Color configuration */
 export interface Color {
   /** Array of color strings */
-  color: string[];
+  color?: string[];
   /** name of color type */
-  type: string;
+  type?: string;
   /** opacity value */
   opacity?: number;
 }

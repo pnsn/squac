@@ -1,9 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import {
-  UntypedFormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-} from "@angular/forms";
+import { FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ViewService } from "@dashboard/services/view.service";
 import { DashboardModule } from "@dashboard/dashboard.module";
 import { WidgetConnectService } from "widgets";
@@ -32,8 +28,8 @@ describe("ChannelFilterComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ChannelFilterComponent);
     component = fixture.componentInstance;
-    component.form = new UntypedFormGroup({
-      checkboxes: new UntypedFormGroup({}),
+    component.form = new FormGroup({
+      checkboxes: new FormGroup({}),
     });
     fixture.detectChanges();
   });

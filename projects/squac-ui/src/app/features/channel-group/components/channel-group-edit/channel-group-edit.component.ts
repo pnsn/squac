@@ -3,10 +3,10 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { ChannelGroup } from "squacapi";
 import { ChannelGroupService } from "squacapi";
 import {
-  UntypedFormGroup,
-  UntypedFormControl,
   Validators,
-  UntypedFormBuilder,
+  FormControl,
+  FormGroup,
+  FormBuilder,
 } from "@angular/forms";
 import { ChannelService } from "squacapi";
 import { Channel } from "squacapi";
@@ -39,6 +39,12 @@ enum LoadingIndicator {
   MAIN,
   RESULTS,
 }
+
+interface ChannelGroupForm {
+  name: FormControl<string>;
+  description: FormControl<string>;
+  share: FormControl<string>;
+}
 /**
  * Channel group editing component
  */
@@ -59,7 +65,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   orgId: number;
   showOnlyCurrent = true; // Filter out not-current channels
   searchFilters: SearchFilter;
-  channelGroupForm: UntypedFormGroup; // form stuff
+  channelGroupForm: FormGroup<ChannelGroupForm>; // form stuff
   csvStatus: string;
   channelsInGroup: Channel[] = []; // channels currently saved in group
   selectedChannels: Channel[] = []; // Channels currently in selected list
@@ -94,7 +100,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private channelGroupService: ChannelGroupService,
     private channelService: ChannelService,
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private userService: UserService,
     private confirmDialog: ConfirmDialogService,
     private messageService: MessageService,
@@ -108,8 +114,8 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     this.channelGroupForm = this.formBuilder.group({
-      name: new UntypedFormControl("", Validators.required),
-      description: new UntypedFormControl("", Validators.required),
+      name: new FormControl("", Validators.required),
+      description: new FormControl("", Validators.required),
       share: ["private", Validators.required],
     });
     const chanSub = this.route.params

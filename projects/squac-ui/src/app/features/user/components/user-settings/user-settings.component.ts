@@ -2,14 +2,14 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { UserService } from "../../services/user.service";
 import { Subscription } from "rxjs";
 import { User } from "squacapi";
-import {
-  UntypedFormGroup,
-  UntypedFormControl,
-  Validators,
-} from "@angular/forms";
+import { Validators, FormControl, FormGroup } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
 
+interface UserForm {
+  firstname: FormControl<string>;
+  lastname: FormControl<string>;
+}
 /**
  * User Settings Component
  */
@@ -23,7 +23,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
   user: User;
   id: number;
   editMode: boolean;
-  userForm: UntypedFormGroup;
+  userForm: FormGroup<UserForm>;
   hide = true;
 
   constructor(
@@ -44,9 +44,9 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
    * @param user current user
    */
   initForm(user: User): void {
-    this.userForm = new UntypedFormGroup({
-      firstname: new UntypedFormControl(user.firstname, Validators.required),
-      lastname: new UntypedFormControl(user.lastname, Validators.required),
+    this.userForm = new FormGroup({
+      firstname: new FormControl(user.firstname, Validators.required),
+      lastname: new FormControl(user.lastname, Validators.required),
     });
   }
 

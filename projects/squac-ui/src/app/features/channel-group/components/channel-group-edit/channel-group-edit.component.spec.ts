@@ -5,7 +5,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { ChannelGroupService } from "squacapi";
 import { ActivatedRoute } from "@angular/router";
 import { ChannelService } from "squacapi";
-import { UntypedFormBuilder } from "@angular/forms";
+import { FormBuilder } from "@angular/forms";
 import { of } from "rxjs";
 import { UserService } from "@user/services/user.service";
 import { MockBuilder } from "ng-mocks";
@@ -35,7 +35,7 @@ describe("ChannelGroupEditComponent", () => {
         LoadingService,
         ChannelService,
       ])
-      .mock(UntypedFormBuilder)
+      .mock(FormBuilder)
       .mock(RouterTestingModule.withRoutes([]))
       .provide({
         provide: ActivatedRoute,
