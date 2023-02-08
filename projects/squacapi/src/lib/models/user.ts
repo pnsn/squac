@@ -70,7 +70,9 @@ export class User extends ResourceModel<
   ): void {
     super.fromRaw(data);
 
-    this.groups = Array.from(data.groups);
+    if (data.groups) {
+      this.groups = Array.from(data.groups);
+    }
   }
 
   /** @override */
