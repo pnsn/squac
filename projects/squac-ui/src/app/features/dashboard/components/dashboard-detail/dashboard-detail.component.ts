@@ -1,9 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import {
-  ARCHIVE_STAT_OPTIONS,
-  ARCHIVE_TYPE_OPTIONS,
-  Dashboard,
-} from "squacapi";
+import { Dashboard } from "squacapi";
 import { ActivatedRoute, Router } from "@angular/router";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { ViewService } from "@dashboard/services/view.service";
@@ -14,7 +10,6 @@ import { LoadingService } from "@core/services/loading.service";
 import { DATE_PICKER_TIMERANGES } from "./dashboard-time-ranges";
 import { ArchiveStatType, ArchiveType } from "squacapi";
 import { WidgetConnectService } from "widgets";
-import { TimeRange } from "@shared/components/date-select/time-range.interface";
 
 /**
  * Individual dashboard view

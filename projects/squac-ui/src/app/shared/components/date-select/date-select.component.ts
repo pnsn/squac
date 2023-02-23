@@ -64,9 +64,9 @@ export class DateSelectComponent implements OnInit, OnChanges {
    */
   ngOnChanges(changes: SimpleChanges): void {
     if (
-      changes["secondsAgoFromNow"] ||
-      changes["initialEndDate"] ||
-      changes["initialStartDate"]
+      (changes["secondsAgoFromNow"] && this.secondsAgoFromNow) ||
+      (changes["initialEndDate"] && this.initialEndDate) ||
+      (changes["initialStartDate"] && this.initialStartDate)
     ) {
       this.setUpInitialValues();
     }
@@ -89,13 +89,12 @@ export class DateSelectComponent implements OnInit, OnChanges {
     //has time range
     //range is saved as window_seconds on squacapi
     if (this.secondsAgoFromNow) {
-      this.selectedRange = this.findRangeFromSeconds(this.secondsAgoFromNow);
+      const selectedRange =
+        this.findRangeFromSeconds(this.secondsAgoFromNow) ?? this.timeRanges[0];
 
       this.selected = {
-        startDate: this.dateService
-          .subtractFromNow(this.secondsAgoFromNow, "seconds")
-          .startOf("minute"),
-        endDate: this.dateService.now().startOf("minute"),
+        startDate: this.rangesForDatePicker[selectedRange.label][0],
+        endDate: this.rangesForDatePicker[selectedRange.label][1],
       };
       // has fixed start and end
     } else if (this.initialEndDate && this.initialStartDate) {
@@ -108,11 +107,10 @@ export class DateSelectComponent implements OnInit, OnChanges {
           .startOf("minute"),
         endDate: this.dateService.fakeLocalFromUtc(endLocal).startOf("minute"),
       };
-      this.selectedRange = "custom";
     } else {
+      console.log("no dates");
       //no dates
     }
-    this.selectedRangeChanged.emit(this.selectedRange);
   }
 
   /**
@@ -145,7 +143,7 @@ export class DateSelectComponent implements OnInit, OnChanges {
    */
   makeTimeRanges(): void {
     this.timeRanges.forEach((range) => {
-      this.rangesForDatePicker[range.amount + " " + range.unit] = [
+      this.rangesForDatePicker[range.label] = [
         this.dateService
           .subtractFromNow(+range.amount, range.unit)
           .startOf("minute"),
@@ -155,35 +153,29 @@ export class DateSelectComponent implements OnInit, OnChanges {
   }
 
   /**
-   * Toggle time range and update dates
-   *
-   * @param event html event
-   */
-  toggleRange(event: any): void {
-    if (event.value !== "custom" && event.value !== "relative") {
-      const range = event.value;
-      const rangeInSeconds = this.getRangeAsSeconds(range);
-      this.datesUpdated(null, null, true, rangeInSeconds);
-      this.selectedRangeChanged.emit(range);
-    }
-  }
-
-  /**
    * Respond to date picker change event, correct for UTC
    * and send updated dates
    *
    * @param dates dates from selection
    */
-  datePickerChange(dates: TimePeriod): void {
-    const startCopy = dayjs(dates.startDate as Dayjs)
-      .startOf("minute")
-      .clone();
-    const endCopy = dayjs(dates.endDate as Dayjs)
-      .startOf("minute")
-      .clone();
+  ngModelChange(dates: TimePeriod): void {
+    if (dates && dates.startDate && dates.endDate) {
+      const startCopy = dayjs(dates.startDate as Dayjs)
+        .startOf("minute")
+        .clone();
+      const endCopy = dayjs(dates.endDate as Dayjs)
+        .startOf("minute")
+        .clone();
 
-    if (dates.startDate && dates.endDate) {
-      this.datesUpdated(startCopy, endCopy, false, null);
+      if (endCopy && startCopy) {
+        const seconds = this.dateService.diff(endCopy, startCopy, "seconds");
+        const timeRange = this.findRangeFromSeconds(seconds);
+        if (timeRange && endCopy.diff(this.startDate, "minute") < 1) {
+          this.datesUpdated(null, null, true, seconds);
+        } else {
+          this.datesUpdated(startCopy, endCopy, false, null);
+        }
+      }
     }
   }
 

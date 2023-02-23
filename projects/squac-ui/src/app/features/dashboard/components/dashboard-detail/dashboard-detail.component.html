@@ -81,14 +81,17 @@
       </button>
     </div>
     <div class="row" *ngIf="dashboard?.properties && !hideRows">
-      <mat-checkbox
+      <mat-slide-toggle
         [(ngModel)]="dashboard.properties.denseView"
         (change)="toggleView()"
       >
         Dense View
-      </mat-checkbox>
-      <mat-checkbox [(ngModel)]="channelList" (change)="toggleChannelList()">
-        show channel list</mat-checkbox
+      </mat-slide-toggle>
+      <mat-slide-toggle
+        [(ngModel)]="channelList"
+        (change)="toggleChannelList()"
+      >
+        show channel list</mat-slide-toggle
       >
     </div>
   </div>
