@@ -2,8 +2,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { MockBuilder, NG_MOCKS_INTERCEPTORS } from "ng-mocks";
-import { AppModule } from "../../app.module";
-import { AuthService } from "../services/auth.service";
+import { AppModule } from "../../../app.module";
+import { AuthService } from "../../services/auth.service";
 import { AuthInterceptor } from "./auth-interceptor.service";
 
 describe(`AuthInterceptor`, () => {

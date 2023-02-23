@@ -6,7 +6,7 @@ import {
   HttpResponse,
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { HttpCacheService } from "../services/cache.service";
+import { HttpCacheService } from "../../services/cache.service";
 import { REFRESH_REQUEST } from "squacapi";
 import { Observable, of, tap } from "rxjs";
 

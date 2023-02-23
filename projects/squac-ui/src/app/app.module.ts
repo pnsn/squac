@@ -35,9 +35,9 @@ import { AppComponent } from "./app.component";
 import { AuthComponent } from "@core/components/auth/auth.component";
 import { HomeComponent } from "@core/components/home/home.component";
 import { MenuComponent } from "@core/components/menu/menu.component";
-import { AuthInterceptor } from "@core/interceptors/auth-interceptor.service";
-import { CacheInterceptor } from "@core/interceptors/cache-interceptor.service";
-import { HttpErrorInterceptor } from "@core/interceptors/http-error-interceptor.service";
+import { AuthInterceptor } from "@core/guards/interceptors/auth-interceptor.service";
+import { CacheInterceptor } from "@core/guards/interceptors/cache-interceptor.service";
+import { HttpErrorInterceptor } from "@core/guards/interceptors/http-error-interceptor.service";
 import { AppAbility } from "@core/utils/ability";
 
 /**
