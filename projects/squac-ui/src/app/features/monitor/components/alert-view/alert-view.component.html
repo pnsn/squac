@@ -1,5 +1,5 @@
 <shared-table-view
-  title="Alerts (last day)"
+  title="Alerts"
   [isLoading]="loadingService.isLoading(this)"
   [options]="options"
   [rows]="rows"
@@ -8,14 +8,31 @@
   [filters]="filters"
   (refresh)="refresh()"
 >
+  <ng-container tableHeadFilters>
+    <div class="row">
+      <shared-date-select
+        [secondsAgoFromNow]="timeRange"
+        [initialStartDate]="starttime"
+        [initialEndDate]="endtime"
+        [timeRanges]="datePickerTimeRanges"
+        (datesChanged)="datesChanged($event)"
+      >
+      </shared-date-select>
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="update()"
+        [disabled]="!this.unsavedChanges"
+      >
+        Update
+      </button>
+    </div>
+  </ng-container>
   <ng-container tableBody>
     <ng-template let-row="row" #stateTemplate>
       <monitor-alarm-status [inAlarm]="row.inAlarm"></monitor-alarm-status>
     </ng-template>
     <ng-template let-row="row" #updateTemplate>
-      <div>
-        {{ row.inAlarm ? "in alarm" : "out of alarm" }}
-      </div>
       <div>
         {{ row.timestamp | date: "short" }}
       </div>

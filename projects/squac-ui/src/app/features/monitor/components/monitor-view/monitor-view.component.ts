@@ -204,13 +204,6 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /** Populate rows in table */
   makeRows(): void {
-    this.monitors.forEach((monitor) => {
-      monitor.triggers.forEach((_trigger) => {
-        // if (trigger.inAlarm) {
-        //   monitor.inAlarm = true;
-        // }
-      });
-    });
     this.rows = [...this.monitors];
   }
 

@@ -22,9 +22,9 @@
 </ng-template>
 <ng-template let-row="row" #updateTemplate>
   <ng-container *ngIf="row.lastUpdate; else noAlert">
-    <div>
+    <!-- <div>
       {{ row.inAlarm ? "in alarm" : "out of alarm" }}
-    </div>
+    </div> -->
     <div>
       {{ row.lastUpdate | date: "short" }}
     </div>

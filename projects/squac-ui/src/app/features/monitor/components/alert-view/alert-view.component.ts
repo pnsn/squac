@@ -19,6 +19,7 @@ import {
   TableFilters,
   TableOptions,
 } from "@shared/components/table-view/interfaces";
+import { DATE_PICKER_TIMERANGES } from "@dashboard/components/dashboard-detail/dashboard-time-ranges";
 
 /**
  * Component for viewing list of alerts
@@ -34,10 +35,19 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
   refreshInProgress = false;
   interval;
   error: boolean;
-
+  unsavedChanges = false;
+  timeRange: number = 1 * 24 * 60 * 60;
+  // time picker config
+  datePickerTimeRanges = DATE_PICKER_TIMERANGES;
+  starttime: string;
+  endtime: string;
   // Table config
   rows = [];
   columns = [];
+  params: {
+    timestampGte: string;
+    timestampLt?: string;
+  };
 
   controls: TableControls = {
     listenToRouter: true,
@@ -146,20 +156,54 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
+   * Dates emitted when user changes time ranges, updates
+   * dates in widget manager
+   *
+   * @param root0 emitted dates
+   * @param root0.startDate time range start date
+   * @param root0.endDate end of time range
+   * @param root0._liveMode is time range live
+   * @param root0.rangeInSeconds width of time range
+   */
+  datesChanged({ startDate, endDate, _liveMode, rangeInSeconds }): void {
+    if (!startDate || !endDate) {
+      startDate = this.dateService.subtractFromNow(rangeInSeconds, "seconds");
+      endDate = this.dateService.now();
+    }
+
+    this.params = {
+      timestampGte: this.dateService.format(startDate),
+      timestampLt: this.dateService.format(endDate),
+    };
+
+    this.unsavedChanges = true;
+  }
+
+  update() {
+    this.fetchData().subscribe();
+  }
+  /**
    * Get fresh alerts and monitors
    *
    * @param refresh true if cache should not be used
    * @returns Obsercable of monitors and alerts
    */
   fetchData(refresh?: boolean): Observable<any> {
-    const lastDay = this.dateService.subtractFromNow(1, "day").format();
+    if (!this.params) {
+      const lastDay = this.dateService.subtractFromNow(1, "day").format();
+      this.params = {
+        timestampGte: lastDay,
+      };
+    }
+
     return this.loadingService.doLoading(
-      this.alertService.list({ timestampGte: lastDay }, refresh).pipe(
+      this.alertService.list(this.params, refresh).pipe(
         tap((alerts: Alert[]) => {
           this.alerts = alerts;
           this.rows = [...this.alerts];
         }),
         catchError(() => {
+          console.log("empty");
           return EMPTY;
         })
       ),

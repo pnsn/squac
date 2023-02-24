@@ -125,7 +125,7 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
         this.emphasizeChannel(channel);
       }
     );
-    const denseViewSub = this.widgetConnector.useDenseView.subscribe(
+    const denseViewSub = this.widgetConnector?.useDenseView.subscribe(
       (useDenseView) => {
         this.useDenseView(useDenseView);
       }
