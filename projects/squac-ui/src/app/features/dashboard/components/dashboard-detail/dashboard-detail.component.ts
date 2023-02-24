@@ -152,6 +152,10 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     );
   }
 
+  rangeChanged(range): void {
+    console.log(range);
+  }
+
   /**
    * Toggles channel list setting for dashboard
    */

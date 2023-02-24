@@ -171,9 +171,16 @@ export class DateSelectComponent implements OnInit, OnChanges {
         const seconds = this.dateService.diff(endCopy, startCopy, "seconds");
         const timeRange = this.findRangeFromSeconds(seconds);
         if (timeRange && endCopy.diff(this.startDate, "minute") < 1) {
-          this.datesUpdated(null, null, true, seconds);
+          this.datesUpdated(null, null, true, seconds, timeRange);
         } else {
-          this.datesUpdated(startCopy, endCopy, false, null);
+          const start = this.dateService.format(
+            this.dateService.fakeUtcFromLocal(startCopy)
+          );
+          const end = this.dateService.format(
+            this.dateService.fakeUtcFromLocal(endCopy)
+          );
+          this.datesUpdated(start, end, false);
+          this.selectedRangeChanged.emit(null);
         }
       }
     }
@@ -188,17 +195,26 @@ export class DateSelectComponent implements OnInit, OnChanges {
    * @param rangeInSeconds width in seconds
    */
   datesUpdated(
-    startDate: Dayjs | null,
-    endDate: Dayjs | null,
+    startDate: string | null,
+    endDate: string | null,
     liveMode: boolean,
-    rangeInSeconds: number | null
+    rangeInSeconds?: number,
+    range?: TimeRange
   ): void {
-    this.datesChanged.emit({
-      startDate,
-      endDate,
-      liveMode,
-      rangeInSeconds,
-    });
+    // only emit if something has changed
+    if (
+      startDate !== this.initialStartDate ||
+      endDate !== this.initialEndDate ||
+      rangeInSeconds !== this.secondsAgoFromNow
+    ) {
+      this.datesChanged.emit({
+        startDate,
+        endDate,
+        liveMode,
+        rangeInSeconds,
+      });
+      this.selectedRangeChanged.emit(range);
+    }
   }
 
   /**

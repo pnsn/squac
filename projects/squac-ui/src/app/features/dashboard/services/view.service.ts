@@ -29,6 +29,14 @@ import {
 } from "squacapi";
 import { Widget } from "widgets";
 
+export interface DashboardConfig {
+  stat?: string;
+  start?: string;
+  end?: string;
+  archive?: string;
+  range?: number;
+}
+
 /**
  * Service for managing dashboard and widget data
  * Some of this functionality might be better replaced
@@ -58,7 +66,9 @@ export class ViewService {
   queuedWidgets = 0;
   locale;
   defaultTimeRange = 3600;
-  hasUnsavedChanges = new BehaviorSubject(false);
+  hasUnsavedChanges = new BehaviorSubject<boolean>(false);
+  private dashboardConfig = new Subject<DashboardConfig>();
+  dashboardConfig$ = this.dashboardConfig.asObservable();
   constructor(
     private dashboardService: DashboardService,
     private widgetService: WidgetService,
@@ -231,6 +241,17 @@ export class ViewService {
     }
   }
 
+  updateDashboardConfig(): void {
+    const config: DashboardConfig = {
+      stat: this.archiveStat,
+      archive: this.archiveType,
+      range: this.range,
+      start: this.startTime,
+      end: this.endTime,
+    };
+    this.dashboardConfig.next(config);
+  }
+
   /**
    * Emits new channels and group id, tells widgets to
    * fetch new data
@@ -240,6 +261,7 @@ export class ViewService {
     const channels = this.filterChannels();
     this.channels.next(channels);
     this.updateData.next({ dashboard: this.dashboard.id });
+    this.updateDashboardConfig();
     this.hasUnsavedChanges.next(false);
   }
 
@@ -300,10 +322,9 @@ export class ViewService {
     ) {
       // has start and end dates
       autoRefresh = false;
-      startDate = this.dateService.parseUtc(
-        this.dashboard.properties.startTime
-      );
-      endDate = this.dateService.parseUtc(this.dashboard.properties.endTime);
+      startDate = this.dashboard.properties.startTime;
+
+      endDate = this.dashboard.properties.endTime;
     } else {
       // use default dates
       autoRefresh = true;
@@ -324,21 +345,16 @@ export class ViewService {
    * @param rangeInSeconds width of time range in seconds
    */
   datesChanged(
-    startDate: Dayjs,
-    endDate: Dayjs,
+    startDate: string,
+    endDate: string,
     autoRefresh: boolean,
     rangeInSeconds: number
   ): void {
     this.autoRefresh = autoRefresh;
     this._dashboard.properties.timeRange = rangeInSeconds;
-    let startTime;
-    let endTime;
-    if (startDate && endDate) {
-      startTime = this.dateService.format(startDate);
-      endTime = this.dateService.format(endDate);
-    }
-    this._dashboard.properties.startTime = startTime;
-    this._dashboard.properties.endTime = endTime;
+
+    this._dashboard.properties.startTime = startDate;
+    this._dashboard.properties.endTime = endDate;
     this.hasUnsavedChanges.next(true);
   }
 

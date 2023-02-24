@@ -89,6 +89,13 @@ export class ChannelGroupSelectorComponent implements OnInit {
           (group) => group.value === "private"
         );
         this.channelGroups.forEach((cg: ChannelGroup) => {
+          if (
+            !this.selectedChannelGroup &&
+            this.channelGroupId &&
+            cg.id === this.channelGroupId
+          ) {
+            this.selectedChannelGroup = cg;
+          }
           if (cg.shareAll) {
             publicGroups?.groups.push(cg);
           } else if (cg.shareOrg) {
@@ -101,8 +108,6 @@ export class ChannelGroupSelectorComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
     if (
       changes["channelGroupId"] &&
       this.channelGroupId !== this.selectedChannelGroup?.id &&

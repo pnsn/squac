@@ -6,8 +6,6 @@
   <div id="dashboard-header" class="column lt-gray-background box-shadow">
     <div class="row">
       <div id="dashboard-info" class="auto-margin">
-        <h2><a [routerLink]="['/dashboards']">Dashboards</a></h2>
-        >
         <h2>{{ dashboard?.name }}</h2>
         <span *ngIf="dashboard?.owner && dashboard?.orgId">
           by {{ dashboard?.owner | user }} ({{
@@ -22,36 +20,14 @@
         ></shared-sharing-indicator>
       </div>
 
-      <dashboard-data-type-selector
-        [dataType]="archiveType"
-        [statType]="archiveStat"
-        (dataTypeSelected)="selectArchiveType($event)"
-      >
-      </dashboard-data-type-selector>
-
-      <shared-date-select
-        [secondsAgoFromNow]="timeRange"
-        [initialStartDate]="startTime"
-        [initialEndDate]="endTime"
-        [timeRanges]="datePickerTimeRanges"
-        (datesChanged)="datesChanged($event)"
-      ></shared-date-select>
       <button
-        *ngIf="(hasUnsavedChanges | async) === false"
+        [disabled]="(hasUnsavedChanges | async) === true"
         mat-icon-button
         (click)="refreshData()"
         matTooltip="Refresh data"
         aria-label="Button that requests new data from the database"
       >
         <mat-icon>refresh</mat-icon>
-      </button>
-      <button
-        *ngIf="hasUnsavedChanges | async"
-        mat-raised-button
-        color="accent"
-        (click)="updateDashboard()"
-      >
-        Apply
       </button>
       <button mat-icon-button (click)="hideRows = !hideRows">
         <mat-icon>tune</mat-icon>
@@ -66,9 +42,6 @@
         <mat-icon>settings_application</mat-icon>
       </button>
     </div>
-    <div class="row" *ngIf="error">
-      <shared-error [errorMsg]="error"></shared-error>
-    </div>
     <div class="row" *ngIf="!hideRows">
       <!-- if they have permission, otherwise show copy only -->
 
@@ -79,6 +52,29 @@
         [dense]="true"
       >
       </shared-channel-group-selector>
+      <dashboard-data-type-selector
+        [dataType]="archiveType"
+        [statType]="archiveStat"
+        (dataTypeSelected)="selectArchiveType($event)"
+      >
+      </dashboard-data-type-selector>
+
+      <shared-date-select
+        [secondsAgoFromNow]="timeRange"
+        [initialStartDate]="startTime"
+        [initialEndDate]="endTime"
+        [timeRanges]="datePickerTimeRanges"
+        (datesChanged)="datesChanged($event)"
+        (selectedRangeChanged)="rangeChanged($event)"
+      ></shared-date-select>
+      <button
+        [disabled]="(hasUnsavedChanges | async) === false"
+        mat-raised-button
+        color="accent"
+        (click)="updateDashboard()"
+      >
+        Apply
+      </button>
     </div>
     <div class="row" *ngIf="dashboard?.properties && !hideRows">
       <mat-slide-toggle

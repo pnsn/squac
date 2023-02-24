@@ -29,11 +29,23 @@ export class DateService {
   /**
    * Adjust date by subtracting utc offset
    *
+   * @param utcDate utc date
+   * @returns adjusted date
+   */
+  fakeLocalFromUtc(utcDate: Dayjs): Dayjs {
+    const localOffset = dayjs().utcOffset();
+    return utcDate.subtract(localOffset, "minutes").utc();
+  }
+
+  /**
+   * Adjust date by adding utc offset
+   *
    * @param localDate local date
    * @returns adjusted date
    */
-  fakeLocalFromUtc(localDate: Dayjs): Dayjs {
-    return localDate.subtract(localDate.utcOffset(), "minutes").utc();
+  fakeUtcFromLocal(localDate: Dayjs): Dayjs {
+    const localOffset = dayjs().utcOffset();
+    return localDate.add(localOffset, "minutes").utc();
   }
 
   /**
