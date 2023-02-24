@@ -1,5 +1,7 @@
 import {
+  AfterContentInit,
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   OnDestroy,
   OnInit,
@@ -44,7 +46,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // table config
   rows = [];
-  columns = [];
+  columns;
 
   controls: TableControls = {
     listenToRouter: true,
@@ -113,7 +115,8 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     private route: ActivatedRoute,
     private router: Router,
     private monitorService: MonitorService,
-    public loadingService: LoadingService
+    public loadingService: LoadingService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   /** Init subscriptions */
@@ -176,6 +179,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
         width: 120,
       },
     ];
+    this.cdr.detectChanges();
   }
 
   /**

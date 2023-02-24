@@ -5,6 +5,7 @@ import {
   AfterViewInit,
   ViewChild,
   TemplateRef,
+  ChangeDetectorRef,
 } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { LoadingService } from "@core/services/loading.service";
@@ -92,7 +93,8 @@ export class DashboardViewComponent
   constructor(
     private route: ActivatedRoute,
     private dashboardService: DashboardService,
-    public loadingService: LoadingService
+    public loadingService: LoadingService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   /**
@@ -107,7 +109,7 @@ export class DashboardViewComponent
           this.queryParams = { organization: orgId };
         }),
         switchMap(() => {
-          return this.loadingService.doLoading(this.fetchData());
+          return this.loadingService.doLoading(this.fetchData(), this);
         })
       )
       .subscribe();
@@ -152,6 +154,7 @@ export class DashboardViewComponent
         cellTemplate: this.sharingTemplate,
       },
     ];
+    this.cdr.detectChanges();
   }
 
   /**

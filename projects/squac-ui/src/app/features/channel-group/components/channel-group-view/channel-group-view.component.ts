@@ -6,6 +6,7 @@ import {
   TemplateRef,
   ViewChild,
   AfterViewChecked,
+  ChangeDetectorRef,
 } from "@angular/core";
 import { ChannelGroup } from "squacapi";
 import {
@@ -98,7 +99,8 @@ export class ChannelGroupViewComponent
     private router: Router,
     private route: ActivatedRoute,
     private channelGroupService: ChannelGroupService,
-    public loadingService: LoadingService
+    public loadingService: LoadingService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   /**
@@ -117,7 +119,7 @@ export class ChannelGroupViewComponent
               : null;
         }),
         switchMap(() => {
-          return this.loadingService.doLoading(this.fetchData());
+          return this.loadingService.doLoading(this.fetchData(), this);
         })
       )
       .subscribe();
@@ -167,6 +169,7 @@ export class ChannelGroupViewComponent
         cellTemplate: this.sharingTemplate,
       },
     ];
+    this.cdr.detectChanges();
   }
 
   /**

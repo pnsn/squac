@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  AfterViewInit,
+  AfterContentInit,
+} from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { Metric } from "squacapi";
@@ -19,7 +25,9 @@ import {
   templateUrl: "./metric-view.component.html",
   styleUrls: ["./metric-view.component.scss"],
 })
-export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
+export class MetricViewComponent
+  implements OnInit, OnDestroy, AfterContentInit
+{
   subscription: Subscription = new Subscription();
   metrics: Metric[];
 
@@ -75,13 +83,13 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /** init columns */
-  ngAfterViewInit(): void {
+  ngAfterContentInit(): void {
     this.columns = [
       {
         name: "Name",
         draggable: false,
         sortable: true,
-        width: 300,
+        width: 150,
         canAutoResize: false,
       },
       {

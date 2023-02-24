@@ -105,7 +105,8 @@ export class ChannelGroupSelectorComponent implements OnInit {
     //Add '${implements OnChanges}' to the class.
     if (
       changes["channelGroupId"] &&
-      this.channelGroupId !== this.selectedChannelGroup?.id
+      this.channelGroupId !== this.selectedChannelGroup?.id &&
+      this.channelGroups
     ) {
       this.selectedChannelGroup = this.channelGroups.find(
         (cg) => cg.id === this.channelGroupId
