@@ -21,23 +21,31 @@
       </div>
 
       <ng-container *ngIf="viewService.dashboardConfig$ | async as config">
-        <div [ngClass]="{ opened: !hideRows }" (click)="hideRows = false">
-          <button mat-button (click)="hideRows = false" matTooltip="data type">
-            {{ config.archive ? archiveTypeOptions[config.archive].full : "" }}
-            <ng-container *ngIf="config.stat">
-              : {{ statTypeOptions[config.stat] }}
-            </ng-container>
-          </button>
+        <button
+          [disabled]="!hideRows"
+          mat-button
+          (click)="hideRows = false"
+          matTooltip="data type"
+        >
+          {{ config.archive ? archiveTypeOptions[config.archive].full : "" }}
+          <ng-container *ngIf="config.stat">
+            : {{ statTypeOptions[config.stat] }}
+          </ng-container>
+        </button>
 
-          <button mat-button (click)="hideRows = false" matTooltip="time range">
-            <ng-container *ngIf="config.range; else customRange">{{
-              config.range
-            }}</ng-container>
-            <ng-template #customRange
-              >{{ config.start }} - {{ config.end }}</ng-template
-            >
-          </button>
-        </div>
+        <button
+          [disabled]="!hideRows"
+          mat-button
+          (click)="hideRows = false"
+          matTooltip="time range"
+        >
+          <ng-container *ngIf="config.range; else customRange">{{
+            config.range
+          }}</ng-container>
+          <ng-template #customRange
+            >{{ config.start }} - {{ config.end }}</ng-template
+          >
+        </button>
       </ng-container>
 
       <button

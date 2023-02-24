@@ -89,6 +89,7 @@ export class DateSelectComponent implements OnInit, OnChanges {
     //has time range
     //range is saved as window_seconds on squacapi
     if (this.secondsAgoFromNow) {
+      console.log("secondsAgoFromNow");
       const selectedRange =
         this.findRangeFromSeconds(this.secondsAgoFromNow) ?? this.timeRanges[0];
 
@@ -101,6 +102,7 @@ export class DateSelectComponent implements OnInit, OnChanges {
       this.selectedRangeChanged.emit(selectedRange);
       // has fixed start and end
     } else if (this.initialEndDate && this.initialStartDate) {
+      console.log("start and end date");
       //parse as local because datepicker refuses to show utc
       const startLocal = this.dateService.parse(this.initialStartDate);
       const endLocal = this.dateService.parse(this.initialEndDate);
@@ -110,6 +112,7 @@ export class DateSelectComponent implements OnInit, OnChanges {
           .startOf("minute"),
         endDate: this.dateService.fakeLocalFromUtc(endLocal).startOf("minute"),
       };
+      this.selectedRangeChanged.emit(null);
     }
   }
 
@@ -212,7 +215,7 @@ export class DateSelectComponent implements OnInit, OnChanges {
       (!rangeInSeconds &&
         (startDate !== this.initialStartDate ||
           endDate !== this.initialEndDate)) ||
-      rangeInSeconds !== this.secondsAgoFromNow
+      (!startDate && !endDate && rangeInSeconds !== this.secondsAgoFromNow)
     ) {
       this.datesChanged.emit({
         startDate,
