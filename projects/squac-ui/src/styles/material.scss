@@ -203,7 +203,11 @@ button[mat-menu-item] {
 }
 
 .mat-snack-bar-themed {
+  margin: 0 !important;
+  top: 90px;
+  position: relative;
   background-color: $sq-dk-gray !important;
+  opacity: 0.9;
 }
 
 .mat-horizontal-stepper-header-container,

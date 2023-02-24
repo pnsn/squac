@@ -104,7 +104,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     // get any errors to show from view service
     const errorSub = this.viewService.error.subscribe({
       next: (error) => {
-        this.error = error;
+        if (error) {
+          this.messageService.error(error);
+        }
       },
     });
 
@@ -163,13 +165,19 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
    */
   checkDates(): void {
     this.error = "";
+    let error: string;
     if (this.viewService.archiveType === "raw") {
       if (this.viewService.getTimeSpan("months") >= 4) {
-        this.error = `Raw data request may be too large for this time range, try using month archives.`;
+        error = "month";
       } else if (this.viewService.getTimeSpan("weeks") >= 6) {
-        this.error = `Raw data request may be too large for this time range, try using week archives.`;
+        error = "week";
       } else if (this.viewService.getTimeSpan("days") >= 7) {
-        this.error = `Raw data request may be too large for this time range, try using day archives.`;
+        error = "day";
+      }
+      if (error) {
+        this.messageService.alert(
+          `Raw data request may be too large for this time range, try using ${error} archives.`
+        );
       }
     }
     this.updateArchiveType();
@@ -190,7 +198,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     if (this.archiveType !== "raw") {
       if (this.viewService.getTimeSpan(this.archiveType) === 0) {
         //archiveType is larger than time window
-        this.error = "Select a time range greater than the archive size.";
+        this.messageService.alert(
+          "Select a time range greater than the archive size."
+        );
       }
     }
   }
