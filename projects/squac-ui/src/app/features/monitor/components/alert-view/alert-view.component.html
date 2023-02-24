@@ -1,6 +1,6 @@
 <shared-table-view
   title="Alerts"
-  [isLoading]="loadingService.isLoading(this)"
+  [isLoading]="loadingService.isLoading$(this) | async"
   [options]="options"
   [rows]="rows"
   [columns]="columns"

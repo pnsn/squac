@@ -52,7 +52,6 @@ export class LoadingDirective implements OnChanges {
     if (!this.overlayElement || !this.spinnerElement) {
       this.initSpinnerComponent();
     }
-
     if (changes["isLoading"]) {
       const isLoadingValue = changes["isLoading"].currentValue;
       if (isLoadingValue) {
@@ -60,7 +59,6 @@ export class LoadingDirective implements OnChanges {
       } else {
         this.removeLoadingIndicator();
       }
-
       this.changeDetectorRef.markForCheck();
     }
   }

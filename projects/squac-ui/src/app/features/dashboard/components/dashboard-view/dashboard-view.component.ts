@@ -120,40 +120,38 @@ export class DashboardViewComponent
    */
   ngAfterViewInit(): void {
     // set up columns
-    setTimeout(() => {
-      this.columns = [
-        {
-          name: "Dashboard Name",
-          prop: "name",
-          draggable: false,
-          sortable: true,
-        },
-        { name: "Description", draggable: false, sortable: true },
-        {
-          name: "Owner",
-          prop: "owner",
-          draggable: false,
-          sortable: true,
-          width: 50,
-        },
-        {
-          name: "Org.",
-          prop: "orgId",
-          draggable: false,
-          sortable: true,
-          canAutoResize: false,
-          width: 70,
-        },
-        {
-          name: "Sharing",
-          draggable: false,
-          canAutoResize: false,
-          width: 70,
-          sortable: false,
-          cellTemplate: this.sharingTemplate,
-        },
-      ];
-    }, 0);
+    this.columns = [
+      {
+        name: "Dashboard Name",
+        prop: "name",
+        draggable: false,
+        sortable: true,
+      },
+      { name: "Description", draggable: false, sortable: true },
+      {
+        name: "Owner",
+        prop: "owner",
+        draggable: false,
+        sortable: true,
+        width: 50,
+      },
+      {
+        name: "Org.",
+        prop: "orgId",
+        draggable: false,
+        sortable: true,
+        canAutoResize: false,
+        width: 70,
+      },
+      {
+        name: "Sharing",
+        draggable: false,
+        canAutoResize: false,
+        width: 70,
+        sortable: false,
+        cellTemplate: this.sharingTemplate,
+      },
+    ];
   }
 
   /**

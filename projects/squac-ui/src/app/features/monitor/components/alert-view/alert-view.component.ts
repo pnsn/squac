@@ -115,44 +115,42 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /** Set up columns */
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.columns = [
-        {
-          name: "State",
-          sortable: false,
-          width: 60,
-          minWidth: 60,
-          canAutoResize: false,
-          cellTemplate: this.stateTemplate,
-        },
-        {
-          name: "Time",
-          prop: "",
-          canAutoResize: false,
-          cellTemplate: this.updateTemplate,
-        },
-        {
-          name: "Monitor",
-          prop: "monitorName",
-          width: 150,
-          cellTemplate: this.monitorTemplate,
-        },
-        {
-          name: "Trigger",
-          width: 200,
-          cellTemplate: this.triggerTemplate,
-          sortable: false,
-        },
-        {
-          name: "Breaching Channels",
-          prop: "breachingChannels",
-          sortable: false,
-          width: 150,
-          canAutoResize: false,
-          cellTemplate: this.channelsTemplate,
-        },
-      ];
-    }, 0);
+    this.columns = [
+      {
+        name: "State",
+        sortable: false,
+        width: 60,
+        minWidth: 60,
+        canAutoResize: false,
+        cellTemplate: this.stateTemplate,
+      },
+      {
+        name: "Time",
+        prop: "",
+        canAutoResize: false,
+        cellTemplate: this.updateTemplate,
+      },
+      {
+        name: "Monitor",
+        prop: "monitorName",
+        width: 150,
+        cellTemplate: this.monitorTemplate,
+      },
+      {
+        name: "Trigger",
+        width: 200,
+        cellTemplate: this.triggerTemplate,
+        sortable: false,
+      },
+      {
+        name: "Breaching Channels",
+        prop: "breachingChannels",
+        sortable: false,
+        width: 150,
+        canAutoResize: false,
+        cellTemplate: this.channelsTemplate,
+      },
+    ];
   }
 
   /**

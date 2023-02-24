@@ -110,9 +110,6 @@ export class DateSelectComponent implements OnInit, OnChanges {
           .startOf("minute"),
         endDate: this.dateService.fakeLocalFromUtc(endLocal).startOf("minute"),
       };
-    } else {
-      console.log("no dates");
-      //no dates
     }
   }
 

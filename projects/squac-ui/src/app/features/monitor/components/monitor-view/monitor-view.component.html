@@ -1,5 +1,5 @@
 <shared-table-view
-  [isLoading]="loadingService.isLoading(this)"
+  [isLoading]="loadingService.isLoading$(this) | async"
   title="Monitors"
   [options]="options"
   [rows]="rows"

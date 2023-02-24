@@ -4,19 +4,28 @@
   [ngClass]="{ 'dense-form-field': dense }"
 >
   <!-- <mat-label>{{ label }}{{ required ? "(required)" : "" }}</mat-label> -->
-  <mat-select
+  <mat-label *ngIf="selectedChannelGroup">Channel Group</mat-label>
+  <input
+    type="text"
+    matInput
     #value
-    [(ngModel)]="channelGroupId"
-    (selectionChange)="selectionChange()"
+    floatLabel="always"
+    [(ngModel)]="selectedChannelGroup"
+    (ngModelChange)="selectionChange()"
     [required]="required"
     placeholder="Select a Channel Group"
+    [matAutocomplete]="autoChannelGroup"
+  />
+  <mat-autocomplete
+    #autoChannelGroup="matAutocomplete"
+    [displayWith]="displayFn"
   >
-    <mat-optgroup *ngFor="let group of groups" [label]="group.name">
+    <mat-optgroup *ngFor="let group of sortedGroups" [label]="group.name">
       <mat-option
         *ngFor="let channelGroup of group.groups"
-        [value]="channelGroup.id"
+        [value]="channelGroup"
         >{{ channelGroup.name }} ({{ channelGroup.channelsCount }})</mat-option
       >
     </mat-optgroup>
-  </mat-select>
+  </mat-autocomplete>
 </mat-form-field>

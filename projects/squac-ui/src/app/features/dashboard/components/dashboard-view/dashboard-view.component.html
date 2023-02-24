@@ -9,7 +9,7 @@
     (refresh)="refresh()"
     [controls]="controls"
     [filters]="filters"
-    [isLoading]="loadingService.isLoading(this)"
+    [isLoading]="loadingService.isLoading$(this) | async"
     (filtersChanged)="refresh($event)"
   >
     <ng-container tableHeadControls> </ng-container>

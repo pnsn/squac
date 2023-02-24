@@ -136,48 +136,46 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /** Set up columns */
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.columns = [
-        {
-          name: "State",
-          draggable: false,
-          sortable: false,
-          width: 60,
-          minWidth: 60,
-          canAutoResize: false,
-          cellTemplate: this.stateTemplate,
-        },
-        {
-          name: "Name",
-          draggable: false,
-          sortable: true,
-        },
-        {
-          name: "Last state update",
-          draggable: false,
-          canAutoResize: false,
-          sortable: false,
-          width: 160,
-          minWidth: 160,
-          cellTemplate: this.updateTemplate,
-        },
-        {
-          name: "Channel Group",
-          prop: "channelGroupName",
-        },
-        {
-          name: "Metric",
-          prop: "metricName",
-        },
-        {
-          name: "Owner",
-          prop: "owner",
-          draggable: false,
-          sortable: true,
-          width: 120,
-        },
-      ];
-    }, 0);
+    this.columns = [
+      {
+        name: "State",
+        draggable: false,
+        sortable: false,
+        width: 60,
+        minWidth: 60,
+        canAutoResize: false,
+        cellTemplate: this.stateTemplate,
+      },
+      {
+        name: "Name",
+        draggable: false,
+        sortable: true,
+      },
+      {
+        name: "Last state update",
+        draggable: false,
+        canAutoResize: false,
+        sortable: false,
+        width: 160,
+        minWidth: 160,
+        cellTemplate: this.updateTemplate,
+      },
+      {
+        name: "Channel Group",
+        prop: "channelGroupName",
+      },
+      {
+        name: "Metric",
+        prop: "metricName",
+      },
+      {
+        name: "Owner",
+        prop: "owner",
+        draggable: false,
+        sortable: true,
+        width: 120,
+      },
+    ];
   }
 
   /**

@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   /**
-   * Liog in
+   * Log in
    */
   ngOnInit(): void {
     this.authService.autologin();

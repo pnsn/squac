@@ -76,61 +76,59 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /** init columns */
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.columns = [
-        {
-          name: "Name",
-          draggable: false,
-          sortable: true,
-          width: 300,
-          canAutoResize: false,
-        },
-        {
-          name: "Default Min",
-          prop: "minVal",
-          draggable: false,
-          canAutoResize: false,
-          sortable: true,
-          width: 115,
-        },
-        {
-          name: "Default Max",
-          prop: "maxVal",
-          canAutoResize: false,
-          draggable: false,
-          sortable: true,
-          width: 115,
-        },
-        {
-          name: "Unit",
-          canAutoResize: false,
-          draggable: false,
-          sortable: true,
-          width: 115,
-        },
-        {
-          name: "Sample Rate",
-          prop: "sampleRate",
-          canAutoResize: false,
-          draggable: false,
-          sortable: true,
-          width: 115,
-        },
-        {
-          name: "Description",
-          draggable: false,
-          sortable: true,
-        },
-        {
-          name: "Owner",
-          prop: "owner",
-          canAutoResize: false,
-          draggable: false,
-          sortable: true,
-          width: 120,
-        },
-      ];
-    }, 0);
+    this.columns = [
+      {
+        name: "Name",
+        draggable: false,
+        sortable: true,
+        width: 300,
+        canAutoResize: false,
+      },
+      {
+        name: "Default Min",
+        prop: "minVal",
+        draggable: false,
+        canAutoResize: false,
+        sortable: true,
+        width: 115,
+      },
+      {
+        name: "Default Max",
+        prop: "maxVal",
+        canAutoResize: false,
+        draggable: false,
+        sortable: true,
+        width: 115,
+      },
+      {
+        name: "Unit",
+        canAutoResize: false,
+        draggable: false,
+        sortable: true,
+        width: 115,
+      },
+      {
+        name: "Sample Rate",
+        prop: "sampleRate",
+        canAutoResize: false,
+        draggable: false,
+        sortable: true,
+        width: 115,
+      },
+      {
+        name: "Description",
+        draggable: false,
+        sortable: true,
+      },
+      {
+        name: "Owner",
+        prop: "owner",
+        canAutoResize: false,
+        draggable: false,
+        sortable: true,
+        width: 120,
+      },
+    ];
   }
 
   /**

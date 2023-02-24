@@ -5,7 +5,7 @@
 <div
   id="group-view-container"
   class="box"
-  [appIsLoading]="loadingService.isLoading(this)"
+  [appIsLoading]="loadingService.isLoading$(this) | async"
   *ngIf="!error; else hasError"
 >
   <div class="header-title">

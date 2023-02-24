@@ -5,6 +5,7 @@ import {
   AfterViewInit,
   TemplateRef,
   ViewChild,
+  AfterViewChecked,
 } from "@angular/core";
 import { ChannelGroup } from "squacapi";
 import {
@@ -128,46 +129,44 @@ export class ChannelGroupViewComponent
    * Build channel group columns
    */
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.columns = [
-        {
-          name: "Name",
-          draggable: false,
-          sortable: true,
-        },
-        { name: "Description", draggable: false, sortable: true },
-        {
-          name: "Channels",
-          prop: "channelsCount",
-          draggable: false,
-          sortable: true,
-          width: 25,
-        },
-        {
-          name: "Owner",
-          prop: "owner",
-          draggable: false,
-          sortable: true,
-          width: 50,
-        },
-        {
-          name: "Org.",
-          prop: "orgId",
-          canAutoResize: false,
-          draggable: false,
-          sortable: true,
-          width: 70,
-        },
-        {
-          name: "Sharing",
-          draggable: false,
-          canAutoResize: false,
-          width: 70,
-          sortable: false,
-          cellTemplate: this.sharingTemplate,
-        },
-      ];
-    }, 0);
+    this.columns = [
+      {
+        name: "Name",
+        draggable: false,
+        sortable: true,
+      },
+      { name: "Description", draggable: false, sortable: true },
+      {
+        name: "Channels",
+        prop: "channelsCount",
+        draggable: false,
+        sortable: true,
+        width: 25,
+      },
+      {
+        name: "Owner",
+        prop: "owner",
+        draggable: false,
+        sortable: true,
+        width: 50,
+      },
+      {
+        name: "Org.",
+        prop: "orgId",
+        canAutoResize: false,
+        draggable: false,
+        sortable: true,
+        width: 70,
+      },
+      {
+        name: "Sharing",
+        draggable: false,
+        canAutoResize: false,
+        width: 70,
+        sortable: false,
+        cellTemplate: this.sharingTemplate,
+      },
+    ];
   }
 
   /**

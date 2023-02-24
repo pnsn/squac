@@ -85,7 +85,8 @@ mat-icon.mat-icon {
   }
 }
 
-mat-option {
+mat-option,
+.mat-optgroup-label {
   height: 25pt !important;
   line-height: 25pt !important;
   span {

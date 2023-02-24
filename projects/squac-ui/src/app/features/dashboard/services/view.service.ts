@@ -58,7 +58,7 @@ export class ViewService {
   queuedWidgets = 0;
   locale;
   defaultTimeRange = 3600;
-  hasUnsavedChanges = false;
+  hasUnsavedChanges = new BehaviorSubject(false);
   constructor(
     private dashboardService: DashboardService,
     private widgetService: WidgetService,
@@ -161,7 +161,7 @@ export class ViewService {
    */
   updateChannelGroup(channelGroupId: number): void {
     this._channelGroupId = channelGroupId;
-    this.hasUnsavedChanges = true;
+    this.hasUnsavedChanges.next(true);
   }
 
   /**
@@ -192,7 +192,7 @@ export class ViewService {
    */
   updateChannels(list: Record<string, boolean>): void {
     this._channelsList = list;
-    this.hasUnsavedChanges = true;
+    this.hasUnsavedChanges.next(true);
   }
 
   /**
@@ -240,7 +240,7 @@ export class ViewService {
     const channels = this.filterChannels();
     this.channels.next(channels);
     this.updateData.next({ dashboard: this.dashboard.id });
-    this.hasUnsavedChanges = false;
+    this.hasUnsavedChanges.next(false);
   }
 
   /**
@@ -339,7 +339,7 @@ export class ViewService {
     }
     this._dashboard.properties.startTime = startTime;
     this._dashboard.properties.endTime = endTime;
-    this.hasUnsavedChanges = true;
+    this.hasUnsavedChanges.next(true);
   }
 
   /**
@@ -398,7 +398,7 @@ export class ViewService {
     if (archiveType === "raw") {
       this._dashboard.properties.archiveStat = null;
     }
-    this.hasUnsavedChanges = true;
+    this.hasUnsavedChanges.next(true);
   }
 
   /**
@@ -419,7 +419,7 @@ export class ViewService {
    */
   updateDashboardProperty(propertyKey: string, value: unknown): void {
     this._dashboard.properties[propertyKey] = value;
-    this.hasUnsavedChanges = true;
+    this.hasUnsavedChanges.next(true);
   }
 
   /**

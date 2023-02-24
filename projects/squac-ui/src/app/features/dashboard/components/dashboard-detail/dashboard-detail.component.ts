@@ -1,7 +1,14 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Dashboard } from "squacapi";
 import { ActivatedRoute, Router } from "@angular/router";
-import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
+import {
+  catchError,
+  EMPTY,
+  Observable,
+  Subscription,
+  switchMap,
+  tap,
+} from "rxjs";
 import { ViewService } from "@dashboard/services/view.service";
 import { AppAbility } from "@core/utils/ability";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
@@ -22,7 +29,6 @@ import { WidgetConnectService } from "widgets";
 export class DashboardDetailComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   dashboard: Dashboard;
-  status: string;
   error: string = null;
   // dashboard params
   archiveType: ArchiveType;
@@ -35,6 +41,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
 
   timeRange: number;
   hideRows = false;
+  hasUnsavedChanges: Observable<boolean>;
   // time picker config
   datePickerTimeRanges = DATE_PICKER_TIMERANGES;
   constructor(
@@ -52,6 +59,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
    * Subscribe to route params for dashboard id
    */
   ngOnInit(): void {
+    this.hasUnsavedChanges = this.viewService.hasUnsavedChanges.asObservable();
     const paramsSub = this.route.params
       .pipe(
         tap(() => {

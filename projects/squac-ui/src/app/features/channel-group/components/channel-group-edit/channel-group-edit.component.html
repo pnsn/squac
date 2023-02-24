@@ -1,7 +1,9 @@
 <div
   id="edit-container"
   class="column gray-border white-background"
-  [appIsLoading]="loadingService.isLoading(this, LoadingIndicator.MAIN)"
+  [appIsLoading]="
+    loadingService.isLoading$(this, LoadingIndicator.MAIN) | async
+  "
 >
   <div class="header-title">
     <h2>
@@ -98,7 +100,7 @@
       <div
         class="row channels-row"
         [appIsLoading]="
-          loadingService.isLoading(this, LoadingIndicator.RESULTS)
+          loadingService.isLoading$(this, LoadingIndicator.RESULTS) | async
         "
       >
         <div class="lt-gray-border search-results-container">
