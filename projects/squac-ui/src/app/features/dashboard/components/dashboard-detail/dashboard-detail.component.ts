@@ -1,5 +1,9 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from "@angular/core";
-import { Dashboard } from "squacapi";
+import {
+  ARCHIVE_STAT_OPTIONS,
+  ARCHIVE_TYPE_OPTIONS,
+  Dashboard,
+} from "squacapi";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
   catchError,
@@ -44,6 +48,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   hasUnsavedChanges: Observable<boolean>;
   // time picker config
   datePickerTimeRanges = DATE_PICKER_TIMERANGES;
+  archiveTypeOptions = ARCHIVE_TYPE_OPTIONS;
+  statTypeOptions = ARCHIVE_STAT_OPTIONS;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -124,6 +131,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
    * @param root0.rangeInSeconds time range
    */
   datesChanged({ startDate, endDate, liveMode, rangeInSeconds }): void {
+    console.log("dates changed");
     this.viewService.datesChanged(startDate, endDate, liveMode, rangeInSeconds);
     this.checkDates();
   }
@@ -151,11 +159,6 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       this.dashboard.properties.denseView
     );
   }
-
-  rangeChanged(range): void {
-    console.log(range);
-  }
-
   /**
    * Toggles channel list setting for dashboard
    */

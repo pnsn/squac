@@ -20,6 +20,26 @@
         ></shared-sharing-indicator>
       </div>
 
+      <ng-container *ngIf="viewService.dashboardConfig$ | async as config">
+        <div [ngClass]="{ opened: !hideRows }" (click)="hideRows = false">
+          <button mat-button (click)="hideRows = false" matTooltip="data type">
+            {{ config.archive ? archiveTypeOptions[config.archive].full : "" }}
+            <ng-container *ngIf="config.stat">
+              : {{ statTypeOptions[config.stat] }}
+            </ng-container>
+          </button>
+
+          <button mat-button (click)="hideRows = false" matTooltip="time range">
+            <ng-container *ngIf="config.range; else customRange">{{
+              config.range
+            }}</ng-container>
+            <ng-template #customRange
+              >{{ config.start }} - {{ config.end }}</ng-template
+            >
+          </button>
+        </div>
+      </ng-container>
+
       <button
         [disabled]="(hasUnsavedChanges | async) === true"
         mat-icon-button
@@ -42,7 +62,7 @@
         <mat-icon>settings_application</mat-icon>
       </button>
     </div>
-    <div class="row" *ngIf="!hideRows">
+    <div class="row config-row" *ngIf="!hideRows">
       <!-- if they have permission, otherwise show copy only -->
 
       <shared-channel-group-selector
@@ -65,7 +85,7 @@
         [initialEndDate]="endTime"
         [timeRanges]="datePickerTimeRanges"
         (datesChanged)="datesChanged($event)"
-        (selectedRangeChanged)="rangeChanged($event)"
+        (selectedRangeChanged)="viewService.timeRangeChanged($event)"
       ></shared-date-select>
       <button
         [disabled]="(hasUnsavedChanges | async) === false"

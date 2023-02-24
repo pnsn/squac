@@ -11,6 +11,12 @@
 //   padding: 0px 10px;
 // }
 
+.config-row {
+  justify-content: flex-end;
+}
+.opened {
+  opacity: 0.65;
+}
 #dashboard-header {
   top: 0px;
   position: sticky;

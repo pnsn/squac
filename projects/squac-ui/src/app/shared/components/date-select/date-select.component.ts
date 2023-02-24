@@ -98,7 +98,7 @@ export class DateSelectComponent implements OnInit, OnChanges {
           endDate: this.rangesForDatePicker[selectedRange.label][1],
         };
       }
-
+      this.selectedRangeChanged.emit(selectedRange);
       // has fixed start and end
     } else if (this.initialEndDate && this.initialStartDate) {
       //parse as local because datepicker refuses to show utc
@@ -202,9 +202,16 @@ export class DateSelectComponent implements OnInit, OnChanges {
     range?: TimeRange
   ): void {
     // only emit if something has changed
+    console.log(
+      this.initialStartDate,
+      endDate,
+      rangeInSeconds,
+      this.secondsAgoFromNow
+    );
     if (
-      startDate !== this.initialStartDate ||
-      endDate !== this.initialEndDate ||
+      (!rangeInSeconds &&
+        (startDate !== this.initialStartDate ||
+          endDate !== this.initialEndDate)) ||
       rangeInSeconds !== this.secondsAgoFromNow
     ) {
       this.datesChanged.emit({

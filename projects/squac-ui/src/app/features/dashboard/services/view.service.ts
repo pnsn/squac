@@ -28,13 +28,14 @@ import {
   WidgetService,
 } from "squacapi";
 import { Widget } from "widgets";
+import { TimeRange } from "@shared/components/date-select/time-range.interface";
 
 export interface DashboardConfig {
   stat?: string;
   start?: string;
   end?: string;
   archive?: string;
-  range?: number;
+  range?: string;
 }
 
 /**
@@ -59,6 +60,7 @@ export class ViewService {
   widgetUpdated = new Subject<number>();
   error = new BehaviorSubject<string>(null);
   loadingCount = 0;
+  private timeRange: TimeRange;
   private autoRefresh: boolean;
   // refresh = new Subject<number>();
 
@@ -242,10 +244,11 @@ export class ViewService {
   }
 
   updateDashboardConfig(): void {
+    console.log("updateconfig");
     const config: DashboardConfig = {
       stat: this.archiveStat,
       archive: this.archiveType,
-      range: this.range,
+      range: this.timeRange?.label,
       start: this.startTime,
       end: this.endTime,
     };
@@ -356,6 +359,14 @@ export class ViewService {
     this._dashboard.properties.startTime = startDate;
     this._dashboard.properties.endTime = endDate;
     this.hasUnsavedChanges.next(true);
+  }
+
+  timeRangeChanged(timeRange: TimeRange): void {
+    console.log(timeRange);
+    this.timeRange = timeRange;
+    if (!this.hasUnsavedChanges.getValue()) {
+      this.updateDashboardConfig();
+    }
   }
 
   /**
