@@ -33,8 +33,9 @@ export class DateService {
    * @returns adjusted date
    */
   fakeLocalFromUtc(utcDate: Dayjs): Dayjs {
-    const localOffset = dayjs().utcOffset();
-    return utcDate.subtract(localOffset, "minutes").utc();
+    const localOffset = utcDate.clone().local().utcOffset();
+    console.log("fake local from UTC", localOffset);
+    return utcDate.subtract(localOffset, "minutes");
   }
 
   /**
@@ -44,7 +45,8 @@ export class DateService {
    * @returns adjusted date
    */
   fakeUtcFromLocal(localDate: Dayjs): Dayjs {
-    const localOffset = dayjs().utcOffset();
+    const localOffset = localDate.clone().local().utcOffset();
+    console.log("Fake utc from local", localOffset);
     return localDate.add(localOffset, "minutes").utc();
   }
 

@@ -244,7 +244,6 @@ export class ViewService {
   }
 
   updateDashboardConfig(): void {
-    console.log("updateconfig");
     const config: DashboardConfig = {
       stat: this.archiveStat,
       archive: this.archiveType,
@@ -362,7 +361,6 @@ export class ViewService {
   }
 
   timeRangeChanged(timeRange: TimeRange): void {
-    console.log(timeRange);
     this.timeRange = timeRange;
     if (!this.hasUnsavedChanges.getValue()) {
       this.updateDashboardConfig();

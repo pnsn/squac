@@ -10,12 +10,18 @@ import {
 } from "@angular/core";
 import { Locale } from "@core/locale.constant";
 import { DateService } from "@core/services/date.service";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import * as timezone from "dayjs/plugin/timezone";
 import * as utc from "dayjs/plugin/utc";
 import { DaterangepickerDirective } from "ngx-daterangepicker-material";
-import { TimePeriod } from "ngx-daterangepicker-material/daterangepicker.component";
+// import { TimePeriod } from "ngx-daterangepicker-material/daterangepicker.component";
 import { TimeRange } from "./time-range.interface";
+
+export interface TimePeriod {
+  [index: string]: dayjs.Dayjs;
+  startDate: dayjs.Dayjs;
+  endDate: dayjs.Dayjs;
+}
 
 /**
  * Date selector with two calendars
@@ -34,19 +40,20 @@ export class DateSelectComponent implements OnInit, OnChanges {
   @Input() initialStartDate: string | undefined;
   @Input() initialEndDate: string | undefined;
   @Input() timeRanges: TimeRange[] = [];
-  startDate: Dayjs;
-  maxDate: Dayjs;
+  startDate: dayjs.Dayjs;
+  maxDate: dayjs.Dayjs;
   // settings for date select
   locale: Locale;
+  firstLoad = true; // only take external input changes on first load
 
   selected:
     | {
-        startDate: Dayjs;
-        endDate: Dayjs;
+        startDate: dayjs.Dayjs;
+        endDate: dayjs.Dayjs;
       }
     | undefined;
   selectedRange: any;
-  rangesForDatePicker: Record<string, [Dayjs, Dayjs]> = {};
+  rangesForDatePicker: Record<string, [dayjs.Dayjs, dayjs.Dayjs]> = {};
   liveMode: boolean | undefined;
 
   constructor(private dateService: DateService) {
@@ -64,11 +71,13 @@ export class DateSelectComponent implements OnInit, OnChanges {
    */
   ngOnChanges(changes: SimpleChanges): void {
     if (
-      (changes["secondsAgoFromNow"] && this.secondsAgoFromNow) ||
-      (changes["initialEndDate"] && this.initialEndDate) ||
-      (changes["initialStartDate"] && this.initialStartDate)
+      this.firstLoad &&
+      ((changes["secondsAgoFromNow"] && this.secondsAgoFromNow) ||
+        (changes["initialEndDate"] && this.initialEndDate) ||
+        (changes["initialStartDate"] && this.initialStartDate))
     ) {
       this.setUpInitialValues();
+      this.firstLoad = false;
     }
   }
 
@@ -86,10 +95,9 @@ export class DateSelectComponent implements OnInit, OnChanges {
    * start and end date
    */
   setUpInitialValues(): void {
-    //has time range
-    //range is saved as window_seconds on squacapi
     if (this.secondsAgoFromNow) {
-      console.log("secondsAgoFromNow");
+      //has time range
+      //range is saved as window_seconds on squacapi
       const selectedRange =
         this.findRangeFromSeconds(this.secondsAgoFromNow) ?? this.timeRanges[0];
 
@@ -102,15 +110,17 @@ export class DateSelectComponent implements OnInit, OnChanges {
       this.selectedRangeChanged.emit(selectedRange);
       // has fixed start and end
     } else if (this.initialEndDate && this.initialStartDate) {
-      console.log("start and end date");
       //parse as local because datepicker refuses to show utc
-      const startLocal = this.dateService.parse(this.initialStartDate);
-      const endLocal = this.dateService.parse(this.initialEndDate);
+      const start = this.dateService.parse(this.initialStartDate);
+      const end = this.dateService.parse(this.initialEndDate);
+
+      // shift date by UTC offset because datepicker forces it to show
+      // local, but still uses UTC internally
+      const startDate = this.dateService.fakeLocalFromUtc(start).utc();
+      const endDate = this.dateService.fakeLocalFromUtc(end).utc();
       this.selected = {
-        startDate: this.dateService
-          .fakeLocalFromUtc(startLocal)
-          .startOf("minute"),
-        endDate: this.dateService.fakeLocalFromUtc(endLocal).startOf("minute"),
+        startDate,
+        endDate,
       };
       this.selectedRangeChanged.emit(null);
     }
@@ -162,26 +172,35 @@ export class DateSelectComponent implements OnInit, OnChanges {
    * @param dates dates from selection
    */
   ngModelChange(dates: TimePeriod): void {
+    //on first load the date needs to be shifted, but not after??
     if (dates && dates.startDate && dates.endDate) {
-      const startCopy = dayjs(dates.startDate as Dayjs)
+      //even though it shows "local", output dates are UTC
+      let startCopy = dayjs(dates.startDate as dayjs.Dayjs)
         .startOf("minute")
         .clone();
-      const endCopy = dayjs(dates.endDate as Dayjs)
+      let endCopy = dayjs(dates.endDate as dayjs.Dayjs)
         .startOf("minute")
         .clone();
 
+      if (startCopy.isUTC()) {
+        // datepicker uses local time, but we want users to think
+        // its UTC, so values need to be adjusted to UTC
+        startCopy = this.dateService.fakeUtcFromLocal(startCopy);
+        endCopy = this.dateService.fakeUtcFromLocal(endCopy);
+      }
+
       if (endCopy && startCopy) {
-        const seconds = this.dateService.diff(endCopy, startCopy, "seconds");
-        const timeRange = this.findRangeFromSeconds(seconds);
+        //calculate difference in start & end
+        const diff = this.dateService.diff(endCopy, startCopy, "seconds");
+        const timeRange = this.findRangeFromSeconds(diff);
+        // if the diff matches a timerange, check if the
+        // startDate is "close enough" to now
         if (timeRange && endCopy.diff(this.startDate, "minute") < 1) {
-          this.datesUpdated(null, null, true, seconds, timeRange);
+          this.datesUpdated(null, null, true, diff, timeRange);
         } else {
-          const start = this.dateService.format(
-            this.dateService.fakeUtcFromLocal(startCopy)
-          );
-          const end = this.dateService.format(
-            this.dateService.fakeUtcFromLocal(endCopy)
-          );
+          // no time range found, use start and end times
+          const start = this.dateService.format(startCopy);
+          const end = this.dateService.format(endCopy);
           this.datesUpdated(start, end, false);
           this.selectedRangeChanged.emit(null);
         }
@@ -205,12 +224,6 @@ export class DateSelectComponent implements OnInit, OnChanges {
     range?: TimeRange
   ): void {
     // only emit if something has changed
-    console.log(
-      this.initialStartDate,
-      endDate,
-      rangeInSeconds,
-      this.secondsAgoFromNow
-    );
     if (
       (!rangeInSeconds &&
         (startDate !== this.initialStartDate ||

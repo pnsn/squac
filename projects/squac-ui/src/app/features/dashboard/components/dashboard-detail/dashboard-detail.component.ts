@@ -44,7 +44,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   channelList = true;
 
   timeRange: number;
-  hideRows = true;
+  hideRows = false;
   hasUnsavedChanges: Observable<boolean>;
   // time picker config
   datePickerTimeRanges = DATE_PICKER_TIMERANGES;
@@ -131,8 +131,10 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
    * @param root0.rangeInSeconds time range
    */
   datesChanged({ startDate, endDate, liveMode, rangeInSeconds }): void {
-    console.log("dates changed");
     this.viewService.datesChanged(startDate, endDate, liveMode, rangeInSeconds);
+    this.startTime = this.viewService.startTime;
+    this.endTime = this.viewService.endTime;
+    this.timeRange = this.viewService.range;
     this.checkDates();
   }
 

@@ -201,7 +201,6 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
           this.rows = [...this.alerts];
         }),
         catchError(() => {
-          console.log("empty");
           return EMPTY;
         })
       ),
