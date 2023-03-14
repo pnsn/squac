@@ -99,7 +99,10 @@ export class DateSelectComponent implements OnInit, OnChanges {
       //has time range
       //range is saved as window_seconds on squacapi
       const selectedRange =
-        this.findRangeFromSeconds(this.secondsAgoFromNow) ?? this.timeRanges[0];
+        this.dateService.findRangeFromSeconds(
+          this.timeRanges,
+          this.secondsAgoFromNow
+        ) ?? this.timeRanges[0];
 
       if (selectedRange && this.rangesForDatePicker[selectedRange.label]) {
         this.selected = {
@@ -116,39 +119,16 @@ export class DateSelectComponent implements OnInit, OnChanges {
 
       // shift date by UTC offset because datepicker forces it to show
       // local, but still uses UTC internally
-      const startDate = this.dateService.fakeLocalFromUtc(start).utc();
-      const endDate = this.dateService.fakeLocalFromUtc(end).utc();
+      const startDate = this.dateService.subtractUtcOffset(start).utc();
+      const endDate = this.dateService.subtractUtcOffset(end).utc();
+
       this.selected = {
         startDate,
         endDate,
       };
+
       this.selectedRangeChanged.emit(null);
     }
-  }
-
-  /**
-   * Finds TimeRange that is the same length as the given seconds
-   *
-   * @param seconds length of timerange
-   * @returns Timerange if found
-   */
-  findRangeFromSeconds(seconds: number): TimeRange | undefined {
-    const timeRange = this.timeRanges.find((range) => {
-      const rangeInSeconds = this.getRangeAsSeconds(range);
-      return rangeInSeconds === seconds;
-    });
-
-    return timeRange;
-  }
-
-  /**
-   * Returns duration of time range in seconds
-   *
-   * @param range time range
-   * @returns length of time range in seconds
-   */
-  getRangeAsSeconds(range: TimeRange): number {
-    return this.dateService.duration(range.amount, range.unit).asSeconds();
   }
 
   /**
@@ -185,14 +165,17 @@ export class DateSelectComponent implements OnInit, OnChanges {
       if (startCopy.isUTC()) {
         // datepicker uses local time, but we want users to think
         // its UTC, so values need to be adjusted to UTC
-        startCopy = this.dateService.fakeUtcFromLocal(startCopy);
-        endCopy = this.dateService.fakeUtcFromLocal(endCopy);
+        startCopy = this.dateService.addUtcOffset(startCopy);
+        endCopy = this.dateService.addUtcOffset(endCopy);
       }
 
       if (endCopy && startCopy) {
         //calculate difference in start & end
         const diff = this.dateService.diff(endCopy, startCopy, "seconds");
-        const timeRange = this.findRangeFromSeconds(diff);
+        const timeRange = this.dateService.findRangeFromSeconds(
+          this.timeRanges,
+          diff
+        );
         // if the diff matches a timerange, check if the
         // startDate is "close enough" to now
         if (timeRange && endCopy.diff(this.startDate, "minute") < 1) {
@@ -214,7 +197,8 @@ export class DateSelectComponent implements OnInit, OnChanges {
    * @param startDate startdate
    * @param endDate enddate
    * @param liveMode is time range relative
-   * @param rangeInSeconds width in seconds
+   * @param rangeInSeconds width in seconds,
+   * @param range selected time range
    */
   datesUpdated(
     startDate: string | null,

@@ -5,6 +5,7 @@ import * as duration from "dayjs/plugin/duration";
 import * as utc from "dayjs/plugin/utc";
 import * as timezone from "dayjs/plugin/timezone";
 import { DEFAULT_LOCALE, Locale } from "@core/locale.constant";
+import { TimeRange } from "@shared/components/date-select/time-range.interface";
 
 /**
  * Service for management of dates
@@ -32,9 +33,8 @@ export class DateService {
    * @param utcDate utc date
    * @returns adjusted date
    */
-  fakeLocalFromUtc(utcDate: Dayjs): Dayjs {
+  subtractUtcOffset(utcDate: Dayjs): Dayjs {
     const localOffset = utcDate.clone().local().utcOffset();
-    console.log("fake local from UTC", localOffset);
     return utcDate.subtract(localOffset, "minutes");
   }
 
@@ -44,9 +44,8 @@ export class DateService {
    * @param localDate local date
    * @returns adjusted date
    */
-  fakeUtcFromLocal(localDate: Dayjs): Dayjs {
+  addUtcOffset(localDate: Dayjs): Dayjs {
     const localOffset = localDate.clone().local().utcOffset();
-    console.log("Fake utc from local", localOffset);
     return localDate.add(localOffset, "minutes").utc();
   }
 
@@ -177,5 +176,27 @@ export class DateService {
    */
   duration(count: number, type: string): duration.Duration {
     return dayjs.duration(count, type as duration.DurationUnitType);
+  }
+
+  /**
+   * Finds TimeRange that is the same length as the given seconds
+   *
+   * @param timeRanges time ranges to search in
+   * @param seconds length of timerange
+   * @returns Timerange if found
+   */
+  findRangeFromSeconds(
+    timeRanges: TimeRange[],
+    seconds: number
+  ): TimeRange | undefined {
+    const timeRange = timeRanges.find((range) => {
+      const rangeInSeconds = this.duration(
+        range.amount,
+        range.unit
+      ).asSeconds();
+      return rangeInSeconds === seconds;
+    });
+
+    return timeRange;
   }
 }

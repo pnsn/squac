@@ -29,6 +29,7 @@ import {
 } from "squacapi";
 import { Widget } from "widgets";
 import { TimeRange } from "@shared/components/date-select/time-range.interface";
+import { DATE_PICKER_TIMERANGES } from "@dashboard/components/dashboard-detail/dashboard-time-ranges";
 
 export interface DashboardConfig {
   stat?: string;
@@ -47,6 +48,7 @@ export interface DashboardConfig {
   providedIn: "root",
 })
 export class ViewService {
+  datePickerTimeRanges = DATE_PICKER_TIMERANGES;
   channels = new BehaviorSubject<Channel[]>([]); //actual channels used
   private _channelsList: Record<string, boolean>; //{ 'SCNL': boolean }
   private _channels: Channel[] = []; //all available channels
@@ -317,6 +319,10 @@ export class ViewService {
       // has a time range
       autoRefresh = this.dashboard.properties.autoRefresh;
       range = this.dashboard.properties.timeRange;
+
+      this.timeRangeChanged(
+        this.dateService.findRangeFromSeconds(this.datePickerTimeRanges, range)
+      );
     } else if (
       // has start and end dates
       this.dashboard.properties.startTime &&
@@ -360,6 +366,10 @@ export class ViewService {
     this.hasUnsavedChanges.next(true);
   }
 
+  /**
+   *
+   * @param timeRange
+   */
   timeRangeChanged(timeRange: TimeRange): void {
     this.timeRange = timeRange;
     if (!this.hasUnsavedChanges.getValue()) {

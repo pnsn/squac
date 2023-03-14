@@ -44,7 +44,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   channelList = true;
 
   timeRange: number;
-  hideRows = false;
+  hideRows = true;
   hasUnsavedChanges: Observable<boolean>;
   // time picker config
   datePickerTimeRanges = DATE_PICKER_TIMERANGES;

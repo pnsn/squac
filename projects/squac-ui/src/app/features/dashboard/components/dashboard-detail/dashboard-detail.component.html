@@ -57,22 +57,26 @@
       >
         <mat-icon>refresh</mat-icon>
       </button>
-      <button mat-icon-button (click)="hideRows = !hideRows">
+      <button
+        mat-icon-button
+        [color]="!hideRows ? 'primary' : ''"
+        matTooltip="configure dashboard"
+        (click)="hideRows = !hideRows"
+      >
         <mat-icon>tune</mat-icon>
       </button>
       <button
+        color="accent"
         mat-icon-button
-        [matMenuTriggerFor]="appMenu"
-        color="primary"
+        (click)="addWidget()"
         *ngIf="'update' | able: dashboard"
-        matTooltip="Dashboard configuration"
+        matTooltip="Add widget"
       >
-        <mat-icon>settings_application</mat-icon>
+        <mat-icon>add</mat-icon>
       </button>
     </div>
     <div class="row config-row" *ngIf="!hideRows">
       <!-- if they have permission, otherwise show copy only -->
-
       <shared-channel-group-selector
         [channelGroupId]="channelGroupId"
         (channelGroupIdChange)="channelGroupChange($event)"
