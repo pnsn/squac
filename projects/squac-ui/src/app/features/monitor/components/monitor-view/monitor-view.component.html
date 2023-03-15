@@ -26,7 +26,7 @@
       {{ row.inAlarm ? "in alarm" : "out of alarm" }}
     </div> -->
     <div>
-      {{ row.lastUpdate | date: "short" }}
+      {{ row.lastUpdate }}
     </div>
   </ng-container>
   <ng-template #noAlert>no alerts</ng-template>

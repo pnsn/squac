@@ -155,7 +155,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
         sortable: true,
       },
       {
-        name: "Last state update",
+        name: "Last State Change",
         draggable: false,
         canAutoResize: false,
         sortable: false,
