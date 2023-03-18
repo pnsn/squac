@@ -25,18 +25,6 @@
           [disabled]="!hideRows"
           mat-button
           (click)="hideRows = false"
-          matTooltip="data type"
-        >
-          {{ config.archive ? archiveTypeOptions[config.archive].full : "" }}
-          <ng-container *ngIf="config.stat">
-            : {{ statTypeOptions[config.stat] }}
-          </ng-container>
-        </button>
-
-        <button
-          [disabled]="!hideRows"
-          mat-button
-          (click)="hideRows = false"
           matTooltip="time range"
         >
           <ng-container *ngIf="config.range; else customRange">{{
@@ -45,6 +33,17 @@
           <ng-template #customRange
             >{{ config.start }} - {{ config.end }}</ng-template
           >
+        </button>
+        <button
+          [disabled]="!hideRows"
+          mat-button
+          (click)="hideRows = false"
+          matTooltip="data type"
+        >
+          {{ config.archive ? archiveTypeOptions[config.archive].full : "" }}
+          <ng-container *ngIf="config.stat">
+            : {{ statTypeOptions[config.stat] }}
+          </ng-container>
         </button>
       </ng-container>
 
@@ -84,13 +83,6 @@
         [dense]="true"
       >
       </shared-channel-group-selector>
-      <dashboard-data-type-selector
-        [dataType]="archiveType"
-        [statType]="archiveStat"
-        (dataTypeSelected)="selectArchiveType($event)"
-      >
-      </dashboard-data-type-selector>
-
       <shared-date-select
         [secondsAgoFromNow]="timeRange"
         [initialStartDate]="startTime"
@@ -99,6 +91,12 @@
         (datesChanged)="datesChanged($event)"
         (selectedRangeChanged)="viewService.timeRangeChanged($event)"
       ></shared-date-select>
+      <dashboard-data-type-selector
+        [dataType]="archiveType"
+        [statType]="archiveStat"
+        (dataTypeSelected)="selectArchiveType($event)"
+      >
+      </dashboard-data-type-selector>
       <button
         [disabled]="(hasUnsavedChanges | async) === false"
         mat-raised-button
