@@ -160,13 +160,23 @@ export class MonitorHistoryChartComponent extends EChartComponent {
         ...this.chartDefaultOptions.tooltip,
         show: true,
         trigger: "item",
+        axisPointer: {
+          type: "cross",
+          snap: true,
+        },
         formatter: (
           params: TooltipComponentFormatterCallbackParams
         ): string => {
           if ("componentType" in params) {
-            const tooltipstr = `${this.getOffsetStart(params.value[0])} ${
+            const inAlarm = params.value[4].inAlarm
+              ? "In Alarm"
+              : "Out of Alarm";
+            let tooltipstr = ` <div class='tooltip-name'>Status: ${inAlarm}</div>`;
+            tooltipstr += `<table class='tooltip-table'> <tr><td> ${this.getOffsetStart(
+              params.value[0]
+            )} </td> <td> ${
               params.value[4].breachingChannels?.length
-            } breaching channels`;
+            } breaching channels</td></tr> </table>`;
             return tooltipstr;
           } else return this.widgetConfigService.timeAxisFormatToolTip(params);
         },
@@ -231,45 +241,27 @@ export class MonitorHistoryChartComponent extends EChartComponent {
     this.alerts
       ?.filter((a) => a.triggerId === triggerId)
       .forEach((alert) => {
+        const start = this.dateService.parseUtc(alert.timestamp);
+
+        let breachingChannels = null;
         if (alert.inAlarm) {
-          this.addBreachingChannels(alert);
-          const start = this.dateService.parseUtc(alert.timestamp);
-          const breachingChannels = alert.breachingChannels.length;
-          series.data.push({
-            name: alert.id,
-            value: [
-              start.toDate(),
-              start.add(1, "hour").toDate(),
-              breachingChannels,
-              triggerIndex,
-              alert,
-            ],
-          });
+          breachingChannels = alert.breachingChannels.length;
+        } else {
+          breachingChannels = -100;
         }
+
+        series.data.push({
+          name: alert.id,
+          value: [
+            start.toDate(),
+            start.add(59, "minutes").toDate(),
+            breachingChannels,
+            triggerIndex,
+            alert,
+          ],
+        });
       });
     this.alertsSeries.push(series);
-  }
-
-  /**
-   * Adds breaching channels for alert
-   *
-   * @param alert alert to add channels for
-   */
-  addBreachingChannels(alert: Alert): void {
-    const channelsData = [];
-    alert.breachingChannels.forEach((bc: BreachingChannel) => {
-      const start = this.dateService.parseUtc(alert.timestamp);
-      channelsData.push({
-        name: bc.channel,
-        value: [
-          start.toDate(),
-          start.add(1, "hour").toDate(),
-          bc[this.monitor.stat],
-          alert,
-        ],
-      });
-    });
-    // this.channelsSeries.push(...channelsData);
   }
 
   /**
@@ -286,9 +278,15 @@ export class MonitorHistoryChartComponent extends EChartComponent {
         data: this.metricSeries.yAxisLabels,
       },
       visualMap: {
+        type: "continuous",
         precision: 0,
-        min: 0,
-        max: this.channels.length,
+        min: 0 - 0.001,
+        max: this.channels.length + 0.001,
+        range: [0, this.channels.length],
+        outOfRange: {
+          opacity: 0,
+          color: "lightgray",
+        },
       },
     };
     if (this.echartsInstance) {
@@ -327,7 +325,6 @@ export class MonitorHistoryChartComponent extends EChartComponent {
         height: params.coordSys.height,
       }
     );
-
     return (
       rectShape && {
         type: "rect",

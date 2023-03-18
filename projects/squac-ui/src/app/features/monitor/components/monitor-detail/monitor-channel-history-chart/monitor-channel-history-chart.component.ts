@@ -148,6 +148,7 @@ export class MonitorChannelHistoryChartComponent extends EChartComponent {
         show: true,
         appendToBody: true,
         axisPointer: {
+          type: "cross",
           snap: true,
         },
       },
@@ -250,7 +251,7 @@ export class MonitorChannelHistoryChartComponent extends EChartComponent {
         index++;
       }
 
-      this.triggerSeries.push(this.addTriggers());
+      // this.triggerSeries.push(this.addTriggers());
       resolve();
     });
   }

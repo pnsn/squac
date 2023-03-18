@@ -24,10 +24,11 @@
   position: -webkit-sticky;
   z-index: 100;
   gap: 3px;
+
   & > .row {
     align-items: center;
     flex-wrap: wrap;
-    gap: 3px;
+    gap: 5px;
   }
   mat-button-toggle {
     max-height: 40px;

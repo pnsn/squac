@@ -111,6 +111,11 @@
     [appIsLoading]="loadingService.isLoading$(this) | async"
   >
     <h3>Alert History</h3>
+    <p class="help-text">
+      An alert will be generated when a trigger is 'In Alarm' and when the
+      trigger exits the alarm state. Once the trigger is no longer 'In Alarm',
+      no alerts will be generated until it is 'In Alarm' again;
+    </p>
     <p class="help-text">click on an alert to view details</p>
     <div
       id="monitor-history-chart-container"
@@ -126,8 +131,10 @@
   </div>
   <div *ngIf="selectedAlert as alert" id="alert-detail">
     <h3>Alert Detail</h3>
-    <strong>{{ alert.inAlarm ? "In Alarm" : "Out of Alarm" }} at: </strong
-    >{{ alert.timestamp }}
+    <div>
+      <strong>{{ alert.inAlarm ? "In Alarm" : "Out of Alarm" }} at: </strong
+      >{{ alert.timestamp }}
+    </div>
     <ngx-datatable
       class="material lt-gray-border"
       [rowHeight]="23"

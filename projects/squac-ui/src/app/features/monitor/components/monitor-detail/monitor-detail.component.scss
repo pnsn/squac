@@ -21,6 +21,13 @@
 
 #alert-detail {
   padding: 10px;
+  width: fit-content;
+  display: inline-block;
+}
+
+#breaching-channels-detail {
+  display: flex;
+  flex-direction: row;
 }
 
 #trigger-table {
