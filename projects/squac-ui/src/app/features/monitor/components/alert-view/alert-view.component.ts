@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   OnDestroy,
   OnInit,
@@ -97,7 +98,8 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     private alertService: AlertService,
     private route: ActivatedRoute,
     private dateService: DateService,
-    public loadingService: LoadingService
+    public loadingService: LoadingService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   /** subscribe to route events */
@@ -151,6 +153,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
         cellTemplate: this.channelsTemplate,
       },
     ];
+    this.cdr.detectChanges();
   }
 
   /**

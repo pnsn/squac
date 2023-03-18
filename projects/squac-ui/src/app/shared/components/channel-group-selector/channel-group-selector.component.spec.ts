@@ -19,7 +19,7 @@ describe("ChannelGroupSelectorComponent", () => {
           getChannelGroups: () => {
             return of();
           },
-          getSortedChannelGroups: () => {
+          list: () => {
             return of();
           },
         },

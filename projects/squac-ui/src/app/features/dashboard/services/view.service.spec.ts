@@ -58,6 +58,9 @@ describe("ViewService", () => {
           now: () => {
             return dayjs();
           },
+          findRangeFromSeconds: () => {
+            return null;
+          },
         },
       })
       .provide({

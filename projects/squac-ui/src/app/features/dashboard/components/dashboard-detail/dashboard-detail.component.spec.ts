@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { DashboardDetailComponent } from "./dashboard-detail.component";
 import { RouterTestingModule } from "@angular/router/testing";
 import { ActivatedRoute } from "@angular/router";
-import { of } from "rxjs";
+import { of, Subject } from "rxjs";
 import { Ability } from "@casl/ability";
 import { ViewService } from "@dashboard/services/view.service";
 import { Dashboard } from "squacapi";
@@ -35,6 +35,7 @@ describe("DashboardDetailComponent", () => {
         useValue: {
           status: of(),
           error: of(),
+          hasUnsavedChanges: new Subject(),
           setDashboard: () => {
             return;
           },
