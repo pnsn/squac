@@ -21,6 +21,7 @@ import {
   TableOptions,
 } from "@shared/components/table-view/interfaces";
 import { DATE_PICKER_TIMERANGES } from "@dashboard/components/dashboard-detail/dashboard-time-ranges";
+import { sortTimestamps } from "@core/utils/utils";
 
 /**
  * Component for viewing list of alerts
@@ -66,17 +67,8 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
       text: "Filter alerts...",
       props: [
         "owner",
+        "monitorName",
         { prop: "breachingChannels", props: ["channel"] },
-        {
-          prop: "monitor",
-          props: [
-            "name",
-            "stat",
-
-            { prop: "channelGroup", props: ["name"] },
-            { prop: "metric", props: ["name"] },
-          ],
-        },
       ],
     },
   };
@@ -90,7 +82,6 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild("stateTemplate") public stateTemplate: TemplateRef<any>;
   @ViewChild("triggerTemplate") public triggerTemplate: TemplateRef<any>;
-  @ViewChild("updateTemplate") public updateTemplate: TemplateRef<any>;
   @ViewChild("channelsTemplate") public channelsTemplate: TemplateRef<any>;
   @ViewChild("monitorTemplate") public monitorTemplate: TemplateRef<any>;
 
@@ -120,17 +111,18 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.columns = [
       {
         name: "State",
-        sortable: false,
-        width: 60,
-        minWidth: 60,
+        prop: "inAlarm",
+        width: 70,
+        minWidth: 70,
         canAutoResize: false,
         cellTemplate: this.stateTemplate,
       },
       {
         name: "Time",
-        prop: "",
+        prop: "timestamp",
+        width: 160,
         canAutoResize: false,
-        cellTemplate: this.updateTemplate,
+        comparator: sortTimestamps,
       },
       {
         name: "Monitor",
@@ -147,7 +139,6 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
       {
         name: "Breaching Channels",
         prop: "breachingChannels",
-        sortable: false,
         width: 150,
         canAutoResize: false,
         cellTemplate: this.channelsTemplate,

@@ -26,6 +26,7 @@ import {
   TableOptions,
 } from "@shared/components/table-view/interfaces";
 import { SelectionType } from "@boring.devs/ngx-datatable";
+import { sortTimestamps } from "@core/utils/utils";
 
 /**
  * Component for displaying list of monitors
@@ -81,19 +82,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
   filters: TableFilters = {
     searchField: {
       text: "Filter monitors...",
-      props: [
-        "owner",
-
-        {
-          prop: "monitor",
-          props: [
-            { prop: "channelGroup", props: ["name"] },
-            { prop: "metric", props: ["name"] },
-            "stat",
-            "name",
-          ],
-        },
-      ],
+      props: ["owner", "name", "channelGroupName", "metricName"],
     },
   };
 
@@ -141,10 +130,10 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.columns = [
       {
         name: "State",
+        prop: "inAlarm",
         draggable: false,
-        sortable: false,
-        width: 60,
-        minWidth: 60,
+        width: 70,
+        minWidth: 70,
         canAutoResize: false,
         cellTemplate: this.stateTemplate,
       },
@@ -155,12 +144,14 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
       },
       {
         name: "Last State Change",
+        prop: "lastUpdate",
         draggable: false,
         canAutoResize: false,
-        sortable: false,
+        sortable: true,
         width: 160,
         minWidth: 160,
         cellTemplate: this.updateTemplate,
+        comparator: sortTimestamps,
       },
       {
         name: "Channel Group",
