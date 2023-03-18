@@ -5,7 +5,6 @@ import { AppAbility } from "@core/utils/ability";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { MessageService } from "@core/services/message.service";
-import { Dayjs } from "dayjs";
 import {
   BehaviorSubject,
   catchError,
@@ -245,6 +244,9 @@ export class ViewService {
     }
   }
 
+  /**
+   * Emits updated dashboard configuration
+   */
   updateDashboardConfig(): void {
     const config: DashboardConfig = {
       stat: this.archiveStat,
@@ -367,8 +369,9 @@ export class ViewService {
   }
 
   /**
+   * Saves updated timeRange to dashboard
    *
-   * @param timeRange
+   * @param timeRange timeRange for dashboard
    */
   timeRangeChanged(timeRange: TimeRange): void {
     this.timeRange = timeRange;

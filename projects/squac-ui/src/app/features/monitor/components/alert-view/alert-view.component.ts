@@ -177,7 +177,10 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.unsavedChanges = true;
   }
 
-  update() {
+  /**
+   * Initiates data fetch
+   */
+  update(): void {
     this.fetchData().subscribe();
   }
   /**

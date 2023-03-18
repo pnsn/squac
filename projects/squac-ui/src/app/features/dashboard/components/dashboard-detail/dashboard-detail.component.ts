@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import {
   ARCHIVE_STAT_OPTIONS,
   ARCHIVE_TYPE_OPTIONS,

@@ -5,7 +5,6 @@ import {
   AfterViewInit,
   TemplateRef,
   ViewChild,
-  AfterViewChecked,
   ChangeDetectorRef,
 } from "@angular/core";
 import { ChannelGroup } from "squacapi";

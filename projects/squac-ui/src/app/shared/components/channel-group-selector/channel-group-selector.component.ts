@@ -2,6 +2,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
   SimpleChanges,
@@ -18,14 +19,14 @@ interface Group {
   groups: ChannelGroup[];
 }
 /**
- * Shared selector for channel group
+ * Dropdown select for channel groups
  */
 @Component({
   selector: "shared-channel-group-selector",
   templateUrl: "./channel-group-selector.component.html",
   styleUrls: ["./channel-group-selector.component.scss"],
 })
-export class ChannelGroupSelectorComponent implements OnInit {
+export class ChannelGroupSelectorComponent implements OnInit, OnChanges {
   /** channel group id */
   @Input() channelGroupId: number | string | undefined;
   /** label text */
@@ -107,6 +108,9 @@ export class ChannelGroupSelectorComponent implements OnInit {
       });
   }
 
+  /**
+   * @override
+   */
   ngOnChanges(changes: SimpleChanges): void {
     if (
       changes["channelGroupId"] &&
@@ -136,6 +140,12 @@ export class ChannelGroupSelectorComponent implements OnInit {
     this.location.go(url);
   }
 
+  /**
+   * Returns formatted string for displaying Chanel group
+   *
+   * @param group channel group
+   * @returns string with channel group name and count
+   */
   displayFn(group: ChannelGroup): string {
     return group && group.name ? `${group.name} (${group.channelsCount})` : "";
   }

@@ -1,10 +1,4 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  AfterViewInit,
-  AfterContentInit,
-} from "@angular/core";
+import { Component, OnInit, OnDestroy, AfterContentInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { Metric } from "squacapi";
