@@ -13,13 +13,7 @@ import {
   graphic,
   TooltipComponentFormatterCallbackParams,
 } from "echarts";
-import {
-  Alert,
-  BreachingChannel,
-  MeasurementPipe,
-  Monitor,
-  Trigger,
-} from "squacapi";
+import { Alert, MeasurementPipe, Monitor, Trigger } from "squacapi";
 import {
   EChartComponent,
   LabelFormatterParams,

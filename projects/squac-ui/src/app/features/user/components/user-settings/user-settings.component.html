@@ -1,19 +1,16 @@
-<div class="column box" *ngIf="user; else noUser">
-  <div class="header-title">
-    <h3>User Settings</h3>
-    <div>
-      <a
-        mat-button
-        color="primary"
-        [routerLink]="['../organizations', user.orgId]"
-        >View {{ user.orgId | organization }}</a
-      >
-      <a mat-button [routerLink]="['../organizations']"
-        >View All Organizations</a
-      >
-    </div>
+<div class="title">
+  <h2>User Settings</h2>
+  <div>
+    <a
+      mat-button
+      color="primary"
+      [routerLink]="['../organizations', user.orgId]"
+      >View {{ user.orgId | organization }}</a
+    >
+    <a mat-button [routerLink]="['../organizations']">View All Organizations</a>
   </div>
-
+</div>
+<div class="column" *ngIf="user; else noUser">
   <div id="user-settings-content">
     <p>Hello, {{ user.firstname }} {{ user.lastname }}!</p>
 

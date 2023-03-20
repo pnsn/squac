@@ -16,11 +16,10 @@
     </p>
   </ng-container>
 </shared-table-view>
-<div id="roles-container" class="box">
-  <div class="header-title">
-    <h3>Squac User Roles (additive):</h3>
-  </div>
-
+<div class="title">
+  <h3>Squac User Roles (additive):</h3>
+</div>
+<div id="roles-container" class="gray-border">
   <mat-list dense>
     <mat-list-item *ngFor="let group of groups">
       <span class="label">{{ group.role | titlecase }}</span> -

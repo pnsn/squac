@@ -1,18 +1,45 @@
-<div id="table-view-container" class="gray-border box-shadow">
+<div class="title">
+  <h2>
+    {{ title }}
+  </h2>
+
+  <button
+    mat-flat-button
+    color="accent"
+    (click)="addResource()"
+    *ngIf="controls.add && ('create' | able: controls.resource)"
+  >
+    {{ controls.add.text }}
+  </button>
+</div>
+<div id="table-view-container" class="gray-border">
   <div id="table-head" class="lt-gray-background">
     <div class="row space-between">
-      <h2 id="title">
-        {{ title }}
-      </h2>
+      <shared-search-filter
+        *ngIf="filters && filters.searchField"
+        [config]="filters.searchField"
+        [rows]="rows"
+        (filterChanged)="searchFieldChanged($event)"
+      >
+      </shared-search-filter>
+      <ng-content select="[tableHeadFilters]"> </ng-content>
       <div class="row space-between">
-        <button
-          *ngIf="controls.refresh"
-          mat-icon-button
-          aria-label="button that refreshes data"
-          (click)="refreshResource()"
-        >
-          <mat-icon>refresh</mat-icon>
-        </button>
+        <div *ngIf="filters && filters.toggleShared">
+          <mat-button-toggle-group
+            class="dense-button-toggle"
+            name="sharing"
+            aria-label=""
+            (change)="toggleSharing()"
+            [(ngModel)]="shareFilter"
+          >
+            <mat-button-toggle value="user">User</mat-button-toggle>
+            <mat-button-toggle value="org">{{
+              user?.orgId | organization
+            }}</mat-button-toggle>
+            <mat-button-toggle value="all">All</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+
         <ng-container *ngIf="controls.links">
           <button
             *ngFor="let link of controls.links"
@@ -50,44 +77,16 @@
           {{ controls.menu.text }} <mat-icon>expand_more</mat-icon>
         </button>
 
-        <button
-          mat-flat-button
-          color="primary"
-          (click)="addResource()"
-          *ngIf="controls.add && ('create' | able: controls.resource)"
-        >
-          {{ controls.add.text }}
-        </button>
-
         <ng-content select="[tableHeadControls]"> </ng-content>
-      </div>
-    </div>
-
-    <div class="row space-between">
-      <shared-search-filter
-        *ngIf="filters && filters.searchField"
-        [config]="filters.searchField"
-        [rows]="rows"
-        (filterChanged)="searchFieldChanged($event)"
-      >
-      </shared-search-filter>
-      <div *ngIf="filters && filters.toggleShared">
-        <mat-button-toggle-group
-          class="dense-button-toggle"
-          name="sharing"
-          aria-label=""
-          (change)="toggleSharing()"
-          [(ngModel)]="shareFilter"
+        <button
+          *ngIf="controls.refresh"
+          mat-icon-button
+          aria-label="button that refreshes data"
+          (click)="refreshResource()"
         >
-          <mat-button-toggle value="user">User</mat-button-toggle>
-          <mat-button-toggle value="org">{{
-            user?.orgId | organization
-          }}</mat-button-toggle>
-          <mat-button-toggle value="all">All</mat-button-toggle>
-        </mat-button-toggle-group>
+          <mat-icon>refresh</mat-icon>
+        </button>
       </div>
-
-      <ng-content select="[tableHeadFilters]"> </ng-content>
     </div>
   </div>
   <div id="table-body">
