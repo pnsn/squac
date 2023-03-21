@@ -156,7 +156,7 @@ export class ViewService {
    *
    * @param dashboard new dashboard to intialize
    */
-  setDashboard(dashboard: Dashboard): void {
+  initDashboard(dashboard: Dashboard): void {
     // clear old widgets
     this.currentWidgets.next([]);
     this.queuedWidgets = 0;
@@ -233,11 +233,12 @@ export class ViewService {
     ) {
       this._channelGroupId;
       this.dashboard.channelGroupId = this._channelGroupId;
-      this.loadingService
-        .doLoading(this.getChannelGroup(this._channelGroupId), this.dashboard)
-        .subscribe(() => {
+
+      this.getChannelGroup(this._channelGroupId).subscribe({
+        next: () => {
           this.sendUpdate();
-        });
+        },
+      });
     } else {
       // otherwise just send updated info
       this.sendUpdate();
@@ -278,34 +279,25 @@ export class ViewService {
    * @param channelGroupId channel group id to find
    * @returns observable of channel group
    */
-  setDashboardById(
-    dashboardId: number,
+  setDashboard(
+    dashboard: Dashboard,
     channelGroupId: number
   ): Observable<ChannelGroup> {
     this._widgets = [];
     this._channelGroupId = null;
     this._channels = [];
-    return this.dashboardService.read(dashboardId).pipe(
-      tap({
-        next: (dashboard) => {
-          this.setDashboard(dashboard);
-        },
-        error: () => {
-          //do something about error
-        },
-      }),
-      switchMap((dashboard) => {
-        const groupId = channelGroupId || dashboard.channelGroupId;
-        if (groupId) {
-          return this.getChannelGroup(groupId);
-        } else {
-          return of(null);
-        }
-      }),
-      tap(() => {
-        this.updateDashboard();
-      })
-    );
+    const groupId = channelGroupId || dashboard.channelGroupId;
+    this.initDashboard(dashboard);
+
+    if (groupId) {
+      return this.getChannelGroup(groupId).pipe(
+        tap(() => {
+          this.updateDashboard();
+        })
+      );
+    } else {
+      return of(null);
+    }
   }
 
   /**

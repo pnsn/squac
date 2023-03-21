@@ -38,6 +38,7 @@ export const routes: Routes = [
         component: DashboardDetailComponent,
         runGuardsAndResolvers: "paramsChange",
         resolve: {
+          dashboard: DashboardResolver,
           widgets: WidgetResolver,
           metrics: MetricResolver,
         },

@@ -69,40 +69,35 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.hasUnsavedChanges = this.viewService.hasUnsavedChanges.asObservable();
     const paramsSub = this.route.params
       .pipe(
-        tap(() => {
+        tap((params) => {
           this.error = null;
         }),
-        switchMap((params) => {
-          // get dashboard id & channel group id
-          const dashboardId = +params["dashboardId"];
+        switchMap(() => {
           const groupId = +this.route.snapshot.queryParams["group"];
-
-          // request info
-          return this.loadingService.doLoading(
-            this.viewService.setDashboardById(dashboardId, groupId).pipe(
-              tap((channelGroup) => {
-                if (channelGroup) {
-                  this.channelGroupId = channelGroup.id;
-                }
-                this.dashboard = this.viewService.dashboard;
-                this.widgetConnectService.useDenseView.next(
-                  this.dashboard.properties.denseView
-                );
-                this.archiveStat = this.viewService.archiveStat;
-                this.archiveType = this.viewService.archiveType;
-                this.timeRange = this.viewService.range;
-                this.startTime = this.viewService.startTime;
-                this.endTime = this.viewService.endTime;
-              }),
-              catchError(() => {
-                if (!this.dashboard) {
-                  this.messageService.error("Could not load dashboard.");
-                } else {
-                  this.messageService.error("Could not load channel group.");
-                }
-                return EMPTY;
-              })
-            )
+          const dashboard = this.route.snapshot.data["dashboard"];
+          return this.viewService.setDashboard(dashboard, groupId).pipe(
+            tap((channelGroup) => {
+              if (channelGroup) {
+                this.channelGroupId = channelGroup.id;
+              }
+              this.dashboard = this.viewService.dashboard;
+              this.widgetConnectService.useDenseView.next(
+                this.dashboard.properties.denseView
+              );
+              this.archiveStat = this.viewService.archiveStat;
+              this.archiveType = this.viewService.archiveType;
+              this.timeRange = this.viewService.range;
+              this.startTime = this.viewService.startTime;
+              this.endTime = this.viewService.endTime;
+            }),
+            catchError(() => {
+              if (!this.dashboard) {
+                this.messageService.error("Could not load dashboard.");
+              } else {
+                this.messageService.error("Could not load channel group.");
+              }
+              return EMPTY;
+            })
           );
         })
       )

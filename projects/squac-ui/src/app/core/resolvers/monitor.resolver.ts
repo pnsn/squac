@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, Resolve } from "@angular/router";
+import { LoadingService } from "@core/services/loading.service";
 import { Observable } from "rxjs";
 import { Monitor, MonitorService } from "squacapi";
 
@@ -12,7 +13,10 @@ import { Monitor, MonitorService } from "squacapi";
 export class MonitorResolver
   implements Resolve<Observable<Monitor | Monitor[]>>
 {
-  constructor(private monitorService: MonitorService) {}
+  constructor(
+    private monitorService: MonitorService,
+    private loadingService: LoadingService
+  ) {}
 
   /**
    * Resolve monitor or list of monitors
@@ -23,9 +27,9 @@ export class MonitorResolver
   resolve(route: ActivatedRouteSnapshot): Observable<Monitor | Monitor[]> {
     const id = route.paramMap.get("monitorId");
     if (id) {
-      return this.monitorService.read(+id);
+      return this.loadingService.doLoading(this.monitorService.read(+id));
     } else {
-      return this.monitorService.list();
+      return this.loadingService.doLoading(this.monitorService.list());
     }
   }
 }
