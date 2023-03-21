@@ -61,17 +61,19 @@ export const routes: Routes = [
             path: "widgets",
             component: WidgetMainComponent,
             runGuardsAndResolvers: "paramsOrQueryParamsChange",
-          },
-          {
-            path: "widgets/new",
-            component: WidgetEditEntryComponent,
-          },
-          {
-            path: "widgets/:widgetId/edit",
-            resolve: {
-              widget: WidgetResolver,
-            },
-            component: WidgetEditEntryComponent,
+            children: [
+              {
+                path: "new",
+                component: WidgetEditEntryComponent,
+              },
+              {
+                path: ":widgetId/edit",
+                resolve: {
+                  widget: WidgetResolver,
+                },
+                component: WidgetEditEntryComponent,
+              },
+            ],
           },
         ],
       },
