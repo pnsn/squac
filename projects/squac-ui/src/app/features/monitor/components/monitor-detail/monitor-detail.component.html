@@ -5,6 +5,7 @@
   [title]="monitor?.name"
   [subtext]="'by ' + (monitor?.owner | user)"
   [options]="pageOptions"
+  (deleteResource)="delete()"
 >
   <ng-container bodyContent>
     <div id="monitor-container" class="column">

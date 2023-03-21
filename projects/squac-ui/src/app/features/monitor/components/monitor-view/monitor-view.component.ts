@@ -118,20 +118,19 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /** Init subscriptions */
   ngOnInit(): void {
-    const monitorsSub = this.route.params
+    const routeSub = this.route.data
       .pipe(
-        switchMap(() => {
-          return this.loadingService.doLoading(this.fetchData(), this);
+        tap((data) => {
+          this.monitors = data["monitors"];
         })
       )
-      .subscribe();
+      .subscribe({
+        next: () => {
+          this.makeRows();
+        },
+      });
 
-    this.subscription.add(monitorsSub);
-
-    if (this.route.firstChild) {
-      this.selectedMonitorId =
-        +this.route.firstChild.snapshot.params["monitorId"];
-    }
+    this.subscription.add(routeSub);
   }
 
   /** Set up columns */

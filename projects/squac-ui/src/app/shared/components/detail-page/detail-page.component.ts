@@ -18,6 +18,9 @@ export class DetailPageComponent {
   @Input() options: PageOptions = {};
   @Input() resource?: SquacObject;
   @Output() controlClicked? = new EventEmitter<ButtonEvent>();
+  @Output() saveResource = new EventEmitter<string>();
+  @Output() deleteResource = new EventEmitter<string>();
+  @Output() cancelEdit = new EventEmitter<string>();
   constructor(
     private confirmDialog: ConfirmDialogService,
     private router: Router,
@@ -43,6 +46,7 @@ export class DetailPageComponent {
     } else if (action === "delete" || action === "cancel") {
       this.cancel(action);
     } else if (action === "save") {
+      this.saveResource.emit(action);
       this.controlClicked.emit(action);
     }
   }
@@ -52,7 +56,10 @@ export class DetailPageComponent {
    * @param action text for button
    */
   cancel(action: "delete" | "cancel"): void {
-    const name = "name" in this.resource ? this.resource.name : "resource";
+    const name =
+      this.resource && "name" in this.resource
+        ? this.resource.name
+        : "resource";
     let title = "";
     let message = "";
     let cancelText = "";
@@ -78,6 +85,11 @@ export class DetailPageComponent {
     });
     this.confirmDialog.confirmed().subscribe((confirm) => {
       if (confirm) {
+        if (action === "delete") {
+          this.deleteResource.emit("delete");
+        } else {
+          this.cancelEdit.emit("cancel");
+        }
         this.controlClicked.emit(action);
       }
     });

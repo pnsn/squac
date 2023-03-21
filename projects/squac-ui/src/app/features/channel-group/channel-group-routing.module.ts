@@ -40,6 +40,10 @@ export const routes: Routes = [
 
       {
         path: "",
+        resolve: {
+          channelGroups: ChannelGroupResolver,
+        },
+        runGuardsAndResolvers: "always",
         component: ChannelGroupViewComponent,
       },
     ],

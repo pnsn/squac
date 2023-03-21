@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, AfterContentInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
+import { catchError, EMPTY, Subscription, tap } from "rxjs";
 import { Metric } from "squacapi";
 import { MetricService } from "squacapi";
 import { LoadingService } from "@core/services/loading.service";
@@ -10,6 +10,7 @@ import {
   TableFilters,
   TableOptions,
 } from "@shared/components/table-view/interfaces";
+import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
 
 /**
  * Shows list of metrics
@@ -17,7 +18,6 @@ import {
 @Component({
   selector: "metric-view",
   templateUrl: "./metric-view.component.html",
-  styleUrls: ["./metric-view.component.scss"],
 })
 export class MetricViewComponent
   implements OnInit, OnDestroy, AfterContentInit
@@ -28,7 +28,13 @@ export class MetricViewComponent
   // table config
   columns = [];
   rows = [];
-
+  /** Config for detail page */
+  pageOptions: PageOptions = {
+    path: "/metrics",
+    titleButtons: {
+      addButton: true,
+    },
+  };
   //table options
   options: TableOptions = {
     messages: {
@@ -65,15 +71,19 @@ export class MetricViewComponent
 
   /** subscribe to params */
   ngOnInit(): void {
-    const monitorsSub = this.route.params
+    const routeSub = this.route.data
       .pipe(
-        switchMap(() => {
-          return this.fetchData();
+        tap((data) => {
+          this.metrics = data["metrics"];
         })
       )
-      .subscribe();
+      .subscribe({
+        next: () => {
+          this.rows = [...this.metrics];
+        },
+      });
 
-    this.subscription.add(monitorsSub);
+    this.subscription.add(routeSub);
   }
 
   /** init columns */

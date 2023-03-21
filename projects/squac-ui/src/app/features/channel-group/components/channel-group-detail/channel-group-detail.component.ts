@@ -55,7 +55,6 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     // get channel group info from route
-    //TODO: prevent loading everytime you go back...but also respond to changes
     const routeSub = this.route.data
       .pipe(
         tap((data: any) => {
