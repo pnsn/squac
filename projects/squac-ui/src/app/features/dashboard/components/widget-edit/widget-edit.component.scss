@@ -1,19 +1,15 @@
-.body-content-container {
-  height: calc(100% - 100px);
+mat-dialog-content {
+  overflow-y: hidden;
+  display: flex;
+  align-items: stretch;
 }
 :host ::ng-deep {
-  mat-step-header {
-    padding: 3px;
+  mat-stepper {
+    display: flex;
+    align-items: stretch;
   }
-  .mat-stepper-vertical-line::before {
-    top: 0px;
-    bottom: 0px;
+  .mat-horizontal-content-container {
+    height: 100%;
+    overflow-y: scroll;
   }
-}
-
-.edit-buttons {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  gap: 4px;
 }

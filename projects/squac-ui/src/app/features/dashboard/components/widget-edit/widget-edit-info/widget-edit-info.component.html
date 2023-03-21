@@ -43,56 +43,53 @@
 
     <ng-container *ngIf="previewType; else selectWidget">
       <ng-container *ngIf="WidgetTypeInfo[previewType].config as config">
-        <div class="preview-container row">
-          <div id="type-detail-container" (click)="updateType()">
-            <div class="label">
-              {{ WidgetTypeInfo[previewType].config.name | titlecase }}:
-            </div>
-            <div id="description">
-              <!-- <div class="label">Description:</div> -->
-              <p class="help-text">
-                {{ config.description }}
-              </p>
-            </div>
-
-            <div id="stat-type-container" *ngIf="config.useAggregate">
-              <div class="label">Select measurement aggregation:</div>
-              <mat-form-field class="dense-form-field-select">
-                <mat-select formControlName="stat" required>
-                  <mat-option
-                    *ngFor="let statType of WidgetStatType"
-                    [value]="statType"
-                  >
-                    {{ WIDGET_STAT_TYPE_NAMES[statType] }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-
-            <div
-              id="display-container"
-              class="column"
-              *ngIf="config.displayOptions"
-            >
-              <div class="label">Select display type:</div>
-              <mat-radio-group
-                formControlName="displayType"
-                class="dense-radio-button-group"
-              >
-                <mat-radio-button
-                  *ngFor="let option of config.displayOptions | keyvalue"
-                  [value]="option.key"
-                  class="radio-button-dense"
-                  ><div class="option-container">
-                    <span>{{ option.value.description }}</span>
-                  </div>
-                </mat-radio-button>
-              </mat-radio-group>
-            </div>
+        <div id="type-detail-container" (click)="updateType()">
+          <div class="label">
+            {{ WidgetTypeInfo[previewType].config.name | titlecase }}:
+          </div>
+          <div id="description">
+            <!-- <div class="label">Description:</div> -->
+            <p class="help-text">
+              {{ config.description }}
+            </p>
           </div>
 
+          <div id="stat-type-container" *ngIf="config.useAggregate">
+            <div class="label">Select measurement aggregation:</div>
+            <mat-form-field class="dense-form-field-select">
+              <mat-select formControlName="stat" required>
+                <mat-option
+                  *ngFor="let statType of WidgetStatType"
+                  [value]="statType"
+                >
+                  {{ WIDGET_STAT_TYPE_NAMES[statType] }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div
+            id="display-container"
+            class="column"
+            *ngIf="config.displayOptions"
+          >
+            <div class="label">Select display type:</div>
+            <mat-radio-group
+              formControlName="displayType"
+              class="dense-radio-button-group"
+            >
+              <mat-radio-button
+                *ngFor="let option of config.displayOptions | keyvalue"
+                [value]="option.key"
+                class="radio-button-dense"
+                ><div class="option-container">
+                  <span>{{ option.value.description }}</span>
+                </div>
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <div class="label">Example Chart:</div>
           <div id="chart-container">
-            <div class="label">Example Chart:</div>
             <div
               appWidgetTypeExample
               [type]="previewType"
