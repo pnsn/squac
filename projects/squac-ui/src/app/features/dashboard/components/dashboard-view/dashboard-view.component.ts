@@ -110,15 +110,15 @@ export class DashboardViewComponent
    * subscribe to route params
    */
   ngOnInit(): void {
-    const dashboardsSub = this.route.params
+    const dashboardsSub = this.route.data
       .pipe(
-        tap(() => {
+        tap((data) => {
           // this.error = false;
           const orgId = this.route.snapshot.data["user"].orgId;
           this.queryParams = { organization: orgId };
-        }),
-        switchMap(() => {
-          return this.loadingService.doLoading(this.fetchData(), this);
+
+          this.dashboards = data["dashboards"];
+          this.rows = [...this.dashboards];
         })
       )
       .subscribe();

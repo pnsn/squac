@@ -24,22 +24,13 @@ export const routes: Routes = [
       {
         path: "",
         component: DashboardViewComponent,
+        runGuardsAndResolvers: "always",
         children: [
           {
             path: "new",
             component: DashboardEditEntryComponent,
-            data: { subject: "Dashboard", action: "create" },
           },
         ],
-      },
-      {
-        path: ":dashboardId/edit",
-        component: DashboardEditEntryComponent,
-        data: { subject: "Dashboard", action: "update" },
-        resolve: {
-          channelGroups: ChannelGroupResolver,
-          dashboard: DashboardResolver,
-        },
       },
 
       {
@@ -50,8 +41,15 @@ export const routes: Routes = [
           widgets: WidgetResolver,
           metrics: MetricResolver,
         },
-        data: { subject: "Dashboard", action: "read" },
         children: [
+          {
+            path: "edit",
+            component: DashboardEditEntryComponent,
+            resolve: {
+              channelGroups: ChannelGroupResolver,
+              dashboard: DashboardResolver,
+            },
+          },
           {
             path: "",
             redirectTo: "widgets",

@@ -116,24 +116,6 @@ export class ChannelGroupViewComponent
    * listen to route param changes
    */
   ngOnInit(): void {
-    // //TODO: prevent loading everytime you go back...but also respond to changes
-    // const groupsSub = this.route.params
-    //   .pipe(
-    //     tap(() => {
-    //       const orgId = this.route.snapshot.data["user"].orgId;
-    //       this.queryParams = { organization: orgId };
-    //       this.selectedChannelGroupId =
-    //         this.route.children.length > 0
-    //           ? +this.route.snapshot.firstChild.params["channelGroupId"]
-    //           : null;
-    //     }),
-    //     switchMap(() => {
-    //       return this.loadingService.doLoading(this.fetchData(), this);
-    //     })
-    //   )
-    //   .subscribe();
-    // this.subscription.add(groupsSub);
-
     // get channel group info from route
     //TODO: prevent loading everytime you go back...but also respond to changes
     const routeSub = this.route.data

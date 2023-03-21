@@ -40,7 +40,6 @@ export const routes: Routes = [
         resolve: {
           organization: OrganizationResolver,
         },
-
         children: [
           {
             path: "user/:userId/edit",

@@ -104,14 +104,12 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const orgSub = this.route.data
       .pipe(
-        tap(() => {
+        tap((data) => {
           this.user = this.route.snapshot.data["user"];
           this.orgId = this.route.snapshot.params["orgId"];
-        }),
-        switchMap(() => {
-          return this.fetchData();
-        }),
-        tap(() => {
+          this.organization = data["organization"];
+          this.rows = [...this.organization.users];
+
           this.isAdmin =
             this.user.isStaff ||
             (this.user.isOrgAdmin && this.user.orgId === this.organization.id);
