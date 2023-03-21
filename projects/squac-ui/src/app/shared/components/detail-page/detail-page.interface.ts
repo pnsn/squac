@@ -4,7 +4,7 @@ export interface TitleButtons {
   addButton?: boolean;
   editButton?: boolean;
   cancelButton?: boolean;
-  closeButton?: boolean;
+  saveButton?: boolean;
   useText?: boolean;
 }
 
@@ -12,3 +12,5 @@ export interface PageOptions {
   titleButtons?: TitleButtons;
   path?: string;
 }
+
+export type ButtonEvent = "edit" | "add" | "delete" | "cancel" | "save";

@@ -70,7 +70,6 @@ export class MonitorDetailComponent implements OnInit {
       deleteButton: true,
       addButton: true,
       editButton: true,
-      closeButton: true,
     },
     path: "/monitors",
   };

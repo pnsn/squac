@@ -34,7 +34,10 @@ import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { MapBounds } from "../channel-group-map/interfaces";
 import { SearchFilter } from "./interfaces";
-import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
+import {
+  ButtonEvent,
+  PageOptions,
+} from "@shared/components/detail-page/detail-page.interface";
 
 enum LoadingIndicator {
   MAIN,
@@ -99,7 +102,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   /** Config for detail page */
   pageOptions: PageOptions = {
     titleButtons: {
-      closeButton: true,
+      cancelButton: true,
       deleteButton: true,
     },
     path: "/channel-groups",
@@ -128,48 +131,27 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
       description: new FormControl("", Validators.required),
       share: ["private", Validators.required],
     });
-    const chanSub = this.route.params
+
+    const routeSub = this.route.data
       .pipe(
-        map((params) => {
-          this.id = params["channelGroupId"];
-          this.editMode = !!params["channelGroupId"];
+        tap((data: any) => {
+          this.channelGroup = data["channelGroup"];
+          this.matchingRules = data["matchingRules"];
+          this.editMode = !!this.channelGroup;
+          this.id = this.channelGroup?.id;
           this.pageOptions.titleButtons.deleteButton = this.editMode;
-          return this.id;
-        }),
-        switchMap((groupId: number) => {
-          if (!groupId) {
-            return of();
-          }
-          return this.loadingService.doLoading(
-            this.channelGroupService.read(groupId).pipe(
-              tap((channelGroup: ChannelGroup) => {
-                this.channelGroup = channelGroup;
-              }),
-              switchMap((channelGroup: ChannelGroup) => {
-                this.channelGroup = channelGroup;
-                if (!channelGroup) {
-                  return of([]);
-                }
-                return this.matchingRuleService.list({
-                  group: `${this.channelGroup.id}`,
-                });
-              }),
-              tap((rules: MatchingRule[]) => {
-                this.matchingRules = rules;
-                this.initForm();
-              }),
-              catchError((error) => {
-                this.error = error;
-                return EMPTY;
-              })
-            )
-          );
         })
       )
-      .subscribe();
+      .subscribe({
+        next: () => {
+          this.initForm();
+        },
+      });
+
+    this.subscriptions.add(routeSub);
+
     // get orgId
     this.orgId = this.userService.userOrg;
-    this.subscriptions.add(chanSub);
 
     // table columns
     this.columns = [
@@ -241,6 +223,19 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
       this.autoIncludeChannels = [
         ...this.channelGroup.autoIncludeChannels,
       ] as Channel[];
+    }
+  }
+
+  /**
+   *
+   */
+  controlClicked(type: ButtonEvent): void {
+    if (type === "delete") {
+      this.delete();
+    } else if (type === "cancel") {
+      this.cancel();
+    } else if (type === "save") {
+      this.save();
     }
   }
 

@@ -2,6 +2,7 @@
   <p>Could not load channel group.</p>
 </ng-template>
 <shared-detail-page
+  [appIsLoading]="loadingService.isLoading$(this) | async"
   [options]="pageOptions"
   *ngIf="channelGroup"
   type="Channel Group"
@@ -12,7 +13,7 @@
   }})"
 >
   <ng-container bodyContent>
-    <div id="channel-group-container" class="row-reverse">
+    <div id="channel-group-container" class="row-reverse gray-border">
       <div id="map-container">
         <channel-group-map
           [autoIncludeChannels]="channels"
@@ -98,9 +99,3 @@
     </div>
   </ng-container>
 </shared-detail-page>
-<div
-  id="group-view-container"
-  class="box"
-  [appIsLoading]="loadingService.isLoading$(this) | async"
-  *ngIf="!error; else hasError"
-></div>

@@ -5,7 +5,8 @@
   [options]="pageOptions"
   type="Channel Group"
   [resource]="channelGroup"
-  title="{{ editMode ? 'Edit Channel Group' : 'Create Channel Group' }}"
+  title="{{ editMode ? 'Edit ' + channelGroup.name : 'Create Channel Group' }}"
+  (controlClicked)="controlClicked($event)"
 >
   <ng-container headerContent>
     <ng-container *ngIf="editMode; else notEditMode">
@@ -140,9 +141,7 @@
         <mat-accordion displayMode="flat" multi>
           <mat-expansion-panel expanded="true">
             <mat-expansion-panel-header>
-              <mat-panel-title>
-                <h4>Group information</h4>
-              </mat-panel-title>
+              <mat-panel-title><h4>Information</h4> </mat-panel-title>
               <mat-panel-description>(required)</mat-panel-description>
             </mat-expansion-panel-header>
 

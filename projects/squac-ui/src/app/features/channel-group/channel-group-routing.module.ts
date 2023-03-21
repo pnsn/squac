@@ -5,6 +5,8 @@ import { AuthGuard } from "@core/guards/auth.guard";
 import { ChannelGroupViewComponent } from "./components/channel-group-view/channel-group-view.component";
 import { ChannelGroupEditComponent } from "./components/channel-group-edit/channel-group-edit.component";
 import { ChannelGroupDetailComponent } from "./components/channel-group-detail/channel-group-detail.component";
+import { ChannelGroupResolver } from "@core/resolvers/channel-group.resolver";
+import { MatchingRuleResolver } from "@core/resolvers/matching-rule.resolver";
 
 export const routes: Routes = [
   {
@@ -19,6 +21,11 @@ export const routes: Routes = [
 
       {
         path: ":channelGroupId",
+        runGuardsAndResolvers: "always",
+        resolve: {
+          channelGroup: ChannelGroupResolver,
+          matchingRules: MatchingRuleResolver,
+        },
         children: [
           {
             path: "",

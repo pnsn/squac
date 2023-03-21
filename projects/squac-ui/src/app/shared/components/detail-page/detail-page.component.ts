@@ -2,9 +2,7 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { SquacObject } from "squacapi";
-import { PageOptions } from "./detail-page.interface";
-
-export type ButtonEvent = "edit" | "add" | "delete" | "cancel";
+import { ButtonEvent, PageOptions } from "./detail-page.interface";
 /**
  * Reusable table view component
  */
@@ -42,10 +40,10 @@ export class DetailPageComponent {
     } else if (action === "add") {
       this.controlClicked.emit(action);
       this.routeTo(null, "new", path);
-    } else if (action === "delete") {
-      this.cancel("delete");
-    } else if (action === "cancel") {
-      this.cancel("cancel");
+    } else if (action === "delete" || action === "cancel") {
+      this.cancel(action);
+    } else if (action === "save") {
+      this.controlClicked.emit(action);
     }
   }
 

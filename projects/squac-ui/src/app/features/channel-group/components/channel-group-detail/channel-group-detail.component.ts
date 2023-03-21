@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { ChannelGroup } from "squacapi";
+import { ChannelGroup, MatchingRule } from "squacapi";
 import { Router, ActivatedRoute } from "@angular/router";
 import { ColumnMode, SelectionType } from "@boring.devs/ngx-datatable";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
@@ -21,6 +21,7 @@ import { PageOptions } from "@shared/components/detail-page/detail-page.interfac
 export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
   channelGroup: ChannelGroup; // selected channel group
+  matchingRules: MatchingRule[];
   showChannel: Channel; //channels to show on map
   error: boolean;
   selectedChannels = [];
@@ -36,7 +37,6 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
       deleteButton: true,
       addButton: true,
       editButton: true,
-      closeButton: true,
     },
     path: "/channel-groups",
   };
@@ -55,31 +55,20 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     // get channel group info from route
-
-    const chanSub = this.route.params
+    //TODO: prevent loading everytime you go back...but also respond to changes
+    const routeSub = this.route.data
       .pipe(
-        tap(() => {
-          this.error = false;
-        }),
-        switchMap((params) => {
-          return this.loadingService.doLoading(
-            this.channelGroupService.read(params["channelGroupId"]).pipe(
-              catchError((error) => {
-                this.error = error;
-                return EMPTY;
-              })
-            ),
-            this
-          );
+        tap((data: any) => {
+          this.channelGroup = data["channelGroup"];
+          this.matchingRules = data["matchingRules"];
+          if (this.channelGroup) {
+            this.channels = this.channelGroup.channels as Channel[];
+          }
         })
       )
-      .subscribe({
-        next: (channelGroup: ChannelGroup) => {
-          this.channelGroup = channelGroup;
-          this.channels = channelGroup.channels as Channel[];
-        },
-      });
-    this.subscription.add(chanSub);
+      .subscribe();
+
+    this.subscription.add(routeSub);
   }
 
   /**
