@@ -9,7 +9,6 @@
   (refresh)="refresh()"
   [controls]="controls"
   [filters]="filters"
-  [resize]="!!selectedChannelGroupId"
   [isLoading]="loadingService.isLoading$(this) | async"
   (filtersChanged)="refresh($event)"
 >
@@ -25,8 +24,6 @@
     </ng-template>
   </ng-template>
 </shared-table-view>
-<router-outlet></router-outlet>
-
 <!-- <router-outlet></router-outlet> -->
 
 <!-- <channel-group-detail *ngIf="selectedChannelGroup" [channelGroup]="selectedChannelGroup"></channel-group-detail> -->

@@ -11,33 +11,29 @@ export const routes: Routes = [
     path: "",
     component: ChannelGroupComponent,
     canActivate: [AuthGuard],
-    data: { subject: "ChannelGroup", action: "read" },
-
     children: [
       {
         path: "new",
         component: ChannelGroupEditComponent,
-
-        data: { subject: "ChannelGroup", action: "create" },
       },
+
       {
-        path: ":channelGroupId/edit",
-        component: ChannelGroupEditComponent,
-
-        data: { subject: "ChannelGroup", action: "update" },
+        path: ":channelGroupId",
+        children: [
+          {
+            path: "",
+            component: ChannelGroupDetailComponent,
+          },
+          {
+            path: "edit",
+            component: ChannelGroupEditComponent,
+          },
+        ],
       },
+
       {
         path: "",
         component: ChannelGroupViewComponent,
-
-        data: { subject: "ChannelGroup", action: "read" },
-        children: [
-          {
-            path: ":channelGroupId",
-            component: ChannelGroupDetailComponent,
-            data: { subject: "ChannelGroup", action: "update" },
-          },
-        ],
       },
     ],
   },

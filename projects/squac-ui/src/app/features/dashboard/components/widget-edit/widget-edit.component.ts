@@ -1,11 +1,12 @@
 import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { Metric } from "squacapi";
+import { Metric, Params } from "squacapi";
 import { MessageService } from "@core/services/message.service";
 import { ViewService } from "@dashboard/services/view.service";
 import { WidgetService } from "squacapi";
 import { Widget } from "widgets";
 import { Subscription } from "rxjs";
+import { ActivatedRoute, Router } from "@angular/router";
 
 /**
  * Widget edit main component
@@ -27,27 +28,34 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
 
   constructor(
     private widgetService: WidgetService,
+    private route: ActivatedRoute,
+    private router: Router,
     private messageService: MessageService,
-    private viewService: ViewService,
-    public dialogRef?: MatDialogRef<WidgetEditComponent>,
-    @Inject(MAT_DIALOG_DATA) public data?: any
+    private viewService: ViewService
   ) {}
 
   /** set up edit component */
   ngOnInit(): void {
-    // check if editing or creating
-    this.editMode = !!this.data["widget"];
-    const dashboardId = this.data["dashboardId"];
-    this.widget =
-      this.data.widget || new Widget({ dashboard: dashboardId, name: "" });
+    const paramsSub = this.route.params.subscribe((params: Params) => {
+      const widgetId = +params["widgetId"];
+      const dashboardId = +params["dashboardId"];
 
-    //check if copying to new dashboard
-    this.copyWidget = this.widget.dashboardId !== dashboardId;
-    if (this.copyWidget) {
-      this.widget.id = null;
-      this.widget.dashboardId = dashboardId;
-    }
-    this.metrics = this.data["metrics"];
+      const snapshot = this.route.snapshot;
+      this.metrics = snapshot.data["metrics"];
+
+      // check if editing or creating
+      this.widget =
+        snapshot.data["widget"] ||
+        new Widget({ dashboard: dashboardId, name: "" });
+
+      this.editMode = !!widgetId;
+      //check if copying to new dashboard
+      this.copyWidget = this.widget.dashboardId !== dashboardId;
+      if (this.copyWidget) {
+        this.widget.id = null;
+        this.widget.dashboardId = dashboardId;
+      }
+    });
   }
 
   /** unsubscribe */
@@ -81,6 +89,11 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
    * @param widget widget getting edited
    */
   cancel(widget?: Widget): void {
-    this.dialogRef.close(widget);
+    if (this.id) {
+      this.router.navigate(["../../"], { relativeTo: this.route });
+    } else {
+      this.router.navigate(["../"], { relativeTo: this.route });
+    }
+    // this.dialogRef.close(widget);
   }
 }

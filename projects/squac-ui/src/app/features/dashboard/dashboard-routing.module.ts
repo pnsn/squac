@@ -65,7 +65,6 @@ export const routes: Routes = [
           {
             path: "widgets/new",
             component: WidgetEditEntryComponent,
-            data: { subject: "Widget", action: "create" },
           },
           {
             path: "widgets/:widgetId/edit",
@@ -73,7 +72,6 @@ export const routes: Routes = [
               widget: WidgetResolver,
             },
             component: WidgetEditEntryComponent,
-            data: { subject: "Widget", action: "update" },
           },
         ],
       },

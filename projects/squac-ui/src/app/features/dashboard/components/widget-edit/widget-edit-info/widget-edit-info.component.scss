@@ -11,24 +11,28 @@
 
 #widget-type-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: stretch;
   flex: 1 1;
   overflow: hidden;
   width: 100%;
   justify-content: stretch;
   height: 100%;
+  .preview-container {
+    width: 100%;
+  }
   .label {
     display: block;
   }
   #type-detail-container {
+    width: 50%;
     display: flex;
     flex-direction: column;
     padding: 10px;
     height: 100%;
-    border: 1px solid $sq-blue;
+
     gap: 5px;
-    justify-content: space-between;
-    height: 400px;
+    justify-content: start;
     p {
       margin-top: 0px;
       font-weight: light;
@@ -43,16 +47,17 @@
 }
 
 #chart-container {
-  flex: 1 1 150px;
+  width: 50%;
+  height: 300px;
 }
 #mat-button-toggle-container {
-  width: 100%;
+  width: 100px;
   mat-button-toggle-group {
     width: 100%;
     display: flex;
-    flex-direction: row;
-    justify-content: stretch;
-    align-content: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: stretch;
     // width: 100px;
     border-radius: 0;
     border: solid 0.5px $sq-blue !important;
