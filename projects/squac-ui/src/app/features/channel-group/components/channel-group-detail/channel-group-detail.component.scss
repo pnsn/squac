@@ -1,9 +1,6 @@
 @import "variables";
 #channel-group-container {
-  border-top: 1px solid lighten($sq-gray, 15);
-  height: 50vh;
-  overflow: hidden;
-  padding: 10px;
+  height: 100%;
   #channels-container {
     width: 65%;
     height: 100%;

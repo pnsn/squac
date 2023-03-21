@@ -5,15 +5,10 @@
 }
 
 #monitor-container {
-  border-top: 1px solid lighten($sq-gray, 15);
   overflow: hidden;
   padding: 10px;
 }
 
-#group-view-container {
-  margin-top: 10px;
-  overflow: hidden;
-}
 .chart-container {
   padding: 10px;
   z-index: 10;

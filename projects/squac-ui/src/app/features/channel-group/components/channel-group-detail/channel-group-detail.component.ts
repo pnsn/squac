@@ -8,6 +8,7 @@ import { MessageService } from "@core/services/message.service";
 import { ChannelGroupService } from "squacapi";
 import { Channel } from "squacapi";
 import { LoadingService } from "@core/services/loading.service";
+import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
 
 /**
  * Channel group detail with table and map
@@ -28,6 +29,17 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
   ColumnMode = ColumnMode;
   SelectionType = SelectionType;
   selectedRows = [];
+
+  /** Config for detail page */
+  pageOptions: PageOptions = {
+    titleButtons: {
+      deleteButton: true,
+      addButton: true,
+      editButton: true,
+      closeButton: true,
+    },
+    path: "/channel-groups",
+  };
 
   constructor(
     private route: ActivatedRoute,

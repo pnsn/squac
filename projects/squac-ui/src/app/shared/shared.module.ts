@@ -21,6 +21,7 @@ import { ChannelGroupSelectorComponent } from "./components/channel-group-select
 import { LoadingDirective } from "./directives/loading-directive.directive";
 import { LoadingOverlayComponent } from "./components/loading-overlay/loading-overlay.component";
 import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-spinner.component";
+import { DetailPageComponent } from "./components/detail-page/detail-page.component";
 import { SquacapiModule } from "squacapi";
 
 /**
@@ -41,6 +42,7 @@ import { SquacapiModule } from "squacapi";
     LoadingOverlayComponent,
     LoadingDirective,
     LoadingSpinnerComponent,
+    DetailPageComponent,
   ],
   imports: [
     CommonModule,
@@ -79,6 +81,7 @@ import { SquacapiModule } from "squacapi";
     LoadingSpinnerComponent,
     LoadingDirective,
     SquacapiModule,
+    DetailPageComponent,
   ],
 })
 export class SharedModule {}

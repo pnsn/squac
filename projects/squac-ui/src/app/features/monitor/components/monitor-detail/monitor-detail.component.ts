@@ -5,6 +5,7 @@ import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { MessageService } from "@core/services/message.service";
 import { DATE_PICKER_TIMERANGES } from "@dashboard/components/dashboard-detail/dashboard-time-ranges";
+import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
 import {
   TableControls,
   TableOptions,
@@ -63,6 +64,16 @@ export class MonitorDetailComponent implements OnInit {
   subscriptions = new Subscription();
   unsavedChanges = false;
 
+  /** Config for detail page */
+  pageOptions: PageOptions = {
+    titleButtons: {
+      deleteButton: true,
+      addButton: true,
+      editButton: true,
+      closeButton: true,
+    },
+    path: "/monitors",
+  };
   controls: TableControls = {
     listenToRouter: true,
     resource: "Monitor",

@@ -1,36 +1,46 @@
-<shared-table-view
-  [options]="options"
-  [rows]="rows"
-  [columns]="columns"
-  [controls]="controls"
-  [filters]="filters"
-  (itemSelected)="onSelect($event)"
-  (controlClicked)="onClick($event)"
-  (refresh)="refresh()"
+<shared-detail-page
+  *ngIf="organization"
+  type="Organization"
+  [resource]="organization"
   title="{{ organization?.name }} Organization"
+  [options]="pageOptions"
 >
-  <ng-container tableHeadFilters>
-    <p>
-      You are {{ user?.orgId === organization?.id ? "" : "not " }}part of this
-      organization.
-    </p>
-  </ng-container>
-</shared-table-view>
-<div class="title">
-  <h3>Squac User Roles (additive):</h3>
-</div>
-<div id="roles-container" class="gray-border">
-  <mat-list dense>
-    <mat-list-item *ngFor="let group of groups">
-      <span class="label">{{ group.role | titlecase }}</span> -
-      {{ group.description }}
-    </mat-list-item>
+  <ng-container bodyContent>
+    <shared-table-view
+      [options]="options"
+      [rows]="rows"
+      [columns]="columns"
+      [controls]="controls"
+      [filters]="filters"
+      (itemSelected)="onSelect($event)"
+      (controlClicked)="onClick($event)"
+      (refresh)="refresh()"
+      title="{{ organization?.name }} Organization"
+    >
+      <ng-container tableHeadFilters>
+        <p>
+          You are {{ user?.orgId === organization?.id ? "" : "not " }}part of
+          this organization.
+        </p>
+      </ng-container>
+    </shared-table-view>
+    <div class="title">
+      <h3>Squac User Roles (additive):</h3>
+    </div>
+    <div id="roles-container" class="gray-border">
+      <mat-list dense>
+        <mat-list-item *ngFor="let group of groups">
+          <span class="label">{{ group.role | titlecase }}</span> -
+          {{ group.description }}
+        </mat-list-item>
 
-    <mat-list-item>
-      <span class="label">Organization Admin</span> - Can add users and assign
-      roles.
-    </mat-list-item>
-  </mat-list>
-</div>
+        <mat-list-item>
+          <span class="label">Organization Admin</span> - Can add users and
+          assign roles.
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </ng-container>
+</shared-detail-page>
 
 <router-outlet></router-outlet>

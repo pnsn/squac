@@ -5,6 +5,7 @@ import { User } from "squacapi";
 import { Validators, FormControl, FormGroup } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
+import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
 
 interface UserForm {
   firstname: FormControl<string>;
@@ -25,6 +26,13 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
   editMode: boolean;
   userForm: FormGroup<UserForm>;
   hide = true;
+  /** Config for detail page */
+  pageOptions: PageOptions = {
+    path: "user",
+    titleButtons: {
+      addButton: true,
+    },
+  };
 
   constructor(
     private route: ActivatedRoute,

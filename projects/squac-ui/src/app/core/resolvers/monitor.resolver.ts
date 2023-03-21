@@ -23,6 +23,7 @@ export class MonitorResolver
   resolve(route: ActivatedRouteSnapshot): Observable<Monitor | Monitor[]> {
     const id = route.paramMap.get("monitorId");
     if (id) {
+      console.log("monitor resolver");
       return this.monitorService.read(+id);
     } else {
       return this.monitorService.list();

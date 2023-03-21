@@ -1,4 +1,4 @@
-import { MeasurementTypes } from "../types/measurement-types";
+import { MeasurementTypes } from "../types";
 
 /**
  * Sorts measurements by value, lowest to highest

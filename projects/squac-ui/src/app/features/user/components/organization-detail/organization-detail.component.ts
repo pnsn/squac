@@ -15,6 +15,7 @@ import {
   TableFilters,
   TableOptions,
 } from "@shared/components/table-view/interfaces";
+import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
 
 /**
  * Displays info for single organization, mostly list of users
@@ -40,6 +41,14 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
   columns = [];
   selectedId: number;
   selected: User;
+
+  /** Config for detail page */
+  pageOptions: PageOptions = {
+    path: "user",
+    titleButtons: {
+      addButton: true,
+    },
+  };
 
   controls: TableControls = {
     resource: "Organization",

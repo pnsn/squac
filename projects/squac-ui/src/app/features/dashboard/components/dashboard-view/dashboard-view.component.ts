@@ -19,6 +19,7 @@ import {
   TableFilters,
   TableOptions,
 } from "@shared/components/table-view/interfaces";
+import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
 
 /**
  * Displays list of dashboards
@@ -39,6 +40,14 @@ export class DashboardViewComponent
   rows: Dashboard[] = [];
   columns = [];
   selectedDashboardId: number;
+
+  /** Config for detail page */
+  pageOptions: PageOptions = {
+    path: "/dashboards",
+    titleButtons: {
+      addButton: true,
+    },
+  };
 
   // table config
   options: TableOptions = {

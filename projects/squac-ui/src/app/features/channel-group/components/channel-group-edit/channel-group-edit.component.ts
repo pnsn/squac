@@ -34,6 +34,7 @@ import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { MapBounds } from "../channel-group-map/interfaces";
 import { SearchFilter } from "./interfaces";
+import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
 
 enum LoadingIndicator {
   MAIN,
@@ -95,6 +96,15 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   @ViewChild("availableTable") availableTable: any;
   @ViewChild("selectedTable") selectedTable: any;
 
+  /** Config for detail page */
+  pageOptions: PageOptions = {
+    titleButtons: {
+      closeButton: true,
+      deleteButton: true,
+    },
+    path: "/channel-groups",
+  };
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -123,7 +133,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
         map((params) => {
           this.id = params["channelGroupId"];
           this.editMode = !!params["channelGroupId"];
-
+          this.pageOptions.titleButtons.deleteButton = this.editMode;
           return this.id;
         }),
         switchMap((groupId: number) => {

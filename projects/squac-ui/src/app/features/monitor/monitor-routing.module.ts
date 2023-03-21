@@ -33,16 +33,18 @@ export const routes: Routes = [
         ],
       },
       {
-        path: ":monitorId/edit",
-        component: MonitorEditEntryComponent,
-        resolve: {
-          metrics: MetricResolver,
-          monitor: MonitorResolver,
-        },
-      },
-      {
         path: ":monitorId",
         component: MonitorDetailComponent,
+        runGuardsAndResolvers: "always",
+        children: [
+          {
+            path: "edit",
+            component: MonitorEditEntryComponent,
+            resolve: {
+              metrics: MetricResolver,
+            },
+          },
+        ],
         resolve: {
           monitor: MonitorResolver,
         },

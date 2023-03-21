@@ -1,17 +1,3 @@
-<div class="title">
-  <h2>
-    {{ title }}
-  </h2>
-
-  <button
-    mat-flat-button
-    color="accent"
-    (click)="addResource()"
-    *ngIf="controls.add && ('create' | able: controls.resource)"
-  >
-    {{ controls.add.text }}
-  </button>
-</div>
 <div id="table-view-container" class="gray-border">
   <div id="table-head" class="lt-gray-background">
     <div class="row space-between">

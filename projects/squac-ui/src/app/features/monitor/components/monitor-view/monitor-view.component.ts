@@ -27,6 +27,7 @@ import {
 } from "@shared/components/table-view/interfaces";
 import { SelectionType } from "@boring.devs/ngx-datatable";
 import { sortTimestamps } from "@core/utils/utils";
+import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
 
 /**
  * Component for displaying list of monitors
@@ -47,6 +48,14 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
   // table config
   rows = [];
   columns;
+
+  /** Config for detail page */
+  pageOptions: PageOptions = {
+    path: "/monitors",
+    titleButtons: {
+      addButton: true,
+    },
+  };
 
   controls: TableControls = {
     listenToRouter: true,

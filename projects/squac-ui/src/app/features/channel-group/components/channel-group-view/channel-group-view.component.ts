@@ -25,6 +25,7 @@ import {
   TableFilters,
   TableOptions,
 } from "@shared/components/table-view/interfaces";
+import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
 
 /**
  * Table of channel groups
@@ -52,6 +53,15 @@ export class ChannelGroupViewComponent
     footerLabel: "Channel Groups",
     displayCheck: true,
   };
+
+  /** Config for detail page */
+  pageOptions: PageOptions = {
+    path: "/channel-groups",
+    titleButtons: {
+      addButton: true,
+    },
+  };
+
   // controls in table head
   controls: TableControls = {
     listenToRouter: true,

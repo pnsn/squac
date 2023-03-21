@@ -52,6 +52,13 @@ export class User extends ResourceModel<
   }
 
   /**
+   * @returns user's first and last name
+   */
+  get fullName(): string {
+    return `${this.firstname} ${this.lastname}`;
+  }
+
+  /**
    * @returns model name
    */
   static get modelName(): string {
