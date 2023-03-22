@@ -3,7 +3,6 @@ import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
 import { LoadingService } from "@core/services/loading.service";
 import { Observable } from "rxjs";
 import { Metric, MetricService } from "squacapi";
-import { ResolverService } from "../services/resolver.service";
 
 /**
  * Resolve metrics or list of metrics
@@ -25,7 +24,7 @@ export class MetricResolver implements Resolve<Observable<Metric | Metric[]>> {
    */
   resolve(route: ActivatedRouteSnapshot): Observable<Metric | Metric[]> {
     const id = route.paramMap.get("metricId");
-    const delay = 1000;
+    const delay = 500;
     let req;
     if (id) {
       req = this.metricService.read(+id);

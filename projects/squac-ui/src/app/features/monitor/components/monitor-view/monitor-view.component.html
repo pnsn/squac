@@ -17,27 +17,16 @@
       [filters]="filters"
       (refresh)="refresh()"
     >
-      <!-- [rowDetailTemplate]="rowDetailTemplate" -->
     </shared-table-view>
-    <ng-template let-value="value" #stateTemplate>
-      <monitor-alarm-status [inAlarm]="value"></monitor-alarm-status>
-      <ng-template #noAlert>
-        <a mat-icon-button aria-label="no alert data" disabled="true">
-          <mat-icon>help_outline</mat-icon>
-        </a>
-      </ng-template>
-    </ng-template>
-    <ng-template let-value="value" #updateTemplate>
-      <ng-container *ngIf="value; else noAlert">
-        <!-- <div>
-      {{ row.inAlarm ? "in alarm" : "out of alarm" }}
-    </div> -->
-        <div>
-          {{ value }}
-        </div>
-      </ng-container>
-      <ng-template #noAlert>no alerts</ng-template>
-    </ng-template>
   </ng-container>
 </shared-detail-page>
+<ng-template let-value="value" #stateTemplate>
+  <monitor-alarm-status [inAlarm]="value"></monitor-alarm-status>
+</ng-template>
+<ng-template let-value="value" #updateTemplate>
+  <ng-container *ngIf="value; else noAlert">
+    {{ value }}
+  </ng-container>
+  <ng-template #noAlert>no alerts</ng-template>
+</ng-template>
 <router-outlet></router-outlet>

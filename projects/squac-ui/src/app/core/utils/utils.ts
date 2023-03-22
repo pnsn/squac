@@ -16,7 +16,6 @@ export function fakeAsyncResponse<T>(data: T): Observable<T> {
  *
  * @param valueA string
  * @param valueB string
- *
  * @returns 1 if valueA > valueB, 0 if equal -1 if valueB > valueA
  */
 export function sortTimestamps(valueA: string, valueB: string): number {

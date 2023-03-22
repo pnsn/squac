@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { MessageService } from "@core/services/message.service";

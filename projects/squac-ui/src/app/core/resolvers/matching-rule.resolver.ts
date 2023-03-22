@@ -1,9 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
-import { ChannelGroup, MatchingRule, MatchingRuleService } from "squacapi";
+import { MatchingRule, MatchingRuleService } from "squacapi";
 import { Observable } from "rxjs";
 import { LoadingService } from "@core/services/loading.service";
-import { ResolverService } from "@core/services/resolver.service";
 
 /**
  * Resolves matching rules for a channel group
@@ -27,7 +26,7 @@ export class MatchingRuleResolver
    */
   resolve(route: ActivatedRouteSnapshot): Observable<MatchingRule[]> {
     const id = route.paramMap.get("channelGroupId");
-    const delay = 1000;
+    const delay = 500;
     return this.loadingService.doLoading(
       this.matchingRuleService.list({
         group: `${id}`,

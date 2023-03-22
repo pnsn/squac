@@ -27,7 +27,7 @@ export class AlertResolver implements Resolve<Observable<Alert | Alert[]>> {
    */
   resolve(route: ActivatedRouteSnapshot): Observable<Alert | Alert[]> {
     const id = route.paramMap.get("alertId");
-    const delay = 1000;
+    const delay = 500;
     let req;
     if (id) {
       req = this.alertService.read(+id);

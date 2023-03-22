@@ -63,7 +63,7 @@ ngx-datatable.shared-view-table {
   }
   &.full {
     .datatable-body {
-      max-height: calc(90vh);
+      max-height: calc(100vh - 210px) !important;
     }
   }
   &.half {

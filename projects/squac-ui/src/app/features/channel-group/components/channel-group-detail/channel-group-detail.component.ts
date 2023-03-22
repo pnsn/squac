@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ChannelGroup, MatchingRule } from "squacapi";
 import { Router, ActivatedRoute } from "@angular/router";
 import { ColumnMode, SelectionType } from "@boring.devs/ngx-datatable";
-import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
+import { Subscription, tap } from "rxjs";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { MessageService } from "@core/services/message.service";
 import { ChannelGroupService } from "squacapi";

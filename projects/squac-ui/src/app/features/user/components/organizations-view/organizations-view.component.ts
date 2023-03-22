@@ -3,14 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { LoadingService } from "@core/services/loading.service";
 import { OrganizationService } from "squacapi";
 import { Organization } from "squacapi";
-import {
-  catchError,
-  EMPTY,
-  Observable,
-  Subscription,
-  switchMap,
-  tap,
-} from "rxjs";
+import { catchError, EMPTY, Observable, Subscription, tap } from "rxjs";
 
 /**
  * Display list of organizations in squac

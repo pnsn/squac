@@ -53,6 +53,7 @@ export class DetailPageComponent {
 
   /**
    * Delete selected resource
+   *
    * @param action text for button
    */
   cancel(action: "delete" | "cancel"): void {

@@ -1,9 +1,8 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, Resolve } from "@angular/router";
-import { Observable, of } from "rxjs";
+import { Observable } from "rxjs";
 import { Widget } from "widgets";
 import { WidgetService } from "squacapi";
-import { ResolverService } from "@core/services/resolver.service";
 import { LoadingService } from "@core/services/loading.service";
 
 /**
@@ -27,7 +26,7 @@ export class WidgetResolver implements Resolve<Observable<Widget | Widget[]>> {
   resolve(route: ActivatedRouteSnapshot): Observable<Widget | Widget[]> {
     const dashboardId = route.paramMap.get("dashboardId");
     const widgetId = route.paramMap.get("widgetId");
-    const delay = 1000;
+    const delay = 500;
     let req;
     if (widgetId) {
       req = this.widgetService.read(+widgetId);

@@ -17,6 +17,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     resolve: {
       channelGroups: ChannelGroupResolver,
+      metrics: MetricResolver,
     },
     children: [
       {
@@ -28,7 +29,6 @@ export const routes: Routes = [
         component: MonitorViewComponent,
         runGuardsAndResolvers: "always",
         resolve: {
-          metrics: MetricResolver,
           monitors: MonitorResolver,
         },
         children: [
@@ -46,9 +46,6 @@ export const routes: Routes = [
           {
             path: "edit",
             component: MonitorEditEntryComponent,
-            resolve: {
-              metrics: MetricResolver,
-            },
           },
         ],
         resolve: {

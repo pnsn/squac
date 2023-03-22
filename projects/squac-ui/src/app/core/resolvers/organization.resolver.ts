@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
 import { LoadingService } from "@core/services/loading.service";
-import { ResolverService } from "@core/services/resolver.service";
 import { Observable } from "rxjs";
 import { Organization, OrganizationService } from "squacapi";
 
@@ -29,7 +28,7 @@ export class OrganizationResolver
     route: ActivatedRouteSnapshot
   ): Observable<Organization | Organization[]> {
     const id = route.paramMap.get("orgId");
-    const delay = 1000;
+    const delay = 500;
     let req;
     if (id) {
       req = this.orgService.read(+id);

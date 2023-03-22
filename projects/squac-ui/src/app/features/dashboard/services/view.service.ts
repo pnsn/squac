@@ -3,7 +3,6 @@
 import { Injectable } from "@angular/core";
 import { AppAbility } from "@core/utils/ability";
 import { DateService } from "@core/services/date.service";
-import { LoadingService } from "@core/services/loading.service";
 import { MessageService } from "@core/services/message.service";
 import {
   BehaviorSubject,
@@ -13,7 +12,6 @@ import {
   of,
   ReplaySubject,
   Subject,
-  switchMap,
   tap,
 } from "rxjs";
 import {
@@ -275,6 +273,7 @@ export class ViewService {
    * Gets info for dashboard and channel group
    *
    * @param dashboardId dashboard id to fetch
+   * @param dashboard
    * @param channelGroupId channel group id to find
    * @returns observable of channel group
    */

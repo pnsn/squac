@@ -1,6 +1,5 @@
 import {
   Aggregate,
-  Alert,
   ChannelGroup,
   Dashboard,
   MatchingRule,

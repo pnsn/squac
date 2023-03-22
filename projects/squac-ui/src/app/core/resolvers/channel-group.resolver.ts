@@ -1,10 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
 import { ChannelGroup } from "squacapi";
-import { Observable } from "rxjs";
+import { delay, Observable } from "rxjs";
 import { ChannelGroupService } from "squacapi";
 import { LoadingService } from "@core/services/loading.service";
-import { ResolverService } from "../services/resolver.service";
 
 /**
  * Resolves a channel group or list of channel groups
@@ -30,7 +29,7 @@ export class ChannelGroupResolver
     route: ActivatedRouteSnapshot
   ): Observable<ChannelGroup | ChannelGroup[]> {
     const id = route.paramMap.get("channelGroupId");
-    const delay = 1000;
+    const delay = 500;
     let req;
     if (id) {
       req = this.channelGroupService.read(+id);

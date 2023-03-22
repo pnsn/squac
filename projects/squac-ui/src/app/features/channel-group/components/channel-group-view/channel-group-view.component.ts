@@ -8,14 +8,7 @@ import {
   ChangeDetectorRef,
 } from "@angular/core";
 import { ChannelGroup } from "squacapi";
-import {
-  catchError,
-  EMPTY,
-  Observable,
-  Subscription,
-  switchMap,
-  tap,
-} from "rxjs";
+import { catchError, EMPTY, Observable, Subscription, tap } from "rxjs";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { ChannelGroupService } from "squacapi";
 import { LoadingService } from "@core/services/loading.service";
@@ -59,6 +52,7 @@ export class ChannelGroupViewComponent
     path: "/channel-groups",
     titleButtons: {
       addButton: true,
+      useText: true,
     },
   };
 

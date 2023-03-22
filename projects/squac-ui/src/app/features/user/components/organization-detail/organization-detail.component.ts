@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { OrganizationService } from "squacapi";
 import { User } from "squacapi";
 import { Organization } from "squacapi";
-import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
+import { catchError, EMPTY, Subscription, tap } from "rxjs";
 import { InviteService } from "squacapi";
 import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "@core/services/message.service";

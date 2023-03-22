@@ -10,7 +10,7 @@ import {
 import { ActivatedRoute, Params } from "@angular/router";
 import { LoadingService } from "@core/services/loading.service";
 import { DashboardService } from "squacapi";
-import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
+import { catchError, EMPTY, Subscription, tap } from "rxjs";
 import { Dashboard } from "squacapi";
 import { Observable } from "rxjs";
 import {

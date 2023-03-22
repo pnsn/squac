@@ -4,7 +4,6 @@ import { DashboardService } from "squacapi";
 import { Observable } from "rxjs";
 import { Dashboard } from "squacapi";
 import { LoadingService } from "@core/services/loading.service";
-import { ResolverService } from "../services/resolver.service";
 
 /**
  * Resolves a dashboard or list of dashboards
@@ -28,7 +27,7 @@ export class DashboardResolver
    */
   resolve(route: ActivatedRouteSnapshot): Observable<Dashboard | Dashboard[]> {
     const id = route.paramMap.get("dashboardId");
-    const delay = 1000;
+    const delay = 500;
     let req;
     if (id) {
       req = this.dashboardService.read(+id);

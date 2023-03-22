@@ -22,6 +22,7 @@ import {
 } from "@shared/components/table-view/interfaces";
 import { DATE_PICKER_TIMERANGES } from "@dashboard/components/dashboard-detail/dashboard-time-ranges";
 import { sortTimestamps } from "@core/utils/utils";
+import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
 
 /**
  * Component for viewing list of alerts
@@ -49,6 +50,11 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
   params: {
     timestampGte: string;
     timestampLt?: string;
+  };
+
+  /** Config for detail page */
+  pageOptions: PageOptions = {
+    path: "/alerts",
   };
 
   controls: TableControls = {
@@ -80,11 +86,10 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     footerLabel: "Alerts",
   };
 
-  @ViewChild("stateTemplate") public stateTemplate: TemplateRef<any>;
-  @ViewChild("triggerTemplate") public triggerTemplate: TemplateRef<any>;
-  @ViewChild("channelsTemplate") public channelsTemplate: TemplateRef<any>;
-  @ViewChild("monitorTemplate") public monitorTemplate: TemplateRef<any>;
-
+  @ViewChild("stateTemplate") stateTemplate: TemplateRef<any>;
+  @ViewChild("triggerTemplate") triggerTemplate: TemplateRef<any>;
+  @ViewChild("channelsTemplate") channelsTemplate: TemplateRef<any>;
+  @ViewChild("monitorTemplate") monitorTemplate: TemplateRef<any>;
   constructor(
     private alertService: AlertService,
     private route: ActivatedRoute,

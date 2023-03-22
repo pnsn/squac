@@ -11,16 +11,6 @@
       <ng-content select="[headerContent]"> </ng-content>
 
       <button
-        *ngIf="buttons.saveButton && ('update' | able: resource)"
-        mat-icon-button
-        color="accent"
-        (click)="buttonAction('save')"
-        matTooltip="Save {{ type }}"
-        attr.aria-label="Button that save the {{ type }}"
-      >
-        <mat-icon>save</mat-icon>
-      </button>
-      <button
         *ngIf="buttons.deleteButton && ('delete' | able: resource)"
         mat-icon-button
         (click)="buttonAction('delete')"
@@ -29,15 +19,6 @@
         attr.aria-label="Button that deletes the {{ type }}"
       >
         <mat-icon>delete</mat-icon>
-      </button>
-      <button
-        *ngIf="buttons.addButton && ('create' | able: type)"
-        (click)="buttonAction('add')"
-        mat-icon-button
-        matTooltip="Create new {{ type }}"
-        attr.aria-label="Button that creates new {{ type }}"
-      >
-        <mat-icon>add</mat-icon>
       </button>
       <button
         *ngIf="buttons.editButton && ('update' | able: resource)"
@@ -59,6 +40,27 @@
         }}"
       >
         cancel
+      </button>
+
+      <button
+        *ngIf="buttons.saveButton && ('update' | able: resource)"
+        mat-icon-button
+        color="accent"
+        (click)="buttonAction('save')"
+        matTooltip="Save {{ type }}"
+        attr.aria-label="Button that save the {{ type }}"
+      >
+        <mat-icon>save</mat-icon>
+      </button>
+      <button
+        *ngIf="buttons.addButton && ('create' | able: type)"
+        (click)="buttonAction('add')"
+        color="accent"
+        mat-flat-button
+        matTooltip="Create new {{ type }}"
+        attr.aria-label="Button that creates new {{ type }}"
+      >
+        New {{ type }}
       </button>
     </div>
   </div>

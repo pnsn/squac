@@ -11,14 +11,7 @@ import { LoadingService } from "@core/services/loading.service";
 import { Alert } from "squacapi";
 import { Monitor } from "squacapi";
 import { MonitorService } from "squacapi";
-import {
-  catchError,
-  EMPTY,
-  Observable,
-  Subscription,
-  switchMap,
-  tap,
-} from "rxjs";
+import { catchError, EMPTY, Observable, Subscription, tap } from "rxjs";
 import {
   MenuAction,
   TableControls,
@@ -54,6 +47,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     path: "/monitors",
     titleButtons: {
       addButton: true,
+      useText: true,
     },
   };
 

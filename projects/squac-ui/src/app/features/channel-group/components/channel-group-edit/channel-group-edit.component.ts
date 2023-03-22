@@ -10,16 +10,7 @@ import {
 } from "@angular/forms";
 import { ChannelService } from "squacapi";
 import { Channel } from "squacapi";
-import {
-  Subscription,
-  switchMap,
-  tap,
-  map,
-  merge,
-  of,
-  catchError,
-  EMPTY,
-} from "rxjs";
+import { Subscription, switchMap, tap, merge, of } from "rxjs";
 import {
   ColumnMode,
   SelectionType,
@@ -228,6 +219,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
 
   /**
    *
+   * @param type
    */
   controlClicked(type: ButtonEvent): void {
     if (type === "delete") {
