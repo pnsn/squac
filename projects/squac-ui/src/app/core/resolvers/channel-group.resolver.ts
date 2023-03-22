@@ -3,6 +3,8 @@ import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
 import { ChannelGroup } from "squacapi";
 import { Observable } from "rxjs";
 import { ChannelGroupService } from "squacapi";
+import { LoadingService } from "@core/services/loading.service";
+import { ResolverService } from "../services/resolver.service";
 
 /**
  * Resolves a channel group or list of channel groups
@@ -13,7 +15,10 @@ import { ChannelGroupService } from "squacapi";
 export class ChannelGroupResolver
   implements Resolve<Observable<ChannelGroup | ChannelGroup[]>>
 {
-  constructor(private channelGroupService: ChannelGroupService) {}
+  constructor(
+    private channelGroupService: ChannelGroupService,
+    private loadingService: LoadingService
+  ) {}
 
   /**
    * Resolve a channel group or list of channel group
@@ -25,11 +30,13 @@ export class ChannelGroupResolver
     route: ActivatedRouteSnapshot
   ): Observable<ChannelGroup | ChannelGroup[]> {
     const id = route.paramMap.get("channelGroupId");
+    const delay = 1000;
+    let req;
     if (id) {
-      return this.channelGroupService.read(+id);
+      req = this.channelGroupService.read(+id);
     } else {
-      return this.channelGroupService.list();
-      // return all of them
+      req = this.channelGroupService.list();
     }
+    return this.loadingService.doLoading(req, null, null, delay);
   }
 }

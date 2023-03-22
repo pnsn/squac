@@ -1,4 +1,4 @@
-import { Observable } from "rxjs";
+import { Observable, OperatorFunction, tap, timer } from "rxjs";
 import { defer } from "rxjs";
 
 /**
@@ -37,4 +37,41 @@ export function sortTimestamps(valueA: string, valueB: string): number {
   } else {
     return 0;
   }
+}
+
+/**
+ * Pipeable operator that executes a function if the observable has not finished
+ * by the delay time
+ *
+ * @param fn function to execute
+ * @param delay amount of ms to wait
+ * @param thisArg ?
+ * @returns Given observable
+ * @example
+ * obs$.pipe(
+    executeDelayed(() => {
+       this.startLoading(context, loaderId);
+      }, 1000),
+ * )
+ */
+export function executeDelayed<T>(
+  fn: () => void,
+  delay: number,
+  thisArg?: any
+): OperatorFunction<T, T> {
+  return function executeDelayedOperation(
+    source: Observable<T>
+  ): Observable<T> {
+    let timerSub = timer(delay).subscribe(() => fn());
+    return source.pipe(
+      tap({
+        next: () => {
+          timerSub.unsubscribe();
+          timerSub = timer(delay).subscribe(() => fn());
+        },
+        error: () => timerSub.unsubscribe(), // unsubscribe on error
+        complete: () => timerSub.unsubscribe(),
+      })
+    );
+  };
 }

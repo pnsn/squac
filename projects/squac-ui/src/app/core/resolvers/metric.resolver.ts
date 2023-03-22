@@ -1,7 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
+import { LoadingService } from "@core/services/loading.service";
 import { Observable } from "rxjs";
 import { Metric, MetricService } from "squacapi";
+import { ResolverService } from "../services/resolver.service";
 
 /**
  * Resolve metrics or list of metrics
@@ -10,7 +12,10 @@ import { Metric, MetricService } from "squacapi";
   providedIn: "root",
 })
 export class MetricResolver implements Resolve<Observable<Metric | Metric[]>> {
-  constructor(private metricService: MetricService) {}
+  constructor(
+    private metricService: MetricService,
+    private loadingService: LoadingService
+  ) {}
 
   /**
    * REsolve metric of list of metrics
@@ -20,11 +25,13 @@ export class MetricResolver implements Resolve<Observable<Metric | Metric[]>> {
    */
   resolve(route: ActivatedRouteSnapshot): Observable<Metric | Metric[]> {
     const id = route.paramMap.get("metricId");
+    const delay = 1000;
+    let req;
     if (id) {
-      return this.metricService.read(+id);
+      req = this.metricService.read(+id);
     } else {
-      return this.metricService.list({ order: "name" });
-      // return all of them
+      req = this.metricService.list();
     }
+    return this.loadingService.doLoading(req, null, null, delay);
   }
 }

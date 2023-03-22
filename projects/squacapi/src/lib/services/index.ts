@@ -16,3 +16,4 @@ export * from "./trigger.service";
 export * from "./user-me.service";
 export * from "./widget.service";
 export * from "./password-reset.service";
+export * from "./generic-api.service";

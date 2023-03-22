@@ -1,4 +1,5 @@
 import { Injectable, NgZone } from "@angular/core";
+import { executeDelayed } from "@core/utils/utils";
 import { asyncScheduler, BehaviorSubject, Observable } from "rxjs";
 import { finalize, observeOn } from "rxjs/operators";
 
@@ -41,17 +42,21 @@ export class LoadingService {
    * @param source$ source observable to use for tracking loading
    * @param context any object to use for loading
    * @param loaderId optional, used if there are multiple loaders using same context
+   * @param delay ms to delay before starting to load
    * @returns observable with result of source
    * @example loadingService.doLoading(desiredObservable, context, id).subscribe()
    */
   doLoading<V>(
     source$: Observable<V>,
     context?: LoadingContext,
-    loaderId?: LoaderId
+    loaderId?: LoaderId,
+    delay?: number
   ): Observable<V> {
     context = context || DEFAULT_CONTEXT;
-    this.startLoading(context, loaderId);
     return source$.pipe(
+      executeDelayed(() => {
+        this.startLoading(context, loaderId);
+      }, delay ?? 0),
       observeOn(asyncScheduler),
       finalize(() => this.endLoading(context, loaderId))
     );
@@ -111,6 +116,7 @@ export class LoadingService {
    * @param loaderId loader id to use
    */
   startLoading(context: LoadingContext, loaderId?: LoaderId): void {
+    console.log("start loading!");
     this.setLoadingState(context, true, this.getLoaderId(loaderId));
   }
 

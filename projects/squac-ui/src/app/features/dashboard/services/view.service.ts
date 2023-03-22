@@ -78,8 +78,7 @@ export class ViewService {
     private ability: AppAbility,
     private dateService: DateService,
     private messageService: MessageService,
-    private channelGroupService: ChannelGroupService,
-    private loadingService: LoadingService
+    private channelGroupService: ChannelGroupService
   ) {}
 
   /** @returns current dashboard */

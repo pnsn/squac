@@ -50,19 +50,19 @@ export class CacheInterceptor implements HttpInterceptor {
       return of(cachedResponse.clone());
     }
 
-    // show loading screen for get requests that aren't cached
-    if (request.method === "GET" && !cachedResponse) {
-      return this.loadingService.doLoading(
-        next.handle(request).pipe(
-          tap((httpEvent: HttpEvent<any>): void | HttpEvent<any> => {
-            if (httpEvent instanceof HttpResponse) {
-              this._cache.put(request, httpEvent);
-              return httpEvent;
-            }
-          })
-        )
-      );
-    }
+    // // show loading screen for get requests that aren't cached
+    // if (request.method === "GET" && !cachedResponse) {
+    //   return this.loadingService.doLoading(
+    //     next.handle(request).pipe(
+    //       tap((httpEvent: HttpEvent<any>): void | HttpEvent<any> => {
+    //         if (httpEvent instanceof HttpResponse) {
+    //           this._cache.put(request, httpEvent);
+    //           return httpEvent;
+    //         }
+    //       })
+    //     )
+    //   );
+    // }
 
     return next.handle(request).pipe(
       tap((httpEvent: HttpEvent<any>): void | HttpEvent<any> => {
