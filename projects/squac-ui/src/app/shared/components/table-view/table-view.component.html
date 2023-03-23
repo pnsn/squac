@@ -10,21 +10,12 @@
       </shared-search-filter>
       <ng-content select="[tableHeadFilters]"> </ng-content>
       <div class="row space-between">
-        <div *ngIf="filters && filters.toggleShared">
-          <mat-button-toggle-group
-            class="dense-button-toggle"
-            name="sharing"
-            aria-label=""
-            (change)="toggleSharing()"
-            [(ngModel)]="shareFilter"
-          >
-            <mat-button-toggle value="user">User</mat-button-toggle>
-            <mat-button-toggle value="org">{{
-              user?.orgId | organization
-            }}</mat-button-toggle>
-            <mat-button-toggle value="all">All</mat-button-toggle>
-          </mat-button-toggle-group>
-        </div>
+        <shared-sharing-toggle
+          *ngIf="filters && filters.toggleShared"
+          [user]="user"
+          (filtersChange)="toggleSharing($event)"
+        >
+        </shared-sharing-toggle>
 
         <ng-container *ngIf="controls.links">
           <button

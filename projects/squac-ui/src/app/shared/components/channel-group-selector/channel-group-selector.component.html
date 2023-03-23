@@ -13,7 +13,7 @@
     [(ngModel)]="selectedChannelGroup"
     (ngModelChange)="selectionChange()"
     [required]="required"
-    placeholder="Select a Channel Group"
+    placeholder="{{ label ? label : 'Select a Channel Group' }}"
     [matAutocomplete]="autoChannelGroup"
   />
   <mat-autocomplete

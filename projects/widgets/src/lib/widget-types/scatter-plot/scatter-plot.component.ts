@@ -177,10 +177,5 @@ export class ScatterPlotComponent
         name: `${yMetric.name} (${yMetric.unit})`,
       },
     };
-    if (this.echartsInstance) {
-      this.echartsInstance.setOption(this.updateOptions, {
-        replaceMerge: ["series"],
-      });
-    }
   }
 }

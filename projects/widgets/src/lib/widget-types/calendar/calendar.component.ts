@@ -70,6 +70,14 @@ export class CalendarComponent
     dataZoom: this.chartDefaultOptions.dataZoom,
   };
 
+  grid: {
+    containLabel: boolean;
+    left: number;
+    top: number;
+    right: number;
+    bottom?: number;
+  };
+
   xAxisConfig: XAXisComponentOption = {
     type: "category",
     axisLabel: {
@@ -116,45 +124,10 @@ export class CalendarComponent
   };
 
   /**
-   * Toggles zoom controls and grid view to make widgets more dense
-   *
-   * @param useDenseView true if widget should use dense view
-   */
-  override useDenseView(useDenseView: boolean): void {
-    this.denseView = useDenseView;
-
-    if (this.echartsInstance) {
-      if (useDenseView) {
-        this.echartsInstance.setOption(
-          {
-            grid: {
-              ...this.denseOptions.grid,
-              bottom: this.xAxisLabels2.length > 0 ? 0 : 14,
-            },
-            dataZoom: this.denseOptions.dataZoom,
-          },
-          {
-            replaceMerge: ["dataZoom"],
-          }
-        );
-      } else {
-        this.echartsInstance.setOption(
-          {
-            grid: {
-              ...this.fullOptions.grid,
-              bottom: this.xAxisLabels2.length > 0 ? 24 : 38,
-            },
-            dataZoom: this.fullOptions.dataZoom,
-          },
-          { replaceMerge: ["dataZoom", "grid"] }
-        );
-      }
-    }
-  }
-  /**
    * @override
    */
   configureChart(): void {
+    const bottomMargin = this.getBottomMargin();
     const dataZoom = this.denseView
       ? this.denseOptions.dataZoom
       : this.fullOptions.dataZoom;
@@ -163,7 +136,10 @@ export class CalendarComponent
       : this.fullOptions.grid;
     this.options = {
       ...this.chartDefaultOptions,
-      grid,
+      grid: {
+        ...grid,
+        bottom: bottomMargin,
+      },
       dataZoom,
       yAxis: {
         inverse: true,
@@ -266,6 +242,7 @@ export class CalendarComponent
         // store values
         const values = [];
 
+        //associate data with created labels
         this.xAxisLabels.forEach((label) => {
           values.push({
             label,
@@ -340,6 +317,20 @@ export class CalendarComponent
     });
   }
 
+  /** @returns margin for bottom of chart */
+  private getBottomMargin(): number {
+    //denseview has no zoom bar
+    let margin = this.denseView ? 0 : 24;
+
+    if (
+      this.properties.displayType !== "hours-week" &&
+      this.denseView !== undefined
+    ) {
+      margin += 14;
+    }
+    return margin;
+  }
+
   /**
    * @override
    */
@@ -356,8 +347,6 @@ export class CalendarComponent
     if (this.properties.displayType) {
       name = this.properties.displayType.replace("-", " of ");
     }
-
-    let xAxisOffset = this.denseView ? 0 : 24;
     if (this.xAxisLabels2.length > 0) {
       xAxis1 = {
         ...xAxis1,
@@ -409,23 +398,19 @@ export class CalendarComponent
 
       axes.push(xAxis2);
       axes.push(xAxis1);
-      xAxisOffset += 0;
     } else {
       //just one axis
       xAxis1["data"] = this.xAxisLabels;
       xAxis1["axisPointer"] = this.axisPointer;
       xAxis1["name"] = name;
       axes.push(xAxis1);
-      xAxisOffset += 14;
     }
+
     visualMaps.show = this.showKey;
     this.updateOptions = {
       series: this.metricSeries[displayMetric.id].series,
       visualMap: visualMaps,
       xAxis: axes,
-      grid: {
-        bottom: xAxisOffset,
-      },
       yAxis: {
         data: this.metricSeries[displayMetric.id].yAxisLabels,
       },

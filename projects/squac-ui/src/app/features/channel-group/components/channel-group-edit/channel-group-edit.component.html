@@ -6,8 +6,8 @@
   type="Channel Group"
   [resource]="channelGroup"
   title="{{ editMode ? 'Edit ' + channelGroup.name : 'Create Channel Group' }}"
-  subtext="by {{ channelGroup.owner | user }} ({{
-    channelGroup.orgId | organization
+  subtext="by {{ channelGroup?.owner | user }} ({{
+    channelGroup?.orgId ?? orgId | organization
   }})"
   (controlClicked)="controlClicked($event)"
 >
@@ -166,20 +166,13 @@
                   required
                 ></textarea>
               </mat-form-field>
-              <mat-radio-group
-                aria-label="change view permissions"
-                formControlName="share"
-                id="sharing-radio-group"
-                class="column"
+              <shared-sharing-toggle
+                [orgId]="orgId"
+                [filterText]="sharedToggleConfig"
+                [(shareOrg)]="shareOrg"
+                [(shareAll)]="shareAll"
               >
-                <mat-radio-button value="private">Private</mat-radio-button>
-                <mat-radio-button value="shareOrg"
-                  >Share with organization</mat-radio-button
-                >
-                <mat-radio-button value="shareAll"
-                  >Share with all SQUAC users</mat-radio-button
-                >
-              </mat-radio-group>
+              </shared-sharing-toggle>
             </form>
           </mat-expansion-panel>
 

@@ -350,12 +350,6 @@ export class TimelineComponent
       visualMap: visualMaps,
       xAxis,
     };
-
-    if (this.echartsInstance) {
-      this.echartsInstance.setOption(this.updateOptions, {
-        replaceMerge: ["series", "xAxis"],
-      });
-    }
   }
 
   /**

@@ -12,11 +12,11 @@ import { UserService } from "@user/services/user.service";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MessageService } from "@core/services/message.service";
 import { ChannelGroup } from "squacapi";
+import { FilterText } from "@shared/components/sharing-toggle/sharing-toggle.interface";
 
 interface DashboardForm {
   name: FormControl<string>;
   description: FormControl<string>;
-  share: FormControl<string>;
 }
 /**
  * Dashboard edit component
@@ -36,8 +36,15 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
   dashboardForm: FormGroup<DashboardForm> = this.formBuilder.group({
     name: ["", Validators.required],
     description: ["", Validators.required],
-    share: ["private", Validators.required],
   });
+
+  shareAll = false;
+  shareOrg = false;
+
+  filterText: FilterText = {
+    user: "Private",
+    all: "Public",
+  };
 
   constructor(
     private formBuilder: FormBuilder,
@@ -77,16 +84,11 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
    */
   private initForm(): void {
     if (this.editMode) {
-      let share = "private";
-      if (this.dashboard.shareAll) {
-        share = "shareAll";
-      } else if (this.dashboard.shareOrg) {
-        share = "shareOrg";
-      }
+      this.shareAll = this.dashboard.shareAll;
+      this.shareOrg = this.dashboard.shareOrg;
       this.dashboardForm.patchValue({
         name: this.dashboard.name,
         description: this.dashboard.description,
-        share,
       });
     }
   }
@@ -96,15 +98,13 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
    */
   save(): void {
     const values = this.dashboardForm.value;
-    const shareAll = values.share === "shareAll";
-    const shareOrg = values.share === "shareOrg" || shareAll;
     const id = this.dashboard ? this.dashboard.id : null;
 
     const dashboard = new Dashboard({
       id: id,
       name: values.name,
-      shareAll,
-      shareOrg,
+      shareAll: this.shareAll,
+      shareOrg: this.shareOrg,
       organization: this.orgId,
       channelGroupId: this.channelGroupId,
     });

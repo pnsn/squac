@@ -29,6 +29,7 @@ import {
   ButtonEvent,
   PageOptions,
 } from "@shared/components/detail-page/detail-page.interface";
+import { FilterText } from "@shared/components/sharing-toggle/sharing-toggle.interface";
 
 enum LoadingIndicator {
   MAIN,
@@ -38,7 +39,6 @@ enum LoadingIndicator {
 interface ChannelGroupForm {
   name: FormControl<string>;
   description: FormControl<string>;
-  share: FormControl<string>;
 }
 /**
  * Channel group editing component
@@ -67,6 +67,8 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   selectedInGroupChannels: Channel[] = []; // Channels selected from group table
   previousChannels: Channel[]; // Store last version of channels for undo
 
+  shareOrg = false;
+  shareAll = false;
   // Map stuff
   showChannel: Channel; // Channel to show on map
   bounds: MapBounds; // Latlng bounds to either filter by or make a new request with
@@ -99,6 +101,11 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     path: "/channel-groups",
   };
 
+  sharedToggleConfig: FilterText = {
+    user: "Private",
+    all: "Public",
+  };
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -120,7 +127,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     this.channelGroupForm = this.formBuilder.group({
       name: new FormControl("", Validators.required),
       description: new FormControl("", Validators.required),
-      share: ["private", Validators.required],
     });
 
     const routeSub = this.route.data
@@ -197,17 +203,12 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   private initForm(): void {
     // if editing existing group, populate with the info
     if (this.editMode) {
-      let share = "private";
-      if (this.channelGroup.shareAll) {
-        share = "shareAll";
-      } else if (this.channelGroup.shareOrg) {
-        share = "shareOrg";
-      }
       this.channelGroupForm.patchValue({
         name: this.channelGroup.name,
         description: this.channelGroup.description,
-        share,
       });
+      this.shareAll = this.channelGroup.shareAll;
+      this.shareOrg = this.channelGroup.shareOrg;
       this.autoExcludeChannels = [
         ...this.channelGroup.autoExcludeChannels,
       ] as Channel[];
@@ -453,8 +454,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
    */
   save(): void {
     const values = this.channelGroupForm.value;
-    const shareAll = values.share === "shareAll";
-    const shareOrg = values.share === "shareOrg" || shareAll;
     const cg = new ChannelGroup({
       id: this.id,
       name: values.name,
@@ -462,10 +461,10 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
       organization: this.orgId,
       autoExcludeChannels: this.autoExcludeChannels,
       autoIncludeChannels: this.autoIncludeChannels,
-      shareAll,
-      shareOrg,
+      shareAll: this.shareAll,
+      shareOrg: this.shareOrg,
     });
-
+    console.log(cg);
     /*
       Temp fix for channel groups not updating with channels on
       save unless there's matching rules.
@@ -475,41 +474,41 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
       cg.channels = [...cg.autoIncludeChannels];
     }
     let id;
-    this.loadingService
-      .doLoading(
-        this.channelGroupService.updateOrCreate(cg).pipe(
-          switchMap((groupId: number) => {
-            id = groupId;
-            if (
-              this.matchingRules.length === 0 &&
-              this.deleteMatchingRulesIds.length === 0
-            ) {
-              return of([]);
-            }
-            this.matchingRules.forEach((m) => {
-              m.channelGroupId = id;
-            });
-            return merge(
-              ...this.matchingRuleService.updateOrDelete(
-                this.matchingRules,
-                this.deleteMatchingRulesIds
-              )
-            );
-          })
-        ),
-        this,
-        LoadingIndicator.MAIN
-      )
-      .subscribe({
-        next: () => {
-          this.changeMade = false;
-          this.cancel(id);
-          this.messageService.message("Channel group saved.");
-        },
-        error: () => {
-          this.messageService.error("Could not save channel group.");
-        },
-      });
+    // this.loadingService
+    //   .doLoading(
+    //     this.channelGroupService.updateOrCreate(cg).pipe(
+    //       switchMap((groupId: number) => {
+    //         id = groupId;
+    //         if (
+    //           this.matchingRules.length === 0 &&
+    //           this.deleteMatchingRulesIds.length === 0
+    //         ) {
+    //           return of([]);
+    //         }
+    //         this.matchingRules.forEach((m) => {
+    //           m.channelGroupId = id;
+    //         });
+    //         return merge(
+    //           ...this.matchingRuleService.updateOrDelete(
+    //             this.matchingRules,
+    //             this.deleteMatchingRulesIds
+    //           )
+    //         );
+    //       })
+    //     ),
+    //     this,
+    //     LoadingIndicator.MAIN
+    //   )
+    //   .subscribe({
+    //     next: () => {
+    //       this.changeMade = false;
+    //       this.cancel(id);
+    //       this.messageService.message("Channel group saved.");
+    //     },
+    //     error: () => {
+    //       this.messageService.error("Could not save channel group.");
+    //     },
+    //   });
   }
 
   /**

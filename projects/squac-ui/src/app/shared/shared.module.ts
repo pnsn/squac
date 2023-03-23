@@ -23,6 +23,7 @@ import { LoadingOverlayComponent } from "./components/loading-overlay/loading-ov
 import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-spinner.component";
 import { DetailPageComponent } from "./components/detail-page/detail-page.component";
 import { SquacapiModule } from "squacapi";
+import { SharingToggleComponent } from "./components/sharing-toggle/sharing-toggle.component";
 
 /**
  * Shared module for features
@@ -43,6 +44,7 @@ import { SquacapiModule } from "squacapi";
     LoadingDirective,
     LoadingSpinnerComponent,
     DetailPageComponent,
+    SharingToggleComponent,
   ],
   imports: [
     CommonModule,
@@ -82,6 +84,7 @@ import { SquacapiModule } from "squacapi";
     LoadingDirective,
     SquacapiModule,
     DetailPageComponent,
+    SharingToggleComponent,
   ],
 })
 export class SharedModule {}

@@ -205,11 +205,5 @@ export class TimechartComponent
         max: this.widgetManager.endtime,
       },
     };
-
-    if (this.echartsInstance) {
-      this.echartsInstance.setOption(this.updateOptions, {
-        replaceMerge: ["series", "xAxis"],
-      });
-    }
   }
 }

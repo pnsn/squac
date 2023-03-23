@@ -150,10 +150,6 @@ export class ParallelPlotComponent
       parallelAxis: this.metricSeries.axis,
     };
     if (this.echartsInstance) {
-      this.echartsInstance.setOption(this.updateOptions, {
-        replaceMerge: ["series"],
-      });
-
       this.resize();
     }
   }

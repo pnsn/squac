@@ -102,7 +102,7 @@ export abstract class EChartComponent
    */
   onChartInit(event): void {
     this.echartsInstance = event;
-    if (this.denseView) {
+    if (this.echartsInstance && this.denseView !== undefined) {
       this.useDenseView(this.denseView);
     }
   }
