@@ -6,6 +6,9 @@
   type="Channel Group"
   [resource]="channelGroup"
   title="{{ editMode ? 'Edit ' + channelGroup.name : 'Create Channel Group' }}"
+  subtext="by {{ channelGroup.owner | user }} ({{
+    channelGroup.orgId | organization
+  }})"
   (controlClicked)="controlClicked($event)"
 >
   <ng-container headerContent>
@@ -46,7 +49,7 @@
     <div class="edit-body gray-border white-background">
       <div id="left-side">
         <div id="add-channel-header" class="row wrap space-between">
-          <h3 class="auto-margin">Add Channels to Group</h3>
+          <h3>Add Channels to Group</h3>
           <mat-slide-toggle [(ngModel)]="showOnlyCurrent">
             <span class="help-text">Only Show Current Channels</span>
           </mat-slide-toggle>

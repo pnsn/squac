@@ -85,6 +85,7 @@ mat-accordion {
     mat-expansion-panel-header {
       min-height: 35px;
       padding: 0px 12px;
+      max-height: 50px;
     }
 
     border-radius: 0 !important;
