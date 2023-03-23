@@ -44,7 +44,7 @@
   </ng-container>
   <ng-container bodyContent>
     <div class="edit-body gray-border white-background">
-      <div>
+      <div id="left-side">
         <div id="add-channel-header" class="row wrap space-between">
           <h3 class="auto-margin">Add Channels to Group</h3>
           <mat-slide-toggle [(ngModel)]="showOnlyCurrent">
@@ -84,7 +84,7 @@
             loadingService.isLoading$(this, LoadingIndicator.RESULTS) | async
           "
         >
-          <div class="lt-gray-border search-results-container">
+          <div class="search-results-container">
             <div class="row space-between select-channels-controls wrap">
               <h4>Results ({{ rows.length }})</h4>
 
@@ -141,7 +141,7 @@
         <mat-accordion displayMode="flat" multi>
           <mat-expansion-panel expanded="true">
             <mat-expansion-panel-header>
-              <mat-panel-title><h4>Information</h4> </mat-panel-title>
+              <mat-panel-title><h4>Group Information</h4> </mat-panel-title>
               <mat-panel-description>(required)</mat-panel-description>
             </mat-expansion-panel-header>
 

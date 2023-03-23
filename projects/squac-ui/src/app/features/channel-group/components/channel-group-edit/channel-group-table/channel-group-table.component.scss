@@ -1,3 +1,4 @@
+@import "variables";
 .table-container {
   flex-grow: 1;
   height: 100%;
@@ -6,8 +7,14 @@
 :host ::ng-deep.channel-table.ngx-datatable {
   height: 100%;
   min-height: 400px !important;
+  border: $default-border;
+  border-top: none;
+
   .datatable-header {
     height: auto !important;
+    background-color: $sq-lt-gray;
+    border-top: $default-border;
+    border-bottom: $default-border;
   }
   .datatable-header-cell {
     padding: 1px !important;
@@ -45,7 +52,6 @@
       span {
         display: inline-block;
         word-break: break-word;
-        background-color: white;
         font-weight: bold;
       }
     }
