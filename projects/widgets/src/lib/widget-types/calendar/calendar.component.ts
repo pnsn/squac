@@ -54,8 +54,8 @@ export class CalendarComponent
   } = {
     grid: {
       containLabel: true,
-      top: 0,
-      right: 5,
+      top: 5,
+      right: 10,
       left: 10,
     },
     dataZoom: [],
@@ -63,8 +63,8 @@ export class CalendarComponent
   override fullOptions = {
     grid: {
       containLabel: true,
-      top: 0,
-      right: 5,
+      top: 5,
+      right: 10,
       left: 30,
     },
     dataZoom: this.chartDefaultOptions.dataZoom,

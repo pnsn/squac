@@ -43,8 +43,8 @@ export class TimelineComponent
   override fullOptions = {
     grid: {
       containLabel: true,
-      top: 0,
-      right: 5,
+      top: 5,
+      right: 10,
       bottom: 38,
       left: 30,
     },
