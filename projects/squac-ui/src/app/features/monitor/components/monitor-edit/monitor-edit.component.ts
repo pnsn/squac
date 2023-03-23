@@ -47,6 +47,7 @@ interface MonitorForm {
   metric: FormControl<Metric>;
   channelGroup: FormControl<number>;
   triggers: FormArray<FormGroup<TriggerForm>>;
+  doDailyDigest: FormControl<boolean>;
 }
 /**
  * Component for editing monitors
@@ -96,6 +97,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     metric: new FormControl(null, Validators.required),
     channelGroup: new FormControl(null, Validators.required),
     triggers: this.formBuilder.array<FormGroup<TriggerForm>>([]),
+    doDailyDigest: new FormControl(null, Validators.required),
   });
 
   constructor(
@@ -291,6 +293,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
         stat: this.monitor.stat,
         channelGroup: this.monitor.channelGroupId,
         metric: this.selectedMetric,
+        doDailyDigest: false,
       });
 
       this.monitor.triggers.forEach((trigger) => {

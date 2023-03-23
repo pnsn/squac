@@ -196,7 +196,6 @@ a {
 .box {
   @extend .gray-border;
   @extend .white-background;
-  @extend .box-shadow;
   background-color: white;
   overflow: hidden;
 }

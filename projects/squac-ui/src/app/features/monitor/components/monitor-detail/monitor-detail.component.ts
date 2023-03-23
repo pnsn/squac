@@ -30,6 +30,10 @@ import {
   WidgetType,
 } from "widgets";
 
+enum LoadingIndicator {
+  RESULTS,
+  MAIN,
+}
 /**
  * Component for viewing single monitor
  */
@@ -62,7 +66,7 @@ export class MonitorDetailComponent implements OnInit {
   endtime: string;
   subscriptions = new Subscription();
   unsavedChanges = false;
-
+  LoadingIndicator = LoadingIndicator;
   /** Config for detail page */
   pageOptions: PageOptions = {
     titleButtons: {
@@ -138,7 +142,8 @@ export class MonitorDetailComponent implements OnInit {
               ),
               metric: this.metricService.read(this.monitor.metricId),
             }),
-            this
+            this,
+            LoadingIndicator.MAIN
           );
         })
       )
@@ -184,25 +189,27 @@ export class MonitorDetailComponent implements OnInit {
    * Requests new data
    */
   update(): void {
-    this.getAlerts().subscribe({
-      next: (alerts: Alert[]) => {
-        this.unsavedChanges = false;
-        this.alerts = alerts;
-        this.changeDetector.detectChanges();
-        this.channelChart?.updateData();
-        this.monitorChart?.updateData();
+    this.loadingService
+      .doLoading(this.getAlerts(), this, LoadingIndicator.RESULTS)
+      .subscribe({
+        next: (alerts: Alert[]) => {
+          this.unsavedChanges = false;
+          this.alerts = alerts;
+          this.changeDetector.detectChanges();
+          this.channelChart?.updateData();
+          this.monitorChart?.updateData();
 
-        setTimeout(() => {
-          if (this.channelChart && this.monitorChart) {
-            const channelChart = this.channelChart.echartsInstance;
-            const monitorChart = this.monitorChart.echartsInstance;
-            if (monitorChart && channelChart) {
-              connect([channelChart, monitorChart]);
+          setTimeout(() => {
+            if (this.channelChart && this.monitorChart) {
+              const channelChart = this.channelChart.echartsInstance;
+              const monitorChart = this.monitorChart.echartsInstance;
+              if (monitorChart && channelChart) {
+                connect([channelChart, monitorChart]);
+              }
             }
-          }
-        }, 0);
-      },
-    });
+          }, 0);
+        },
+      });
   }
 
   /**
@@ -242,10 +249,8 @@ export class MonitorDetailComponent implements OnInit {
       startDate = this.dateService.subtractFromNow(rangeInSeconds, "seconds");
       endDate = this.dateService.now();
     }
-    this.widgetManager.updateTimes(
-      this.dateService.format(startDate),
-      this.dateService.format(endDate)
-    );
+    console.log(startDate, endDate);
+    this.widgetManager.updateTimes(startDate, endDate);
     this.unsavedChanges = true;
   }
 }
