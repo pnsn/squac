@@ -18,6 +18,7 @@ export interface Monitor {
   triggers: Trigger[];
   channelGroupName: string;
   metricName: string;
+  doDailyDigest: boolean;
 }
 /**
  * describes a monitor
@@ -82,6 +83,7 @@ export class Monitor extends ResourceModel<
       metric: this.metricId,
       stat: this.stat,
       name: this.name,
+      do_daily_digest: this.doDailyDigest,
     };
   }
 }

@@ -283,11 +283,6 @@ export class MonitorHistoryChartComponent extends EChartComponent {
         },
       },
     };
-    if (this.echartsInstance) {
-      this.echartsInstance.setOption(this.updateOptions, {
-        replaceMerge: ["series"],
-      });
-    }
   }
 
   /**

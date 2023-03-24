@@ -464,7 +464,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
       shareAll: this.shareAll,
       shareOrg: this.shareOrg,
     });
-    console.log(cg);
+
     /*
       Temp fix for channel groups not updating with channels on
       save unless there's matching rules.
@@ -474,41 +474,41 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
       cg.channels = [...cg.autoIncludeChannels];
     }
     let id;
-    // this.loadingService
-    //   .doLoading(
-    //     this.channelGroupService.updateOrCreate(cg).pipe(
-    //       switchMap((groupId: number) => {
-    //         id = groupId;
-    //         if (
-    //           this.matchingRules.length === 0 &&
-    //           this.deleteMatchingRulesIds.length === 0
-    //         ) {
-    //           return of([]);
-    //         }
-    //         this.matchingRules.forEach((m) => {
-    //           m.channelGroupId = id;
-    //         });
-    //         return merge(
-    //           ...this.matchingRuleService.updateOrDelete(
-    //             this.matchingRules,
-    //             this.deleteMatchingRulesIds
-    //           )
-    //         );
-    //       })
-    //     ),
-    //     this,
-    //     LoadingIndicator.MAIN
-    //   )
-    //   .subscribe({
-    //     next: () => {
-    //       this.changeMade = false;
-    //       this.cancel(id);
-    //       this.messageService.message("Channel group saved.");
-    //     },
-    //     error: () => {
-    //       this.messageService.error("Could not save channel group.");
-    //     },
-    //   });
+    this.loadingService
+      .doLoading(
+        this.channelGroupService.updateOrCreate(cg).pipe(
+          switchMap((groupId: number) => {
+            id = groupId;
+            if (
+              this.matchingRules.length === 0 &&
+              this.deleteMatchingRulesIds.length === 0
+            ) {
+              return of([]);
+            }
+            this.matchingRules.forEach((m) => {
+              m.channelGroupId = id;
+            });
+            return merge(
+              ...this.matchingRuleService.updateOrDelete(
+                this.matchingRules,
+                this.deleteMatchingRulesIds
+              )
+            );
+          })
+        ),
+        this,
+        LoadingIndicator.MAIN
+      )
+      .subscribe({
+        next: () => {
+          this.changeMade = false;
+          this.cancel(id);
+          this.messageService.message("Channel group saved.");
+        },
+        error: () => {
+          this.messageService.error("Could not save channel group.");
+        },
+      });
   }
 
   /**

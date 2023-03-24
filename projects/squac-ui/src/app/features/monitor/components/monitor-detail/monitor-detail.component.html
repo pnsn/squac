@@ -15,7 +15,7 @@
       "
     >
       <div id="monitor-container" class="column">
-        <div class="row space-between">
+        <div class="row">
           <div>
             <p>
               <strong>Metric: </strong> {{ monitor.stat }} of
@@ -32,9 +32,11 @@
               <strong>Interval: </strong> {{ monitor.intervalCount }}
               {{ monitor.intervalType }}
             </p>
+
+            <p><strong>Daily Digest: </strong> {{ monitor.doDailyDigest }}</p>
           </div>
 
-          <div class="row">
+          <div class="date-select-row">
             <shared-date-select
               [secondsAgoFromNow]="timeRange"
               [initialStartDate]="starttime"
@@ -56,6 +58,10 @@
       </div>
       <div class="chart-container" *ngIf="viewTriggers">
         <h3>Triggers</h3>
+        <p class="help-text">
+          If 'Daily Digest' is enabled, alerts for individual triggers will not
+          be sent.
+        </p>
         <table id="trigger-table">
           <thead>
             <th>In Alarm:</th>
@@ -91,7 +97,6 @@
           id="monitor-history-chart-container"
         >
           <monitor-history-chart
-            *ngIf="alerts?.length > 0; else noAlerts"
             #monitorChart
             [monitor]="monitor"
             [alerts]="alerts"
@@ -129,7 +134,6 @@
         >
           <monitor-channel-history-chart
             #channelChart
-            *ngIf="alerts?.length > 0; else noAlerts"
             [monitor]="monitor"
             [alerts]="alerts"
             [(selectedAlert)]="selectedAlert"

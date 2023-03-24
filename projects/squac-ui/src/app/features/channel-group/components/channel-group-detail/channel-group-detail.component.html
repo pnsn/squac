@@ -13,91 +13,170 @@
   }})"
 >
   <ng-container bodyContent>
-    <a [routerLink]="['/channel-groups']" routerLinkActive="router-link-active">
-      back</a
-    >
-    <div id="channel-group-container" class="row-reverse gray-border">
-      <div id="map-container">
-        <channel-group-map
-          [autoIncludeChannels]="channels"
-          [selectedChannels]="selectedChannels"
-          (showChannelChange)="selectChannel($event)"
-          [showChannel]="showChannel"
-          [editPage]="false"
-        ></channel-group-map>
+    <div id="channel-group-container" class="column gray-border">
+      <div id="group-info-container">
+        <div>
+          <div><strong>Name: </strong> {{ channelGroup.name }} of</div>
+          <div>
+            <strong> Description: </strong>
+            {{ channelGroup.description }}
+          </div>
+        </div>
       </div>
-      <div id="channels-container">
-        <ngx-datatable
-          id="channel-table"
-          class="material lt-gray-border"
-          [rows]="channelGroup?.channels"
-          [columnMode]="ColumnMode.force"
-          [selectionType]="SelectionType.single"
-          [headerHeight]="30"
-          [footerHeight]="50"
-          [rowHeight]="23"
-          [scrollbarV]="true"
-          (select)="onSelect($event)"
-          [selected]="selectedRows"
-        >
-          <ngx-datatable-column
-            name="Network"
-            [draggable]="false"
-            [sortable]="true"
-            [width]="30"
+      <h4>Channels ({{ channelGroup.channels.length }}):</h4>
+      <div id="channel-map-container" class="row">
+        <div id="channels-container">
+          <channel-group-edit-table
+            [rows]="channelGroup.channels"
+            [selectable]="false"
+            [selected]="selectedRows"
+            (selectedChange)="onSelect($event)"
           >
-            <ng-template let-row="row" ngx-datatable-cell-template>
-              {{ row.net }}
-            </ng-template>
-          </ngx-datatable-column>
-          <ngx-datatable-column name="Station" [draggable]="false" [width]="30">
-            <ng-template
-              let-row="row"
-              let-value="value"
-              ngx-datatable-cell-template
+          </channel-group-edit-table>
+          <!-- <ngx-datatable
+            id="channel-table"
+            class="shared-view-table lt-gray-border"
+            [rows]="channelGroup?.channels"
+            [columnMode]="ColumnMode.force"
+            [selectionType]="SelectionType.single"
+            [headerHeight]="30"
+            [footerHeight]="50"
+            [rowHeight]="23"
+            [scrollbarV]="true"
+            (select)="onSelect($event)"
+            [selected]="selectedRows"
+          >
+            <ngx-datatable-column
+              name="Network"
+              [draggable]="false"
+              [sortable]="true"
+              [width]="30"
             >
-              {{ row.sta }}
-            </ng-template>
-          </ngx-datatable-column>
-          <ngx-datatable-column name="Channel" [draggable]="false" [width]="30">
-            <ng-template
-              let-row="row"
-              let-value="value"
-              ngx-datatable-cell-template
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.net }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column
+              name="Station"
+              [draggable]="false"
+              [width]="30"
             >
-              {{ row.code }}
-            </ng-template>
-          </ngx-datatable-column>
+              <ng-template
+                let-row="row"
+                let-value="value"
+                ngx-datatable-cell-template
+              >
+                {{ row.sta }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column
+              name="Channel"
+              [draggable]="false"
+              [width]="30"
+            >
+              <ng-template
+                let-row="row"
+                let-value="value"
+                ngx-datatable-cell-template
+              >
+                {{ row.code }}
+              </ng-template>
+            </ngx-datatable-column>
 
-          <ngx-datatable-column
-            name="Location"
-            [draggable]="false"
-            [sortable]="false"
-            [width]="30"
-          >
-            <ng-template
-              let-row="row"
-              let-value="value"
-              ngx-datatable-cell-template
+            <ngx-datatable-column
+              name="Location"
+              [draggable]="false"
+              [sortable]="false"
+              [width]="30"
             >
-              {{ row.loc }}
-            </ng-template>
-          </ngx-datatable-column>
+              <ng-template
+                let-row="row"
+                let-value="value"
+                ngx-datatable-cell-template
+              >
+                {{ row.loc }}
+              </ng-template>
+            </ngx-datatable-column>
 
-          <ngx-datatable-column
-            name="Name"
-            [draggable]="false"
-            [sortable]="false"
-          >
-            <ng-template
-              let-row="row"
-              let-value="value"
-              ngx-datatable-cell-template
+            <ngx-datatable-column
+              name="Name"
+              [draggable]="false"
+              [sortable]="false"
             >
-              {{ row.name }}
-            </ng-template>
-          </ngx-datatable-column>
-        </ngx-datatable>
+              <ng-template
+                let-row="row"
+                let-value="value"
+                ngx-datatable-cell-template
+              >
+                {{ row.name }}
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable> -->
+        </div>
+        <div id="map-container">
+          <channel-group-map
+            [autoIncludeChannels]="channels"
+            [selectedChannels]="selectedChannels"
+            (showChannelChange)="selectChannel($event)"
+            [showChannel]="showChannel"
+            [editPage]="false"
+          ></channel-group-map>
+        </div>
+      </div>
+
+      <div id="matching-rules-container" class="column">
+        <h4>Regex Rules ({{ matchingRules.length }}):</h4>
+
+        <div>
+          <table>
+            <thead>
+              <td>Include</td>
+              <td>Network</td>
+              <td>Station</td>
+              <td>Location</td>
+              <td>Channel</td>
+            </thead>
+            <tr *ngFor="let rule of matchingRules">
+              <td>{{ rule.isInclude }}</td>
+              <td>{{ rule.networkRegex }}</td>
+              <td>{{ rule.stationRegex }}</td>
+              <td>{{ rule.locationRegex }}</td>
+              <td>{{ rule.channelRegex }}p</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="auto-channels-container" class="row">
+        <div>
+          <h4>
+            Auto Included Channels ({{
+              channelGroup.autoIncludeChannels.length
+            }}):
+          </h4>
+
+          <channel-group-edit-table
+            [rows]="channelGroup.autoIncludeChannels"
+            [selectable]="false"
+            [selected]="selectedRows"
+            (selectedChange)="onSelect($event)"
+          >
+          </channel-group-edit-table>
+        </div>
+        <div>
+          <h4>
+            Auto Excluded Channels ({{
+              channelGroup.autoExcludeChannels.length
+            }}):
+          </h4>
+
+          <channel-group-edit-table
+            [rows]="channelGroup.autoExcludeChannels"
+            [selectable]="false"
+            [selected]="selectedRows"
+            (selectedChange)="onSelect($event)"
+          >
+          </channel-group-edit-table>
+        </div>
       </div>
     </div>
   </ng-container>

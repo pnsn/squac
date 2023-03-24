@@ -1,21 +1,29 @@
 @import "variables";
 
+.box {
+  padding: 10px;
+}
 #monitor-history-chart-container {
   height: 300px;
 }
 
 #monitor-container {
   overflow: hidden;
-  padding: 10px;
+  .row {
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+  .date-select-row {
+    display: flex;
+    flex-direction: row;
+  }
 }
 
 .chart-container {
-  padding: 10px;
   z-index: 10;
 }
 
 #alert-detail {
-  padding: 10px;
   width: fit-content;
   display: inline-block;
 }

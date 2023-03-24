@@ -134,7 +134,6 @@ export class MonitorChannelHistoryChartComponent extends EChartComponent {
       legend: {
         show: false,
       },
-      visualMap: [],
       grid: {
         containLabel: true,
         top: 20,
@@ -368,10 +367,5 @@ export class MonitorChannelHistoryChartComponent extends EChartComponent {
         max: this.dataRange.max,
       },
     };
-    if (this.echartsInstance) {
-      this.echartsInstance.setOption(this.updateOptions, {
-        replaceMerge: ["series"],
-      });
-    }
   }
 }

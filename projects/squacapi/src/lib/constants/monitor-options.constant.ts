@@ -20,6 +20,11 @@ export const MONITOR_STATS: {
   sum: "sum",
   min: "minimum",
   max: "maximum",
+  minabs: "minabs",
+  maxabs: "maxabs",
+  p90: "p90",
+  p95: "p95",
+  median: "median",
 };
 
 export const VALUE_OPERATORS: {
