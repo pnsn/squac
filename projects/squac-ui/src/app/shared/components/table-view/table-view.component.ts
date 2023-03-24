@@ -401,7 +401,8 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
 
   /**
    * Change sharing settings and filter table to match
-   * @param filters from toggle
+   *
+   * @param params sharing filter params
    */
   toggleSharing(params: SharedToggleFilter): void {
     this.filtersChanged.emit(params);

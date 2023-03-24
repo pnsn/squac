@@ -2,7 +2,7 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
+  OnChanges,
   Output,
   SimpleChanges,
 } from "@angular/core";
@@ -25,7 +25,7 @@ import { FilterText, SharedToggleFilter } from "./sharing-toggle.interface";
   templateUrl: "./sharing-toggle.component.html",
   styleUrls: ["./sharing-toggle.component.scss"],
 })
-export class SharingToggleComponent {
+export class SharingToggleComponent implements OnChanges {
   @Input() shareOrg: boolean;
   @Input() shareAll: boolean;
   @Input() filters: any;
@@ -39,13 +39,11 @@ export class SharingToggleComponent {
   @Output() shareOrgChange = new EventEmitter<boolean>();
   @Output() shareAllChange = new EventEmitter<boolean>();
   shareFilter: "user" | "all" | "org" = "org";
-  constructor() {}
 
   /**
-   * respond to input changes
-   * @param changes changes from inputs
+   * @inheritdoc
    */
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     if (changes["shareOrg"] && changes["shareAll"]) {
       this.setToggle();
     }

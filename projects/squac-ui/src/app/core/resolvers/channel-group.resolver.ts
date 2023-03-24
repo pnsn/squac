@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
 import { ChannelGroup } from "squacapi";
-import { delay, Observable } from "rxjs";
+import { Observable } from "rxjs";
 import { ChannelGroupService } from "squacapi";
 import { LoadingService } from "@core/services/loading.service";
 

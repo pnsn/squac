@@ -133,7 +133,7 @@ export class MonitorDetailComponent implements OnInit {
         tap(() => {
           this.error = false;
         }),
-        switchMap((params) => {
+        switchMap(() => {
           const data = this.route.snapshot.data;
           this.monitor = data["monitor"];
           return this.loadingService.doLoading(
@@ -250,7 +250,6 @@ export class MonitorDetailComponent implements OnInit {
       startDate = this.dateService.subtractFromNow(rangeInSeconds, "seconds");
       endDate = this.dateService.now();
     }
-    console.log(startDate, endDate);
     this.widgetManager.updateTimes(startDate, endDate);
     this.unsavedChanges = true;
   }

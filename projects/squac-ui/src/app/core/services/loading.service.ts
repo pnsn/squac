@@ -116,7 +116,6 @@ export class LoadingService {
    * @param loaderId loader id to use
    */
   startLoading(context: LoadingContext, loaderId?: LoaderId): void {
-    console.log("start loading!");
     this.setLoadingState(context, true, this.getLoaderId(loaderId));
   }
 

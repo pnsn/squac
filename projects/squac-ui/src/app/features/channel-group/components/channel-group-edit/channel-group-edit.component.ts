@@ -219,8 +219,9 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Control clicked on header
    *
-   * @param type
+   * @param type type of button click
    */
   controlClicked(type: ButtonEvent): void {
     if (type === "delete") {

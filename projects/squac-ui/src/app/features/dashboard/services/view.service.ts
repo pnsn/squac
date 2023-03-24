@@ -272,8 +272,7 @@ export class ViewService {
   /**
    * Gets info for dashboard and channel group
    *
-   * @param dashboardId dashboard id to fetch
-   * @param dashboard
+   * @param dashboard dashboard used for service
    * @param channelGroupId channel group id to find
    * @returns observable of channel group
    */

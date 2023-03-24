@@ -44,7 +44,7 @@ export function sortTimestamps(valueA: string, valueB: string): number {
  *
  * @param fn function to execute
  * @param delay amount of ms to wait
- * @param thisArg ?
+ * @param _thisArg ?
  * @returns Given observable
  * @example
  * obs$.pipe(
@@ -56,7 +56,7 @@ export function sortTimestamps(valueA: string, valueB: string): number {
 export function executeDelayed<T>(
   fn: () => void,
   delay: number,
-  thisArg?: any
+  _thisArg?: any
 ): OperatorFunction<T, T> {
   return function executeDelayedOperation(
     source: Observable<T>
