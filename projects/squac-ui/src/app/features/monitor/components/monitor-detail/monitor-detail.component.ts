@@ -128,12 +128,13 @@ export class MonitorDetailComponent implements OnInit {
       },
     ];
 
-    const chanSub = this.route.data
+    const chanSub = this.route.params
       .pipe(
         tap(() => {
           this.error = false;
         }),
-        switchMap((data) => {
+        switchMap((params) => {
+          const data = this.route.snapshot.data;
           this.monitor = data["monitor"];
           return this.loadingService.doLoading(
             forkJoin({

@@ -238,6 +238,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       intervalCount: values.intervalCount,
       stat: values.stat,
       triggers,
+      doDailyDigest: values.doDailyDigest,
     });
     this.monitorService
       .updateOrCreate(monitor)
@@ -293,7 +294,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
         stat: this.monitor.stat,
         channelGroup: this.monitor.channelGroupId,
         metric: this.selectedMetric,
-        doDailyDigest: false,
+        doDailyDigest: this.monitor.doDailyDigest,
       });
 
       this.monitor.triggers.forEach((trigger) => {
