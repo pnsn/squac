@@ -12,7 +12,8 @@ describe("ChannelGroupSelectorComponent", () => {
   let fixture: ComponentFixture<ChannelGroupSelectorComponent>;
 
   beforeEach(() => {
-    return MockBuilder(ChannelGroupSelectorComponent, SharedModule)
+    return MockBuilder(ChannelGroupSelectorComponent)
+      .mock(SharedModule)
       .provide({
         provide: ChannelGroupService,
         useValue: {

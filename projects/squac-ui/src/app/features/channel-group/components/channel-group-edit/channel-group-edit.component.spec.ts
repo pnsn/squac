@@ -15,6 +15,7 @@ import { MatchingRuleService } from "squacapi";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
+import { SharingToggleComponent } from "@shared/components/sharing-toggle/sharing-toggle.component";
 // import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe("ChannelGroupEditComponent", () => {
@@ -36,6 +37,7 @@ describe("ChannelGroupEditComponent", () => {
         ChannelService,
       ])
       .mock(FormBuilder)
+      .mock(SharingToggleComponent)
       .mock(RouterTestingModule.withRoutes([]))
       .provide({
         provide: ActivatedRoute,

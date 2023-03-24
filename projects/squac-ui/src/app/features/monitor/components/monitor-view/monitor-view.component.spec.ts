@@ -11,6 +11,8 @@ import { MockBuilder } from "ng-mocks";
 import { of } from "rxjs";
 
 import { MonitorViewComponent } from "./monitor-view.component";
+import { DetailPageComponent } from "@shared/components/detail-page/detail-page.component";
+import Route from "route-parser";
 
 describe("MonitorViewComponent", () => {
   let component: MonitorViewComponent;
@@ -18,10 +20,11 @@ describe("MonitorViewComponent", () => {
 
   beforeEach(() => {
     return MockBuilder(MonitorViewComponent)
-      .mock(RouterTestingModule.withRoutes([]))
+      .keep(RouterTestingModule.withRoutes([]))
       .mock(TableViewComponent)
       .mock(MaterialModule)
       .mock(AlertService)
+      .mock(DetailPageComponent)
       .mock(DateService)
       .mock(ConfirmDialogService)
       .mock(MonitorService)
@@ -29,6 +32,7 @@ describe("MonitorViewComponent", () => {
         provide: ActivatedRoute,
         useValue: {
           params: of(),
+          data: of(),
         },
       });
   });
