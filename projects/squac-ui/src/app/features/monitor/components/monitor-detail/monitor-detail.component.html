@@ -17,23 +17,26 @@
       <div id="monitor-container" class="column">
         <div class="row">
           <div>
-            <p>
+            <h3>Monitor Information</h3>
+            <div>
               <strong>Metric: </strong> {{ monitor.stat }} of
               {{ monitor.metricName }}
-            </p>
-            <p>
+            </div>
+            <div>
               <strong> Channel Group: </strong
               ><a [routerLink]="['/channel-groups', monitor.channelGroupId]">
                 {{ monitor.channelGroupName }}</a
               >
               ({{ channelGroup?.channels.length }} channels)
-            </p>
-            <p>
+            </div>
+            <div>
               <strong>Interval: </strong> {{ monitor.intervalCount }}
               {{ monitor.intervalType }}
-            </p>
+            </div>
 
-            <p><strong>Daily Digest: </strong> {{ monitor.doDailyDigest }}</p>
+            <div>
+              <strong>Daily Digest: </strong> {{ monitor.doDailyDigest }}
+            </div>
           </div>
 
           <div class="date-select-row">
@@ -97,6 +100,7 @@
           id="monitor-history-chart-container"
         >
           <monitor-history-chart
+            *ngIf="alerts && alerts.length > 0; else noAlerts"
             #monitorChart
             [monitor]="monitor"
             [alerts]="alerts"
@@ -133,6 +137,7 @@
           spinnerType="buffer"
         >
           <monitor-channel-history-chart
+            *ngIf="alerts && alerts.length > 0; else noAlerts"
             #channelChart
             [monitor]="monitor"
             [alerts]="alerts"

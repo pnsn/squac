@@ -16,6 +16,7 @@
     <div id="channel-group-container" class="column gray-border">
       <div id="group-info-container">
         <div>
+          <h3>Channel Group Information</h3>
           <div><strong>Name: </strong> {{ channelGroup.name }} of</div>
           <div>
             <strong> Description: </strong>
@@ -23,7 +24,7 @@
           </div>
         </div>
       </div>
-      <h4>Channels ({{ channelGroup.channels.length }}):</h4>
+      <h3>Channels ({{ channelGroup.channels.length }}):</h3>
       <div id="channel-map-container" class="row">
         <div id="channels-container">
           <channel-group-edit-table
@@ -125,7 +126,7 @@
       </div>
 
       <div id="matching-rules-container" class="column">
-        <h4>Regex Rules ({{ matchingRules.length }}):</h4>
+        <h3>Regex Rules ({{ matchingRules.length }}):</h3>
 
         <div>
           <table>
@@ -148,11 +149,11 @@
       </div>
       <div id="auto-channels-container" class="row">
         <div>
-          <h4>
+          <h3>
             Auto Included Channels ({{
               channelGroup.autoIncludeChannels.length
             }}):
-          </h4>
+          </h3>
 
           <channel-group-edit-table
             [rows]="channelGroup.autoIncludeChannels"
@@ -163,11 +164,11 @@
           </channel-group-edit-table>
         </div>
         <div>
-          <h4>
+          <h3>
             Auto Excluded Channels ({{
               channelGroup.autoExcludeChannels.length
             }}):
-          </h4>
+          </h3>
 
           <channel-group-edit-table
             [rows]="channelGroup.autoExcludeChannels"
