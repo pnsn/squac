@@ -35,7 +35,8 @@
             </div>
 
             <div>
-              <strong>Daily Digest: </strong> {{ monitor.doDailyDigest }}
+              <strong>Daily Digest: </strong>
+              {{ monitor.doDailyDigest ? "Yes" : "No" }}
             </div>
           </div>
 
@@ -67,18 +68,18 @@
         </p>
         <table id="trigger-table">
           <thead>
+            <th>Alert when:</th>
             <th>In Alarm:</th>
             <th>Last State Change:</th>
-            <th>Alert when:</th>
             <th>Also alert on exit:</th>
             <th>Recipients</th>
           </thead>
           <tbody>
             <tr *ngFor="let trigger of monitor.triggers">
-              <td>{{ trigger.inAlarm }}</td>
+              <td>{{ trigger.fullString }}</td>
+              <td>{{ trigger.inAlarm ? "Yes" : "No" }}</td>
               <td>{{ trigger.lastUpdate }}</td>
-              <td>{{ trigger.numChannelsString }} {{ trigger.valueString }}</td>
-              <td>{{ trigger.alertOnOutOfAlarm }}</td>
+              <td>{{ trigger.alertOnOutOfAlarm ? "Yes" : "No" }}</td>
               <td>{{ trigger.emailList }}</td>
             </tr>
           </tbody>
