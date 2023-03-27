@@ -68,7 +68,7 @@ export class ViewService {
   locale;
   defaultTimeRange = 3600;
   hasUnsavedChanges = new BehaviorSubject<boolean>(false);
-  private dashboardConfig = new Subject<DashboardConfig>();
+  private dashboardConfig = new BehaviorSubject<DashboardConfig>(null);
   dashboardConfig$ = this.dashboardConfig.asObservable();
   constructor(
     private dashboardService: DashboardService,
@@ -253,6 +253,7 @@ export class ViewService {
       start: this.startTime,
       end: this.endTime,
     };
+    console.log(config);
     this.dashboardConfig.next(config);
   }
 

@@ -19,7 +19,6 @@
           resource="dashboard"
         ></shared-sharing-indicator>
       </div>
-
       <ng-container *ngIf="viewService.dashboardConfig$ | async as config">
         <button
           [disabled]="!hideRows"
