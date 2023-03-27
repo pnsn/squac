@@ -50,6 +50,7 @@ export class MonitorChannelHistoryChartComponent extends EChartComponent {
     large: true,
     largeThreshold: 1000,
     legendHoverLink: true,
+    connectNulls: false,
     lineStyle: {
       width: 1,
       opacity: 1,
@@ -205,11 +206,15 @@ export class MonitorChannelHistoryChartComponent extends EChartComponent {
         dimensions,
         source,
       });
-      this.alerts.forEach((alert) => {
+      this.alerts.forEach((alert: Alert) => {
         const start = this.dateService.parseUtc(alert.timestamp);
         const end = start.add(1, "hour").toDate();
+        //channels breaching in this alert
+        const channelsInAlert = new Set<string>();
+
         alert.breachingChannels.forEach((bc: BreachingChannel) => {
           channelsWithData.add(bc.channel);
+          channelsInAlert.add(bc.channel);
           source.push([
             start.toDate(),
             end,
@@ -217,6 +222,16 @@ export class MonitorChannelHistoryChartComponent extends EChartComponent {
             bc[this.monitor.stat],
             alert.id,
           ]);
+        });
+
+        // Add a null value for each channel to disconnect the charts
+        // if a channel isn't breaching any more
+        channelsWithData.forEach((channel) => {
+          // only add a null point if channel wasn't in this
+          // alert
+          if (!channelsInAlert.has(channel)) {
+            source.push([start.toDate(), end, channel, null, alert.id]);
+          }
         });
       });
 
