@@ -253,7 +253,6 @@ export class ViewService {
       start: this.startTime,
       end: this.endTime,
     };
-    console.log(config);
     this.dashboardConfig.next(config);
   }
 
