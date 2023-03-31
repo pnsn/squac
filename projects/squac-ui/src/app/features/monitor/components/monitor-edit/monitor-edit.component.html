@@ -189,6 +189,12 @@
             If 'Alert on Exit' is true, it will also alert when the monitor is
             no longer 'in alarm'.
           </p>
+          <p class="help-text">
+            The daily digest is a summary of monitor activity over the last day.
+            The daily digest will be sent to any email listed in a trigger that
+            was in alarm in the 24 hours before the digest was evaluated,
+            instead of sending notifications for every alert.
+          </p>
           <mat-slide-toggle formControlName="doDailyDigest">
             Send daily digest instead of alerts
           </mat-slide-toggle>

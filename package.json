@@ -34,7 +34,7 @@
     "@boring.devs/ngx-datatable": "^20.0.0",
     "@casl/ability": "^6.3.1",
     "@casl/angular": "^8.1.0",
-    "@pnsn/ngx-squacapi-client": "~2.1.12-beta.15",
+    "@pnsn/ngx-squacapi-client": "~2.1.12-alpha.5",
     "@types/d3": "^7.1.0",
     "angular-gridster2": "^14.1.2",
     "colormap": "^2.3.2",
