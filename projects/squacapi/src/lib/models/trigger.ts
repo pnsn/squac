@@ -14,7 +14,7 @@ export interface Trigger {
   numChannels: number;
   numChannelsOperator: NumChannelsOperator;
   alertOnOutOfAlarm: boolean;
-  emailList: string; //comma separated
+  emails: string; //comma separated
   val1: number;
   val2?: number;
   latestAlert: Alert;
@@ -80,10 +80,21 @@ export class Trigger extends ResourceModel<
     if ("monitor" in data) {
       this.monitorId = data.monitor;
     }
+    this.emails = this.emails ?? "";
   }
 
   /** @override */
   toJson(): WriteOnlyTriggerSerializer {
+    console.log({
+      monitor: this.monitorId,
+      val1: this.val1,
+      val2: this.val2,
+      value_operator: this.valueOperator,
+      num_channels: this.numChannels,
+      num_channels_operator: this.numChannelsOperator,
+      alert_on_out_of_alarm: this.alertOnOutOfAlarm,
+      emails: this.emails,
+    });
     return {
       monitor: this.monitorId,
       val1: this.val1,
@@ -92,7 +103,7 @@ export class Trigger extends ResourceModel<
       num_channels: this.numChannels,
       num_channels_operator: this.numChannelsOperator,
       alert_on_out_of_alarm: this.alertOnOutOfAlarm,
-      email_list: this.emailList,
+      emails: this.emails,
     };
   }
 }

@@ -27,6 +27,7 @@ import { Metric } from "squacapi";
 import { MessageService } from "@core/services/message.service";
 import { merge, Subscription } from "rxjs";
 import { switchMap } from "rxjs/operators";
+import { emailListStringValidator } from "@core/utils/validators";
 
 interface TriggerForm {
   id: FormControl<number>;
@@ -36,7 +37,7 @@ interface TriggerForm {
   numChannels: FormControl<number>;
   numChannelsOperator: FormControl<NumChannelsOperator>;
   alertOnOutOfAlarm: FormControl<boolean>;
-  emailList: FormControl<string>;
+  emails: FormControl<string>;
 }
 
 interface MonitorForm {
@@ -71,9 +72,6 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   monitor: Monitor;
   channelGroups: any;
   metrics: Metric[];
-  emailValidator: Validators = Validators.pattern(
-    /^([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4},?)+$/
-  );
   hideRequiredMarker = true;
   floatLabel = "always";
   removeTriggerIDs = [];
@@ -153,7 +151,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
           Validators.required,
         ],
         alertOnOutOfAlarm: [trigger ? trigger.alertOnOutOfAlarm : false],
-        emailList: [trigger ? trigger.emailList : null, Validators.email], //this.emailValidator
+        emails: [trigger ? trigger.emails : null, emailListStringValidator()], //this.emailValidator
       },
       { updateOn: "blur" }
     );
@@ -229,6 +227,9 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   save(): void {
     const values = this.monitorForm.value;
     const triggers = this.triggers.value as Trigger[];
+    triggers.forEach((t) => {
+      console.log(t.emails);
+    });
     const monitor = new Monitor({
       id: this.id,
       name: values.name,

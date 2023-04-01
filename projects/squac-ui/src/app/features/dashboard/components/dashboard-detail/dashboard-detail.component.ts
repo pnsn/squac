@@ -67,7 +67,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     this.hasUnsavedChanges = this.viewService.hasUnsavedChanges.asObservable();
-    const paramsSub = this.route.params
+    const paramsSub = this.route.data
       .pipe(
         tap(() => {
           this.error = null;
