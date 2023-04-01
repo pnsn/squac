@@ -48,6 +48,7 @@ export function atLeastOneValidator(fields: string[]): ValidatorFn {
 
 /**
  * Checks that at all emails in a comma separated string are valid
+ *
  * @returns function that resolves to true if all emails are valid
  */
 export function emailListStringValidator(): ValidatorFn {

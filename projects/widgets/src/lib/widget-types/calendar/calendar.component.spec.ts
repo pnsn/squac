@@ -30,6 +30,7 @@ describe("CalendarComponent", () => {
     component = fixture.componentInstance;
     component.selectedMetrics = [];
     component.channels = [];
+    component.properties = {};
     fixture.detectChanges();
   });
 
