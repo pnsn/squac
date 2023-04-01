@@ -1,8 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import {
-  MatButtonToggleGroup,
-  MatButtonToggleModule,
-} from "@angular/material/button-toggle";
+import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { SharedModule } from "@shared/shared.module";
 import { MockBuilder } from "ng-mocks";
 import { OrganizationPipe, UserPipe } from "squacapi";

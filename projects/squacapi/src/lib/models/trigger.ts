@@ -85,16 +85,6 @@ export class Trigger extends ResourceModel<
 
   /** @override */
   toJson(): WriteOnlyTriggerSerializer {
-    console.log({
-      monitor: this.monitorId,
-      val1: this.val1,
-      val2: this.val2,
-      value_operator: this.valueOperator,
-      num_channels: this.numChannels,
-      num_channels_operator: this.numChannelsOperator,
-      alert_on_out_of_alarm: this.alertOnOutOfAlarm,
-      emails: this.emails,
-    });
     return {
       monitor: this.monitorId,
       val1: this.val1,

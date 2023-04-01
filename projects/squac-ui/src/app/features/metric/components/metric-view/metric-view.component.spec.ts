@@ -9,7 +9,6 @@ import { TableViewComponent } from "@shared/components/table-view/table-view.com
 import { ActivatedRoute } from "@angular/router";
 import { of, Subject } from "rxjs";
 import { DetailPageComponent } from "@shared/components/detail-page/detail-page.component";
-import Route from "route-parser";
 
 describe("MetricViewComponent", () => {
   let component: MetricViewComponent;

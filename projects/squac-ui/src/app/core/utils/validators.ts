@@ -45,28 +45,24 @@ export function atLeastOneValidator(fields: string[]): ValidatorFn {
       : { atLeastOne: { message: "At least one regex required" } };
   };
 }
-/^([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4},?)+$/;
 
 /**
- * Checks that at least one of the form fields has a value
- *
- * @param fields array of form field names
- * @returns function that resolves to true if at least one field is populated
+ * Checks that at all emails in a comma separated string are valid
+ * @returns function that resolves to true if all emails are valid
  */
 export function emailListStringValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    let isValid = true;
     if (!control.value) {
       return null;
     }
+    let isValid = false;
+    const emails = control.value.split(",");
 
-    let emails = control.value.split(",");
-
-    emails?.reverse().forEach((email: string) => {
+    isValid = emails?.every((email: string) => {
       const regex = new RegExp(/([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4})+/, "gm");
-      if (!regex.test(email.trim())) {
-        isValid = false;
-      }
+      const e = email.trim();
+      if (!e) return true;
+      return regex.test(email.trim());
     });
 
     return isValid ? null : { email: { message: "Invalid regex" } };

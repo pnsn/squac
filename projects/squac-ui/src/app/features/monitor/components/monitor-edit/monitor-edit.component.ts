@@ -227,9 +227,6 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   save(): void {
     const values = this.monitorForm.value;
     const triggers = this.triggers.value as Trigger[];
-    triggers.forEach((t) => {
-      console.log(t.emails);
-    });
     const monitor = new Monitor({
       id: this.id,
       name: values.name,

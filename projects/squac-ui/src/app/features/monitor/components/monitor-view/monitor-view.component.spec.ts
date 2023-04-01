@@ -12,7 +12,6 @@ import { of } from "rxjs";
 
 import { MonitorViewComponent } from "./monitor-view.component";
 import { DetailPageComponent } from "@shared/components/detail-page/detail-page.component";
-import Route from "route-parser";
 
 describe("MonitorViewComponent", () => {
   let component: MonitorViewComponent;
