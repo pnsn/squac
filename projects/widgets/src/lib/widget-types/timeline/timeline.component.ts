@@ -39,14 +39,24 @@ export class TimelineComponent
   ) {
     super(widgetManager, widgetConnector);
   }
-
-  override fullOptions = {
+  override denseOptions: EChartsOption = {
     grid: {
-      containLabel: true,
+      containLabel: false,
+      top: 10,
+      right: 10,
+      left: 105,
+      bottom: 32,
+    },
+    dataZoom: [],
+  };
+
+  override fullOptions: EChartsOption = {
+    grid: {
+      containLabel: false,
       top: 5,
       right: 10,
-      bottom: 38,
-      left: 30,
+      left: 125,
+      bottom: 52,
     },
     dataZoom: this.chartDefaultOptions.dataZoom,
   };
