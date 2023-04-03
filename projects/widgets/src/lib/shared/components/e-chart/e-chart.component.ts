@@ -37,7 +37,7 @@ export abstract class EChartComponent
   chartDefaultOptions: EChartsOption = ECHART_DEFAULTS;
 
   denseOptions = ECHART_DENSE_DEFAULTS;
-  fullOptions = {
+  fullOptions: EChartsOption = {
     grid: this.chartDefaultOptions.grid,
     dataZoom: this.chartDefaultOptions.dataZoom,
   };

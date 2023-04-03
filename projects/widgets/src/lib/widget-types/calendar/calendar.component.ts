@@ -42,40 +42,23 @@ export class CalendarComponent
   // Max allowable time between measurements to connect
   maxMeasurementGap: number = 1 * 1000;
   precisionPipe = new PrecisionPipe();
-  override denseOptions: {
+  override denseOptions: EChartsOption = {
     grid: {
-      containLabel: true;
-      left: number;
-      top: number;
-      right: number;
-      bottom?: number;
-    };
-    dataZoom: any[];
-  } = {
-    grid: {
-      containLabel: true,
-      top: 5,
+      containLabel: false,
+      top: 10,
       right: 10,
-      left: 10,
+      left: 105,
     },
     dataZoom: [],
   };
-  override fullOptions = {
+  override fullOptions: EChartsOption = {
     grid: {
-      containLabel: true,
+      containLabel: false,
       top: 5,
       right: 10,
-      left: 30,
+      left: 125,
     },
     dataZoom: this.chartDefaultOptions.dataZoom,
-  };
-
-  grid: {
-    containLabel: boolean;
-    left: number;
-    top: number;
-    right: number;
-    bottom?: number;
   };
 
   xAxisConfig: XAXisComponentOption = {
@@ -127,7 +110,8 @@ export class CalendarComponent
    * @override
    */
   configureChart(): void {
-    const bottomMargin = this.getBottomMargin();
+    this.denseOptions["grid"]["bottom"] = this.getBottomMargin(true);
+    this.fullOptions["grid"]["bottom"] = this.getBottomMargin(false);
     const dataZoom = this.denseView
       ? this.denseOptions.dataZoom
       : this.fullOptions.dataZoom;
@@ -138,7 +122,6 @@ export class CalendarComponent
       ...this.chartDefaultOptions,
       grid: {
         ...grid,
-        bottom: bottomMargin,
       },
       dataZoom,
       yAxis: {
@@ -317,16 +300,17 @@ export class CalendarComponent
     });
   }
 
-  /** @returns margin for bottom of chart */
-  private getBottomMargin(): number {
+  /**
+   * calculated bottom margin for chart
+   * @param dense true if no zoom is used
+   * @returns margin for bottom of chart
+   * */
+  private getBottomMargin(dense: boolean): number {
     //denseview has no zoom bar
-    let margin = this.denseView ? 0 : 24;
+    let margin = dense ? 32 : 52;
 
-    if (
-      this.properties.displayType !== "hours-week" &&
-      this.denseView !== undefined
-    ) {
-      margin += 14;
+    if (this.properties.displayType === "hours-week") {
+      margin += 12;
     }
     return margin;
   }
