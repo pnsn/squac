@@ -86,11 +86,7 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
    * @param item channel nslc
    */
   mouseenter(item: string): void {
-    clearTimeout(this.timeout);
-    this.timeout = setTimeout(() => {
-      this.widgetConnectService.emphasizedChannel.next(null);
-      this.widgetConnectService.emphasizedChannel.next(item);
-    }, 0);
+    this.widgetConnectService.emphasizedChannel.next(item);
   }
 
   /**
@@ -99,7 +95,7 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
    * @param _item channel nslc
    */
   mouseleave(_item: string): void {
-    this.widgetConnectService.deemphasizeChannel.next(null);
+    // this.widgetConnectService.deemphasizeChannel.next(null);
   }
 
   /**

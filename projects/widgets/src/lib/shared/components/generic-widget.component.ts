@@ -120,7 +120,7 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
         this.deemphasizeChannel(channel);
       }
     );
-    const emphSub = this.widgetConnector?.emphasizedChannel.subscribe(
+    const emphSub = this.widgetConnector?.emphasizedChannel$.subscribe(
       (channel) => {
         this.emphasizeChannel(channel);
       }
