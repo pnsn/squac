@@ -3,7 +3,7 @@ import {
   ApiService,
   OrganizationUsersListRequestParams,
 } from "@pnsn/ngx-squacapi-client";
-import { BaseReadOnlyApiService } from "./generic-api.service";
+import { BaseWriteableApiService } from "./generic-api.service";
 import { ApiEndpoint } from "../enums";
 import { WriteableApiService } from "../interfaces";
 
@@ -16,7 +16,7 @@ import { Observable } from "rxjs";
 @Injectable({
   providedIn: "root",
 })
-export class OrganizationUserService extends BaseReadOnlyApiService<User> {
+export class OrganizationUserService extends BaseWriteableApiService<User> {
   constructor(override api: ApiService) {
     super(ApiEndpoint.ORGANIZATION_USER, api);
   }

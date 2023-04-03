@@ -7,7 +7,6 @@ import {
 import { EChartComponent } from "../../shared/components";
 import { ProcessedData, WidgetTypeComponent } from "../../interfaces";
 import {
-  EChartsOption,
   ParallelSeriesOption,
   TooltipComponentFormatterCallbackParams,
 } from "echarts";
@@ -32,11 +31,17 @@ export class ParallelPlotComponent
     super(widgetManager, widgetConnectService);
   }
 
+  /** @override */
+  override useDenseView(_useDenseView: boolean): void {
+    return;
+  }
+
   /**
    * @override
    */
   configureChart(): void {
-    const chartOptions: EChartsOption = {
+    this.options = {
+      ...this.chartDefaultOptions,
       parallel: {
         left: 10,
         bottom: 20,
@@ -45,23 +50,25 @@ export class ParallelPlotComponent
         parallelAxisDefault: {
           nameTextStyle: {
             width: 15,
+            fontSize: 11,
             // overflow: "break",
           },
         },
       },
       visualMap: [],
       grid: {
+        ...this.chartDefaultOptions.grid,
         left: 10,
       },
       xAxis: {},
       yAxis: {},
       tooltip: {
+        ...this.chartDefaultOptions.tooltip,
         formatter: (params: TooltipComponentFormatterCallbackParams) =>
           this.widgetConfigService.multiMetricTooltipFormatting(params),
       },
       dataZoom: [],
     };
-    this.options = this.widgetConfigService.chartOptions(chartOptions);
   }
 
   /**
@@ -143,10 +150,6 @@ export class ParallelPlotComponent
       parallelAxis: this.metricSeries.axis,
     };
     if (this.echartsInstance) {
-      this.echartsInstance.setOption(this.updateOptions, {
-        replaceMerge: ["series"],
-      });
-
       this.resize();
     }
   }

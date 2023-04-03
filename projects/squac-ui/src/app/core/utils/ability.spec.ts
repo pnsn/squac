@@ -15,7 +15,7 @@ describe("Ability", () => {
     lastname: "lastName",
     organization: 1,
     is_staff: false,
-    groups: new Set([]),
+    groups: [],
   });
 
   beforeEach(() => {
@@ -37,7 +37,7 @@ describe("Ability", () => {
       lastname: "lastName",
       organization: 1,
       is_staff: true,
-      groups: new Set([]),
+      groups: [],
     });
     adminUser.isStaff = true;
     testAbility.update(defineAbilitiesFor(adminUser));
@@ -45,21 +45,21 @@ describe("Ability", () => {
   });
 
   it("should allow with permission", () => {
-    testUser.groups = new Set(["viewer"]);
+    testUser.groups = ["viewer"];
 
     testAbility.update(defineAbilitiesFor(testUser));
     expect(testAbility.can("read", "Dashboard")).toEqual(true);
   });
 
   it("should not allow without permission", () => {
-    testUser.groups = new Set(["viewer"]);
+    testUser.groups = ["viewer"];
 
     testAbility.update(defineAbilitiesFor(testUser));
     expect(testAbility.can("update", "Dashboard")).toEqual(false);
   });
 
   it("should allow for multiple groups", () => {
-    testUser.groups = new Set(["viewer", "contributor"]);
+    testUser.groups = ["viewer", "contributor"];
 
     testAbility.update(defineAbilitiesFor(testUser));
 
@@ -67,7 +67,7 @@ describe("Ability", () => {
   });
 
   it("should allow user to update owned object", () => {
-    testUser.groups = new Set(["viewer", "contributor", "reporter"]);
+    testUser.groups = ["viewer", "contributor", "reporter"];
     const testDashboard = new Dashboard({
       id: 1,
       user: testUser.id,
@@ -80,7 +80,7 @@ describe("Ability", () => {
   });
 
   it("should not allow user to update not owned object", () => {
-    testUser.groups = new Set(["viewer", "contributor", "reporter"]);
+    testUser.groups = ["viewer", "contributor", "reporter"];
     const testDashboard = new Dashboard({
       id: 1,
       user: 3,

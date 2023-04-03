@@ -7,7 +7,8 @@ import { MaterialModule } from "@shared/material.module";
 import { RouterTestingModule } from "@angular/router/testing";
 import { TableViewComponent } from "@shared/components/table-view/table-view.component";
 import { ActivatedRoute } from "@angular/router";
-import { Subject } from "rxjs";
+import { of, Subject } from "rxjs";
+import { DetailPageComponent } from "@shared/components/detail-page/detail-page.component";
 
 describe("MetricViewComponent", () => {
   let component: MetricViewComponent;
@@ -15,16 +16,18 @@ describe("MetricViewComponent", () => {
 
   beforeEach(() => {
     return MockBuilder(MetricViewComponent)
-      .mock(RouterTestingModule.withRoutes([]))
+      .keep(RouterTestingModule.withRoutes([]))
       .provide({
         provide: ActivatedRoute,
         useValue: {
           params: new Subject(),
+          data: of(),
         },
       })
       .mock(TableViewComponent)
       .mock(MaterialModule)
       .mock(MetricService)
+      .mock(DetailPageComponent)
       .mock(AbilityModule);
   });
 

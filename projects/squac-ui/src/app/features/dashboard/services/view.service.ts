@@ -3,9 +3,7 @@
 import { Injectable } from "@angular/core";
 import { AppAbility } from "@core/utils/ability";
 import { DateService } from "@core/services/date.service";
-import { LoadingService } from "@core/services/loading.service";
 import { MessageService } from "@core/services/message.service";
-import { Dayjs } from "dayjs";
 import {
   BehaviorSubject,
   catchError,
@@ -14,7 +12,6 @@ import {
   of,
   ReplaySubject,
   Subject,
-  switchMap,
   tap,
 } from "rxjs";
 import {
@@ -28,6 +25,16 @@ import {
   WidgetService,
 } from "squacapi";
 import { Widget } from "widgets";
+import { TimeRange } from "@shared/components/date-select/time-range.interface";
+import { DATE_PICKER_TIMERANGES } from "@dashboard/components/dashboard-detail/dashboard-time-ranges";
+
+export interface DashboardConfig {
+  stat?: string;
+  start?: string;
+  end?: string;
+  archive?: string;
+  range?: string;
+}
 
 /**
  * Service for managing dashboard and widget data
@@ -38,6 +45,7 @@ import { Widget } from "widgets";
   providedIn: "root",
 })
 export class ViewService {
+  datePickerTimeRanges = DATE_PICKER_TIMERANGES;
   channels = new BehaviorSubject<Channel[]>([]); //actual channels used
   private _channelsList: Record<string, boolean>; //{ 'SCNL': boolean }
   private _channels: Channel[] = []; //all available channels
@@ -51,6 +59,7 @@ export class ViewService {
   widgetUpdated = new Subject<number>();
   error = new BehaviorSubject<string>(null);
   loadingCount = 0;
+  private timeRange: TimeRange;
   private autoRefresh: boolean;
   // refresh = new Subject<number>();
 
@@ -58,15 +67,16 @@ export class ViewService {
   queuedWidgets = 0;
   locale;
   defaultTimeRange = 3600;
-  hasUnsavedChanges = false;
+  hasUnsavedChanges = new BehaviorSubject<boolean>(false);
+  private dashboardConfig = new BehaviorSubject<DashboardConfig>(null);
+  dashboardConfig$ = this.dashboardConfig.asObservable();
   constructor(
     private dashboardService: DashboardService,
     private widgetService: WidgetService,
     private ability: AppAbility,
     private dateService: DateService,
     private messageService: MessageService,
-    private channelGroupService: ChannelGroupService,
-    private loadingService: LoadingService
+    private channelGroupService: ChannelGroupService
   ) {}
 
   /** @returns current dashboard */
@@ -88,7 +98,9 @@ export class ViewService {
   get startTime(): string {
     let startTime;
     if (this.range) {
-      startTime = this.dateService.subtractFromNow(this.range, "seconds");
+      startTime = this.dateService
+        .subtractFromNow(this.range, "seconds")
+        .startOf("minute");
       startTime = this.dateService.format(startTime);
     } else {
       startTime = this.dashboard?.properties.startTime;
@@ -100,7 +112,7 @@ export class ViewService {
   get endTime(): string {
     let endTime;
     if (this.range) {
-      endTime = this.dateService.now();
+      endTime = this.dateService.now().startOf("minute");
       endTime = this.dateService.format(endTime);
     } else {
       endTime = this.dashboard?.properties.endTime;
@@ -141,7 +153,7 @@ export class ViewService {
    *
    * @param dashboard new dashboard to intialize
    */
-  setDashboard(dashboard: Dashboard): void {
+  initDashboard(dashboard: Dashboard): void {
     // clear old widgets
     this.currentWidgets.next([]);
     this.queuedWidgets = 0;
@@ -159,7 +171,7 @@ export class ViewService {
    */
   updateChannelGroup(channelGroupId: number): void {
     this._channelGroupId = channelGroupId;
-    this.hasUnsavedChanges = true;
+    this.hasUnsavedChanges.next(true);
   }
 
   /**
@@ -190,7 +202,7 @@ export class ViewService {
    */
   updateChannels(list: Record<string, boolean>): void {
     this._channelsList = list;
-    this.hasUnsavedChanges = true;
+    this.hasUnsavedChanges.next(true);
   }
 
   /**
@@ -218,15 +230,30 @@ export class ViewService {
     ) {
       this._channelGroupId;
       this.dashboard.channelGroupId = this._channelGroupId;
-      this.loadingService
-        .doLoading(this.getChannelGroup(this._channelGroupId), this.dashboard)
-        .subscribe(() => {
+
+      this.getChannelGroup(this._channelGroupId).subscribe({
+        next: () => {
           this.sendUpdate();
-        });
+        },
+      });
     } else {
       // otherwise just send updated info
       this.sendUpdate();
     }
+  }
+
+  /**
+   * Emits updated dashboard configuration
+   */
+  updateDashboardConfig(): void {
+    const config: DashboardConfig = {
+      stat: this.archiveStat,
+      archive: this.archiveType,
+      range: this.timeRange?.label,
+      start: this.startTime,
+      end: this.endTime,
+    };
+    this.dashboardConfig.next(config);
   }
 
   /**
@@ -238,44 +265,36 @@ export class ViewService {
     const channels = this.filterChannels();
     this.channels.next(channels);
     this.updateData.next({ dashboard: this.dashboard.id });
-    this.hasUnsavedChanges = false;
+    this.updateDashboardConfig();
+    this.hasUnsavedChanges.next(false);
   }
 
   /**
    * Gets info for dashboard and channel group
    *
-   * @param dashboardId dashboard id to fetch
+   * @param dashboard dashboard used for service
    * @param channelGroupId channel group id to find
    * @returns observable of channel group
    */
-  setDashboardById(
-    dashboardId: number,
+  setDashboard(
+    dashboard: Dashboard,
     channelGroupId: number
   ): Observable<ChannelGroup> {
     this._widgets = [];
     this._channelGroupId = null;
     this._channels = [];
-    return this.dashboardService.read(dashboardId).pipe(
-      tap({
-        next: (dashboard) => {
-          this.setDashboard(dashboard);
-        },
-        error: () => {
-          //do something about error
-        },
-      }),
-      switchMap((dashboard) => {
-        const groupId = channelGroupId || dashboard.channelGroupId;
-        if (groupId) {
-          return this.getChannelGroup(groupId);
-        } else {
-          return of(null);
-        }
-      }),
-      tap(() => {
-        this.updateDashboard();
-      })
-    );
+    const groupId = channelGroupId || dashboard.channelGroupId;
+    this.initDashboard(dashboard);
+
+    if (groupId) {
+      return this.getChannelGroup(groupId).pipe(
+        tap(() => {
+          this.updateDashboard();
+        })
+      );
+    } else {
+      return of(null);
+    }
   }
 
   /**
@@ -291,6 +310,10 @@ export class ViewService {
       // has a time range
       autoRefresh = this.dashboard.properties.autoRefresh;
       range = this.dashboard.properties.timeRange;
+
+      this.timeRangeChanged(
+        this.dateService.findRangeFromSeconds(this.datePickerTimeRanges, range)
+      );
     } else if (
       // has start and end dates
       this.dashboard.properties.startTime &&
@@ -298,10 +321,9 @@ export class ViewService {
     ) {
       // has start and end dates
       autoRefresh = false;
-      startDate = this.dateService.parseUtc(
-        this.dashboard.properties.startTime
-      );
-      endDate = this.dateService.parseUtc(this.dashboard.properties.endTime);
+      startDate = this.dashboard.properties.startTime;
+
+      endDate = this.dashboard.properties.endTime;
     } else {
       // use default dates
       autoRefresh = true;
@@ -322,22 +344,29 @@ export class ViewService {
    * @param rangeInSeconds width of time range in seconds
    */
   datesChanged(
-    startDate: Dayjs,
-    endDate: Dayjs,
+    startDate: string,
+    endDate: string,
     autoRefresh: boolean,
     rangeInSeconds: number
   ): void {
     this.autoRefresh = autoRefresh;
     this._dashboard.properties.timeRange = rangeInSeconds;
-    let startTime;
-    let endTime;
-    if (startDate && endDate) {
-      startTime = this.dateService.format(startDate);
-      endTime = this.dateService.format(endDate);
+
+    this._dashboard.properties.startTime = startDate;
+    this._dashboard.properties.endTime = endDate;
+    this.hasUnsavedChanges.next(true);
+  }
+
+  /**
+   * Saves updated timeRange to dashboard
+   *
+   * @param timeRange timeRange for dashboard
+   */
+  timeRangeChanged(timeRange: TimeRange): void {
+    this.timeRange = timeRange;
+    if (!this.hasUnsavedChanges.getValue()) {
+      this.updateDashboardConfig();
     }
-    this._dashboard.properties.startTime = startTime;
-    this._dashboard.properties.endTime = endTime;
-    this.hasUnsavedChanges = true;
   }
 
   /**
@@ -396,10 +425,9 @@ export class ViewService {
     if (archiveType === "raw") {
       this._dashboard.properties.archiveStat = null;
     }
-    this.hasUnsavedChanges = true;
+    this.hasUnsavedChanges.next(true);
   }
 
-  // broadcast id of changed widget
   /**
    * Emits id of changed widget and clears errors
    *
@@ -408,6 +436,17 @@ export class ViewService {
   private widgetChanged(widgetId: number): void {
     this.widgetUpdated.next(widgetId);
     this.error.next(null);
+  }
+
+  /**
+   * Updates dashboard properties
+   *
+   * @param propertyKey property key
+   * @param value property value
+   */
+  updateDashboardProperty(propertyKey: string, value: unknown): void {
+    this._dashboard.properties[propertyKey] = value;
+    this.hasUnsavedChanges.next(true);
   }
 
   /**
@@ -469,7 +508,7 @@ export class ViewService {
    *
    * @param widgetId widget to delete
    */
-  deleteWidget(widgetId): void {
+  deleteWidget(widgetId: number): void {
     this.widgetService.delete(widgetId).subscribe({
       next: () => {
         this.updateWidget(widgetId);
@@ -486,7 +525,7 @@ export class ViewService {
    *
    * @param dashboardId dashboard to delete
    */
-  deleteDashboard(dashboardId): void {
+  deleteDashboard(dashboardId: number): void {
     this.dashboardService.delete(dashboardId).subscribe({
       next: () => {
         this.messageService.message("Dashboard deleted.");
@@ -498,13 +537,19 @@ export class ViewService {
   }
 
   /**
-   * Saves current dashboard to squacapi
+   * Saves dashboard using partial update
+   *
+   * @param keys keys to update in model
    */
-  saveDashboard(): void {
-    this.dashboardService.updateOrCreate(this.dashboard).subscribe({
-      error: () => {
-        this.messageService.error("Could not save dashboard.");
-      },
-    });
+  saveDashboard(keys: string[] = []): void {
+    if (this.ability.can("update", this.dashboard)) {
+      this.dashboardService
+        .partialUpdate(this.dashboard, keys, true)
+        .subscribe({
+          error: () => {
+            this.messageService.error("Could not save dashboard.");
+          },
+        });
+    }
   }
 }

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { WidgetDetailComponent } from "./widget-detail.component";
 import { RouterTestingModule } from "@angular/router/testing";
-import { Widget } from "widgets";
+import { Widget, WidgetConnectService, WidgetManagerService } from "widgets";
 import { ViewService } from "@dashboard/services/view.service";
 import { MockBuilder } from "ng-mocks";
 import { BehaviorSubject, Subject } from "rxjs";
@@ -21,12 +21,26 @@ describe("WidgetDetailComponent", () => {
     return MockBuilder(WidgetDetailComponent)
       .keep(RouterTestingModule.withRoutes([]))
       .mock(DashboardService)
-      .mock(WidgetDataService)
       .mock(MetricToggleComponent)
       .mock(MatMenuModule)
       .mock(MatIconModule)
       .mock(LoadingDirective)
       .mock(AbilityModule)
+      .mock(WidgetDataService)
+      .provide({
+        provide: WidgetManagerService,
+        useValue: {
+          widget$: new Subject(),
+          zoomStatus$: new Subject(),
+          toggleKey$: new Subject(),
+        },
+      })
+      .provide({
+        provide: WidgetConnectService,
+        useValue: {
+          useDenseView: new Subject(),
+        },
+      })
       .provide({
         provide: ViewService,
         useValue: {

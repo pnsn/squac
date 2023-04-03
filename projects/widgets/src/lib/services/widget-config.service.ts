@@ -27,6 +27,7 @@ import {
   EChartsOption,
   TooltipComponentFormatterCallbackParams,
 } from "echarts";
+import { ECHART_DEFAULTS } from "../shared/components/e-chart/chart-config";
 
 /**
  * Service to configure widgets
@@ -80,102 +81,7 @@ export class WidgetConfigService {
   };
 
   // defaults for echarts charts
-  chartDefaults: EChartsOption = {
-    textStyle: {
-      fontSize: 11,
-    },
-    animation: false,
-    legend: {
-      show: false,
-    },
-    grid: {
-      containLabel: true,
-      top: 5,
-      right: 8,
-      bottom: 38,
-      left: 35,
-    },
-    useUtc: true,
-    toolbox: {
-      feature: {
-        dataZoom: {
-          icon: null,
-        },
-      },
-    },
-    tooltip: {
-      padding: 4,
-      confine: true,
-      trigger: "item",
-      axisPointer: {
-        type: "cross",
-      },
-      textStyle: {
-        fontSize: 11,
-      },
-      // position: function (pt) {
-      //   return [pt[0], "10%"];
-      // },
-    },
-    dataZoom: [
-      {
-        type: "inside",
-        moveOnMouseWheel: true,
-        zoomOnMouseWheel: false,
-        orient: "vertical",
-        filterMode: "none",
-      },
-      {
-        type: "slider",
-        realtime: true,
-        orient: "horizontal",
-        moveHandleSize: 10,
-        height: 15,
-        showDetail: false,
-        showDataShadow: false,
-        bottom: 10,
-        right: 20,
-        xAxisIndex: [0, 1],
-        filterMode: "none",
-      },
-      {
-        type: "slider",
-        realtime: true,
-        orient: "vertical",
-        left: "left",
-        showDataShadow: false,
-        moveHandleSize: 10,
-        showDetail: false,
-        width: 15,
-        filterMode: "none",
-      },
-    ],
-  };
-
-  /**
-   * Copy new options onto defaults
-   *
-   * @param options - options to add
-   * @returns combined options
-   */
-  chartOptions(options: EChartsOption): EChartsOption {
-    const newOptions = { ...this.chartDefaults };
-
-    Object.keys(options).forEach((key) => {
-      if (!(key in newOptions)) {
-        newOptions[key] = {};
-      }
-      const keyOptions = options[key];
-      if (Object.keys(keyOptions).length > 0 && !Array.isArray(keyOptions)) {
-        Object.keys(keyOptions).forEach((childKey) => {
-          newOptions[key][childKey] = keyOptions[childKey];
-        });
-      } else {
-        newOptions[key] = options[key];
-      }
-    });
-    return newOptions;
-  }
+  chartDefaults: EChartsOption = ECHART_DEFAULTS;
 
   //can use this.thresholds or another metric to color?
   /**

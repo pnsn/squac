@@ -1,31 +1,29 @@
 @import "variables";
 
-:host ::ng-deep .mat-button-toggle-label-content {
-  padding: 3px !important;
-  line-height: unset !important;
+.config-row {
+  justify-content: flex-end;
 }
-
-button {
-  height: 33px;
-  line-height: 2;
-  padding: 0px 10px;
+.opened {
+  opacity: 0.65;
 }
-
 #dashboard-header {
+  padding: 0px 10px;
   top: 0px;
   position: sticky;
   position: -webkit-sticky;
-  padding: 3px;
   z-index: 100;
   gap: 3px;
+
   & > .row {
     align-items: center;
     flex-wrap: wrap;
-    gap: 3px;
+    gap: 5px;
   }
-  mat-button-toggle {
-    max-height: 40px;
-    max-width: 40px;
+  button[mat-icon-button] {
+    font-size: 18px;
+    height: 32px;
+    width: 32px;
+    line-height: 18px;
   }
   mat-menu-item {
     span {
@@ -33,7 +31,6 @@ button {
     }
   }
   #dashboard-info {
-    margin-left: 10px;
     h2 {
       display: inline;
       font-size: 12pt;

@@ -6,10 +6,7 @@ import {
 } from "../../services";
 import { ProcessedData, WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../../shared/components";
-import {
-  EChartsOption,
-  TooltipComponentFormatterCallbackParams,
-} from "echarts";
+import { TooltipComponentFormatterCallbackParams } from "echarts";
 
 /**
  * Scatter plot widget
@@ -31,17 +28,51 @@ export class ScatterPlotComponent
     super(widgetManager, widgetConnectService);
   }
 
+  override denseOptions: {
+    grid: {
+      containLabel: true;
+      left: number;
+      bottom: number;
+      top: number;
+      right: number;
+    };
+    dataZoom: any[];
+  } = {
+    grid: {
+      containLabel: true,
+      top: 5,
+      right: 10,
+      left: 30,
+      bottom: 15,
+    },
+    dataZoom: [],
+  };
+
+  override fullOptions = {
+    grid: { containLabel: true, top: 5, right: 10, bottom: 38, left: 50 },
+    dataZoom: this.chartDefaultOptions.dataZoom,
+  };
+
   /**
    * @override
    */
   configureChart(): void {
-    const chartOptions: EChartsOption = {
+    const dataZoom = this.denseView
+      ? this.denseOptions.dataZoom
+      : this.fullOptions.dataZoom;
+    const grid = this.denseView
+      ? this.denseOptions.grid
+      : this.fullOptions.grid;
+
+    this.options = {
+      ...this.chartDefaultOptions,
       series: [],
-      grid: {
-        left: 50,
-      },
+      grid,
+      dataZoom,
       xAxis: {
         axisLabel: {
+          hideOverlap: true,
+          fontSize: 11,
           formatter: (value: number): string => {
             return value.toPrecision(4);
           },
@@ -72,12 +103,11 @@ export class ScatterPlotComponent
         nameGap: 10,
       },
       tooltip: {
+        ...this.chartDefaultOptions.tooltip,
         formatter: (params: TooltipComponentFormatterCallbackParams) =>
           this.widgetConfigService.multiMetricTooltipFormatting(params),
       },
     };
-
-    this.options = this.widgetConfigService.chartOptions(chartOptions);
   }
 
   /**
@@ -136,6 +166,7 @@ export class ScatterPlotComponent
     const yMetric = this.selectedMetrics[1];
     const colorMetric = this.selectedMetrics[2];
     const visualMaps = this.visualMaps[colorMetric.id];
+    visualMaps.show = this.showKey;
     this.updateOptions = {
       series: this.metricSeries.series,
       xAxis: {
@@ -146,10 +177,5 @@ export class ScatterPlotComponent
         name: `${yMetric.name} (${yMetric.unit})`,
       },
     };
-    if (this.echartsInstance) {
-      this.echartsInstance.setOption(this.updateOptions, {
-        replaceMerge: ["series"],
-      });
-    }
   }
 }

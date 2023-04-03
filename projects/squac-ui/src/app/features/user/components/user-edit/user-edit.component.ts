@@ -2,12 +2,21 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
   Validators,
-  UntypedFormControl,
-  UntypedFormGroup,
   ValidationErrors,
+  FormControl,
+  FormGroup,
 } from "@angular/forms";
 import { InviteService } from "squacapi";
 
+interface PasswordsForm {
+  password: FormControl<string>;
+  confirm: FormControl<string>;
+}
+interface UserForm {
+  firstname: FormControl<string>;
+  lastname: FormControl<string>;
+  passwords: FormGroup<PasswordsForm>;
+}
 /**
  * User edit component after creation
  */
@@ -27,7 +36,7 @@ export class UserEditComponent implements OnInit {
   hide = true; // show/hide password
   attempts = 0; // soft block for too many
   token: string; // the token
-  userForm: UntypedFormGroup;
+  userForm: FormGroup<UserForm>;
 
   /** init form */
   ngOnInit(): void {
@@ -35,16 +44,16 @@ export class UserEditComponent implements OnInit {
       this.token = params["token"];
     });
 
-    this.userForm = new UntypedFormGroup({
-      firstname: new UntypedFormControl("", [Validators.required]),
-      lastname: new UntypedFormControl("", [Validators.required]),
-      passwords: new UntypedFormGroup(
+    this.userForm = new FormGroup({
+      firstname: new FormControl("", [Validators.required]),
+      lastname: new FormControl("", [Validators.required]),
+      passwords: new FormGroup(
         {
-          password: new UntypedFormControl("", [
+          password: new FormControl("", [
             Validators.minLength(8),
             Validators.required,
           ]),
-          confirm: new UntypedFormControl("", [
+          confirm: new FormControl("", [
             Validators.minLength(8),
             Validators.required,
           ]),
@@ -60,7 +69,7 @@ export class UserEditComponent implements OnInit {
    * @param group form group
    * @returns validator function
    */
-  passwordValidator(group: UntypedFormGroup): ValidationErrors | null {
+  passwordValidator(group: FormGroup<PasswordsForm>): ValidationErrors | null {
     return group.value.password &&
       group.value.confirm &&
       group.value.password === group.value.confirm

@@ -5,39 +5,46 @@ import { AuthGuard } from "@core/guards/auth.guard";
 import { ChannelGroupViewComponent } from "./components/channel-group-view/channel-group-view.component";
 import { ChannelGroupEditComponent } from "./components/channel-group-edit/channel-group-edit.component";
 import { ChannelGroupDetailComponent } from "./components/channel-group-detail/channel-group-detail.component";
+import { ChannelGroupResolver } from "@core/resolvers/channel-group.resolver";
+import { MatchingRuleResolver } from "@core/resolvers/matching-rule.resolver";
 
 export const routes: Routes = [
   {
     path: "",
     component: ChannelGroupComponent,
     canActivate: [AuthGuard],
-    data: { subject: "ChannelGroup", action: "read" },
-
     children: [
       {
         path: "new",
         component: ChannelGroupEditComponent,
-
-        data: { subject: "ChannelGroup", action: "create" },
       },
-      {
-        path: ":channelGroupId/edit",
-        component: ChannelGroupEditComponent,
 
-        data: { subject: "ChannelGroup", action: "update" },
-      },
       {
-        path: "",
-        component: ChannelGroupViewComponent,
-
-        data: { subject: "ChannelGroup", action: "read" },
+        path: ":channelGroupId",
+        runGuardsAndResolvers: "always",
+        resolve: {
+          channelGroup: ChannelGroupResolver,
+          matchingRules: MatchingRuleResolver,
+        },
         children: [
           {
-            path: ":channelGroupId",
+            path: "",
             component: ChannelGroupDetailComponent,
-            data: { subject: "ChannelGroup", action: "update" },
+          },
+          {
+            path: "edit",
+            component: ChannelGroupEditComponent,
           },
         ],
+      },
+
+      {
+        path: "",
+        resolve: {
+          channelGroups: ChannelGroupResolver,
+        },
+        runGuardsAndResolvers: "always",
+        component: ChannelGroupViewComponent,
       },
     ],
   },

@@ -1,156 +1,117 @@
-<div id="group-view-container" class="box">
-  <div class="header-title">
-    <div id="channel-group-info">
-      <h3>{{ monitor?.name }}</h3>
-      <span class="help-text"> by {{ monitor?.owner | user }} </span>
-    </div>
-    <div id="button-container row space-between">
-      <button
-        *ngIf="'delete' | able: monitor"
-        mat-icon-button
-        color="warn"
-        (click)="onDelete()"
-        matTooltip="Delete monitor"
-        aria-label="Button that deletes the monitor"
-      >
-        <mat-icon>delete</mat-icon>
-      </button>
-      <button
-        *ngIf="'create' | able: 'Monitor'"
-        mat-icon-button
-        (click)="addNewMonitor()"
-        matTooltip="Create new monitor"
-        aria-label="Button that creates new monitor"
-      >
-        <mat-icon>add</mat-icon>
-      </button>
-      <button
-        *ngIf="'update' | able: monitor"
-        mat-icon-button
-        color="primary"
-        (click)="editMonitor()"
-        matTooltip="Edit monitor"
-        aria-label="Button that navigates to edit monitor page"
-      >
-        <mat-icon>edit</mat-icon>
-      </button>
-      <button
-        mat-icon-button
-        (click)="closeMonitor()"
-        matTooltip="Close monitor"
-        aria-label="Button that navigates to all monitors"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
-  </div>
+<shared-detail-page *ngIf="monitor" type="Monitor" [resource]="monitor" [title]="monitor?.name"
+  [subtext]="'by ' + (monitor?.owner | user)" [options]="pageOptions" (deleteResource)="delete()">
+  <ng-container bodyContent>
+    <div class="box" [appIsLoading]="
+        loadingService.isLoading$(this, LoadingIndicator.MAIN) | async
+      ">
+      <div id="monitor-container" class="column">
+        <div class="row">
+          <div>
+            <h3>Monitor Information</h3>
+            <div>
+              <strong>Metric: </strong> {{ monitor.stat }} of
+              {{ monitor.metricName }}
+            </div>
+            <div>
+              <strong> Channel Group: </strong><a [routerLink]="['/channel-groups', monitor.channelGroupId]">
+                {{ monitor.channelGroupName }}</a>
+              ({{ channelGroup?.channels.length }} channels)
+            </div>
+            <div>
+              <strong>Interval: </strong> {{ monitor.intervalCount }}
+              {{ monitor.intervalType }}
+            </div>
 
-  <div id="monitor-container" class="column">
-    <div class="row space-between">
-      <div>
-        <p>
-          <strong>Metric: </strong> {{ monitor.stat }} of
-          {{ monitor.metricName }}
+            <div>
+              <strong>Daily Digest: </strong>
+              {{ monitor.doDailyDigest ? "Yes" : "No" }}
+            </div>
+          </div>
+
+          <div class="date-select-row">
+            <shared-date-select [secondsAgoFromNow]="timeRange" [initialStartDate]="starttime"
+              [initialEndDate]="endtime" [timeRanges]="datePickerTimeRanges" (datesChanged)="datesChanged($event)">
+            </shared-date-select>
+            <button mat-raised-button color="accent" (click)="update()" [disabled]="!this.unsavedChanges">
+              Update
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="chart-container" *ngIf="viewTriggers">
+        <h3>Triggers</h3>
+        <p class="help-text">
+          If 'Daily Digest' is enabled, alerts for individual triggers will not
+          be sent.
         </p>
-        <p>
-          <strong> Channel Group: </strong
-          ><a [routerLink]="['/channel-groups', monitor.channelGroupId]">
-            {{ monitor.channelGroupName }}</a
-          >
-          ({{ channelGroup?.channels.length }} channels)
+        <table id="trigger-table">
+          <thead>
+            <th>Alert when:</th>
+            <th>In Alarm:</th>
+            <th>Last State Change:</th>
+            <th>Also alert on exit:</th>
+            <th>Recipients</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let trigger of monitor.triggers">
+              <td>{{ trigger.fullString }}</td>
+              <td>{{ trigger.inAlarm ? "Yes" : "No" }}</td>
+              <td>{{ trigger.lastUpdate }}</td>
+              <td>{{ trigger.alertOnOutOfAlarm ? "Yes" : "No" }}</td>
+              <td>{{ trigger.emails }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="chart-container">
+        <h3>Alert History</h3>
+        <p class="help-text">
+          An alert will be generated when a trigger is 'In Alarm' and when the
+          trigger exits the alarm state. Once the trigger is no longer 'In
+          Alarm', no alerts will be generated until it is 'In Alarm' again;
         </p>
-        <p>
-          <strong>Interval: </strong> {{ monitor.intervalCount }}
-          {{ monitor.intervalType }}
+        <p class="help-text">click on an alert to view details</p>
+        <div [appIsLoading]="
+            loadingService.isLoading$(this, LoadingIndicator.RESULTS) | async
+          " spinnerType="buffer" id="monitor-history-chart-container">
+          <monitor-history-chart *ngIf="alerts && alerts.length > 0; else noAlerts" #monitorChart [monitor]="monitor"
+            [alerts]="alerts" [(selectedAlert)]="selectedAlert"></monitor-history-chart>
+        </div>
+      </div>
+      <div *ngIf="selectedAlert as alert" id="alert-detail">
+        <h3>Alert Detail</h3>
+        <div>
+          <strong>{{ alert.inAlarm ? "In Alarm" : "Out of Alarm" }} at: </strong>{{ alert.timestamp }}
+        </div>
+        <ngx-datatable class="material lt-gray-border" [rowHeight]="23" [scrollbarV]="true" [columns]="columns"
+          [rows]="alert.breachingChannels">
+        </ngx-datatable>
+      </div>
+      <div class="chart-container">
+        <h3>Breaching Channel History</h3>
+        <p class="help-text">
+          Channels shown are only those that are considered "breaching". Values
+          shown are the calculated values used to evaluate if a monitor is in
+          alarm, not raw measurements at that time.
         </p>
+        <div [appIsLoading]="
+            loadingService.isLoading$(this, LoadingIndicator.RESULTS) | async
+          " spinnerType="buffer">
+          <monitor-channel-history-chart *ngIf="alerts && alerts.length > 0; else noAlerts" #channelChart
+            [monitor]="monitor" [alerts]="alerts" [(selectedAlert)]="selectedAlert"></monitor-channel-history-chart>
+        </div>
       </div>
 
-      <div class="row">
-        <shared-date-select
-          [secondsAgoFromNow]="timeRange"
-          [initialStartDate]="starttime"
-          [initialEndDate]="endtime"
-          [timeRanges]="datePickerTimeRanges"
-          (datesChanged)="datesChanged($event)"
-        >
-        </shared-date-select>
-        <button
-          mat-raised-button
-          color="accent"
-          (click)="update()"
-          [disabled]="!this.unsavedChanges"
-        >
-          Update
-        </button>
-      </div>
+      <ng-template #noAlerts>
+        <div *ngIf="
+            (loadingService.isLoading$(this, LoadingIndicator.RESULTS)
+              | async) === false
+          ">
+          No alerts found in this time range.
+        </div>
+      </ng-template>
     </div>
-  </div>
-  <div class="chart-container" *ngIf="viewTriggers">
-    <h3>Triggers</h3>
-    <table id="trigger-table">
-      <thead>
-        <th>In Alarm:</th>
-        <th>Last State Change:</th>
-        <th>Alert when:</th>
-        <th>Also alert on exit:</th>
-        <th>Recipients</th>
-      </thead>
-      <tbody>
-        <tr *ngFor="let trigger of monitor.triggers">
-          <td>{{ trigger.inAlarm }}</td>
-          <td>{{ trigger.lastUpdate | date: "short" }}</td>
-          <td>{{ trigger.numChannelsString }} {{ trigger.valueString }}</td>
-          <td>{{ trigger.alertOnOutOfAlarm }}</td>
-          <td>{{ trigger.emailList }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="chart-container" [appIsLoading]="loadingService.isLoading(this)">
-    <h3>Alert History</h3>
-    <p class="help-text">click on an alert to view details</p>
-    <div
-      id="monitor-history-chart-container"
-      *ngIf="alerts?.length > 0; else noAlerts"
-    >
-      <monitor-history-chart
-        #monitorChart
-        [monitor]="monitor"
-        [alerts]="alerts"
-        [(selectedAlert)]="selectedAlert"
-      ></monitor-history-chart>
-    </div>
-  </div>
-  <div *ngIf="selectedAlert as alert" id="alert-detail">
-    <h3>Alert Detail</h3>
-    <strong>{{ alert.inAlarm ? "In Alarm" : "Out of Alarm" }} at: </strong
-    >{{ alert.timestamp }}
-    <ngx-datatable
-      class="material lt-gray-border"
-      [rowHeight]="23"
-      [scrollbarV]="true"
-      [columns]="columns"
-      [rows]="alert.breachingChannels"
-    >
-    </ngx-datatable>
-  </div>
-  <div class="chart-container" [appIsLoading]="loadingService.isLoading(this)">
-    <h3>Breaching Channel History</h3>
-    <p class="help-text">
-      Channels shown are only those that are considered "breaching". Values
-      shown are the calculated values used to evaluate if a monitor is in alarm,
-      not raw measurements at that time.
-    </p>
-    <div *ngIf="alerts?.length > 0; else noAlerts">
-      <monitor-channel-history-chart
-        #channelChart
-        [monitor]="monitor"
-        [alerts]="alerts"
-        [(selectedAlert)]="selectedAlert"
-      ></monitor-channel-history-chart>
-    </div>
-  </div>
-</div>
-<ng-template #noAlerts>
-  <div>No alerts found in this time range.</div>
-</ng-template>
+  </ng-container>
+</shared-detail-page>
+
+<router-outlet></router-outlet>

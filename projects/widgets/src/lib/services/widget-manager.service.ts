@@ -36,7 +36,7 @@ export class WidgetManagerService {
   resize$ = new Subject<boolean>();
 
   // communication between external widget controls and actual widget
-  toggleKey$ = new Subject<boolean>();
+  toggleKey$ = new ReplaySubject<boolean>(1);
   zoomStatus$ = new Subject<string>();
 
   private _params: MeasurementParams = {};
@@ -128,6 +128,9 @@ export class WidgetManagerService {
 
     const displayType =
       this._widget.properties.displayType ?? this._widgetConfig.defaultDisplay;
+
+    const showKey = this._widget.properties?.showLegend ?? true;
+    this.toggleKey$.next(showKey);
 
     if (this.widgetConfig?.displayOptions && displayType) {
       this._widgetDisplayOption = this.widgetConfig.displayOptions[displayType];

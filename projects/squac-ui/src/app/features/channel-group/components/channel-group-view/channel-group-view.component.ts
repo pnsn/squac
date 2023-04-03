@@ -5,16 +5,10 @@ import {
   AfterViewInit,
   TemplateRef,
   ViewChild,
+  ChangeDetectorRef,
 } from "@angular/core";
 import { ChannelGroup } from "squacapi";
-import {
-  catchError,
-  EMPTY,
-  Observable,
-  Subscription,
-  switchMap,
-  tap,
-} from "rxjs";
+import { catchError, EMPTY, Observable, Subscription, tap } from "rxjs";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { ChannelGroupService } from "squacapi";
 import { LoadingService } from "@core/services/loading.service";
@@ -24,6 +18,7 @@ import {
   TableFilters,
   TableOptions,
 } from "@shared/components/table-view/interfaces";
+import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
 
 /**
  * Table of channel groups
@@ -51,6 +46,16 @@ export class ChannelGroupViewComponent
     footerLabel: "Channel Groups",
     displayCheck: true,
   };
+
+  /** Config for detail page */
+  pageOptions: PageOptions = {
+    path: "/channel-groups",
+    titleButtons: {
+      addButton: true,
+      useText: true,
+    },
+  };
+
   // controls in table head
   controls: TableControls = {
     listenToRouter: true,
@@ -97,77 +102,76 @@ export class ChannelGroupViewComponent
     private router: Router,
     private route: ActivatedRoute,
     private channelGroupService: ChannelGroupService,
-    public loadingService: LoadingService
+    public loadingService: LoadingService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   /**
    * listen to route param changes
    */
   ngOnInit(): void {
+    // get channel group info from route
     //TODO: prevent loading everytime you go back...but also respond to changes
-    const groupsSub = this.route.params
+    const routeSub = this.route.data
       .pipe(
-        tap(() => {
+        tap((data: any) => {
+          this.channelGroups = data["channelGroups"];
           const orgId = this.route.snapshot.data["user"].orgId;
           this.queryParams = { organization: orgId };
-          this.selectedChannelGroupId =
-            this.route.children.length > 0
-              ? +this.route.snapshot.firstChild.params["channelGroupId"]
-              : null;
-        }),
-        switchMap(() => {
-          return this.loadingService.doLoading(this.fetchData());
         })
       )
-      .subscribe();
+      .subscribe({
+        next: () => {
+          this.rows = [...this.channelGroups];
+        },
+      });
 
-    this.subscription.add(groupsSub);
+    this.subscription.add(routeSub);
   }
 
   /**
    * Build channel group columns
    */
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.columns = [
-        {
-          name: "Name",
-          draggable: false,
-          sortable: true,
-        },
-        { name: "Description", draggable: false, sortable: true },
-        {
-          name: "Channels",
-          prop: "channelsCount",
-          draggable: false,
-          sortable: true,
-          width: 25,
-        },
-        {
-          name: "Owner",
-          prop: "owner",
-          draggable: false,
-          sortable: true,
-          width: 50,
-        },
-        {
-          name: "Org.",
-          prop: "orgId",
-          canAutoResize: false,
-          draggable: false,
-          sortable: true,
-          width: 70,
-        },
-        {
-          name: "Sharing",
-          draggable: false,
-          canAutoResize: false,
-          width: 70,
-          sortable: false,
-          cellTemplate: this.sharingTemplate,
-        },
-      ];
-    }, 0);
+    this.columns = [
+      {
+        name: "Name",
+        draggable: false,
+        sortable: true,
+      },
+      { name: "Description", draggable: false, sortable: true },
+      {
+        name: "Channels",
+        prop: "channelsCount",
+        draggable: false,
+        sortable: true,
+        width: 25,
+      },
+      {
+        name: "Owner",
+        prop: "owner",
+        draggable: false,
+        sortable: true,
+        width: 50,
+      },
+      {
+        name: "Org.",
+        prop: "orgId",
+        canAutoResize: false,
+        draggable: false,
+        sortable: true,
+        width: 70,
+      },
+      {
+        name: "Sharing",
+        draggable: false,
+        canAutoResize: false,
+        width: 70,
+        sortable: false,
+        cellTemplate: this.sharingTemplate,
+      },
+    ];
+    this.cdr.detectChanges();
   }
 
   /**

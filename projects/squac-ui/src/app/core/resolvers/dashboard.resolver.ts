@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, Resolve } from "@angular/router";
 import { DashboardService } from "squacapi";
 import { Observable } from "rxjs";
 import { Dashboard } from "squacapi";
+import { LoadingService } from "@core/services/loading.service";
 
 /**
  * Resolves a dashboard or list of dashboards
@@ -13,7 +14,10 @@ import { Dashboard } from "squacapi";
 export class DashboardResolver
   implements Resolve<Observable<Dashboard | Dashboard[]>>
 {
-  constructor(private dashboardService: DashboardService) {}
+  constructor(
+    private dashboardService: DashboardService,
+    private loadingService: LoadingService
+  ) {}
 
   /**
    * Resolve a dashboard or list of dashboards
@@ -23,11 +27,13 @@ export class DashboardResolver
    */
   resolve(route: ActivatedRouteSnapshot): Observable<Dashboard | Dashboard[]> {
     const id = route.paramMap.get("dashboardId");
+    const delay = 500;
+    let req;
     if (id) {
-      return this.dashboardService.read(+id);
+      req = this.dashboardService.read(+id);
     } else {
-      return this.dashboardService.list();
-      // return all of them
+      req = this.dashboardService.list();
     }
+    return this.loadingService.doLoading(req, null, null, delay);
   }
 }

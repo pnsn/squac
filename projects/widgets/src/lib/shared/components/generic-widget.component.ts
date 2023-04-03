@@ -20,6 +20,7 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
   selectedMetrics: Metric[];
   properties: WidgetProperties;
   visualMaps: VisualMap = {};
+  denseView: boolean;
 
   /**
    * Trigger emphasis action for channel
@@ -45,6 +46,11 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
    * Change metrics in the chart
    */
   abstract changeMetrics(): void;
+
+  /**
+   * Use dense widget view
+   */
+  abstract useDenseView(useDenseView: boolean): void;
 
   /**
    * Takes in processed data and convert to format for chart
@@ -109,14 +115,6 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
    * Set up initial subscriptions
    */
   ngOnInit(): void {
-    this.configureChart();
-    if (this.widgetConfig?.toggleKey) {
-      this.initToggleKey();
-    }
-
-    if (this.widgetConfig?.zoomControls) {
-      this.initZoom();
-    }
     const deemphsSub = this.widgetConnector?.deemphasizeChannel.subscribe(
       (channel) => {
         this.deemphasizeChannel(channel);
@@ -127,8 +125,22 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
         this.emphasizeChannel(channel);
       }
     );
+    const denseViewSub = this.widgetConnector?.useDenseView.subscribe(
+      (useDenseView) => {
+        this.useDenseView(useDenseView);
+      }
+    );
+    this.configureChart();
+    if (this.widgetConfig?.toggleKey) {
+      this.initToggleKey();
+    }
+
+    if (this.widgetConfig?.zoomControls) {
+      this.initZoom();
+    }
     this.subscription.add(emphSub);
     this.subscription.add(deemphsSub);
+    this.subscription.add(denseViewSub);
   }
 
   /** Unsubscribe on destroy */

@@ -19,6 +19,7 @@ describe("DashboardViewComponent", () => {
         provide: ActivatedRoute,
         useValue: {
           params: of(),
+          data: of(),
         },
       })
       .mock(DashboardService);

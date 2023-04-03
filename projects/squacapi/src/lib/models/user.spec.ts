@@ -13,6 +13,7 @@ describe("User", () => {
       lastname: "",
       organization: 1,
       is_staff: true,
+      groups: [],
     });
 
     expect(testUser.isStaff).toBeTruthy();
@@ -25,7 +26,7 @@ describe("User", () => {
       lastname: "",
       organization: 1,
       is_staff: true,
-      groups: new Set(["manager", "guest"]),
+      groups: ["manager", "guest"],
     });
 
     expect(testUser.inGroup("manager")).toBeTruthy();
@@ -40,7 +41,7 @@ describe("User", () => {
       firstname: "string",
       lastname: "string",
       is_staff: false,
-      groups: new Set([1]),
+      groups: ["reporter"],
       id: 1,
       organization: 1,
       is_org_admin: false,

@@ -1,7 +1,7 @@
 <div
   id="dashboard-container"
   class="column"
-  [appIsLoading]="loadingService.isLoading(viewService.dashboard)"
+  [appIsLoading]="loadingService.isLoading$(viewService.dashboard) | async"
 >
   <div id="dashboard-header" class="column lt-gray-background box-shadow">
     <div class="row">
@@ -19,9 +19,35 @@
           resource="dashboard"
         ></shared-sharing-indicator>
       </div>
+      <ng-container *ngIf="viewService.dashboardConfig$ | async as config">
+        <button
+          [disabled]="!hideRows"
+          mat-button
+          (click)="hideRows = false"
+          matTooltip="time range"
+        >
+          <ng-container *ngIf="config.range; else customRange">{{
+            config.range
+          }}</ng-container>
+          <ng-template #customRange
+            >{{ config.start }} - {{ config.end }}</ng-template
+          >
+        </button>
+        <button
+          [disabled]="!hideRows"
+          mat-button
+          (click)="hideRows = false"
+          matTooltip="data type"
+        >
+          {{ config.archive ? archiveTypeOptions[config.archive].full : "" }}
+          <ng-container *ngIf="config.stat">
+            : {{ statTypeOptions[config.stat] }}
+          </ng-container>
+        </button>
+      </ng-container>
 
-      <shared-error *ngIf="error" [errorMsg]="error"></shared-error>
       <button
+        [disabled]="(hasUnsavedChanges | async) === true"
         mat-icon-button
         (click)="refreshData()"
         matTooltip="Refresh data"
@@ -30,83 +56,104 @@
         <mat-icon>refresh</mat-icon>
       </button>
       <button
-        mat-raised-button
-        color="accent"
-        (click)="updateDashboard()"
-        [disabled]="!viewService.hasUnsavedChanges"
-      >
-        Apply Changes
-      </button>
-      <!-- if they have permission, otherwise show copy only -->
-      <mat-menu
-        #appMenu="matMenu"
-        class="mat-menu-dense"
-        yPosition="below"
-        xPosition="before"
-      >
-        <button
-          mat-menu-item
-          (click)="addWidget()"
-          *ngIf="'update' | able: dashboard"
-        >
-          <mat-icon>add</mat-icon>
-          Add widget
-        </button>
-
-        <button mat-menu-item (click)="editDashboard()">
-          <mat-icon>edit</mat-icon>
-          Edit Dashboard
-        </button>
-        <button
-          mat-menu-item
-          color="warn"
-          id="delete-dashboard"
-          (click)="deleteDashboard()"
-          *ngIf="'delete' | able: dashboard"
-        >
-          <mat-icon color="warn">delete</mat-icon>
-          Delete Dashboard
-        </button>
-      </mat-menu>
-
-      <button
         mat-icon-button
-        [matMenuTriggerFor]="appMenu"
-        color="primary"
-        *ngIf="'update' | able: dashboard"
-        matTooltip="Dashboard configuration"
+        [color]="!hideRows ? 'primary' : ''"
+        matTooltip="configure dashboard"
+        (click)="hideRows = !hideRows"
       >
-        <mat-icon>settings_application</mat-icon>
+        <mat-icon>tune</mat-icon>
+      </button>
+      <button
+        color="accent"
+        mat-icon-button
+        (click)="addWidget()"
+        *ngIf="'update' | able: dashboard"
+        matTooltip="Add widget"
+      >
+        <mat-icon>add</mat-icon>
       </button>
     </div>
-    <div class="row">
-      <div class="auto-margin">
-        <shared-channel-group-selector
-          [channelGroupId]="channelGroupId"
-          (channelGroupIdChange)="channelGroupChange($event)"
-          appearance="outline"
-          [dense]="true"
-        >
-        </shared-channel-group-selector>
-      </div>
-      <dashboard-data-type-selector
-        [dataType]="archiveType"
-        [statType]="archiveStat"
-        (dataTypeSelected)="selectArchiveType($event)"
+    <div class="row config-row" *ngIf="!hideRows">
+      <!-- if they have permission, otherwise show copy only -->
+      <shared-channel-group-selector
+        [channelGroupId]="channelGroupId"
+        (channelGroupIdChange)="channelGroupChange($event)"
+        appearance="outline"
+        [dense]="true"
       >
-      </dashboard-data-type-selector>
+      </shared-channel-group-selector>
       <shared-date-select
         [secondsAgoFromNow]="timeRange"
         [initialStartDate]="startTime"
         [initialEndDate]="endTime"
         [timeRanges]="datePickerTimeRanges"
         (datesChanged)="datesChanged($event)"
+        (selectedRangeChanged)="viewService.timeRangeChanged($event)"
       ></shared-date-select>
+      <dashboard-data-type-selector
+        [dataType]="archiveType"
+        [statType]="archiveStat"
+        (dataTypeSelected)="selectArchiveType($event)"
+      >
+      </dashboard-data-type-selector>
+      <button
+        [disabled]="(hasUnsavedChanges | async) === false"
+        mat-raised-button
+        color="accent"
+        (click)="updateDashboard()"
+      >
+        Apply
+      </button>
+    </div>
+    <div class="row" *ngIf="dashboard?.properties && !hideRows">
+      <mat-slide-toggle
+        [(ngModel)]="dashboard.properties.denseView"
+        (change)="toggleView()"
+      >
+        Use Dense View
+      </mat-slide-toggle>
+      <mat-slide-toggle
+        [(ngModel)]="channelList"
+        (change)="toggleChannelList()"
+      >
+        Show channel list</mat-slide-toggle
+      >
     </div>
   </div>
 
   <div id="dashboard-body"><router-outlet> </router-outlet></div>
 </div>
+
+<mat-menu
+  #appMenu="matMenu"
+  class="mat-menu-dense"
+  yPosition="below"
+  xPosition="before"
+>
+  <button
+    mat-menu-item
+    (click)="addWidget()"
+    *ngIf="'update' | able: dashboard"
+  >
+    <mat-icon>add</mat-icon>
+    Add widget
+  </button>
+
+  <button mat-menu-item (click)="editDashboard()">
+    <mat-icon>edit</mat-icon>
+    Edit Dashboard
+  </button>
+  <button
+    mat-menu-item
+    color="warn"
+    id="delete-dashboard"
+    (click)="deleteDashboard()"
+    *ngIf="'delete' | able: dashboard"
+  >
+    <mat-icon color="warn">delete</mat-icon>
+    Delete Dashboard
+  </button>
+</mat-menu>
 
 <!-- <router-outlet></router-outlet> -->
 <!-- <shared-loading *ngIf="!dashboard && !error"></shared-loading> -->

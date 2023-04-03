@@ -1,6 +1,6 @@
 import { TestBed } from "@angular/core/testing";
 import { Ability } from "@casl/ability";
-import { Dashboard } from "squacapi";
+import { ChannelGroupService, Dashboard } from "squacapi";
 import { DashboardService } from "squacapi";
 import { Widget } from "widgets";
 import { WidgetService } from "squacapi";
@@ -31,12 +31,19 @@ describe("ViewService", () => {
     return MockBuilder(ViewService, AppModule)
       .mock(WidgetService)
       .provide({
+        provide: ChannelGroupService,
+        useValue: {
+          read: (_i) => of(),
+        },
+      })
+      .provide({
         provide: DashboardService,
         useValue: {
           list: (i) => of(i),
           update: (_i) => of(true),
           delete: (_i) => of(true),
           updateOrCreate: (_i) => of(true),
+          partialUpdate: (_i) => of(true),
         },
       })
       .mock(MessageService)
@@ -56,6 +63,9 @@ describe("ViewService", () => {
           },
           now: () => {
             return dayjs();
+          },
+          findRangeFromSeconds: () => {
+            return null;
           },
         },
       })
@@ -81,13 +91,13 @@ describe("ViewService", () => {
 
   it("should set dashboard", () => {
     const dateSpy = spyOn(service, "datesChanged");
-    service.setDashboard(testDashboard);
+    service.setDashboard(testDashboard, 1);
     expect(dateSpy).toHaveBeenCalled();
   });
 
   it("should return live", () => {
     expect(service.isLive).toBeUndefined();
-    service.setDashboard(testDashboard);
+    service.setDashboard(testDashboard, 1);
     expect(service.isLive).toBe(true);
   });
 
@@ -96,7 +106,7 @@ describe("ViewService", () => {
     testDashboard.properties = {
       timeRange: 3,
     };
-    service.setDashboard(testDashboard);
+    service.setDashboard(testDashboard, 1);
     expect(service.range).toEqual(3);
   });
 
@@ -105,7 +115,7 @@ describe("ViewService", () => {
       startTime: "2022-03-01T00:00:00Z",
       endTime: "2022-03-01T01:00:00Z",
     };
-    service.setDashboard(testDashboard);
+    service.setDashboard(testDashboard, 1);
 
     expect(service.startTime).toBeDefined();
     expect(service.endTime).toBeDefined();
@@ -131,7 +141,7 @@ describe("ViewService", () => {
     const widgetSpy = spyOn(widgetService, "read").and.returnValue(
       of(testWidget)
     );
-    service.setDashboard(testDashboard);
+    service.setDashboard(testDashboard, 1);
     service.setWidgets([testWidget]);
     service.updateWidget(1, testWidget);
 
@@ -142,7 +152,7 @@ describe("ViewService", () => {
     const widgetSpy = spyOn(widgetService, "read").and.returnValue(
       of(testWidget)
     );
-    service.setDashboard(testDashboard);
+    service.setDashboard(testDashboard, 1);
     service.setWidgets([]);
     service.updateWidget(1, testWidget);
 
@@ -151,7 +161,7 @@ describe("ViewService", () => {
 
   it("should delete given widget", () => {
     const widgetSpy = spyOn(widgetService, "delete").and.returnValue(of(true));
-    service.setDashboard(testDashboard);
+    service.setDashboard(testDashboard, 1);
     service.setWidgets([testWidget]);
 
     service.deleteWidget(testWidget.id);
@@ -168,8 +178,8 @@ describe("ViewService", () => {
   });
 
   it("should save dashboard", () => {
-    service.setDashboard(testDashboard);
-    const dashSpy = spyOn(dashboardService, "updateOrCreate").and.returnValue(
+    service.setDashboard(testDashboard, 1);
+    const dashSpy = spyOn(dashboardService, "partialUpdate").and.returnValue(
       of(testDashboard)
     );
 

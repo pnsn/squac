@@ -1,7 +1,18 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Dashboard } from "squacapi";
+import {
+  ARCHIVE_STAT_OPTIONS,
+  ARCHIVE_TYPE_OPTIONS,
+  Dashboard,
+} from "squacapi";
 import { ActivatedRoute, Router } from "@angular/router";
-import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
+import {
+  catchError,
+  EMPTY,
+  Observable,
+  Subscription,
+  switchMap,
+  tap,
+} from "rxjs";
 import { ViewService } from "@dashboard/services/view.service";
 import { AppAbility } from "@core/utils/ability";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
@@ -9,6 +20,7 @@ import { MessageService } from "@core/services/message.service";
 import { LoadingService } from "@core/services/loading.service";
 import { DATE_PICKER_TIMERANGES } from "./dashboard-time-ranges";
 import { ArchiveStatType, ArchiveType } from "squacapi";
+import { WidgetConnectService } from "widgets";
 
 /**
  * Individual dashboard view
@@ -21,7 +33,6 @@ import { ArchiveStatType, ArchiveType } from "squacapi";
 export class DashboardDetailComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   dashboard: Dashboard;
-  status: string;
   error: string = null;
   // dashboard params
   archiveType: ArchiveType;
@@ -30,9 +41,15 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   endTime: string;
   channelGroupId: number;
 
+  channelList = true;
+
   timeRange: number;
+  hideRows = true;
+  hasUnsavedChanges: Observable<boolean>;
   // time picker config
   datePickerTimeRanges = DATE_PICKER_TIMERANGES;
+  archiveTypeOptions = ARCHIVE_TYPE_OPTIONS;
+  statTypeOptions = ARCHIVE_STAT_OPTIONS;
 
   constructor(
     private route: ActivatedRoute,
@@ -41,46 +58,46 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     private ability: AppAbility,
     private confirmDialog: ConfirmDialogService,
     private messageService: MessageService,
-    public loadingService: LoadingService
+    public loadingService: LoadingService,
+    private widgetConnectService: WidgetConnectService
   ) {}
 
   /**
    * Subscribe to route params for dashboard id
    */
   ngOnInit(): void {
-    const paramsSub = this.route.params
+    this.hasUnsavedChanges = this.viewService.hasUnsavedChanges.asObservable();
+    const paramsSub = this.route.data
       .pipe(
         tap(() => {
           this.error = null;
         }),
-        switchMap((params) => {
-          // get dashboard id & channel group id
-          const dashboardId = +params["dashboardId"];
+        switchMap(() => {
           const groupId = +this.route.snapshot.queryParams["group"];
-
-          // request info
-          return this.loadingService.doLoading(
-            this.viewService.setDashboardById(dashboardId, groupId).pipe(
-              tap((channelGroup) => {
-                if (channelGroup) {
-                  this.channelGroupId = channelGroup.id;
-                }
-                this.dashboard = this.viewService.dashboard;
-                this.archiveStat = this.viewService.archiveStat;
-                this.archiveType = this.viewService.archiveType;
-                this.timeRange = this.viewService.range;
-                this.startTime = this.viewService.startTime;
-                this.endTime = this.viewService.endTime;
-              }),
-              catchError(() => {
-                if (!this.dashboard) {
-                  this.messageService.error("Could not load dashboard.");
-                } else {
-                  this.messageService.error("Could not load channel group.");
-                }
-                return EMPTY;
-              })
-            )
+          const dashboard = this.route.snapshot.data["dashboard"];
+          return this.viewService.setDashboard(dashboard, groupId).pipe(
+            tap((channelGroup) => {
+              if (channelGroup) {
+                this.channelGroupId = channelGroup.id;
+              }
+              this.dashboard = this.viewService.dashboard;
+              this.widgetConnectService.useDenseView.next(
+                this.dashboard.properties.denseView
+              );
+              this.archiveStat = this.viewService.archiveStat;
+              this.archiveType = this.viewService.archiveType;
+              this.timeRange = this.viewService.range;
+              this.startTime = this.viewService.startTime;
+              this.endTime = this.viewService.endTime;
+            }),
+            catchError(() => {
+              if (!this.dashboard) {
+                this.messageService.error("Could not load dashboard.");
+              } else {
+                this.messageService.error("Could not load channel group.");
+              }
+              return EMPTY;
+            })
           );
         })
       )
@@ -89,7 +106,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     // get any errors to show from view service
     const errorSub = this.viewService.error.subscribe({
       next: (error) => {
-        this.error = error;
+        if (error) {
+          this.messageService.error(error);
+        }
       },
     });
 
@@ -108,6 +127,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
    */
   datesChanged({ startDate, endDate, liveMode, rangeInSeconds }): void {
     this.viewService.datesChanged(startDate, endDate, liveMode, rangeInSeconds);
+    this.startTime = this.viewService.startTime;
+    this.endTime = this.viewService.endTime;
+    this.timeRange = this.viewService.range;
     this.checkDates();
   }
 
@@ -123,18 +145,43 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Toggles dense view setting for dashboard
+   */
+  toggleView(): void {
+    this.widgetConnectService.useDenseView.next(
+      this.dashboard.properties.denseView
+    );
+    this.viewService.updateDashboardProperty(
+      "denseView",
+      this.dashboard.properties.denseView
+    );
+  }
+  /**
+   * Toggles channel list setting for dashboard
+   */
+  toggleChannelList(): void {
+    this.widgetConnectService.toggleChannelList.next(this.channelList);
+  }
+
+  /**
    * Validate dates
    * if dates larger than 3 days, default to daily, larger than 1 month, monthly
    */
   checkDates(): void {
     this.error = "";
+    let error: string;
     if (this.viewService.archiveType === "raw") {
       if (this.viewService.getTimeSpan("months") >= 4) {
-        this.error = `Raw data request may be too large for this time range, try using month archives.`;
+        error = "month";
       } else if (this.viewService.getTimeSpan("weeks") >= 6) {
-        this.error = `Raw data request may be too large for this time range, try using week archives.`;
+        error = "week";
       } else if (this.viewService.getTimeSpan("days") >= 7) {
-        this.error = `Raw data request may be too large for this time range, try using day archives.`;
+        error = "day";
+      }
+      if (error) {
+        this.messageService.alert(
+          `Raw data request may be too large for this time range, try using ${error} archives.`
+        );
       }
     }
     this.updateArchiveType();
@@ -155,7 +202,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     if (this.archiveType !== "raw") {
       if (this.viewService.getTimeSpan(this.archiveType) === 0) {
         //archiveType is larger than time window
-        this.error = "Select a time range greater than the archive size.";
+        this.messageService.alert(
+          "Select a time range greater than the archive size."
+        );
       }
     }
   }

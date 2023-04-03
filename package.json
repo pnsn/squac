@@ -11,6 +11,8 @@
     "lint-silent": "ng lint --silent",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "build:stats": "ng build --stats-json",
+    "analyze": "webpack-bundle-analyzer dist/squac-ui/stats.json",
     "compodoc:build": "compodoc -p tsconfig.doc.json",
     "compodoc:build-and-serve": "compodoc -p tsconfig.doc.json -s -w",
     "compodoc:serve": "compodoc -s"
@@ -32,7 +34,7 @@
     "@boring.devs/ngx-datatable": "^20.0.0",
     "@casl/ability": "^6.3.1",
     "@casl/angular": "^8.1.0",
-    "@pnsn/ngx-squacapi-client": "~2.1.12-beta.14",
+    "@pnsn/ngx-squacapi-client": "~2.1.12-alpha.5",
     "@types/d3": "^7.1.0",
     "angular-gridster2": "^14.1.2",
     "colormap": "^2.3.2",
@@ -82,6 +84,7 @@
     "karma-spec-reporter": "^0.0.34",
     "ng-packagr": "^14.2.0",
     "prettier": "2.7.1",
-    "typescript": "^4.5.3"
+    "typescript": "^4.5.3",
+    "webpack-bundle-analyzer": "^4.8.0"
   }
 }

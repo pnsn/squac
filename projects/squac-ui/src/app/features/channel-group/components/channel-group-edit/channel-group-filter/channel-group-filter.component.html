@@ -67,34 +67,33 @@
       <mat-icon>close</mat-icon>
     </button>
   </mat-form-field>
-  <div>
-    <button
-      mat-raised-button
-      color="accent"
-      (click)="updateFilters()"
-      matTooltip="Search for channels"
-      aria-label="Button that searches for channels matching filters"
-    >
-      <mat-icon>search</mat-icon>
-      search
-    </button>
 
-    <button
-      mat-stroked-button
-      (click)="removeFilters()"
-      matTooltip="Clear filters"
-      aria-label="Button that clears form input "
-    >
-      clear
-    </button>
-    <button
-      mat-flat-button
-      color="primary"
-      (click)="addToRegex()"
-      matTooltip="Add filters to rules"
-      aria-label="Button that searches for channels matching filters"
-    >
-      add to rules
-    </button>
-  </div>
+  <button
+    mat-raised-button
+    color="accent"
+    (click)="updateFilters()"
+    matTooltip="Search for channels"
+    aria-label="Button that searches for channels matching filters"
+  >
+    <mat-icon>search</mat-icon>
+    search
+  </button>
+
+  <button
+    mat-stroked-button
+    (click)="removeFilters()"
+    matTooltip="Clear filters"
+    aria-label="Button that clears form input "
+  >
+    clear
+  </button>
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="addToRegex()"
+    matTooltip="Add filters to rules"
+    aria-label="Button that searches for channels matching filters"
+  >
+    add to rules
+  </button>
 </div>

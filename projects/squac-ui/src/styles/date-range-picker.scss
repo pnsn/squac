@@ -16,7 +16,7 @@ ngx-daterangepicker-material {
   }
   // .md-drppicker.ltr .calendar.right { display: none; }
   .md-drppicker .calendar-time .select .select-item {
-    // font-size: unset !important;
+    font-size: inherit !important;
   }
   .md-drppicker {
     top: 40px !important;

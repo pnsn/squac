@@ -1,23 +1,34 @@
 import {
-  ReadOnlyMonitorDetailSerializer,
-  Trigger as ApiTrigger,
-} from "@pnsn/ngx-squacapi-client";
+  IntervalType,
+  MonitorStatType,
+  NumChannelsOperator,
+  ValueOperator,
+} from "../types";
 
-export const INTERVAL_TYPES: ReadOnlyMonitorDetailSerializer.IntervalTypeEnum[] =
-  ["minute", "hour", "day", "last n"];
+export const INTERVAL_TYPES: IntervalType[] = [
+  "minute",
+  "hour",
+  "day",
+  "last n",
+];
 
 export const MONITOR_STATS: {
-  [key in ReadOnlyMonitorDetailSerializer.StatEnum]: string;
+  [key in MonitorStatType]: string;
 } = {
   count: "count",
   avg: "average",
   sum: "sum",
   min: "minimum",
   max: "maximum",
+  minabs: "minabs",
+  maxabs: "maxabs",
+  p90: "p90",
+  p95: "p95",
+  median: "median",
 };
 
 export const VALUE_OPERATORS: {
-  [key in ApiTrigger.ValueOperatorEnum]: string;
+  [key in ValueOperator]: string;
 } = {
   outsideof: "outside of",
   within: "within",
@@ -29,7 +40,7 @@ export const VALUE_OPERATORS: {
 };
 
 export const NUM_CHANNELS_OPERATORS: {
-  [key in ApiTrigger.NumChannelsOperatorEnum]: string;
+  [key in NumChannelsOperator]: string;
 } = {
   any: "any",
   all: "all",

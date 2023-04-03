@@ -6,14 +6,15 @@ import {
 } from "@pnsn/ngx-squacapi-client";
 import { NUM_CHANNELS_OPERATORS, VALUE_OPERATORS } from "../constants";
 import { Alert } from "./alert";
+import { NumChannelsOperator, ValueOperator } from "../types";
 
 export interface Trigger {
   monitorId: number;
-  valueOperator: ApiTrigger.ValueOperatorEnum; //outsideof, within, ==, <, <=, >, >=
+  valueOperator: ValueOperator;
   numChannels: number;
-  numChannelsOperator: ApiTrigger.NumChannelsOperatorEnum; //any, ==, <, >
+  numChannelsOperator: NumChannelsOperator;
   alertOnOutOfAlarm: boolean;
-  emailList: string; //comma separated
+  emails: string; //comma separated
   val1: number;
   val2?: number;
   latestAlert: Alert;
@@ -45,6 +46,11 @@ export class Trigger extends ResourceModel<
     return message;
   }
 
+  /** @returns string representation of trigger */
+  get fullString(): string {
+    return `${this.numChannelsString} ${this.valueString}`;
+  }
+
   /** @returns true if most recent alert is in alarm */
   get inAlarm(): boolean | undefined {
     return this.latestAlert ? this.latestAlert.inAlarm : undefined;
@@ -74,6 +80,7 @@ export class Trigger extends ResourceModel<
     if ("monitor" in data) {
       this.monitorId = data.monitor;
     }
+    this.emails = this.emails ?? "";
   }
 
   /** @override */
@@ -86,7 +93,7 @@ export class Trigger extends ResourceModel<
       num_channels: this.numChannels,
       num_channels_operator: this.numChannelsOperator,
       alert_on_out_of_alarm: this.alertOnOutOfAlarm,
-      email_list: this.emailList,
+      emails: this.emails,
     };
   }
 }

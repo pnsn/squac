@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
+import { Component, OnInit, OnDestroy, AfterContentInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
+import { catchError, EMPTY, Subscription, tap } from "rxjs";
 import { Metric } from "squacapi";
 import { MetricService } from "squacapi";
 import { LoadingService } from "@core/services/loading.service";
@@ -10,6 +10,7 @@ import {
   TableFilters,
   TableOptions,
 } from "@shared/components/table-view/interfaces";
+import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
 
 /**
  * Shows list of metrics
@@ -17,16 +18,23 @@ import {
 @Component({
   selector: "metric-view",
   templateUrl: "./metric-view.component.html",
-  styleUrls: ["./metric-view.component.scss"],
 })
-export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
+export class MetricViewComponent
+  implements OnInit, OnDestroy, AfterContentInit
+{
   subscription: Subscription = new Subscription();
   metrics: Metric[];
 
   // table config
   columns = [];
   rows = [];
-
+  /** Config for detail page */
+  pageOptions: PageOptions = {
+    path: "/metrics",
+    titleButtons: {
+      addButton: true,
+    },
+  };
   //table options
   options: TableOptions = {
     messages: {
@@ -63,74 +71,76 @@ export class MetricViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /** subscribe to params */
   ngOnInit(): void {
-    const monitorsSub = this.route.params
+    const routeSub = this.route.data
       .pipe(
-        switchMap(() => {
-          return this.fetchData();
+        tap((data) => {
+          this.metrics = data["metrics"];
         })
       )
-      .subscribe();
+      .subscribe({
+        next: () => {
+          this.rows = [...this.metrics];
+        },
+      });
 
-    this.subscription.add(monitorsSub);
+    this.subscription.add(routeSub);
   }
 
   /** init columns */
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.columns = [
-        {
-          name: "Name",
-          draggable: false,
-          sortable: true,
-          width: 300,
-          canAutoResize: false,
-        },
-        {
-          name: "Default Min",
-          prop: "minVal",
-          draggable: false,
-          canAutoResize: false,
-          sortable: true,
-          width: 115,
-        },
-        {
-          name: "Default Max",
-          prop: "maxVal",
-          canAutoResize: false,
-          draggable: false,
-          sortable: true,
-          width: 115,
-        },
-        {
-          name: "Unit",
-          canAutoResize: false,
-          draggable: false,
-          sortable: true,
-          width: 115,
-        },
-        {
-          name: "Sample Rate",
-          prop: "sampleRate",
-          canAutoResize: false,
-          draggable: false,
-          sortable: true,
-          width: 115,
-        },
-        {
-          name: "Description",
-          draggable: false,
-          sortable: true,
-        },
-        {
-          name: "Owner",
-          prop: "owner",
-          canAutoResize: false,
-          draggable: false,
-          sortable: true,
-          width: 120,
-        },
-      ];
-    }, 0);
+  ngAfterContentInit(): void {
+    this.columns = [
+      {
+        name: "Name",
+        draggable: false,
+        sortable: true,
+        width: 150,
+        canAutoResize: false,
+      },
+      {
+        name: "Default Min",
+        prop: "minVal",
+        draggable: false,
+        canAutoResize: false,
+        sortable: true,
+        width: 115,
+      },
+      {
+        name: "Default Max",
+        prop: "maxVal",
+        canAutoResize: false,
+        draggable: false,
+        sortable: true,
+        width: 115,
+      },
+      {
+        name: "Unit",
+        canAutoResize: false,
+        draggable: false,
+        sortable: true,
+        width: 115,
+      },
+      {
+        name: "Sample Rate",
+        prop: "sampleRate",
+        canAutoResize: false,
+        draggable: false,
+        sortable: true,
+        width: 115,
+      },
+      {
+        name: "Description",
+        draggable: false,
+        sortable: true,
+      },
+      {
+        name: "Owner",
+        prop: "owner",
+        canAutoResize: false,
+        draggable: false,
+        sortable: true,
+        width: 120,
+      },
+    ];
   }
 
   /**

@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   OnDestroy,
   OnInit,
@@ -10,14 +11,7 @@ import { LoadingService } from "@core/services/loading.service";
 import { Alert } from "squacapi";
 import { Monitor } from "squacapi";
 import { MonitorService } from "squacapi";
-import {
-  catchError,
-  EMPTY,
-  Observable,
-  Subscription,
-  switchMap,
-  tap,
-} from "rxjs";
+import { catchError, EMPTY, Observable, Subscription, tap } from "rxjs";
 import {
   MenuAction,
   TableControls,
@@ -25,6 +19,8 @@ import {
   TableOptions,
 } from "@shared/components/table-view/interfaces";
 import { SelectionType } from "@boring.devs/ngx-datatable";
+import { sortTimestamps } from "@core/utils/utils";
+import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
 
 /**
  * Component for displaying list of monitors
@@ -44,7 +40,16 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // table config
   rows = [];
-  columns = [];
+  columns;
+
+  /** Config for detail page */
+  pageOptions: PageOptions = {
+    path: "/monitors",
+    titleButtons: {
+      addButton: true,
+      useText: true,
+    },
+  };
 
   controls: TableControls = {
     listenToRouter: true,
@@ -80,19 +85,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
   filters: TableFilters = {
     searchField: {
       text: "Filter monitors...",
-      props: [
-        "owner",
-
-        {
-          prop: "monitor",
-          props: [
-            { prop: "channelGroup", props: ["name"] },
-            { prop: "metric", props: ["name"] },
-            "stat",
-            "name",
-          ],
-        },
-      ],
+      props: ["owner", "name", "channelGroupName", "metricName"],
     },
   };
 
@@ -113,71 +106,72 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     private route: ActivatedRoute,
     private router: Router,
     private monitorService: MonitorService,
-    public loadingService: LoadingService
+    public loadingService: LoadingService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   /** Init subscriptions */
   ngOnInit(): void {
-    const monitorsSub = this.route.params
+    const routeSub = this.route.data
       .pipe(
-        switchMap(() => {
-          return this.loadingService.doLoading(this.fetchData(), this);
+        tap((data) => {
+          this.monitors = data["monitors"];
         })
       )
-      .subscribe();
+      .subscribe({
+        next: () => {
+          this.makeRows();
+        },
+      });
 
-    this.subscription.add(monitorsSub);
-
-    if (this.route.firstChild) {
-      this.selectedMonitorId =
-        +this.route.firstChild.snapshot.params["monitorId"];
-    }
+    this.subscription.add(routeSub);
   }
 
   /** Set up columns */
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.columns = [
-        {
-          name: "State",
-          draggable: false,
-          sortable: false,
-          width: 60,
-          minWidth: 60,
-          canAutoResize: false,
-          cellTemplate: this.stateTemplate,
-        },
-        {
-          name: "Name",
-          draggable: false,
-          sortable: true,
-        },
-        {
-          name: "Last state update",
-          draggable: false,
-          canAutoResize: false,
-          sortable: false,
-          width: 160,
-          minWidth: 160,
-          cellTemplate: this.updateTemplate,
-        },
-        {
-          name: "Channel Group",
-          prop: "channelGroupName",
-        },
-        {
-          name: "Metric",
-          prop: "metricName",
-        },
-        {
-          name: "Owner",
-          prop: "owner",
-          draggable: false,
-          sortable: true,
-          width: 120,
-        },
-      ];
-    }, 0);
+    this.columns = [
+      {
+        name: "State",
+        prop: "inAlarm",
+        draggable: false,
+        width: 70,
+        minWidth: 70,
+        canAutoResize: false,
+        cellTemplate: this.stateTemplate,
+      },
+      {
+        name: "Name",
+        draggable: false,
+        sortable: true,
+      },
+      {
+        name: "Last State Change",
+        prop: "lastUpdate",
+        draggable: false,
+        canAutoResize: false,
+        sortable: true,
+        width: 160,
+        minWidth: 160,
+        cellTemplate: this.updateTemplate,
+        comparator: sortTimestamps,
+      },
+      {
+        name: "Channel Group",
+        prop: "channelGroupName",
+      },
+      {
+        name: "Metric",
+        prop: "metricName",
+      },
+      {
+        name: "Owner",
+        prop: "owner",
+        draggable: false,
+        sortable: true,
+        width: 120,
+      },
+    ];
+    this.cdr.detectChanges();
   }
 
   /**
@@ -204,13 +198,6 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /** Populate rows in table */
   makeRows(): void {
-    this.monitors.forEach((monitor) => {
-      monitor.triggers.forEach((_trigger) => {
-        // if (trigger.inAlarm) {
-        //   monitor.inAlarm = true;
-        // }
-      });
-    });
     this.rows = [...this.monitors];
   }
 

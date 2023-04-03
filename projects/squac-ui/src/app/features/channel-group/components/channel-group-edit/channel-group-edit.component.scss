@@ -9,7 +9,6 @@
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  padding: 0px 10px 10px;
   width: 100%;
   flex-wrap: wrap-reverse;
   & > div {
@@ -35,6 +34,10 @@
   & > div {
     gap: 2px;
   }
+}
+
+#left-side {
+  padding-left: 10px;
 }
 
 .search-results-container {
@@ -81,11 +84,14 @@ mat-accordion {
   mat-expansion-panel {
     mat-expansion-panel-header {
       min-height: 35px;
-      padding: 5px 8px;
+      padding: 0px 12px;
+      max-height: 50px;
     }
 
     border-radius: 0 !important;
     border: $light-border;
+    border-top: none;
+    border-right: none;
     box-shadow: none !important;
   }
 }

@@ -13,9 +13,9 @@ export interface ChannelGroup {
   shareAll: boolean;
   shareOrg: boolean;
   channelsCount: number;
-  channels?: (Channel | number)[];
-  autoIncludeChannels?: (Channel | number)[];
-  autoExcludeChannels?: (Channel | number)[];
+  channels?: Channel[];
+  autoIncludeChannels?: Channel[];
+  autoExcludeChannels?: Channel[];
 }
 /**
  * Describes a channel group object
@@ -39,13 +39,13 @@ export class ChannelGroup extends ResourceModel<
 
     if ("channels" in data && data.channels) {
       this.channels = data.channels.map((c: ApiChannel | number | Channel) =>
-        typeof c === "number" || "net" in c ? c : new Channel(c)
+        typeof c === "number" ? null : new Channel(c)
       );
     }
     if ("auto_exclude_channels" in data && data.auto_exclude_channels) {
       this.autoExcludeChannels = [...data.auto_exclude_channels].map(
         (c: ApiChannel | number) => {
-          return typeof c === "number" ? c : new Channel(c);
+          return typeof c === "number" ? null : new Channel(c);
         }
       );
     }
@@ -53,7 +53,7 @@ export class ChannelGroup extends ResourceModel<
     if ("auto_include_channels" in data && data.auto_include_channels) {
       this.autoIncludeChannels = [...data.auto_include_channels].map(
         (c: ApiChannel | number) => {
-          return typeof c === "number" ? c : new Channel(c);
+          return typeof c === "number" ? null : new Channel(c);
         }
       );
     }

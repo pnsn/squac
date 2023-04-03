@@ -24,22 +24,13 @@ export const routes: Routes = [
       {
         path: "",
         component: DashboardViewComponent,
+        runGuardsAndResolvers: "always",
         children: [
           {
             path: "new",
             component: DashboardEditEntryComponent,
-            data: { subject: "Dashboard", action: "create" },
           },
         ],
-      },
-      {
-        path: ":dashboardId/edit",
-        component: DashboardEditEntryComponent,
-        data: { subject: "Dashboard", action: "update" },
-        resolve: {
-          channelGroups: ChannelGroupResolver,
-          dashboard: DashboardResolver,
-        },
       },
 
       {
@@ -47,11 +38,19 @@ export const routes: Routes = [
         component: DashboardDetailComponent,
         runGuardsAndResolvers: "paramsChange",
         resolve: {
+          dashboard: DashboardResolver,
           widgets: WidgetResolver,
           metrics: MetricResolver,
         },
-        data: { subject: "Dashboard", action: "read" },
         children: [
+          {
+            path: "edit",
+            component: DashboardEditEntryComponent,
+            resolve: {
+              channelGroups: ChannelGroupResolver,
+              dashboard: DashboardResolver,
+            },
+          },
           {
             path: "",
             redirectTo: "widgets",
@@ -61,19 +60,19 @@ export const routes: Routes = [
             path: "widgets",
             component: WidgetMainComponent,
             runGuardsAndResolvers: "paramsOrQueryParamsChange",
-          },
-          {
-            path: "widgets/new",
-            component: WidgetEditEntryComponent,
-            data: { subject: "Widget", action: "create" },
-          },
-          {
-            path: "widgets/:widgetId/edit",
-            resolve: {
-              widget: WidgetResolver,
-            },
-            component: WidgetEditEntryComponent,
-            data: { subject: "Widget", action: "update" },
+            children: [
+              {
+                path: "new",
+                component: WidgetEditEntryComponent,
+              },
+              {
+                path: ":widgetId/edit",
+                resolve: {
+                  widget: WidgetResolver,
+                },
+                component: WidgetEditEntryComponent,
+              },
+            ],
           },
         ],
       },

@@ -33,12 +33,21 @@ export class TimechartComponent
   }
   // Max allowable time between measurements to connect
   maxMeasurementGap = 1.5;
-
   /**
    * @override
    */
   configureChart(): void {
+    const dataZoom = this.denseView
+      ? this.denseOptions.dataZoom
+      : this.fullOptions.dataZoom;
+    const grid = this.denseView
+      ? this.denseOptions.grid
+      : this.fullOptions.grid;
+
     const chartOptions: EChartsOption = {
+      ...this.chartDefaultOptions,
+      dataZoom,
+      grid,
       xAxis: {
         type: "time",
         nameLocation: "middle",
@@ -53,6 +62,7 @@ export class TimechartComponent
           },
         },
         axisLabel: {
+          hideOverlap: true,
           fontSize: 11,
           margin: 3,
           formatter: (params: string) =>
@@ -82,13 +92,14 @@ export class TimechartComponent
         },
       },
       tooltip: {
+        ...this.chartDefaultOptions.tooltip,
         formatter: (params: TooltipComponentPositionCallbackParams) => {
           return this.widgetConfigService.timeAxisFormatToolTip(params);
         },
       },
     };
 
-    this.options = this.widgetConfigService.chartOptions(chartOptions);
+    this.options = chartOptions;
   }
 
   /**
@@ -185,6 +196,7 @@ export class TimechartComponent
   changeMetrics(): void {
     const colorMetric = this.selectedMetrics[0];
     const visualMaps = this.visualMaps[colorMetric.id];
+    visualMaps.show = this.showKey;
     this.updateOptions = {
       series: this.metricSeries.series,
       visualMap: visualMaps,
@@ -193,11 +205,5 @@ export class TimechartComponent
         max: this.widgetManager.endtime,
       },
     };
-
-    if (this.echartsInstance) {
-      this.echartsInstance.setOption(this.updateOptions, {
-        replaceMerge: ["series", "xAxis"],
-      });
-    }
   }
 }

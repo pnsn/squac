@@ -1,19 +1,32 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from "@angular/core";
 import { Location } from "@angular/common";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ChannelGroup } from "squacapi";
 import { ChannelGroupService } from "squacapi";
 import { MatFormFieldAppearance } from "@angular/material/form-field";
 
+interface Group {
+  name: string;
+  value: string;
+  groups: ChannelGroup[];
+}
 /**
- * Shared selector for channel group
+ * Dropdown select for channel groups
  */
 @Component({
   selector: "shared-channel-group-selector",
   templateUrl: "./channel-group-selector.component.html",
   styleUrls: ["./channel-group-selector.component.scss"],
 })
-export class ChannelGroupSelectorComponent implements OnInit {
+export class ChannelGroupSelectorComponent implements OnInit, OnChanges {
   /** channel group id */
   @Input() channelGroupId: number | string | undefined;
   /** label text */
@@ -28,9 +41,26 @@ export class ChannelGroupSelectorComponent implements OnInit {
   channelGroups: ChannelGroup[] | undefined;
   /** selected channel group id */
   @Output() channelGroupIdChange = new EventEmitter<any>();
-
-  /** channel groups available for selection */
-  groups: any;
+  /** currently selected channel group */
+  selectedChannelGroup: ChannelGroup;
+  /** channel groups grouped by property */
+  sortedGroups: Group[] = [
+    {
+      name: "Private Groups",
+      value: "private",
+      groups: [],
+    },
+    {
+      name: "Organization Groups",
+      value: "org",
+      groups: [],
+    },
+    {
+      name: "Public Groups",
+      value: "public",
+      groups: [],
+    },
+  ];
   /*{
     name: string;
     groups: ChannelGroup[];
@@ -47,16 +77,57 @@ export class ChannelGroupSelectorComponent implements OnInit {
    */
   ngOnInit(): void {
     this.channelGroupService
-      .getSortedChannelGroups({ order: "name" })
-      .subscribe((sortedGroups) => {
-        this.groups = sortedGroups;
+      .list({ order: "name" })
+      .subscribe((groups: ChannelGroup[]) => {
+        this.channelGroups = groups;
+        const publicGroups = this.sortedGroups.find(
+          (group) => group.value === "public"
+        );
+        const orgGroups = this.sortedGroups.find(
+          (group) => group.value === "org"
+        );
+        const privateGroups = this.sortedGroups.find(
+          (group) => group.value === "private"
+        );
+        this.channelGroups.forEach((cg: ChannelGroup) => {
+          if (
+            !this.selectedChannelGroup &&
+            this.channelGroupId &&
+            cg.id === this.channelGroupId
+          ) {
+            this.selectedChannelGroup = cg;
+          }
+          if (cg.shareAll) {
+            publicGroups?.groups.push(cg);
+          } else if (cg.shareOrg) {
+            orgGroups?.groups.push(cg);
+          } else {
+            privateGroups?.groups.push(cg);
+          }
+        });
       });
+  }
+
+  /**
+   * @override
+   */
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      changes["channelGroupId"] &&
+      this.channelGroupId !== this.selectedChannelGroup?.id &&
+      this.channelGroups
+    ) {
+      this.selectedChannelGroup = this.channelGroups.find(
+        (cg) => cg.id === this.channelGroupId
+      );
+    }
   }
 
   /**
    * Emit selected channel group id and update url with id
    */
   selectionChange(): void {
+    this.channelGroupId = this.selectedChannelGroup.id;
     this.channelGroupIdChange.emit(this.channelGroupId);
 
     const url = this.router
@@ -67,5 +138,15 @@ export class ChannelGroupSelectorComponent implements OnInit {
       .toString();
 
     this.location.go(url);
+  }
+
+  /**
+   * Returns formatted string for displaying Chanel group
+   *
+   * @param group channel group
+   * @returns string with channel group name and count
+   */
+  displayFn(group: ChannelGroup): string {
+    return group && group.name ? `${group.name} (${group.channelsCount})` : "";
   }
 }

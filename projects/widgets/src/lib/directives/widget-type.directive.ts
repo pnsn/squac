@@ -28,7 +28,7 @@ import { ErrorComponent } from "../shared/components/error/error.component";
   providers: [WidgetConfigService],
 })
 export class WidgetTypeDirective implements OnInit, OnDestroy {
-  widgetType;
+  currentWidgetType;
   widget: Widget;
   error;
   showKey;
@@ -79,7 +79,13 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
                   `Only ${metricsWithData} metric(s) returned data. ${minMetrics} metrics required to display widget.`
                 );
               } else {
-                this.addWidget(this.widgetManager.widgetType);
+                if (
+                  this.widgetManager.widgetType !== this.currentWidgetType ||
+                  !this.childComponent
+                ) {
+                  this.addWidget(this.widgetManager.widgetType);
+                }
+
                 this.widgetConfigService.thresholds =
                   this.widgetManager.thresholds;
                 this.widgetConfigService.dataRange =
@@ -133,7 +139,7 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
           injector,
         }
       );
-
+    this.currentWidgetType = widgetType;
     this.childComponent = this.childComponentRef.instance;
   }
 

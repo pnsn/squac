@@ -3,9 +3,9 @@
 
 //default icon sizing
 mat-icon.mat-icon {
-  height: 22px !important;
-  width: 20px !important;
-  font-size: 20px !important;
+  height: 20px !important;
+  width: 18px !important;
+  font-size: 18px !important;
   line-height: 1 !important;
 }
 
@@ -85,7 +85,8 @@ mat-icon.mat-icon {
   }
 }
 
-mat-option {
+mat-option,
+.mat-optgroup-label {
   height: 25pt !important;
   line-height: 25pt !important;
   span {
@@ -184,25 +185,29 @@ button[mat-menu-item] {
     .mat-icon {
       margin-right: 8px;
     }
-    height: 30px !important;
-    line-height: 10px;
+    height: 25px !important;
+    line-height: 25px;
   }
 
   a.mat-menu-item {
-    height: 30px !important;
-    line-height: 30px;
+    height: 25px !important;
+    line-height: 25px;
   }
 }
 .mat-nav-list-dense {
   .mat-nav-list {
     a {
-      height: 30px !important;
+      height: 25px !important;
     }
   }
 }
 
 .mat-snack-bar-themed {
+  margin: 0 !important;
+  top: 90px;
+  position: relative;
   background-color: $sq-dk-gray !important;
+  opacity: 0.9;
 }
 
 .mat-horizontal-stepper-header-container,
@@ -224,6 +229,21 @@ mat-horizontal-stepper {
 
 .mat-dialog-container {
   padding-top: 10px !important;
+}
+
+mat-checkbox {
+  height: 20px;
+  .mat-checkbox-inner-container {
+    height: 12px !important;
+    width: 12px !important;
+    margin-right: 5px;
+  }
+  .mat-ripple {
+    display: none !important;
+  }
+  .mat-checkbox-label div {
+    font-size: 10pt !important;
+  }
 }
 
 // .mat-dialog-actions {

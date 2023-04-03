@@ -221,11 +221,15 @@ export abstract class BaseWriteableApiService<
     object: Partial<T>,
     keys: string[]
   ): PartialUpdateParams {
-    const data = {};
+    let data = {};
     const objectJson = object.toJson();
-    keys.forEach((key) => {
-      data[key] = objectJson[key];
-    });
+    if (keys.length > 0) {
+      keys.forEach((key) => {
+        data[key] = objectJson[key];
+      });
+    } else {
+      data = object.toJson();
+    }
 
     return {
       id: object.id,
@@ -234,7 +238,8 @@ export abstract class BaseWriteableApiService<
   }
 
   /**
-   *  Partial update request for an object
+   *  Partial update request for an object, if no keys passed, full
+   * update will be performed
    *
    * @param object object to update
    * @param keys keys being changed

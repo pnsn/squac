@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { OrganizationService } from "squacapi";
 import { User } from "squacapi";
 import { Organization } from "squacapi";
-import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
+import { catchError, EMPTY, Subscription, tap } from "rxjs";
 import { InviteService } from "squacapi";
 import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
@@ -15,6 +15,7 @@ import {
   TableFilters,
   TableOptions,
 } from "@shared/components/table-view/interfaces";
+import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
 
 /**
  * Displays info for single organization, mostly list of users
@@ -40,6 +41,14 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
   columns = [];
   selectedId: number;
   selected: User;
+
+  /** Config for detail page */
+  pageOptions: PageOptions = {
+    path: "user",
+    titleButtons: {
+      addButton: true,
+    },
+  };
 
   controls: TableControls = {
     resource: "Organization",
@@ -95,14 +104,12 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const orgSub = this.route.data
       .pipe(
-        tap(() => {
+        tap((data) => {
           this.user = this.route.snapshot.data["user"];
           this.orgId = this.route.snapshot.params["orgId"];
-        }),
-        switchMap(() => {
-          return this.fetchData();
-        }),
-        tap(() => {
+          this.organization = data["organization"];
+          this.rows = [...this.organization.users];
+
           this.isAdmin =
             this.user.isStaff ||
             (this.user.isOrgAdmin && this.user.orgId === this.organization.id);
@@ -177,7 +184,7 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
         name: "Groups",
         pipe: {
           transform: (groups): string => {
-            return groups ? groups.join(", ") : "";
+            return groups ? Array.from(groups).join(", ") : "";
           },
         },
       },

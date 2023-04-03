@@ -1,35 +1,32 @@
-<shared-table-view
-  [isLoading]="loadingService.isLoading(this)"
+<shared-detail-page
+  [options]="pageOptions"
+  *ngIf="monitors"
+  type="Monitor"
   title="Monitors"
-  [options]="options"
-  [rows]="rows"
-  [columns]="columns"
-  (itemSelected)="onSelect($event)"
-  (controlClicked)="onClick($event)"
-  [controls]="controls"
-  [filters]="filters"
-  (refresh)="refresh()"
 >
-  <!-- [rowDetailTemplate]="rowDetailTemplate" -->
-</shared-table-view>
-<ng-template let-row="row" #stateTemplate>
-  <monitor-alarm-status [inAlarm]="row.inAlarm"></monitor-alarm-status>
-  <ng-template #noAlert>
-    <a mat-icon-button aria-label="no alert data" disabled="true">
-      <mat-icon>help_outline</mat-icon>
-    </a>
-  </ng-template>
-</ng-template>
-<ng-template let-row="row" #updateTemplate>
-  <ng-container *ngIf="row.lastUpdate; else noAlert">
-    <div>
-      {{ row.inAlarm ? "in alarm" : "out of alarm" }}
-    </div>
-    <div>
-      {{ row.lastUpdate | date: "short" }}
-    </div>
+  <ng-container bodyContent>
+    <shared-table-view
+      [isLoading]="loadingService.isLoading$(this) | async"
+      title="Monitors"
+      [options]="options"
+      [rows]="rows"
+      [columns]="columns"
+      (itemSelected)="onSelect($event)"
+      (controlClicked)="onClick($event)"
+      [controls]="controls"
+      [filters]="filters"
+      (refresh)="refresh()"
+    >
+    </shared-table-view>
+    <ng-template let-value="value" #stateTemplate>
+      <monitor-alarm-status [inAlarm]="value"></monitor-alarm-status>
+    </ng-template>
+    <ng-template let-value="value" #updateTemplate>
+      <ng-container *ngIf="value; else noAlert">
+        {{ value }}
+      </ng-container>
+      <ng-template #noAlert>no alerts</ng-template>
+    </ng-template>
   </ng-container>
-  <ng-template #noAlert>no alerts</ng-template>
-</ng-template>
-
+</shared-detail-page>
 <router-outlet></router-outlet>

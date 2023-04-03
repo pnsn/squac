@@ -1,15 +1,25 @@
 import { Component, OnInit, OnDestroy, Inject } from "@angular/core";
 import { Metric } from "squacapi";
 import {
-  UntypedFormGroup,
-  UntypedFormBuilder,
-  UntypedFormControl,
   Validators,
+  FormControl,
+  FormGroup,
+  FormBuilder,
 } from "@angular/forms";
 import { MetricService } from "squacapi";
 import { Subscription } from "rxjs";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 
+interface MetricForm {
+  name: FormControl<string>;
+  description: FormControl<string>;
+  code: FormControl<string>;
+  referenceUrl: FormControl<string>;
+  unit: FormControl<string>;
+  sampleRate: FormControl<number>;
+  minVal: FormControl<number>;
+  maxVal: FormControl<number>;
+}
 /**
  * Component for editing metric information
  */
@@ -24,20 +34,20 @@ export class MetricEditComponent implements OnInit, OnDestroy {
   metric: Metric;
   editMode: boolean;
 
-  metricForm: UntypedFormGroup = this.formBuilder.group({
-    name: new UntypedFormControl("", Validators.required),
-    description: new UntypedFormControl("", Validators.required),
-    code: new UntypedFormControl("", Validators.required),
-    referenceUrl: new UntypedFormControl("", Validators.required),
-    unit: new UntypedFormControl("", Validators.required),
-    sampleRate: new UntypedFormControl("", Validators.required),
-    minVal: new UntypedFormControl(""),
-    maxVal: new UntypedFormControl(""),
+  metricForm: FormGroup<MetricForm> = this.formBuilder.group({
+    name: new FormControl("", Validators.required),
+    description: new FormControl("", Validators.required),
+    code: new FormControl("", Validators.required),
+    referenceUrl: new FormControl("", Validators.required),
+    unit: new FormControl("", Validators.required),
+    sampleRate: new FormControl(null, Validators.required),
+    minVal: new FormControl(),
+    maxVal: new FormControl(),
   });
 
   constructor(
     private metricService: MetricService,
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<MetricEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}

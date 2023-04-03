@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { MessageService } from "@core/services/message.service";
 import { DATE_PICKER_TIMERANGES } from "@dashboard/components/dashboard-detail/dashboard-time-ranges";
+import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
 import {
   TableControls,
   TableOptions,
@@ -14,6 +14,7 @@ import { forkJoin, Observable, Subscription, switchMap, tap } from "rxjs";
 import {
   Alert,
   AlertService,
+  BreachingChannel,
   Channel,
   ChannelGroup,
   ChannelGroupService,
@@ -29,6 +30,10 @@ import {
   WidgetType,
 } from "widgets";
 
+enum LoadingIndicator {
+  RESULTS,
+  MAIN,
+}
 /**
  * Component for viewing single monitor
  */
@@ -61,7 +66,16 @@ export class MonitorDetailComponent implements OnInit {
   endtime: string;
   subscriptions = new Subscription();
   unsavedChanges = false;
-
+  LoadingIndicator = LoadingIndicator;
+  /** Config for detail page */
+  pageOptions: PageOptions = {
+    titleButtons: {
+      deleteButton: true,
+      addButton: true,
+      editButton: true,
+    },
+    path: "/monitors",
+  };
   controls: TableControls = {
     listenToRouter: true,
     resource: "Monitor",
@@ -90,10 +104,7 @@ export class MonitorDetailComponent implements OnInit {
     private widgetManager: WidgetManagerService,
     private channelGroupService: ChannelGroupService,
     private metricService: MetricService,
-    private widgetDataService: WidgetDataService,
-    private widgetConfigService: WidgetConfigService,
     private changeDetector: ChangeDetectorRef,
-    private confirmDialog: ConfirmDialogService,
     private messageService: MessageService
   ) {}
   // last n intervals
@@ -107,11 +118,11 @@ export class MonitorDetailComponent implements OnInit {
         name: "Value",
         prop: "",
         pipe: {
-          transform: (row) => {
+          transform: (row: BreachingChannel): number => {
             return row[this.monitor.stat];
           },
         },
-        comparator: (a, b) => {
+        comparator: (a: BreachingChannel, b: BreachingChannel): number => {
           return a[this.monitor.stat] - b[this.monitor.stat];
         },
       },
@@ -131,7 +142,8 @@ export class MonitorDetailComponent implements OnInit {
               ),
               metric: this.metricService.read(this.monitor.metricId),
             }),
-            this
+            this,
+            LoadingIndicator.MAIN
           );
         })
       )
@@ -177,50 +189,34 @@ export class MonitorDetailComponent implements OnInit {
    * Requests new data
    */
   update(): void {
-    this.getAlerts().subscribe({
-      next: (alerts: Alert[]) => {
-        this.unsavedChanges = false;
-        this.alerts = alerts;
-        this.changeDetector.detectChanges();
-        this.channelChart?.updateData();
-        this.monitorChart?.updateData();
+    this.loadingService
+      .doLoading(this.getAlerts(), this, LoadingIndicator.RESULTS)
+      .subscribe({
+        next: (alerts: Alert[]) => {
+          this.unsavedChanges = false;
+          this.alerts = alerts;
+          this.changeDetector.detectChanges();
+          this.channelChart?.updateData();
+          this.monitorChart?.updateData();
 
-        setTimeout(() => {
-          if (this.channelChart && this.monitorChart) {
-            const channelChart = this.channelChart.echartsInstance;
-            const monitorChart = this.monitorChart.echartsInstance;
-            console.log(channelChart, monitorChart);
-            if (monitorChart && channelChart) {
-              connect([channelChart, monitorChart]);
+          setTimeout(() => {
+            if (this.channelChart && this.monitorChart) {
+              const channelChart = this.channelChart.echartsInstance;
+              const monitorChart = this.monitorChart.echartsInstance;
+              if (monitorChart && channelChart) {
+                connect([channelChart, monitorChart]);
+              }
             }
-          }
-        }, 0);
-      },
-    });
-  }
-
-  /**
-   * Delete monitor after confirmation
-   */
-  onDelete(): void {
-    this.confirmDialog.open({
-      title: `Delete ${this.monitor.name}`,
-      message: "Are you sure? This action is permanent.",
-      cancelText: "Cancel",
-      confirmText: "Delete",
-    });
-    this.confirmDialog.confirmed().subscribe((confirm) => {
-      if (confirm) {
-        this.delete();
-      }
-    });
+          }, 0);
+        },
+      });
   }
 
   /**
    * Delete monitor
    */
   delete(): void {
-    this.channelGroupService.delete(this.monitor.id).subscribe({
+    this.monitorService.delete(this.monitor.id).subscribe({
       next: () => {
         this.closeMonitor();
         this.messageService.message("Monitor deleted.");
@@ -228,22 +224,6 @@ export class MonitorDetailComponent implements OnInit {
       error: () => {
         this.messageService.error("Could not delete monitor");
       },
-    });
-  }
-
-  /**
-   * Navigate to edit path
-   */
-  editMonitor(): void {
-    this.router.navigate(["edit"], { relativeTo: this.route });
-  }
-
-  /**
-   * Add new monitor
-   */
-  addNewMonitor(): void {
-    this.router.navigate(["/", "monitors", "new"], {
-      relativeTo: this.route,
     });
   }
 
@@ -269,11 +249,7 @@ export class MonitorDetailComponent implements OnInit {
       startDate = this.dateService.subtractFromNow(rangeInSeconds, "seconds");
       endDate = this.dateService.now();
     }
-    this.widgetManager.updateTimes(
-      this.dateService.format(startDate),
-      this.dateService.format(endDate)
-    );
-    console.log("dates changed");
+    this.widgetManager.updateTimes(startDate, endDate);
     this.unsavedChanges = true;
   }
 }

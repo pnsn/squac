@@ -1,7 +1,8 @@
 import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
 import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
+  FormBuilder,
+  FormControl,
+  FormGroup,
   Validators,
 } from "@angular/forms";
 import { User } from "squacapi";
@@ -11,6 +12,13 @@ import { MessageService } from "@core/services/message.service";
 import { InviteService } from "squacapi";
 import { OrganizationUserService } from "squacapi";
 
+interface UserForm {
+  email: FormControl<string>;
+  firstname: FormControl<string>;
+  lastname: FormControl<string>;
+  isAdmin: FormControl<boolean>;
+  groups: FormControl<Array<string>>;
+}
 /**
  * Edit or add users to organizations
  */
@@ -24,7 +32,7 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
   user: User;
   editMode: boolean;
   orgId: number;
-  userForm: UntypedFormGroup;
+  userForm: FormGroup<UserForm>;
 
   userIsActive = true;
   groupTypes = [
@@ -45,7 +53,7 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
     },
   ];
   constructor(
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<OrganizationEditComponent>,
     private orgUserService: OrganizationUserService,
     private messageService: MessageService,
@@ -62,14 +70,14 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
 
     this.editMode = !!this.user;
     this.userForm = this.formBuilder.group({
-      email: [
+      email: new FormControl(
         { value: "", disabled: this.editMode },
-        this.editMode ? [] : [Validators.required, Validators.email],
-      ],
-      firstname: ["", Validators.required],
-      lastname: ["", Validators.required],
-      isAdmin: [false, Validators.required],
-      groups: ["", Validators.required],
+        this.editMode ? [] : [Validators.required, Validators.email]
+      ),
+      firstname: new FormControl("", Validators.required),
+      lastname: new FormControl("", Validators.required),
+      isAdmin: new FormControl(null, Validators.required),
+      groups: new FormControl(null, Validators.required),
     });
 
     this.initForm();

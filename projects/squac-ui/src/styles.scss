@@ -10,8 +10,6 @@
 /* You can add global styles to this file, and also import other style files */
 // @include date-range-picker-theme($squac-ui-theme);
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
   font-size: 11pt;
   font-family: "Source Sans Pro", sans-serif;
@@ -20,6 +18,8 @@
 html,
 body {
   height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -28,13 +28,13 @@ body {
 }
 .body-content-container {
   width: 100%;
-  height: calc(100% - 47px);
+  height: calc(100% - 60px);
   @include md {
-    margin: 10px 2% 0;
+    margin: 0 2% 0;
     width: 96%;
   }
   @include lg {
-    margin: 10px 4% 0;
+    margin: 0 4% 0;
     width: 92%;
   }
 }
@@ -106,27 +106,27 @@ body {
 /* Text styles */
 
 h1 {
-  margin-top: 0px;
-  font-size: 1.6rem;
+  font-size: 1.3rem;
   font-weight: 600;
 }
 
 h2 {
-  margin-top: 0px;
-  font-size: 1.4rem;
-  font-weight: 600;
-}
-
-h3 {
-  margin-top: 0px;
   font-size: 1.2rem;
   font-weight: 600;
 }
 
-h4 {
-  margin-top: 0px;
+h3 {
   font-size: 1.1rem;
   font-weight: 600;
+  margin-block-start: 0.8em;
+  margin-block-end: 0.8em;
+}
+
+h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-block-start: 0.8em;
+  margin-block-end: 0.8em;
 }
 
 p {
@@ -163,7 +163,6 @@ p {
 }
 //text styling
 .help-text {
-  font-size: 0.9rem;
   font-weight: 300;
   margin-top: 3px;
   margin-bottom: 3px;
@@ -187,7 +186,7 @@ a[disabled] {
 
 a {
   color: $sq-dk-gray;
-  font-size: 1rem;
+  // font-size: 1rem;
 }
 
 .box-shadow {
@@ -199,7 +198,6 @@ a {
 .box {
   @extend .gray-border;
   @extend .white-background;
-  @extend .box-shadow;
   background-color: white;
   overflow: hidden;
 }
@@ -229,7 +227,11 @@ a {
     display: inline-block;
   }
   &.mat-dialog-title {
-    margin: 0 0 10px !important;
+    margin: 0px !important;
+    h3 {
+      margin-block-end: 10px;
+      margin-block-start: 10px;
+    }
   }
 }
 .dialog-title {
@@ -333,4 +335,13 @@ a {
   .dialog-responsive {
     width: 100%;
   }
+}
+
+.leaflet-touch .leaflet-bar a {
+  width: 20px;
+  height: 20px;
+  line-height: 15px;
+}
+.leaflet-control-attribution a {
+  font-size: 10pt;
 }

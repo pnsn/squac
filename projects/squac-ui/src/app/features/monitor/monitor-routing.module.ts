@@ -8,12 +8,17 @@ import { AlertViewComponent } from "./components/alert-view/alert-view.component
 import { MonitorResolver } from "@core/resolvers/monitor.resolver";
 import { MetricResolver } from "@core/resolvers/metric.resolver";
 import { MonitorDetailComponent } from "./components/monitor-detail/monitor-detail.component";
+import { ChannelGroupResolver } from "@core/resolvers/channel-group.resolver";
 
 export const routes: Routes = [
   {
     path: "",
     component: MonitorComponent,
     canActivate: [AuthGuard],
+    resolve: {
+      channelGroups: ChannelGroupResolver,
+      metrics: MetricResolver,
+    },
     children: [
       {
         path: "alerts",
@@ -22,8 +27,9 @@ export const routes: Routes = [
       {
         path: "",
         component: MonitorViewComponent,
+        runGuardsAndResolvers: "always",
         resolve: {
-          metrics: MetricResolver,
+          monitors: MonitorResolver,
         },
         children: [
           {
@@ -33,16 +39,15 @@ export const routes: Routes = [
         ],
       },
       {
-        path: ":monitorId/edit",
-        component: MonitorEditEntryComponent,
-        resolve: {
-          metrics: MetricResolver,
-          monitor: MonitorResolver,
-        },
-      },
-      {
         path: ":monitorId",
         component: MonitorDetailComponent,
+        runGuardsAndResolvers: "always",
+        children: [
+          {
+            path: "edit",
+            component: MonitorEditEntryComponent,
+          },
+        ],
         resolve: {
           monitor: MonitorResolver,
         },

@@ -68,6 +68,11 @@ export class MapComponent
     super(widgetManager, widgetConnectService);
   }
 
+  /** @override */
+  override useDenseView(_useDenseView: boolean): void {
+    return;
+  }
+
   /**
    * @override
    */
@@ -128,6 +133,7 @@ export class MapComponent
       });
       this.buildChartData(this.data).then(() => {
         this.changeMetrics();
+        this.toggleKey();
       });
     }
   }

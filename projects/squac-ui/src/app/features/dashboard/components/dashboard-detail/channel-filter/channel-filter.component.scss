@@ -3,7 +3,9 @@
     font-weight: bold;
   }
 }
-
+h4.header {
+  margin: 3px 0;
+}
 :host ::ng-deep .mat-button,
 .mat-stroked-button {
   padding: 0px 5px !important;
@@ -15,11 +17,16 @@
   width: 20px;
   line-height: 20px;
 }
-.header-row {
-  margin-bottom: 3px;
-}
 .row {
   gap: 3px;
+}
+form {
+  margin-top: 3px;
+}
+ul {
+  list-style-type: none;
+  padding-inline-start: 0px;
+  margin: 0px;
 }
 
 :host ::ng-deep mat-checkbox {
@@ -32,7 +39,7 @@
   .mat-ripple {
     display: none !important;
   }
-  .mat-checkbox-label {
+  .mat-checkbox-label div {
     font-size: 10pt !important;
   }
 }

@@ -12,7 +12,8 @@ describe("SearchFilterComponent", () => {
   let fixture: ComponentFixture<SearchFilterComponent>;
 
   beforeEach(() => {
-    return MockBuilder(SearchFilterComponent, SharedModule)
+    return MockBuilder(SearchFilterComponent)
+      .mock(SharedModule)
       .keep(FormsModule)
       .mock(OrganizationService)
       .mock(UserService);

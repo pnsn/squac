@@ -40,6 +40,17 @@ export class TimelineComponent
     super(widgetManager, widgetConnector);
   }
 
+  override fullOptions = {
+    grid: {
+      containLabel: true,
+      top: 5,
+      right: 10,
+      bottom: 38,
+      left: 30,
+    },
+    dataZoom: this.chartDefaultOptions.dataZoom,
+  };
+
   // Max allowable time between measurements to connect
   maxMeasurementGap: number = 1 * 1000;
   xAxisLabels = [];
@@ -49,7 +60,16 @@ export class TimelineComponent
    * @override
    */
   configureChart(): void {
-    const chartOptions: EChartsOption = {
+    const dataZoom = this.denseView
+      ? this.denseOptions.dataZoom
+      : this.fullOptions.dataZoom;
+    const grid = this.denseView
+      ? this.denseOptions.grid
+      : this.fullOptions.grid;
+    this.options = {
+      ...this.chartDefaultOptions,
+      grid,
+      dataZoom,
       xAxis: {
         type: "time",
         nameLocation: "middle",
@@ -79,6 +99,7 @@ export class TimelineComponent
         },
       },
       tooltip: {
+        ...this.chartDefaultOptions.tooltip,
         formatter: (params: TooltipComponentFormatterCallbackParams) =>
           this.widgetConfigService.timeAxisFormatToolTip(params),
       },
@@ -87,13 +108,14 @@ export class TimelineComponent
         axisTick: {
           interval: 0,
         },
+        axisLabel: {
+          fontSize: 11,
+        },
         type: "category",
-        nameGap: 40, //max characters
+        // nameGap: 35, //max characters
       },
       series: [],
     };
-
-    this.options = this.widgetConfigService.chartOptions(chartOptions);
   }
 
   /**
@@ -282,7 +304,7 @@ export class TimelineComponent
     const displayMetric = this.selectedMetrics[0];
     const colorMetric = this.selectedMetrics[0];
     const visualMaps = this.visualMaps[colorMetric.id];
-
+    visualMaps.show = this.showKey;
     let xAxis = { ...this.options.xAxis };
     if (
       this.properties.displayType === "hour" ||
@@ -310,6 +332,7 @@ export class TimelineComponent
           formatter: this.widgetConfigService.timeAxisTickFormatting.bind(this),
           fontSize: 11,
           margin: 3,
+          hideOverlap: true,
         },
         axisPointer: {
           show: true,
@@ -327,12 +350,6 @@ export class TimelineComponent
       visualMap: visualMaps,
       xAxis,
     };
-
-    if (this.echartsInstance) {
-      this.echartsInstance.setOption(this.updateOptions, {
-        replaceMerge: ["series", "xAxis"],
-      });
-    }
   }
 
   /**

@@ -73,10 +73,11 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
       checkboxes.addControl(channel.nslc, new FormControl<boolean>(true));
     });
 
-    this.form.valueChanges.subscribe(() => {
-      const value = <Record<string, boolean>>this.form.get("checkboxes").value;
-      this.viewService.updateChannels(value);
-    });
+    this.form["controls"].checkboxes.valueChanges.subscribe(
+      (value: Record<string, boolean>) => {
+        this.viewService.updateChannels(value);
+      }
+    );
   }
 
   /**

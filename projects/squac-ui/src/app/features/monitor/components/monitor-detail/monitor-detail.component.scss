@@ -1,26 +1,33 @@
 @import "variables";
 
-#monitor-history-chart-container {
-  height: 300px;
+.box {
+  padding: 0px 10px 10px;
 }
 
 #monitor-container {
-  border-top: 1px solid lighten($sq-gray, 15);
   overflow: hidden;
-  padding: 10px;
+  .row {
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+  .date-select-row {
+    display: flex;
+    flex-direction: row;
+  }
 }
 
-#group-view-container {
-  margin-top: 10px;
-  overflow: hidden;
-}
 .chart-container {
-  padding: 10px;
   z-index: 10;
 }
 
 #alert-detail {
-  padding: 10px;
+  width: fit-content;
+  display: inline-block;
+}
+
+#breaching-channels-detail {
+  display: flex;
+  flex-direction: row;
 }
 
 #trigger-table {

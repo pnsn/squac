@@ -4,4 +4,6 @@ export interface TimeRange {
   amount: number;
   /** unit of time i.e. seconds, minutes, hours */
   unit: string;
+  /** string representation */
+  label: string;
 }

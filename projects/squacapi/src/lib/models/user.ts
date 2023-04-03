@@ -1,5 +1,4 @@
 import {
-  WriteOnlyUserSerializer,
   ReadOnlyUserMeSerializer,
   ReadOnlyUserSerializer,
   ReadOnlyUserSimpleSerializer,
@@ -8,12 +7,27 @@ import {
 } from "@pnsn/ngx-squacapi-client";
 import { ResourceModel } from "../interfaces";
 
+/**
+ * Generated serializer uses a set for groups, which client
+ * does not handle correctly
+ */
+export interface WriteOnlyUserSerializer {
+  email: string;
+  firstname: string;
+  lastname: string;
+  groups: Array<string>;
+  organization: number;
+  is_org_admin?: boolean;
+  last_login?: string | null;
+  is_active?: boolean;
+}
+
 export interface User {
   email: string;
   firstname: string;
   lastname: string;
   isOrgAdmin: boolean;
-  groups: Set<string>;
+  groups: Array<string>;
   lastLogin: string;
   isStaff: boolean;
   isActive: boolean;
@@ -38,6 +52,13 @@ export class User extends ResourceModel<
   }
 
   /**
+   * @returns user's first and last name
+   */
+  get fullName(): string {
+    return `${this.firstname} ${this.lastname}`;
+  }
+
+  /**
    * @returns model name
    */
   static get modelName(): string {
@@ -56,7 +77,9 @@ export class User extends ResourceModel<
   ): void {
     super.fromRaw(data);
 
-    this.groups = new Set<string>(data.groups);
+    if (data.groups) {
+      this.groups = Array.from(data.groups);
+    }
   }
 
   /** @override */
@@ -79,6 +102,6 @@ export class User extends ResourceModel<
    * @returns true if user is in the group
    */
   inGroup(group: string): boolean {
-    return this.groups.has(group);
+    return this.groups.indexOf(group) > -1;
   }
 }

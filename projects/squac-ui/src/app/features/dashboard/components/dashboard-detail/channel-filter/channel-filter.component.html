@@ -1,14 +1,4 @@
-<div class="row space-between header-row">
-  <h4>Channels</h4>
-  <!-- <button
-    mat-icon-button
-    (click)="toggleSidenav()"
-    matTooltip="collapse list"
-    aria-label="button to collapse sidebar"
-  >
-    <mat-icon>close</mat-icon>
-  </button> -->
-</div>
+<h4 class="header">Channels</h4>
 
 <div *ngIf="channels.length === 0; else hasChannels">
   Select a channel group above.
@@ -29,11 +19,14 @@
           <mat-checkbox
             type="checkbox"
             [formControlName]="item.key"
-            (mouseenter)="mouseenter(item.key)"
-            (mouseleave)="mouseleave(item.key)"
             [disableRipple]="true"
           >
-            {{ item.key }}
+            <div
+              (mouseenter)="mouseenter(item.key)"
+              (mouseleave)="mouseleave(item.key)"
+            >
+              {{ item.key }}
+            </div>
           </mat-checkbox>
         </li>
       </ul>
