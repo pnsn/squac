@@ -29,10 +29,10 @@ import { TimeRange } from "@shared/components/date-select/time-range.interface";
 import { DATE_PICKER_TIMERANGES } from "@dashboard/components/dashboard-detail/dashboard-time-ranges";
 
 export interface DashboardConfig {
-  stat?: string;
+  stat?: ArchiveStatType;
   start?: string;
   end?: string;
-  archive?: string;
+  archive?: ArchiveType;
   range?: string;
 }
 
@@ -274,27 +274,22 @@ export class ViewService {
    *
    * @param dashboard dashboard used for service
    * @param channelGroupId channel group id to find
-   * @returns observable of channel group
    */
-  setDashboard(
-    dashboard: Dashboard,
-    channelGroupId: number
-  ): Observable<ChannelGroup> {
+  setDashboard(dashboard: Dashboard): void {
     this._widgets = [];
     this._channelGroupId = null;
     this._channels = [];
-    const groupId = channelGroupId || dashboard.channelGroupId;
     this.initDashboard(dashboard);
 
-    if (groupId) {
-      return this.getChannelGroup(groupId).pipe(
-        tap(() => {
-          this.updateDashboard();
-        })
-      );
-    } else {
-      return of(null);
-    }
+    // if (groupId) {
+    //   return this.getChannelGroup(groupId).pipe(
+    //     tap(() => {
+    //       this.updateDashboard();
+    //     })
+    //   );
+    // } else {
+    //   return of(null);
+    // }
   }
 
   /**

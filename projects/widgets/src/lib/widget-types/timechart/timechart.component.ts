@@ -117,7 +117,7 @@ export class TimechartComponent
       const series = {
         type: "line",
         large: true,
-        largeThreshold: 1000,
+        largeThreshold: 500,
         legendHoverLink: true,
         lineStyle: {
           width: 1,

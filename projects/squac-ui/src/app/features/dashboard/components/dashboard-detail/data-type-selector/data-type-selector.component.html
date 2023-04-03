@@ -1,35 +1,17 @@
 <mat-form-field class="dense-form-field-select" appearance="outline">
   <mat-label>Data Type</mat-label>
-  <input
-    matInput
-    placeholder="data type"
-    [matMenuTriggerFor]="dataTypeMenu"
-    readonly
-    [value]="displayString"
-  />
+  <input matInput placeholder="data type" [matMenuTriggerFor]="dataTypeMenu" readonly
+    [value]="dataType | dataType:statType" />
 </mat-form-field>
-<mat-menu
-  class="mat-menu-dense"
-  #dataTypeMenu="matMenu"
-  panelClass="stat-type-menu"
->
+<mat-menu class="mat-menu-dense" #dataTypeMenu="matMenu" panelClass="stat-type-menu">
   <ng-container *ngFor="let type of ArchiveType">
-    <button
-      [ngClass]="type === dataType ? 'active' : ''"
-      *ngIf="type === 'raw'"
-      mat-menu-item
-      (click)="selectDataType(type, null)"
-    >
+    <button [ngClass]="type === dataType ? 'active' : ''" *ngIf="type === 'raw'" mat-menu-item
+      (click)="selectDataType(type, null)">
       {{ archiveTypeOptions[type].full }}
     </button>
 
-    <button
-      mat-menu-item
-      [ngClass]="type === dataType ? 'active' : ''"
-      *ngIf="type !== 'raw'"
-      [matMenuTriggerFor]="statTypeMenu"
-      [matMenuTriggerData]="{ type }"
-    >
+    <button mat-menu-item [ngClass]="type === dataType ? 'active' : ''" *ngIf="type !== 'raw'"
+      [matMenuTriggerFor]="statTypeMenu" [matMenuTriggerData]="{ type }">
       {{ archiveTypeOptions[type].full }}
     </button>
   </ng-container>
@@ -40,12 +22,8 @@
     <button mat-menu-item disabled readonly>
       {{ archiveTypeOptions[type].full }}
     </button>
-    <button
-      mat-menu-item
-      *ngFor="let stat of StatTypes"
-      [ngClass]="type === dataType && stat === statType ? 'active' : ''"
-      (click)="selectDataType(type, stat)"
-    >
+    <button mat-menu-item *ngFor="let stat of StatTypes"
+      [ngClass]="type === dataType && stat === statType ? 'active' : ''" (click)="selectDataType(type, stat)">
       {{ statTypeOptions[stat] }}
     </button>
   </ng-template>

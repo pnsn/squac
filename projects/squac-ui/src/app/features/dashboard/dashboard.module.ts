@@ -22,6 +22,7 @@ import { WidgetTypeExampleDirective } from "./components/widget-edit/widget-edit
 import { GridsterModule } from "angular-gridster2";
 import { WidgetsModule } from "widgets";
 import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
+import { DataTypePipe } from "./components/dashboard-detail/data-type-selector/data-type.pipe";
 
 /** Dashboard feature module */
 @NgModule({
@@ -42,6 +43,7 @@ import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
     WidgetEditInfoComponent,
     MetricToggleComponent,
     WidgetTypeExampleDirective,
+    DataTypePipe,
   ],
   imports: [
     GridsterModule,

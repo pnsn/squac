@@ -56,17 +56,4 @@ export class DataTypeSelectorComponent implements OnChanges {
       dataType: this.dataType,
     });
   }
-
-  /** @returns formatted string */
-  get displayString(): string {
-    let string = "";
-    if (this.dataType) {
-      const full = this.archiveTypeOptions[this.dataType].full;
-      string += full;
-    }
-    if (this.statType && this.statTypeOptions[this.statType]) {
-      string += `: ${this.statTypeOptions[this.statType]}`;
-    }
-    return string;
-  }
 }

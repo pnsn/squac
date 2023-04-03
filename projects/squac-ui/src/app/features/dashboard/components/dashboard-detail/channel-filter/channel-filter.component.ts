@@ -1,4 +1,6 @@
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   OnDestroy,
@@ -20,6 +22,7 @@ type CheckboxForm = Record<string, FormControl<boolean>>;
   selector: "dashboard-channel-filter",
   templateUrl: "./channel-filter.component.html",
   styleUrls: ["./channel-filter.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChannelFilterComponent implements OnInit, OnDestroy {
   filteredChannels: Observable<Channel[]>;
@@ -34,7 +37,8 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private widgetConnectService: WidgetConnectService,
-    private viewService: ViewService
+    private viewService: ViewService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   /**
@@ -75,9 +79,11 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
 
     this.form["controls"].checkboxes.valueChanges.subscribe(
       (value: Record<string, boolean>) => {
+        console.log("update");
         this.viewService.updateChannels(value);
       }
     );
+    this.cdr.detectChanges();
   }
 
   /**

@@ -1,7 +1,13 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import {
   ARCHIVE_STAT_OPTIONS,
   ARCHIVE_TYPE_OPTIONS,
+  ChannelGroup,
   Dashboard,
 } from "squacapi";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -21,6 +27,7 @@ import { LoadingService } from "@core/services/loading.service";
 import { DATE_PICKER_TIMERANGES } from "./dashboard-time-ranges";
 import { ArchiveStatType, ArchiveType } from "squacapi";
 import { WidgetConnectService } from "widgets";
+import { ChannelGroupComponent } from "@channelGroup/components/channel-group.component";
 
 /**
  * Individual dashboard view
@@ -29,6 +36,7 @@ import { WidgetConnectService } from "widgets";
   selector: "dashboard-detail",
   templateUrl: "./dashboard-detail.component.html",
   styleUrls: ["./dashboard-detail.component.scss"],
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardDetailComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
@@ -73,31 +81,39 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
           this.error = null;
         }),
         switchMap(() => {
-          const groupId = +this.route.snapshot.queryParams["group"];
           const dashboard = this.route.snapshot.data["dashboard"];
-          return this.viewService.setDashboard(dashboard, groupId).pipe(
-            tap((channelGroup) => {
-              if (channelGroup) {
-                this.channelGroupId = channelGroup.id;
-              }
-              this.dashboard = this.viewService.dashboard;
-              this.widgetConnectService.useDenseView.next(
-                this.dashboard.properties.denseView
-              );
-              this.archiveStat = this.viewService.archiveStat;
-              this.archiveType = this.viewService.archiveType;
-              this.timeRange = this.viewService.range;
-              this.startTime = this.viewService.startTime;
-              this.endTime = this.viewService.endTime;
-            }),
-            catchError(() => {
-              if (!this.dashboard) {
-                this.messageService.error("Could not load dashboard.");
-              } else {
-                this.messageService.error("Could not load channel group.");
-              }
-              return EMPTY;
-            })
+          this.viewService.setDashboard(dashboard);
+          this.dashboard = this.viewService.dashboard;
+          this.widgetConnectService.useDenseView.next(
+            this.dashboard.properties.denseView
+          );
+          this.archiveStat = this.viewService.archiveStat;
+          this.archiveType = this.viewService.archiveType;
+          this.timeRange = this.viewService.range;
+          this.startTime = this.viewService.startTime;
+          this.endTime = this.viewService.endTime;
+          const groupId =
+            +this.route.snapshot.queryParams["group"] ??
+            dashboard.channelGroupId;
+
+          return this.loadingService.doLoading(
+            this.viewService.getChannelGroup(groupId).pipe(
+              tap((channelGroup: ChannelGroup) => {
+                if (channelGroup) {
+                  this.channelGroupId = channelGroup.id;
+                }
+                this.viewService.updateDashboard();
+              }),
+              catchError(() => {
+                if (!this.dashboard) {
+                  this.messageService.error("Could not load dashboard.");
+                } else {
+                  this.messageService.error("Could not load channel group.");
+                }
+                return EMPTY;
+              })
+            ),
+            this
           );
         })
       )
