@@ -2,23 +2,14 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   EventEmitter,
-  NgZone,
   OnDestroy,
   OnInit,
   Output,
-  ViewChild,
 } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Channel } from "squacapi";
-import {
-  debounceTime,
-  distinctUntilChanged,
-  Observable,
-  pipe,
-  Subscription,
-} from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { ViewService } from "@dashboard/services/view.service";
 import { WidgetConnectService } from "widgets";
 import { LoadingService } from "@core/services/loading.service";

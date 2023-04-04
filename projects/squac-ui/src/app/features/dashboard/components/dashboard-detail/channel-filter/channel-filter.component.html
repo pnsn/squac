@@ -11,15 +11,13 @@
 
     <form [formGroup]="form">
       <div formGroupName="checkboxes">
-        <ul *ngFor="let item of form['controls'].checkboxes.value | keyvalue; trackby:trackByMethod">
-          <li class="checkbox">
-            <mat-checkbox type="checkbox" [formControlName]="item.key" [disableRipple]="true">
-              <div (mouseenter)="mouseenter(item.key)">
-                {{ item.key }}
-              </div>
-            </mat-checkbox>
-          </li>
-        </ul>
+        <div *ngFor="let item of form['controls'].checkboxes.value | keyvalue" class="checkbox">
+          <mat-checkbox type="checkbox" [formControlName]="item.key" [disableRipple]="true">
+            <div (mouseenter)="mouseenter(item.key)">
+              {{ item.key }}
+            </div>
+          </mat-checkbox>
+        </div>
       </div>
     </form>
   </ng-template>
