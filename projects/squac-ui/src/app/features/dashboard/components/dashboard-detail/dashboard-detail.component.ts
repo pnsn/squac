@@ -1,15 +1,5 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  ChangeDetectionStrategy,
-} from "@angular/core";
-import {
-  ARCHIVE_STAT_OPTIONS,
-  ARCHIVE_TYPE_OPTIONS,
-  ChannelGroup,
-  Dashboard,
-} from "squacapi";
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { ChannelGroup, Dashboard } from "squacapi";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
   catchError,
@@ -27,7 +17,11 @@ import { LoadingService } from "@core/services/loading.service";
 import { DATE_PICKER_TIMERANGES } from "./dashboard-time-ranges";
 import { ArchiveStatType, ArchiveType } from "squacapi";
 import { WidgetConnectService } from "widgets";
-import { ChannelGroupComponent } from "@channelGroup/components/channel-group.component";
+
+export enum LoadingIndicator {
+  MAIN,
+  CHANNEL_GROUP,
+}
 
 /**
  * Individual dashboard view
@@ -56,8 +50,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   hasUnsavedChanges: Observable<boolean>;
   // time picker config
   datePickerTimeRanges = DATE_PICKER_TIMERANGES;
-  archiveTypeOptions = ARCHIVE_TYPE_OPTIONS;
-  statTypeOptions = ARCHIVE_STAT_OPTIONS;
+  LoadingIndicator = LoadingIndicator;
 
   constructor(
     private route: ActivatedRoute,
@@ -82,7 +75,11 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         }),
         switchMap(() => {
           const dashboard = this.route.snapshot.data["dashboard"];
-          this.viewService.setDashboard(dashboard);
+          const groupId =
+            +this.route.snapshot.queryParams["group"] ??
+            dashboard.channelGroupId;
+          this.channelGroupId = groupId;
+          this.viewService.setDashboard(dashboard, groupId);
           this.dashboard = this.viewService.dashboard;
           this.widgetConnectService.useDenseView.next(
             this.dashboard.properties.denseView
@@ -92,29 +89,10 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
           this.timeRange = this.viewService.range;
           this.startTime = this.viewService.startTime;
           this.endTime = this.viewService.endTime;
-          const groupId =
-            +this.route.snapshot.queryParams["group"] ??
-            dashboard.channelGroupId;
-
-          return this.loadingService.doLoading(
-            this.viewService.getChannelGroup(groupId).pipe(
-              tap((channelGroup: ChannelGroup) => {
-                if (channelGroup) {
-                  this.channelGroupId = channelGroup.id;
-                }
-                this.viewService.updateDashboard();
-              }),
-              catchError(() => {
-                if (!this.dashboard) {
-                  this.messageService.error("Could not load dashboard.");
-                } else {
-                  this.messageService.error("Could not load channel group.");
-                }
-                return EMPTY;
-              })
-            ),
-            this
-          );
+          return this.viewService.getChannelGroup(groupId);
+        }),
+        tap(() => {
+          this.viewService.updateDashboard();
         })
       )
       .subscribe();

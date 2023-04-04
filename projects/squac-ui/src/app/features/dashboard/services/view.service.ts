@@ -27,6 +27,8 @@ import {
 import { Widget } from "widgets";
 import { TimeRange } from "@shared/components/date-select/time-range.interface";
 import { DATE_PICKER_TIMERANGES } from "@dashboard/components/dashboard-detail/dashboard-time-ranges";
+import { LoadingIndicator } from "@dashboard/components/dashboard-detail/dashboard-detail.component";
+import { LoadingService } from "@core/services/loading.service";
 
 export interface DashboardConfig {
   stat?: ArchiveStatType;
@@ -64,7 +66,6 @@ export class ViewService {
   // refresh = new Subject<number>();
 
   private _dashboard: Dashboard;
-  queuedWidgets = 0;
   locale;
   defaultTimeRange = 3600;
   hasUnsavedChanges = new BehaviorSubject<boolean>(false);
@@ -76,7 +77,8 @@ export class ViewService {
     private ability: AppAbility,
     private dateService: DateService,
     private messageService: MessageService,
-    private channelGroupService: ChannelGroupService
+    private channelGroupService: ChannelGroupService,
+    private loadingService: LoadingService
   ) {}
 
   /** @returns current dashboard */
@@ -149,22 +151,6 @@ export class ViewService {
   }
 
   /**
-   * Sets new dashboard and initial dates
-   *
-   * @param dashboard new dashboard to intialize
-   */
-  initDashboard(dashboard: Dashboard): void {
-    // clear old widgets
-    this.currentWidgets.next([]);
-    this.queuedWidgets = 0;
-
-    // set dashboard
-    this._dashboard = dashboard;
-    // set dates
-    this.setInitialDates();
-  }
-
-  /**
    * Updates stored channel group
    *
    * @param channelGroupId new channel group id
@@ -181,17 +167,21 @@ export class ViewService {
    * @returns observable of channel group if found
    */
   getChannelGroup(channelGroupId: number): Observable<ChannelGroup> {
-    return this.channelGroupService.read(channelGroupId).pipe(
-      distinctUntilChanged(),
-      tap((group) => {
-        this._channels = group.channels as Channel[];
-        this.dashboard.channelGroupId = group.id;
-        this._channelGroupId = group.id;
-      }),
-      catchError(() => {
-        this._channels = [];
-        return of(null);
-      })
+    return this.loadingService.doLoading(
+      this.channelGroupService.read(channelGroupId).pipe(
+        distinctUntilChanged(),
+        tap((group) => {
+          this._channels = group.channels as Channel[];
+          this.dashboard.channelGroupId = group.id;
+          this._channelGroupId = group.id;
+        }),
+        catchError(() => {
+          this._channels = [];
+          return of(null);
+        })
+      ),
+      null,
+      LoadingIndicator.CHANNEL_GROUP
     );
   }
 
@@ -230,7 +220,6 @@ export class ViewService {
     ) {
       this._channelGroupId;
       this.dashboard.channelGroupId = this._channelGroupId;
-
       this.getChannelGroup(this._channelGroupId).subscribe({
         next: () => {
           this.sendUpdate();
@@ -275,27 +264,16 @@ export class ViewService {
    * @param dashboard dashboard used for service
    * @param channelGroupId channel group id to find
    */
-  setDashboard(dashboard: Dashboard): void {
+  setDashboard(dashboard: Dashboard, groupId: number): void {
     this._widgets = [];
     this._channelGroupId = null;
     this._channels = [];
-    this.initDashboard(dashboard);
+    // clear old widgets
+    this.currentWidgets.next([]);
 
-    // if (groupId) {
-    //   return this.getChannelGroup(groupId).pipe(
-    //     tap(() => {
-    //       this.updateDashboard();
-    //     })
-    //   );
-    // } else {
-    //   return of(null);
-    // }
-  }
-
-  /**
-   * Sets up initial dates for dashboard
-   */
-  private setInitialDates(): void {
+    // set dashboard
+    this._dashboard = dashboard;
+    // set dates
     let startDate;
     let endDate;
     let autoRefresh;

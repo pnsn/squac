@@ -354,9 +354,9 @@ export class TimelineComponent
     }
     this.updateOptions = {
       yAxis: {
-        data: this.metricSeries[displayMetric.id].yAxisLabels,
+        data: this.metricSeries[displayMetric.id]?.yAxisLabels,
       },
-      series: this.metricSeries[displayMetric.id].series,
+      series: this.metricSeries[displayMetric.id]?.series,
       visualMap: visualMaps,
       xAxis,
     };
