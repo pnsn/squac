@@ -24,7 +24,7 @@
 
       "@shared/*": ["./projects/squac-ui/src/app/shared/*"],
       "@squacapi/*": ["./projects/squac-ui/src/app/squacapi/*"],
-      "@dashboard/*": ["./projects/squac-ui/src/app/features/dashboard/*"],
+      "@dashboard/*": ["projects/squac-ui/src/app/features/dashboard/*"],
       "@channelGroup/*": ["./projects/squac-ui/src/app/features/channel-group/*"],
       "@metric/*": ["./projects/squac-ui/src/app/features/metric/*"],
       "@monitor/*": ["./projects/squac-ui/src/app/features/monitor/*"],

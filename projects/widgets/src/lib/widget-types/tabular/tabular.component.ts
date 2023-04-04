@@ -4,6 +4,8 @@ import {
   OnDestroy,
   TemplateRef,
   OnInit,
+  ChangeDetectionStrategy,
+  NgZone,
 } from "@angular/core";
 import {
   ColumnMode,
@@ -72,9 +74,10 @@ export class TabularComponent
   constructor(
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
-    override widgetManager: WidgetManagerService
+    override widgetManager: WidgetManagerService,
+    override ngZone: NgZone
   ) {
-    super(widgetManager, widgetConnectService);
+    super(widgetManager, widgetConnectService, ngZone);
   }
 
   /**

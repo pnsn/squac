@@ -1,6 +1,5 @@
-<h4 class="header">Channels</h4>
-
-<div [appIsLoading]="loadingService.isLoading$(null, LoadingIndicator.CHANNEL_GROUP) | async" spinnerType="buffer">
+<div [appIsLoading]="loadingService.isLoading$(null, LoadingIndicator.CHANNEL_GROUP) | async" spinnerType="buffer"
+  class="channel-checkbox-container">
   <div *ngIf="channels.length === 0; else hasChannels">
     Select a channel group above.
   </div>
@@ -12,7 +11,7 @@
 
     <form [formGroup]="form">
       <div formGroupName="checkboxes">
-        <ul *ngFor="let item of form['controls'].checkboxes.value | keyvalue; trackBy:trackByMethod">
+        <ul *ngFor="let item of form['controls'].checkboxes.value | keyvalue; trackby:trackByMethod">
           <li class="checkbox">
             <mat-checkbox type="checkbox" [formControlName]="item.key" [disableRipple]="true">
               <div (mouseenter)="mouseenter(item.key)">

@@ -1,14 +1,13 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from "@angular/core";
 import { ChannelGroup, Dashboard } from "squacapi";
 import { ActivatedRoute, Router } from "@angular/router";
-import {
-  catchError,
-  EMPTY,
-  Observable,
-  Subscription,
-  switchMap,
-  tap,
-} from "rxjs";
+import { Observable, Subscription, switchMap, tap } from "rxjs";
 import { ViewService } from "@dashboard/services/view.service";
 import { AppAbility } from "@core/utils/ability";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
@@ -30,7 +29,7 @@ export enum LoadingIndicator {
   selector: "dashboard-detail",
   templateUrl: "./dashboard-detail.component.html",
   styleUrls: ["./dashboard-detail.component.scss"],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardDetailComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
@@ -60,7 +59,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     private confirmDialog: ConfirmDialogService,
     private messageService: MessageService,
     public loadingService: LoadingService,
-    private widgetConnectService: WidgetConnectService
+    private widgetConnectService: WidgetConnectService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   /**
@@ -75,11 +75,12 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         }),
         switchMap(() => {
           const dashboard = this.route.snapshot.data["dashboard"];
-          const groupId =
-            +this.route.snapshot.queryParams["group"] ??
-            dashboard.channelGroupId;
+          let groupId = dashboard.channelGroupId;
+          if (this.route.snapshot.queryParams["group"]) {
+            groupId = +this.route.snapshot.queryParams["group"];
+          }
           this.channelGroupId = groupId;
-          this.viewService.setDashboard(dashboard, groupId);
+          this.viewService.setDashboard(dashboard);
           this.dashboard = this.viewService.dashboard;
           this.widgetConnectService.useDenseView.next(
             this.dashboard.properties.denseView
@@ -89,10 +90,14 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
           this.timeRange = this.viewService.range;
           this.startTime = this.viewService.startTime;
           this.endTime = this.viewService.endTime;
-          return this.viewService.getChannelGroup(groupId);
+          return this.loadingService.doLoading(
+            this.viewService.getChannelGroup(groupId),
+            this
+          );
         }),
         tap(() => {
           this.viewService.updateDashboard();
+          this.cdr.detectChanges();
         })
       )
       .subscribe();

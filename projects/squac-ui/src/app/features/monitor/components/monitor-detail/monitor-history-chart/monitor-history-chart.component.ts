@@ -67,7 +67,7 @@ export class MonitorHistoryChartComponent extends EChartComponent {
     private widgetConfigService: WidgetConfigService,
     override widgetManager: WidgetManagerService
   ) {
-    super(widgetManager, null);
+    super(widgetManager, null, null);
   }
 
   // Max allowable time between measurements to connect

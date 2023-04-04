@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -16,6 +17,7 @@ import { ArchiveStatType, ArchiveType } from "squacapi";
   selector: "dashboard-data-type-selector",
   templateUrl: "./data-type-selector.component.html",
   styleUrls: ["./data-type-selector.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataTypeSelectorComponent implements OnChanges {
   @Input() dataType: ArchiveType;

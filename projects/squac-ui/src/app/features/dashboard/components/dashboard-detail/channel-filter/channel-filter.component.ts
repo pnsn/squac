@@ -2,10 +2,13 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   EventEmitter,
+  NgZone,
   OnDestroy,
   OnInit,
   Output,
+  ViewChild,
 } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Channel } from "squacapi";
@@ -42,6 +45,7 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
   channelsSub: Subscription;
   LoadingIndicator = LoadingIndicator;
   @Output() closeSidenav = new EventEmitter<boolean>();
+
   constructor(
     private formBuilder: FormBuilder,
     private widgetConnectService: WidgetConnectService,
@@ -86,7 +90,6 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
 
     this.form["controls"].checkboxes.valueChanges.subscribe(
       (value: Record<string, boolean>) => {
-        this.cdr.detectChanges();
         this.viewService.updateChannels(value);
       }
     );
@@ -98,7 +101,7 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
    *
    * @param item channel nslc
    */
-  mouseenter(item: string): void {
+  mouseenter(item): void {
     this.widgetConnectService.emphasizedChannel.next(item);
   }
 

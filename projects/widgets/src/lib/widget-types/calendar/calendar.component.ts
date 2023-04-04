@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  NgZone,
+  OnDestroy,
+  OnInit,
+} from "@angular/core";
 import { Measurement } from "squacapi";
 
 import { PrecisionPipe } from "../../shared/pipes/precision.pipe";
@@ -32,9 +38,10 @@ export class CalendarComponent
   constructor(
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
-    override widgetManager: WidgetManagerService
+    override widgetManager: WidgetManagerService,
+    override ngZone: NgZone
   ) {
-    super(widgetManager, widgetConnectService);
+    super(widgetManager, widgetConnectService, ngZone);
   }
 
   xAxisLabels = [];
@@ -218,9 +225,9 @@ export class CalendarComponent
           break;
       }
 
-      this.channels.sort((chanA, chanB) => {
-        return chanA.nslc.localeCompare(chanB.nslc);
-      });
+      // this.channels.sort((chanA, chanB) => {
+      //   return chanA.nslc.localeCompare(chanB.nslc);
+      // });
       this.channels.forEach((channel, index) => {
         // store values
         const values = [];

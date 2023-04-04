@@ -3,9 +3,7 @@
     font-weight: bold;
   }
 }
-h4.header {
-  margin: 3px 0;
-}
+
 :host ::ng-deep .mat-button,
 .mat-stroked-button {
   padding: 0px 5px !important;
@@ -28,7 +26,6 @@ ul {
   padding-inline-start: 0px;
   margin: 0px;
 }
-
 :host ::ng-deep mat-checkbox {
   height: 20px;
   .mat-checkbox-inner-container {
@@ -42,4 +39,7 @@ ul {
   .mat-checkbox-label div {
     font-size: 10pt !important;
   }
+}
+.channel-checkbox-container {
+  padding-left: 7px;
 }

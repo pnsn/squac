@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  NgZone,
+  OnDestroy,
+  OnInit,
+} from "@angular/core";
 import { Measurement, MeasurementTypes } from "squacapi";
 import {
   CustomSeriesRenderItemAPI,
@@ -35,9 +41,10 @@ export class TimelineComponent
   constructor(
     private widgetConfigService: WidgetConfigService,
     override widgetConnector: WidgetConnectService,
-    override widgetManager: WidgetManagerService
+    override widgetManager: WidgetManagerService,
+    override ngZone: NgZone
   ) {
-    super(widgetManager, widgetConnector);
+    super(widgetManager, widgetConnector, ngZone);
   }
   override denseOptions: EChartsOption = {
     grid: {
@@ -153,10 +160,6 @@ export class TimelineComponent
         },
       };
       this.xAxisLabels = [];
-
-      this.channels.sort((chanA, chanB) => {
-        return chanA.nslc.localeCompare(chanB.nslc);
-      });
 
       this.channels.forEach((channel, index) => {
         const nslc = channel.nslc;

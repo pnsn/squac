@@ -262,9 +262,8 @@ export class ViewService {
    * Gets info for dashboard and channel group
    *
    * @param dashboard dashboard used for service
-   * @param channelGroupId channel group id to find
    */
-  setDashboard(dashboard: Dashboard, groupId: number): void {
+  setDashboard(dashboard: Dashboard): void {
     this._widgets = [];
     this._channelGroupId = null;
     this._channels = [];

@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+} from "@angular/core";
 import { ViewService } from "@dashboard/services/view.service";
 import { Widget, WidgetConnectService } from "widgets";
 import { GridsterConfig, GridsterItem } from "angular-gridster2";
@@ -18,6 +24,7 @@ interface WidgetGridsterItem extends GridsterItem {
   selector: "widget-main",
   templateUrl: "./widget-main.component.html",
   styleUrls: ["./widget-main.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WidgetMainComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
@@ -80,9 +87,13 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private ability: AppAbility,
-    private widgetConnectService: WidgetConnectService
+    private widgetConnectService: WidgetConnectService,
+    private cdr: ChangeDetectorRef
   ) {}
-
+  ngAfterViewChecked(): void {
+    //Called after every check of the component's view. Applies to components only.
+    //Add 'implements AfterViewChecked' to the class.
+  }
   /** subscrive to router and changes */
   ngOnInit(): void {
     const widgetSub = this.viewService.widgetUpdated.subscribe(
@@ -181,6 +192,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
       });
     }
     this.loading = false;
+    this.cdr.detectChanges();
   }
 
   /**

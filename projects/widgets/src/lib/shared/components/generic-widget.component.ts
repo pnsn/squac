@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
 import { ProcessedData, VisualMap, WidgetConfig } from "../../interfaces";
 import { WidgetConnectService, WidgetManagerService } from "../../services";
 import { Channel, Metric } from "squacapi";
@@ -67,7 +67,8 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
 
   constructor(
     protected widgetManager: WidgetManagerService,
-    protected widgetConnector: WidgetConnectService
+    protected widgetConnector: WidgetConnectService,
+    protected ngZone: NgZone
   ) {
     this.widgetConfig = widgetManager.widgetConfig;
   }
@@ -102,12 +103,14 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
    * @param data - data for widget to update
    */
   updateData(data: ProcessedData): void {
-    this.data = data;
-    this.channels = this.widgetManager.channels;
-    this.selectedMetrics = this.widgetManager.selectedMetrics;
-    this.properties = this.widgetManager.properties;
-    this.buildChartData(data).then(() => {
-      this.changeMetrics();
+    this.ngZone.runOutsideAngular(() => {
+      this.data = data;
+      this.channels = this.widgetManager.channels;
+      this.selectedMetrics = this.widgetManager.selectedMetrics;
+      this.properties = this.widgetManager.properties;
+      this.buildChartData(data).then(() => {
+        this.changeMetrics();
+      });
     });
   }
 
