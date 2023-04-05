@@ -5,7 +5,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
 } from "@angular/core";
-import { ChannelGroup, Dashboard } from "squacapi";
+import { Dashboard } from "squacapi";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Observable, Subscription, switchMap, tap } from "rxjs";
 import { ViewService } from "@dashboard/services/view.service";

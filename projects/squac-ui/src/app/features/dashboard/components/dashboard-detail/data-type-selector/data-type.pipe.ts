@@ -17,6 +17,7 @@ export class DataTypePipe implements PipeTransform {
 
   /**
    * Transforms given dataType and statType into a display string
+   *
    * @param dataType type of data
    * @param statType type of stat
    * @returns formatted string for display

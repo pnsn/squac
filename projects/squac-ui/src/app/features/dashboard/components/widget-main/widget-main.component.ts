@@ -90,10 +90,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     private widgetConnectService: WidgetConnectService,
     private cdr: ChangeDetectorRef
   ) {}
-  ngAfterViewChecked(): void {
-    //Called after every check of the component's view. Applies to components only.
-    //Add 'implements AfterViewChecked' to the class.
-  }
+
   /** subscrive to router and changes */
   ngOnInit(): void {
     const widgetSub = this.viewService.widgetUpdated.subscribe(

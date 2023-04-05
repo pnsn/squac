@@ -14,14 +14,9 @@ $squac-ui-warn: mat.define-palette(mat.$red-palette, 300);
 
 // Create the theme object (a Sass map containing all of the palettes).
 $squac-ui-theme: mat.define-light-theme(
-  (
-    color: (
-      primary: $squac-ui-primary,
-      accent: $squac-ui-accent,
-      warn: $squac-ui-warn,
-    ),
-    density: -3,
-  )
+  $squac-ui-primary,
+  $squac-ui-accent,
+  $squac-ui-warn
 );
 
 // Include theme styles for core and each component used in your app.
