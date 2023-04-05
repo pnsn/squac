@@ -125,6 +125,21 @@ export class MapComponent
   }
 
   /**
+   * Update widget data
+   *
+   * @param data - data for widget to update
+   */
+  override updateData(data: ProcessedData): void {
+    this.data = data;
+    this.channels = this.widgetManager.channels;
+    this.selectedMetrics = this.widgetManager.selectedMetrics;
+    this.properties = this.widgetManager.properties;
+    this.buildChartData(data).then(() => {
+      this.changeMetrics();
+    });
+  }
+
+  /**
    * @override
    */
   toggleKey(): void {
@@ -151,6 +166,7 @@ export class MapComponent
       this.buildChartData(this.data).then(() => {
         this.changeMetrics();
         this.toggleKey();
+        this.data = null;
       });
     }
   }

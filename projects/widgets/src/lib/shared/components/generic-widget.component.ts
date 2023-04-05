@@ -103,14 +103,13 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
    * @param data - data for widget to update
    */
   updateData(data: ProcessedData): void {
-    this.ngZone.runOutsideAngular(() => {
-      this.data = data;
-      this.channels = this.widgetManager.channels;
-      this.selectedMetrics = this.widgetManager.selectedMetrics;
-      this.properties = this.widgetManager.properties;
-      this.buildChartData(data).then(() => {
-        this.changeMetrics();
-      });
+    this.data = data;
+    this.channels = this.widgetManager.channels;
+    this.selectedMetrics = this.widgetManager.selectedMetrics;
+    this.properties = this.widgetManager.properties;
+    this.buildChartData(data).then(() => {
+      this.changeMetrics();
+      this.data = null; //dump data
     });
   }
 

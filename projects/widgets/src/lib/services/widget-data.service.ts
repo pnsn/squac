@@ -189,6 +189,7 @@ export class WidgetDataService implements OnDestroy {
       number,
       Map<number, MeasurementTypes[]>
     >();
+
     try {
       response.forEach((item: MeasurementTypes) => {
         const channelId: number = item.channel;
