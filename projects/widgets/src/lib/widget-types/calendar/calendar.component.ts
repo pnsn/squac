@@ -171,6 +171,7 @@ export class CalendarComponent
    */
   buildChartData(data): Promise<void> {
     return new Promise<void>((resolve) => {
+      console.log("build chart data");
       this.metricSeries = {};
       this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
         this.selectedMetrics,
@@ -303,6 +304,7 @@ export class CalendarComponent
           this.metricSeries[metric.id].yAxisLabels.push(nslc);
         });
       });
+      console.log("done");
       resolve();
     });
   }
@@ -326,6 +328,7 @@ export class CalendarComponent
    * @override
    */
   changeMetrics(): void {
+    console.log("change metrics");
     const displayMetric = this.selectedMetrics[0];
     const colorMetric = this.selectedMetrics[0];
     const visualMaps = this.visualMaps[colorMetric.id];

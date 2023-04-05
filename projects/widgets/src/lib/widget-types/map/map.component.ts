@@ -121,6 +121,7 @@ export class MapComponent
       zoom: 5,
       layers: baseLayers,
       doubleClickZoom: false,
+      preferCanvas: true,
     };
   }
 
