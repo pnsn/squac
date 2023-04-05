@@ -6,8 +6,6 @@ import {
   OnChanges,
   ViewChild,
   OnInit,
-  AfterViewChecked,
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
 } from "@angular/core";
 import { Dashboard, Metric } from "squacapi";
@@ -32,9 +30,7 @@ import { WidgetDisplayOption, WidgetConfig, Widget } from "widgets";
   styleUrls: ["./widget-detail.component.scss"],
   providers: [WidgetManagerService, WidgetDataService],
 })
-export class WidgetDetailComponent
-  implements OnDestroy, OnChanges, OnInit, AfterViewChecked
-{
+export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
   subscription = new Subscription();
   @Input() widget: Widget;
   @Input() dashboards: Dashboard[];
@@ -65,12 +61,6 @@ export class WidgetDetailComponent
     private widgetConnectService: WidgetConnectService,
     private cdr: ChangeDetectorRef
   ) {}
-
-  ngAfterViewChecked(): void {
-    //Called after every check of the component's view. Applies to components only.
-    //Add 'implements AfterViewChecked' to the class.
-    // console.log("View checked");
-  }
 
   /**
    * Sets up widget subscriptions

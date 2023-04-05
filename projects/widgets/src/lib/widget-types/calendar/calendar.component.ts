@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgZone,
-  OnDestroy,
-  OnInit,
-} from "@angular/core";
+import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
 import { Measurement } from "squacapi";
 
 import { PrecisionPipe } from "../../shared/pipes/precision.pipe";
@@ -171,7 +165,6 @@ export class CalendarComponent
    */
   buildChartData(data): Promise<void> {
     return new Promise<void>((resolve) => {
-      console.log("build chart data");
       this.metricSeries = {};
       this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
         this.selectedMetrics,
@@ -304,16 +297,16 @@ export class CalendarComponent
           this.metricSeries[metric.id].yAxisLabels.push(nslc);
         });
       });
-      console.log("done");
       resolve();
     });
   }
 
   /**
    * calculated bottom margin for chart
+   *
    * @param dense true if no zoom is used
    * @returns margin for bottom of chart
-   * */
+   */
   private getBottomMargin(dense: boolean): number {
     //denseview has no zoom bar
     let margin = dense ? 32 : 52;
@@ -328,7 +321,6 @@ export class CalendarComponent
    * @override
    */
   changeMetrics(): void {
-    console.log("change metrics");
     const displayMetric = this.selectedMetrics[0];
     const colorMetric = this.selectedMetrics[0];
     const visualMaps = this.visualMaps[colorMetric.id];

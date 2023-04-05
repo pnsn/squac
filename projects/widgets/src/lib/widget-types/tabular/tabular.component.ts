@@ -4,7 +4,6 @@ import {
   OnDestroy,
   TemplateRef,
   OnInit,
-  ChangeDetectionStrategy,
   NgZone,
 } from "@angular/core";
 import {
