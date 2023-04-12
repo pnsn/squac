@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { ColumnMode, SelectionType } from "@boring.devs/ngx-datatable";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { MessageService } from "@core/services/message.service";
@@ -46,6 +47,8 @@ enum LoadingIndicator {
 export class MonitorDetailComponent implements OnInit {
   @ViewChild("monitorChart") monitorChart;
   @ViewChild("channelChart") channelChart;
+  ColumnMode = ColumnMode;
+  SelectionType = SelectionType;
   error: boolean;
   alerts: Alert[];
   monitor: Monitor;
@@ -225,6 +228,17 @@ export class MonitorDetailComponent implements OnInit {
         this.messageService.error("Could not delete monitor");
       },
     });
+  }
+
+  /**
+   * Select alert on table and store t selectedAlert
+   *
+   * @param event
+   */
+  selectAlert(event): void {
+    if (event.selected) {
+      this.selectedAlert = event.selected[0];
+    }
   }
 
   /**

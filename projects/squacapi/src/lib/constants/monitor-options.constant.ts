@@ -5,12 +5,21 @@ import {
   ValueOperator,
 } from "../types";
 
-export const INTERVAL_TYPES: IntervalType[] = [
-  "minute",
-  "hour",
-  "day",
-  "last n",
-];
+// export const INTERVAL_TYPES: IntervalType[] = [
+//   "minute",
+//   "hour",
+//   "day",
+//   "last n",
+// ];
+
+export const INTERVAL_TYPES: {
+  [key in IntervalType]: string;
+} = {
+  minute: "minute",
+  hour: "hour",
+  day: "day",
+  "last n": "measurement",
+};
 
 export const MONITOR_STATS: {
   [key in MonitorStatType]: string;

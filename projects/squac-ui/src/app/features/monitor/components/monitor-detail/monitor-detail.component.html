@@ -1,10 +1,23 @@
-<shared-detail-page *ngIf="monitor" type="Monitor" [resource]="monitor" [title]="monitor?.name"
-  [subtext]="'by ' + (monitor?.owner | user)" [options]="pageOptions" (deleteResource)="delete()">
+<shared-detail-page
+  *ngIf="monitor"
+  type="Monitor"
+  [resource]="monitor"
+  [title]="monitor?.name"
+  [subtext]="'by ' + (monitor?.owner | user)"
+  [options]="pageOptions"
+  (deleteResource)="delete()"
+>
   <ng-container bodyContent>
-    <div class="box" [appIsLoading]="
+    <div
+      class="box"
+      [appIsLoading]="
         loadingService.isLoading$(this, LoadingIndicator.MAIN) | async
-      ">
-      <div id="monitor-container" class="column">
+      "
+    >
+      <div
+        id="monitor-container"
+        class="column"
+      >
         <div class="row">
           <div>
             <h3>Monitor Information</h3>
@@ -29,16 +42,29 @@
           </div>
 
           <div class="date-select-row">
-            <shared-date-select [secondsAgoFromNow]="timeRange" [initialStartDate]="starttime"
-              [initialEndDate]="endtime" [timeRanges]="datePickerTimeRanges" (datesChanged)="datesChanged($event)">
+            <shared-date-select
+              [secondsAgoFromNow]="timeRange"
+              [initialStartDate]="starttime"
+              [initialEndDate]="endtime"
+              [timeRanges]="datePickerTimeRanges"
+              (datesChanged)="datesChanged($event)"
+            >
             </shared-date-select>
-            <button mat-raised-button color="accent" (click)="update()" [disabled]="!this.unsavedChanges">
+            <button
+              mat-raised-button
+              color="accent"
+              (click)="update()"
+              [disabled]="!this.unsavedChanges"
+            >
               Update
             </button>
           </div>
         </div>
       </div>
-      <div class="chart-container" *ngIf="viewTriggers">
+      <div
+        class="chart-container"
+        *ngIf="viewTriggers"
+      >
         <h3>Triggers</h3>
         <p class="help-text">
           If 'Daily Digest' is enabled, alerts for individual triggers will not
@@ -63,6 +89,103 @@
           </tbody>
         </table>
       </div>
+      <div id="alert-list">
+        <h3>Alerts</h3>
+        <div class="alert-table-container">
+          <div>
+            <ngx-datatable
+              [rows]="alerts"
+              id="alert-table"
+              class="material"
+              [columnMode]="ColumnMode.force"
+              [selectionType]="SelectionType.single"
+              [selected]="[selectedAlert]"
+              [limit]="10"
+              [rowHeight]="25"
+              [scrollbarV]="true"
+              (select)="selectAlert($event)"
+            >
+              <ngx-datatable-column
+                name="State"
+                prop="inAlarm"
+                [draggable]="false"
+                [width]="70"
+                [canAutoResize]="false"
+              >
+                <ng-template
+                  let-value="value"
+                  ngx-datatable-cell-template
+                >
+                  <monitor-alarm-status [inAlarm]="value"></monitor-alarm-status>
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column
+                name="Time"
+                prop="timestamp"
+                [draggable]="false"
+                [width]="160"
+                [flexGrow]="1"
+              >
+
+              </ngx-datatable-column>
+              <ngx-datatable-column
+                name="Trigger"
+                [width]="200"
+                [canAutoResize]="true"
+                [flexGrow]="2"
+              >
+
+                <ng-template
+                  #triggerTemplate
+                  let-value="value"
+                  let-row="row"
+                  ngx-datatable-cell-template
+                >
+                  values for
+                  <span *ngIf="row.numChannelsOperator !== '=='">
+                    {{ row.numChannelsOperator }}
+                  </span>
+                  {{ row.numChannels }} channel(s) in are {{ row.valueOperator }}
+                  {{ row.val1 }}
+                  <span *ngIf="row.val2 !== null && row.val2 !== undefined">
+                    and {{ row.val2 }}
+                  </span>
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column
+                name="Breaching Channels"
+                prop="breachingChannels"
+                [width]="150"
+                [flexGrow]="1"
+              >
+                <ng-template
+                  let-value="value"
+                  ngx-datatable-cell-template
+                >
+                  {{ value.length }}
+                </ng-template>
+
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </div>
+          <div>
+            <ngx-datatable
+              id="channel-table"
+              *ngIf="selectedAlert as alert"
+              class="material"
+              [scrollbarV]="true"
+              [columns]="columns"
+              [rows]="alert.breachingChannels"
+              [rowHeight]="25"
+              [scrollbarV]="true"
+            >
+            </ngx-datatable>
+          </div>
+
+        </div>
+
+
+      </div>
       <div class="chart-container">
         <h3>Alert History</h3>
         <p class="help-text">
@@ -71,21 +194,21 @@
           Alarm', no alerts will be generated until it is 'In Alarm' again;
         </p>
         <p class="help-text">click on an alert to view details</p>
-        <div [appIsLoading]="
+        <div
+          [appIsLoading]="
             loadingService.isLoading$(this, LoadingIndicator.RESULTS) | async
-          " spinnerType="buffer" id="monitor-history-chart-container">
-          <monitor-history-chart *ngIf="alerts && alerts.length > 0; else noAlerts" #monitorChart [monitor]="monitor"
-            [alerts]="alerts" [(selectedAlert)]="selectedAlert"></monitor-history-chart>
+          "
+          spinnerType="buffer"
+          id="monitor-history-chart-container"
+        >
+          <monitor-history-chart
+            *ngIf="alerts && alerts.length > 0; else noAlerts"
+            #monitorChart
+            [monitor]="monitor"
+            [alerts]="alerts"
+            [(selectedAlert)]="selectedAlert"
+          ></monitor-history-chart>
         </div>
-      </div>
-      <div *ngIf="selectedAlert as alert" id="alert-detail">
-        <h3>Alert Detail</h3>
-        <div>
-          <strong>{{ alert.inAlarm ? "In Alarm" : "Out of Alarm" }} at: </strong>{{ alert.timestamp }}
-        </div>
-        <ngx-datatable class="material lt-gray-border" [rowHeight]="23" [scrollbarV]="true" [columns]="columns"
-          [rows]="alert.breachingChannels">
-        </ngx-datatable>
       </div>
       <div class="chart-container">
         <h3>Breaching Channel History</h3>
@@ -94,11 +217,19 @@
           shown are the calculated values used to evaluate if a monitor is in
           alarm, not raw measurements at that time.
         </p>
-        <div [appIsLoading]="
+        <div
+          [appIsLoading]="
             loadingService.isLoading$(this, LoadingIndicator.RESULTS) | async
-          " spinnerType="buffer">
-          <monitor-channel-history-chart *ngIf="alerts && alerts.length > 0; else noAlerts" #channelChart
-            [monitor]="monitor" [alerts]="alerts" [(selectedAlert)]="selectedAlert"></monitor-channel-history-chart>
+          "
+          spinnerType="buffer"
+        >
+          <monitor-channel-history-chart
+            *ngIf="alerts && alerts.length > 0; else noAlerts"
+            #channelChart
+            [monitor]="monitor"
+            [alerts]="alerts"
+            [(selectedAlert)]="selectedAlert"
+          ></monitor-channel-history-chart>
         </div>
       </div>
 
