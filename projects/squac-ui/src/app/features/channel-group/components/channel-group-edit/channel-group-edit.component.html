@@ -125,14 +125,15 @@
                 <mat-icon>undo</mat-icon>
               </button> -->
             </div>
-
-            <channel-group-edit-table
-              [rows]="rows"
-              [selectable]="false"
-              [selected]="selectedChannels"
-              (selectedChange)="selectRow($event)"
-            >
-            </channel-group-edit-table>
+            <div class="searched-channels-container">
+              <channel-group-edit-table
+                [rows]="rows"
+                [selectable]="false"
+                [selected]="selectedChannels"
+                (selectedChange)="selectRow($event)"
+              >
+              </channel-group-edit-table>
+            </div>
           </div>
 
           <channel-group-map

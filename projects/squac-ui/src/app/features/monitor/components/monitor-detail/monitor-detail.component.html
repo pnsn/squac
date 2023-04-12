@@ -96,7 +96,7 @@
             <ngx-datatable
               [rows]="alerts"
               id="alert-table"
-              class="material"
+              class="material channel-table"
               [columnMode]="ColumnMode.force"
               [selectionType]="SelectionType.single"
               [selected]="[selectedAlert]"
@@ -124,7 +124,7 @@
                 prop="timestamp"
                 [draggable]="false"
                 [width]="160"
-                [flexGrow]="1"
+                [canAutoResize]="false"
               >
 
               </ngx-datatable-column>
@@ -132,7 +132,6 @@
                 name="Trigger"
                 [width]="200"
                 [canAutoResize]="true"
-                [flexGrow]="2"
               >
 
                 <ng-template
@@ -156,7 +155,7 @@
                 name="Breaching Channels"
                 prop="breachingChannels"
                 [width]="150"
-                [flexGrow]="1"
+                [canAutoResize]="false"
               >
                 <ng-template
                   let-value="value"
@@ -172,7 +171,7 @@
             <ngx-datatable
               id="channel-table"
               *ngIf="selectedAlert as alert"
-              class="material"
+              class="channel-table"
               [scrollbarV]="true"
               [columns]="columns"
               [rows]="alert.breachingChannels"
