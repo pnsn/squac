@@ -297,7 +297,6 @@ export class CalendarComponent
           this.metricSeries[metric.id].yAxisLabels.push(nslc);
         });
       });
-      console.log(this.metricSeries);
       resolve();
     });
   }

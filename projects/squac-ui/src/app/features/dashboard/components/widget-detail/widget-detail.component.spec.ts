@@ -12,7 +12,6 @@ import { MatMenuModule } from "@angular/material/menu";
 import { AbilityModule } from "@casl/angular";
 import { MatIconModule } from "@angular/material/icon";
 import { LoadingDirective } from "@shared/directives/loading-directive.directive";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 
 describe("WidgetDetailComponent", () => {
   let component: WidgetDetailComponent;

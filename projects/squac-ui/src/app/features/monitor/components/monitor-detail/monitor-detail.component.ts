@@ -233,7 +233,7 @@ export class MonitorDetailComponent implements OnInit {
   /**
    * Select alert on table and store t selectedAlert
    *
-   * @param event
+   * @param event selection event
    */
   selectAlert(event): void {
     if (event.selected) {
