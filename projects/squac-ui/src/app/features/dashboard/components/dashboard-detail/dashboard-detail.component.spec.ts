@@ -19,6 +19,7 @@ import { SharedModule } from "@shared/shared.module";
 import { ChannelFilterComponent } from "./channel-filter/channel-filter.component";
 import { ChannelGroupSelectorComponent } from "@shared/components/channel-group-selector/channel-group-selector.component";
 import { SharingToggleComponent } from "@shared/components/sharing-toggle/sharing-toggle.component";
+import { DataTypePipe } from "./data-type-selector/data-type.pipe";
 
 describe("DashboardDetailComponent", () => {
   let component: DashboardDetailComponent;
@@ -32,6 +33,7 @@ describe("DashboardDetailComponent", () => {
       .mock(SharedModule)
       .mock(ChannelFilterComponent)
       .mock(SharingToggleComponent)
+      .mock(DataTypePipe)
       .provide({
         provide: ViewService,
         useValue: {

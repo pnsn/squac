@@ -1,35 +1,24 @@
-<h4 class="header">Channels</h4>
+<div [appIsLoading]="loadingService.isLoading$(null, LoadingIndicator.CHANNEL_GROUP) | async" spinnerType="buffer"
+  class="channel-checkbox-container">
+  <div *ngIf="channels.length === 0; else hasChannels">
+    Select a channel group above.
+  </div>
 
-<div *ngIf="channels.length === 0; else hasChannels">
-  Select a channel group above.
-</div>
+  <ng-template #hasChannels>
+    <mat-checkbox type="checkbox" [(ngModel)]="toggledAll" (click)="toggleAll()">
+      Toggle All
+    </mat-checkbox>
 
-<ng-template #hasChannels>
-  <mat-checkbox type="checkbox" [(ngModel)]="toggledAll" (click)="toggleAll()">
-    Toggle All
-  </mat-checkbox>
-
-  <form [formGroup]="form">
-    <div formGroupName="checkboxes">
-      <ul>
-        <li
-          *ngFor="let item of form['controls'].checkboxes.value | keyvalue"
-          class="checkbox"
-        >
-          <mat-checkbox
-            type="checkbox"
-            [formControlName]="item.key"
-            [disableRipple]="true"
-          >
-            <div
-              (mouseenter)="mouseenter(item.key)"
-              (mouseleave)="mouseleave(item.key)"
-            >
+    <form [formGroup]="form">
+      <div formGroupName="checkboxes">
+        <div *ngFor="let item of form['controls'].checkboxes.value | keyvalue" class="checkbox">
+          <mat-checkbox type="checkbox" [formControlName]="item.key" [disableRipple]="true">
+            <div (mouseenter)="mouseenter(item.key)">
               {{ item.key }}
             </div>
           </mat-checkbox>
-        </li>
-      </ul>
-    </div>
-  </form>
-</ng-template>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+</div>

@@ -24,6 +24,7 @@ export class MetricViewComponent
 {
   subscription: Subscription = new Subscription();
   metrics: Metric[];
+  selectedMetricId: number = null;
 
   // table config
   columns = [];
@@ -75,6 +76,10 @@ export class MetricViewComponent
       .pipe(
         tap((data) => {
           this.metrics = data["metrics"];
+          const params = this.route.snapshot.params;
+          if (params["metricId"]) {
+            this.selectedMetricId = +params["metricId"];
+          }
         })
       )
       .subscribe({

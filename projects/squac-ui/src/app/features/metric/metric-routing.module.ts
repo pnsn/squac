@@ -33,6 +33,10 @@ export const routes: Routes = [
           },
         ],
       },
+      {
+        path: ":metricId",
+        component: MetricViewComponent,
+      },
     ],
   },
 ];

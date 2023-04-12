@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { ReplaySubject, Subject } from "rxjs";
+import { Observable, ReplaySubject, Subject } from "rxjs";
 
 import { ArchiveStatType, ArchiveType } from "squacapi";
 import { Channel, Metric, Widget } from "squacapi";
@@ -14,7 +14,6 @@ import { WidgetErrors, WidgetType } from "../enums";
 import { WidgetConfig, WidgetDisplayOption } from "../interfaces";
 import { WidgetDataService } from ".";
 import { WIDGET_TYPE_INFO } from "../constants";
-import { BehaviorSubject } from "rxjs";
 
 /**
  * Keeps track of data shared between widget tree components
@@ -27,10 +26,10 @@ import { BehaviorSubject } from "rxjs";
 @Injectable()
 export class WidgetManagerService {
   constructor(private widgetDataService: WidgetDataService) {
-    this.isLoading$ = widgetDataService.isLoading$;
+    this.isLoading$ = this.widgetDataService.isLoading$?.asObservable();
   }
 
-  isLoading$: BehaviorSubject<boolean>;
+  isLoading$: Observable<boolean>;
   widget$ = new ReplaySubject<Widget>(1);
   errors$ = new ReplaySubject<WidgetErrors>();
   resize$ = new Subject<boolean>();

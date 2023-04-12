@@ -27,7 +27,7 @@ export class DashboardResolver
    */
   resolve(route: ActivatedRouteSnapshot): Observable<Dashboard | Dashboard[]> {
     const id = route.paramMap.get("dashboardId");
-    const delay = 500;
+    const delay = 0;
     let req;
     if (id) {
       req = this.dashboardService.read(+id);

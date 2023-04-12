@@ -1,4 +1,6 @@
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   OnDestroy,
@@ -7,9 +9,11 @@ import {
 } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Channel } from "squacapi";
-import { distinctUntilChanged, Observable, Subscription } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { ViewService } from "@dashboard/services/view.service";
 import { WidgetConnectService } from "widgets";
+import { LoadingService } from "@core/services/loading.service";
+import { LoadingIndicator } from "../dashboard-detail.component";
 
 type CheckboxForm = Record<string, FormControl<boolean>>;
 
@@ -20,6 +24,7 @@ type CheckboxForm = Record<string, FormControl<boolean>>;
   selector: "dashboard-channel-filter",
   templateUrl: "./channel-filter.component.html",
   styleUrls: ["./channel-filter.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChannelFilterComponent implements OnInit, OnDestroy {
   filteredChannels: Observable<Channel[]>;
@@ -27,26 +32,27 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
   form: FormGroup<{
     checkboxes: FormGroup<CheckboxForm>;
   }>;
-  timeout;
   toggledAll = true;
   channelsSub: Subscription;
+  LoadingIndicator = LoadingIndicator;
   @Output() closeSidenav = new EventEmitter<boolean>();
+
   constructor(
     private formBuilder: FormBuilder,
     private widgetConnectService: WidgetConnectService,
-    private viewService: ViewService
+    private viewService: ViewService,
+    private cdr: ChangeDetectorRef,
+    protected loadingService: LoadingService
   ) {}
 
   /**
    * Subscribe to group changes
    */
   ngOnInit(): void {
-    this.channelsSub = this.viewService.channelGroupId
-      .pipe(distinctUntilChanged())
-      .subscribe(() => {
-        this.channels = this.viewService.allChannels;
-        this.initForm();
-      });
+    this.channelsSub = this.viewService.channelGroupId.subscribe(() => {
+      this.channels = this.viewService.allChannels;
+      this.initForm();
+    });
   }
 
   /**
@@ -78,6 +84,7 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
         this.viewService.updateChannels(value);
       }
     );
+    this.cdr.detectChanges();
   }
 
   /**
@@ -85,12 +92,8 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
    *
    * @param item channel nslc
    */
-  mouseenter(item: string): void {
-    clearTimeout(this.timeout);
-    this.timeout = setTimeout(() => {
-      this.widgetConnectService.emphasizedChannel.next(null);
-      this.widgetConnectService.emphasizedChannel.next(item);
-    }, 0);
+  mouseenter(item): void {
+    this.widgetConnectService.emphasizedChannel.next(item);
   }
 
   /**
@@ -99,7 +102,7 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
    * @param _item channel nslc
    */
   mouseleave(_item: string): void {
-    this.widgetConnectService.deemphasizeChannel.next(null);
+    // this.widgetConnectService.deemphasizeChannel.next(null);
   }
 
   /**
@@ -110,6 +113,17 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Trackby function for ngFor
+   *
+   * @param index item index
+   * @param el nf for element
+   * @returns string key of item
+   */
+  trackByMethod(index: number, el: any): string {
+    return el.key;
+  }
+
+  /**
    * Toggle all channel checkboxes
    */
   toggleAll(): void {
@@ -117,5 +131,6 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
     Object.keys(checkboxes.controls).forEach((key) => {
       checkboxes.controls[key].patchValue(!this.toggledAll);
     });
+    this.cdr.detectChanges();
   }
 }

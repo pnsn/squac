@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
 import { Measurement, MeasurementTypes } from "squacapi";
 import {
   CustomSeriesRenderItemAPI,
@@ -35,18 +35,29 @@ export class TimelineComponent
   constructor(
     private widgetConfigService: WidgetConfigService,
     override widgetConnector: WidgetConnectService,
-    override widgetManager: WidgetManagerService
+    override widgetManager: WidgetManagerService,
+    override ngZone: NgZone
   ) {
-    super(widgetManager, widgetConnector);
+    super(widgetManager, widgetConnector, ngZone);
   }
-
-  override fullOptions = {
+  override denseOptions: EChartsOption = {
     grid: {
-      containLabel: true,
+      containLabel: false,
+      top: 10,
+      right: 10,
+      left: 105,
+      bottom: 32,
+    },
+    dataZoom: [],
+  };
+
+  override fullOptions: EChartsOption = {
+    grid: {
+      containLabel: false,
       top: 5,
       right: 10,
-      bottom: 38,
-      left: 30,
+      left: 125,
+      bottom: 52,
     },
     dataZoom: this.chartDefaultOptions.dataZoom,
   };
@@ -143,10 +154,6 @@ export class TimelineComponent
         },
       };
       this.xAxisLabels = [];
-
-      this.channels.sort((chanA, chanB) => {
-        return chanA.nslc.localeCompare(chanB.nslc);
-      });
 
       this.channels.forEach((channel, index) => {
         const nslc = channel.nslc;
@@ -344,9 +351,9 @@ export class TimelineComponent
     }
     this.updateOptions = {
       yAxis: {
-        data: this.metricSeries[displayMetric.id].yAxisLabels,
+        data: this.metricSeries[displayMetric.id]?.yAxisLabels,
       },
-      series: this.metricSeries[displayMetric.id].series,
+      series: this.metricSeries[displayMetric.id]?.series,
       visualMap: visualMaps,
       xAxis,
     };

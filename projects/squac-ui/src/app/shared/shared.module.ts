@@ -10,7 +10,6 @@ import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
 import { ErrorComponent } from "./components/error/error.component";
 import { AbilityModule } from "@casl/angular";
 import { ConfirmDialogComponent } from "./components/confirm-dialog/confirm-dialog.component";
-import { ReplacePipe } from "./pipes/replace.pipe";
 import { SnackbarComponent } from "./components/snackbar/snackbar.component";
 import { SharedIndicatorComponent } from "./components/shared-indicator/shared-indicator.component";
 import { TableViewComponent } from "./components/table-view/table-view.component";
@@ -34,7 +33,7 @@ import { SharingToggleComponent } from "./components/sharing-toggle/sharing-togg
     ConfirmDialogComponent,
     LoadingComponent,
     ErrorComponent,
-    ReplacePipe,
+
     SnackbarComponent,
     SharedIndicatorComponent,
     TableViewComponent,
@@ -70,7 +69,6 @@ import { SharingToggleComponent } from "./components/sharing-toggle/sharing-togg
     ErrorComponent,
     AbilityModule,
     ConfirmDialogComponent,
-    ReplacePipe,
     LeafletModule,
     LeafletDrawModule,
     SnackbarComponent,

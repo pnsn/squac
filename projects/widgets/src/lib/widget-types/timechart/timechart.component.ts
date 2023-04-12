@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
 import * as dayjs from "dayjs";
 import { Measurement } from "squacapi";
 
@@ -27,9 +27,10 @@ export class TimechartComponent
   constructor(
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
-    override widgetManager: WidgetManagerService
+    override widgetManager: WidgetManagerService,
+    override ngZone: NgZone
   ) {
-    super(widgetManager, widgetConnectService);
+    super(widgetManager, widgetConnectService, ngZone);
   }
   // Max allowable time between measurements to connect
   maxMeasurementGap = 1.5;
@@ -117,7 +118,7 @@ export class TimechartComponent
       const series = {
         type: "line",
         large: true,
-        largeThreshold: 1000,
+        largeThreshold: 500,
         legendHoverLink: true,
         lineStyle: {
           width: 1,

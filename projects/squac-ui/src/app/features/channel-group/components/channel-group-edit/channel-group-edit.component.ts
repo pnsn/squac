@@ -133,7 +133,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
       .pipe(
         tap((data: any) => {
           this.channelGroup = data["channelGroup"];
-          this.matchingRules = data["matchingRules"];
+          this.matchingRules = data["matchingRules"] || [];
           this.editMode = !!this.channelGroup;
           this.id = this.channelGroup?.id;
           this.pageOptions.titleButtons.deleteButton = this.editMode;

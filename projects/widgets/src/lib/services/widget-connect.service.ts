@@ -1,5 +1,11 @@
 import { Injectable } from "@angular/core";
-import { ReplaySubject, Subject } from "rxjs";
+import {
+  debounceTime,
+  distinctUntilChanged,
+  ReplaySubject,
+  share,
+  Subject,
+} from "rxjs";
 
 /**
  * Service for communication between widgets,
@@ -17,4 +23,9 @@ export class WidgetConnectService {
   useDenseView = new ReplaySubject<boolean>(1);
   /** toggle channel list */
   toggleChannelList = new ReplaySubject<boolean>(1);
+
+  /** obserable of emphasized channel with debounce */
+  emphasizedChannel$ = this.emphasizedChannel
+    .asObservable()
+    .pipe(distinctUntilChanged(), debounceTime(500), share());
 }

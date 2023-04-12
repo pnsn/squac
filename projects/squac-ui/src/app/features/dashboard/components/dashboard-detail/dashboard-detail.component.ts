@@ -1,18 +1,13 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
 import {
-  ARCHIVE_STAT_OPTIONS,
-  ARCHIVE_TYPE_OPTIONS,
-  Dashboard,
-} from "squacapi";
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from "@angular/core";
+import { Dashboard } from "squacapi";
 import { ActivatedRoute, Router } from "@angular/router";
-import {
-  catchError,
-  EMPTY,
-  Observable,
-  Subscription,
-  switchMap,
-  tap,
-} from "rxjs";
+import { Observable, Subscription, switchMap, tap } from "rxjs";
 import { ViewService } from "@dashboard/services/view.service";
 import { AppAbility } from "@core/utils/ability";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
@@ -22,6 +17,11 @@ import { DATE_PICKER_TIMERANGES } from "./dashboard-time-ranges";
 import { ArchiveStatType, ArchiveType } from "squacapi";
 import { WidgetConnectService } from "widgets";
 
+export enum LoadingIndicator {
+  MAIN,
+  CHANNEL_GROUP,
+}
+
 /**
  * Individual dashboard view
  */
@@ -29,6 +29,7 @@ import { WidgetConnectService } from "widgets";
   selector: "dashboard-detail",
   templateUrl: "./dashboard-detail.component.html",
   styleUrls: ["./dashboard-detail.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardDetailComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
@@ -48,8 +49,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   hasUnsavedChanges: Observable<boolean>;
   // time picker config
   datePickerTimeRanges = DATE_PICKER_TIMERANGES;
-  archiveTypeOptions = ARCHIVE_TYPE_OPTIONS;
-  statTypeOptions = ARCHIVE_STAT_OPTIONS;
+  LoadingIndicator = LoadingIndicator;
 
   constructor(
     private route: ActivatedRoute,
@@ -59,7 +59,8 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     private confirmDialog: ConfirmDialogService,
     private messageService: MessageService,
     public loadingService: LoadingService,
-    private widgetConnectService: WidgetConnectService
+    private widgetConnectService: WidgetConnectService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   /**
@@ -73,32 +74,30 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
           this.error = null;
         }),
         switchMap(() => {
-          const groupId = +this.route.snapshot.queryParams["group"];
           const dashboard = this.route.snapshot.data["dashboard"];
-          return this.viewService.setDashboard(dashboard, groupId).pipe(
-            tap((channelGroup) => {
-              if (channelGroup) {
-                this.channelGroupId = channelGroup.id;
-              }
-              this.dashboard = this.viewService.dashboard;
-              this.widgetConnectService.useDenseView.next(
-                this.dashboard.properties.denseView
-              );
-              this.archiveStat = this.viewService.archiveStat;
-              this.archiveType = this.viewService.archiveType;
-              this.timeRange = this.viewService.range;
-              this.startTime = this.viewService.startTime;
-              this.endTime = this.viewService.endTime;
-            }),
-            catchError(() => {
-              if (!this.dashboard) {
-                this.messageService.error("Could not load dashboard.");
-              } else {
-                this.messageService.error("Could not load channel group.");
-              }
-              return EMPTY;
-            })
+          let groupId = dashboard.channelGroupId;
+          if (this.route.snapshot.queryParams["group"]) {
+            groupId = +this.route.snapshot.queryParams["group"];
+          }
+          this.channelGroupId = groupId;
+          this.viewService.setDashboard(dashboard);
+          this.dashboard = this.viewService.dashboard;
+          this.widgetConnectService.useDenseView.next(
+            this.dashboard.properties.denseView
           );
+          this.archiveStat = this.viewService.archiveStat;
+          this.archiveType = this.viewService.archiveType;
+          this.timeRange = this.viewService.range;
+          this.startTime = this.viewService.startTime;
+          this.endTime = this.viewService.endTime;
+          return this.loadingService.doLoading(
+            this.viewService.getChannelGroup(groupId),
+            this
+          );
+        }),
+        tap(() => {
+          this.viewService.updateDashboard();
+          this.cdr.detectChanges();
         })
       )
       .subscribe();

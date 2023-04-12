@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from "@angular/core";
+import { Component, NgZone, OnDestroy } from "@angular/core";
 import { EChartsOption, EChartsType } from "echarts";
 
 import { WidgetConnectService, WidgetManagerService } from "../../../services";
@@ -17,9 +17,10 @@ export abstract class EChartComponent
 {
   constructor(
     override widgetManager: WidgetManagerService,
-    override widgetConnector: WidgetConnectService
+    override widgetConnector: WidgetConnectService,
+    override ngZone: NgZone
   ) {
-    super(widgetManager, widgetConnector);
+    super(widgetManager, widgetConnector, ngZone);
   }
 
   emphasizedChannel: string;
@@ -37,7 +38,7 @@ export abstract class EChartComponent
   chartDefaultOptions: EChartsOption = ECHART_DEFAULTS;
 
   denseOptions = ECHART_DENSE_DEFAULTS;
-  fullOptions = {
+  fullOptions: EChartsOption = {
     grid: this.chartDefaultOptions.grid,
     dataZoom: this.chartDefaultOptions.dataZoom,
   };

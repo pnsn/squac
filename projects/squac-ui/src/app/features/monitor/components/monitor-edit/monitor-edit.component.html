@@ -105,8 +105,8 @@
               <mat-form-field class="xsmall">
                 <mat-label for="IntervalType">interval</mat-label>
                 <mat-select formControlName="intervalType" name="intervalType">
-                  <mat-option *ngFor="let type of INTERVAL_TYPES" [value]="type">
-                    {{ type
+                  <mat-option *ngFor="let type of INTERVAL_TYPES | keyvalue" [value]="type.key">
+                    {{ type.value
                     }}{{ monitorForm.value.intervalCount > 1 ? "s" : "" }}
                   </mat-option>
                 </mat-select>
@@ -280,12 +280,12 @@
 </div>
 
 <div mat-dialog-actions class="dialog-options">
-  <div>
-    <button mat-stroked-button color="primary" (click)="stepper.next()" [disabled]="stepper.selectedIndex === 1">
-      Next
-    </button>
+  <div class="dialog-buttons">
     <button mat-stroked-button color="primary" (click)="stepper.previous()" [disabled]="stepper.selectedIndex === 0">
       Back
+    </button>
+    <button mat-stroked-button color="primary" (click)="stepper.next()" [disabled]="stepper.selectedIndex === 1">
+      Next
     </button>
     <button class="save" mat-flat-button color="accent" (click)="save()"
       [disabled]="!monitorForm.valid || !triggers.valid">

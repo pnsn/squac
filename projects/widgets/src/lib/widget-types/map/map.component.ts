@@ -1,11 +1,11 @@
 import {
   Component,
   ElementRef,
+  NgZone,
   OnDestroy,
   OnInit,
   ViewChild,
 } from "@angular/core";
-import * as L from "leaflet";
 import { PrecisionPipe } from "../../shared/pipes/precision.pipe";
 
 import {
@@ -24,6 +24,21 @@ import {
 import { GenericWidgetComponent } from "../../shared/components";
 import { ChannelRow, StationChannels, StationRow } from "./types";
 import { MeasurementPipe, MeasurementTypes, Metric } from "squacapi";
+import {
+  Control,
+  divIcon,
+  FeatureGroup,
+  featureGroup,
+  latLng,
+  LatLngBounds,
+  LayerGroup,
+  Map,
+  MapOptions,
+  Marker,
+  marker,
+  MarkerOptions,
+  tileLayer,
+} from "leaflet";
 
 /**
  * Leaflet map widget
@@ -42,17 +57,17 @@ export class MapComponent
 
   resizeObserver: ResizeObserver;
   precisionPipe = new PrecisionPipe();
-  stationLayer: L.LayerGroup;
+  stationLayer: LayerGroup;
   displayMetric: Metric;
-  options: L.MapOptions;
+  options: MapOptions;
 
   drawOptions: Record<string, never>;
-  layers: L.FeatureGroup[];
-  fitBounds: L.LatLngBounds;
-  map: L.Map;
-  metricLayers: Record<number, L.Marker[]>;
+  layers: FeatureGroup[];
+  fitBounds: LatLngBounds;
+  map: Map;
+  metricLayers: Record<number, Marker[]>;
   displayMap: VisualMapTypes;
-  legend: L.Control;
+  legend: Control;
   stations: StationRow[];
   measurementPipe = new MeasurementPipe();
 
@@ -63,9 +78,10 @@ export class MapComponent
   constructor(
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
-    override widgetManager: WidgetManagerService
+    override widgetManager: WidgetManagerService,
+    protected zone: NgZone
   ) {
-    super(widgetManager, widgetConnectService);
+    super(widgetManager, widgetConnectService, zone);
   }
 
   /** @override */
@@ -93,18 +109,34 @@ export class MapComponent
   configureChart(): void {
     // Add all the layers to the array that will be fed to options
     const baseLayers = [
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution:
           '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       }),
     ];
 
     this.options = {
-      center: L.latLng(0, 0),
+      center: latLng(0, 0),
       zoom: 5,
       layers: baseLayers,
       doubleClickZoom: false,
+      preferCanvas: true,
     };
+  }
+
+  /**
+   * Update widget data
+   *
+   * @param data - data for widget to update
+   */
+  override updateData(data: ProcessedData): void {
+    this.data = data;
+    this.channels = this.widgetManager.channels;
+    this.selectedMetrics = this.widgetManager.selectedMetrics;
+    this.properties = this.widgetManager.properties;
+    this.buildChartData(data).then(() => {
+      this.changeMetrics();
+    });
   }
 
   /**
@@ -124,16 +156,17 @@ export class MapComponent
    *
    * @param map - Leaflet map referencea
    */
-  onMapReady(map: L.Map): void {
+  onMapReady(map: Map): void {
     this.map = map;
     // Do stuff with map
     if (this.selectedMetrics.length > 0) {
-      this.legend = new L.Control({
+      this.legend = new Control({
         position: "topright",
       });
       this.buildChartData(this.data).then(() => {
         this.changeMetrics();
         this.toggleKey();
+        this.data = null;
       });
     }
   }
@@ -249,7 +282,6 @@ export class MapComponent
           const stations: string[] = [];
           const stationRows: StationRow[] = [];
           const stationChannels: StationChannels = {};
-
           this.channels.forEach((channel) => {
             const identifier = channel.staCode;
             const nslc = channel.nslc;
@@ -422,7 +454,7 @@ export class MapComponent
       this.displayMetric = this.selectedMetrics[0];
       this.displayMap = this.visualMaps[this.displayMetric.id];
       this.addPanes(this.displayMap);
-      this.layers = [L.featureGroup(this.metricLayers[this.displayMetric.id])];
+      this.layers = [featureGroup(this.metricLayers[this.displayMetric.id])];
       this.initLegend();
       this.fitBounds = this.layers[0].getBounds();
 
@@ -476,8 +508,8 @@ export class MapComponent
   private makeStationMarker(
     station: StationRow,
     stationChannels: StationChannels
-  ): L.Marker {
-    const options: L.MarkerOptions = {
+  ): Marker {
+    const options: MarkerOptions = {
       autoPan: true,
       riseOnHover: true,
     };
@@ -493,18 +525,18 @@ export class MapComponent
       html = this.getIconHtml("white");
     }
 
-    options.icon = L.divIcon({ html, className: "icon-parent" });
-    const marker = L.marker([station.lat, station.lon], options).bindTooltip(
+    options.icon = divIcon({ html, className: "icon-parent" });
+    const markerObj = marker([station.lat, station.lon], options).bindTooltip(
       `<div class='tooltip-name'> ${
         station.id
       } </div> <table class='tooltip-table'>
         <thead><th>Channel</th><th>Value</th></thead><tbody>
       ${stationChannels[station.staCode]}</tbody> </table>`
     );
-    marker.on("click", (ev) => {
+    markerObj.on("click", (ev) => {
       ev.target.openPopup();
     });
-    return marker;
+    return markerObj;
   }
 }
 //no data, empty (?) white circle
