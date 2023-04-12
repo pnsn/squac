@@ -48,7 +48,10 @@
   <ng-container bodyContent>
     <div class="edit-body gray-border white-background">
       <div id="left-side">
-        <div id="add-channel-header" class="row wrap space-between">
+        <div
+          id="add-channel-header"
+          class="row wrap space-between"
+        >
           <h3>Add Channels to Group</h3>
           <mat-slide-toggle [(ngModel)]="showOnlyCurrent">
             <span class="help-text">Only Show Current Channels</span>
@@ -71,7 +74,10 @@
           below using the filters. Add channels by uploading a CSV, searching
           with the filters, or using the map to search within a region.
         </p>
-        <p *ngIf="error" class="warn-text">
+        <p
+          *ngIf="error"
+          class="warn-text"
+        >
           {{ error }}
         </p>
 
@@ -141,15 +147,26 @@
         </div>
       </div>
       <div>
-        <mat-accordion displayMode="flat" multi>
+        <mat-accordion
+          displayMode="flat"
+          multi
+        >
           <mat-expansion-panel expanded="true">
             <mat-expansion-panel-header>
-              <mat-panel-title><h4>Group Information</h4> </mat-panel-title>
+              <mat-panel-title>
+                <h4>Group Information</h4>
+              </mat-panel-title>
               <mat-panel-description>(required)</mat-panel-description>
             </mat-expansion-panel-header>
 
-            <form [formGroup]="channelGroupForm" class="column">
-              <mat-form-field class="channel-group-input" class="medium">
+            <form
+              [formGroup]="channelGroupForm"
+              class="column"
+            >
+              <mat-form-field
+                class="channel-group-input"
+                class="medium"
+              >
                 <input
                   matInput
                   placeholder="Name"
@@ -202,9 +219,7 @@
               <mat-panel-title>
                 <h4>Included ({{ autoIncludeChannels.length }})</h4>
               </mat-panel-title>
-              <mat-panel-description
-                >Channels always in group.</mat-panel-description
-              >
+              <mat-panel-description>Channels always in group.</mat-panel-description>
             </mat-expansion-panel-header>
 
             <channel-group-edit-table
@@ -221,9 +236,7 @@
               <mat-panel-title>
                 <h4>Excluded ({{ autoExcludeChannels.length }})</h4>
               </mat-panel-title>
-              <mat-panel-description
-                >Channels never in group.</mat-panel-description
-              >
+              <mat-panel-description>Channels never in group.</mat-panel-description>
             </mat-expansion-panel-header>
             <channel-group-edit-table
               (rowsChange)="updateState()"

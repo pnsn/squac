@@ -13,7 +13,10 @@
   }})"
 >
   <ng-container bodyContent>
-    <div id="channel-group-container" class="column gray-border">
+    <div
+      id="channel-group-container"
+      class="column box"
+    >
       <div id="group-info-container">
         <div>
           <h3>Channel Group Information</h3>
@@ -25,7 +28,10 @@
         </div>
       </div>
       <h3>Channels ({{ channelGroup.channels.length }}):</h3>
-      <div id="channel-map-container" class="row">
+      <div
+        id="channel-map-container"
+        class="row"
+      >
         <div id="channels-container">
           <channel-group-edit-table
             [rows]="channelGroup.channels"
@@ -125,7 +131,10 @@
         </div>
       </div>
 
-      <div id="matching-rules-container" class="column">
+      <div
+        id="matching-rules-container"
+        class="column"
+      >
         <h3>Regex Rules ({{ matchingRules.length }}):</h3>
 
         <div>
@@ -147,11 +156,14 @@
           </table>
         </div>
       </div>
-      <div id="auto-channels-container" class="row">
+      <div
+        id="auto-channels-container"
+        class="row"
+      >
         <div>
           <h3>
             Auto Included Channels ({{
-              channelGroup.autoIncludeChannels.length
+            channelGroup.autoIncludeChannels.length
             }}):
           </h3>
 
@@ -166,7 +178,7 @@
         <div>
           <h3>
             Auto Excluded Channels ({{
-              channelGroup.autoExcludeChannels.length
+            channelGroup.autoExcludeChannels.length
             }}):
           </h3>
 
