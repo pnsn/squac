@@ -10,6 +10,7 @@ import {
   Input,
   OnDestroy,
 } from "@angular/core";
+import { fromEvent, tap } from "rxjs";
 import { TooltipComponent } from "./tooltip.component";
 import { TooltipPosition, TooltipTheme } from "./tooltip.enums";
 
@@ -56,58 +57,111 @@ export class TooltipDirective implements OnDestroy {
     private appRef: ApplicationRef,
     private componentFactoryResolver: ComponentFactoryResolver,
     private injector: Injector
-  ) {}
+  ) {
+    const element = this.elementRef.nativeElement;
 
-  /** Listen to mouseenter events to open tooltip */
-  @HostListener("mouseenter")
-  onMouseEnter(): void {
-    this.initializeTooltip();
-  }
+    fromEvent(element, "mouseenter")
+      .pipe(
+        tap(() => {
+          this.initializeTooltip();
+        })
+      )
+      .subscribe();
 
-  /** Listen to mouseleave events to close tooltip */
-  @HostListener("mouseleave")
-  onMouseLeave(): void {
-    this.setHideTooltipTimeout();
-  }
+    fromEvent(element, "mouseleave")
+      .pipe(
+        tap(() => {
+          this.setHideTooltipTimeout();
+        })
+      )
+      .subscribe();
 
-  /**
-   * List to mousemove events for tooltip positioning
-   *
-   * @param $event mouse move event
-   */
-  @HostListener("mousemove", ["$event"])
-  onMouseMove($event: MouseEvent): void {
-    if (
-      this.componentRef !== null &&
-      this.position === TooltipPosition.DYNAMIC
-    ) {
-      this.componentRef.instance.left = $event.clientX;
-      this.componentRef.instance.top = $event.clientY;
-      this.componentRef.instance.tooltip = this.uiTooltip;
-    }
-  }
+    fromEvent(element, "mousemove")
+      .pipe(
+        tap(($event: MouseEvent) => {
+          if (
+            this.componentRef !== null &&
+            this.position === TooltipPosition.DYNAMIC
+          ) {
+            this.componentRef.instance.left = $event.clientX;
+            this.componentRef.instance.top = $event.clientY;
+            this.componentRef.instance.tooltip = this.uiTooltip;
+          }
+        })
+      )
+      .subscribe();
 
-  /**
-   * Listen to touch events for mobile users
-   *
-   * @param $event touch event
-   */
-  @HostListener("touchstart", ["$event"])
-  onTouchStart($event: TouchEvent): void {
-    $event.preventDefault();
-    window.clearTimeout(this.touchTimeout);
-    this.touchTimeout = window.setTimeout(
-      this.initializeTooltip.bind(this),
-      500
+    fromEvent(element, "touchend")
+      .pipe(
+        tap(() => {
+          window.clearTimeout(this.touchTimeout);
+          this.setHideTooltipTimeout();
+        })
+      )
+      .subscribe();
+
+    fromEvent(element, "touchstart").pipe(
+      tap(($event: TouchEvent) => {
+        $event.preventDefault();
+        window.clearTimeout(this.touchTimeout);
+        this.touchTimeout = window.setTimeout(
+          this.initializeTooltip.bind(this),
+          500
+        );
+      })
     );
   }
 
-  /** Listen to end of touch event to close tooltip */
-  @HostListener("touchend")
-  onTouchEnd(): void {
-    window.clearTimeout(this.touchTimeout);
-    this.setHideTooltipTimeout();
-  }
+  // /** Listen to mouseenter events to open tooltip */
+  // @HostListener("mouseenter")
+  // onMouseEnter(): void {
+  //   this.initializeTooltip();
+  // }
+
+  // /** Listen to mouseleave events to close tooltip */
+  // @HostListener("mouseleave")
+  // onMouseLeave(): void {
+  //   this.setHideTooltipTimeout();
+  // }
+
+  // /**
+  //  * List to mousemove events for tooltip positioning
+  //  *
+  //  * @param $event mouse move event
+  //  */
+  // @HostListener("mousemove", ["$event"])
+  // onMouseMove($event: MouseEvent): void {
+  //   if (
+  //     this.componentRef !== null &&
+  //     this.position === TooltipPosition.DYNAMIC
+  //   ) {
+  //     this.componentRef.instance.left = $event.clientX;
+  //     this.componentRef.instance.top = $event.clientY;
+  //     this.componentRef.instance.tooltip = this.uiTooltip;
+  //   }
+  // }
+
+  // /**
+  //  * Listen to touch events for mobile users
+  //  *
+  //  * @param $event touch event
+  //  */
+  // @HostListener("touchstart", ["$event"])
+  // onTouchStart($event: TouchEvent): void {
+  //   $event.preventDefault();
+  //   window.clearTimeout(this.touchTimeout);
+  //   this.touchTimeout = window.setTimeout(
+  //     this.initializeTooltip.bind(this),
+  //     500
+  //   );
+  // }
+
+  // /** Listen to end of touch event to close tooltip */
+  // @HostListener("touchend")
+  // onTouchEnd(): void {
+  //   window.clearTimeout(this.touchTimeout);
+  //   this.setHideTooltipTimeout();
+  // }
 
   /**
    * Creates tooltip and attaches to host element if it does not exist
