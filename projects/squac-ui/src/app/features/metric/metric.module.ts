@@ -6,6 +6,7 @@ import { MetricViewComponent } from "./components/metric-view/metric-view.compon
 import { MetricEditComponent } from "./components/metric-edit/metric-edit.component";
 import { MetricRoutingModule } from "./metric-routing.module";
 import { MetricEditEntryComponent } from "./components/metric-edit/metric-edit-entry/metric-edit-entry.component";
+import { TooltipModule } from "@ui/tooltip/tooltip.module";
 
 /** Metric module */
 @NgModule({
@@ -15,6 +16,6 @@ import { MetricEditEntryComponent } from "./components/metric-edit/metric-edit-e
     MetricEditComponent,
     MetricEditEntryComponent,
   ],
-  imports: [CommonModule, SharedModule, MetricRoutingModule],
+  imports: [CommonModule, SharedModule, MetricRoutingModule, TooltipModule],
 })
 export class MetricModule {}

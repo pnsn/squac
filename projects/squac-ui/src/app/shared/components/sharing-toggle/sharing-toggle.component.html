@@ -5,19 +5,28 @@
   (change)="toggleSharing()"
   [(ngModel)]="shareFilter"
 >
-  <mat-button-toggle value="user">{{
+  <mat-button-toggle
+    value="user"
+    uiTooltip="Show only your dashboards"
+  >{{
     filterText?.user ? filterText.user : "User"
-  }}</mat-button-toggle>
-  <mat-button-toggle value="org">
+    }}</mat-button-toggle>
+  <mat-button-toggle
+    value="org"
+    uiTooltip="Show dashboards in your organization"
+  >
     <ng-container *ngIf="filterText?.org; else noOrgText">{{
       filterText.org
-    }}</ng-container>
+      }}</ng-container>
 
     <ng-template #noOrgText>
       {{ user?.orgId ?? orgId | organization }}
     </ng-template>
   </mat-button-toggle>
-  <mat-button-toggle value="all">{{
+  <mat-button-toggle
+    value="all"
+    uiTooltip="Show all public dashboards"
+  >{{
     filterText?.all ? filterText.all : "All"
-  }}</mat-button-toggle>
+    }}</mat-button-toggle>
 </mat-button-toggle-group>

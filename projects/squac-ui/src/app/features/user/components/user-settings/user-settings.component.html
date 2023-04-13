@@ -10,20 +10,27 @@
       mat-button
       color="primary"
       [routerLink]="['../organizations', user.orgId]"
-      >View {{ user.orgId | organization }}</a
-    >
-    <a mat-button [routerLink]="['../organizations']">View All Organizations</a>
+    >View {{ user.orgId | organization }}</a>
+    <a
+      mat-button
+      [routerLink]="['../organizations']"
+    >View All Organizations</a>
   </ng-container>
   <ng-container bodyContent>
-    <div id="user-settings-content">
+    <div
+      id="user-settings-content"
+      class="box"
+    >
       <p>
         Role: {{ user.isOrgAdmin ? "Admin" : "User" }} in the
-        <a [routerLink]="['../organizations', user.orgId]"
-          >{{ user.orgId | organization }}
+        <a [routerLink]="['../organizations', user.orgId]">{{ user.orgId | organization }}
         </a>
         organization.
       </p>
-      <div id="user-info-top" class="row">
+      <div
+        id="user-info-top"
+        class="row"
+      >
         <h3>User Information</h3>
         <button
           mat-icon-button
@@ -31,7 +38,7 @@
           *ngIf="editMode"
           [disabled]="!userForm.valid"
           (click)="save()"
-          matTooltip="Save user information."
+          uiTooltip="Save user information."
           aria-label="Button that saves the user information."
         >
           <mat-icon>save</mat-icon>
@@ -41,14 +48,17 @@
           color="primary"
           (click)="editForm()"
           *ngIf="!editMode"
-          matTooltip="Edit user information."
+          uiTooltip="Edit user information."
           aria-label="Button that enables editing of the user information."
         >
           <mat-icon>edit</mat-icon>
         </button>
       </div>
 
-      <form [formGroup]="userForm" class="form">
+      <form
+        [formGroup]="userForm"
+        class="form"
+      >
         <div class="row">
           <span id="label">First Name:</span>
           <mat-form-field class="medium">
@@ -62,7 +72,11 @@
         <div class="row">
           <span id="label">Last Name:</span>
           <mat-form-field class="medium">
-            <input matInput formControlName="lastname" [readonly]="!editMode" />
+            <input
+              matInput
+              formControlName="lastname"
+              [readonly]="!editMode"
+            />
           </mat-form-field>
         </div>
       </form>

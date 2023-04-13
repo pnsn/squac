@@ -140,10 +140,10 @@ button[mat-menu-item] {
     }
   }
   &.active {
-    background-color: lighten($sq-lt-blue, 30%) !important;
+    background-color: lighten($sq-lt-blue, 10%) !important;
   }
   &.active:hover {
-    background-color: lighten($sq-lt-blue, 20%) !important;
+    background-color: $sq-lt-blue !important;
   }
   &[disabled]:hover {
     background-color: transparent !important;

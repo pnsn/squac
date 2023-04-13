@@ -1,13 +1,19 @@
 <div class="body-content-container">
   <div id="page-title">
-    <div id="title-text" class="title">
+    <div
+      id="title-text"
+      class="title"
+    >
       <h2>
         {{ title }}
       </h2>
       <span>{{ subtext }}</span>
     </div>
 
-    <div id="title-buttons-container" *ngIf="options.titleButtons as buttons">
+    <div
+      id="title-buttons-container"
+      *ngIf="options.titleButtons as buttons"
+    >
       <ng-content select="[headerContent]"> </ng-content>
 
       <button
@@ -15,7 +21,7 @@
         mat-icon-button
         (click)="buttonAction('delete')"
         color="warn"
-        matTooltip="Delete {{ type }}"
+        uiTooltip="Delete {{ type }}"
         attr.aria-label="Button that deletes the {{ type }}"
       >
         <mat-icon>delete</mat-icon>
@@ -25,7 +31,7 @@
         mat-icon-button
         color="primary"
         (click)="buttonAction('edit')"
-        matTooltip="Edit {{ type }}"
+        uiTooltip="Edit {{ type }}"
         attr.aria-label="Button that navigates to edit {{ type }} page"
       >
         <mat-icon>edit</mat-icon>
@@ -34,7 +40,7 @@
         mat-icon-button
         *ngIf="buttons.cancelButton"
         (click)="buttonAction('cancel')"
-        matTooltip="Cancel editing"
+        uiTooltip="Cancel editing"
         attr.aria-label="Button that cancels editing and navigates to all {{
           type
         }}"
@@ -47,7 +53,7 @@
         mat-icon-button
         color="accent"
         (click)="buttonAction('save')"
-        matTooltip="Save {{ type }}"
+        uiTooltip="Save {{ type }}"
         attr.aria-label="Button that save the {{ type }}"
       >
         <mat-icon>save</mat-icon>
@@ -57,7 +63,7 @@
         (click)="buttonAction('add')"
         color="accent"
         mat-flat-button
-        matTooltip="Create new {{ type }}"
+        uiTooltip="Create new {{ type }}"
         attr.aria-label="Button that creates new {{ type }}"
       >
         New {{ type }}

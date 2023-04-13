@@ -1,5 +1,11 @@
-<div id="table-view-container" class="gray-border">
-  <div id="table-head" class="lt-gray-background">
+<div
+  id="table-view-container"
+  class="gray-border"
+>
+  <div
+    id="table-head"
+    class="lt-gray-background"
+  >
     <div class="row space-between">
       <shared-search-filter
         *ngIf="filters && filters.searchField"
@@ -34,7 +40,10 @@
         >
           {{ controls.edit.text }}
         </button>
-        <mat-menu #menu class="mat-menu-dense">
+        <mat-menu
+          #menu
+          class="mat-menu-dense"
+        >
           <ng-container *ngFor="let item of controls.menu?.options">
             <button
               mat-menu-item
@@ -60,6 +69,7 @@
           mat-icon-button
           aria-label="button that refreshes data"
           (click)="refreshResource()"
+          uiTooltip="refresh table"
         >
           <mat-icon>refresh</mat-icon>
         </button>
@@ -93,7 +103,10 @@
       [virtualization]="tableOptions.virtualization"
       [loadingIndicator]="isLoading"
     >
-      <ngx-datatable-group-header [rowHeight]="50" *ngIf="groupHeaderTemplate">
+      <ngx-datatable-group-header
+        [rowHeight]="50"
+        *ngIf="groupHeaderTemplate"
+      >
         <ng-template
           let-group="group"
           let-expanded="expanded"
@@ -116,7 +129,10 @@
         [rowHeight]="50"
         *ngIf="rowDetailTemplate"
       >
-        <ng-template let-row="row" ngx-datatable-row-detail-template>
+        <ng-template
+          let-row="row"
+          ngx-datatable-row-detail-template
+        >
           <ng-container
             [ngTemplateOutlet]="rowDetailTemplate"
             [ngTemplateOutletContext]="{ row: row }"
@@ -137,9 +153,9 @@
             <div>
               Showing {{ tableRows?.length }} of {{ rows?.length }}
               {{
-                tableOptions.footerLabel
-                  ? tableOptions.footerLabel
-                  : controls.resource + "s"
+              tableOptions.footerLabel
+              ? tableOptions.footerLabel
+              : controls.resource + "s"
               }}
             </div>
           </ng-container>
@@ -152,7 +168,11 @@
           ></ng-container>
         </ng-template>
       </ngx-datatable-footer>
-      <ng-template ngx-datatable-cell-template let-row="row" #nameTemplate>
+      <ng-template
+        ngx-datatable-cell-template
+        let-row="row"
+        #nameTemplate
+      >
         <a [routerLink]="[row.id]">{{ row.name }}</a>
       </ng-template>
       <!-- <ng-template ngx-datatable-cell-template let-row="row" #checkboxTemplate>

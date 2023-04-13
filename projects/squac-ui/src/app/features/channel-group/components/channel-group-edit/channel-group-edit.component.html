@@ -22,7 +22,7 @@
           !channelGroupForm.valid ||
           (matchingRules?.length === 0 && autoIncludeChannels.length === 0)
         "
-        matTooltip="Save channel group"
+        uiTooltip="Save channel group"
         aria-label="Button that saves the changes to the channel group"
       >
         Save
@@ -38,7 +38,7 @@
           !channelGroupForm.valid ||
           (matchingRules?.length === 0 && autoIncludeChannels.length === 0)
         "
-        matTooltip="Create channel group"
+        uiTooltip="Create channel group"
         aria-label="Button that creates the channel group"
       >
         Create
@@ -120,7 +120,7 @@
                 color="accent"
                 (click)="undoSelectRemove()"
                 [disabled]="!this.changeMade"
-                matTooltip="undo last change"
+                uiTooltip="undo last change"
               >
                 <mat-icon>undo</mat-icon>
               </button> -->

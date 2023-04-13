@@ -1,17 +1,23 @@
-<div class="widget-container box" *ngIf="widget">
+<div
+  class="widget-container box"
+  *ngIf="widget"
+>
   <div
     class="widget-header row space-between"
     [ngClass]="{ 'hide-controls': hideControls }"
   >
     <div id="widget-name">{{ widget.name }}</div>
-    <div id="controls" *ngIf="!error">
+    <div
+      id="controls"
+      *ngIf="!error"
+    >
       <button
         *ngIf="widgetType && widgetType.zoomControls"
         mat-icon-button
         class="icon-button"
         [color]="zooming === 'start' ? 'accent' : ''"
         (click)="updateZoom()"
-        matTooltip="start zoom"
+        uiTooltip="start zoom"
         aria-label="button that enables zoom"
       >
         <mat-icon>zoom_in</mat-icon>
@@ -21,7 +27,7 @@
         mat-icon-button
         class="icon-button"
         (click)="updateZoom('reset')"
-        matTooltip="reset zoom"
+        uiTooltip="reset zoom"
         aria-label="button that resets zoom"
       >
         <mat-icon>zoom_out</mat-icon>
@@ -31,7 +37,7 @@
         class="icon-button"
         mat-icon-button
         [color]="showKey ? 'primary' : 'gray'"
-        matTooltip="toggle key"
+        uiTooltip="toggle key"
         aria-label="button that toggles key"
         (click)="toggleKey()"
       >
@@ -51,7 +57,7 @@
         [matMenuTriggerFor]="widgetMenu"
         color="primary"
         aria-label="change widget settings"
-        matTooltip="widget options"
+        uiTooltip="widget options"
       >
         <mat-icon>more_vert</mat-icon>
       </button>
@@ -63,7 +69,11 @@
     yPosition="below"
     xPosition="before"
   >
-    <button mat-menu-item (click)="editWidget()" *ngIf="canUpdate">
+    <button
+      mat-menu-item
+      (click)="editWidget()"
+      *ngIf="canUpdate"
+    >
       Edit Widget
     </button>
     <!-- TODO: add option for no dashboards -->
@@ -85,10 +95,19 @@
       Delete Widget
     </button>
   </mat-menu>
-  <mat-menu #dashboardMenu="matMenu" class="mat-menu-dense">
-    <ng-template matMenuContent let-dashboards="dashboards">
+  <mat-menu
+    #dashboardMenu="matMenu"
+    class="mat-menu-dense"
+  >
+    <ng-template
+      matMenuContent
+      let-dashboards="dashboards"
+    >
       <ng-container *ngFor="let dashboard of dashboards">
-        <button mat-menu-item (click)="addWidgetToDashboard(dashboard.id)">
+        <button
+          mat-menu-item
+          (click)="addWidgetToDashboard(dashboard.id)"
+        >
           {{ dashboard.name }}
         </button>
       </ng-container>
@@ -100,6 +119,9 @@
     [appIsLoading]="widgetManager.isLoading$ | async"
     spinnerType="buffer"
   >
-    <div widgetContainer class="widget"></div>
+    <div
+      widgetContainer
+      class="widget"
+    ></div>
   </div>
 </div>

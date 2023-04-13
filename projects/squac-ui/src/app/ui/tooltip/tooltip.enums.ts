@@ -7,7 +7,7 @@ export enum TooltipPosition {
   LEFT = "left",
   RIGHT = "right",
   DYNAMIC = "dynamic",
-  DEFAULT = "right",
+  DEFAULT = "below",
 }
 
 /**

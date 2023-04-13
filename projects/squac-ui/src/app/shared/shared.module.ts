@@ -23,6 +23,7 @@ import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-sp
 import { DetailPageComponent } from "./components/detail-page/detail-page.component";
 import { SquacapiModule } from "squacapi";
 import { SharingToggleComponent } from "./components/sharing-toggle/sharing-toggle.component";
+import { TooltipModule } from "@ui/tooltip/tooltip.module";
 /**
  * Shared module for features
  */
@@ -56,6 +57,7 @@ import { SharingToggleComponent } from "./components/sharing-toggle/sharing-togg
     RouterModule,
     NgxDaterangepickerMd.forRoot(),
     SquacapiModule,
+    TooltipModule,
   ],
   exports: [
     MaterialModule,
