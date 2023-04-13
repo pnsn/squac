@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common";
 import { TooltipComponent } from "./tooltip.component";
 import { TooltipDirective } from "./tooltip.directive";
 
+/** Tooltip element */
 @NgModule({
   declarations: [TooltipComponent, TooltipDirective],
   imports: [CommonModule],

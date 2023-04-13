@@ -5,7 +5,6 @@ import {
   Directive,
   ElementRef,
   EmbeddedViewRef,
-  HostListener,
   Injector,
   Input,
   OnDestroy,
@@ -166,7 +165,7 @@ export class TooltipDirective implements OnDestroy {
   /**
    * Creates tooltip and attaches to host element if it does not exist
    */
-  private initializeTooltip() {
+  private initializeTooltip(): void {
     if (this.componentRef === null) {
       window.clearInterval(this.hideDelay);
       const componentFactory =
