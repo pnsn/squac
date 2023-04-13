@@ -1,14 +1,20 @@
+/**
+ * Position options for tooltips
+ */
 export enum TooltipPosition {
   ABOVE = "above",
   BELOW = "below",
   LEFT = "left",
   RIGHT = "right",
   DYNAMIC = "dynamic",
-  DEFAULT = "above",
+  DEFAULT = "right",
 }
 
+/**
+ * Theme options for tooltips
+ */
 export enum TooltipTheme {
   DARK = "dark",
   LIGHT = "light",
-  DEFAULT = "dark",
+  DEFAULT = "light",
 }

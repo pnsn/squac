@@ -8,24 +8,47 @@ import {
   HostListener,
   Injector,
   Input,
-  ViewContainerRef,
+  OnDestroy,
 } from "@angular/core";
 import { TooltipComponent } from "./tooltip.component";
 import { TooltipPosition, TooltipTheme } from "./tooltip.enums";
 
+/**
+ * Directive for adding a tooltip to an html element that will open
+ * on mouseenter and close on mouseleave
+ *
+ * @example
+ * <div
+ *  [uiTooltip]='Tooltip message'
+ *  position='dynamic'
+ *  theme='dark'
+ *  [showDelay]='0'
+ *  [hideDelay]='0'
+ *  >
+ *  </div
+ */
 @Directive({
   selector: "[uiTooltip]",
 })
-export class TooltipDirective {
+export class TooltipDirective implements OnDestroy {
+  /** Tooltip text */
   @Input() uiTooltip = "";
+  /** Tooltip positioning relative to element*/
   @Input() position: TooltipPosition = TooltipPosition.DEFAULT;
+  /** Tooltip coloring, light or dark */
   @Input() theme: TooltipTheme = TooltipTheme.DEFAULT;
+  /** Delay in ms for showing tooltip */
   @Input() showDelay = 0;
+  /** Deplay in ms for hiding tooltip */
   @Input() hideDelay = 0;
 
+  /** Ref to element tooltip is attached to */
   private componentRef: ComponentRef<any> | null = null;
+  /** Timeout for showing tooltip */
   private showTimeout?: number;
+  /** Timeout for hiding tooltip */
   private hideTimeout?: number;
+  /** Timeout for opening after touch event */
   private touchTimeout?: number;
 
   constructor(
@@ -35,16 +58,23 @@ export class TooltipDirective {
     private injector: Injector
   ) {}
 
+  /** Listen to mouseenter events to open tooltip */
   @HostListener("mouseenter")
   onMouseEnter(): void {
     this.initializeTooltip();
   }
 
+  /** Listen to mouseleave events to close tooltip */
   @HostListener("mouseleave")
   onMouseLeave(): void {
     this.setHideTooltipTimeout();
   }
 
+  /**
+   * List to mousemove events for tooltip positioning
+   *
+   * @param $event mouse move event
+   */
   @HostListener("mousemove", ["$event"])
   onMouseMove($event: MouseEvent): void {
     if (
@@ -57,6 +87,11 @@ export class TooltipDirective {
     }
   }
 
+  /**
+   * Listen to touch events for mobile users
+   *
+   * @param $event touch event
+   */
   @HostListener("touchstart", ["$event"])
   onTouchStart($event: TouchEvent): void {
     $event.preventDefault();
@@ -67,12 +102,16 @@ export class TooltipDirective {
     );
   }
 
+  /** Listen to end of touch event to close tooltip */
   @HostListener("touchend")
   onTouchEnd(): void {
     window.clearTimeout(this.touchTimeout);
     this.setHideTooltipTimeout();
   }
 
+  /**
+   * Creates tooltip and attaches to host element if it does not exist
+   */
   private initializeTooltip() {
     if (this.componentRef === null) {
       window.clearInterval(this.hideDelay);
@@ -95,7 +134,10 @@ export class TooltipDirective {
     }
   }
 
-  private setTooltipComponentProperties() {
+  /**
+   * Calculates tooltip properties for positioning
+   */
+  private setTooltipComponentProperties(): void {
     if (this.componentRef !== null) {
       this.componentRef.instance.tooltip = this.uiTooltip;
       this.componentRef.instance.position = this.position;
@@ -136,23 +178,33 @@ export class TooltipDirective {
     }
   }
 
-  private showTooltip() {
+  /**
+   * Sets component visibility to true
+   */
+  private showTooltip(): void {
     if (this.componentRef !== null) {
       this.componentRef.instance.visible = true;
     }
   }
 
-  private setHideTooltipTimeout() {
+  /**
+   * Add timeout for hiding tooltip
+   */
+  private setHideTooltipTimeout(): void {
     this.hideTimeout = window.setTimeout(
       this.destroy.bind(this),
       this.hideDelay
     );
   }
 
+  /** Destroy element */
   ngOnDestroy(): void {
     this.destroy();
   }
 
+  /**
+   * Clears intervals and detaches component from the host
+   */
   destroy(): void {
     if (this.componentRef !== null) {
       window.clearInterval(this.showTimeout);
