@@ -21,7 +21,7 @@
       ],
       "@core": ["./projects/squac-ui/src/app/core"],
       "@core/*": ["./projects/squac-ui/src/app/core/*"],
-
+      "@ui/*": ["./projects/squac-ui/src/app/ui/*"],
       "@shared/*": ["./projects/squac-ui/src/app/shared/*"],
       "@squacapi/*": ["./projects/squac-ui/src/app/squacapi/*"],
       "@dashboard/*": ["./projects/squac-ui/src/app/features/dashboard/*"],

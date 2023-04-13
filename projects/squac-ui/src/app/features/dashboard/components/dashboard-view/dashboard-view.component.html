@@ -1,3 +1,5 @@
+<div #testDiv>TEST DIV WITH HELP <mat-icon [uiTooltip]="'Help tooltuip'">help</mat-icon>
+</div>
 <shared-detail-page
   [options]="pageOptions"
   *ngIf="dashboards"
@@ -23,7 +25,11 @@
       <ng-container tableFooter>
         <div>Footer content</div>
       </ng-container>
-      <ng-template ngx-datatable-cell-template let-row="row" #sharingTemplate>
+      <ng-template
+        ngx-datatable-cell-template
+        let-row="row"
+        #sharingTemplate
+      >
         <ng-container *ngIf="row.shareAll; else private"> public </ng-container>
         <ng-template #private>
           {{ row.shareOrg ? (row.orgId | organization) : "private" }}

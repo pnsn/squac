@@ -23,7 +23,6 @@ import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-sp
 import { DetailPageComponent } from "./components/detail-page/detail-page.component";
 import { SquacapiModule } from "squacapi";
 import { SharingToggleComponent } from "./components/sharing-toggle/sharing-toggle.component";
-
 /**
  * Shared module for features
  */

@@ -23,6 +23,7 @@ import { GridsterModule } from "angular-gridster2";
 import { WidgetsModule } from "widgets";
 import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
 import { DataTypePipe } from "./components/dashboard-detail/data-type-selector/data-type.pipe";
+import { TooltipModule } from "@ui/tooltip/tooltip.module";
 
 /** Dashboard feature module */
 @NgModule({
@@ -51,6 +52,7 @@ import { DataTypePipe } from "./components/dashboard-detail/data-type-selector/d
     DashboardRoutingModule,
     SharedModule,
     AbilityModule,
+    TooltipModule,
   ],
   providers: [
     {
