@@ -207,6 +207,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
       widget,
     };
     this.widgetItems.push(item);
+    this.cdr.detectChanges();
   }
 
   /**
@@ -223,7 +224,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     if (index !== -1 && !widget) {
       this.widgetItems.splice(index, 1);
     } else if (index === -1 && widget) {
-      //add new
+      //add ne
       this.addWidgetToGrid(widget, true); //do the find position here
     } else {
       this.widgetItems[index]["widget"] = widget;

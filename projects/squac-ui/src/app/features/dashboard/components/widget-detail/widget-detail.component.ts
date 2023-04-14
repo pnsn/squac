@@ -6,7 +6,6 @@ import {
   OnChanges,
   ViewChild,
   OnInit,
-  ChangeDetectorRef,
 } from "@angular/core";
 import { Dashboard, Metric } from "squacapi";
 import { filter, Subscription, tap } from "rxjs";
@@ -58,8 +57,7 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
     private route: ActivatedRoute,
     private confirmDialog: ConfirmDialogService,
     private viewService: ViewService,
-    private widgetConnectService: WidgetConnectService,
-    private cdr: ChangeDetectorRef
+    private widgetConnectService: WidgetConnectService
   ) {}
 
   /**
@@ -90,7 +88,6 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
           );
 
           this.widgetManager.updateChannels(group, channels);
-          this.cdr.detectChanges();
           this.widgetManager.fetchData();
         })
       )

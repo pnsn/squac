@@ -376,7 +376,6 @@ export class ViewService {
     this.resize.next(widgetId);
   }
 
-  // sends resize with no id
   /** Emits resize event with no id */
   resizeAll(): void {
     this.resize.next(null);

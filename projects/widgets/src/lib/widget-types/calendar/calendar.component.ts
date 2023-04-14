@@ -246,9 +246,6 @@ export class CalendarComponent
               series.data.push([value.label, value.count, avg, nslc]);
             }
           });
-          // console.log(channelObj);
-
-          // this.metricSeries[metric.id].series.push(channelObj);
         });
       });
       resolve();
