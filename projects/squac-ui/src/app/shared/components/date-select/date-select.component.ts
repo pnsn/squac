@@ -17,6 +17,7 @@ import { DaterangepickerDirective } from "ngx-daterangepicker-material";
 // import { TimePeriod } from "ngx-daterangepicker-material/daterangepicker.component";
 import { TimeRange } from "./time-range.interface";
 
+/** Describes the data outputted by the date select */
 export interface TimePeriod {
   [index: string]: dayjs.Dayjs;
   startDate: dayjs.Dayjs;

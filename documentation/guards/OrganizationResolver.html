@@ -109,12 +109,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(orgService: <a href="../injectables/OrganizationService.html" target="_self">OrganizationService</a>)</code>
+<code>constructor(orgService: <a href="../injectables/OrganizationService.html" target="_self">OrganizationService</a>, loadingService: <a href="../injectables/LoadingService.html" target="_self">LoadingService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/organization.resolver.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/organization.resolver.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -136,6 +136,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/OrganizationService.html" target="_self" >OrganizationService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>loadingService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/LoadingService.html" target="_self" >LoadingService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -177,8 +189,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="23"
-                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/organization.resolver.ts:23</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/organization.resolver.ts:27</a></div>
                 </td>
             </tr>
 
@@ -223,7 +235,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/Organization.html" target="_self" >Observable&lt;Organization | []&gt;</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;Organization | []&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -241,6 +253,7 @@
         <div class="tab-pane fade  tab-source-code" id="c-source">
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { Resolve, ActivatedRouteSnapshot } from &quot;@angular/router&quot;;
+import { LoadingService } from &quot;@core/services/loading.service&quot;;
 import { Observable } from &quot;rxjs&quot;;
 import { Organization, OrganizationService } from &quot;squacapi&quot;;
 
@@ -253,7 +266,10 @@ import { Organization, OrganizationService } from &quot;squacapi&quot;;
 export class OrganizationResolver
   implements Resolve&lt;Observable&lt;Organization | Organization[]&gt;&gt;
 {
-  constructor(private orgService: OrganizationService) {}
+  constructor(
+    private orgService: OrganizationService,
+    private loadingService: LoadingService
+  ) {}
 
   /**
    * Resolve organization or list of organizations
@@ -265,11 +281,14 @@ export class OrganizationResolver
     route: ActivatedRouteSnapshot
   ): Observable&lt;Organization | Organization[]&gt; {
     const id &#x3D; route.paramMap.get(&quot;orgId&quot;);
+    const delay &#x3D; 500;
+    let req;
     if (id) {
-      return this.orgService.read(+id);
+      req &#x3D; this.orgService.read(+id);
     } else {
-      return this.orgService.list();
+      req &#x3D; this.orgService.list();
     }
+    return this.loadingService.doLoading(req, null, null, delay);
   }
 }
 </code></pre>

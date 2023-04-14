@@ -5,13 +5,7 @@ import {
   ValueOperator,
 } from "../types";
 
-// export const INTERVAL_TYPES: IntervalType[] = [
-//   "minute",
-//   "hour",
-//   "day",
-//   "last n",
-// ];
-
+/** Monitor interval types and the display text */
 export const INTERVAL_TYPES: {
   [key in IntervalType]: string;
 } = {
@@ -21,6 +15,7 @@ export const INTERVAL_TYPES: {
   "last n": "measurement",
 };
 
+/** Monitor stat options and display text  */
 export const MONITOR_STATS: {
   [key in MonitorStatType]: string;
 } = {
@@ -36,6 +31,7 @@ export const MONITOR_STATS: {
   median: "median",
 };
 
+/** Monitor value operator options and display text */
 export const VALUE_OPERATORS: {
   [key in ValueOperator]: string;
 } = {
@@ -48,6 +44,7 @@ export const VALUE_OPERATORS: {
   ">=": "greater than or equal to",
 };
 
+/** Monitor number of channels operators and display text */
 export const NUM_CHANNELS_OPERATORS: {
   [key in NumChannelsOperator]: string;
 } = {

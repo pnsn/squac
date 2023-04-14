@@ -5,10 +5,15 @@ import { WidgetConfig } from "widgets";
 import { WidgetType } from "widgets";
 import { WidgetProperties, WidgetStatType } from "squacapi";
 
+/** Widget information edit form */
 interface WidgetForm {
+  /** widget name */
   name: FormControl<string>;
+  /** type of widget */
   type: FormControl<WidgetType>;
+  /** statistic for measurements */
   stat: FormControl<WidgetStatType>;
+  /** display type for widget type */
   displayType: FormControl<string>;
 }
 /**

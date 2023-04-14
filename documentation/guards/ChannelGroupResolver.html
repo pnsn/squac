@@ -109,12 +109,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(channelGroupService: <a href="../injectables/ChannelGroupService.html" target="_self">ChannelGroupService</a>)</code>
+<code>constructor(channelGroupService: <a href="../injectables/ChannelGroupService.html" target="_self">ChannelGroupService</a>, loadingService: <a href="../injectables/LoadingService.html" target="_self">LoadingService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/channel-group.resolver.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/channel-group.resolver.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -136,6 +136,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/ChannelGroupService.html" target="_self" >ChannelGroupService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>loadingService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/LoadingService.html" target="_self" >LoadingService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -177,8 +189,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/channel-group.resolver.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="28"
+                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/channel-group.resolver.ts:28</a></div>
                 </td>
             </tr>
 
@@ -223,7 +235,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;ChannelGroup | []&gt;</code>
+                        <b>Returns : </b>        <code><a href="../interfaces/Group.html" target="_self" >Observable&lt;ChannelGroup | []&gt;</a></code>
 
                     </div>
                     <div class="io-description">
@@ -244,6 +256,7 @@ import { Resolve, ActivatedRouteSnapshot } from &quot;@angular/router&quot;;
 import { ChannelGroup } from &quot;squacapi&quot;;
 import { Observable } from &quot;rxjs&quot;;
 import { ChannelGroupService } from &quot;squacapi&quot;;
+import { LoadingService } from &quot;@core/services/loading.service&quot;;
 
 /**
  * Resolves a channel group or list of channel groups
@@ -254,7 +267,10 @@ import { ChannelGroupService } from &quot;squacapi&quot;;
 export class ChannelGroupResolver
   implements Resolve&lt;Observable&lt;ChannelGroup | ChannelGroup[]&gt;&gt;
 {
-  constructor(private channelGroupService: ChannelGroupService) {}
+  constructor(
+    private channelGroupService: ChannelGroupService,
+    private loadingService: LoadingService
+  ) {}
 
   /**
    * Resolve a channel group or list of channel group
@@ -266,12 +282,14 @@ export class ChannelGroupResolver
     route: ActivatedRouteSnapshot
   ): Observable&lt;ChannelGroup | ChannelGroup[]&gt; {
     const id &#x3D; route.paramMap.get(&quot;channelGroupId&quot;);
+    const delay &#x3D; 500;
+    let req;
     if (id) {
-      return this.channelGroupService.read(+id);
+      req &#x3D; this.channelGroupService.read(+id);
     } else {
-      return this.channelGroupService.list();
-      // return all of them
+      req &#x3D; this.channelGroupService.list();
     }
+    return this.loadingService.doLoading(req, null, null, delay);
   }
 }
 </code></pre>

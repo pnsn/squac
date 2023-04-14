@@ -28,18 +28,8 @@ import {
   WIDGET_SOLID_COLORS,
   WIDGET_TYPE_INFO,
 } from "widgets";
-import { ThresholdForm } from "./interfaces";
+import { OptionForm, OptionsForm, ThresholdForm } from "./interfaces";
 
-interface OptionForm {
-  inRange: FormControl<GradientColorOption | SolidColorOption>;
-  outOfRange: FormControl<GradientColorOption | SolidColorOption>;
-  numSplits: FormControl<number>;
-  reverseColors: FormControl<boolean>;
-}
-interface OptionsForm {
-  thresholdArray: FormArray<FormGroup<ThresholdForm>>;
-  options: FormGroup<OptionForm>;
-}
 /**
  * Component for editing widget options
  */

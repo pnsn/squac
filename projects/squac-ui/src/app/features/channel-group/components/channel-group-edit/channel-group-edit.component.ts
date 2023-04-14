@@ -31,13 +31,17 @@ import {
 } from "@shared/components/detail-page/detail-page.interface";
 import { FilterText } from "@shared/components/sharing-toggle/sharing-toggle.interface";
 
+/** Loading indicator areas */
 enum LoadingIndicator {
   MAIN,
   RESULTS,
 }
 
+/** Channel group edit form */
 interface ChannelGroupForm {
+  /** channel group name */
   name: FormControl<string>;
+  /** channel group description */
   description: FormControl<string>;
 }
 /**

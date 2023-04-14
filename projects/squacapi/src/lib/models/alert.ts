@@ -4,32 +4,52 @@ import {
   ReadOnlyAlertDetailSerializer,
 } from "@pnsn/ngx-squacapi-client";
 
+/** Describes a breaching channel */
 export interface BreachingChannel {
+  /** channel nscl */
   channel: string;
+  /** id of channel */
   channel_id: number;
+  /** minimum value in time range, if min stat for monitor is chosen */
   min?: number;
+  /** maximum value in time range, if max stat for monitor is chosen */
   max?: number;
+  /** number of measurements, if count stat for monitor is chosen */
   count?: number;
+  /** sum of measurements, if sum stat for monitor is chosen */
   sum?: number;
+  /** average value of measurements, if avg stat is chosen */
   avg?: number;
 }
 
+/** Describes an alert */
 export interface Alert {
+  /** time alert was issued */
   timestamp: string;
+  /** true if alert is in alarm state */
   inAlarm: boolean;
+  /** channels breaching during time window */
   breachingChannels: BreachingChannel[];
+  /** id of trigger for this alert */
   triggerId: number;
+  /** id of monitor for this alert */
   monitorId: number;
+  /** name of monitor */
   monitorName: string;
+  /** monitor low value */
   val1: number;
+  /** monitor high value */
   val2?: number;
+  /** monitor value operator */
   valueOperator: ApiTrigger.ValueOperatorEnum;
+  /** monitor number of channels */
   numChannels: number;
+  /** monitor number of channels operator */
   numChannelsOperator: ApiTrigger.NumChannelsOperatorEnum;
 }
 
 /**
- * Describes an alert
+ * Alert class for interacting with squacapi alerts
  */
 export class Alert extends ReadOnlyResourceModel<
   ReadOnlyAlertDetailSerializer | Alert

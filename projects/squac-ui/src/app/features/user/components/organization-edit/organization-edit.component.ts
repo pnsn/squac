@@ -12,11 +12,17 @@ import { MessageService } from "@core/services/message.service";
 import { InviteService } from "squacapi";
 import { OrganizationUserService } from "squacapi";
 
+/** Form for adding user to organization */
 interface UserForm {
+  /** user's email */
   email: FormControl<string>;
+  /** user's first name */
   firstname: FormControl<string>;
+  /** user's last name */
   lastname: FormControl<string>;
+  /** is user an admin for organization */
   isAdmin: FormControl<boolean>;
+  /** user permission groups */
   groups: FormControl<Array<string>>;
 }
 /**

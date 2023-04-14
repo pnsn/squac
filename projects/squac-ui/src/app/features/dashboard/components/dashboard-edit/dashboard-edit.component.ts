@@ -14,8 +14,11 @@ import { MessageService } from "@core/services/message.service";
 import { ChannelGroup } from "squacapi";
 import { FilterText } from "@shared/components/sharing-toggle/sharing-toggle.interface";
 
+/** dashboard edit form */
 interface DashboardForm {
+  /** dashboard name */
   name: FormControl<string>;
+  /** dashboard description */
   description: FormControl<string>;
 }
 /**

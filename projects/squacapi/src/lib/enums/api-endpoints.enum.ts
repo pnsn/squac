@@ -18,7 +18,7 @@ import {
 } from "../models";
 
 /**
- * Api endpoints maped to models.
+ * Available squacapi end points.
  */
 export enum ApiEndpoint {
   AGGREGATE = "measurementAggregated",
@@ -43,11 +43,13 @@ export enum ApiEndpoint {
   WIDGET = "dashboardWidgets",
 }
 
+/** Invite api endpoints */
 export enum InviteApiEndpoint {
   INVITE = "invite",
   REGISTER = "register",
 }
 
+/** Map api endpoints to squac-ui classes */
 export const ApiEndpointToClass: { [key in ApiEndpoint]?: any } = {
   [ApiEndpoint.AGGREGATE]: Aggregate,
   [ApiEndpoint.ALERT]: Alert,

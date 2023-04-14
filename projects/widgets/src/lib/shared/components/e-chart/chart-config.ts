@@ -1,6 +1,8 @@
 import { EChartsOption } from "echarts";
 
-// defaults for echarts charts
+/**
+ * Default options for echart based widgets
+ */
 export const ECHART_DEFAULTS: EChartsOption = {
   textStyle: {
     fontSize: 11,
@@ -70,6 +72,9 @@ export const ECHART_DEFAULTS: EChartsOption = {
   ],
 };
 
+/**
+ * Options for a dense (no datazoom, smaller grid) chart
+ */
 export const ECHART_DENSE_DEFAULTS: EChartsOption = {
   grid: {
     containLabel: true,

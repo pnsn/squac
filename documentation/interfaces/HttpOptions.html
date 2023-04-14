@@ -65,7 +65,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/squacapi/src/lib/services/generic-api.service.ts</code>
+            <code>projects/squacapi/src/lib/interfaces/api-service-params.interface.ts</code>
         </p>
 
 
@@ -157,12 +157,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpResponse, HttpContext } from &quot;@angular/common/http&quot;;
-import { ApiService } from &quot;@pnsn/ngx-squacapi-client&quot;;
-import { map, Observable } from &quot;rxjs&quot;;
-import { Adapter, SquacObject } from &quot;../interfaces&quot;;
-import { ApiEndpoint } from &quot;../enums&quot;;
-import { REFRESH_REQUEST } from &quot;../constants/refresh-request.constant&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpContext } from &quot;@angular/common/http&quot;;
 
 /**
  * Options for requests
@@ -178,216 +173,39 @@ export interface HttpOptions {
   context?: HttpContext;
 }
 
+/** Param type for typing */
 export type Params &#x3D; any;
 
-/**
- * Abstract service for interacting with squacapi models
- *
- * @template T model type
- */
-export abstract class BaseApiService&lt;T extends SquacObject&gt; {
-  observe &#x3D; &quot;body&quot;;
-  reportProgress &#x3D; false;
+/** Params for read request */
+export interface ReadParams {
+  id: number;
+}
 
-  protected adapter: Adapter&lt;T, unknown, unknown&gt;;
+/** Params for delete request */
+export interface DeleteParams {
+  id: number;
+}
 
-  constructor(protected apiEndpoint: ApiEndpoint, protected api: ApiService) {}
+/** Params for update request */
+export interface UpdateParams {
+  id: number;
+  data: any;
+}
 
-  /**
-   * Convert api object to model
-   *
-   * @param apiObject api item
-   * @returns model
-   */
-  private mapFromApi(apiObject: any): T {
-    return this.adapter.adaptFromApi(apiObject);
-  }
+/** Params for create request */
+export interface CreateParams {
+  data: any;
+}
 
-  /**
-   * Adds context to options
-   *
-   * @param options request options
-   * @returns options with context
-   */
-  private getHttpOptions(options: Options): HttpOptions {
-    const httpOptions: HttpOptions &#x3D; {};
-    if (options &amp;&amp; options.refresh) {
-      httpOptions.context &#x3D; new HttpContext().set(REFRESH_REQUEST, true);
-    }
-    return httpOptions;
-  }
+/** Base interface for read serializers */
+export interface ReadSerializer {
+  id?: number;
+}
 
-  /**
-   * Request list of objects of type T from squacapi
-   *
-   * @template T type of model to be requested
-   * @param params  http params for request
-   * @param options - http options for request
-   * @returns results of http request
-   */
-  protected _list(
-    params: Params &#x3D; {},
-    options: Options &#x3D; {}
-  ): Observable&lt;Array&lt;T&gt;&gt; {
-    const httpOptions &#x3D; this.getHttpOptions(options);
-    return this.api[&#x60;${this.apiEndpoint}List&#x60;](
-      params,
-      this.observe,
-      this.reportProgress,
-      httpOptions
-    ).pipe(map((r: Array&lt;any&gt;) &#x3D;&gt; r.map(this.mapFromApi.bind(this))));
-  }
-
-  /**
-   * Request single object detail of type T from squacapi
-   *
-   * @template T type of model to be requested
-   * @param params  http params for request
-   * @param options - http options for request
-   * @returns - results of http request
-   */
-  protected _read(params?: Params, options?: Options): Observable&lt;T&gt; {
-    const httpOptions &#x3D; this.getHttpOptions(options);
-    return this.api[&#x60;${this.apiEndpoint}Read&#x60;](
-      params,
-      this.observe,
-      this.reportProgress,
-      httpOptions
-    ).pipe(map(this.mapFromApi.bind(this)));
-  }
-
-  /**
-   * Update single object of type T from squacapi
-   *
-   * @template T type of model to be updated
-   * @param params  http params for request
-   * @returns results of http request
-   */
-  protected _update(params?: Params): Observable&lt;T&gt; {
-    return this.api[&#x60;${this.apiEndpoint}Update&#x60;](
-      params,
-      this.observe,
-      this.reportProgress
-    ).pipe(map(this.mapFromApi.bind(this)));
-  }
-
-  /**
-   * Create objects of type T from squacapi
-   *
-   * @template T type of model to be created
-   * @param params  http params for request
-   * @returns results of http request
-   */
-  protected _create(params?: Params): Observable&lt;T&gt; {
-    return this.api[&#x60;${this.apiEndpoint}Create&#x60;](
-      params,
-      &quot;response&quot;,
-      this.reportProgress
-    ).pipe(
-      map((response: HttpResponse&lt;any&gt;) &#x3D;&gt; {
-        return response.body;
-      }),
-      map(this.mapFromApi.bind(this))
-    );
-  }
-
-  /**
-   * Delete object of type T from squacapi
-   *
-   * @template T type of model to be deleted
-   * @param params  http params for request
-   * @returns results of http request
-   */
-  protected _delete(params?: Params): Observable&lt;T&gt; {
-    return this.api[&#x60;${this.apiEndpoint}Delete&#x60;](
-      params,
-      this.observe,
-      this.reportProgress
-    );
-  }
-
-  /**
-   * Convert inputted id to correct param format for squacapi
-   *
-   * @param id - id of object
-   * @returns id params
-   */
-  protected readParams(id: number | string): { id: string | number } {
-    return { id: &#x60;${id}&#x60; };
-  }
-
-  /**
-   * Formats inputted object for squacapi
-   *
-   * @template T type of object to update
-   * @param t object to update
-   * @returns returns data object
-   */
-  protected updateParams(t: T): { id: string | number; data: unknown } {
-    const data &#x3D; this.adapter.adaptToApi(t);
-    return { id: &#x60;${t.id}&#x60;, data };
-  }
-
-  /**
-   * Formats inputted object for squacapi
-   *
-   * @template T type of object to create
-   * @param t object to create
-   * @returns returns data object
-   */
-  protected createParams(t: T): { data: unknown } {
-    const data &#x3D; this.adapter.adaptToApi(t);
-    return { data };
-  }
-
-  /**
-   * Convert inputted id to correct param format for squacapi
-   *
-   * @param id  id of object
-   * @returns id params
-   */
-  protected deleteParams(id: number | string): { id: string | number } {
-    return { id: &#x60;${id}&#x60; };
-  }
-
-  /**
-   * Create read request
-   *
-   * @param id id of object to request
-   * @param refresh refresh request
-   * @returns observable for request
-   */
-  protected read(id: number, refresh?: boolean): Observable&lt;T&gt; {
-    const params &#x3D; this.readParams(id);
-    return this._read(params, { refresh });
-  }
-
-  /**
-   * Create delete request
-   *
-   * @param id id of object to delete
-   * @returns delete request
-   */
-  protected delete(id: number): Observable&lt;T&gt; {
-    const params &#x3D; this.deleteParams(id);
-    return this._delete(params);
-  }
-
-  /**
-   * Create or update object of type T from squacapi
-   *
-   * @template T type of model to be created
-   * @param t http params for request
-   * @returns results of http request
-   */
-  protected _updateOrCreate(t: T): Observable&lt;T&gt; {
-    if (t.id) {
-      const params &#x3D; this.updateParams(t);
-      return this._update(params);
-    }
-    const params &#x3D; this.createParams(t);
-    return this._create(params);
-  }
+/** Params for partial update */
+export interface PartialUpdateParams {
+  id?: number;
+  data: any;
 }
 </code></pre>
     </div>

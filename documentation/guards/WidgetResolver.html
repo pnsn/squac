@@ -109,12 +109,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(widgetService: <a href="../injectables/WidgetService.html" target="_self">WidgetService</a>)</code>
+<code>constructor(widgetService: <a href="../injectables/WidgetService.html" target="_self">WidgetService</a>, loadingService: <a href="../injectables/LoadingService.html" target="_self">LoadingService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/widget.resolver.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/widget.resolver.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -136,6 +136,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/WidgetService.html" target="_self" >WidgetService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>loadingService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/LoadingService.html" target="_self" >LoadingService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -177,8 +189,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="25"
-                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/widget.resolver.ts:25</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/widget.resolver.ts:26</a></div>
                 </td>
             </tr>
 
@@ -223,7 +235,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../guards/WidgetResolver.html" target="_self" >Observable&lt;WidgetResolverResponses&gt;</a></code>
+                        <b>Returns : </b>        <code><a href="../classes/Widget.html" target="_self" >Observable&lt;Widget | []&gt;</a></code>
 
                     </div>
                     <div class="io-description">
@@ -241,21 +253,22 @@
         <div class="tab-pane fade  tab-source-code" id="c-source">
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { ActivatedRouteSnapshot, Resolve } from &quot;@angular/router&quot;;
-import { Observable, of } from &quot;rxjs&quot;;
+import { Observable } from &quot;rxjs&quot;;
 import { Widget } from &quot;widgets&quot;;
 import { WidgetService } from &quot;squacapi&quot;;
+import { LoadingService } from &quot;@core/services/loading.service&quot;;
 
-type WidgetResolverResponses &#x3D; Widget | Widget[] | any;
 /**
  * Resolves widget data
  */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class WidgetResolver
-  implements Resolve&lt;Observable&lt;WidgetResolverResponses&gt;&gt;
-{
-  constructor(private widgetService: WidgetService) {}
+export class WidgetResolver implements Resolve&lt;Observable&lt;Widget | Widget[]&gt;&gt; {
+  constructor(
+    private widgetService: WidgetService,
+    private loadingService: LoadingService
+  ) {}
 
   /**
    * Resolves a widget or multiple widgets for a dashboard
@@ -263,19 +276,17 @@ export class WidgetResolver
    * @param route activated route
    * @returns observable of data or error
    */
-  resolve(route: ActivatedRouteSnapshot): Observable&lt;WidgetResolverResponses&gt; {
+  resolve(route: ActivatedRouteSnapshot): Observable&lt;Widget | Widget[]&gt; {
     const dashboardId &#x3D; route.paramMap.get(&quot;dashboardId&quot;);
     const widgetId &#x3D; route.paramMap.get(&quot;widgetId&quot;);
-
+    const delay &#x3D; 500;
+    let req;
     if (widgetId) {
-      return this.widgetService.read(+widgetId);
+      req &#x3D; this.widgetService.read(+widgetId);
     } else if (dashboardId) {
-      return this.widgetService.list({ dashboard: &#x60;${dashboardId}&#x60; });
-    } else {
-      return of({
-        error: &quot;Could not load dashboard widgets.&quot;,
-      });
+      req &#x3D; this.widgetService.list({ dashboard: &#x60;${dashboardId}&#x60; });
     }
+    return this.loadingService.doLoading(req, null, null, delay);
   }
 }
 </code></pre>

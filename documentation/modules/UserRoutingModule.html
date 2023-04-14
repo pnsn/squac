@@ -105,6 +105,9 @@ export const routes: Routes &#x3D; [
       {
         path: &quot;organizations&quot;,
         component: OrganizationsViewComponent,
+        resolve: {
+          organizations: OrganizationResolver,
+        },
       },
       {
         path: &quot;organizations/:orgId&quot;,
@@ -114,7 +117,6 @@ export const routes: Routes &#x3D; [
         resolve: {
           organization: OrganizationResolver,
         },
-
         children: [
           {
             path: &quot;user/:userId/edit&quot;,

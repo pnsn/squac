@@ -7,10 +7,14 @@ import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
 import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
 
+/** User edit form fields */
 interface UserForm {
+  /** user first name */
   firstname: FormControl<string>;
+  /** user last name */
   lastname: FormControl<string>;
 }
+
 /**
  * User Settings Component
  */

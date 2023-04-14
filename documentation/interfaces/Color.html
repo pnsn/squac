@@ -91,6 +91,7 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#color" 
 >
                                             color
@@ -104,6 +105,7 @@
                                         </a>
                                 </li>
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#type" 
 >
                                             type
@@ -147,6 +149,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -230,6 +237,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -247,7 +259,15 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface WidgetProperties {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface WidgetDisplayProperties {
+  /** show legend */
+  showLegend?: boolean;
+}
+
+/**
+ * Widget display properties that are stored in squacapi
+ */
+export interface WidgetProperties extends WidgetDisplayProperties {
   /** dimensions for metrics (varies by widget type) */
   dimensions?: any; //order of display
   /** in range colors */
@@ -260,21 +280,22 @@
   displayType?: string; //worst, channel, stoplight
   /** number of splits for coloring */
   numSplits?: number;
-  // show_legend: boolean; TODO: add these
-  // show_tooltips: boolean;
-  // zoom: boolean;
-  // sampling: string;
 }
 
 /** Color configuration */
 export interface Color {
   /** Array of color strings */
-  color: string[];
+  color?: string[];
   /** name of color type */
-  type: string;
+  type?: string;
   /** opacity value */
   opacity?: number;
 }
+
+// show_legend: boolean; TODO: add these
+// show_tooltips: boolean;
+// zoom: boolean;
+// sampling: string;
 </code></pre>
     </div>
 </div>
