@@ -9,8 +9,13 @@
     (change)="fileChangeListener($event)"
     accept=".csv"
   />
-  <button mat-stroked-button color="primary" (click)="csvInput.click()">
+  <button
+    mat-stroked-button
+    color="primary"
+    (click)="csvInput.click()"
+    uiTooltip="Requires 'network', 'station', 'channel', and 'location' columns."
+  >
     <mat-icon>upload_file</mat-icon>
-    Load from CSV
+    Add Channels From CSV
   </button>
 </div>

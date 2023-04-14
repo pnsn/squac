@@ -25,14 +25,16 @@ $squac-ui-theme: mat.define-light-theme(
 @include mat.all-component-themes($squac-ui-theme);
 
 $sq-yellow: mat.get-color-from-palette($squac-ui-accent);
+$sq-gray: mat.get-color-from-palette($squac-ui-neutral);
+$sq-blue: mat.get-color-from-palette($squac-ui-primary);
+$sq-warn: mat.get-color-from-palette($squac-ui-warn);
+
 $sq-dk-yellow: mat.get-color-from-palette($squac-ui-accent, darker);
 $sq-dk-blue: mat.get-color-from-palette($squac-ui-primary, darker);
-$sq-blue: mat.get-color-from-palette($squac-ui-primary);
-$sq-lt-blue: mat.get-color-from-palette($squac-ui-primary, lighter);
+$sq-lt-blue: lighten($sq-blue, 50);
 $sq-dk-gray: mat.get-color-from-palette($squac-ui-neutral, darker);
-$sq-gray: mat.get-color-from-palette($squac-ui-neutral);
+
 $sq-lt-gray: mat.get-color-from-palette($squac-ui-neutral, lighter);
-$sq-warn: mat.get-color-from-palette($squac-ui-warn);
 
 $default-border: 1px solid darken($sq-lt-gray, 10);
 $light-border: 1px solid $sq-lt-gray;

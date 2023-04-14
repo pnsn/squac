@@ -10,11 +10,22 @@
 
 #channel-map-container {
   align-items: flex-start;
-  align-content: stretch;
-  flex: 1;
+  justify-content: stretch;
+  height: 500px;
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  div {
+    flex: content;
+  }
+
   #map-container {
     width: 35%;
     align-self: stretch;
+  }
+  #channels-container {
+    height: 100%;
+    flex: auto;
   }
 }
 #auto-channels-container {

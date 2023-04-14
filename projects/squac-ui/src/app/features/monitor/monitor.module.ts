@@ -14,6 +14,7 @@ import { WidgetsModule } from "widgets";
 import { NgxEchartsModule } from "ngx-echarts";
 import { MonitorAlarmStatusComponent } from "./components/monitor-alarm-status/monitor-alarm-status.component";
 import { MonitorChannelHistoryChartComponent } from "./components/monitor-detail/monitor-channel-history-chart/monitor-channel-history-chart.component";
+import { TooltipModule } from "@ui/tooltip/tooltip.module";
 
 /**
  * Module for monitors
@@ -37,6 +38,7 @@ import { MonitorChannelHistoryChartComponent } from "./components/monitor-detail
     AbilityModule,
     WidgetsModule,
     NgxEchartsModule,
+    TooltipModule,
   ],
 })
 export class MonitorModule {}
