@@ -12,26 +12,44 @@ import { ResourceModel } from "../interfaces";
  * does not handle correctly
  */
 export interface WriteOnlyUserSerializer {
+  /** user email */
   email: string;
+  /** user first name */
   firstname: string;
+  /** user last name */
   lastname: string;
-  groups: Array<string>;
-  organization: number;
+  /** is user an admin in their organization */
   is_org_admin?: boolean;
-  last_login?: string | null;
-  is_active?: boolean;
+  /** user permission groups */
+  groups: Array<string>;
+  /** date of last login */
+  last_login?: string;
+  /** true if user is active (has logged in and not been deactivated) */
+  is_active: boolean;
+  /** organization for user */
+  organization: number;
 }
 
+/** Describes a squac user */
 export interface User {
+  /** user email */
   email: string;
+  /** user first name */
   firstname: string;
+  /** user last name */
   lastname: string;
+  /** is user an admin in their organization */
   isOrgAdmin: boolean;
+  /** user permission groups */
   groups: Array<string>;
+  /** date of last login */
   lastLogin: string;
+  /** true if user is PNSN staff */
   isStaff: boolean;
+  /** true if user is active (has logged in and not been deactivated) */
   isActive: boolean;
 }
+
 /**
  * Describes a user object
  */

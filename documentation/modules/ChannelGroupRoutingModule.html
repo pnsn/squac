@@ -79,39 +79,46 @@ import { AuthGuard } from &quot;@core/guards/auth.guard&quot;;
 import { ChannelGroupViewComponent } from &quot;./components/channel-group-view/channel-group-view.component&quot;;
 import { ChannelGroupEditComponent } from &quot;./components/channel-group-edit/channel-group-edit.component&quot;;
 import { ChannelGroupDetailComponent } from &quot;./components/channel-group-detail/channel-group-detail.component&quot;;
+import { ChannelGroupResolver } from &quot;@core/resolvers/channel-group.resolver&quot;;
+import { MatchingRuleResolver } from &quot;@core/resolvers/matching-rule.resolver&quot;;
 
 export const routes: Routes &#x3D; [
   {
     path: &quot;&quot;,
     component: ChannelGroupComponent,
     canActivate: [AuthGuard],
-    data: { subject: &quot;ChannelGroup&quot;, action: &quot;read&quot; },
-
     children: [
       {
         path: &quot;new&quot;,
         component: ChannelGroupEditComponent,
-
-        data: { subject: &quot;ChannelGroup&quot;, action: &quot;create&quot; },
       },
-      {
-        path: &quot;:channelGroupId/edit&quot;,
-        component: ChannelGroupEditComponent,
 
-        data: { subject: &quot;ChannelGroup&quot;, action: &quot;update&quot; },
-      },
       {
-        path: &quot;&quot;,
-        component: ChannelGroupViewComponent,
-
-        data: { subject: &quot;ChannelGroup&quot;, action: &quot;read&quot; },
+        path: &quot;:channelGroupId&quot;,
+        runGuardsAndResolvers: &quot;always&quot;,
+        resolve: {
+          channelGroup: ChannelGroupResolver,
+          matchingRules: MatchingRuleResolver,
+        },
         children: [
           {
-            path: &quot;:channelGroupId&quot;,
+            path: &quot;&quot;,
             component: ChannelGroupDetailComponent,
-            data: { subject: &quot;ChannelGroup&quot;, action: &quot;update&quot; },
+          },
+          {
+            path: &quot;edit&quot;,
+            component: ChannelGroupEditComponent,
           },
         ],
+      },
+
+      {
+        path: &quot;&quot;,
+        resolve: {
+          channelGroups: ChannelGroupResolver,
+        },
+        runGuardsAndResolvers: &quot;always&quot;,
+        component: ChannelGroupViewComponent,
       },
     ],
   },

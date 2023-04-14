@@ -10,14 +10,23 @@ import { MetricService } from "squacapi";
 import { Subscription } from "rxjs";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 
+/** Metric edit form contrils */
 interface MetricForm {
+  /** metric name */
   name: FormControl<string>;
+  /** metric description */
   description: FormControl<string>;
+  /** metric id code */
   code: FormControl<string>;
+  /** metric link to more info */
   referenceUrl: FormControl<string>;
+  /** unit for measurements for this metric */
   unit: FormControl<string>;
+  /** metric sample rate */
   sampleRate: FormControl<number>;
+  /** default minimum value of metric, used for display */
   minVal: FormControl<number>;
+  /** default maximum value of metric, used for display */
   maxVal: FormControl<number>;
 }
 /**

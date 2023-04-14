@@ -30,11 +30,17 @@ import { DATE_PICKER_TIMERANGES } from "@dashboard/components/dashboard-detail/d
 import { LoadingIndicator } from "@dashboard/components/dashboard-detail/dashboard-detail.component";
 import { LoadingService } from "@core/services/loading.service";
 
+/** Current state of the dashboard configuration */
 export interface DashboardConfig {
+  /** dashboard archive stat */
   stat?: ArchiveStatType;
+  /** dashboard start time */
   start?: string;
+  /** dashboard end time */
   end?: string;
+  /** dashboard archive type */
   archive?: ArchiveType;
+  /** dashboard time range */
   range?: string;
 }
 

@@ -8,10 +8,13 @@ import {
 } from "@angular/forms";
 import { InviteService } from "squacapi";
 
+/** Password form fields */
 interface PasswordsForm {
   password: FormControl<string>;
   confirm: FormControl<string>;
 }
+
+/** User edit form fields */
 interface UserForm {
   firstname: FormControl<string>;
   lastname: FormControl<string>;

@@ -8,6 +8,7 @@ import {
 import { AuthService } from "@core/services/auth.service";
 import { Subscription } from "rxjs";
 
+/** login form fields */
 interface LoginForm {
   email: FormControl<string>;
   password: FormControl<string>;

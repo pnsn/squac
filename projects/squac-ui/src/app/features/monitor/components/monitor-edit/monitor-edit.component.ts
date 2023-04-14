@@ -29,25 +29,45 @@ import { merge, Subscription } from "rxjs";
 import { switchMap } from "rxjs/operators";
 import { emailListStringValidator } from "@core/utils/validators";
 
+/**
+ * Trigger form fields
+ */
 interface TriggerForm {
+  /** trigger id */
   id: FormControl<number>;
+  /** trigger low value */
   val1: FormControl<number>;
+  /** trigger high value */
   val2: FormControl<number>;
+  /** trigger value operator */
   valueOperator: FormControl<ValueOperator>;
+  /** number of channels for trigger */
   numChannels: FormControl<number>;
+  /** number of channels operator */
   numChannelsOperator: FormControl<NumChannelsOperator>;
+  /** true if an alert should be sent when out of alarm */
   alertOnOutOfAlarm: FormControl<boolean>;
+  /** email list to send alerts to */
   emails: FormControl<string>;
 }
 
+/** Monitor form fields */
 interface MonitorForm {
+  /** name of monitor */
   name: FormControl<string>;
+  /** number of intervals */
   intervalCount: FormControl<number>;
+  /** type of interval */
   intervalType: FormControl<IntervalType>;
+  /** monitor statistic */
   stat: FormControl<MonitorStatType>;
+  /** metric to use in monitor */
   metric: FormControl<Metric>;
+  /** channel group to evaluate metric on */
   channelGroup: FormControl<number>;
+  /** triggers for monitor */
   triggers: FormArray<FormGroup<TriggerForm>>;
+  /** true if daily summary should be sent instead of individual alerts */
   doDailyDigest: FormControl<boolean>;
 }
 /**

@@ -66,6 +66,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Transforms arrays of measurements into single values</p>
+
+            </p>
 
 
         <section>
@@ -89,77 +96,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="sort"></a>
-                    <span class="name">
-                        <span class="modifier">Private</span>
-                        <span ><b>sort</b></span>
-                        <a href="#sort"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>sort(values: <a href="../classes/Measurement.html" target="_self">MeasurementTypes[]</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="19"
-                            class="link-to-prism">projects/squacapi/src/lib/pipes/measurement.pipe.ts:19</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>values</td>
-                                    <td>
-                                                <code><a href="../classes/Measurement.html" target="_self" >MeasurementTypes[]</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/Measurement.html" target="_self" >MeasurementTypes[]</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="transform"></a>
                     <span class="name">
                         <span ><b>transform</b></span>
@@ -169,21 +105,23 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>transform(values: <a href="../classes/Measurement.html" target="_self">MeasurementTypes[]</a>, type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>transform(values: <a href="../undefineds/MeasurementTypes.html" target="_self">MeasurementTypes[]</a>, type: <a href="../undefineds/MeasurementTransformTypes.html" target="_self">MeasurementTransformTypes</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">projects/squacapi/src/lib/pipes/measurement.pipe.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">projects/squacapi/src/lib/pipes/measurement.pipe.ts:47</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Transforms array of measurements into a single value</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -194,13 +132,14 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>values</td>
                                     <td>
-                                                <code><a href="../classes/Measurement.html" target="_self" >MeasurementTypes[]</a></code>
+                                                <code><a href="../miscellaneous/typealiases.html#MeasurementTypes" target="_self" >MeasurementTypes[]</a></code>
                                     </td>
 
                                     <td>
@@ -208,11 +147,15 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>measurement values</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>type</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                <code><a href="../miscellaneous/typealiases.html#MeasurementTransformTypes" target="_self" >MeasurementTransformTypes</a></code>
                                     </td>
 
                                     <td>
@@ -220,6 +163,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>type of value to transform into</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -231,7 +178,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>resulting value</p>
+
                     </div>
                 </td>
             </tr>
@@ -244,7 +192,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Pipe, PipeTransform } from &quot;@angular/core&quot;;
-import { Aggregate, Archive, Measurement } from &quot;../models&quot;;
+import { MeasurementTypes } from &quot;../types&quot;;
 import {
   average,
   median,
@@ -253,55 +201,98 @@ import {
   percentile,
   mostRecent,
   absvalue,
+  sum,
 } from &quot;../utils/measurement-values.utils&quot;;
 
-type MeasurementTypes &#x3D; Measurement | Aggregate | Archive;
+export type MeasurementTransformTypes &#x3D;
+  | &quot;avg&quot;
+  | &quot;ave&quot;
+  | &quot;mean&quot;
+  | &quot;med&quot;
+  | &quot;median&quot;
+  | &quot;min&quot;
+  | &quot;max&quot;
+  | &quot;count&quot;
+  | &quot;num_samps&quot;
+  | &quot;sum&quot;
+  | &quot;p95&quot;
+  | &quot;p90&quot;
+  | &quot;p10&quot;
+  | &quot;p05&quot;
+  | &quot;minabs&quot;
+  | &quot;maxabs&quot;
+  | &quot;recent&quot;
+  | &quot;latest&quot;;
+/**
+ * Transforms arrays of measurements into single values
+ */
 @Pipe({
   name: &quot;measurement&quot;,
 })
 export class MeasurementPipe implements PipeTransform {
-  // Calculates the values for the channel
-  private sort(values: MeasurementTypes[]): MeasurementTypes[] {
-    return values.sort((a, b) &#x3D;&gt; a.value - b.value);
-  }
-
-  // TODO: handle stattypesthat are unknown
-  transform(values: MeasurementTypes[], type: string): number {
+  /**
+   * Transforms array of measurements into a single value
+   *
+   * @param values measurement values
+   * @param type type of value to transform into
+   * @returns resulting value
+   */
+  transform(
+    values: MeasurementTypes[],
+    type: MeasurementTransformTypes
+  ): number {
     if (values &amp;&amp; values.length &gt; 0) {
-      const sortedValues &#x3D; this.sort(values.slice());
       switch (type) {
+        case &quot;avg&quot;:
+          return average(values);
+
         case &quot;ave&quot;:
-          return average(sortedValues);
+          return average(values);
+
+        case &quot;mean&quot;:
+          return average(values);
 
         case &quot;med&quot;:
-          return median(sortedValues);
+          return median(values);
+
+        case &quot;median&quot;:
+          return median(values);
 
         case &quot;min&quot;:
-          return min(sortedValues);
+          return min(values);
 
         case &quot;max&quot;:
-          return max(sortedValues);
+          return max(values);
+
+        case &quot;count&quot;:
+          return values.length;
 
         case &quot;num_samps&quot;:
-          return sortedValues.length;
+          return values.length;
 
-        case &quot;p99&quot;:
-          return percentile(sortedValues, 99);
+        case &quot;sum&quot;:
+          return sum(values);
+
+        case &quot;p95&quot;:
+          return percentile(values, 95);
 
         case &quot;p90&quot;:
-          return percentile(sortedValues, 90);
+          return percentile(values, 90);
 
         case &quot;p10&quot;:
-          return percentile(sortedValues, 10);
+          return percentile(values, 10);
 
         case &quot;p05&quot;:
-          return percentile(sortedValues, 5);
+          return percentile(values, 5);
 
         case &quot;minabs&quot;:
-          return absvalue(sortedValues, &quot;min&quot;);
+          return absvalue(values, &quot;min&quot;);
 
         case &quot;maxabs&quot;:
-          return absvalue(sortedValues, &quot;max&quot;);
+          return absvalue(values, &quot;max&quot;);
+
+        case &quot;recent&quot;:
+          return mostRecent(values);
 
         case &quot;latest&quot;:
           return mostRecent(values);

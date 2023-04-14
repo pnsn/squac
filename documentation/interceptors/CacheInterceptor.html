@@ -106,12 +106,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(_cache: <a href="../injectables/HttpCacheService.html" target="_self">HttpCacheService</a>)</code>
+<code>constructor(_cache: <a href="../injectables/HttpCacheService.html" target="_self">HttpCacheService</a>, loadingService: <a href="../injectables/LoadingService.html" target="_self">LoadingService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/squac-ui/src/app/core/interceptors/cache-interceptor.service.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/squac-ui/src/app/core/interceptors/cache-interceptor.service.ts:18</a></div>
                             </td>
                         </tr>
 
@@ -133,6 +133,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/HttpCacheService.html" target="_self" >HttpCacheService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>loadingService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/LoadingService.html" target="_self" >LoadingService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -174,8 +186,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">projects/squac-ui/src/app/core/interceptors/cache-interceptor.service.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">projects/squac-ui/src/app/core/interceptors/cache-interceptor.service.ts:32</a></div>
                 </td>
             </tr>
 
@@ -271,13 +283,17 @@ import { Injectable } from &quot;@angular/core&quot;;
 import { HttpCacheService } from &quot;../services/cache.service&quot;;
 import { REFRESH_REQUEST } from &quot;squacapi&quot;;
 import { Observable, of, tap } from &quot;rxjs&quot;;
+import { LoadingService } from &quot;@core/services/loading.service&quot;;
 
 /**
  * Intercept http requests and handle caching
  */
 @Injectable()
 export class CacheInterceptor implements HttpInterceptor {
-  constructor(private _cache: HttpCacheService) {}
+  constructor(
+    private _cache: HttpCacheService,
+    private loadingService: LoadingService
+  ) {}
 
   /**
    * Intercepts all http requests and checks if they should be cached
@@ -307,6 +323,20 @@ export class CacheInterceptor implements HttpInterceptor {
     if (cachedResponse &amp;&amp; !request.context.get(REFRESH_REQUEST) &#x3D;&#x3D;&#x3D; true) {
       return of(cachedResponse.clone());
     }
+
+    // // show loading screen for get requests that aren&#x27;t cached
+    // if (request.method &#x3D;&#x3D;&#x3D; &quot;GET&quot; &amp;&amp; !cachedResponse) {
+    //   return this.loadingService.doLoading(
+    //     next.handle(request).pipe(
+    //       tap((httpEvent: HttpEvent&lt;any&gt;): void | HttpEvent&lt;any&gt; &#x3D;&gt; {
+    //         if (httpEvent instanceof HttpResponse) {
+    //           this._cache.put(request, httpEvent);
+    //           return httpEvent;
+    //         }
+    //       })
+    //     )
+    //   );
+    // }
 
     return next.handle(request).pipe(
       tap((httpEvent: HttpEvent&lt;any&gt;): void | HttpEvent&lt;any&gt; &#x3D;&gt; {

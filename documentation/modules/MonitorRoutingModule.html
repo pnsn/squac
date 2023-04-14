@@ -81,6 +81,7 @@ import { MonitorEditEntryComponent } from &quot;./components/monitor-edit-entry/
 import { AlertViewComponent } from &quot;./components/alert-view/alert-view.component&quot;;
 import { MonitorResolver } from &quot;@core/resolvers/monitor.resolver&quot;;
 import { MetricResolver } from &quot;@core/resolvers/metric.resolver&quot;;
+import { MonitorDetailComponent } from &quot;./components/monitor-detail/monitor-detail.component&quot;;
 import { ChannelGroupResolver } from &quot;@core/resolvers/channel-group.resolver&quot;;
 
 export const routes: Routes &#x3D; [
@@ -88,6 +89,10 @@ export const routes: Routes &#x3D; [
     path: &quot;&quot;,
     component: MonitorComponent,
     canActivate: [AuthGuard],
+    resolve: {
+      channelGroups: ChannelGroupResolver,
+      metrics: MetricResolver,
+    },
     children: [
       {
         path: &quot;alerts&quot;,
@@ -96,26 +101,30 @@ export const routes: Routes &#x3D; [
       {
         path: &quot;&quot;,
         component: MonitorViewComponent,
-
+        runGuardsAndResolvers: &quot;always&quot;,
+        resolve: {
+          monitors: MonitorResolver,
+        },
         children: [
           {
             path: &quot;new&quot;,
             component: MonitorEditEntryComponent,
-            resolve: {
-              metrics: MetricResolver,
-              channelGroups: ChannelGroupResolver,
-            },
-          },
-          {
-            path: &quot;:monitorId/edit&quot;,
-            component: MonitorEditEntryComponent,
-            resolve: {
-              monitor: MonitorResolver,
-              metrics: MetricResolver,
-              channelGroups: ChannelGroupResolver,
-            },
           },
         ],
+      },
+      {
+        path: &quot;:monitorId&quot;,
+        component: MonitorDetailComponent,
+        runGuardsAndResolvers: &quot;always&quot;,
+        children: [
+          {
+            path: &quot;edit&quot;,
+            component: MonitorEditEntryComponent,
+          },
+        ],
+        resolve: {
+          monitor: MonitorResolver,
+        },
       },
     ],
   },

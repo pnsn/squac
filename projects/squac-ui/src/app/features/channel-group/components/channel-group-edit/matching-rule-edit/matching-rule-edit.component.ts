@@ -13,17 +13,27 @@ import { atLeastOneValidator, regexValidator } from "@core/utils/validators";
 import { MatchingRule } from "squacapi";
 import { Subscription } from "rxjs";
 
+/** Matching rule edit form fields */
 interface MatchingRuleForm {
+  /** rule id */
   id: FormControl<number>;
+  /** channel group id */
   channelGroupId: FormControl<number>;
+  /** true if matching channels should be included in group */
   isInclude: FormControl<boolean>;
+  /** regex for networks */
   networkRegex: FormControl<string>;
+  /** regex for stations */
   stationRegex: FormControl<string>;
+  /** regex for channels */
   channelRegex: FormControl<string>;
+  /** regex for location */
   locationRegex: FormControl<string>;
 }
 
+/** form made up of multiple matching rules */
 interface MatchingRulesForm {
+  /** Matching rule forms */
   rules: FormArray<FormGroup<MatchingRuleForm>>;
 }
 
