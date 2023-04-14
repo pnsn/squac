@@ -150,7 +150,10 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
    */
   addError(error: WidgetErrors | string): void {
     this.clearChildComponents();
-
+    if (this.childComponentRef) {
+      this.childComponentRef.destroy();
+      this.childComponent = null;
+    }
     const errorComp =
       this.viewContainerRef.createComponent<ErrorComponent>(ErrorComponent);
     errorComp.instance.errorMsg = error;
