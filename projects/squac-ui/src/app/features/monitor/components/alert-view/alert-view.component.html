@@ -1,6 +1,5 @@
 <shared-detail-page
   [options]="pageOptions"
-  *ngIf="alerts"
   type="Alert"
   title="Alerts"
 >
@@ -39,13 +38,24 @@
   </ng-container>
 </shared-detail-page>
 <router-outlet></router-outlet>
-<ng-template let-value="value" #stateTemplate>
+<ng-template
+  let-value="value"
+  #stateTemplate
+>
   <monitor-alarm-status [inAlarm]="value"></monitor-alarm-status>
 </ng-template>
-<ng-template #monitorTemplate let-row="row" let-value="value">
+<ng-template
+  #monitorTemplate
+  let-row="row"
+  let-value="value"
+>
   <a [routerLink]="['/monitors', row.monitorId]">{{ value }}</a>
 </ng-template>
-<ng-template #triggerTemplate let-value="value" let-row="row">
+<ng-template
+  #triggerTemplate
+  let-value="value"
+  let-row="row"
+>
   values for
   <span *ngIf="row.numChannelsOperator !== '=='">
     {{ row.numChannelsOperator }}
@@ -56,6 +66,9 @@
     and {{ row.val2 }}
   </span>
 </ng-template>
-<ng-template let-value="value" #channelsTemplate>
+<ng-template
+  let-value="value"
+  #channelsTemplate
+>
   {{ value.length }}
 </ng-template>
