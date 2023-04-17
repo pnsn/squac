@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
 import { ProcessedData, VisualMap, WidgetConfig } from "../../interfaces";
 import { WidgetConnectService, WidgetManagerService } from "../../services";
 import { Channel, Metric } from "squacapi";
@@ -20,6 +20,7 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
   selectedMetrics: Metric[];
   properties: WidgetProperties;
   visualMaps: VisualMap = {};
+  denseView: boolean;
 
   /**
    * Trigger emphasis action for channel
@@ -47,6 +48,11 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
   abstract changeMetrics(): void;
 
   /**
+   * Use dense widget view
+   */
+  abstract useDenseView(useDenseView: boolean): void;
+
+  /**
    * Takes in processed data and convert to format for chart
    *
    * @param data - date to update chart with
@@ -61,7 +67,8 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
 
   constructor(
     protected widgetManager: WidgetManagerService,
-    protected widgetConnector: WidgetConnectService
+    protected widgetConnector: WidgetConnectService,
+    protected ngZone: NgZone
   ) {
     this.widgetConfig = widgetManager.widgetConfig;
   }
@@ -102,6 +109,7 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
     this.properties = this.widgetManager.properties;
     this.buildChartData(data).then(() => {
       this.changeMetrics();
+      this.data = null; //dump data
     });
   }
 
@@ -109,26 +117,32 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
    * Set up initial subscriptions
    */
   ngOnInit(): void {
-    this.configureChart();
-    if (this.widgetConfig.toggleKey) {
-      this.initToggleKey();
-    }
-
-    if (this.widgetConfig.zoomControls) {
-      this.initZoom();
-    }
-    const deemphsSub = this.widgetConnector.deemphasizeChannel.subscribe(
+    const deemphsSub = this.widgetConnector?.deemphasizeChannel.subscribe(
       (channel) => {
         this.deemphasizeChannel(channel);
       }
     );
-    const emphSub = this.widgetConnector.emphasizedChannel.subscribe(
+    const emphSub = this.widgetConnector?.emphasizedChannel$.subscribe(
       (channel) => {
         this.emphasizeChannel(channel);
       }
     );
+    const denseViewSub = this.widgetConnector?.useDenseView.subscribe(
+      (useDenseView) => {
+        this.useDenseView(useDenseView);
+      }
+    );
+    this.configureChart();
+    if (this.widgetConfig?.toggleKey) {
+      this.initToggleKey();
+    }
+
+    if (this.widgetConfig?.zoomControls) {
+      this.initZoom();
+    }
     this.subscription.add(emphSub);
     this.subscription.add(deemphsSub);
+    this.subscription.add(denseViewSub);
   }
 
   /** Unsubscribe on destroy */

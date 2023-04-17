@@ -100,6 +100,9 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#addUtcOffset" >addUtcOffset</a>
+                            </li>
+                            <li>
                                 <a href="#diff" >diff</a>
                             </li>
                             <li>
@@ -109,10 +112,7 @@
                                 <a href="#duration" >duration</a>
                             </li>
                             <li>
-                                <a href="#fakeLocalFromUtc" >fakeLocalFromUtc</a>
-                            </li>
-                            <li>
-                                <a href="#fakeUtcFromLocal" >fakeUtcFromLocal</a>
+                                <a href="#findRangeFromSeconds" >findRangeFromSeconds</a>
                             </li>
                             <li>
                                 <a href="#format" >format</a>
@@ -134,6 +134,9 @@
                             </li>
                             <li>
                                 <a href="#subtractFromNow" >subtractFromNow</a>
+                            </li>
+                            <li>
+                                <a href="#subtractUtcOffset" >subtractUtcOffset</a>
                             </li>
                             <li>
                                 <a href="#toUtc" >toUtc</a>
@@ -164,7 +167,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:21</a></div>
                             </td>
                         </tr>
 
@@ -177,6 +180,83 @@
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addUtcOffset"></a>
+                    <span class="name">
+                        <span ><b>addUtcOffset</b></span>
+                        <a href="#addUtcOffset"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addUtcOffset(localDate: Dayjs)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:47</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Adjust date by adding utc offset</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>localDate</td>
+                                    <td>
+                                            <code>Dayjs</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>local date</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Dayjs</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>adjusted date</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -197,8 +277,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="163"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:163</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="166"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:166</a></div>
                 </td>
             </tr>
 
@@ -306,8 +386,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="151"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:151</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="154"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:154</a></div>
                 </td>
             </tr>
 
@@ -383,8 +463,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="174"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:174</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="177"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:177</a></div>
                 </td>
             </tr>
 
@@ -460,31 +540,31 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="fakeLocalFromUtc"></a>
+                    <a name="findRangeFromSeconds"></a>
                     <span class="name">
-                        <span ><b>fakeLocalFromUtc</b></span>
-                        <a href="#fakeLocalFromUtc"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>findRangeFromSeconds</b></span>
+                        <a href="#findRangeFromSeconds"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>fakeLocalFromUtc(localDate: Dayjs)</code>
+<code>findRangeFromSeconds(timeRanges: <a href="../interfaces/TimeRange.html" target="_self">TimeRange[]</a>, seconds: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="188"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:188</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Adjust date by subtracting utc offset</p>
+                    <div class="io-description"><p>Finds TimeRange that is the same length as the given seconds</p>
 </div>
 
                     <div class="io-description">
@@ -501,9 +581,9 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>localDate</td>
+                                    <td>timeRanges</td>
                                     <td>
-                                            <code>Dayjs</code>
+                                                <code><a href="../interfaces/TimeRange.html" target="_self" >TimeRange[]</a></code>
                                     </td>
 
                                     <td>
@@ -512,7 +592,23 @@
 
 
                                     <td>
-                                        <p>local date</p>
+                                        <p>time ranges to search in</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>seconds</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>length of timerange</p>
 
                                     </td>
                                 </tr>
@@ -522,88 +618,11 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Dayjs</code>
+                        <b>Returns : </b>        <code><a href="../interfaces/TimeRange.html" target="_self" >TimeRange | undefined</a></code>
 
                     </div>
                     <div class="io-description">
-                        <p>adjusted date</p>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="fakeUtcFromLocal"></a>
-                    <span class="name">
-                        <span ><b>fakeUtcFromLocal</b></span>
-                        <a href="#fakeUtcFromLocal"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>fakeUtcFromLocal(localDate: Dayjs)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:35</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Adjust date adding utc offset</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>localDate</td>
-                                    <td>
-                                            <code>Dayjs</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>date in local time to adjust to utc</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Dayjs</code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>adjusted date</p>
+                        <p>Timerange if found</p>
 
                     </div>
                 </td>
@@ -630,8 +649,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="141"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:141</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="144"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:144</a></div>
                 </td>
             </tr>
 
@@ -707,8 +726,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="75"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:75</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="78"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:78</a></div>
                 </td>
             </tr>
 
@@ -752,8 +771,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="121"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:121</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="124"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:124</a></div>
                 </td>
             </tr>
 
@@ -822,15 +841,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>parseUtc(date: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>parseUtc(date: string | number | Dayjs | Date)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="131"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:131</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="134"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:134</a></div>
                 </td>
             </tr>
 
@@ -856,7 +875,7 @@
                                 <tr>
                                     <td>date</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            <code>string | number | Dayjs | Date</code>
                                     </td>
 
                                     <td>
@@ -906,8 +925,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="87"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:87</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="90"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:90</a></div>
                 </td>
             </tr>
 
@@ -1015,8 +1034,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="111"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:111</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="114"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:114</a></div>
                 </td>
             </tr>
 
@@ -1108,8 +1127,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="99"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:99</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="102"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:102</a></div>
                 </td>
             </tr>
 
@@ -1185,6 +1204,83 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="subtractUtcOffset"></a>
+                    <span class="name">
+                        <span ><b>subtractUtcOffset</b></span>
+                        <a href="#subtractUtcOffset"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>subtractUtcOffset(utcDate: Dayjs)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:36</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Adjust date by subtracting utc offset</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>utcDate</td>
+                                    <td>
+                                            <code>Dayjs</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>utc date</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Dayjs</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>adjusted date</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="toUtc"></a>
                     <span class="name">
                         <span ><b>toUtc</b></span>
@@ -1201,8 +1297,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="55"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:55</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:58</a></div>
                 </td>
             </tr>
 
@@ -1278,8 +1374,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="66"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:66</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="69"
+                            class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:69</a></div>
                 </td>
             </tr>
 
@@ -1365,7 +1461,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">projects/squac-ui/src/app/core/services/date.service.ts:21</a></div>
                         </td>
                     </tr>
 
@@ -1385,6 +1481,7 @@ import * as duration from &quot;dayjs/plugin/duration&quot;;
 import * as utc from &quot;dayjs/plugin/utc&quot;;
 import * as timezone from &quot;dayjs/plugin/timezone&quot;;
 import { DEFAULT_LOCALE, Locale } from &quot;@core/locale.constant&quot;;
+import { TimeRange } from &quot;@shared/components/date-select/time-range.interface&quot;;
 
 /**
  * Service for management of dates
@@ -1407,23 +1504,25 @@ export class DateService {
   }
 
   /**
-   * Adjust date adding utc offset
+   * Adjust date by subtracting utc offset
    *
-   * @param localDate date in local time to adjust to utc
+   * @param utcDate utc date
    * @returns adjusted date
    */
-  fakeUtcFromLocal(localDate: Dayjs): Dayjs {
-    return localDate.add(localDate.utcOffset(), &quot;minutes&quot;).utc();
+  subtractUtcOffset(utcDate: Dayjs): Dayjs {
+    const localOffset &#x3D; utcDate.clone().local().utcOffset();
+    return utcDate.subtract(localOffset, &quot;minutes&quot;);
   }
 
   /**
-   * Adjust date by subtracting utc offset
+   * Adjust date by adding utc offset
    *
    * @param localDate local date
    * @returns adjusted date
    */
-  fakeLocalFromUtc(localDate: Dayjs): Dayjs {
-    return localDate.subtract(localDate.utcOffset(), &quot;minutes&quot;).utc();
+  addUtcOffset(localDate: Dayjs): Dayjs {
+    const localOffset &#x3D; localDate.clone().local().utcOffset();
+    return localDate.add(localOffset, &quot;minutes&quot;).utc();
   }
 
   /**
@@ -1508,7 +1607,7 @@ export class DateService {
    * @param date string to parse
    * @returns new date from string
    */
-  parseUtc(date: string): Dayjs {
+  parseUtc(date: string | number | Dayjs | Date): Dayjs {
     return dayjs.utc(date).clone();
   }
 
@@ -1553,6 +1652,28 @@ export class DateService {
    */
   duration(count: number, type: string): duration.Duration {
     return dayjs.duration(count, type as duration.DurationUnitType);
+  }
+
+  /**
+   * Finds TimeRange that is the same length as the given seconds
+   *
+   * @param timeRanges time ranges to search in
+   * @param seconds length of timerange
+   * @returns Timerange if found
+   */
+  findRangeFromSeconds(
+    timeRanges: TimeRange[],
+    seconds: number
+  ): TimeRange | undefined {
+    const timeRange &#x3D; timeRanges.find((range) &#x3D;&gt; {
+      const rangeInSeconds &#x3D; this.duration(
+        range.amount,
+        range.unit
+      ).asSeconds();
+      return rangeInSeconds &#x3D;&#x3D;&#x3D; seconds;
+    });
+
+    return timeRange;
   }
 }
 </code></pre>

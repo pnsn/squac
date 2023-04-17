@@ -1,12 +1,11 @@
-<div class="box">
-  <div class="header-title">
-    <h2>Organizations</h2>
-  </div>
-  <div class="box">
-    <ul>
-      <li *ngFor="let org of organizations">
-        <a [routerLink]="[org.id]">{{ org.name }}</a>
-      </li>
-    </ul>
-  </div>
-</div>
+<shared-detail-page title="Organizations">
+  <ng-container bodyContent>
+    <div class="gray-outline">
+      <ul>
+        <li *ngFor="let org of organizations">
+          <a [routerLink]="[org.id]">{{ org.name }}</a>
+        </li>
+      </ul>
+    </div>
+  </ng-container>
+</shared-detail-page>

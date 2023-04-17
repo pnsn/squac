@@ -2,6 +2,8 @@
 
 @import "variables";
 ngx-daterangepicker-material {
+  position: fixed;
+  z-index: 999999;
   font-size: 0.9rem !important;
   // Custom css for date range picker since its all messed up
   .md-drppicker td.active,
@@ -14,10 +16,10 @@ ngx-daterangepicker-material {
   }
   // .md-drppicker.ltr .calendar.right { display: none; }
   .md-drppicker .calendar-time .select .select-item {
-    // font-size: unset !important;
+    font-size: inherit !important;
   }
   .md-drppicker {
-    top: 50px !important;
+    top: 40px !important;
     right: 0px !important;
     left: auto !important;
     width: max-content !important;

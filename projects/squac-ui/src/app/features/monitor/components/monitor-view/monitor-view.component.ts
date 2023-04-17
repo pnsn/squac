@@ -1,32 +1,26 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   OnDestroy,
   OnInit,
   ViewChild,
 } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { Alert } from "squacapi";
 import { Monitor } from "squacapi";
-import { AlertService } from "squacapi";
 import { MonitorService } from "squacapi";
-import {
-  catchError,
-  EMPTY,
-  forkJoin,
-  Observable,
-  Subscription,
-  switchMap,
-  tap,
-} from "rxjs";
+import { catchError, EMPTY, Observable, Subscription, tap } from "rxjs";
 import {
   MenuAction,
   TableControls,
   TableFilters,
   TableOptions,
 } from "@shared/components/table-view/interfaces";
+import { SelectionType } from "@boring.devs/ngx-datatable";
+import { sortTimestamps } from "@core/utils/utils";
+import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
 
 /**
  * Component for displaying list of monitors
@@ -46,7 +40,16 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // table config
   rows = [];
-  columns = [];
+  columns;
+
+  /** Config for detail page */
+  pageOptions: PageOptions = {
+    path: "/monitors",
+    titleButtons: {
+      addButton: true,
+      useText: true,
+    },
+  };
 
   controls: TableControls = {
     listenToRouter: true,
@@ -58,6 +61,11 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     menu: {
       text: "Actions",
       options: [
+        {
+          text: "View",
+          permission: "read",
+          action: "view",
+        },
         {
           text: "Edit",
           permission: "update",
@@ -77,26 +85,12 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
   filters: TableFilters = {
     searchField: {
       text: "Filter monitors...",
-      props: [
-        "owner",
-
-        {
-          prop: "monitor",
-          props: [
-            { prop: "channelGroup", props: ["name"] },
-            { prop: "metric", props: ["name"] },
-            "stat",
-            "name",
-          ],
-        },
-      ],
+      props: ["owner", "name", "channelGroupName", "metricName"],
     },
   };
 
   options: TableOptions = {
-    groupRowsBy: "monitorId",
-    groupParentType: "monitor",
-    groupExpansionDefault: true,
+    selectionType: SelectionType.single,
     messages: {
       emptyMessage: "No monitors found.",
     },
@@ -107,90 +101,77 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild("monitorTable") table: any;
   @ViewChild("stateTemplate") stateTemplate: any;
   @ViewChild("updateTemplate") updateTemplate: any;
-  @ViewChild("conditionsTemplate") conditionsTemplate: any;
-  @ViewChild("notificationTemplate") notificationTemplate: any;
-  @ViewChild("emailListTemplate") emailListTemplate: any;
-  @ViewChild("channelsTemplate") channelsTemplate: any;
-  @ViewChild("groupHeaderTemplate") groupHeaderTemplate: any;
-  @ViewChild("groupHeaderTemplate") rowDetailTemplate: any;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private alertService: AlertService,
     private monitorService: MonitorService,
-    private dateService: DateService,
-    public loadingService: LoadingService
+    public loadingService: LoadingService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   /** Init subscriptions */
   ngOnInit(): void {
-    const monitorsSub = this.route.params
+    const routeSub = this.route.data
       .pipe(
-        switchMap(() => {
-          return this.loadingService.doLoading(this.fetchData(), this);
+        tap((data) => {
+          this.monitors = data["monitors"];
         })
       )
-      .subscribe();
+      .subscribe({
+        next: () => {
+          this.makeRows();
+        },
+      });
 
-    this.subscription.add(monitorsSub);
-
-    if (this.route.firstChild) {
-      this.selectedMonitorId =
-        +this.route.firstChild.snapshot.params["monitorId"];
-    }
+    this.subscription.add(routeSub);
   }
 
   /** Set up columns */
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.columns = [
-        {
-          name: "State",
-          draggable: false,
-          sortable: false,
-          width: 60,
-          minWidth: 60,
-          canAutoResize: false,
-          cellTemplate: this.stateTemplate,
-        },
-        {
-          name: "Last state update",
-          draggable: false,
-          canAutoResize: false,
-          sortable: false,
-          width: 160,
-          minWidth: 160,
-          cellTemplate: this.updateTemplate,
-        },
-        {
-          name: "# channels",
-          canAutoResize: false,
-          sortable: false,
-          width: 100,
-          cellTemplate: this.channelsTemplate,
-        },
-        {
-          name: "'In Alarm' conditions",
-          sortable: false,
-          width: 200,
-          cellTemplate: this.conditionsTemplate,
-        },
-        {
-          name: "Actions",
-          draggable: false,
-          sortable: false,
-          width: 50,
-          cellTemplate: this.notificationTemplate,
-        },
-        {
-          name: "Recipients",
-          sortable: false,
-          width: 200,
-          cellTemplate: this.emailListTemplate,
-        },
-      ];
-    }, 0);
+    this.columns = [
+      {
+        name: "State",
+        prop: "inAlarm",
+        draggable: false,
+        width: 70,
+        minWidth: 70,
+        canAutoResize: false,
+        cellTemplate: this.stateTemplate,
+      },
+      {
+        name: "Name",
+        draggable: false,
+        sortable: true,
+      },
+      {
+        name: "Last State Change",
+        prop: "lastUpdate",
+        draggable: false,
+        canAutoResize: false,
+        sortable: true,
+        width: 160,
+        minWidth: 160,
+        cellTemplate: this.updateTemplate,
+        comparator: sortTimestamps,
+      },
+      {
+        name: "Channel Group",
+        prop: "channelGroupName",
+      },
+      {
+        name: "Metric",
+        prop: "metricName",
+      },
+      {
+        name: "Owner",
+        prop: "owner",
+        draggable: false,
+        sortable: true,
+        width: 120,
+      },
+    ];
+    this.cdr.detectChanges();
   }
 
   /**
@@ -217,25 +198,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /** Populate rows in table */
   makeRows(): void {
-    const temp = [];
-    this.monitors.forEach((monitor) => {
-      monitor.alerts = this.getAlerts(monitor.id);
-      monitor.inAlarm = false;
-      monitor.triggers.forEach((trigger) => {
-        trigger.lastAlarm = monitor.alerts.find(
-          (a) => a.trigger.id === trigger.id
-        );
-        if (trigger.lastAlarm && trigger.lastAlarm.inAlarm) {
-          monitor.inAlarm = true;
-        }
-        // add copy to avoid monitor having triggers that have monitor
-        const monitorCopy = Object.assign({}, monitor);
-        monitorCopy.triggers = [];
-        trigger.monitor = monitorCopy;
-        temp.push(trigger);
-      });
-    });
-    this.rows = [...temp];
+    this.rows = [...this.monitors];
   }
 
   /**
@@ -254,14 +217,9 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
    * @returns obsercable of monitors and alerts
    */
   fetchData(refresh?: boolean): Observable<any> {
-    const lastDay = this.dateService.subtractFromNow(1, "day").format();
-    return forkJoin({
-      alerts: this.alertService.list({ timestampGte: lastDay }, refresh),
-      monitors: this.monitorService.list(),
-    }).pipe(
-      tap((results) => {
-        this.monitors = results.monitors;
-        this.alerts = results.alerts;
+    return this.monitorService.list({}, refresh).pipe(
+      tap((monitors) => {
+        this.monitors = monitors;
         this.makeRows();
       }),
       catchError(() => {
@@ -284,7 +242,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
    * @returns array of matching alerts
    */
   getAlerts(monitorId: number): Alert[] {
-    return this.alerts.filter((a) => a.trigger.monitorId === monitorId);
+    return this.alerts.filter((a) => a.monitorId === monitorId);
   }
 
   /**

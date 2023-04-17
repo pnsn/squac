@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, Resolve } from "@angular/router";
 import { DateService } from "@core/services/date.service";
+import { LoadingService } from "@core/services/loading.service";
 import { Observable } from "rxjs";
 import { Alert } from "squacapi";
 import { AlertService } from "squacapi";
@@ -14,7 +15,8 @@ import { AlertService } from "squacapi";
 export class AlertResolver implements Resolve<Observable<Alert | Alert[]>> {
   constructor(
     private alertService: AlertService,
-    private dateService: DateService
+    private dateService: DateService,
+    private loadingService: LoadingService
   ) {}
 
   /**
@@ -25,12 +27,15 @@ export class AlertResolver implements Resolve<Observable<Alert | Alert[]>> {
    */
   resolve(route: ActivatedRouteSnapshot): Observable<Alert | Alert[]> {
     const id = route.paramMap.get("alertId");
+    const delay = 500;
+    let req;
     if (id) {
-      return this.alertService.read(+id);
+      req = this.alertService.read(+id);
     } else {
       const lastday = this.dateService.subtractFromNow(1, "day").format();
-      return this.alertService.list({ timestampGte: lastday });
-      // return all of them
+      req = this.alertService.list({ timestampGte: lastday });
     }
+
+    return this.loadingService.doLoading(req, null, null, delay);
   }
 }

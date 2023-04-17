@@ -3,12 +3,15 @@
   mat-icon-button
   [matMenuTriggerFor]="metricMenu"
   color="primary"
-  matTooltip="change metrics"
+  uiTooltip="change metrics"
   aria-label="change metrics"
 >
   <mat-icon>auto_graph</mat-icon>
 </button>
-<mat-menu #metricMenu="matMenu" class="mat-menu-dense">
+<mat-menu
+  #metricMenu="matMenu"
+  class="mat-menu-dense"
+>
   <ng-template matMenuContent>
     <button
       mat-menu-item
@@ -19,9 +22,7 @@
       Apply Changes
     </button>
 
-    <ng-container
-      *ngFor="let threshold of thresholds; let thresholdIndex = index"
-    >
+    <ng-container *ngFor="let threshold of thresholds; let thresholdIndex = index">
       <ng-template
         #thresholdTemplate
         [ngTemplateOutlet]="thresholdTemplate"

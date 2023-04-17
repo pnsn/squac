@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
+import { LoadingService } from "@core/services/loading.service";
 import { Observable } from "rxjs";
 import { Organization, OrganizationService } from "squacapi";
 
@@ -12,7 +13,10 @@ import { Organization, OrganizationService } from "squacapi";
 export class OrganizationResolver
   implements Resolve<Observable<Organization | Organization[]>>
 {
-  constructor(private orgService: OrganizationService) {}
+  constructor(
+    private orgService: OrganizationService,
+    private loadingService: LoadingService
+  ) {}
 
   /**
    * Resolve organization or list of organizations
@@ -24,10 +28,13 @@ export class OrganizationResolver
     route: ActivatedRouteSnapshot
   ): Observable<Organization | Organization[]> {
     const id = route.paramMap.get("orgId");
+    const delay = 500;
+    let req;
     if (id) {
-      return this.orgService.read(+id);
+      req = this.orgService.read(+id);
     } else {
-      return this.orgService.list();
+      req = this.orgService.list();
     }
+    return this.loadingService.doLoading(req, null, null, delay);
   }
 }

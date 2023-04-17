@@ -8,7 +8,8 @@ import { MockBuilder } from "ng-mocks";
 import { AbilityModule } from "@casl/angular";
 import { MaterialModule } from "@shared/material.module";
 import { ActivatedRoute } from "@angular/router";
-import { Subject } from "rxjs";
+import { of, Subject } from "rxjs";
+import { DetailPageComponent } from "@shared/components/detail-page/detail-page.component";
 describe("ChannelGroupViewComponent", () => {
   let component: ChannelGroupViewComponent;
   let fixture: ComponentFixture<ChannelGroupViewComponent>;
@@ -19,8 +20,10 @@ describe("ChannelGroupViewComponent", () => {
         provide: ActivatedRoute,
         useValue: {
           params: new Subject(),
+          data: of(),
         },
       })
+      .mock(DetailPageComponent)
       .mock(MaterialModule)
       .mock(TableViewComponent)
       .mock(AbilityModule)

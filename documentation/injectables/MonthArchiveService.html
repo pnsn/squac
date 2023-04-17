@@ -62,12 +62,19 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Service for requesting month archives</p>
+
+            </p>
 
             <p class="comment">
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../classes/BaseApiService.html" target="_self" >BaseApiService</a></code>
+                        <code><a href="../interfaces/ReadOnlyApiService.html" target="_self" >BaseReadOnlyApiService</a></code>
             </p>
 
 
@@ -84,8 +91,7 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Protected</span>
-                                <a href="#adapter" >adapter</a>
+                                <a href="#klass" >klass</a>
                             </li>
                             <li>
                                 <a href="#observe" >observe</a>
@@ -106,63 +112,24 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#list" >list</a>
+                                    <span class="modifier">Protected</span>
+                                <a href="#deserialize" >deserialize</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
-                                <a href="#_create" >_create</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Protected</span>
-                                <a href="#_delete" >_delete</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Protected</span>
-                                <a href="#_list" >_list</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Protected</span>
-                                <a href="#_read" >_read</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Protected</span>
-                                <a href="#_update" >_update</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Protected</span>
-                                <a href="#_updateOrCreate" >_updateOrCreate</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Protected</span>
-                                <a href="#createParams" >createParams</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Protected</span>
-                                <a href="#delete" >delete</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Protected</span>
-                                <a href="#deleteParams" >deleteParams</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
                                 <a href="#getHttpOptions" >getHttpOptions</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#mapFromApi" >mapFromApi</a>
+                                    <span class="modifier">Protected</span>
+                                <a href="#list" >list</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
                                 <a href="#read" >read</a>
                             </li>
                             <li>
-                                    <span class="modifier">Protected</span>
-                                <a href="#readParams" >readParams</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Protected</span>
-                                <a href="#updateParams" >updateParams</a>
+                                    <span class="modifier">Private</span>
+                                <a href="#readHttpRequest" >readHttpRequest</a>
                             </li>
                         </ul>
                     </td>
@@ -182,12 +149,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(adapter: <a href="../injectables/ArchiveAdapter.html" target="_self">ArchiveAdapter</a>, api: ApiService)</code>
+<code>constructor(api: ApiService)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="105" class="link-to-prism">projects/squacapi/src/lib/services/archive.service.ts:105</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">projects/squacapi/src/lib/services/archive.service.ts:76</a></div>
                             </td>
                         </tr>
 
@@ -204,18 +171,6 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                                <tr>
-                                                        <td>adapter</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/ArchiveAdapter.html" target="_self" >ArchiveAdapter</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
                                                 <tr>
                                                         <td>api</td>
                                                   
@@ -246,112 +201,31 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="list"></a>
-                    <span class="name">
-                        <span ><b>list</b></span>
-                        <a href="#list"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>list(params: <a href="../undefineds/Params.html" target="_self">MeasurementMonthArchivesListRequestParams</a>, refresh?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="115"
-                            class="link-to-prism">projects/squacapi/src/lib/services/archive.service.ts:115</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>params</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >MeasurementMonthArchivesListRequestParams</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>refresh</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/Archive.html" target="_self" >Observable&lt;Archive[]&gt;</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="_create"></a>
+                    <a name="deserialize"></a>
                     <span class="name">
                         <span class="modifier">Protected</span>
-                        <span ><b>_create</b></span>
-                        <a href="#_create"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>deserialize</b></span>
+                        <a href="#deserialize"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>_create(params?: <a href="../undefineds/Params.html" target="_self">Params</a>)</code>
+                    <code>deserialize(apiData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/BaseApiService.html" target="_self" >BaseApiService</a></code>
+                    <div class="io-line">Inherited from         <code><a href="../interfaces/ReadOnlyApiService.html" target="_self" >BaseReadOnlyApiService</a></code>
 </div>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:116</a></code>
+                        <div class="io-line">Defined in         <code><a href="../interfaces/ReadOnlyApiService.html#source" target="_self" >BaseReadOnlyApiService:37</a></code>
 </div>
                 </td>
             </tr>
@@ -359,7 +233,7 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Create objects of type T from squacapi</p>
+                    <div class="io-description"><p>Convert api object to model</p>
 </div>
 
                     <div class="io-description">
@@ -376,479 +250,9 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>params</td>
+                                    <td>apiData</td>
                                     <td>
-                                                <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >Params</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                    <td>
-                                        <p>http params for request</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;T&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>results of http request</p>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="_delete"></a>
-                    <span class="name">
-                        <span class="modifier">Protected</span>
-                        <span ><b>_delete</b></span>
-                        <a href="#_delete"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>_delete(params?: <a href="../undefineds/Params.html" target="_self">Params</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/BaseApiService.html" target="_self" >BaseApiService</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:136</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Delete object of type T from squacapi</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>params</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >Params</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                    <td>
-                                        <p>http params for request</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;T&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>results of http request</p>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="_list"></a>
-                    <span class="name">
-                        <span class="modifier">Protected</span>
-                        <span ><b>_list</b></span>
-                        <a href="#_list"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>_list(params: <a href="../undefineds/Params.html" target="_self">Params</a>, options: <a href="../interfaces/Options.html" target="_self">Options</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/BaseApiService.html" target="_self" >BaseApiService</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:63</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Request list of objects of type T from squacapi</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Default value</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>params</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >Params</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-                                    <td>
-                                        <code>{}</code>
-                                    </td>
-
-                                    <td>
-                                        <p>http params for request</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>options</td>
-                                    <td>
-                                                <code><a href="../interfaces/Options.html" target="_self" >Options</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-                                    <td>
-                                        <code>{}</code>
-                                    </td>
-
-                                    <td>
-                                        <ul>
-<li>http options for request</li>
-</ul>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;Array&lt;T&gt;&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>results of http request</p>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="_read"></a>
-                    <span class="name">
-                        <span class="modifier">Protected</span>
-                        <span ><b>_read</b></span>
-                        <a href="#_read"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>_read(params?: <a href="../undefineds/Params.html" target="_self">Params</a>, options?: <a href="../interfaces/Options.html" target="_self">Options</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/BaseApiService.html" target="_self" >BaseApiService</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:84</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Request single object detail of type T from squacapi</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>params</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >Params</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                    <td>
-                                        <p>http params for request</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>options</td>
-                                    <td>
-                                                <code><a href="../interfaces/Options.html" target="_self" >Options</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                    <td>
-                                        <ul>
-<li>http options for request</li>
-</ul>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;T&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        <ul>
-<li>results of http request</li>
-</ul>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="_update"></a>
-                    <span class="name">
-                        <span class="modifier">Protected</span>
-                        <span ><b>_update</b></span>
-                        <a href="#_update"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>_update(params?: <a href="../undefineds/Params.html" target="_self">Params</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/BaseApiService.html" target="_self" >BaseApiService</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:101</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Update single object of type T from squacapi</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>params</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >Params</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                    <td>
-                                        <p>http params for request</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;T&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>results of http request</p>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="_updateOrCreate"></a>
-                    <span class="name">
-                        <span class="modifier">Protected</span>
-                        <span ><b>_updateOrCreate</b></span>
-                        <a href="#_updateOrCreate"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>_updateOrCreate(t: T)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/BaseApiService.html" target="_self" >BaseApiService</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:218</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Create or update object of type T from squacapi</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>t</td>
-                                    <td>
-                                            <code>T</code>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
                                     </td>
 
                                     <td>
@@ -857,7 +261,7 @@
 
 
                                     <td>
-                                        <p>http params for request</p>
+                                        <p>api item</p>
 
                                     </td>
                                 </tr>
@@ -867,266 +271,11 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;T&gt;</code>
+                        <b>Returns : </b>    <code>T</code>
 
                     </div>
                     <div class="io-description">
-                        <p>results of http request</p>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="createParams"></a>
-                    <span class="name">
-                        <span class="modifier">Protected</span>
-                        <span ><b>createParams</b></span>
-                        <a href="#createParams"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createParams(t: T)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/BaseApiService.html" target="_self" >BaseApiService</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:173</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Formats inputted object for squacapi</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>t</td>
-                                    <td>
-                                            <code>T</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>object to create</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>literal type</code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>returns data object</p>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="delete"></a>
-                    <span class="name">
-                        <span class="modifier">Protected</span>
-                        <span ><b>delete</b></span>
-                        <a href="#delete"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>delete(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/BaseApiService.html" target="_self" >BaseApiService</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:206</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Create delete request</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>id</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>id of object to delete</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;T&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>delete request</p>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="deleteParams"></a>
-                    <span class="name">
-                        <span class="modifier">Protected</span>
-                        <span ><b>deleteParams</b></span>
-                        <a href="#deleteParams"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>deleteParams(id: number | string)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/BaseApiService.html" target="_self" >BaseApiService</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:184</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Convert inputted id to correct param format for squacapi</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>id</td>
-                                    <td>
-                                            <code>number | string</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>id of object</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>literal type</code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>id params</p>
+                        <p>model</p>
 
                     </div>
                 </td>
@@ -1139,7 +288,7 @@
                 <td class="col-md-4">
                     <a name="getHttpOptions"></a>
                     <span class="name">
-                        <span class="modifier">Private</span>
+                        <span class="modifier">Protected</span>
                         <span ><b>getHttpOptions</b></span>
                         <a href="#getHttpOptions"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1155,13 +304,13 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/BaseApiService.html" target="_self" >BaseApiService</a></code>
+                    <div class="io-line">Inherited from         <code><a href="../interfaces/ReadOnlyApiService.html" target="_self" >BaseReadOnlyApiService</a></code>
 </div>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:47</a></code>
+                        <div class="io-line">Defined in         <code><a href="../interfaces/ReadOnlyApiService.html#source" target="_self" >BaseReadOnlyApiService:47</a></code>
 </div>
                 </td>
             </tr>
@@ -1222,31 +371,31 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="mapFromApi"></a>
+                    <a name="list"></a>
                     <span class="name">
-                        <span class="modifier">Private</span>
-                        <span ><b>mapFromApi</b></span>
-                        <a href="#mapFromApi"><span class="icon ion-ios-link"></span></a>
+                        <span class="modifier">Protected</span>
+                        <span ><b>list</b></span>
+                        <a href="#list"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>mapFromApi(apiObject: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    <code>list(params, refresh?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/BaseApiService.html" target="_self" >BaseApiService</a></code>
+                    <div class="io-line">Inherited from         <code><a href="../interfaces/ReadOnlyApiService.html" target="_self" >BaseReadOnlyApiService</a></code>
 </div>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:37</a></code>
+                        <div class="io-line">Defined in         <code><a href="../interfaces/ReadOnlyApiService.html#source" target="_self" >BaseReadOnlyApiService:107</a></code>
 </div>
                 </td>
             </tr>
@@ -1254,7 +403,7 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Convert api object to model</p>
+                    <div class="io-description"><p>Returns list of requested data type</p>
 </div>
 
                     <div class="io-description">
@@ -1266,23 +415,44 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Default value</td>
                                     <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>apiObject</td>
+                                    <td>params</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
                                     </td>
 
                                     <td>
                                         No
                                     </td>
 
+                                    <td>
+                                        <code>{}</code>
+                                    </td>
 
                                     <td>
-                                        <p>api item</p>
+                                        <p>request params</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>refresh</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>true if cache should not be used</p>
 
                                     </td>
                                 </tr>
@@ -1292,11 +462,11 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>T</code>
+                        <b>Returns : </b>    <code>Observable&lt;T[]&gt;</code>
 
                     </div>
                     <div class="io-description">
-                        <p>model</p>
+                        <p>observable of list of results</p>
 
                     </div>
                 </td>
@@ -1325,13 +495,13 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/BaseApiService.html" target="_self" >BaseApiService</a></code>
+                    <div class="io-line">Inherited from         <code><a href="../interfaces/ReadOnlyApiService.html" target="_self" >BaseReadOnlyApiService</a></code>
 </div>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:195</a></code>
+                        <div class="io-line">Defined in         <code><a href="../interfaces/ReadOnlyApiService.html#source" target="_self" >BaseReadOnlyApiService:92</a></code>
 </div>
                 </td>
             </tr>
@@ -1408,31 +578,31 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="readParams"></a>
+                    <a name="readHttpRequest"></a>
                     <span class="name">
-                        <span class="modifier">Protected</span>
-                        <span ><b>readParams</b></span>
-                        <a href="#readParams"><span class="icon ion-ios-link"></span></a>
+                        <span class="modifier">Private</span>
+                        <span ><b>readHttpRequest</b></span>
+                        <a href="#readHttpRequest"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>readParams(id: number | string)</code>
+                    <code>readHttpRequest(request: "List" | "Read", options?: <a href="../interfaces/Options.html" target="_self">Options</a>, params?: <a href="../interfaces/ReadParams.html" target="_self">Params | ReadParams</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/BaseApiService.html" target="_self" >BaseApiService</a></code>
+                    <div class="io-line">Inherited from         <code><a href="../interfaces/ReadOnlyApiService.html" target="_self" >BaseReadOnlyApiService</a></code>
 </div>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:150</a></code>
+                        <div class="io-line">Defined in         <code><a href="../interfaces/ReadOnlyApiService.html#source" target="_self" >BaseReadOnlyApiService:63</a></code>
 </div>
                 </td>
             </tr>
@@ -1440,7 +610,7 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Convert inputted id to correct param format for squacapi</p>
+                    <div class="io-description"><p>Make http request</p>
 </div>
 
                     <div class="io-description">
@@ -1457,9 +627,9 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>id</td>
+                                    <td>request</td>
                                     <td>
-                                            <code>number | string</code>
+                                            <code>&quot;List&quot; | &quot;Read&quot;</code>
                                     </td>
 
                                     <td>
@@ -1468,9 +638,39 @@
 
 
                                     <td>
-                                        <ul>
-<li>id of object</li>
-</ul>
+                                        <p>request type</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                                <code><a href="../interfaces/Options.html" target="_self" >Options</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>request options</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>params</td>
+                                    <td>
+                                                <code><a href="../interfaces/ReadParams.html" target="_self" >Params | ReadParams</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>request params</p>
 
                                     </td>
                                 </tr>
@@ -1480,96 +680,11 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>literal type</code>
+                        <b>Returns : </b>    <code>Observable&lt;T | []&gt;</code>
 
                     </div>
                     <div class="io-description">
-                        <p>id params</p>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="updateParams"></a>
-                    <span class="name">
-                        <span class="modifier">Protected</span>
-                        <span ><b>updateParams</b></span>
-                        <a href="#updateParams"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateParams(t: T)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/BaseApiService.html" target="_self" >BaseApiService</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:161</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Formats inputted object for squacapi</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>t</td>
-                                    <td>
-                                            <code>T</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>object to update</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>literal type</code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>returns data object</p>
+                        <p>Observable of request response</p>
 
                     </div>
                 </td>
@@ -1586,29 +701,22 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="adapter"></a>
+                    <a name="klass"></a>
                     <span class="name">
-                            <span class="modifier">Protected</span>
-                        <span ><b>adapter</b></span>
-                        <a href="#adapter"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>klass</b></span>
+                        <a href="#klass"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../interfaces/Adapter.html" target="_self" >Adapter&lt;T |  | &gt;</a></code>
-
-                    </td>
-                </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../classes/BaseApiService.html" target="_self" >BaseApiService</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../interfaces/ReadOnlyApiService.html" target="_self" >BaseReadOnlyApiService</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:27</a></code>
+                                <div class="io-line">Defined in         <code><a href="../interfaces/ReadOnlyApiService.html#source" target="_self" >BaseReadOnlyApiService:25</a></code>
 </div>
                         </td>
                     </tr>
@@ -1640,13 +748,13 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../classes/BaseApiService.html" target="_self" >BaseApiService</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../interfaces/ReadOnlyApiService.html" target="_self" >BaseReadOnlyApiService</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:24</a></code>
+                                <div class="io-line">Defined in         <code><a href="../interfaces/ReadOnlyApiService.html#source" target="_self" >BaseReadOnlyApiService:23</a></code>
 </div>
                         </td>
                     </tr>
@@ -1672,13 +780,13 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../classes/BaseApiService.html" target="_self" >BaseApiService</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../interfaces/ReadOnlyApiService.html" target="_self" >BaseReadOnlyApiService</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/BaseApiService.html#source" target="_self" >BaseApiService:25</a></code>
+                                <div class="io-line">Defined in         <code><a href="../interfaces/ReadOnlyApiService.html#source" target="_self" >BaseReadOnlyApiService:24</a></code>
 </div>
                         </td>
                     </tr>
@@ -1694,7 +802,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { ListService } from &quot;../interfaces&quot;;
-import { BaseApiService } from &quot;./generic-api.service&quot;;
+import { BaseReadOnlyApiService } from &quot;./generic-api.service&quot;;
 import {
   ApiService,
   MeasurementDayArchivesListRequestParams,
@@ -1703,115 +811,81 @@ import {
   MeasurementWeekArchivesListRequestParams,
 } from &quot;@pnsn/ngx-squacapi-client&quot;;
 import { Observable } from &quot;rxjs&quot;;
-import { Archive, ArchiveAdapter } from &quot;../models&quot;;
+import { Archive } from &quot;../models&quot;;
 import { ApiEndpoint } from &quot;../enums&quot;;
 
 /**
- *
+ * Service for requesting archives
  */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class HourArchiveService
-  extends BaseApiService&lt;Archive&gt;
-  implements ListService&lt;Archive&gt;
-{
-  constructor(override adapter: ArchiveAdapter, override api: ApiService) {
+export class HourArchiveService extends BaseReadOnlyApiService&lt;Archive&gt; {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.HOUR_ARCHIVE, api);
   }
+}
 
-  /**
-   *
-   * @param params
-   * @param refresh
-   */
+export interface HourArchiveService extends ListService&lt;Archive&gt; {
   list(
     params: MeasurementHourArchivesListRequestParams,
     refresh?: boolean
-  ): Observable&lt;Archive[]&gt; {
-    return super._list(params, { refresh });
-  }
+  ): Observable&lt;Archive[]&gt;;
 }
 
 /**
- *
+ * Service for requesting day archives
  */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class DayArchiveService
-  extends BaseApiService&lt;Archive&gt;
-  implements ListService&lt;Archive&gt;
-{
-  constructor(override adapter: ArchiveAdapter, override api: ApiService) {
+export class DayArchiveService extends BaseReadOnlyApiService&lt;Archive&gt; {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.DAY_ARCHIVE, api);
   }
-
-  /**
-   *
-   * @param params
-   * @param refresh
-   */
+}
+export interface DayArchiveService extends ListService&lt;Archive&gt; {
   list(
     params: MeasurementDayArchivesListRequestParams,
     refresh?: boolean
-  ): Observable&lt;Archive[]&gt; {
-    return super._list(params, { refresh });
-  }
+  ): Observable&lt;Archive[]&gt;;
 }
 
 /**
- *
+ * Service for requesting week archives
  */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class WeekArchiveService
-  extends BaseApiService&lt;Archive&gt;
-  implements ListService&lt;Archive&gt;
-{
-  constructor(override adapter: ArchiveAdapter, override api: ApiService) {
+export class WeekArchiveService extends BaseReadOnlyApiService&lt;Archive&gt; {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.WEEK_ARCHIVE, api);
   }
-
-  /**
-   *
-   * @param params
-   * @param refresh
-   */
+}
+export interface WeekArchiveService extends ListService&lt;Archive&gt; {
   list(
     params: MeasurementWeekArchivesListRequestParams,
     refresh?: boolean
-  ): Observable&lt;Archive[]&gt; {
-    return super._list(params, { refresh });
-  }
+  ): Observable&lt;Archive[]&gt;;
 }
 
 /**
- *
+ * Service for requesting month archives
  */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
-export class MonthArchiveService
-  extends BaseApiService&lt;Archive&gt;
-  implements ListService&lt;Archive&gt;
-{
-  constructor(override adapter: ArchiveAdapter, override api: ApiService) {
+export class MonthArchiveService extends BaseReadOnlyApiService&lt;Archive&gt; {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.MONTH_ARCHIVE, api);
   }
+}
 
-  /**
-   *
-   * @param params
-   * @param refresh
-   */
+export interface MonthArchiveService extends ListService&lt;Archive&gt; {
   list(
     params: MeasurementMonthArchivesListRequestParams,
     refresh?: boolean
-  ): Observable&lt;Archive[]&gt; {
-    return super._list(params, { refresh });
-  }
+  ): Observable&lt;Archive[]&gt;;
 }
 </code></pre>
     </div>

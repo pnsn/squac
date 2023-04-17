@@ -11,7 +11,10 @@ export const routes: Routes = [
     path: "",
     component: MetricComponent,
     canActivate: [AuthGuard],
-    data: { subject: "Metric", action: "read" },
+    runGuardsAndResolvers: "always",
+    resolve: {
+      metrics: MetricResolver,
+    },
     children: [
       {
         path: "",
@@ -20,17 +23,19 @@ export const routes: Routes = [
           {
             path: "new",
             component: MetricEditEntryComponent,
-            data: { subject: "Metric", action: "create" },
           },
           {
             path: ":metricId/edit",
             component: MetricEditEntryComponent,
-            data: { subject: "Metric", action: "update" },
             resolve: {
               metric: MetricResolver,
             },
           },
         ],
+      },
+      {
+        path: ":metricId",
+        component: MetricViewComponent,
       },
     ],
   },

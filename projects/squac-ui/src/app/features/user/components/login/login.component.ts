@@ -1,12 +1,18 @@
 import { Component, OnDestroy } from "@angular/core";
 import {
-  UntypedFormGroup,
-  UntypedFormBuilder,
   Validators,
+  FormControl,
+  FormGroup,
+  FormBuilder,
 } from "@angular/forms";
 import { AuthService } from "@core/services/auth.service";
 import { Subscription } from "rxjs";
 
+/** login form fields */
+interface LoginForm {
+  email: FormControl<string>;
+  password: FormControl<string>;
+}
 /**
  * View for logging into squacapi
  */
@@ -21,14 +27,14 @@ export class LoginComponent implements OnDestroy {
   message: string = null;
   hide = true;
 
-  loginForm: UntypedFormGroup = this.formBuilder.group({
+  loginForm: FormGroup<LoginForm> = this.formBuilder.group({
     email: ["", [Validators.required, Validators.email]],
     password: ["", Validators.required],
   });
 
   constructor(
     private loginService: AuthService,
-    private formBuilder: UntypedFormBuilder
+    private formBuilder: FormBuilder
   ) {}
 
   /**

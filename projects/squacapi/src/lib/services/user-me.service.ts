@@ -4,10 +4,10 @@ import {
   UserMePartialUpdateRequestParams,
 } from "@pnsn/ngx-squacapi-client";
 import { ApiEndpoint } from "../enums";
-import { User, UserAdapter } from "../models";
+import { User } from "../models";
 
-import { map, Observable } from "rxjs";
-import { BaseApiService } from "./generic-api.service";
+import { Observable } from "rxjs";
+import { BaseWriteableApiService } from "./generic-api.service";
 import { PartialUpdateService, ReadService } from "../interfaces";
 
 /**
@@ -17,38 +17,46 @@ import { PartialUpdateService, ReadService } from "../interfaces";
   providedIn: "root",
 })
 export class UserMeService
-  extends BaseApiService<User>
-  implements ReadService<User>, PartialUpdateService<User>
+  extends BaseWriteableApiService<User>
+  implements ReadService<User>
 {
-  constructor(override adapter: UserAdapter, override api: ApiService) {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.USER_ME, api);
+  }
+
+  /**
+   * Request current user
+   *
+   * @returns observable of current user
+   */
+  override read(): Observable<User> {
+    return super.read(null);
   }
 
   /**
    * @override
    */
-  override read(): Observable<User> {
-    return super._read();
-  }
-
-  /**
-   * Sends user information to squacapi for partial update
-   *
-   * @param t - user information to update
-   * @returns updated user information
-   */
-  partialUpdate(t: Partial<User>): Observable<User> {
+  override _partialUpdateParams(
+    u: Partial<User>,
+    _keys: string[]
+  ): UserMePartialUpdateRequestParams {
     const params: UserMePartialUpdateRequestParams = {
       data: {
-        organization: t.orgId ?? 0,
-        firstname: t.firstName,
-        lastname: t.lastName,
+        firstname: u.firstname,
+        lastname: u.lastname,
       },
     };
-    return this.api[`${this.apiEndpoint}PartialUpdate`](
-      params,
-      this.observe,
-      this.reportProgress
-    ).pipe(map(this.adapter.adaptFromApi.bind(this)));
+    return params;
   }
+}
+
+export interface UserMeService
+  extends ReadService<User>,
+    PartialUpdateService<User> {
+  read(): Observable<User>;
+  partialUpdate(
+    t: Partial<User>,
+    keys: string[],
+    mapId: boolean
+  ): Observable<User>;
 }

@@ -3,7 +3,7 @@
     mat-button
     color="primary"
     (click)="previewChannels()"
-    matTooltip="Test regular expressions"
+    uiTooltip="Test regular expressions"
     aria-label="Button that searches for channels"
     [disabled]="!_matchingRules || _matchingRules?.length === 0 || !rules.valid"
   >
@@ -13,16 +13,25 @@
   <button
     mat-button
     (click)="addRule()"
-    matTooltip="Add new regular expressions"
+    uiTooltip="Add new regular expressions"
   >
     <mat-icon>add</mat-icon>
     add regex
   </button>
 </div>
 
-<form #rulesForm [formGroup]="matchingRulesForm">
-  <div formArrayName="rules" id="rules-container">
-    <div class="header-row" *ngIf="rules.controls.length > 0">
+<form
+  #rulesForm
+  [formGroup]="matchingRulesForm"
+>
+  <div
+    formArrayName="rules"
+    id="rules-container"
+  >
+    <div
+      class="header-row"
+      *ngIf="rules.controls.length > 0"
+    >
       <div class="medium"><span>include?</span></div>
       <div class="field-column"><span>network</span></div>
       <div class="field-column"><span>station</span></div>
@@ -34,7 +43,10 @@
       <span>No rules.</span>
     </ng-container>
     <ng-container *ngFor="let rule of rules.controls; let i = index">
-      <div [formGroupName]="i" class="rule-row">
+      <div
+        [formGroupName]="i"
+        class="rule-row"
+      >
         <div class="medium">
           <mat-checkbox
             #isInclude
@@ -93,7 +105,11 @@
         </div>
 
         <div class="narrow">
-          <button mat-icon-button type="button" (click)="removeRule(i)">
+          <button
+            mat-icon-button
+            type="button"
+            (click)="removeRule(i)"
+          >
             <mat-icon>close</mat-icon>
           </button>
         </div>
@@ -103,9 +119,7 @@
           {{ errors["atLeastOne"].message }}
         </span>
       </div>
-      <ng-container
-        *ngFor="let field of ['network', 'station', 'location', 'channel']"
-      >
+      <ng-container *ngFor="let field of ['network', 'station', 'location', 'channel']">
         <div *ngIf="rules.controls[i].get(field + 'Regex').errors as errors">
           <span class="warn-text">
             {{ errors["invalidRegex"].message }} for {{ field }}

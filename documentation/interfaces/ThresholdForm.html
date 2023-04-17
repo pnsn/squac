@@ -292,7 +292,8 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { FormControl } from &quot;@angular/forms&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { FormArray, FormControl, FormGroup } from &quot;@angular/forms&quot;;
+import { GradientColorOption, SolidColorOption } from &quot;widgets&quot;;
 
 /** Threshold form */
 export interface ThresholdForm {
@@ -304,6 +305,25 @@ export interface ThresholdForm {
   max: FormControl&lt;number&gt;;
   /** metric id */
   metricId: FormControl&lt;number&gt;;
+}
+
+/** form for selecting color options */
+export interface OptionForm {
+  /** in range colors */
+  inRange: FormControl&lt;GradientColorOption | SolidColorOption&gt;;
+  /** out of range colors */
+  outOfRange: FormControl&lt;GradientColorOption | SolidColorOption&gt;;
+  /** number of splits for coloring */
+  numSplits: FormControl&lt;number&gt;;
+  /** if true, reverse the order of colors */
+  reverseColors: FormControl&lt;boolean&gt;;
+}
+/** form for all widget options */
+export interface OptionsForm {
+  /** threshold forms */
+  thresholdArray: FormArray&lt;FormGroup&lt;ThresholdForm&gt;&gt;;
+  /** widget config options */
+  options: FormGroup&lt;OptionForm&gt;;
 }
 </code></pre>
     </div>

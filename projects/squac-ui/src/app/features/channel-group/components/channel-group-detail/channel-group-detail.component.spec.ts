@@ -34,6 +34,7 @@ describe("ChannelGroupDetailComponent", () => {
           params: of({
             channelGroup: new ChannelGroup(),
           }),
+          data: of(),
         },
       });
   });

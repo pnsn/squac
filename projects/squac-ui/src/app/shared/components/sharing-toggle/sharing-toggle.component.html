@@ -1,0 +1,32 @@
+<mat-button-toggle-group
+  class="dense-button-toggle"
+  name="sharing"
+  aria-label="toggle buttons for changing permissions"
+  (change)="toggleSharing()"
+  [(ngModel)]="shareFilter"
+>
+  <mat-button-toggle
+    value="user"
+    uiTooltip="only visible to you"
+  >{{
+    filterText?.user ? filterText.user : "User"
+    }}</mat-button-toggle>
+  <mat-button-toggle
+    value="org"
+    uiTooltip="shared with your organization"
+  >
+    <ng-container *ngIf="filterText?.org; else noOrgText">{{
+      filterText.org
+      }}</ng-container>
+
+    <ng-template #noOrgText>
+      {{ user?.orgId ?? orgId | organization }}
+    </ng-template>
+  </mat-button-toggle>
+  <mat-button-toggle
+    value="all"
+    uiTooltip="visible to all SQUAC users"
+  >{{
+    filterText?.all ? filterText.all : "All"
+    }}</mat-button-toggle>
+</mat-button-toggle-group>

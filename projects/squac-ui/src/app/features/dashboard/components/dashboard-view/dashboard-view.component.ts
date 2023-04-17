@@ -5,11 +5,12 @@ import {
   AfterViewInit,
   ViewChild,
   TemplateRef,
+  ChangeDetectorRef,
 } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { LoadingService } from "@core/services/loading.service";
 import { DashboardService } from "squacapi";
-import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
+import { catchError, EMPTY, Subscription, tap } from "rxjs";
 import { Dashboard } from "squacapi";
 import { Observable } from "rxjs";
 import {
@@ -18,6 +19,7 @@ import {
   TableFilters,
   TableOptions,
 } from "@shared/components/table-view/interfaces";
+import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
 
 /**
  * Displays list of dashboards
@@ -38,6 +40,14 @@ export class DashboardViewComponent
   rows: Dashboard[] = [];
   columns = [];
   selectedDashboardId: number;
+
+  /** Config for detail page */
+  pageOptions: PageOptions = {
+    path: "/dashboards",
+    titleButtons: {
+      addButton: true,
+    },
+  };
 
   // table config
   options: TableOptions = {
@@ -92,22 +102,23 @@ export class DashboardViewComponent
   constructor(
     private route: ActivatedRoute,
     private dashboardService: DashboardService,
-    public loadingService: LoadingService
+    public loadingService: LoadingService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   /**
    * subscribe to route params
    */
   ngOnInit(): void {
-    const dashboardsSub = this.route.params
+    const dashboardsSub = this.route.data
       .pipe(
-        tap(() => {
+        tap((data) => {
           // this.error = false;
           const orgId = this.route.snapshot.data["user"].orgId;
           this.queryParams = { organization: orgId };
-        }),
-        switchMap(() => {
-          return this.loadingService.doLoading(this.fetchData());
+
+          this.dashboards = data["dashboards"];
+          this.rows = [...this.dashboards];
         })
       )
       .subscribe();
@@ -120,40 +131,39 @@ export class DashboardViewComponent
    */
   ngAfterViewInit(): void {
     // set up columns
-    setTimeout(() => {
-      this.columns = [
-        {
-          name: "Dashboard Name",
-          prop: "name",
-          draggable: false,
-          sortable: true,
-        },
-        { name: "Description", draggable: false, sortable: true },
-        {
-          name: "Owner",
-          prop: "owner",
-          draggable: false,
-          sortable: true,
-          width: 120,
-        },
-        {
-          name: "Organization",
-          prop: "orgId",
-          draggable: false,
-          sortable: true,
-          canAutoResize: false,
-          width: 120,
-        },
-        {
-          name: "Sharing",
-          draggable: false,
-          canAutoResize: false,
-          width: 150,
-          sortable: false,
-          cellTemplate: this.sharingTemplate,
-        },
-      ];
-    }, 0);
+    this.columns = [
+      {
+        name: "Dashboard Name",
+        prop: "name",
+        draggable: false,
+        sortable: true,
+      },
+      { name: "Description", draggable: false, sortable: true },
+      {
+        name: "Owner",
+        prop: "owner",
+        draggable: false,
+        sortable: true,
+        width: 50,
+      },
+      {
+        name: "Org.",
+        prop: "orgId",
+        draggable: false,
+        sortable: true,
+        canAutoResize: false,
+        width: 70,
+      },
+      {
+        name: "Sharing",
+        draggable: false,
+        canAutoResize: false,
+        width: 70,
+        sortable: false,
+        cellTemplate: this.sharingTemplate,
+      },
+    ];
+    this.cdr.detectChanges();
   }
 
   /**

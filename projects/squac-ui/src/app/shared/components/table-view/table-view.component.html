@@ -1,18 +1,28 @@
-<div id="table-view-container" class="gray-border box-shadow">
-  <div id="table-head" class="lt-gray-background">
+<div
+  id="table-view-container"
+  class="gray-border"
+>
+  <div
+    id="table-head"
+    class="lt-gray-background"
+  >
     <div class="row space-between">
-      <h2 id="title">
-        {{ title }}
-      </h2>
+      <shared-search-filter
+        *ngIf="filters && filters.searchField"
+        [config]="filters.searchField"
+        [rows]="rows"
+        (filterChanged)="searchFieldChanged($event)"
+      >
+      </shared-search-filter>
+      <ng-content select="[tableHeadFilters]"> </ng-content>
       <div class="row space-between">
-        <button
-          *ngIf="controls.refresh"
-          mat-icon-button
-          aria-label="button that refreshes data"
-          (click)="refreshResource()"
+        <shared-sharing-toggle
+          *ngIf="filters && filters.toggleShared"
+          [user]="user"
+          (filtersChange)="toggleSharing($event)"
         >
-          <mat-icon>refresh</mat-icon>
-        </button>
+        </shared-sharing-toggle>
+
         <ng-container *ngIf="controls.links">
           <button
             *ngFor="let link of controls.links"
@@ -30,7 +40,10 @@
         >
           {{ controls.edit.text }}
         </button>
-        <mat-menu #menu class="mat-menu-dense">
+        <mat-menu
+          #menu
+          class="mat-menu-dense"
+        >
           <ng-container *ngFor="let item of controls.menu?.options">
             <button
               mat-menu-item
@@ -50,52 +63,24 @@
           {{ controls.menu.text }} <mat-icon>expand_more</mat-icon>
         </button>
 
-        <button
-          mat-flat-button
-          color="accent"
-          (click)="addResource()"
-          *ngIf="controls.add && ('create' | able: controls.resource)"
-        >
-          {{ controls.add.text }}
-        </button>
-
         <ng-content select="[tableHeadControls]"> </ng-content>
-      </div>
-    </div>
-
-    <div class="row space-between">
-      <shared-search-filter
-        *ngIf="filters.searchField"
-        [config]="filters.searchField"
-        [rows]="rows"
-        (filterChanged)="searchFieldChanged($event)"
-      >
-      </shared-search-filter>
-      <div *ngIf="filters.toggleShared">
-        <mat-button-toggle-group
-          class="dense-button-toggle"
-          name="sharing"
-          aria-label=""
-          (change)="toggleSharing()"
-          [(ngModel)]="shareFilter"
+        <button
+          *ngIf="controls.refresh"
+          mat-icon-button
+          aria-label="button that refreshes data"
+          (click)="refreshResource()"
+          uiTooltip="refresh table"
         >
-          <mat-button-toggle value="user">User</mat-button-toggle>
-          <mat-button-toggle value="org">{{
-            user?.orgId | organization
-          }}</mat-button-toggle>
-          <mat-button-toggle value="all">All</mat-button-toggle>
-        </mat-button-toggle-group>
+          <mat-icon>refresh</mat-icon>
+        </button>
       </div>
-
-      <ng-content select="[tableHeadFilters]"> </ng-content>
     </div>
   </div>
   <div id="table-body">
     <ngx-datatable
       #table
       id="shared-data-table"
-      class="shared-view-table"
-      [ngClass]="resize ? 'half' : 'full'"
+      class="shared-view-table full"
       [rows]="tableRows"
       [columns]="tableColumns"
       [columnMode]="tableOptions.columnMode"
@@ -118,7 +103,10 @@
       [virtualization]="tableOptions.virtualization"
       [loadingIndicator]="isLoading"
     >
-      <ngx-datatable-group-header [rowHeight]="50" *ngIf="groupHeaderTemplate">
+      <ngx-datatable-group-header
+        [rowHeight]="50"
+        *ngIf="groupHeaderTemplate"
+      >
         <ng-template
           let-group="group"
           let-expanded="expanded"
@@ -141,7 +129,10 @@
         [rowHeight]="50"
         *ngIf="rowDetailTemplate"
       >
-        <ng-template let-row="row" ngx-datatable-row-detail-template>
+        <ng-template
+          let-row="row"
+          ngx-datatable-row-detail-template
+        >
           <ng-container
             [ngTemplateOutlet]="rowDetailTemplate"
             [ngTemplateOutletContext]="{ row: row }"
@@ -162,9 +153,9 @@
             <div>
               Showing {{ tableRows?.length }} of {{ rows?.length }}
               {{
-                tableOptions.footerLabel
-                  ? tableOptions.footerLabel
-                  : controls.resource + "s"
+              tableOptions.footerLabel
+              ? tableOptions.footerLabel
+              : controls.resource + "s"
               }}
             </div>
           </ng-container>
@@ -177,7 +168,11 @@
           ></ng-container>
         </ng-template>
       </ngx-datatable-footer>
-      <ng-template ngx-datatable-cell-template let-row="row" #nameTemplate>
+      <ng-template
+        ngx-datatable-cell-template
+        let-row="row"
+        #nameTemplate
+      >
         <a [routerLink]="[row.id]">{{ row.name }}</a>
       </ng-template>
       <!-- <ng-template ngx-datatable-cell-template let-row="row" #checkboxTemplate>

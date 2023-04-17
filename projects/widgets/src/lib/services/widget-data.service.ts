@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from "@angular/core";
+import { Injectable, NgZone, OnDestroy } from "@angular/core";
 import {
   catchError,
   EMPTY,
@@ -62,7 +62,8 @@ export class WidgetDataService implements OnDestroy {
     private aggregateService: AggregateService,
     private dayArchiveService: DayArchiveService,
     private monthArchiveService: MonthArchiveService,
-    private weekArchiveService: WeekArchiveService
+    private weekArchiveService: WeekArchiveService,
+    private ngZone: NgZone
   ) {
     // listen to param changes and make request
     this.measurementReq$ = this.paramsObs$.pipe(
@@ -188,10 +189,11 @@ export class WidgetDataService implements OnDestroy {
       number,
       Map<number, MeasurementTypes[]>
     >();
+
     try {
       response.forEach((item: MeasurementTypes) => {
-        const channelId: number = item.channelId;
-        const metricId: number = item.metricId;
+        const channelId: number = item.channel;
+        const metricId: number = item.metric;
 
         let channelMap = dataMap.get(channelId);
 

@@ -1,16 +1,13 @@
-import { Injectable } from "@angular/core";
-import { Adapter, ReadMatchingRule, WriteMatchingRule } from "../interfaces";
+import { ResourceModel } from "../interfaces";
 
-/**
- * Regular expression rules for building channel groups
- */
-export class MatchingRule {
-  constructor(
-    public id: number,
-    public owner: number,
-    public channelGroupId: number,
-    public isInclude: boolean
-  ) {}
+import {
+  ReadOnlyMatchingRuleSerializer,
+  WriteOnlyMatchingRuleSerializer,
+} from "@pnsn/ngx-squacapi-client";
+
+export interface MatchingRule {
+  channelGroupId: number;
+  isInclude: boolean;
   networkRegex?: string;
   stationRegex?: string;
   locationRegex?: string;
@@ -18,40 +15,29 @@ export class MatchingRule {
 }
 
 /**
- * adapt matching rule
+ * Regular expression rules for building channel groups
  */
-@Injectable({
-  providedIn: "root",
-})
-export class MatchingRuleAdapter
-  implements Adapter<MatchingRule, ReadMatchingRule, WriteMatchingRule>
-{
+export class MatchingRule extends ResourceModel<
+  ReadOnlyMatchingRuleSerializer | MatchingRule,
+  WriteOnlyMatchingRuleSerializer
+> {
   /** @override */
-  adaptFromApi(item: ReadMatchingRule): MatchingRule {
-    const matchingRule = new MatchingRule(
-      item.id ? +item.id : 0,
-      item.user ? item.user : 0,
-      item.group,
-      item.is_include ?? true
-    );
-
-    matchingRule.channelRegex = item.channel_regex;
-    matchingRule.networkRegex = item.network_regex;
-    matchingRule.locationRegex = item.location_regex;
-    matchingRule.stationRegex = item.station_regex;
-
-    return matchingRule;
+  override fromRaw(data: ReadOnlyMatchingRuleSerializer | MatchingRule): void {
+    super.fromRaw(data);
+    if ("group" in data) {
+      this.channelGroupId = data.group;
+    }
   }
 
   /** @override */
-  adaptToApi(item: MatchingRule): WriteMatchingRule {
+  toJson(): WriteOnlyMatchingRuleSerializer {
     return {
-      group: item.channelGroupId,
-      network_regex: item.networkRegex,
-      station_regex: item.stationRegex,
-      location_regex: item.locationRegex,
-      channel_regex: item.channelRegex,
-      is_include: item.isInclude,
+      group: this.channelGroupId,
+      network_regex: this.networkRegex,
+      station_regex: this.stationRegex,
+      location_regex: this.locationRegex,
+      channel_regex: this.channelRegex,
+      is_include: this.isInclude,
     };
   }
 }

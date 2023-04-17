@@ -1,67 +1,84 @@
-import { Injectable } from "@angular/core";
-import { Adapter, ReadAlert } from "../interfaces";
-import { Monitor, Trigger } from "../models";
-import { TriggerAdapter } from "../models/trigger";
+import { ReadOnlyResourceModel } from "../interfaces";
+import {
+  Trigger as ApiTrigger,
+  ReadOnlyAlertDetailSerializer,
+} from "@pnsn/ngx-squacapi-client";
+
+/** Describes a breaching channel */
+export interface BreachingChannel {
+  /** channel nscl */
+  channel: string;
+  /** id of channel */
+  channel_id: number;
+  /** minimum value in time range, if min stat for monitor is chosen */
+  min?: number;
+  /** maximum value in time range, if max stat for monitor is chosen */
+  max?: number;
+  /** number of measurements, if count stat for monitor is chosen */
+  count?: number;
+  /** sum of measurements, if sum stat for monitor is chosen */
+  sum?: number;
+  /** average value of measurements, if avg stat is chosen */
+  avg?: number;
+}
+
+/** Describes an alert */
+export interface Alert {
+  /** time alert was issued */
+  timestamp: string;
+  /** true if alert is in alarm state */
+  inAlarm: boolean;
+  /** channels breaching during time window */
+  breachingChannels: BreachingChannel[];
+  /** id of trigger for this alert */
+  triggerId: number;
+  /** id of monitor for this alert */
+  monitorId: number;
+  /** name of monitor */
+  monitorName: string;
+  /** monitor low value */
+  val1: number;
+  /** monitor high value */
+  val2?: number;
+  /** monitor value operator */
+  valueOperator: ApiTrigger.ValueOperatorEnum;
+  /** monitor number of channels */
+  numChannels: number;
+  /** monitor number of channels operator */
+  numChannelsOperator: ApiTrigger.NumChannelsOperatorEnum;
+}
 
 /**
- * Describes an alert
+ * Alert class for interacting with squacapi alerts
  */
-export class Alert {
-  id?: number;
-  owner?: number;
-  timestamp!: string;
-  message!: string;
-  inAlarm?: boolean;
-  breachingChannels!: string[];
-  triggerId?: number;
-
-  monitor?: Monitor;
-  trigger?: Trigger;
-
+export class Alert extends ReadOnlyResourceModel<
+  ReadOnlyAlertDetailSerializer | Alert
+> {
   /** @returns model name */
   static get modelName(): string {
     return "Alert";
   }
-}
 
-/** Adapt alert */
-@Injectable({
-  providedIn: "root",
-})
-export class AlertAdapter implements Adapter<Alert, ReadAlert, unknown> {
   /** @override */
-  adaptFromApi(item: ReadAlert): Alert {
-    const triggerAdapter = new TriggerAdapter();
-    let breachingChannels: string[] = [];
-    let trigger;
-    let triggerId;
+  override fromRaw(data: ReadOnlyAlertDetailSerializer | Alert): void {
+    super.fromRaw(data);
 
-    if (typeof item.breaching_channels === "string") {
-      try {
-        breachingChannels = JSON.parse(item.breaching_channels) as string[];
-      } catch {
-        breachingChannels = [];
+    if ("breaching_channels" in data) {
+      let breachingChannels: BreachingChannel[] = [];
+      this.triggerId = data.trigger;
+      this.monitorId = +data.monitor;
+      if (typeof data.breaching_channels === "string") {
+        try {
+          breachingChannels = JSON.parse(
+            data.breaching_channels
+          ) as BreachingChannel[];
+        } catch (e) {
+          breachingChannels = [];
+        }
+      } else if (Array.isArray(data.breaching_channels)) {
+        breachingChannels = data.breaching_channels as BreachingChannel[];
       }
+      this.breachingChannels = breachingChannels;
     }
-
-    if (typeof item.trigger === "number") {
-      triggerId = item.trigger;
-    } else if (item.trigger) {
-      triggerId = item.trigger.id;
-      trigger = triggerAdapter.adaptFromApi(item.trigger);
-    }
-
-    const alert: Alert = {
-      id: item.id,
-      owner: item.user,
-      timestamp: item.timestamp,
-      message: item.message,
-      inAlarm: item.in_alarm,
-      breachingChannels,
-      triggerId,
-      trigger,
-    };
-
-    return alert;
   }
 }

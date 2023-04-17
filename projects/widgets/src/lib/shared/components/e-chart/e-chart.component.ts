@@ -1,9 +1,10 @@
-import { Component, OnDestroy } from "@angular/core";
+import { Component, NgZone, OnDestroy } from "@angular/core";
 import { EChartsOption, EChartsType } from "echarts";
 
 import { WidgetConnectService, WidgetManagerService } from "../../../services";
 import { GenericWidgetComponent } from "..";
 import { WidgetTypeComponent } from "../../../interfaces";
+import { ECHART_DEFAULTS, ECHART_DENSE_DEFAULTS } from "./chart-config";
 
 /**
  * Abstract class to make creation of Echart widgets simpler
@@ -16,9 +17,10 @@ export abstract class EChartComponent
 {
   constructor(
     override widgetManager: WidgetManagerService,
-    override widgetConnector: WidgetConnectService
+    override widgetConnector: WidgetConnectService,
+    override ngZone: NgZone
   ) {
-    super(widgetManager, widgetConnector);
+    super(widgetManager, widgetConnector, ngZone);
   }
 
   emphasizedChannel: string;
@@ -33,6 +35,37 @@ export abstract class EChartComponent
   } = {}; //It may contain devicePixelRatio, renderer, width or height properties.
   echartsInstance: EChartsType;
   metricSeries: any = {};
+  chartDefaultOptions: EChartsOption = ECHART_DEFAULTS;
+
+  denseOptions = ECHART_DENSE_DEFAULTS;
+  fullOptions: EChartsOption = {
+    grid: this.chartDefaultOptions.grid,
+    dataZoom: this.chartDefaultOptions.dataZoom,
+  };
+
+  /**
+   * Toggles zoom controls and grid view to make widgets more dense
+   *
+   * @param useDenseView true if widget should use dense view
+   */
+  override useDenseView(useDenseView: boolean): void {
+    this.denseView = useDenseView;
+    if (this.echartsInstance) {
+      if (useDenseView) {
+        this.echartsInstance.setOption(
+          { ...this.denseOptions },
+          {
+            replaceMerge: ["dataZoom"],
+          }
+        );
+      } else {
+        this.echartsInstance.setOption(
+          { ...this.fullOptions },
+          { replaceMerge: ["dataZoom"] }
+        );
+      }
+    }
+  }
 
   /**
    * @override
@@ -56,7 +89,7 @@ export abstract class EChartComponent
    * Toggle visual map component
    */
   toggleKey(): void {
-    if (this.echartsInstance && this.options.visualMap) {
+    if (this.echartsInstance) {
       this.echartsInstance.setOption({
         visualMap: { show: this.showKey },
       });
@@ -70,6 +103,9 @@ export abstract class EChartComponent
    */
   onChartInit(event): void {
     this.echartsInstance = event;
+    if (this.echartsInstance && this.denseView !== undefined) {
+      this.useDenseView(this.denseView);
+    }
   }
 
   /**

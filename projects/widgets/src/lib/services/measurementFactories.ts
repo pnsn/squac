@@ -1,10 +1,5 @@
 import { ApiService } from "@pnsn/ngx-squacapi-client";
-import {
-  AggregateAdapter,
-  AggregateService,
-  ArchiveAdapter,
-  MeasurementAdapter,
-} from "squacapi";
+import { AggregateService } from "squacapi";
 import {
   DayArchiveService,
   HourArchiveService,
@@ -17,21 +12,19 @@ import { MeasurementService } from "squacapi";
  * using localhost
  *
  * @param path url path
- * @param adapter data adapter
  * @param service api service
  * @param fakeService fake api service
  * @returns measurement service
  */
 export function MeasurementFactory(
   path: string,
-  adapter: MeasurementAdapter,
   service: ApiService,
   fakeService
 ): MeasurementService {
   if (path === "http://localhost:8000") {
-    return new MeasurementService(adapter, fakeService);
+    return new MeasurementService(fakeService);
   } else {
-    return new MeasurementService(adapter, service);
+    return new MeasurementService(service);
   }
 }
 
@@ -40,21 +33,19 @@ export function MeasurementFactory(
  * using localhost
  *
  * @param path url path
- * @param adapter data adapter
  * @param service api service
  * @param fakeService fake api service
  * @returns aggregate service
  */
 export function AggregateFactory(
   path: string,
-  adapter: AggregateAdapter,
   service: ApiService,
   fakeService
 ): AggregateService {
   if (path === "http://localhost:8000") {
-    return new AggregateService(adapter, fakeService);
+    return new AggregateService(fakeService);
   } else {
-    return new AggregateService(adapter, service);
+    return new AggregateService(service);
   }
 }
 
@@ -63,21 +54,19 @@ export function AggregateFactory(
  * using localhost
  *
  * @param path url path
- * @param adapter data adapter
  * @param service api service
  * @param fakeService fake api service
  * @returns day archive service
  */
 export function DayArchiveFactory(
   path: string,
-  adapter: ArchiveAdapter,
   service: ApiService,
   fakeService
 ): DayArchiveService {
   if (path === "http://localhost:8000") {
-    return new DayArchiveService(adapter, fakeService);
+    return new DayArchiveService(fakeService);
   } else {
-    return new DayArchiveService(adapter, service);
+    return new DayArchiveService(service);
   }
 }
 
@@ -86,21 +75,19 @@ export function DayArchiveFactory(
  * using localhost
  *
  * @param path url path
- * @param adapter data adapter
  * @param service api service
  * @param fakeService fake api service
  * @returns hour archive service
  */
 export function HourArchiveFactory(
   path: string,
-  adapter: ArchiveAdapter,
   service: ApiService,
   fakeService
 ): HourArchiveService {
   if (path === "http://localhost:8000") {
-    return new HourArchiveService(adapter, fakeService);
+    return new HourArchiveService(fakeService);
   } else {
-    return new HourArchiveService(adapter, service);
+    return new HourArchiveService(service);
   }
 }
 
@@ -109,21 +96,19 @@ export function HourArchiveFactory(
  * using localhost
  *
  * @param path url path
- * @param adapter data adapter
  * @param service api service
  * @param fakeService fake api service
  * @returns week archive service
  */
 export function WeekArchiveFactory(
   path: string,
-  adapter: ArchiveAdapter,
   service: ApiService,
   fakeService
 ): WeekArchiveService {
   if (path === "http://localhost:8000") {
-    return new WeekArchiveService(adapter, fakeService);
+    return new WeekArchiveService(fakeService);
   } else {
-    return new WeekArchiveService(adapter, service);
+    return new WeekArchiveService(service);
   }
 }
 
@@ -132,20 +117,18 @@ export function WeekArchiveFactory(
  * using localhost
  *
  * @param path url path
- * @param adapter data adapter
  * @param service api service
  * @param fakeService fake api service
  * @returns month archive service
  */
 export function MonthArchiveFactory(
   path: string,
-  adapter: ArchiveAdapter,
   service: ApiService,
   fakeService
 ): MonthArchiveService {
   if (path === "http://localhost:8000") {
-    return new MonthArchiveService(adapter, fakeService);
+    return new MonthArchiveService(fakeService);
   } else {
-    return new MonthArchiveService(adapter, service);
+    return new MonthArchiveService(service);
   }
 }

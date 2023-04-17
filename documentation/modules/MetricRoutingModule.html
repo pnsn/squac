@@ -85,7 +85,10 @@ export const routes: Routes &#x3D; [
     path: &quot;&quot;,
     component: MetricComponent,
     canActivate: [AuthGuard],
-    data: { subject: &quot;Metric&quot;, action: &quot;read&quot; },
+    runGuardsAndResolvers: &quot;always&quot;,
+    resolve: {
+      metrics: MetricResolver,
+    },
     children: [
       {
         path: &quot;&quot;,
@@ -94,17 +97,19 @@ export const routes: Routes &#x3D; [
           {
             path: &quot;new&quot;,
             component: MetricEditEntryComponent,
-            data: { subject: &quot;Metric&quot;, action: &quot;create&quot; },
           },
           {
             path: &quot;:metricId/edit&quot;,
             component: MetricEditEntryComponent,
-            data: { subject: &quot;Metric&quot;, action: &quot;update&quot; },
             resolve: {
               metric: MetricResolver,
             },
           },
         ],
+      },
+      {
+        path: &quot;:metricId&quot;,
+        component: MetricViewComponent,
       },
     ],
   },

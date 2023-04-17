@@ -12,6 +12,7 @@ import { MatchingRuleEditComponent } from "./components/channel-group-edit/match
 import { ChannelGroupTableComponent } from "./components/channel-group-edit/channel-group-table/channel-group-table.component";
 import { NgxCsvParserModule } from "ngx-csv-parser";
 import { CsvUploadComponent } from "./components/channel-group-edit/csv-upload/csv-upload.component";
+import { TooltipModule } from "@ui/tooltip/tooltip.module";
 /**
  *
  */
@@ -32,6 +33,7 @@ import { CsvUploadComponent } from "./components/channel-group-edit/csv-upload/c
     SharedModule,
     ChannelGroupRoutingModule,
     NgxCsvParserModule,
+    TooltipModule,
   ],
 })
 export class ChannelGroupModule {}

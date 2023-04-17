@@ -1,7 +1,8 @@
 import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
 import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
+  FormBuilder,
+  FormControl,
+  FormGroup,
   Validators,
 } from "@angular/forms";
 import { User } from "squacapi";
@@ -11,6 +12,19 @@ import { MessageService } from "@core/services/message.service";
 import { InviteService } from "squacapi";
 import { OrganizationUserService } from "squacapi";
 
+/** Form for adding user to organization */
+interface UserForm {
+  /** user's email */
+  email: FormControl<string>;
+  /** user's first name */
+  firstname: FormControl<string>;
+  /** user's last name */
+  lastname: FormControl<string>;
+  /** is user an admin for organization */
+  isAdmin: FormControl<boolean>;
+  /** user permission groups */
+  groups: FormControl<Array<string>>;
+}
 /**
  * Edit or add users to organizations
  */
@@ -24,7 +38,7 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
   user: User;
   editMode: boolean;
   orgId: number;
-  userForm: UntypedFormGroup;
+  userForm: FormGroup<UserForm>;
 
   userIsActive = true;
   groupTypes = [
@@ -45,7 +59,7 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
     },
   ];
   constructor(
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<OrganizationEditComponent>,
     private orgUserService: OrganizationUserService,
     private messageService: MessageService,
@@ -62,14 +76,14 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
 
     this.editMode = !!this.user;
     this.userForm = this.formBuilder.group({
-      email: [
+      email: new FormControl(
         { value: "", disabled: this.editMode },
-        this.editMode ? [] : [Validators.required, Validators.email],
-      ],
-      firstName: ["", Validators.required],
-      lastName: ["", Validators.required],
-      isAdmin: [false, Validators.required],
-      groups: ["", Validators.required],
+        this.editMode ? [] : [Validators.required, Validators.email]
+      ),
+      firstname: new FormControl("", Validators.required),
+      lastname: new FormControl("", Validators.required),
+      isAdmin: new FormControl(null, Validators.required),
+      groups: new FormControl(null, Validators.required),
     });
 
     this.initForm();
@@ -85,8 +99,8 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
     if (this.editMode) {
       this.userForm.patchValue({
         email: this.user.email,
-        firstName: this.user.firstName,
-        lastName: this.user.lastName,
+        firstname: this.user.firstname,
+        lastname: this.user.lastname,
         isAdmin: this.user.isAdmin,
         groups: this.user.groups,
       });
@@ -102,41 +116,30 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
   /** saves new user */
   save(): void {
     const values = this.userForm.value;
-    const user = new User(
-      this.user ? this.user.id : null,
-      values.email ? values.email : this.user.email,
-      values.firstName,
-      values.lastName,
-      this.orgId,
-      values.isAdmin,
-      values.groups
-    );
-    user.isActive = this.userIsActive;
-    this.orgUserService
-      .updateOrCreate(
-        new User(
-          this.user ? this.user.id : null,
-          values.email ? values.email : this.user.email,
-          values.firstName,
-          values.lastName,
-          this.orgId,
-          values.isAdmin,
-          values.groups
-        )
-      )
-      .subscribe({
-        next: (user) => {
-          if (!user.isActive) {
-            this.sendInvite(user.id, user.email);
-          }
+    const user = new User({
+      id: this.user ? this.user.id : null,
+      email: values.email ?? this.user.email,
+      firstname: values.firstname,
+      lastname: values.lastname,
+      organization: this.orgId,
+      isOrgAdmin: values.isAdmin,
+      groups: values.groups,
+      isActive: this.userIsActive,
+    });
 
-          this.messageService.message(`Updated user ${user.email}.`);
-          this.cancel(user.id);
-        },
-        error: () => {
-          this.messageService.error(`Could not add user.`);
-        },
-      });
+    this.orgUserService.updateOrCreate(user).subscribe({
+      next: (userId: number) => {
+        if (!user.isActive) {
+          this.sendInvite(userId, user.email);
+        }
+
+        this.messageService.message(`Updated user ${user.email}.`);
+        this.cancel(userId);
+      },
+      error: () => {
+        this.messageService.error(`Could not add user.`);
+      },
+    });
   }
 
   /**

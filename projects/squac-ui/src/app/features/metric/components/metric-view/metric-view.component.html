@@ -1,16 +1,29 @@
-<shared-table-view
+<shared-detail-page
+  [options]="pageOptions"
   title="Metrics"
-  [options]="options"
-  [rows]="rows"
-  [columns]="columns"
-  [controls]="controls"
-  [filters]="filters"
-  (refresh)="refresh()"
-  [isLoading]="loadingService.isLoading(this)"
+  type="Metric"
 >
-  <ng-template ngx-datatable-cell-template let-row="row" #nameTemplate>
-    <a [routerLink]="[row.refUrl]">{{ row.name }}</a>
-  </ng-template>
-</shared-table-view>
+  <ng-container bodyContent>
+    <shared-table-view
+      title="Metrics"
+      [options]="options"
+      [rows]="rows"
+      [columns]="columns"
+      [controls]="controls"
+      [filters]="filters"
+      (refresh)="refresh()"
+      [isLoading]="loadingService.isLoading$(this) | async"
+      [selectedRowId]="selectedMetricId"
+    >
+      <ng-template
+        ngx-datatable-cell-template
+        let-row="row"
+        #nameTemplate
+      >
+        <a [routerLink]="[row.referenceUrl]">{{ row.name }}</a>
+      </ng-template>
+    </shared-table-view>
+  </ng-container>
+</shared-detail-page>
 
 <router-outlet></router-outlet>

@@ -1,19 +1,22 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
 import { Measurement } from "squacapi";
 
 import { PrecisionPipe } from "../../shared/pipes/precision.pipe";
-import {
-  EChartsOption,
-  TooltipComponentFormatterCallbackParams,
-} from "echarts";
+import { EChartsOption } from "echarts";
 import {
   WidgetConnectService,
   WidgetManagerService,
   WidgetConfigService,
 } from "../../services";
-import { LabelFormatterParams, WidgetTypeComponent } from "../../interfaces";
+import { WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../../shared/components";
 import { parseUtc } from "../../shared/utils";
+import {
+  singleXAxisConfig,
+  tooltipFormatter,
+  weekTimeXAxisConfig,
+  weekXAxisConfig,
+} from "./chart-config";
 
 /**
  * Chart that plots channels as the y axis and time,
@@ -31,9 +34,10 @@ export class CalendarComponent
   constructor(
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
-    override widgetManager: WidgetManagerService
+    override widgetManager: WidgetManagerService,
+    override ngZone: NgZone
   ) {
-    super(widgetManager, widgetConnectService);
+    super(widgetManager, widgetConnectService, ngZone);
   }
 
   xAxisLabels = [];
@@ -41,79 +45,108 @@ export class CalendarComponent
   // Max allowable time between measurements to connect
   maxMeasurementGap: number = 1 * 1000;
   precisionPipe = new PrecisionPipe();
+  override denseOptions: EChartsOption = {
+    grid: {
+      containLabel: false,
+      top: 10,
+      right: 10,
+      left: 105,
+    },
+    dataZoom: [],
+  };
+  override fullOptions: EChartsOption = {
+    grid: {
+      containLabel: false,
+      top: 5,
+      right: 10,
+      left: 125,
+    },
+    dataZoom: this.chartDefaultOptions.dataZoom,
+  };
 
   /**
    * @override
    */
   configureChart(): void {
-    const chartOptions: EChartsOption = {
-      xAxis: {
-        type: "category",
-
-        axisTick: {
-          show: true,
-        },
-        axisLine: {
-          show: true,
-        },
-        axisPointer: {
-          show: true,
-          label: {
-            formatter: (params: LabelFormatterParams) => {
-              const pa = (params.value as string).split("-");
-              const labels = [
-                "Sunday",
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday",
-              ];
-              if (pa.length > 1) {
-                const week = pa[0];
-                const time = pa[1];
-                return `${labels[+week]} ${time}:00`;
-              } else {
-                if (+pa[0]) {
-                  return `${pa[0]}:00`;
-                }
-                return `${pa[0]}`;
-              }
-            },
-          },
-        },
+    this.denseOptions["grid"]["bottom"] = this.getBottomMargin(true);
+    this.fullOptions["grid"]["bottom"] = this.getBottomMargin(false);
+    const dataZoom = this.denseView
+      ? this.denseOptions.dataZoom
+      : this.fullOptions.dataZoom;
+    const grid = this.denseView
+      ? this.denseOptions.grid
+      : this.fullOptions.grid;
+    this.options = {
+      ...this.chartDefaultOptions,
+      grid: {
+        ...grid,
       },
+      dataZoom,
       yAxis: {
         inverse: true,
+        axisLabel: {
+          fontSize: 11,
+        },
         axisTick: {
           interval: 0,
         },
         type: "category",
-        nameGap: 40, //max characters
+        // nameGap: 35, //max characters
       },
+      xAxis: {}, //have default xaxis config or error occurs
       tooltip: {
-        formatter: (
-          params: TooltipComponentFormatterCallbackParams
-        ): string => {
-          let str = "";
-          if (!Array.isArray(params)) {
-            str += `<div class='tooltip-name'>${params.marker} ${params.seriesName} </div>`;
-            if (params.value) {
-              str += `<table class='tooltip-table'><tbody><tr><td>${
-                params.value[0]
-              }(average):</td><td>${
-                params.value[2]?.toPrecision(4) ?? "No Data"
-              }</td></tr></tbody></table>`;
-            }
-          }
-          return str;
-        },
+        ...this.chartDefaultOptions.tooltip,
+        formatter: tooltipFormatter,
       },
       series: [],
     };
+  }
 
-    this.options = this.widgetConfigService.chartOptions(chartOptions);
+  /**
+   * figures out correct labels for axis
+   *
+   * @param displayType widget display type
+   */
+  getAxisLabels(displayType: string): void {
+    const weekLabels = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+
+    const hourLabels = [];
+    // const blanks = new Array(23);
+    // blanks.fill("");
+    for (let i = 0; i < 24; i++) {
+      const label = i < 10 ? `0${i}` : `${i}`;
+      hourLabels.push(label + ":00");
+    }
+
+    switch (displayType) {
+      case "hours-day":
+        this.xAxisLabels = [...hourLabels];
+        break;
+
+      case "hours-week":
+        this.xAxisLabels = [];
+        weekLabels.forEach((weekLabel) => {
+          this.xAxisLabels2.push(weekLabel);
+
+          hourLabels.forEach((label) => {
+            this.xAxisLabels.push(`${weekLabel} ${label}`);
+          });
+        });
+
+        break;
+
+      default:
+        this.xAxisLabels = [...weekLabels];
+        break;
+    }
   }
 
   /**
@@ -130,72 +163,23 @@ export class CalendarComponent
 
       this.xAxisLabels = [];
       this.xAxisLabels2 = [];
-      let width;
+      this.getAxisLabels(this.properties.displayType);
 
-      const weekLabels = [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-      ];
+      const width = this.properties.displayType;
 
-      const hourLabels = [];
-      const blanks = new Array(23);
-      blanks.fill("");
-      for (let i = 0; i < 24; i++) {
-        const label = i < 10 ? `0${i}` : `${i}`;
-        hourLabels.push(label);
-      }
+      // currently only 1 metric
+      this.selectedMetrics.forEach((metric) => {
+        if (!metric) return;
+        let series;
 
-      switch (this.properties.displayType) {
-        case "hours-day":
-          this.xAxisLabels = [...hourLabels];
-          width = "hours-day";
-          break;
-
-        case "hours-week":
-          width = "hours-week";
-          this.xAxisLabels = [];
-          weekLabels.forEach((weekLabel, j) => {
-            this.xAxisLabels2.push(weekLabel, ...blanks);
-
-            hourLabels.forEach((label) => {
-              this.xAxisLabels.push(`${j}-${label}`);
-            });
-          });
-
-          break;
-
-        default:
-          width = "days-week";
-          this.xAxisLabels = [...weekLabels];
-          break;
-      }
-
-      this.channels.sort((chanA, chanB) => {
-        return chanA.nslc.localeCompare(chanB.nslc);
-      });
-      this.channels.forEach((channel, index) => {
-        // store values
-        const values = [];
-
-        this.xAxisLabels.forEach((label) => {
-          values.push({
-            label,
-            sum: 0,
-            count: 0,
-          });
-        });
-
-        const nslc = channel.nslc;
-        this.selectedMetrics.forEach((metric) => {
-          if (!metric) return;
-          const channelObj = {
+        // set up metric series
+        if (!this.metricSeries[metric.id]) {
+          this.metricSeries[metric.id] = {
+            series: [],
+            yAxisLabels: [],
+          };
+          series = {
             type: "heatmap",
-            name: nslc,
             data: [],
             large: true,
             emphasis: { focus: "series" },
@@ -208,12 +192,27 @@ export class CalendarComponent
               tooltip: [0, 1, 3],
             },
           };
-          if (!this.metricSeries[metric.id]) {
-            this.metricSeries[metric.id] = {
-              series: [],
-              yAxisLabels: [],
-            };
-          }
+          this.metricSeries[metric.id].series.push(series);
+        } else {
+          series = this.metricSeries[metric.id].series[0];
+        }
+
+        // get data for every channel
+        this.channels.forEach((channel) => {
+          const nslc = channel.nslc;
+          this.metricSeries[metric.id].yAxisLabels.push(nslc);
+
+          // store values
+          const values = [];
+
+          //associate data with created labels
+          this.xAxisLabels.forEach((label) => {
+            values.push({
+              label,
+              sum: 0,
+              count: 0,
+            });
+          });
 
           if (data.has(channel.id)) {
             const measurements = data.get(channel.id).get(metric.id);
@@ -221,39 +220,52 @@ export class CalendarComponent
             measurements?.forEach((measurement: Measurement) => {
               const measurementStart = parseUtc(measurement.starttime);
 
-              let timeSegment;
+              // figure out which xAxisLabel this data should go to
+              let timeSegmentIndex;
               if (width === "days-week") {
-                timeSegment = measurementStart.day();
+                timeSegmentIndex = measurementStart.day();
               } else if (width === "hours-day") {
-                timeSegment = measurementStart.hour();
+                timeSegmentIndex = measurementStart.hour();
               } else if (width === "hours-week") {
                 const weekday = measurementStart.day();
                 const hour = measurementStart.hour();
 
-                timeSegment = hour + weekday * 24;
+                timeSegmentIndex = hour + weekday * 24;
               }
 
-              if (values[timeSegment]) {
-                values[timeSegment].count++;
-                values[timeSegment].sum += measurement.value;
+              if (values[timeSegmentIndex]) {
+                values[timeSegmentIndex].count++;
+                values[timeSegmentIndex].sum += measurement.value;
               }
             });
           }
 
           values.forEach((value) => {
-            const avg = value.count > 0 ? value.sum / value.count : null;
-            channelObj.data.push({
-              name: nslc,
-              value: [value.label, value.count, avg, index],
-            });
+            if (value.count > 0) {
+              const avg = value.count > 0 ? value.sum / value.count : null;
+              series.data.push([value.label, value.count, avg, nslc]);
+            }
           });
-
-          this.metricSeries[metric.id].series.push(channelObj);
-          this.metricSeries[metric.id].yAxisLabels.push(nslc);
         });
       });
       resolve();
     });
+  }
+
+  /**
+   * calculated bottom margin for chart
+   *
+   * @param dense true if no zoom is used
+   * @returns margin for bottom of chart
+   */
+  private getBottomMargin(dense: boolean): number {
+    //denseview has no zoom bar
+    let margin = dense ? 32 : 52;
+
+    if (this.properties.displayType === "hours-week") {
+      margin += 12;
+    }
+    return margin;
   }
 
   /**
@@ -265,83 +277,31 @@ export class CalendarComponent
     const visualMaps = this.visualMaps[colorMetric.id];
     const axes = [];
 
-    let xAxis1: EChartsOption = {
-      type: "category",
-
-      axisLine: {
-        show: true,
-      },
-      axisPointer: {
-        show: true,
-      },
-      name: "",
-      position: "bottom",
-    };
     let name = "";
     if (this.properties.displayType) {
       name = this.properties.displayType.replace("-", " of ");
     }
-
-    xAxis1["name"] = name;
-
     if (this.xAxisLabels2.length > 0) {
-      xAxis1 = {
-        ...xAxis1,
-        axisTick: {
-          alignWithLabel: false,
-          length: 16,
-          inside: false,
-          interval: (_index: number, value: string): boolean => {
-            return value ? true : false;
-          },
-        },
-        axisLabel: {
-          margin: 16,
-          fontSize: 11,
-          align: "left",
-          interval: (_index: number, value: string): boolean => {
-            return value ? true : false;
-          },
-        },
-        axisPointer: {
-          show: false,
-        },
-        splitLine: {
-          show: true,
-          interval: (_index: number, value: string): boolean => {
-            return value ? true : false;
-          },
-        },
-      };
-      const xAxis2 = {
-        position: "bottom",
-        data: this.xAxisLabels,
-        nameGap: 28,
-        name,
-        axisLabel: {
-          fontSize: 11,
-          formatter: (value: string): string => {
-            const val = value.split("-")[1];
-            return val === "00" ? "" : val;
-          },
-        },
-      };
-      xAxis1["data"] = this.xAxisLabels2;
-
-      axes.push(xAxis2);
-      axes.push(xAxis1);
+      const weekXAxis = weekXAxisConfig;
+      const timeXAxis = weekTimeXAxisConfig;
+      weekXAxis["data"] = this.xAxisLabels2;
+      timeXAxis["data"] = this.xAxisLabels;
+      weekXAxis["name"] = name;
+      axes.push(timeXAxis);
+      axes.push(weekXAxis);
     } else {
+      const xAxis1 = singleXAxisConfig;
       //just one axis
       xAxis1["data"] = this.xAxisLabels;
+      xAxis1["name"] = name;
       axes.push(xAxis1);
     }
+
+    visualMaps.show = this.showKey;
     this.updateOptions = {
       series: this.metricSeries[displayMetric.id].series,
       visualMap: visualMaps,
       xAxis: axes,
-      grid: {
-        bottom: axes.length > 1 ? 24 : 38,
-      },
       yAxis: {
         data: this.metricSeries[displayMetric.id].yAxisLabels,
       },

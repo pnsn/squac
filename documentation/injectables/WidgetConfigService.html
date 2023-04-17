@@ -99,6 +99,9 @@ Consider refactoring</p>
                                 <a href="#defaultPrecision" >defaultPrecision</a>
                             </li>
                             <li>
+                                <a href="#measurementPipe" >measurementPipe</a>
+                            </li>
+                            <li>
                                 <a href="#piecewiseDefaults" >piecewiseDefaults</a>
                             </li>
                             <li>
@@ -119,9 +122,6 @@ Consider refactoring</p>
                 <tr>
                     <td class="col-md-4">
                         <ul class="index-list">
-                            <li>
-                                <a href="#chartOptions" >chartOptions</a>
-                            </li>
                             <li>
                                 <a href="#checkValue" >checkValue</a>
                             </li>
@@ -172,85 +172,6 @@ Consider refactoring</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="chartOptions"></a>
-                    <span class="name">
-                        <span ><b>chartOptions</b></span>
-                        <a href="#chartOptions"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>chartOptions(options: EChartsOption)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="156"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:156</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Copy new options onto defaults</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>options</td>
-                                    <td>
-                                            <code>EChartsOption</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <ul>
-<li>options to add</li>
-</ul>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>EChartsOption</code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>combined options</p>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="checkValue"></a>
                     <span class="name">
                         <span ><b>checkValue</b></span>
@@ -267,8 +188,8 @@ Consider refactoring</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="384"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:384</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="294"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:294</a></div>
                 </td>
             </tr>
 
@@ -360,8 +281,8 @@ Consider refactoring</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="409"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:409</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="319"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:319</a></div>
                 </td>
             </tr>
 
@@ -487,8 +408,8 @@ Consider refactoring</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="308"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:308</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="218"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:218</a></div>
                 </td>
             </tr>
 
@@ -631,15 +552,15 @@ Consider refactoring</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getSeriesForMultipleMetrics(metrics: <a href="../classes/Metric.html" target="_self">Metric[]</a>, channels: <a href="../classes/Channel.html" target="_self">Channel[]</a>, data: <a href="../undefineds/ProcessedData.html" target="_self">ProcessedData</a>, series: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+<code>getSeriesForMultipleMetrics(metrics: Metric[], channels: Channel[], data: <a href="../undefineds/ProcessedData.html" target="_self">ProcessedData</a>, series: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, stat: <a href="../classes/Widget.html" target="_self">WidgetStatType</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="473"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:473</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="384"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:384</a></div>
                 </td>
             </tr>
 
@@ -665,7 +586,7 @@ Consider refactoring</p>
                                 <tr>
                                     <td>metrics</td>
                                     <td>
-                                                <code><a href="../classes/Metric.html" target="_self" >Metric[]</a></code>
+                                            <code>Metric[]</code>
                                     </td>
 
                                     <td>
@@ -681,7 +602,7 @@ Consider refactoring</p>
                                 <tr>
                                     <td>channels</td>
                                     <td>
-                                                <code><a href="../classes/Channel.html" target="_self" >Channel[]</a></code>
+                                            <code>Channel[]</code>
                                     </td>
 
                                     <td>
@@ -726,6 +647,22 @@ Consider refactoring</p>
 
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>stat</td>
+                                    <td>
+                                                <code><a href="../classes/Widget.html" target="_self" >WidgetStatType</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>widget statistic to calculate</p>
+
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -756,15 +693,15 @@ Consider refactoring</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getVisualMapFromThresholds(metrics: <a href="../classes/Metric.html" target="_self">Metric[]</a>, properties: <a href="../interfaces/WidgetProperties.html" target="_self">WidgetProperties</a>, dimension: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>getVisualMapFromThresholds(metrics: Metric[], properties: <a href="../interfaces/WidgetProperties.html" target="_self">WidgetProperties</a>, dimension: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="185"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:185</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="95"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:95</a></div>
                 </td>
             </tr>
 
@@ -790,7 +727,7 @@ Consider refactoring</p>
                                 <tr>
                                     <td>metrics</td>
                                     <td>
-                                                <code><a href="../classes/Metric.html" target="_self" >Metric[]</a></code>
+                                            <code>Metric[]</code>
                                     </td>
 
                                     <td>
@@ -873,15 +810,15 @@ Consider refactoring</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>multiMetricTooltipFormatting(params: <a href="../undefineds/Params.html" target="_self">TooltipComponentFormatterCallbackParams</a>)</code>
+<code>multiMetricTooltipFormatting(params: <a href="../components/TooltipComponent.html" target="_self">TooltipComponentFormatterCallbackParams</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="561"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:561</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="473"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:473</a></div>
                 </td>
             </tr>
 
@@ -907,7 +844,7 @@ Consider refactoring</p>
                                 <tr>
                                     <td>params</td>
                                     <td>
-                                                <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >TooltipComponentFormatterCallbackParams</a></code>
+                                                <code><a href="../components/TooltipComponent.html" target="_self" >TooltipComponentFormatterCallbackParams</a></code>
                                     </td>
 
                                     <td>
@@ -950,15 +887,15 @@ Consider refactoring</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>timeAxisFormatToolTip(params: <a href="../undefineds/Params.html" target="_self">Partial&lt;TooltipComponentFormatterCallbackParams&gt;</a>)</code>
+<code>timeAxisFormatToolTip(params: <a href="../components/TooltipComponent.html" target="_self">Partial&lt;TooltipComponentFormatterCallbackParams&gt;</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="593"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:593</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="505"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:505</a></div>
                 </td>
             </tr>
 
@@ -984,7 +921,7 @@ Consider refactoring</p>
                                 <tr>
                                     <td>params</td>
                                     <td>
-                                                <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >Partial&lt;TooltipComponentFormatterCallbackParams&gt;</a></code>
+                                                <code><a href="../components/TooltipComponent.html" target="_self" >Partial&lt;TooltipComponentFormatterCallbackParams&gt;</a></code>
                                     </td>
 
                                     <td>
@@ -1034,8 +971,8 @@ Consider refactoring</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="663"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:663</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="575"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:575</a></div>
                 </td>
             </tr>
 
@@ -1113,8 +1050,8 @@ Consider refactoring</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="626"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:626</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="538"
+                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:538</a></div>
                 </td>
             </tr>
 
@@ -1195,85 +1132,12 @@ Consider refactoring</p>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>{
-    textStyle: {
-      fontSize: 11,
-    },
-    animation: false,
-    legend: {
-      show: false,
-    },
-    visualMap: {
-      show: true,
-    },
-    grid: {
-      containLabel: true,
-      top: 5,
-      right: 8,
-      bottom: 38,
-      left: 35,
-    },
-    useUtc: true,
-    toolbox: {
-      feature: {
-        dataZoom: {
-          icon: null,
-        },
-      },
-    },
-    tooltip: {
-      padding: 4,
-      confine: true,
-      trigger: &quot;item&quot;,
-      axisPointer: {
-        type: &quot;cross&quot;,
-      },
-      textStyle: {
-        fontSize: 11,
-      },
-      // position: function (pt) {
-      //   return [pt[0], &quot;10%&quot;];
-      // },
-    },
-    dataZoom: [
-      {
-        type: &quot;inside&quot;,
-        moveOnMouseWheel: true,
-        zoomOnMouseWheel: false,
-        orient: &quot;vertical&quot;,
-        filterMode: &quot;none&quot;,
-      },
-      {
-        type: &quot;slider&quot;,
-        realtime: true,
-        orient: &quot;horizontal&quot;,
-        moveHandleSize: 10,
-        height: 15,
-        showDetail: false,
-        showDataShadow: false,
-        bottom: 10,
-        right: 20,
-        xAxisIndex: [0, 1],
-        filterMode: &quot;none&quot;,
-      },
-      {
-        type: &quot;slider&quot;,
-        realtime: true,
-        orient: &quot;vertical&quot;,
-        left: &quot;left&quot;,
-        showDataShadow: false,
-        moveHandleSize: 10,
-        showDetail: false,
-        width: 15,
-        filterMode: &quot;none&quot;,
-      },
-    ],
-  }</code>
+                        <i>Default value : </i><code>ECHART_DEFAULTS</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:75</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:84</a></div>
                         </td>
                     </tr>
 
@@ -1319,7 +1183,7 @@ Consider refactoring</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:57</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:66</a></div>
                         </td>
                     </tr>
 
@@ -1345,7 +1209,7 @@ Consider refactoring</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:40</a></div>
                         </td>
                     </tr>
 
@@ -1377,7 +1241,32 @@ Consider refactoring</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:38</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="measurementPipe"></a>
+                    <span class="name">
+                        <span ><b>measurementPipe</b></span>
+                        <a href="#measurementPipe"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new MeasurementPipe()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:42</a></div>
                         </td>
                     </tr>
 
@@ -1426,7 +1315,7 @@ Consider refactoring</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:45</a></div>
                         </td>
                     </tr>
 
@@ -1451,7 +1340,7 @@ Consider refactoring</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:41</a></div>
                         </td>
                     </tr>
 
@@ -1477,7 +1366,7 @@ Consider refactoring</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:39</a></div>
                         </td>
                     </tr>
 
@@ -1491,7 +1380,14 @@ Consider refactoring</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
-import { Channel, Color, Metric, WidgetProperties } from &quot;squacapi&quot;;
+import {
+  Channel,
+  Color,
+  MeasurementPipe,
+  Metric,
+  WidgetProperties,
+  WidgetStatType,
+} from &quot;squacapi&quot;;
 import { PrecisionPipe } from &quot;../shared/pipes/precision.pipe&quot;;
 import colormap from &quot;colormap&quot;;
 import { Threshold } from &quot;squacapi&quot;;
@@ -1512,6 +1408,7 @@ import {
   EChartsOption,
   TooltipComponentFormatterCallbackParams,
 } from &quot;echarts&quot;;
+import { ECHART_DEFAULTS } from &quot;../shared/components/e-chart/chart-config&quot;;
 
 /**
  * Service to configure widgets
@@ -1523,6 +1420,7 @@ export class WidgetConfigService {
   thresholds: Threshold[];
   dataRange: DataRange;
   precisionPipe &#x3D; new PrecisionPipe();
+  measurementPipe &#x3D; new MeasurementPipe();
 
   // defaults for piecewise visualmap
   piecewiseDefaults: PiecewiseVisualMapOption &#x3D; {
@@ -1564,106 +1462,7 @@ export class WidgetConfigService {
   };
 
   // defaults for echarts charts
-  chartDefaults: EChartsOption &#x3D; {
-    textStyle: {
-      fontSize: 11,
-    },
-    animation: false,
-    legend: {
-      show: false,
-    },
-    visualMap: {
-      show: true,
-    },
-    grid: {
-      containLabel: true,
-      top: 5,
-      right: 8,
-      bottom: 38,
-      left: 35,
-    },
-    useUtc: true,
-    toolbox: {
-      feature: {
-        dataZoom: {
-          icon: null,
-        },
-      },
-    },
-    tooltip: {
-      padding: 4,
-      confine: true,
-      trigger: &quot;item&quot;,
-      axisPointer: {
-        type: &quot;cross&quot;,
-      },
-      textStyle: {
-        fontSize: 11,
-      },
-      // position: function (pt) {
-      //   return [pt[0], &quot;10%&quot;];
-      // },
-    },
-    dataZoom: [
-      {
-        type: &quot;inside&quot;,
-        moveOnMouseWheel: true,
-        zoomOnMouseWheel: false,
-        orient: &quot;vertical&quot;,
-        filterMode: &quot;none&quot;,
-      },
-      {
-        type: &quot;slider&quot;,
-        realtime: true,
-        orient: &quot;horizontal&quot;,
-        moveHandleSize: 10,
-        height: 15,
-        showDetail: false,
-        showDataShadow: false,
-        bottom: 10,
-        right: 20,
-        xAxisIndex: [0, 1],
-        filterMode: &quot;none&quot;,
-      },
-      {
-        type: &quot;slider&quot;,
-        realtime: true,
-        orient: &quot;vertical&quot;,
-        left: &quot;left&quot;,
-        showDataShadow: false,
-        moveHandleSize: 10,
-        showDetail: false,
-        width: 15,
-        filterMode: &quot;none&quot;,
-      },
-    ],
-  };
-
-  /**
-   * Copy new options onto defaults
-   *
-   * @param options - options to add
-   * @returns combined options
-   */
-  chartOptions(options: EChartsOption): EChartsOption {
-    const newOptions &#x3D; { ...this.chartDefaults };
-
-    Object.keys(options).forEach((key) &#x3D;&gt; {
-      if (!(key in newOptions)) {
-        newOptions[key] &#x3D; {};
-      }
-      const keyOptions &#x3D; options[key];
-      if (Object.keys(keyOptions).length &gt; 0) {
-        Object.keys(keyOptions).forEach((childKey) &#x3D;&gt; {
-          newOptions[key][childKey] &#x3D; keyOptions[childKey];
-        });
-      } else {
-        newOptions[key] &#x3D; options[key];
-      }
-    });
-
-    return newOptions;
-  }
+  chartDefaults: EChartsOption &#x3D; ECHART_DEFAULTS;
 
   //can use this.thresholds or another metric to color?
   /**
@@ -1960,13 +1759,15 @@ export class WidgetConfigService {
    * @param channels channels to use
    * @param data data
    * @param series initial series data
+   * @param stat widget statistic to calculate
    * @returns processed series config
    */
   getSeriesForMultipleMetrics(
     metrics: Metric[],
     channels: Channel[],
     data: ProcessedData,
-    series: any
+    series: any,
+    stat: WidgetStatType
   ): { series: any; axis?: ParallelAxisOption[] } {
     const stations &#x3D; [];
     const axis: ParallelAxisOption[] &#x3D; [];
@@ -2033,7 +1834,7 @@ export class WidgetConfigService {
         let val: number &#x3D; null;
         if (data.has(channel.id)) {
           const rowData &#x3D; data.get(channel.id).get(metric.id);
-          val &#x3D; rowData &amp;&amp; rowData[0] ? rowData[0].value : val;
+          val &#x3D; this.measurementPipe.transform(rowData, stat);
         }
         channelData.value.push(val);
       });

@@ -1,7 +1,6 @@
 import { TestBed } from "@angular/core/testing";
 import { ChannelGroupService } from "../services/channel-group.service";
 import { ChannelGroup } from "../models/channel-group";
-import { DashboardAdapter } from "../models/dashboard";
 import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { WidgetService } from "../services/widget.service";
 import { MockBuilder } from "ng-mocks";
@@ -15,7 +14,6 @@ describe("DashboardService", () => {
 
   beforeEach(() => {
     return MockBuilder(DashboardService)
-      .keep(DashboardAdapter)
       .provide({
         provide: ChannelGroupService,
         useValue: {

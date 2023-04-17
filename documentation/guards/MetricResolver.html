@@ -109,12 +109,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(metricService: <a href="../injectables/MetricService.html" target="_self">MetricService</a>)</code>
+<code>constructor(metricService: <a href="../injectables/MetricService.html" target="_self">MetricService</a>, loadingService: <a href="../injectables/LoadingService.html" target="_self">LoadingService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/metric.resolver.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/metric.resolver.ts:13</a></div>
                             </td>
                         </tr>
 
@@ -136,6 +136,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/MetricService.html" target="_self" >MetricService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>loadingService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/LoadingService.html" target="_self" >LoadingService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -177,8 +189,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="21"
-                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/metric.resolver.ts:21</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="25"
+                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/metric.resolver.ts:25</a></div>
                 </td>
             </tr>
 
@@ -223,7 +235,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/Metric.html" target="_self" >Observable&lt;Metric | []&gt;</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;Metric | []&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -241,6 +253,7 @@
         <div class="tab-pane fade  tab-source-code" id="c-source">
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { Resolve, ActivatedRouteSnapshot } from &quot;@angular/router&quot;;
+import { LoadingService } from &quot;@core/services/loading.service&quot;;
 import { Observable } from &quot;rxjs&quot;;
 import { Metric, MetricService } from &quot;squacapi&quot;;
 
@@ -251,7 +264,10 @@ import { Metric, MetricService } from &quot;squacapi&quot;;
   providedIn: &quot;root&quot;,
 })
 export class MetricResolver implements Resolve&lt;Observable&lt;Metric | Metric[]&gt;&gt; {
-  constructor(private metricService: MetricService) {}
+  constructor(
+    private metricService: MetricService,
+    private loadingService: LoadingService
+  ) {}
 
   /**
    * REsolve metric of list of metrics
@@ -261,12 +277,14 @@ export class MetricResolver implements Resolve&lt;Observable&lt;Metric | Metric[
    */
   resolve(route: ActivatedRouteSnapshot): Observable&lt;Metric | Metric[]&gt; {
     const id &#x3D; route.paramMap.get(&quot;metricId&quot;);
+    const delay &#x3D; 500;
+    let req;
     if (id) {
-      return this.metricService.read(+id);
+      req &#x3D; this.metricService.read(+id);
     } else {
-      return this.metricService.list({ order: &quot;name&quot; });
-      // return all of them
+      req &#x3D; this.metricService.list();
     }
+    return this.loadingService.doLoading(req, null, null, delay);
   }
 }
 </code></pre>

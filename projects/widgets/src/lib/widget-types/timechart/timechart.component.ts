@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
 import * as dayjs from "dayjs";
 import { Measurement } from "squacapi";
 
@@ -27,18 +27,28 @@ export class TimechartComponent
   constructor(
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
-    override widgetManager: WidgetManagerService
+    override widgetManager: WidgetManagerService,
+    override ngZone: NgZone
   ) {
-    super(widgetManager, widgetConnectService);
+    super(widgetManager, widgetConnectService, ngZone);
   }
   // Max allowable time between measurements to connect
   maxMeasurementGap = 1.5;
-
   /**
    * @override
    */
   configureChart(): void {
+    const dataZoom = this.denseView
+      ? this.denseOptions.dataZoom
+      : this.fullOptions.dataZoom;
+    const grid = this.denseView
+      ? this.denseOptions.grid
+      : this.fullOptions.grid;
+
     const chartOptions: EChartsOption = {
+      ...this.chartDefaultOptions,
+      dataZoom,
+      grid,
       xAxis: {
         type: "time",
         nameLocation: "middle",
@@ -46,12 +56,14 @@ export class TimechartComponent
         nameGap: 14,
         axisPointer: {
           show: true,
+          triggerTooltip: false,
           label: {
             formatter: (params: LabelFormatterParams) =>
               this.widgetConfigService.timeAxisPointerLabelFormatting(params),
           },
         },
         axisLabel: {
+          hideOverlap: true,
           fontSize: 11,
           margin: 3,
           formatter: (params: string) =>
@@ -81,13 +93,14 @@ export class TimechartComponent
         },
       },
       tooltip: {
+        ...this.chartDefaultOptions.tooltip,
         formatter: (params: TooltipComponentPositionCallbackParams) => {
           return this.widgetConfigService.timeAxisFormatToolTip(params);
         },
       },
     };
 
-    this.options = this.widgetConfigService.chartOptions(chartOptions);
+    this.options = chartOptions;
   }
 
   /**
@@ -105,7 +118,7 @@ export class TimechartComponent
       const series = {
         type: "line",
         large: true,
-        largeThreshold: 1000,
+        largeThreshold: 500,
         legendHoverLink: true,
         lineStyle: {
           width: 1,
@@ -113,6 +126,10 @@ export class TimechartComponent
         },
         emphasis: {
           focus: "series",
+          endLabel: {
+            show: true,
+            offset: [-100, 0],
+          },
         },
 
         symbol: "circle",
@@ -134,6 +151,7 @@ export class TimechartComponent
             encode: {
               x: [0, 1],
               y: 2,
+              label: 3,
             },
           },
         };
@@ -160,7 +178,7 @@ export class TimechartComponent
 
             station.data.push({
               name: nslc,
-              value: [start.toDate(), end.toDate(), measurement.value],
+              value: [start.toDate(), end.toDate(), measurement.value, nslc],
             });
 
             lastEnd = end;
@@ -179,6 +197,7 @@ export class TimechartComponent
   changeMetrics(): void {
     const colorMetric = this.selectedMetrics[0];
     const visualMaps = this.visualMaps[colorMetric.id];
+    visualMaps.show = this.showKey;
     this.updateOptions = {
       series: this.metricSeries.series,
       visualMap: visualMaps,
@@ -187,11 +206,5 @@ export class TimechartComponent
         max: this.widgetManager.endtime,
       },
     };
-
-    if (this.echartsInstance) {
-      this.echartsInstance.setOption(this.updateOptions, {
-        replaceMerge: ["series", "xAxis"],
-      });
-    }
   }
 }

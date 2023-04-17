@@ -8,14 +8,34 @@ import {
   Output,
   SimpleChanges,
 } from "@angular/core";
-import {
-  UntypedFormArray,
-  UntypedFormBuilder,
-  UntypedFormGroup,
-} from "@angular/forms";
+import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { atLeastOneValidator, regexValidator } from "@core/utils/validators";
 import { MatchingRule } from "squacapi";
 import { Subscription } from "rxjs";
+
+/** Matching rule edit form fields */
+interface MatchingRuleForm {
+  /** rule id */
+  id: FormControl<number>;
+  /** channel group id */
+  channelGroupId: FormControl<number>;
+  /** true if matching channels should be included in group */
+  isInclude: FormControl<boolean>;
+  /** regex for networks */
+  networkRegex: FormControl<string>;
+  /** regex for stations */
+  stationRegex: FormControl<string>;
+  /** regex for channels */
+  channelRegex: FormControl<string>;
+  /** regex for location */
+  locationRegex: FormControl<string>;
+}
+
+/** form made up of multiple matching rules */
+interface MatchingRulesForm {
+  /** Matching rule forms */
+  rules: FormArray<FormGroup<MatchingRuleForm>>;
+}
 
 /**
  * Component for editing matching rules
@@ -34,10 +54,10 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
   @Output() matchingRuleDeleteIds = new EventEmitter<number[]>();
   subscription = new Subscription();
   removeRuleIds = [];
-  constructor(private formBuilder: UntypedFormBuilder) {}
+  constructor(private formBuilder: FormBuilder) {}
 
-  matchingRulesForm = this.formBuilder.group({
-    rules: this.formBuilder.array([]),
+  matchingRulesForm: FormGroup<MatchingRulesForm> = this.formBuilder.group({
+    rules: this.formBuilder.array<FormGroup<MatchingRuleForm>>([]),
   });
 
   /**
@@ -53,7 +73,7 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
           value.locationRegex ||
           value.channelRegex
         ) {
-          this._matchingRules.push(value);
+          this._matchingRules.push(value as MatchingRule);
         }
       });
     });
@@ -85,28 +105,24 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
    * @param rule new matching rule to add
    * @returns created form group
    */
-  makeRuleForm(rule?: MatchingRule): UntypedFormGroup {
-    return this.formBuilder.group(
+  makeRuleForm(rule?: MatchingRule): FormGroup<MatchingRuleForm> {
+    return this.formBuilder.group<MatchingRuleForm>(
       {
-        id: rule?.id || null,
-        channelGroupId: this.channelGroupId,
-        isInclude: rule ? rule.isInclude : true,
-        networkRegex: [
-          rule?.networkRegex || "",
-          { validators: [regexValidator()] },
-        ],
-        stationRegex: [
-          rule?.stationRegex || "",
-          { validators: [regexValidator()] },
-        ],
-        locationRegex: [
-          rule?.locationRegex || "",
-          { validators: [regexValidator()] },
-        ],
-        channelRegex: [
-          rule?.channelRegex || "",
-          { validators: [regexValidator()] },
-        ],
+        id: new FormControl(rule?.id || null),
+        channelGroupId: new FormControl(this.channelGroupId),
+        isInclude: new FormControl(rule ? rule.isInclude : true),
+        networkRegex: new FormControl(rule?.networkRegex || "", {
+          validators: [regexValidator()],
+        }),
+        stationRegex: new FormControl(rule?.stationRegex || "", {
+          validators: [regexValidator()],
+        }),
+        locationRegex: new FormControl(rule?.locationRegex || "", {
+          validators: [regexValidator()],
+        }),
+        channelRegex: new FormControl(rule?.channelRegex || "", {
+          validators: [regexValidator()],
+        }),
       },
       {
         validators: [
@@ -124,8 +140,10 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
   /**
    * @returns form array of matching rules
    */
-  get rules(): UntypedFormArray {
-    return this.matchingRulesForm.get("rules") as UntypedFormArray;
+  get rules(): FormArray<FormGroup<MatchingRuleForm>> {
+    return this.matchingRulesForm.get("rules") as FormArray<
+      FormGroup<MatchingRuleForm>
+    >;
   }
 
   /**
@@ -146,7 +164,7 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
       this.removeRuleIds.push(+rule.id);
     }
     this.rules.removeAt(index);
-    this.matchingRulesChange.emit(this.rules.value);
+    this.matchingRulesChange.emit(this.rules.value as MatchingRule[]);
     this.matchingRuleDeleteIds.emit(this.removeRuleIds);
   }
 

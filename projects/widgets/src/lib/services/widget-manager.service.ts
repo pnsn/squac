@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { ReplaySubject, Subject } from "rxjs";
+import { Observable, ReplaySubject, Subject } from "rxjs";
 
 import { ArchiveStatType, ArchiveType } from "squacapi";
 import { Channel, Metric, Widget } from "squacapi";
@@ -14,7 +14,6 @@ import { WidgetErrors, WidgetType } from "../enums";
 import { WidgetConfig, WidgetDisplayOption } from "../interfaces";
 import { WidgetDataService } from ".";
 import { WIDGET_TYPE_INFO } from "../constants";
-import { BehaviorSubject } from "rxjs";
 
 /**
  * Keeps track of data shared between widget tree components
@@ -27,16 +26,16 @@ import { BehaviorSubject } from "rxjs";
 @Injectable()
 export class WidgetManagerService {
   constructor(private widgetDataService: WidgetDataService) {
-    this.isLoading$ = widgetDataService.isLoading$;
+    this.isLoading$ = this.widgetDataService.isLoading$?.asObservable();
   }
 
-  isLoading$: BehaviorSubject<boolean>;
+  isLoading$: Observable<boolean>;
   widget$ = new ReplaySubject<Widget>(1);
   errors$ = new ReplaySubject<WidgetErrors>();
   resize$ = new Subject<boolean>();
 
   // communication between external widget controls and actual widget
-  toggleKey$ = new Subject<boolean>();
+  toggleKey$ = new ReplaySubject<boolean>(1);
   zoomStatus$ = new Subject<string>();
 
   private _params: MeasurementParams = {};
@@ -93,6 +92,11 @@ export class WidgetManagerService {
     return this._widgetType;
   }
 
+  /** @returns widget stat */
+  get stat(): WidgetStatType {
+    return this._widget.stat;
+  }
+
   /**
    * Initializes widget and checks if it is valid.
    *
@@ -123,6 +127,9 @@ export class WidgetManagerService {
 
     const displayType =
       this._widget.properties.displayType ?? this._widgetConfig.defaultDisplay;
+
+    const showKey = this._widget.properties?.showLegend ?? true;
+    this.toggleKey$.next(showKey);
 
     if (this.widgetConfig?.displayOptions && displayType) {
       this._widgetDisplayOption = this.widgetConfig.displayOptions[displayType];
@@ -171,18 +178,17 @@ export class WidgetManagerService {
    * @param channels - array of channels
    */
   updateChannels(group: number, channels: Channel[]): void {
-    if (group && group !== this._group) {
-      //group has changed, use for next request
-      delete this._params.channel;
-      this._params.group = [group];
-    } else {
+    if (!group || (group === this._group && channels.length < 2000)) {
+      //for less that 2000 channels request using id
       this._params.channel = channels.map((c) => c.id);
       delete this._params.group;
+    } else {
+      delete this._params.channel;
+      this._params.group = [group];
     }
 
     this._group = group;
     this._channels = channels;
-
     if (this._channels.length === 0) {
       this.errors$.next(WidgetErrors.NO_CHANNELS);
     }

@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   OnDestroy,
   OnInit,
@@ -12,21 +13,16 @@ import { LoadingService } from "@core/services/loading.service";
 import { Alert } from "squacapi";
 import { Monitor } from "squacapi";
 import { AlertService } from "squacapi";
-import { MonitorService } from "squacapi";
-import {
-  catchError,
-  EMPTY,
-  forkJoin,
-  Subscription,
-  switchMap,
-  tap,
-} from "rxjs";
+import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { Observable } from "rxjs";
 import {
   TableControls,
   TableFilters,
   TableOptions,
 } from "@shared/components/table-view/interfaces";
+import { DATE_PICKER_TIMERANGES } from "@dashboard/components/dashboard-detail/dashboard-time-ranges";
+import { sortTimestamps } from "@core/utils/utils";
+import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
 
 /**
  * Component for viewing list of alerts
@@ -42,10 +38,24 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
   refreshInProgress = false;
   interval;
   error: boolean;
-
+  unsavedChanges = false;
+  timeRange: number = 1 * 24 * 60 * 60;
+  // time picker config
+  datePickerTimeRanges = DATE_PICKER_TIMERANGES;
+  starttime: string;
+  endtime: string;
   // Table config
   rows = [];
   columns = [];
+  params: {
+    timestampGte: string;
+    timestampLt?: string;
+  };
+
+  /** Config for detail page */
+  pageOptions: PageOptions = {
+    path: "/alerts",
+  };
 
   controls: TableControls = {
     listenToRouter: true,
@@ -63,17 +73,8 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
       text: "Filter alerts...",
       props: [
         "owner",
+        "monitorName",
         { prop: "breachingChannels", props: ["channel"] },
-        {
-          prop: "monitor",
-          props: [
-            "name",
-            "stat",
-
-            { prop: "channelGroup", props: ["name"] },
-            { prop: "metric", props: ["name"] },
-          ],
-        },
       ],
     },
   };
@@ -85,17 +86,16 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     footerLabel: "Alerts",
   };
 
-  @ViewChild("stateTemplate") public stateTemplate: TemplateRef<any>;
-  @ViewChild("triggerTemplate") public triggerTemplate: TemplateRef<any>;
-  @ViewChild("updateTemplate") public updateTemplate: TemplateRef<any>;
-  @ViewChild("channelsTemplate") public channelsTemplate: TemplateRef<any>;
-
+  @ViewChild("stateTemplate") stateTemplate: TemplateRef<any>;
+  @ViewChild("triggerTemplate") triggerTemplate: TemplateRef<any>;
+  @ViewChild("channelsTemplate") channelsTemplate: TemplateRef<any>;
+  @ViewChild("monitorTemplate") monitorTemplate: TemplateRef<any>;
   constructor(
     private alertService: AlertService,
     private route: ActivatedRoute,
-    private monitorService: MonitorService,
     private dateService: DateService,
-    public loadingService: LoadingService
+    public loadingService: LoadingService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   /** subscribe to route events */
@@ -113,50 +113,75 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /** Set up columns */
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.columns = [
-        {
-          name: "State",
-          sortable: false,
-          width: 60,
-          minWidth: 60,
-          canAutoResize: false,
-          cellTemplate: this.stateTemplate,
-        },
-        {
-          name: "Time",
-          prop: "",
-
-          canAutoResize: false,
-          cellTemplate: this.updateTemplate,
-        },
-        {
-          name: "Monitor",
-          canAutoResize: false,
-          width: 150,
-          pipe: {
-            transform: (monitor): string => {
-              return monitor.name;
-            },
-          },
-        },
-        {
-          name: "Trigger",
-          width: 200,
-          cellTemplate: this.triggerTemplate,
-          sortable: false,
-        },
-        {
-          name: "Breaching Channels",
-          prop: "breachingChannels",
-          sortable: false,
-          width: 50,
-          cellTemplate: this.channelsTemplate,
-        },
-      ];
-    }, 0);
+    this.columns = [
+      {
+        name: "State",
+        prop: "inAlarm",
+        width: 70,
+        minWidth: 70,
+        canAutoResize: false,
+        cellTemplate: this.stateTemplate,
+      },
+      {
+        name: "Time",
+        prop: "timestamp",
+        width: 160,
+        canAutoResize: false,
+        comparator: sortTimestamps,
+      },
+      {
+        name: "Monitor",
+        prop: "monitorName",
+        width: 150,
+        cellTemplate: this.monitorTemplate,
+      },
+      {
+        name: "Trigger",
+        width: 200,
+        cellTemplate: this.triggerTemplate,
+        sortable: false,
+      },
+      {
+        name: "Breaching Channels",
+        prop: "breachingChannels",
+        width: 150,
+        canAutoResize: false,
+        cellTemplate: this.channelsTemplate,
+      },
+    ];
+    this.cdr.detectChanges();
   }
 
+  /**
+   * Dates emitted when user changes time ranges, updates
+   * dates in widget manager
+   *
+   * @param root0 emitted dates
+   * @param root0.startDate time range start date
+   * @param root0.endDate end of time range
+   * @param root0._liveMode is time range live
+   * @param root0.rangeInSeconds width of time range
+   */
+  datesChanged({ startDate, endDate, _liveMode, rangeInSeconds }): void {
+    if (!startDate || !endDate) {
+      startDate = this.dateService.subtractFromNow(rangeInSeconds, "seconds");
+      endDate = this.dateService.now();
+    }
+
+    this.params = {
+      timestampGte: this.dateService.format(startDate),
+      timestampLt: this.dateService.format(endDate),
+    };
+
+    this.unsavedChanges = true;
+  }
+
+  /**
+   * Initiates data fetch
+   */
+  update(): void {
+    this.fetchData().subscribe();
+  }
   /**
    * Get fresh alerts and monitors
    *
@@ -164,15 +189,18 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
    * @returns Obsercable of monitors and alerts
    */
   fetchData(refresh?: boolean): Observable<any> {
-    const lastDay = this.dateService.subtractFromNow(1, "day").format();
+    if (!this.params) {
+      const lastDay = this.dateService.subtractFromNow(1, "day").format();
+      this.params = {
+        timestampGte: lastDay,
+      };
+    }
+
     return this.loadingService.doLoading(
-      forkJoin({
-        alerts: this.alertService.list({ timestampGte: lastDay }, refresh),
-        monitors: this.monitorService.list({}, refresh),
-      }).pipe(
-        tap((results: any) => {
-          this.monitors = results.monitors;
-          this.findMonitorForAlerts(results.alerts);
+      this.alertService.list(this.params, refresh).pipe(
+        tap((alerts: Alert[]) => {
+          this.alerts = alerts;
+          this.rows = [...this.alerts];
         }),
         catchError(() => {
           return EMPTY;
@@ -185,24 +213,6 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
   /** Get fresh data */
   refresh(): void {
     this.fetchData(true).subscribe();
-  }
-
-  /**
-   * Matches up alerts and monitors
-   *
-   * @param alerts array of available alerts
-   */
-  findMonitorForAlerts(alerts: Alert[]): void {
-    this.alerts = [];
-    if (this.monitors.length > 0 && alerts.length > 0) {
-      this.alerts = alerts.map((alert) => {
-        alert.monitor = this.monitors.find(
-          (m) => m.id === alert.trigger.monitorId
-        );
-        return alert;
-      });
-    }
-    this.rows = [...this.alerts];
   }
 
   /** unsubscribe */

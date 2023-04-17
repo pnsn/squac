@@ -5,21 +5,8 @@
 }
 
 :host ::ng-deep .mat-button,
-.mat-stroked-button {
-  padding: 0px 5px !important;
-  height: 22px;
-  line-height: 11px;
-}
-.mat-icon-button {
-  height: 20px;
-  width: 20px;
-  line-height: 20px;
-}
-.header-row {
-  margin-bottom: 3px;
-}
-.row {
-  gap: 3px;
+form {
+  margin-top: 3px;
 }
 
 :host ::ng-deep mat-checkbox {
@@ -32,7 +19,10 @@
   .mat-ripple {
     display: none !important;
   }
-  .mat-checkbox-label {
+  .mat-checkbox-label div {
     font-size: 10pt !important;
   }
+}
+.channel-checkbox-container {
+  padding-left: 7px;
 }

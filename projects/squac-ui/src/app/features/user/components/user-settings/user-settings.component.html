@@ -1,73 +1,85 @@
-<div class="column box" *ngIf="user; else noUser">
-  <div class="header-title">
-    <h3>User Settings</h3>
-    <div>
-      <a
-        mat-button
-        color="primary"
-        [routerLink]="['../organizations', user.orgId]"
-        >View {{ user.orgId | organization }}</a
+<shared-detail-page
+  *ngIf="user"
+  type="User"
+  [resource]="user"
+  [title]="user.fullName"
+  subtext="({{ user.email }})"
+>
+  <ng-container headerContent>
+    <a
+      mat-button
+      color="primary"
+      [routerLink]="['../organizations', user.orgId]"
+    >View {{ user.orgId | organization }}</a>
+    <a
+      mat-button
+      [routerLink]="['../organizations']"
+    >View All Organizations</a>
+  </ng-container>
+  <ng-container bodyContent>
+    <div
+      id="user-settings-content"
+      class="box"
+    >
+      <p>
+        Role: {{ user.isOrgAdmin ? "Admin" : "User" }} in the
+        <a [routerLink]="['../organizations', user.orgId]">{{ user.orgId | organization }}
+        </a>
+        organization.
+      </p>
+      <div
+        id="user-info-top"
+        class="row"
       >
-      <a mat-button [routerLink]="['../organizations']"
-        >View All Organizations</a
-      >
-    </div>
-  </div>
-
-  <div id="user-settings-content">
-    <p>Hello, {{ user.firstName }} {{ user.lastName }}!</p>
-
-    <p>
-      Role: {{ user.orgAdmin ? "Admin" : "User" }} in the
-      <a [routerLink]="['../organizations', user.orgId]"
-        >{{ user.orgId | organization }}
-      </a>
-      organization.
-    </p>
-    <p><span class="label">Email:</span> {{ user.email }}</p>
-
-    <div id="user-info-top" class="row">
-      <h3>User Information</h3>
-      <button
-        mat-icon-button
-        color="accent"
-        *ngIf="editMode"
-        [disabled]="!userForm.valid"
-        (click)="save()"
-        matTooltip="Save user information."
-        aria-label="Button that saves the user information."
-      >
-        <mat-icon>save</mat-icon>
-      </button>
-      <button
-        mat-icon-button
-        color="primary"
-        (click)="editForm()"
-        *ngIf="!editMode"
-        matTooltip="Edit user information."
-        aria-label="Button that enables editing of the user information."
-      >
-        <mat-icon>edit</mat-icon>
-      </button>
-    </div>
-
-    <form [formGroup]="userForm" class="form">
-      <div class="row">
-        <span id="label">First Name:</span>
-        <mat-form-field class="medium">
-          <input matInput formControlName="firstName" [readonly]="!editMode" />
-        </mat-form-field>
+        <h3>User Information</h3>
+        <button
+          mat-icon-button
+          color="accent"
+          *ngIf="editMode"
+          [disabled]="!userForm.valid"
+          (click)="save()"
+          uiTooltip="Save user information."
+          aria-label="Button that saves the user information."
+        >
+          <mat-icon>save</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          color="primary"
+          (click)="editForm()"
+          *ngIf="!editMode"
+          uiTooltip="Edit user information."
+          aria-label="Button that enables editing of the user information."
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
       </div>
-      <div class="row">
-        <span id="label">Last Name:</span>
-        <mat-form-field class="medium">
-          <input matInput formControlName="lastName" [readonly]="!editMode" />
-        </mat-form-field>
-      </div>
-    </form>
-  </div>
-</div>
 
-<ng-template #noUser>
-  <p>Loading user information, please wait.</p>
-</ng-template>
+      <form
+        [formGroup]="userForm"
+        class="form"
+      >
+        <div class="row">
+          <span id="label">First Name:</span>
+          <mat-form-field class="medium">
+            <input
+              matInput
+              formControlName="firstname"
+              [readonly]="!editMode"
+            />
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <span id="label">Last Name:</span>
+          <mat-form-field class="medium">
+            <input
+              matInput
+              formControlName="lastname"
+              [readonly]="!editMode"
+            />
+          </mat-form-field>
+        </div>
+      </form>
+    </div>
+  </ng-container>
+</shared-detail-page>

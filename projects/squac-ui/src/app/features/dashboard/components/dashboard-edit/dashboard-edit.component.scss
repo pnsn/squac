@@ -1,10 +1,14 @@
-#sharing-radio-group {
-  margin: 15px 0;
-  align-items: flex-start;
-  mat-radio-button {
-    margin-bottom: 5px;
-  }
-}
 .help-container {
   inline-size: 400px;
+}
+
+.custom-form-field {
+  .label {
+    color: rgba(0, 0, 0, 0.54);
+    display: block;
+    font-weight: normal;
+  }
+  .help-text {
+    margin: 5px 0px;
+  }
 }

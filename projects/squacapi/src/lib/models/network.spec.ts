@@ -1,15 +1,11 @@
-import { TestBed } from "@angular/core/testing";
-import { Network, NetworkAdapter } from "./network";
+import { Network } from "./network";
 
 describe("Network", () => {
-  let adapter: NetworkAdapter;
   it("should create an instance", () => {
-    expect(new Network("code", "name", "description")).toBeTruthy();
+    expect(new Network()).toBeTruthy();
   });
 
   it("should adapt api json to Network", () => {
-    adapter = TestBed.inject(NetworkAdapter);
-
     const testData = {
       class_name: "class",
       code: "code",
@@ -21,7 +17,7 @@ describe("Network", () => {
       user: 1,
     };
 
-    const network = adapter.adaptFromApi(testData);
+    const network = new Network(testData);
     expect(network).toBeDefined();
     expect(network.name).toBe("testName");
   });

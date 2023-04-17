@@ -3,14 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { LoadingService } from "@core/services/loading.service";
 import { OrganizationService } from "squacapi";
 import { Organization } from "squacapi";
-import {
-  catchError,
-  EMPTY,
-  Observable,
-  Subscription,
-  switchMap,
-  tap,
-} from "rxjs";
+import { catchError, EMPTY, Observable, Subscription, tap } from "rxjs";
 
 /**
  * Display list of organizations in squac
@@ -33,18 +26,16 @@ export class OrganizationsViewComponent implements OnInit, OnDestroy {
    * Subscribe to params
    */
   ngOnInit(): void {
-    const orgSub = this.route.params
+    const routeSub = this.route.data
       .pipe(
-        tap(() => {
+        tap((data) => {
           // this.error = false;
-        }),
-        switchMap(() => {
-          return this.fetchData();
+          this.organizations = data["organizations"];
         })
       )
       .subscribe();
 
-    this.subscription.add(orgSub);
+    this.subscription.add(routeSub);
   }
 
   /**

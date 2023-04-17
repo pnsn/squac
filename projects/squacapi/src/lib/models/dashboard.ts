@@ -1,32 +1,30 @@
-import { Injectable } from "@angular/core";
-import { ChannelGroup, Widget } from "../models";
-import {
-  Adapter,
-  ReadDashboard,
-  WriteDashboard,
-  DashboardProperties,
-} from "../interfaces";
+import { ChannelGroup, Widget } from ".";
+import { DashboardProperties, ResourceModel } from "../interfaces";
 import { DASHBOARD_PROPERTIES } from "../constants";
+import {
+  ReadOnlyDashboardDetailSerializer,
+  ReadOnlyDashboardSerializer,
+  WriteOnlyDashboardSerializer,
+} from "@pnsn/ngx-squacapi-client";
 
+export interface Dashboard {
+  channelGroup?: ChannelGroup;
+  widgetIds?: number[];
+  name: string;
+  description: string;
+  shareOrg: boolean;
+  shareAll: boolean;
+  channelGroupId?: number;
+}
 /**
  * Describes a dashboard
  */
-export class Dashboard {
-  public channelGroup?: ChannelGroup;
+export class Dashboard extends ResourceModel<
+  ReadOnlyDashboardDetailSerializer | ReadOnlyDashboardSerializer | Dashboard,
+  WriteOnlyDashboardSerializer
+> {
   private _widgets: Widget[] = [];
-  public _properties: DashboardProperties = DASHBOARD_PROPERTIES;
-  widgetIds?: number[];
-  constructor(
-    public id: number,
-    public owner: number,
-    public name: string,
-    public description: string,
-    public shareOrg: boolean,
-    public shareAll: boolean,
-    public orgId: number,
-    public channelGroupId?: number
-  ) {}
-
+  public _properties: DashboardProperties;
   /**
    * stores dashboard properties
    */
@@ -76,47 +74,33 @@ export class Dashboard {
   static get modelName(): string {
     return "Dashboard";
   }
-}
 
-/**
- * Adapts dashboard
- */
-@Injectable({
-  providedIn: "root",
-})
-export class DashboardAdapter
-  implements Adapter<Dashboard, ReadDashboard, WriteDashboard>
-{
   /** @override */
-  adaptFromApi(item: ReadDashboard): Dashboard {
-    const dashboard = new Dashboard(
-      item.id ? +item.id : 0,
-      item.user ? +item.user : 0,
-      item.name,
-      item.description ?? "",
-      item.share_org ?? false,
-      item.share_all ?? false,
-      item.organization,
-      item.channel_group
-    );
-
-    dashboard.properties = item.properties ?? "";
-
-    return dashboard;
+  override fromRaw(
+    data:
+      | ReadOnlyDashboardDetailSerializer
+      | ReadOnlyDashboardSerializer
+      | Dashboard
+  ): void {
+    super.fromRaw(data);
+    this.properties = data.properties;
+    if ("channel_group" in data) {
+      this.channelGroupId = data.channel_group;
+    }
   }
 
   /** @override */
-  adaptToApi(item: Dashboard): WriteDashboard {
-    const d: WriteDashboard = {
-      name: item.name,
-      description: item.description,
-      share_all: item.shareAll,
-      share_org: item.shareOrg,
-      organization: item.orgId,
-      properties: JSON.stringify(item.properties),
+  toJson(): WriteOnlyDashboardSerializer {
+    const d: WriteOnlyDashboardSerializer = {
+      name: this.name,
+      description: this.description,
+      share_all: this.shareAll,
+      share_org: this.shareOrg,
+      organization: this.organization,
+      properties: JSON.stringify(this.properties),
     };
-    if (item.channelGroupId) {
-      d.channel_group = item.channelGroupId;
+    if (this.channelGroupId) {
+      d.channel_group = this.channelGroupId;
     }
     return d;
   }

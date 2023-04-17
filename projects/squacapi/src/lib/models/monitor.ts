@@ -1,118 +1,89 @@
-import { Injectable } from "@angular/core";
-import { ReadOnlyMonitorDetailSerializer } from "@pnsn/ngx-squacapi-client";
 import {
-  // ApiGetChannelGroup,
-  ChannelGroup,
-  ChannelGroupAdapter,
-  Metric,
-  MetricAdapter,
-  Alert,
-  Trigger,
-  TriggerAdapter,
-} from "../models";
-import { Adapter, ApiTrigger, ReadMonitor, WriteMonitor } from "../interfaces";
+  ReadOnlyMonitorDetailSerializer,
+  ReadOnlyMonitorSerializer,
+  WriteOnlyMonitorSerializer,
+  Trigger as ApiTrigger,
+} from "@pnsn/ngx-squacapi-client";
+import { Trigger } from "../models";
+import { ResourceModel } from "../interfaces";
+import { IntervalType, MonitorStatType } from "../types";
 
+export interface Monitor {
+  name: string;
+  channelGroupId: number;
+  metricId: number;
+  intervalType: IntervalType;
+  intervalCount: number;
+  stat: MonitorStatType;
+  triggers: Trigger[];
+  channelGroupName: string;
+  metricName: string;
+  doDailyDigest: boolean;
+}
 /**
  * describes a monitor
  */
-export class Monitor {
-  constructor(
-    public id: number,
-    public name: string | undefined,
-    public channelGroupId: number | undefined,
-    public metricId: number | undefined,
-    public intervalType:
-      | ReadOnlyMonitorDetailSerializer.IntervalTypeEnum
-      | undefined,
-    public intervalCount: number,
-    public stat: ReadOnlyMonitorDetailSerializer.StatEnum | undefined,
-    public owner: number | undefined,
-    public triggers: Trigger[]
-  ) {}
-
-  channelGroup?: ChannelGroup;
-  metric?: Metric;
-  alerts?: Alert[];
-  inAlarm?: boolean;
+export class Monitor extends ResourceModel<
+  ReadOnlyMonitorDetailSerializer | ReadOnlyMonitorSerializer | Monitor,
+  WriteOnlyMonitorSerializer
+> {
+  // triggers sorted by last alert, descending
+  private _sortedTriggers: Trigger[];
   /**
    * @returns model name
    */
   static get modelName(): string {
     return "Monitor";
   }
-}
 
-/**
- * adapts monitor
- */
-@Injectable({
-  providedIn: "root",
-})
-export class MonitorAdapter
-  implements Adapter<Monitor, ReadMonitor, WriteMonitor>
-{
   /**
-   * @override
+   * @returns true if any trigger is in alarm
    */
-  adaptFromApi(item: ReadMonitor): Monitor {
-    const channelGroupAdapter = new ChannelGroupAdapter();
-    const metricAdapter = new MetricAdapter();
-    const triggerAdapter = new TriggerAdapter();
-    let channelGroupId;
-    let metricId;
-    let channelGroup: ChannelGroup;
-    let metric: Metric;
-    let triggers: Trigger[] = [];
-    // sometimes API returns number, sometimes group
-    if (typeof item.channel_group === "number") {
-      channelGroupId = item.channel_group;
-    } else if (item.channel_group) {
-      channelGroupId = item.channel_group.id;
-      channelGroup = channelGroupAdapter.adaptFromApi(item.channel_group);
-    }
-
-    if (typeof item.metric === "number") {
-      metricId = item.metric;
-    } else if (item.metric) {
-      metricId = item.metric.id;
-      metric = metricAdapter.adaptFromApi(item.metric);
-    }
-
-    if ("triggers" in item && item.triggers) {
-      triggers = item.triggers.map((t: ApiTrigger) =>
-        triggerAdapter.adaptFromApi(t)
-      );
-    }
-
-    const monitor = new Monitor(
-      item.id ? +item.id : 0,
-      item.name,
-      channelGroupId,
-      metricId,
-      item.interval_type,
-      item.interval_count,
-      item.stat,
-      item.user,
-      triggers
-    );
-
-    monitor.channelGroup = channelGroup;
-    monitor.metric = metric;
-
-    return monitor;
+  get inAlarm(): boolean | undefined {
+    return this.triggers.length > 0
+      ? this.triggers.some((t) => t.inAlarm)
+      : undefined;
   }
 
-  /**
-   * @override
-   */
-  adaptToApi(item: Monitor): WriteMonitor {
+  /** @returns date monitor last went into alarm or last state change */
+  get lastUpdate(): string | undefined {
+    const trigger =
+      this._sortedTriggers.find((t) => t.inAlarm) ?? this._sortedTriggers[0];
+    return trigger?.lastUpdate;
+  }
+
+  /** @override */
+  override fromRaw(
+    data: ReadOnlyMonitorDetailSerializer | ReadOnlyMonitorSerializer | Monitor
+  ): void {
+    super.fromRaw(data);
+
+    if ("triggers" in data && data.triggers) {
+      this.triggers = data.triggers.map(
+        (t: ApiTrigger | Trigger) => new Trigger(t)
+      );
+      this._sortedTriggers = this.triggers?.sort((t1: Trigger, t2: Trigger) => {
+        return (
+          new Date(t2.lastUpdate).valueOf() - new Date(t1.lastUpdate).valueOf()
+        );
+      });
+    }
+    if ("channel_group" in data) {
+      this.channelGroupId = data.channel_group;
+      this.metricId = data.metric;
+    }
+  }
+
+  /** @override */
+  toJson(): WriteOnlyMonitorSerializer {
     return {
-      interval_type: item.intervalType,
-      interval_count: item.intervalCount,
-      channel_group: item.channelGroupId,
-      metric: item.metricId,
-      stat: item.stat,
-      name: item.name,
+      interval_type: this.intervalType,
+      interval_count: this.intervalCount,
+      channel_group: this.channelGroupId,
+      metric: this.metricId,
+      stat: this.stat,
+      name: this.name,
+      do_daily_digest: this.doDailyDigest,
     };
   }
 }

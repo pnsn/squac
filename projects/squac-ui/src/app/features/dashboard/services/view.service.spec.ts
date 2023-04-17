@@ -1,6 +1,6 @@
 import { TestBed } from "@angular/core/testing";
 import { Ability } from "@casl/ability";
-import { Dashboard } from "squacapi";
+import { ChannelGroupService, Dashboard } from "squacapi";
 import { DashboardService } from "squacapi";
 import { Widget } from "widgets";
 import { WidgetService } from "squacapi";
@@ -17,7 +17,13 @@ describe("ViewService", () => {
   let service: ViewService;
   let widgetService;
   let dashboardService;
-  const testWidget = new Widget(1, 1, "name", 1, [], "mean");
+  const testWidget = new Widget({
+    id: 1,
+    user: 1,
+    name: "name",
+    organization: 1,
+    metrics: [],
+  });
   let testDashboard;
   // const mockSquacApiService = new MockSquacApiService( testMetric );
 
@@ -25,12 +31,19 @@ describe("ViewService", () => {
     return MockBuilder(ViewService, AppModule)
       .mock(WidgetService)
       .provide({
+        provide: ChannelGroupService,
+        useValue: {
+          read: (_i) => of(),
+        },
+      })
+      .provide({
         provide: DashboardService,
         useValue: {
           list: (i) => of(i),
           update: (_i) => of(true),
           delete: (_i) => of(true),
           updateOrCreate: (_i) => of(true),
+          partialUpdate: (_i) => of(true),
         },
       })
       .mock(MessageService)
@@ -51,6 +64,9 @@ describe("ViewService", () => {
           now: () => {
             return dayjs();
           },
+          findRangeFromSeconds: () => {
+            return null;
+          },
         },
       })
       .provide({
@@ -67,7 +83,7 @@ describe("ViewService", () => {
     service = TestBed.inject(ViewService);
     widgetService = TestBed.inject(WidgetService);
     dashboardService = TestBed.inject(DashboardService);
-    testDashboard = new Dashboard(1, 1, "name", "description", false, false, 1);
+    testDashboard = new Dashboard({ id: 1, user: 1, organization: 1 });
   });
   it("should be created", () => {
     expect(service).toBeTruthy();
@@ -163,7 +179,7 @@ describe("ViewService", () => {
 
   it("should save dashboard", () => {
     service.setDashboard(testDashboard);
-    const dashSpy = spyOn(dashboardService, "updateOrCreate").and.returnValue(
+    const dashSpy = spyOn(dashboardService, "partialUpdate").and.returnValue(
       of(testDashboard)
     );
 

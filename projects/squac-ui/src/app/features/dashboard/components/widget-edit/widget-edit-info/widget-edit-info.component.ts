@@ -1,15 +1,21 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import {
-  FormControl,
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from "@angular/forms";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { WIDGET_TYPE_INFO, WIDGET_STAT_TYPE_NAMES } from "widgets";
 import { WidgetConfig } from "widgets";
 import { WidgetType } from "widgets";
 import { WidgetProperties, WidgetStatType } from "squacapi";
 
+/** Widget information edit form */
+interface WidgetForm {
+  /** widget name */
+  name: FormControl<string>;
+  /** type of widget */
+  type: FormControl<WidgetType>;
+  /** statistic for measurements */
+  stat: FormControl<WidgetStatType>;
+  /** display type for widget type */
+  displayType: FormControl<string>;
+}
 /**
  * Component for editing widget info
  */
@@ -47,10 +53,10 @@ export class WidgetEditInfoComponent implements OnInit {
 
   statTypes: any;
 
-  widgetForm = new UntypedFormGroup({
+  widgetForm = new FormGroup<WidgetForm>({
     name: new FormControl<string>("", Validators.required),
-    type: new UntypedFormControl("", Validators.required),
-    stat: new UntypedFormControl("latest", Validators.required), // default is raw data
+    type: new FormControl<WidgetType>(null, Validators.required),
+    stat: new FormControl<WidgetStatType>("latest", Validators.required), // default is raw data
     displayType: new FormControl<string>(""),
   });
 
@@ -156,7 +162,7 @@ export class WidgetEditInfoComponent implements OnInit {
    *
    * @param e event
    */
-  changePreviewType(e?): void {
+  changePreviewType(e?: WidgetType): void {
     if (!e) {
       this.previewType = this.type || this.previewType;
     } else {

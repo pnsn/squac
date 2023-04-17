@@ -31,6 +31,9 @@ export const routes: Routes = [
       {
         path: "organizations",
         component: OrganizationsViewComponent,
+        resolve: {
+          organizations: OrganizationResolver,
+        },
       },
       {
         path: "organizations/:orgId",
@@ -40,7 +43,6 @@ export const routes: Routes = [
         resolve: {
           organization: OrganizationResolver,
         },
-
         children: [
           {
             path: "user/:userId/edit",

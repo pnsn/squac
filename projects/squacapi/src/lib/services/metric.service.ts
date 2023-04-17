@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { WriteableApiService } from "../interfaces";
-import { BaseApiService } from "./generic-api.service";
-import { Metric, MetricAdapter } from "../models";
+import { BaseWriteableApiService } from "./generic-api.service";
+import { Metric } from "../models";
 import {
   ApiService,
   MeasurementMetricsListRequestParams,
@@ -10,43 +10,22 @@ import { Observable } from "rxjs";
 import { ApiEndpoint } from "../enums";
 
 /**
- *
+ * Service for managing metrics
  */
 @Injectable({
   providedIn: "root",
 })
-export class MetricService
-  extends BaseApiService<Metric>
-  implements WriteableApiService<Metric>
-{
-  constructor(override adapter: MetricAdapter, override api: ApiService) {
+export class MetricService extends BaseWriteableApiService<Metric> {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.METRIC, api);
   }
+}
 
-  /**
-   *
-   * @param id
-   * @param refresh
-   */
-  override read(id: number, refresh?: boolean): Observable<Metric> {
-    return super.read(id, refresh);
-  }
-  /**
-   *
-   * @param params
-   * @param refresh
-   */
+export interface MetricService extends WriteableApiService<Metric> {
+  read(id: number, refresh?: boolean): Observable<Metric>;
   list(
     params?: MeasurementMetricsListRequestParams,
     refresh?: boolean
-  ): Observable<Metric[]> {
-    return super._list(params, { refresh });
-  }
-  /**
-   *
-   * @param t
-   */
-  updateOrCreate(t: Metric): Observable<Metric> {
-    return super._updateOrCreate(t);
-  }
+  ): Observable<Metric[]>;
+  updateOrCreate(t: Metric): Observable<number>;
 }

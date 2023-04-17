@@ -152,15 +152,15 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
           const endtime = this.dateService.format(newEnd);
 
           const value = Math.random() * m.maxVal + m.minVal;
-          const measurement = new Measurement(
-            1,
-            1,
-            m.id,
-            c.id,
+          const measurement = new Measurement({
+            id: 1,
+            user: 1,
+            metric: m.id,
+            channel: c.id,
             value,
             starttime,
-            endtime
-          );
+            endtime,
+          });
 
           this.dataRange[m.id].count++;
           measurements.push(measurement);

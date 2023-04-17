@@ -109,12 +109,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(dashboardService: <a href="../injectables/DashboardService.html" target="_self">DashboardService</a>)</code>
+<code>constructor(dashboardService: <a href="../injectables/DashboardService.html" target="_self">DashboardService</a>, loadingService: <a href="../injectables/LoadingService.html" target="_self">LoadingService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/dashboard.resolver.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/dashboard.resolver.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -136,6 +136,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/DashboardService.html" target="_self" >DashboardService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>loadingService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/LoadingService.html" target="_self" >LoadingService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -177,8 +189,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/dashboard.resolver.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="28"
+                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/dashboard.resolver.ts:28</a></div>
                 </td>
             </tr>
 
@@ -223,7 +235,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/Dashboard.html" target="_self" >Observable&lt;Dashboard | []&gt;</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;Dashboard | []&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -244,6 +256,7 @@ import { ActivatedRouteSnapshot, Resolve } from &quot;@angular/router&quot;;
 import { DashboardService } from &quot;squacapi&quot;;
 import { Observable } from &quot;rxjs&quot;;
 import { Dashboard } from &quot;squacapi&quot;;
+import { LoadingService } from &quot;@core/services/loading.service&quot;;
 
 /**
  * Resolves a dashboard or list of dashboards
@@ -254,7 +267,10 @@ import { Dashboard } from &quot;squacapi&quot;;
 export class DashboardResolver
   implements Resolve&lt;Observable&lt;Dashboard | Dashboard[]&gt;&gt;
 {
-  constructor(private dashboardService: DashboardService) {}
+  constructor(
+    private dashboardService: DashboardService,
+    private loadingService: LoadingService
+  ) {}
 
   /**
    * Resolve a dashboard or list of dashboards
@@ -264,12 +280,14 @@ export class DashboardResolver
    */
   resolve(route: ActivatedRouteSnapshot): Observable&lt;Dashboard | Dashboard[]&gt; {
     const id &#x3D; route.paramMap.get(&quot;dashboardId&quot;);
+    const delay &#x3D; 0;
+    let req;
     if (id) {
-      return this.dashboardService.read(+id);
+      req &#x3D; this.dashboardService.read(+id);
     } else {
-      return this.dashboardService.list();
-      // return all of them
+      req &#x3D; this.dashboardService.list();
     }
+    return this.loadingService.doLoading(req, null, null, delay);
   }
 }
 </code></pre>

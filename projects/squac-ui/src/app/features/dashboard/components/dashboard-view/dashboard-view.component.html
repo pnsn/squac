@@ -1,28 +1,40 @@
-<div class="body-content-container">
-  <shared-table-view
-    title="Dashboards"
-    [options]="options"
-    [rows]="rows"
-    [columns]="columns"
-    (itemSelected)="onSelect($event)"
-    (controlClicked)="onClick($event)"
-    (refresh)="refresh()"
-    [controls]="controls"
-    [filters]="filters"
-    [isLoading]="loadingService.isLoading(this)"
-    (filtersChanged)="refresh($event)"
-  >
-    <ng-container tableHeadControls> </ng-container>
-    <ng-container tableHeadFilters> </ng-container>
-    <ng-container tableFooter>
-      <div>Footer content</div>
-    </ng-container>
-    <ng-template ngx-datatable-cell-template let-row="row" #sharingTemplate>
-      <ng-container *ngIf="row.shareAll; else private"> public </ng-container>
-      <ng-template #private>
-        {{ row.shareOrg ? (row.orgId | organization) : "private" }}
+<shared-detail-page
+  [options]="pageOptions"
+  *ngIf="dashboards"
+  type="Dashboard"
+  title="Dashboards"
+>
+  <ng-container bodyContent>
+    <shared-table-view
+      title="Dashboards"
+      [options]="options"
+      [rows]="rows"
+      [columns]="columns"
+      (itemSelected)="onSelect($event)"
+      (controlClicked)="onClick($event)"
+      (refresh)="refresh()"
+      [controls]="controls"
+      [filters]="filters"
+      [isLoading]="loadingService.isLoading$(this) | async"
+      (filtersChanged)="refresh($event)"
+    >
+      <ng-container tableHeadControls> </ng-container>
+      <ng-container tableHeadFilters> </ng-container>
+      <ng-container tableFooter>
+        <div>Footer content</div>
+      </ng-container>
+      <ng-template
+        ngx-datatable-cell-template
+        let-row="row"
+        #sharingTemplate
+      >
+        <ng-container *ngIf="row.shareAll; else private"> public </ng-container>
+        <ng-template #private>
+          {{ row.shareOrg ? (row.orgId | organization) : "private" }}
+        </ng-template>
       </ng-template>
-    </ng-template>
-  </shared-table-view>
-  <router-outlet></router-outlet>
-</div>
+    </shared-table-view>
+  </ng-container>
+</shared-detail-page>
+
+<router-outlet></router-outlet>

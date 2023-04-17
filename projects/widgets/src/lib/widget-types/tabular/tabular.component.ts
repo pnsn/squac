@@ -4,6 +4,7 @@ import {
   OnDestroy,
   TemplateRef,
   OnInit,
+  NgZone,
 } from "@angular/core";
 import {
   ColumnMode,
@@ -26,6 +27,7 @@ import {
 import { GenericWidgetComponent } from "../../shared/components";
 import { ChannelRow, RowMetrics, StationRow } from "./types";
 import { ChannelComparator, MetricComparator } from "./utils";
+import { MeasurementPipe } from "squacapi";
 
 /**
  * Table based widget
@@ -54,6 +56,7 @@ export class TabularComponent
   rows = [];
   columns = [];
   selectedRow = [];
+  measurementPipe = new MeasurementPipe();
 
   messages = {
     // Message to show when array is presented
@@ -70,9 +73,10 @@ export class TabularComponent
   constructor(
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
-    override widgetManager: WidgetManagerService
+    override widgetManager: WidgetManagerService,
+    override ngZone: NgZone
   ) {
-    super(widgetManager, widgetConnectService);
+    super(widgetManager, widgetConnectService, ngZone);
   }
 
   /**
@@ -83,6 +87,11 @@ export class TabularComponent
       this.widgetManager.resize$.subscribe(this.resize.bind(this))
     );
     super.ngOnInit();
+  }
+
+  /** @override */
+  override useDenseView(_useDenseView: boolean): void {
+    return;
   }
 
   /**
@@ -236,7 +245,10 @@ export class TabularComponent
 
           if (data.get(channel.id)) {
             const rowData = data.get(channel.id).get(metric.id);
-            val = rowData && rowData[0] ? rowData[0].value : null;
+            val = this.measurementPipe.transform(
+              rowData,
+              this.widgetManager.stat
+            );
           }
 
           const visualMap = this.visualMaps[metric.id];

@@ -13,6 +13,7 @@ import { MockBuilder, MockRender } from "ng-mocks";
 import { BehaviorSubject } from "rxjs";
 import { OrganizationService } from "squacapi";
 import { SearchFilterComponent } from "../search-filter/search-filter.component";
+import { SharingToggleComponent } from "../sharing-toggle/sharing-toggle.component";
 import { TableViewComponent } from "./table-view.component";
 
 describe("TableViewComponent", () => {
@@ -23,6 +24,7 @@ describe("TableViewComponent", () => {
     return MockBuilder(TableViewComponent)
       .mock(SharedModule)
       .keep(NgxDatatableModule)
+      .mock(SharingToggleComponent)
       .keep(HttpClientTestingModule)
       .mock([
         SearchFilterComponent,

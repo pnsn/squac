@@ -13,13 +13,14 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import * as colormap from "colormap";
 import { Subscription } from "rxjs";
 import { Metric, Threshold, WidgetProperties } from "squacapi";
 import {
+  GradientColorOption,
+  SolidColorOption,
   WidgetConfig,
   WidgetDisplayOption,
   WidgetType,
@@ -27,7 +28,7 @@ import {
   WIDGET_SOLID_COLORS,
   WIDGET_TYPE_INFO,
 } from "widgets";
-import { ThresholdForm } from "./interfaces";
+import { OptionForm, OptionsForm, ThresholdForm } from "./interfaces";
 
 /**
  * Component for editing widget options
@@ -52,16 +53,16 @@ export class WidgetEditOptionsComponent
   widgetConfig: WidgetConfig;
   WidgetTypeInfo = WIDGET_TYPE_INFO;
   displayOption: WidgetDisplayOption;
-  gradientOptions: any[];
-  solidOptions: any[];
+  gradientOptions: GradientColorOption[];
+  solidOptions: SolidColorOption[];
 
-  optionsForm: UntypedFormGroup = this.formBuilder.group({
+  optionsForm: FormGroup<OptionsForm> = this.formBuilder.group({
     thresholdArray: this.formBuilder.array<FormGroup<ThresholdForm>>([]),
-    options: this.formBuilder.group({
-      inRange: [null],
-      outOfRange: [null],
-      numSplits: [null, { validators: [Validators.min(0)] }], //>0 not continuous
-      reverseColors: false,
+    options: this.formBuilder.group<OptionForm>({
+      inRange: new FormControl(),
+      outOfRange: new FormControl(),
+      numSplits: new FormControl(null, { validators: [Validators.min(0)] }), //>0 not continuous
+      reverseColors: new FormControl(),
     }),
   });
 
@@ -82,6 +83,7 @@ export class WidgetEditOptionsComponent
     this.optionsForm.get("options").valueChanges.subscribe((value) => {
       this.properties.numSplits = value.numSplits || 0;
       this.validateOptions();
+
       this.properties.inRange = value.inRange;
       this.properties.outOfRange = value.outOfRange;
       this.properties.reverseColors = value.reverseColors;
@@ -133,7 +135,7 @@ export class WidgetEditOptionsComponent
 
   /** set up form */
   initForm(): void {
-    let inColors;
+    let inColors: GradientColorOption | SolidColorOption;
     if (this.properties.inRange) {
       inColors = this.findColor(this.properties.inRange?.type);
     }
@@ -259,10 +261,12 @@ export class WidgetEditOptionsComponent
    * @param type color type
    * @returns color
    */
-  findColor(type: string): any {
-    const t = [...this.gradientOptions, ...this.solidOptions].find((option) => {
-      return option.type === type;
-    });
+  findColor(type: string): GradientColorOption | SolidColorOption {
+    const t = [...this.gradientOptions, ...this.solidOptions].find(
+      (option: GradientColorOption | SolidColorOption) => {
+        return "type" in option ? option.type === type : false;
+      }
+    );
     return t;
   }
 
@@ -272,11 +276,11 @@ export class WidgetEditOptionsComponent
    * @param option color option
    * @returns array of color strings
    */
-  colors(option: any): string[] {
-    if (option.color) {
+  colors(option: GradientColorOption | SolidColorOption): string[] {
+    if ("color" in option && option.color) {
       return option.color;
     }
-    if (option.type) {
+    if ("type" in option && option.type) {
       return colormap({
         colormap: option.type,
       });
