@@ -13,7 +13,7 @@
     >
       <button
         *ngIf="widgetType && widgetType.zoomControls"
-        mat-icon-button
+        mat-button
         class="icon-button"
         [color]="zooming === 'start' ? 'accent' : ''"
         (click)="updateZoom()"
@@ -24,7 +24,7 @@
       </button>
       <button
         *ngIf="widgetType && widgetType.zoomControls"
-        mat-icon-button
+        mat-button
         class="icon-button"
         (click)="updateZoom('reset')"
         uiTooltip="reset zoom"
@@ -35,7 +35,7 @@
       <button
         *ngIf="widgetType && widgetType.toggleKey"
         class="icon-button"
-        mat-icon-button
+        mat-button
         [color]="showKey ? 'primary' : 'gray'"
         uiTooltip="toggle key"
         aria-label="button that toggles key"
@@ -53,7 +53,7 @@
       ></widget-metric-toggle>
       <button
         class="icon-button"
-        mat-icon-button
+        mat-button
         [matMenuTriggerFor]="widgetMenu"
         color="primary"
         aria-label="change widget settings"

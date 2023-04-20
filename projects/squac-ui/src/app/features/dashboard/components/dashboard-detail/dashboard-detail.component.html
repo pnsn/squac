@@ -31,6 +31,9 @@
           (click)="hideRows = false"
           uiTooltip="time range"
         >
+          <mat-icon>
+            calendar_month
+          </mat-icon>
           <ng-container *ngIf="config.range; else customRange">{{
             config.range
             }}</ng-container>
@@ -42,13 +45,14 @@
           (click)="hideRows = false"
           uiTooltip="data type"
         >
+          <mat-icon>query_stats</mat-icon>
           {{ config.archive | dataType: config.stat }}
         </button>
       </ng-container>
 
       <button
         [disabled]="(hasUnsavedChanges | async) === true"
-        mat-icon-button
+        mat-button
         (click)="refreshData()"
         uiTooltip="Refresh data"
         aria-label="Button that requests new data from the database"
@@ -56,7 +60,7 @@
         <mat-icon>refresh</mat-icon>
       </button>
       <button
-        mat-icon-button
+        mat-button
         [color]="!hideRows ? 'primary' : ''"
         uiTooltip="configure dashboard"
         (click)="hideRows = !hideRows"
@@ -65,7 +69,7 @@
       </button>
       <button
         color="accent"
-        mat-icon-button
+        mat-button
         (click)="addWidget()"
         *ngIf="'update' | able: dashboard"
         uiTooltip="Add widget"

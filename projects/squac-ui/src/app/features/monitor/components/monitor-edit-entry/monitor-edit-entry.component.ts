@@ -58,6 +58,7 @@ export class MonitorEditEntryComponent implements OnInit, OnDestroy {
       closeOnNavigation: true,
       maxWidth: 800,
       panelClass: "dialog-responsive",
+      autoFocus: "first-header",
       data: {
         monitor: this.monitor,
         metrics: this.metrics,

@@ -50,6 +50,7 @@ export class DashboardEditEntryComponent implements OnInit, OnDestroy {
       closeOnNavigation: true,
       maxWidth: 800,
       panelClass: "dialog-responsive",
+      autoFocus: "first-header",
       data: {
         dashboard: this.dashboard,
         channelGroups: this.channelGroups,

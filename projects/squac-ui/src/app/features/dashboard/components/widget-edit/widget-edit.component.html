@@ -1,7 +1,14 @@
-<div mat-dialog-title class="dialog-title">
+<div
+  mat-dialog-title
+  class="dialog-title"
+>
   <h3 *ngIf="!copyWidget">{{ editMode ? "Edit Widget" : "New Widget" }}</h3>
   <h3 *ngIf="copyWidget">Add Widget to Dashboard</h3>
-  <button mat-icon-button type="button" (click)="cancel()">
+  <button
+    mat-button
+    type="button"
+    (click)="cancel()"
+  >
     <mat-icon>close</mat-icon>
   </button>
 </div>
@@ -57,7 +64,10 @@
   </mat-stepper>
 </mat-dialog-content>
 
-<mat-dialog-actions class="dialog-options" *ngIf="widget">
+<mat-dialog-actions
+  class="dialog-options"
+  *ngIf="widget"
+>
   <div>
     <button
       mat-stroked-button
@@ -88,7 +98,10 @@
       Save
     </button>
   </div>
-  <p class="help-text" *ngIf="!widget.isValid; else valid">
+  <p
+    class="help-text"
+    *ngIf="!widget.isValid; else valid"
+  >
     Click next to continue {{ editMode ? "editing" : "creating" }} your widget.
   </p>
   <ng-template #valid>

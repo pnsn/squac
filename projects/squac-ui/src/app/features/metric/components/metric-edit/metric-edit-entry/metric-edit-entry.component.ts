@@ -42,6 +42,7 @@ export class MetricEditEntryComponent implements OnInit, OnDestroy {
   openDialog(): void {
     this.dialogRef = this.dialog.open(MetricEditComponent, {
       closeOnNavigation: true,
+      autoFocus: "first-header",
       data: {
         metric: this.metric,
       },
