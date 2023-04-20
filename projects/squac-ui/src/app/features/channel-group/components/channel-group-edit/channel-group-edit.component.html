@@ -128,9 +128,10 @@
             <div class="searched-channels-container">
               <channel-group-edit-table
                 [rows]="rows"
-                [selectable]="false"
+                [removable]="false"
                 [selected]="selectedChannels"
                 (selectedChange)="selectRow($event)"
+                [selectable]="true"
               >
               </channel-group-edit-table>
             </div>
@@ -227,6 +228,7 @@
               (rowsChange)="updateState()"
               [(rows)]="autoIncludeChannels"
               title="Included Channels"
+              [removable]="true"
               [selectable]="true"
             >
             </channel-group-edit-table>
@@ -243,6 +245,7 @@
               (rowsChange)="updateState()"
               [(rows)]="autoExcludeChannels"
               title="Excluded Channels"
+              [removable]="true"
               [selectable]="true"
             >
             </channel-group-edit-table>

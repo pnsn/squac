@@ -170,8 +170,6 @@
           <channel-group-edit-table
             [rows]="channelGroup.autoIncludeChannels"
             [selectable]="false"
-            [selected]="selectedRows"
-            (selectedChange)="onSelect($event)"
           >
           </channel-group-edit-table>
         </div>
@@ -185,8 +183,6 @@
           <channel-group-edit-table
             [rows]="channelGroup.autoExcludeChannels"
             [selectable]="false"
-            [selected]="selectedRows"
-            (selectedChange)="onSelect($event)"
           >
           </channel-group-edit-table>
         </div>
