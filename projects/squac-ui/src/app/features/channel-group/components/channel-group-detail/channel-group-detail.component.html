@@ -5,7 +5,7 @@
   [appIsLoading]="loadingService.isLoading$(this) | async"
   [options]="pageOptions"
   *ngIf="channelGroup"
-  type="Channel Group"
+  type="ChannelGroup"
   [resource]="channelGroup"
   [title]="channelGroup.name"
   subtext="by {{ channelGroup?.owner | user }} ({{
