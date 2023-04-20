@@ -113,13 +113,12 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
       if (data["widgets"].error) {
         this.error = "Could not load dashboard or widgets";
       } else {
+        if (data["dashboard"] && data["dashboard"].id === dashboardId) {
+          this.canUpdate = this.ability.can("update", data["dashboard"]);
+        }
         if (data["dashboards"]) {
           this.dashboards = data["dashboards"].filter((d) => {
-            const canUpdate = this.ability.can("update", d);
-            if (d.id === dashboardId) {
-              this.canUpdate = canUpdate;
-            }
-            return canUpdate;
+            return this.ability.can("update", d);
           });
         }
         this.addWidgetsToView(data["widgets"]);
