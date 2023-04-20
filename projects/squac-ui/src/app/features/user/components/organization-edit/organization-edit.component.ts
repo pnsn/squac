@@ -82,7 +82,7 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
       ),
       firstname: new FormControl("", Validators.required),
       lastname: new FormControl("", Validators.required),
-      isAdmin: new FormControl(null, Validators.required),
+      isAdmin: new FormControl(false),
       groups: new FormControl(null, Validators.required),
     });
 
