@@ -222,6 +222,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     // delete existing widget
     if (index !== -1 && !widget) {
       this.widgetItems.splice(index, 1);
+      this.cdr.detectChanges();
     } else if (index === -1 && widget) {
       //add ne
       this.addWidgetToGrid(widget, true); //do the find position here
