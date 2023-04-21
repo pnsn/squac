@@ -26,19 +26,30 @@ import { FilterText, SharedToggleFilter } from "./sharing-toggle.interface";
   styleUrls: ["./sharing-toggle.component.scss"],
 })
 export class SharingToggleComponent implements OnChanges {
+  /** true if object shared with organization */
   @Input() shareOrg: boolean;
+  /** true if object shared with all users */
   @Input() shareAll: boolean;
+  /** existing filters (unused) */
   @Input() filters: any;
+  /** user to filter against */
   @Input() user?: User;
+  /** organization to filter against */
   @Input() orgId?: number;
+  /** true if component is used in a form */
   @Input() isFormInput = false;
+  /** text to show on filters */
   @Input() filterText?: FilterText = {
     user: "User",
     all: "All",
   };
+  /** Emits value of toggle filters */
   @Output() filtersChange = new EventEmitter<SharedToggleFilter>();
+  /** Emits value of shareOrg */
   @Output() shareOrgChange = new EventEmitter<boolean>();
+  /** Emits value of shareAll */
   @Output() shareAllChange = new EventEmitter<boolean>();
+  /** Filter value options */
   shareFilter: "user" | "all" | "org" = "org";
 
   /**

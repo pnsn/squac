@@ -12,6 +12,7 @@ import { User } from "squacapi";
   styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent implements OnInit {
+  /** active squac user */
   user: User | undefined;
 
   constructor(
@@ -20,7 +21,7 @@ export class HomeComponent implements OnInit {
   ) {}
 
   /**
-   *
+   * Get's user from resolver data
    */
   ngOnInit(): void {
     // get user for header

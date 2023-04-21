@@ -31,16 +31,25 @@ import {
   styleUrls: ["./monitor-history-chart.component.scss"],
 })
 export class MonitorHistoryChartComponent extends EChartComponent {
+  /** monitor to display on chart */
   @Input() monitor: Monitor;
+  /** list of alerts from same monitor to display on chart */
   @Input() alerts: Alert[];
+  /** currently emphasized monitor */
   @Input() selectedAlert: Alert;
+  /** emits selected alert */
   @Output() selectedAlertChange: EventEmitter<Alert> = new EventEmitter();
+  /** Child echart instance */
   @ViewChild("chartInstance") chartInstance;
+  /** measurement pipe for data transformation */
   measurementPipe = new MeasurementPipe();
-  error: boolean;
+  /** min and max values of the chart data */
   dataRange: { min: number; max: number };
+  /** Name for alert series on chart */
   alertsSeriesName = "Alerts";
+  /** Echart series of alerts */
   alertsSeries = [];
+  /** default config for alert series */
   alertsSeriesConfig: any = {
     yAxisIndex: 0,
     type: "custom",
@@ -70,11 +79,8 @@ export class MonitorHistoryChartComponent extends EChartComponent {
     super(widgetManager, null, null);
   }
 
-  // Max allowable time between measurements to connect
-  maxMeasurementGap = 1.5;
-
   /**
-   * @override
+   * Sets up initial chart configuration
    */
   configureChart(): void {
     this.options = {
@@ -178,14 +184,21 @@ export class MonitorHistoryChartComponent extends EChartComponent {
     };
   }
 
-  /** @override */
+  /**
+   * Listens to chart click events
+   *
+   * @param $event echart event
+   * @param type event type
+   */
   override onChartEvent($event, type): void {
     if (type === "chartClick") {
       this.selectedAlertChange.emit($event.value[4]);
     }
   }
   /**
-   * @override
+   * Creates chart data from monitors and triggers
+   *
+   * @param _data unused
    */
   buildChartData(_data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {
@@ -259,7 +272,7 @@ export class MonitorHistoryChartComponent extends EChartComponent {
   }
 
   /**
-   * @override
+   * Sets values on chart
    */
   changeMetrics(): void {
     this.updateOptions = {

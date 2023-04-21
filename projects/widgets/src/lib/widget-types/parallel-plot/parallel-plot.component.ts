@@ -12,7 +12,7 @@ import {
 } from "echarts";
 
 /**
- * Parallel plot widget
+ * Parallel plot widget, shows multiple metrics on parallel axes
  */
 @Component({
   selector: "widget-parallel-plot",
@@ -32,13 +32,17 @@ export class ParallelPlotComponent
     super(widgetManager, widgetConnectService, ngZone);
   }
 
-  /** @override */
+  /**
+   * overrides to disable parent useDenseView
+   *
+   * @param _useDenseView unused
+   */
   override useDenseView(_useDenseView: boolean): void {
     return;
   }
 
   /**
-   * @override
+   * Sets up initial chart configuration
    */
   configureChart(): void {
     this.options = {
@@ -73,7 +77,7 @@ export class ParallelPlotComponent
   }
 
   /**
-   * @override
+   * On key toggle, shows or hides legend
    */
   override toggleKey(): void {
     let temp = {
@@ -107,7 +111,9 @@ export class ParallelPlotComponent
   }
 
   /**
-   * @override
+   * Builds chart data from processed data
+   *
+   * @param data processed measurements for chart
    */
   buildChartData(data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {
@@ -142,7 +148,7 @@ export class ParallelPlotComponent
   }
 
   /**
-   * @override
+   * updates series and axes on charts
    */
   changeMetrics(): void {
     this.updateOptions = {

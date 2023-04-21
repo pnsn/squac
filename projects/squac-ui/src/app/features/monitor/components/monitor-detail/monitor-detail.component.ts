@@ -31,6 +31,7 @@ import {
   WidgetType,
 } from "widgets";
 
+/** loading indicator areas */
 enum LoadingIndicator {
   RESULTS,
   MAIN,
@@ -45,13 +46,21 @@ enum LoadingIndicator {
   providers: [WidgetConfigService, WidgetManagerService, WidgetDataService],
 })
 export class MonitorDetailComponent implements OnInit {
+  /** monitor chart instance */
   @ViewChild("monitorChart") monitorChart;
+  /** channel chart instance */
   @ViewChild("channelChart") channelChart;
+  /** ngxdatatable column config */
   ColumnMode = ColumnMode;
+  /** ngxdatatable selection config */
   SelectionType = SelectionType;
+  /** true if page has an error */
   error: boolean;
+  /** alerts for monitor */
   alerts: Alert[];
+  /** monitor to display on page */
   monitor: Monitor;
+  /** widget created for chart config */
   widget: Widget = new Widget({
     name: "Monitor",
     stat: "latest",
@@ -60,15 +69,23 @@ export class MonitorDetailComponent implements OnInit {
     properties: {},
     type: WidgetType.TIMESERIES,
   });
+  /** currently selected alert */
   selectedAlert: Alert;
+  /** default time range for data requests */
   timeRange: number = 1 * 24 * 60 * 60;
+  /** monitor's channel group */
   channelGroup: ChannelGroup;
-  // time picker config
+  /** time picker config */
   datePickerTimeRanges = DATE_PICKER_TIMERANGES;
+  /** start time for data */
   starttime: string;
+  /** endtime for data */
   endtime: string;
+  /** rxjs subscriptions */
   subscriptions = new Subscription();
+  /** true if dates have been changed */
   unsavedChanges = false;
+  /** loading indicator config */
   LoadingIndicator = LoadingIndicator;
   /** Config for detail page */
   pageOptions: PageOptions = {
@@ -79,6 +96,7 @@ export class MonitorDetailComponent implements OnInit {
     },
     path: "/monitors",
   };
+  /** controls for table config */
   controls: TableControls = {
     listenToRouter: true,
     resource: "Monitor",
@@ -89,13 +107,16 @@ export class MonitorDetailComponent implements OnInit {
     links: [{ text: "View All Monitors", path: "/monitors" }],
   };
 
+  /** table options config */
   options: TableOptions = {
     messages: {
       emptyMessage: "No alerts found.",
     },
     footerLabel: "Alerts",
   };
+  /** table columns */
   columns = [];
+  /** true if trigger section should be shown */
   viewTriggers = true;
   constructor(
     private route: ActivatedRoute,
@@ -110,7 +131,7 @@ export class MonitorDetailComponent implements OnInit {
     private changeDetector: ChangeDetectorRef,
     private messageService: MessageService
   ) {}
-  // last n intervals
+
   /**
    * subscribes to route params
    */

@@ -41,7 +41,7 @@ import {
 } from "leaflet";
 
 /**
- * Leaflet map widget
+ * Leaflet map widget that displays stations
  */
 @Component({
   selector: "widget-map",
@@ -52,25 +52,41 @@ export class MapComponent
   extends GenericWidgetComponent
   implements OnInit, OnDestroy, WidgetTypeComponent
 {
+  /** element of legend on map*/
   @ViewChild("legendElement", { static: false }) public legendRef: ElementRef;
+  /** map element ref */
   @ViewChild("mapElement", { static: false }) public mapRef: ElementRef;
 
+  /** observer for page resizes */
   resizeObserver: ResizeObserver;
-  precisionPipe = new PrecisionPipe();
+  /** station layers on map */
   stationLayer: LayerGroup;
+  /** metric to display on map */
   displayMetric: Metric;
+  /** Map configuration options */
   options: MapOptions;
-
+  /** Map config for drawing */
   drawOptions: Record<string, never>;
+  /** layers to display on map */
   layers: FeatureGroup[];
+  /** map bounds */
   fitBounds: LatLngBounds;
+  /** leaflet map instance */
   map: Map;
+  /** map layers grouped by metric */
   metricLayers: Record<number, Marker[]>;
+  /** Visual map for coloring icons */
   displayMap: VisualMapTypes;
+  /** leaflet legend control */
   legend: Control;
+  /** Station data */
   stations: StationRow[];
+  /** transform measurements */
   measurementPipe = new MeasurementPipe();
+  /** pipe for calculating prescisions */
+  precisionPipe = new PrecisionPipe();
 
+  /** typeguards */
   isPiecewise = isPiecewise;
   isStoplight = isStoplight;
   isContinuous = isContinuous;
@@ -84,13 +100,19 @@ export class MapComponent
     super(widgetManager, widgetConnectService, zone);
   }
 
-  /** @override */
+  /**
+   * override to disable method
+   *
+   * @param _useDenseView unused
+   */
   override useDenseView(_useDenseView: boolean): void {
     return;
   }
 
   /**
-   * @override
+   * override to disable method
+   *
+   * @param _channel unused
    */
   deemphasizeChannel(_channel: string): void {
     return;
@@ -172,7 +194,9 @@ export class MapComponent
   }
 
   /**
-   * @override
+   * emphasize channel on map
+   *
+   * @param channel nslc to emphasize
    */
   emphasizeChannel(channel: string): void {
     // const layer = this.metricLayers[this.displayMetric.id];
@@ -251,7 +275,7 @@ export class MapComponent
   }
 
   /**
-   * @override
+   * Remove resize observer when map destroyed
    */
   override ngOnDestroy(): void {
     this.map = null;
@@ -262,7 +286,9 @@ export class MapComponent
   }
 
   /**
-   * @override
+   * Creates map markers using processed data
+   *
+   * @param data
    */
   buildChartData(data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {
@@ -447,7 +473,7 @@ export class MapComponent
   }
 
   /**
-   * @override
+   * Change metric to show on the map and resize after
    */
   changeMetrics(): void {
     if (this.map) {

@@ -531,8 +531,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="163"
-                            class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:163</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="166"
+                            class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:166</a></div>
                 </td>
             </tr>
 
@@ -984,7 +984,10 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
    */
   addError(error: WidgetErrors | string): void {
     this.clearChildComponents();
-
+    if (this.childComponentRef) {
+      this.childComponentRef.destroy();
+      this.childComponent &#x3D; null;
+    }
     const errorComp &#x3D;
       this.viewContainerRef.createComponent&lt;ErrorComponent&gt;(ErrorComponent);
     errorComp.instance.errorMsg &#x3D; error;

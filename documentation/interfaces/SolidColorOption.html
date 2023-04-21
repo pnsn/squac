@@ -150,6 +150,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>array of hex colors</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -183,6 +189,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>label for display</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -216,6 +228,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>type of color gradient from library</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
             </section>
@@ -224,8 +242,11 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface SolidColorOption {
+  /** array of hex colors */
   color: string[];
+  /** label for display */
   label: string;
+  /** type of color gradient from library */
   type: string;
 }
 
@@ -234,13 +255,17 @@ export type GradientColorOption &#x3D; ColorGradientOption | CustomGradientOptio
 
 /** for gradients created in library */
 export interface ColorGradientOption {
+  /** display label */
   label: string;
+  /** gradient type */
   type: string;
 }
 
 /** for gradients created by array of color values */
 export interface CustomGradientOption {
+  /** array of hex colors */
   color: string[];
+  /** display label */
   label: string;
 }
 </code></pre>

@@ -278,8 +278,8 @@ Used as routing endpoint</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="70"
-                            class="link-to-prism">projects/squac-ui/src/app/features/user/components/organization-edit-entry/organization-edit-entry.component.ts:70</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="71"
+                            class="link-to-prism">projects/squac-ui/src/app/features/user/components/organization-edit-entry/organization-edit-entry.component.ts:71</a></div>
                 </td>
             </tr>
 
@@ -569,6 +569,7 @@ export class OrganizationEditEntryComponent implements OnInit, OnDestroy {
   openUser(): void {
     this.dialogRef &#x3D; this.dialog.open(OrganizationEditComponent, {
       closeOnNavigation: true,
+      autoFocus: &quot;first-header&quot;,
       data: {
         user: this.user,
         orgId: this.organization.id,
