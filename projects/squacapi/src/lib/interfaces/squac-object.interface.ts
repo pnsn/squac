@@ -57,8 +57,6 @@ export class BaseModel implements BaseModel {
  * Resource model for read only resources
  */
 export abstract class ReadOnlyResourceModel<R> extends BaseModel {
-  testKey: string;
-
   /**
    * Converts raw data to object
    *
