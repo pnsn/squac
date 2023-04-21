@@ -115,7 +115,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     metric: new FormControl(null, Validators.required),
     channelGroup: new FormControl(null, Validators.required),
     triggers: this.formBuilder.array<FormGroup<TriggerForm>>([]),
-    doDailyDigest: new FormControl(null, Validators.required),
+    doDailyDigest: new FormControl(false),
   });
 
   constructor(

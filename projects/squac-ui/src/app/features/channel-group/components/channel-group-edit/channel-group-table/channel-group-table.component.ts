@@ -27,6 +27,7 @@ export class ChannelGroupTableComponent implements OnInit {
   @Input() selected: Channel[] = [];
   @Input() title: string;
   @Input() selectable: boolean;
+  @Input() removable: boolean;
   @Output() rowsChange = new EventEmitter<Channel[]>();
   @Output() selectedChange = new EventEmitter<Channel[]>();
   @ViewChild("removeTemplate") removeTemplate: TemplateRef<any>;
@@ -48,15 +49,17 @@ export class ChannelGroupTableComponent implements OnInit {
     setTimeout(() => {
       this.columns = [];
 
-      this.columns.push({
-        width: 30,
-        canAutoResize: false,
-        sortable: false,
-        draggable: false,
-        resizeable: false,
-        headerCheckboxable: true,
-        checkboxable: true,
-      });
+      if (this.selectable) {
+        this.columns.push({
+          width: 30,
+          canAutoResize: false,
+          sortable: false,
+          draggable: false,
+          resizeable: false,
+          headerCheckboxable: true,
+          checkboxable: true,
+        });
+      }
 
       this.columns = [
         ...this.columns,

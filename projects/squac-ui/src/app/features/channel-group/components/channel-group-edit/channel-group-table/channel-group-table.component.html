@@ -1,7 +1,7 @@
 <div class="table-container">
   <div class="action-row">
     <button
-      *ngIf="selectable"
+      *ngIf="removable"
       [disabled]="selected.length === 0"
       mat-stroked-button
       (click)="removeSelected()"
@@ -31,15 +31,25 @@
     let-sort="sortFn"
     ngx-datatable-header-template
   >
-    <div class="header-cell datatable-header-cell-wrapper" (click)="sort()">
+    <div
+      class="header-cell datatable-header-cell-wrapper"
+      (click)="sort()"
+    >
       <span>{{ column.name }}</span>
     </div>
   </ng-template>
   <ng-template #isLoading>
     <mat-spinner></mat-spinner>
   </ng-template>
-  <ng-template ngx-datatable-cell-template let-row="row" #removeTemplate>
-    <button mat-icon-button (click)="removeRow(row)">
+  <ng-template
+    ngx-datatable-cell-template
+    let-row="row"
+    #removeTemplate
+  >
+    <button
+      mat-icon-button
+      (click)="removeRow(row)"
+    >
       <mat-icon>close</mat-icon>
     </button>
   </ng-template>
