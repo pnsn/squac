@@ -20,6 +20,7 @@
           *ngIf="filters && filters.toggleShared"
           [user]="user"
           (filtersChange)="toggleSharing($event)"
+          [isFormInput]="false"
         >
         </shared-sharing-toggle>
 

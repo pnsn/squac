@@ -31,6 +31,7 @@ export class SharingToggleComponent implements OnChanges {
   @Input() filters: any;
   @Input() user?: User;
   @Input() orgId?: number;
+  @Input() isFormInput = false;
   @Input() filterText?: FilterText = {
     user: "User",
     all: "All",

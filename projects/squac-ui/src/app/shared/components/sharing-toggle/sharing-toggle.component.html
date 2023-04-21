@@ -7,13 +7,13 @@
 >
   <mat-button-toggle
     value="user"
-    uiTooltip="only visible to you"
+    [uiTooltip]="isFormInput? 'only visible to you' : 'owned by you' "
   >{{
     filterText?.user ? filterText.user : "User"
     }}</mat-button-toggle>
   <mat-button-toggle
     value="org"
-    uiTooltip="shared with your organization"
+    [uiTooltip]="isFormInput ? 'shared with your organization' : 'owned by your organization' "
   >
     <ng-container *ngIf="filterText?.org; else noOrgText">{{
       filterText.org
@@ -25,7 +25,7 @@
   </mat-button-toggle>
   <mat-button-toggle
     value="all"
-    uiTooltip="visible to all SQUAC users"
+    [uiTooltip]="isFormInput ? 'visible to all SQUAC users' : 'owned by any SQUAC user'"
   >{{
     filterText?.all ? filterText.all : "All"
     }}</mat-button-toggle>
