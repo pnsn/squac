@@ -38,7 +38,9 @@ export class WidgetManagerService {
   toggleKey$ = new ReplaySubject<boolean>(1);
   zoomStatus$ = new Subject<string>();
 
-  private _params: MeasurementParams = {};
+  private _params: MeasurementParams = {
+    order: "starttime",
+  };
   private _channels: Channel[] = [];
   private _group?: number; //channel group id
   private _widget!: Widget;
