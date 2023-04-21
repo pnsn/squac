@@ -41,23 +41,36 @@ export class TabularComponent
   extends GenericWidgetComponent
   implements OnInit, OnDestroy, WidgetTypeComponent
 {
+  /** ngx datatable component */
   @ViewChild("dataTable") table: DatatableComponent;
+  /** cell template for data table  */
   @ViewChild("cellTemplate")
   cellTemplate: TemplateRef<DataTableColumnCellDirective>;
+  /** header template for table */
   @ViewChild("headerTemplate")
   headerTemplate: TemplateRef<DataTableColumnHeaderDirective>;
 
+  /** nslc of currently emphasized channel */
   emphasizedChannel: string;
+  /** nslc of channel to deemphasize */
   deemphasizedChannel: string;
 
+  /** ngxdatatable column options */
   ColumnMode = ColumnMode;
+  /** ngxdatatable sort options */
   SortType = SortType;
+  /** ngxdatatable selection options */
   SelectionType = SelectionType;
+  /** table rows */
   rows = [];
+  /** table columns */
   columns = [];
+  /** currently selected rows */
   selectedRow = [];
+  /** pipe for transforming measurements */
   measurementPipe = new MeasurementPipe();
 
+  /** table messages */
   messages = {
     // Message to show when array is presented
     // but contains no values
@@ -89,7 +102,10 @@ export class TabularComponent
     super.ngOnInit();
   }
 
-  /** @override */
+  /**
+   * override to disable
+   * @param _useDenseView unused
+   */
   override useDenseView(_useDenseView: boolean): void {
     return;
   }

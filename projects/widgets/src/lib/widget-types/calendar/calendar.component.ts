@@ -8,7 +8,7 @@ import {
   WidgetManagerService,
   WidgetConfigService,
 } from "../../services";
-import { WidgetTypeComponent } from "../../interfaces";
+import { ProcessedData, WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../../shared/components";
 import { parseUtc } from "../../shared/utils";
 import {
@@ -39,12 +39,15 @@ export class CalendarComponent
   ) {
     super(widgetManager, widgetConnectService, ngZone);
   }
-
+  /** time labes on chart x axis */
   xAxisLabels = [];
-  xAxisLabels2 = []; //second row
-  // Max allowable time between measurements to connect
+  /** second row of time labels on x axis */
+  xAxisLabels2 = [];
+  /** Max allowable time between measurements to connect */
   maxMeasurementGap: number = 1 * 1000;
+  /** pipe for transformation of values */
   precisionPipe = new PrecisionPipe();
+  /** chart options when dense is enabled */
   override denseOptions: EChartsOption = {
     grid: {
       containLabel: false,
@@ -54,6 +57,7 @@ export class CalendarComponent
     },
     dataZoom: [],
   };
+  /** chart options when dense is not enabled */
   override fullOptions: EChartsOption = {
     grid: {
       containLabel: false,
@@ -65,7 +69,7 @@ export class CalendarComponent
   };
 
   /**
-   * @override
+   * Initial chart configuration
    */
   configureChart(): void {
     this.denseOptions["grid"]["bottom"] = this.getBottomMargin(true);
@@ -150,9 +154,11 @@ export class CalendarComponent
   }
 
   /**
-   * @override
+   * Creates chart data from measuremetns
+   *
+   * @param data processed data
    */
-  buildChartData(data): Promise<void> {
+  buildChartData(data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {
       this.metricSeries = {};
       this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
@@ -269,7 +275,7 @@ export class CalendarComponent
   }
 
   /**
-   * @override
+   * Changes displayed metrics on the chart
    */
   changeMetrics(): void {
     const displayMetric = this.selectedMetrics[0];

@@ -20,6 +20,7 @@ export class ScatterPlotComponent
   extends EChartComponent
   implements OnInit, WidgetTypeComponent, OnDestroy
 {
+  /** @ignore */
   constructor(
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
@@ -29,6 +30,7 @@ export class ScatterPlotComponent
     super(widgetManager, widgetConnectService, ngZone);
   }
 
+  /** configuration for when dense is enabled */
   override denseOptions: {
     grid: {
       containLabel: true;
@@ -49,13 +51,14 @@ export class ScatterPlotComponent
     dataZoom: [],
   };
 
+  /** configuration for when dense is not enabled */
   override fullOptions = {
     grid: { containLabel: true, top: 5, right: 10, bottom: 38, left: 50 },
     dataZoom: this.chartDefaultOptions.dataZoom,
   };
 
   /**
-   * @override
+   * sets up initial chart configuration
    */
   configureChart(): void {
     const dataZoom = this.denseView
@@ -112,7 +115,9 @@ export class ScatterPlotComponent
   }
 
   /**
-   * @override
+   * Creates chart data from measurement data
+   *
+   * @param data measurement data
    */
   buildChartData(data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {
@@ -160,7 +165,7 @@ export class ScatterPlotComponent
   }
 
   /**
-   * @override
+   * Changes shown metrics on chart
    */
   changeMetrics(): void {
     const xMetric = this.selectedMetrics[0];
