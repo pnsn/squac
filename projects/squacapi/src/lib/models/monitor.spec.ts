@@ -3,7 +3,16 @@ import { Monitor } from "./monitor";
 
 describe("Monitor", () => {
   it("should create an instance", () => {
-    expect(MockService(Monitor)).toBeTruthy();
+    const monitor = new Monitor({
+      id: 1,
+      triggers: [],
+    });
+
+    expect(monitor).toBeTruthy();
+    expect(monitor.inAlarm).toBeUndefined();
+    expect(monitor.lastUpdate).toBeUndefined();
+    expect(monitor.toJson()).toBeDefined();
+    expect(Monitor.modelName).toBe("Monitor");
   });
 
   it("should adapt from json to monitor", () => {
@@ -18,10 +27,20 @@ describe("Monitor", () => {
       name: "string",
       created_at: "string",
       updated_at: "string",
+      triggers: [
+        {
+          latest_alert: { timestamp: "2010-01-01", in_alarm: true },
+        },
+        {
+          latest_alert: { timestamp: "2020-01-01", in_alarm: true },
+        },
+      ],
       user: 1,
     };
 
     const monitor = new Monitor(testData);
     expect(monitor).toBeDefined();
+    expect(monitor.inAlarm).toBeTrue();
+    expect(monitor.lastUpdate).toBe("2020-01-01");
   });
 });

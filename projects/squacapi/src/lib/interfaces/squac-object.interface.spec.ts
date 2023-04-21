@@ -1,7 +1,8 @@
 import { modelConstructor, ResourceModel } from "squacapi";
+import { ApiEndpoint, getKlass } from "../enums";
 import { BaseModel, ReadOnlyResourceModel } from "./squac-object.interface";
 
-fdescribe("SquacObject", () => {
+describe("SquacObject", () => {
   interface TestReadSerializer {
     id: number;
     objName: string;
@@ -103,5 +104,10 @@ fdescribe("SquacObject", () => {
 
     const serialized = BaseModel.serialize(baseTest);
     expect(serialized).toEqual(testData);
+  });
+
+  it("class should be returned", () => {
+    const klass = getKlass(ApiEndpoint.ALERT);
+    expect(klass).toBeDefined();
   });
 });
