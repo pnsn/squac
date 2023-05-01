@@ -17,5 +17,6 @@
     "typescriptreact",
     "html"
   ],
-  "eslint.lintTask.enable": true
+  "eslint.lintTask.enable": true,
+  "html.format.wrapAttributes": "force-expand-multiline"
 }

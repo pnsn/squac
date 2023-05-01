@@ -1,36 +1,34 @@
-import { Injectable } from "@angular/core";
-import { Threshold } from "../interfaces";
-import { Metric, MetricAdapter } from "../models";
+import { ResourceModel, Threshold } from "../interfaces";
+import { Metric } from ".";
+import { WidgetProperties, WidgetLayout } from "../interfaces";
+
 import {
-  Adapter,
-  ApiMetric,
-  ReadWidget,
-  WriteWidget,
-  WidgetProperties,
-  WidgetLayout,
-} from "../interfaces";
+  ReadOnlyWidgetDetailSerializer,
+  WriteOnlyWidgetSerializer,
+  Metric as ApiMetric,
+  ReadOnlyWidgetSerializer,
+} from "@pnsn/ngx-squacapi-client";
 import { WIDGET_LAYOUT, WIDGET_PROPERTIES } from "../constants";
 import { WidgetStatType } from "../types";
 
+export interface Widget {
+  name: string;
+  dashboardId: number;
+  metrics: Metric[];
+  stat?: WidgetStatType; //if use aggregate
+  type: string;
+}
 /**
  * Model for a widget
  */
-export class Widget {
-  public _thresholds: Threshold[] = [];
-  public _layout: WidgetLayout = WIDGET_LAYOUT;
-  public _properties: WidgetProperties = WIDGET_PROPERTIES;
-  constructor(
-    public id: number,
-    public owner: number,
-    public name: string,
-    public dashboardId: number,
-    public metrics: Metric[],
-    public stat?: WidgetStatType //if use aggregate
-  ) {
-    //this will override settings when created
-  }
+export class Widget extends ResourceModel<
+  ReadOnlyWidgetDetailSerializer | ReadOnlyWidgetSerializer | Widget,
+  WriteOnlyWidgetSerializer
+> {
+  private _thresholds: Threshold[];
+  private _layout: WidgetLayout;
+  private _properties: WidgetProperties;
 
-  public type: string;
   /**
    * Saves thresholds to widgets
    */
@@ -49,6 +47,9 @@ export class Widget {
     }
 
     this._thresholds = props.slice();
+    if (!this._properties) {
+      this._properties = WIDGET_PROPERTIES;
+    }
   }
 
   /**
@@ -123,55 +124,41 @@ export class Widget {
   static get modelName(): string {
     return "Widget";
   }
-}
 
-/**
- * Adapts widget model and api info
- */
-@Injectable({
-  providedIn: "root",
-})
-export class WidgetAdapter implements Adapter<Widget, ReadWidget, WriteWidget> {
   /** @override */
-  adaptFromApi(item: ReadWidget): Widget {
-    const metricAdapter = new MetricAdapter();
-    let metrics: Metric[] = [];
+  override fromRaw(
+    data: ReadOnlyWidgetDetailSerializer | ReadOnlyWidgetSerializer | Widget
+  ): void {
+    super.fromRaw(data);
+    this.properties = data.properties;
+    this.thresholds = data.thresholds;
+    this.layout = data.layout;
+    if ("dashboard" in data) {
+      this.dashboardId = data.dashboard;
+      if (data.metrics && Array.isArray(data.metrics)) {
+        const metrics: Metric[] = [];
 
-    if (item.metrics) {
-      metrics = item.metrics.map((m: ApiMetric) =>
-        metricAdapter.adaptFromApi(m)
-      );
+        data.metrics.forEach((m: ApiMetric | number) => {
+          if (typeof m !== "number") {
+            metrics.push(new Metric(m));
+          }
+        });
+        this.metrics = metrics;
+      }
     }
-
-    const stat = item.stat as WidgetStatType;
-    const widget = new Widget(
-      item.id,
-      item.user,
-      item.name,
-      item.dashboard,
-      metrics,
-      stat
-    );
-
-    widget.type = item.type;
-    widget.thresholds = item.thresholds || [];
-
-    widget.layout = item.layout;
-    widget.properties = item.properties;
-    return widget;
   }
 
   /** @override */
-  adaptToApi(item: Widget): WriteWidget {
+  toJson(): WriteOnlyWidgetSerializer {
     return {
-      name: item.name,
-      metrics: item.metricsIds,
-      dashboard: item.dashboardId,
-      type: item.type,
-      stat: item.stat,
-      layout: JSON.stringify(item.layout),
-      properties: JSON.stringify(item.properties),
-      thresholds: JSON.stringify(item.thresholds),
+      name: this.name,
+      metrics: this.metricsIds,
+      dashboard: this.dashboardId,
+      type: this.type,
+      stat: this.stat,
+      layout: JSON.stringify(this.layout),
+      properties: JSON.stringify(this.properties),
+      thresholds: JSON.stringify(this.thresholds),
     };
   }
 }

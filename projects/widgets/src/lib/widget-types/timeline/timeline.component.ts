@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
 import { Measurement, MeasurementTypes } from "squacapi";
 import {
   CustomSeriesRenderItemAPI,
@@ -35,10 +35,32 @@ export class TimelineComponent
   constructor(
     private widgetConfigService: WidgetConfigService,
     override widgetConnector: WidgetConnectService,
-    override widgetManager: WidgetManagerService
+    override widgetManager: WidgetManagerService,
+    override ngZone: NgZone
   ) {
-    super(widgetManager, widgetConnector);
+    super(widgetManager, widgetConnector, ngZone);
   }
+  override denseOptions: EChartsOption = {
+    grid: {
+      containLabel: false,
+      top: 10,
+      right: 10,
+      left: 105,
+      bottom: 32,
+    },
+    dataZoom: [],
+  };
+
+  override fullOptions: EChartsOption = {
+    grid: {
+      containLabel: false,
+      top: 5,
+      right: 10,
+      left: 125,
+      bottom: 52,
+    },
+    dataZoom: this.chartDefaultOptions.dataZoom,
+  };
 
   // Max allowable time between measurements to connect
   maxMeasurementGap: number = 1 * 1000;
@@ -49,7 +71,16 @@ export class TimelineComponent
    * @override
    */
   configureChart(): void {
-    const chartOptions: EChartsOption = {
+    const dataZoom = this.denseView
+      ? this.denseOptions.dataZoom
+      : this.fullOptions.dataZoom;
+    const grid = this.denseView
+      ? this.denseOptions.grid
+      : this.fullOptions.grid;
+    this.options = {
+      ...this.chartDefaultOptions,
+      grid,
+      dataZoom,
       xAxis: {
         type: "time",
         nameLocation: "middle",
@@ -79,6 +110,7 @@ export class TimelineComponent
         },
       },
       tooltip: {
+        ...this.chartDefaultOptions.tooltip,
         formatter: (params: TooltipComponentFormatterCallbackParams) =>
           this.widgetConfigService.timeAxisFormatToolTip(params),
       },
@@ -87,13 +119,14 @@ export class TimelineComponent
         axisTick: {
           interval: 0,
         },
+        axisLabel: {
+          fontSize: 11,
+        },
         type: "category",
-        nameGap: 40, //max characters
+        // nameGap: 35, //max characters
       },
       series: [],
     };
-
-    this.options = this.widgetConfigService.chartOptions(chartOptions);
   }
 
   /**
@@ -121,10 +154,6 @@ export class TimelineComponent
         },
       };
       this.xAxisLabels = [];
-
-      this.channels.sort((chanA, chanB) => {
-        return chanA.nslc.localeCompare(chanB.nslc);
-      });
 
       this.channels.forEach((channel, index) => {
         const nslc = channel.nslc;
@@ -282,7 +311,7 @@ export class TimelineComponent
     const displayMetric = this.selectedMetrics[0];
     const colorMetric = this.selectedMetrics[0];
     const visualMaps = this.visualMaps[colorMetric.id];
-
+    visualMaps.show = this.showKey;
     let xAxis = { ...this.options.xAxis };
     if (
       this.properties.displayType === "hour" ||
@@ -310,6 +339,7 @@ export class TimelineComponent
           formatter: this.widgetConfigService.timeAxisTickFormatting.bind(this),
           fontSize: 11,
           margin: 3,
+          hideOverlap: true,
         },
         axisPointer: {
           show: true,
@@ -321,18 +351,12 @@ export class TimelineComponent
     }
     this.updateOptions = {
       yAxis: {
-        data: this.metricSeries[displayMetric.id].yAxisLabels,
+        data: this.metricSeries[displayMetric.id]?.yAxisLabels,
       },
-      series: this.metricSeries[displayMetric.id].series,
+      series: this.metricSeries[displayMetric.id]?.series,
       visualMap: visualMaps,
       xAxis,
     };
-
-    if (this.echartsInstance) {
-      this.echartsInstance.setOption(this.updateOptions, {
-        replaceMerge: ["series", "xAxis"],
-      });
-    }
   }
 
   /**

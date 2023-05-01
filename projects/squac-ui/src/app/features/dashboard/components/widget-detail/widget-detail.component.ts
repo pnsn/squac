@@ -12,7 +12,11 @@ import { filter, Subscription, tap } from "rxjs";
 import { ViewService } from "@dashboard/services/view.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
-import { WidgetDataService, WidgetManagerService } from "widgets";
+import {
+  WidgetConnectService,
+  WidgetDataService,
+  WidgetManagerService,
+} from "widgets";
 import { Threshold } from "squacapi";
 import { WidgetDisplayOption, WidgetConfig, Widget } from "widgets";
 
@@ -43,14 +47,17 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
   displayType: WidgetDisplayOption;
   @ViewChild("widgetChild") widgetChild: any;
 
+  hideControls: boolean;
   zooming: string;
   showKey = true;
+  firstMetricUpdate = true; //don't save metrics after initial update
   constructor(
     protected widgetManager: WidgetManagerService,
     private router: Router,
     private route: ActivatedRoute,
     private confirmDialog: ConfirmDialogService,
-    private viewService: ViewService
+    private viewService: ViewService,
+    private widgetConnectService: WidgetConnectService
   ) {}
 
   /**
@@ -71,9 +78,8 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
           // update values
           const group = this.viewService.channelGroupId.getValue();
           const channels = this.viewService.channels.getValue();
-
           this.widgetManager.updateStat(
-            this.widget.stat || this.viewService.archiveStat,
+            this.viewService.archiveStat || this.widget.stat,
             this.viewService.archiveType
           );
           this.widgetManager.updateTimes(
@@ -82,12 +88,16 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
           );
 
           this.widgetManager.updateChannels(group, channels);
-
           this.widgetManager.fetchData();
         })
       )
       .subscribe();
 
+    const denseViewSub = this.widgetConnectService.useDenseView.subscribe(
+      (useDenseView: boolean) => {
+        this.hideControls = useDenseView;
+      }
+    );
     // listen to widget changes
     const widgetSub = this.widgetManager.widget$.subscribe((widget: Widget) => {
       this.initWidget(widget);
@@ -110,6 +120,7 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
         this.widgetManager.resize$.next(true);
       });
 
+    this.subscription.add(denseViewSub);
     this.subscription.add(resizeSub);
     this.subscription.add(zoomSub);
     this.subscription.add(toggleSub);
@@ -140,6 +151,10 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
     this.expectedMetrics = this.widgetType.minMetrics;
     this.initialMetrics = widget.metrics.slice();
     this.thresholds = widget.thresholds.slice();
+    if ("showLegend" in this.widget.properties) {
+      this.showKey = this.widget.properties.showLegend;
+      this.widgetManager.toggleKey$.next(this.showKey);
+    }
   }
 
   /**
@@ -151,7 +166,10 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
     this.widgetManager.updateThresholds(this.thresholds);
     this.widgetManager.updateMetrics(metrics);
     this.widget.thresholds = this.thresholds;
-    this.viewService.saveWidget(this.widget, true);
+    if (!this.firstMetricUpdate) {
+      this.viewService.saveWidget(this.widget, ["thresholds", "metrics"], true);
+    }
+    this.firstMetricUpdate = false;
   }
 
   /**
@@ -159,6 +177,8 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
    */
   toggleKey(): void {
     this.widgetManager.toggleKey$.next(!this.showKey);
+    this.widget.properties.showLegend = this.showKey;
+    this.viewService.saveWidget(this.widget, ["properties"], true);
   }
 
   /**

@@ -1,0 +1,1203 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>squac documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">squac documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content directive">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Directives</li>
+  <li >TooltipDirective</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>projects/squac-ui/src/app/ui/tooltip/tooltip.directive.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Directive for adding a tooltip to an html element that will open
+on mouseenter and close on mouseleave</p>
+<div><pre class="line-numbers"><code class="language-html">&lt;div
+ [uiTooltip]=&#39;Tooltip message&#39;
+ position=&#39;dynamic&#39;
+ theme=&#39;dark&#39;
+ [showDelay]=&#39;0&#39;
+ [hideDelay]=&#39;0&#39;
+ &gt;
+ &lt;/div</code></pre></div>
+            </p>
+
+
+            <p class="comment">
+                <h3>Implements</h3>
+            </p>
+            <p class="comment">
+                            <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+            </p>
+
+
+        <section>
+            <h3>Metadata</h3>
+            <table class="table table-sm table-hover metadata">
+                <tbody>
+
+                    <tr>
+                        <td class="col-md-3">Selector</td>
+                        <td class="col-md-9"><code>[uiTooltip]</code></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </section>
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#componentRef" >componentRef</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#hideTimeout" >hideTimeout</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#showTimeout" >showTimeout</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#touchTimeout" >touchTimeout</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#destroy" >destroy</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#initializeTooltip" >initializeTooltip</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#setHideTooltipTimeout" >setHideTooltipTimeout</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#setTooltipComponentProperties" >setTooltipComponentProperties</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#showTooltip" >showTooltip</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#hideDelay" >hideDelay</a>
+                            </li>
+                            <li>
+                                <a href="#position" >position</a>
+                            </li>
+                            <li>
+                                <a href="#showDelay" >showDelay</a>
+                            </li>
+                            <li>
+                                <a href="#theme" >theme</a>
+                            </li>
+                            <li>
+                                <a href="#uiTooltip" >uiTooltip</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(elementRef: <a href="https://angular.io/api/core/ElementRef" target="_blank">ElementRef</a>, appRef: <a href="https://angular.io/api/core/ApplicationRef" target="_blank">ApplicationRef</a>, componentFactoryResolver: <a href="https://angular.io/api/core/ComponentFactoryResolver" target="_blank">ComponentFactoryResolver</a>, injector: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">projects/squac-ui/src/app/ui/tooltip/tooltip.directive.ts:52</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>elementRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>appRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ApplicationRef" target="_blank" >ApplicationRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>componentFactoryResolver</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ComponentFactoryResolver" target="_blank" >ComponentFactoryResolver</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>injector</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/Injector" target="_blank" >Injector</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="hideDelay"></a>
+                        <b>hideDelay</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/squac-ui/src/app/ui/tooltip/tooltip.directive.ts:43</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Deplay in ms for hiding tooltip</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="position"></a>
+                        <b>position</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/enumerations.html#TooltipPosition" target="_self" >TooltipPosition</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>TooltipPosition.DEFAULT</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/squac-ui/src/app/ui/tooltip/tooltip.directive.ts:37</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Tooltip positioning relative to element</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showDelay"></a>
+                        <b>showDelay</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/squac-ui/src/app/ui/tooltip/tooltip.directive.ts:41</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Delay in ms for showing tooltip</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="theme"></a>
+                        <b>theme</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/enumerations.html#TooltipTheme" target="_self" >TooltipTheme</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>TooltipTheme.DEFAULT</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/squac-ui/src/app/ui/tooltip/tooltip.directive.ts:39</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Tooltip coloring, light or dark</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="uiTooltip"></a>
+                        <b>uiTooltip</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;&quot;</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/squac-ui/src/app/ui/tooltip/tooltip.directive.ts:35</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Tooltip text</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="destroy"></a>
+                    <span class="name">
+                        <span ><b>destroy</b></span>
+                        <a href="#destroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>destroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="261"
+                            class="link-to-prism">projects/squac-ui/src/app/ui/tooltip/tooltip.directive.ts:261</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Clears intervals and detaches component from the host</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initializeTooltip"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>initializeTooltip</b></span>
+                        <a href="#initializeTooltip"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>initializeTooltip()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="168"
+                            class="link-to-prism">projects/squac-ui/src/app/ui/tooltip/tooltip.directive.ts:168</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Creates tooltip and attaches to host element if it does not exist</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="254"
+                            class="link-to-prism">projects/squac-ui/src/app/ui/tooltip/tooltip.directive.ts:254</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Destroy element</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setHideTooltipTimeout"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>setHideTooltipTimeout</b></span>
+                        <a href="#setHideTooltipTimeout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setHideTooltipTimeout()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="246"
+                            class="link-to-prism">projects/squac-ui/src/app/ui/tooltip/tooltip.directive.ts:246</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Add timeout for hiding tooltip</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setTooltipComponentProperties"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>setTooltipComponentProperties</b></span>
+                        <a href="#setTooltipComponentProperties"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setTooltipComponentProperties()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="193"
+                            class="link-to-prism">projects/squac-ui/src/app/ui/tooltip/tooltip.directive.ts:193</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Calculates tooltip properties for positioning</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showTooltip"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>showTooltip</b></span>
+                        <a href="#showTooltip"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>showTooltip()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="237"
+                            class="link-to-prism">projects/squac-ui/src/app/ui/tooltip/tooltip.directive.ts:237</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Sets component visibility to true</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="componentRef"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>componentRef</b></span>
+                        <a href="#componentRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ComponentRef&lt;any&gt; | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/squac-ui/src/app/ui/tooltip/tooltip.directive.ts:46</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Ref to element tooltip is attached to</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hideTimeout"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>hideTimeout</b></span>
+                        <a href="#hideTimeout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/squac-ui/src/app/ui/tooltip/tooltip.directive.ts:50</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Timeout for hiding tooltip</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showTimeout"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>showTimeout</b></span>
+                        <a href="#showTimeout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">projects/squac-ui/src/app/ui/tooltip/tooltip.directive.ts:48</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Timeout for showing tooltip</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="touchTimeout"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>touchTimeout</b></span>
+                        <a href="#touchTimeout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">projects/squac-ui/src/app/ui/tooltip/tooltip.directive.ts:52</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Timeout for opening after touch event</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  ApplicationRef,
+  ComponentFactoryResolver,
+  ComponentRef,
+  Directive,
+  ElementRef,
+  EmbeddedViewRef,
+  Injector,
+  Input,
+  OnDestroy,
+} from &quot;@angular/core&quot;;
+import { fromEvent, tap } from &quot;rxjs&quot;;
+import { TooltipComponent } from &quot;./tooltip.component&quot;;
+import { TooltipPosition, TooltipTheme } from &quot;./tooltip.enums&quot;;
+
+/**
+ * Directive for adding a tooltip to an html element that will open
+ * on mouseenter and close on mouseleave
+ *
+ * @example
+ * &lt;div
+ *  [uiTooltip]&#x3D;&#x27;Tooltip message&#x27;
+ *  position&#x3D;&#x27;dynamic&#x27;
+ *  theme&#x3D;&#x27;dark&#x27;
+ *  [showDelay]&#x3D;&#x27;0&#x27;
+ *  [hideDelay]&#x3D;&#x27;0&#x27;
+ *  &gt;
+ *  &lt;/div
+ */
+@Directive({
+  selector: &quot;[uiTooltip]&quot;,
+})
+export class TooltipDirective implements OnDestroy {
+  /** Tooltip text */
+  @Input() uiTooltip &#x3D; &quot;&quot;;
+  /** Tooltip positioning relative to element*/
+  @Input() position: TooltipPosition &#x3D; TooltipPosition.DEFAULT;
+  /** Tooltip coloring, light or dark */
+  @Input() theme: TooltipTheme &#x3D; TooltipTheme.DEFAULT;
+  /** Delay in ms for showing tooltip */
+  @Input() showDelay &#x3D; 0;
+  /** Deplay in ms for hiding tooltip */
+  @Input() hideDelay &#x3D; 0;
+
+  /** Ref to element tooltip is attached to */
+  private componentRef: ComponentRef&lt;any&gt; | null &#x3D; null;
+  /** Timeout for showing tooltip */
+  private showTimeout?: number;
+  /** Timeout for hiding tooltip */
+  private hideTimeout?: number;
+  /** Timeout for opening after touch event */
+  private touchTimeout?: number;
+
+  constructor(
+    private elementRef: ElementRef,
+    private appRef: ApplicationRef,
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private injector: Injector
+  ) {
+    const element &#x3D; this.elementRef.nativeElement;
+
+    fromEvent(element, &quot;mouseenter&quot;)
+      .pipe(
+        tap(() &#x3D;&gt; {
+          this.initializeTooltip();
+        })
+      )
+      .subscribe();
+
+    fromEvent(element, &quot;mouseleave&quot;)
+      .pipe(
+        tap(() &#x3D;&gt; {
+          this.setHideTooltipTimeout();
+        })
+      )
+      .subscribe();
+
+    fromEvent(element, &quot;mousemove&quot;)
+      .pipe(
+        tap(($event: MouseEvent) &#x3D;&gt; {
+          if (
+            this.componentRef !&#x3D;&#x3D; null &amp;&amp;
+            this.position &#x3D;&#x3D;&#x3D; TooltipPosition.DYNAMIC
+          ) {
+            this.componentRef.instance.left &#x3D; $event.clientX;
+            this.componentRef.instance.top &#x3D; $event.clientY;
+            this.componentRef.instance.tooltip &#x3D; this.uiTooltip;
+          }
+        })
+      )
+      .subscribe();
+
+    fromEvent(element, &quot;touchend&quot;)
+      .pipe(
+        tap(() &#x3D;&gt; {
+          window.clearTimeout(this.touchTimeout);
+          this.setHideTooltipTimeout();
+        })
+      )
+      .subscribe();
+
+    fromEvent(element, &quot;touchstart&quot;).pipe(
+      tap(($event: TouchEvent) &#x3D;&gt; {
+        $event.preventDefault();
+        window.clearTimeout(this.touchTimeout);
+        this.touchTimeout &#x3D; window.setTimeout(
+          this.initializeTooltip.bind(this),
+          500
+        );
+      })
+    );
+  }
+
+  // /** Listen to mouseenter events to open tooltip */
+  // @HostListener(&quot;mouseenter&quot;)
+  // onMouseEnter(): void {
+  //   this.initializeTooltip();
+  // }
+
+  // /** Listen to mouseleave events to close tooltip */
+  // @HostListener(&quot;mouseleave&quot;)
+  // onMouseLeave(): void {
+  //   this.setHideTooltipTimeout();
+  // }
+
+  // /**
+  //  * List to mousemove events for tooltip positioning
+  //  *
+  //  * @param $event mouse move event
+  //  */
+  // @HostListener(&quot;mousemove&quot;, [&quot;$event&quot;])
+  // onMouseMove($event: MouseEvent): void {
+  //   if (
+  //     this.componentRef !&#x3D;&#x3D; null &amp;&amp;
+  //     this.position &#x3D;&#x3D;&#x3D; TooltipPosition.DYNAMIC
+  //   ) {
+  //     this.componentRef.instance.left &#x3D; $event.clientX;
+  //     this.componentRef.instance.top &#x3D; $event.clientY;
+  //     this.componentRef.instance.tooltip &#x3D; this.uiTooltip;
+  //   }
+  // }
+
+  // /**
+  //  * Listen to touch events for mobile users
+  //  *
+  //  * @param $event touch event
+  //  */
+  // @HostListener(&quot;touchstart&quot;, [&quot;$event&quot;])
+  // onTouchStart($event: TouchEvent): void {
+  //   $event.preventDefault();
+  //   window.clearTimeout(this.touchTimeout);
+  //   this.touchTimeout &#x3D; window.setTimeout(
+  //     this.initializeTooltip.bind(this),
+  //     500
+  //   );
+  // }
+
+  // /** Listen to end of touch event to close tooltip */
+  // @HostListener(&quot;touchend&quot;)
+  // onTouchEnd(): void {
+  //   window.clearTimeout(this.touchTimeout);
+  //   this.setHideTooltipTimeout();
+  // }
+
+  /**
+   * Creates tooltip and attaches to host element if it does not exist
+   */
+  private initializeTooltip(): void {
+    if (this.componentRef &#x3D;&#x3D;&#x3D; null) {
+      window.clearInterval(this.hideDelay);
+      const componentFactory &#x3D;
+        this.componentFactoryResolver.resolveComponentFactory(TooltipComponent);
+      this.componentRef &#x3D; componentFactory.create(this.injector);
+
+      this.appRef.attachView(this.componentRef.hostView);
+      const [tooltipDOMElement] &#x3D; (
+        this.componentRef.hostView as EmbeddedViewRef&lt;any&gt;
+      ).rootNodes;
+
+      this.setTooltipComponentProperties();
+
+      document.body.appendChild(tooltipDOMElement);
+      this.showTimeout &#x3D; window.setTimeout(
+        this.showTooltip.bind(this),
+        this.showDelay
+      );
+    }
+  }
+
+  /**
+   * Calculates tooltip properties for positioning
+   */
+  private setTooltipComponentProperties(): void {
+    if (this.componentRef !&#x3D;&#x3D; null) {
+      this.componentRef.instance.tooltip &#x3D; this.uiTooltip;
+      this.componentRef.instance.position &#x3D; this.position;
+      this.componentRef.instance.theme &#x3D; this.theme;
+
+      const { left, right, top, bottom } &#x3D;
+        this.elementRef.nativeElement.getBoundingClientRect();
+
+      switch (this.position) {
+        case TooltipPosition.BELOW: {
+          this.componentRef.instance.left &#x3D; Math.round(
+            (right - left) / 2 + left
+          );
+          this.componentRef.instance.top &#x3D; Math.round(bottom);
+          break;
+        }
+        case TooltipPosition.ABOVE: {
+          this.componentRef.instance.left &#x3D; Math.round(
+            (right - left) / 2 + left
+          );
+          this.componentRef.instance.top &#x3D; Math.round(top);
+          break;
+        }
+        case TooltipPosition.RIGHT: {
+          this.componentRef.instance.left &#x3D; Math.round(right);
+          this.componentRef.instance.top &#x3D; Math.round(top + (bottom - top) / 2);
+          break;
+        }
+        case TooltipPosition.LEFT: {
+          this.componentRef.instance.left &#x3D; Math.round(left);
+          this.componentRef.instance.top &#x3D; Math.round(top + (bottom - top) / 2);
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+    }
+  }
+
+  /**
+   * Sets component visibility to true
+   */
+  private showTooltip(): void {
+    if (this.componentRef !&#x3D;&#x3D; null) {
+      this.componentRef.instance.visible &#x3D; true;
+    }
+  }
+
+  /**
+   * Add timeout for hiding tooltip
+   */
+  private setHideTooltipTimeout(): void {
+    this.hideTimeout &#x3D; window.setTimeout(
+      this.destroy.bind(this),
+      this.hideDelay
+    );
+  }
+
+  /** Destroy element */
+  ngOnDestroy(): void {
+    this.destroy();
+  }
+
+  /**
+   * Clears intervals and detaches component from the host
+   */
+  destroy(): void {
+    if (this.componentRef !&#x3D;&#x3D; null) {
+      window.clearInterval(this.showTimeout);
+      window.clearInterval(this.hideDelay);
+      this.appRef.detachView(this.componentRef.hostView);
+      this.componentRef.destroy();
+      this.componentRef &#x3D; null;
+    }
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'directive';
+            var COMPODOC_CURRENT_PAGE_URL = 'TooltipDirective.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

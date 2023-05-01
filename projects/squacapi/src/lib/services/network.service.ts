@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { Network, NetworkAdapter } from "../models";
+import { Network } from "../models";
 import { ListService } from "../interfaces";
-import { BaseApiService } from "./generic-api.service";
+import { BaseReadOnlyApiService } from "./generic-api.service";
 import {
   ApiService,
   NslcNetworksListRequestParams,
@@ -10,33 +10,20 @@ import { Observable } from "rxjs";
 import { ApiEndpoint } from "../enums";
 
 /**
- *
+ * Service for requesting networks from squacapi
  */
 @Injectable({
   providedIn: "root",
 })
-
-// Service for handling networks
-export class NetworkService
-  extends BaseApiService<Network>
-  implements ListService<Network>
-{
-  constructor(
-    override api: ApiService,
-    protected networkAdapter: NetworkAdapter
-  ) {
+export class NetworkService extends BaseReadOnlyApiService<Network> {
+  constructor(override api: ApiService) {
     super(ApiEndpoint.NETWORK, api);
   }
+}
 
-  /**
-   *
-   * @param params
-   * @param refresh
-   */
+export interface NetworkService extends ListService<Network> {
   list(
     params?: NslcNetworksListRequestParams,
     refresh?: boolean
-  ): Observable<Network[]> {
-    return super._list(params, { refresh });
-  }
+  ): Observable<Network[]>;
 }

@@ -15,6 +15,10 @@ import {
 
 /** Default max time to use login data */
 const DEFAULT_MAX_LOGIN = 6; //hours
+/** Default type of storage to use */
+const DEFAULT_STORAGE = LocalStorageTypes.LOCAL;
+/** default string prefix for stored item */
+const AUTH_DATA = "userData";
 
 /**
  * Handles logging in logic
@@ -54,7 +58,7 @@ export class AuthService {
     const authData: {
       token: string;
       tokenExpirationDate: string;
-    } = LocalStorageService.getItem(LocalStorageTypes.LOCAL, "userData");
+    } = LocalStorageService.getItem(DEFAULT_STORAGE, AUTH_DATA);
     // Don't log in if no auth data or is expired
     if (!authData || new Date() > new Date(authData.tokenExpirationDate)) {
       return;
@@ -121,6 +125,7 @@ export class AuthService {
     this.token = null;
     this.router.navigate(["/login"]);
 
+    LocalStorageService.removeItem(DEFAULT_STORAGE, AUTH_DATA);
     LocalStorageService.invalidateCache();
   }
 
@@ -136,6 +141,6 @@ export class AuthService {
       token,
       tokenExpirationDate: expirationDate,
     };
-    LocalStorageService.setItem(LocalStorageTypes.LOCAL, "userData", authData);
+    LocalStorageService.setItem(DEFAULT_STORAGE, AUTH_DATA, authData);
   }
 }

@@ -1,5 +1,7 @@
+import { GradientColorOption, SolidColorOption } from "../interfaces";
+
 /** Solid widget color options */
-export const WIDGET_SOLID_COLORS = [
+export const WIDGET_SOLID_COLORS: SolidColorOption[] = [
   {
     color: ["lightgray"],
     label: "Light gray",
@@ -43,7 +45,7 @@ export const WIDGET_SOLID_COLORS = [
 ];
 
 /** gradient widget color options */
-export const WIDGET_GRADIENT_COLORS = [
+export const WIDGET_GRADIENT_COLORS: GradientColorOption[] = [
   {
     label: "Rainbow",
     type: "rainbow",

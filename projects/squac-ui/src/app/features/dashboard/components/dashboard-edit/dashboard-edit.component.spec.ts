@@ -7,6 +7,7 @@ import { UserService } from "@user/services/user.service";
 import { MockBuilder } from "ng-mocks";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { ChannelGroupSelectorComponent } from "@shared/components/channel-group-selector/channel-group-selector.component";
+import { SharingToggleComponent } from "@shared/components/sharing-toggle/sharing-toggle.component";
 
 describe("DashboardEditComponent", () => {
   let component: DashboardEditComponent;
@@ -19,6 +20,7 @@ describe("DashboardEditComponent", () => {
       .mock(MAT_DIALOG_DATA, {
         data: {},
       })
+      .mock(SharingToggleComponent)
       .keep(ReactiveFormsModule)
       .keep(FormsModule)
       .mock(DashboardService)

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { UntypedFormBuilder, ReactiveFormsModule } from "@angular/forms";
+import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { ChannelGroupModule } from "@channelGroup/channel-group.module";
 import { MockBuilder } from "ng-mocks";
 
@@ -13,7 +13,7 @@ describe("MatchingRuleEditComponent", () => {
     return MockBuilder(MatchingRuleEditComponent)
       .mock(ChannelGroupModule)
       .mock(ReactiveFormsModule)
-      .keep(UntypedFormBuilder);
+      .keep(FormBuilder);
   });
 
   it("should create", () => {

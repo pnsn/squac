@@ -1,15 +1,34 @@
 import { Component, OnInit, OnDestroy, Inject } from "@angular/core";
 import { Metric } from "squacapi";
 import {
-  UntypedFormGroup,
-  UntypedFormBuilder,
-  UntypedFormControl,
   Validators,
+  FormControl,
+  FormGroup,
+  FormBuilder,
 } from "@angular/forms";
 import { MetricService } from "squacapi";
 import { Subscription } from "rxjs";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 
+/** Metric edit form contrils */
+interface MetricForm {
+  /** metric name */
+  name: FormControl<string>;
+  /** metric description */
+  description: FormControl<string>;
+  /** metric id code */
+  code: FormControl<string>;
+  /** metric link to more info */
+  referenceUrl: FormControl<string>;
+  /** unit for measurements for this metric */
+  unit: FormControl<string>;
+  /** metric sample rate */
+  sampleRate: FormControl<number>;
+  /** default minimum value of metric, used for display */
+  minVal: FormControl<number>;
+  /** default maximum value of metric, used for display */
+  maxVal: FormControl<number>;
+}
 /**
  * Component for editing metric information
  */
@@ -24,20 +43,20 @@ export class MetricEditComponent implements OnInit, OnDestroy {
   metric: Metric;
   editMode: boolean;
 
-  metricForm: UntypedFormGroup = this.formBuilder.group({
-    name: new UntypedFormControl("", Validators.required),
-    description: new UntypedFormControl("", Validators.required),
-    code: new UntypedFormControl("", Validators.required),
-    refUrl: new UntypedFormControl("", Validators.required),
-    unit: new UntypedFormControl("", Validators.required),
-    sampleRate: new UntypedFormControl("", Validators.required),
-    minVal: new UntypedFormControl(""),
-    maxVal: new UntypedFormControl(""),
+  metricForm: FormGroup<MetricForm> = this.formBuilder.group({
+    name: new FormControl("", Validators.required),
+    description: new FormControl("", Validators.required),
+    code: new FormControl("", Validators.required),
+    referenceUrl: new FormControl("", Validators.required),
+    unit: new FormControl("", Validators.required),
+    sampleRate: new FormControl(null, Validators.required),
+    minVal: new FormControl(),
+    maxVal: new FormControl(),
   });
 
   constructor(
     private metricService: MetricService,
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<MetricEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
@@ -56,7 +75,7 @@ export class MetricEditComponent implements OnInit, OnDestroy {
         name: this.metric.name,
         code: this.metric.code,
         description: this.metric.description,
-        refUrl: this.metric.refUrl,
+        referenceUrl: this.metric.referenceUrl,
         unit: this.metric.unit,
         sampleRate: this.metric.sampleRate,
         minVal: this.metric.minVal,
@@ -68,26 +87,22 @@ export class MetricEditComponent implements OnInit, OnDestroy {
   /** Saves metric information */
   save(): void {
     const values = this.metricForm.value;
-    this.metricService
-      .updateOrCreate(
-        new Metric(
-          this.id,
-          null,
-          values.name,
-          values.code,
-          values.description,
-          values.refUrl,
-          values.unit,
-          values.sampleRate,
-          values.minVal,
-          values.maxVal
-        )
-      )
-      .subscribe({
-        next: (result) => {
-          this.cancel(result.id);
-        },
-      });
+    const metric = new Metric({
+      id: this.id,
+      name: values.name,
+      code: values.code,
+      description: values.description,
+      unit: values.unit,
+      referenceUrl: values.referenceUrl,
+      sampleRate: values.sampleRate,
+      minVal: values.minVal,
+      maxVal: values.maxVal,
+    });
+    this.metricService.updateOrCreate(metric).subscribe({
+      next: (metricId) => {
+        this.cancel(metricId);
+      },
+    });
   }
 
   /**

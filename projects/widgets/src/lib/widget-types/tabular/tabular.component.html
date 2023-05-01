@@ -5,7 +5,7 @@
   [rows]="rows"
   [columns]="columns"
   [headerHeight]="25"
-  [sortType]="SortType.multi"
+  [sortType]="SortType.single"
   [columnMode]="ColumnMode.force"
   [selectionType]="SelectionType.single"
   [footerHeight]="0"
@@ -38,21 +38,29 @@
       [ngClass]="{ border: value.color === 'white' }"
       [ngStyle]="{ 'background-color': value.color }"
     ></span>
-    <!-- <span class="cell-text" *ngIf="+value.count; else noValue">
-      {{ value.count | precision }}
-    </span> -->
   </ng-container>
 
   <ng-template #notStoplight>
     <ng-container *ngIf="value.value !== null; else noValue">
-      <span
-        [class]="showKey ? 'cell-icon' : 'cell-full'"
+      <div
+        *ngIf="showKey"
+        class="cell-icon"
         [ngClass]="{ border: value.color === 'white' }"
         [ngStyle]="{ 'background-color': value.color }"
-      ></span>
-      <span *ngIf="showKey">
-        {{ value.value | precision }}
-      </span>
+      ></div>
+      <span *ngIf="showKey">{{ value.value | precision }}</span>
+      <div
+        *ngIf="!showKey"
+        class="cell-full"
+        [ngClass]="{
+          border: value.color === 'gray' || value.color === '#808080'
+        }"
+        [ngStyle]="{ 'background-color': value.color, color: value.color }"
+      >
+        <span>
+          {{ value.value | precision }}
+        </span>
+      </div>
     </ng-container>
   </ng-template>
 

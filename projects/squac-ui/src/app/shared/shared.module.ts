@@ -10,7 +10,6 @@ import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
 import { ErrorComponent } from "./components/error/error.component";
 import { AbilityModule } from "@casl/angular";
 import { ConfirmDialogComponent } from "./components/confirm-dialog/confirm-dialog.component";
-import { ReplacePipe } from "./pipes/replace.pipe";
 import { SnackbarComponent } from "./components/snackbar/snackbar.component";
 import { SharedIndicatorComponent } from "./components/shared-indicator/shared-indicator.component";
 import { TableViewComponent } from "./components/table-view/table-view.component";
@@ -21,8 +20,10 @@ import { ChannelGroupSelectorComponent } from "./components/channel-group-select
 import { LoadingDirective } from "./directives/loading-directive.directive";
 import { LoadingOverlayComponent } from "./components/loading-overlay/loading-overlay.component";
 import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-spinner.component";
+import { DetailPageComponent } from "./components/detail-page/detail-page.component";
 import { SquacapiModule } from "squacapi";
-
+import { SharingToggleComponent } from "./components/sharing-toggle/sharing-toggle.component";
+import { TooltipModule } from "@ui/tooltip/tooltip.module";
 /**
  * Shared module for features
  */
@@ -32,7 +33,7 @@ import { SquacapiModule } from "squacapi";
     ConfirmDialogComponent,
     LoadingComponent,
     ErrorComponent,
-    ReplacePipe,
+
     SnackbarComponent,
     SharedIndicatorComponent,
     TableViewComponent,
@@ -41,6 +42,8 @@ import { SquacapiModule } from "squacapi";
     LoadingOverlayComponent,
     LoadingDirective,
     LoadingSpinnerComponent,
+    DetailPageComponent,
+    SharingToggleComponent,
   ],
   imports: [
     CommonModule,
@@ -54,6 +57,7 @@ import { SquacapiModule } from "squacapi";
     RouterModule,
     NgxDaterangepickerMd.forRoot(),
     SquacapiModule,
+    TooltipModule,
   ],
   exports: [
     MaterialModule,
@@ -66,7 +70,6 @@ import { SquacapiModule } from "squacapi";
     ErrorComponent,
     AbilityModule,
     ConfirmDialogComponent,
-    ReplacePipe,
     LeafletModule,
     LeafletDrawModule,
     SnackbarComponent,
@@ -79,6 +82,8 @@ import { SquacapiModule } from "squacapi";
     LoadingSpinnerComponent,
     LoadingDirective,
     SquacapiModule,
+    DetailPageComponent,
+    SharingToggleComponent,
   ],
 })
 export class SharedModule {}

@@ -99,14 +99,7 @@
  * @template T model type
  */
 export interface ListService&lt;T&gt; {
-  /**
-   * Requests list of data
-   *
-   * @template T model type
-   * @param params request params
-   * @returns observable of results
-   */
-  list(params?: unknown): Observable&lt;Array&lt;T&gt;&gt;;
+  list(params?: unknown, refresh?: boolean): Observable&lt;Array&lt;T&gt;&gt;;
 }
 
 /**
@@ -115,14 +108,7 @@ export interface ListService&lt;T&gt; {
  * @template T model type
  */
 export interface ReadService&lt;T&gt; {
-  /**
-   * Requests single item of data
-   *
-   * @template T model type
-   * @param params request params
-   * @returns observable of results
-   */
-  read(params: unknown): Observable&lt;T&gt;;
+  read(id: number, refresh?: boolean): Observable&lt;T&gt;;
 }
 
 /**
@@ -131,14 +117,7 @@ export interface ReadService&lt;T&gt; {
  * @template T model type
  */
 export interface UpdateService&lt;T&gt; {
-  /**
-   * Updates object
-   *
-   * @template T model type
-   * @param params request params
-   * @returns observable of results
-   */
-  update(params: unknown): Observable&lt;T&gt;;
+  update(t: T, mapId?: boolean): Observable&lt;T | number&gt;;
 }
 
 /**
@@ -147,14 +126,7 @@ export interface UpdateService&lt;T&gt; {
  * @template T model type
  */
 export interface WriteService&lt;T&gt; {
-  /**
-   * Updates or creates object
-   *
-   * @template T model type
-   * @param params request params
-   * @returns observable of results
-   */
-  updateOrCreate(t: T): Observable&lt;T&gt;;
+  updateOrCreate(t: T, mapId?: boolean): Observable&lt;T | number&gt;;
 }
 
 /**
@@ -163,14 +135,8 @@ export interface WriteService&lt;T&gt; {
  * @template T model type
  */
 export interface DeleteService&lt;T&gt; {
-  /**
-   * Deletes object
-   *
-   * @template T model type
-   * @param params request params
-   * @returns observable of results
-   */
-  delete(params: unknown): Observable&lt;T&gt;;
+  delete(id: number): Observable&lt;any&gt;;
+  updateOrDelete(objects: T[], ids: number[]): Observable&lt;number&gt;[];
 }
 
 /**
@@ -179,14 +145,11 @@ export interface DeleteService&lt;T&gt; {
  * @template T model type
  */
 export interface PartialUpdateService&lt;T&gt; {
-  /**
-   * Updates object with partial data
-   *
-   * @template T model type
-   * @param params request params
-   * @returns observable of results
-   */
-  partialUpdate(params: unknown): Observable&lt;T&gt;;
+  partialUpdate(
+    object: Partial&lt;T&gt;,
+    keys: string[],
+    mapId?: boolean
+  ): Observable&lt;T | number&gt;;
 }
 
 /**

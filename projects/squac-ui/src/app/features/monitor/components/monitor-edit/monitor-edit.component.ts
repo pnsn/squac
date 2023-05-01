@@ -1,22 +1,75 @@
 import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
 import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
 import {
-  UntypedFormArray,
-  UntypedFormBuilder,
-  UntypedFormGroup,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
   Validators,
 } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { ChannelGroup } from "squacapi";
+import {
+  ChannelGroup,
+  INTERVAL_TYPES,
+  Monitor,
+  MonitorService,
+  MONITOR_STATS,
+  NUM_CHANNELS_OPERATORS,
+  Trigger,
+  TriggerService,
+  VALUE_OPERATORS,
+  IntervalType,
+  MonitorStatType,
+  NumChannelsOperator,
+  ValueOperator,
+} from "squacapi";
 import { Metric } from "squacapi";
 import { MessageService } from "@core/services/message.service";
-import { Monitor } from "squacapi";
-import { Trigger } from "squacapi";
-import { MonitorService } from "squacapi";
-import { TriggerService } from "squacapi";
 import { merge, Subscription } from "rxjs";
 import { switchMap } from "rxjs/operators";
+import { emailListStringValidator } from "@core/utils/validators";
 
+/**
+ * Trigger form fields
+ */
+interface TriggerForm {
+  /** trigger id */
+  id: FormControl<number>;
+  /** trigger low value */
+  val1: FormControl<number>;
+  /** trigger high value */
+  val2: FormControl<number>;
+  /** trigger value operator */
+  valueOperator: FormControl<ValueOperator>;
+  /** number of channels for trigger */
+  numChannels: FormControl<number>;
+  /** number of channels operator */
+  numChannelsOperator: FormControl<NumChannelsOperator>;
+  /** true if an alert should be sent when out of alarm */
+  alertOnOutOfAlarm: FormControl<boolean>;
+  /** email list to send alerts to */
+  emails: FormControl<string>;
+}
+
+/** Monitor form fields */
+interface MonitorForm {
+  /** name of monitor */
+  name: FormControl<string>;
+  /** number of intervals */
+  intervalCount: FormControl<number>;
+  /** type of interval */
+  intervalType: FormControl<IntervalType>;
+  /** monitor statistic */
+  stat: FormControl<MonitorStatType>;
+  /** metric to use in monitor */
+  metric: FormControl<Metric>;
+  /** channel group to evaluate metric on */
+  channelGroup: FormControl<number>;
+  /** triggers for monitor */
+  triggers: FormArray<FormGroup<TriggerForm>>;
+  /** true if daily summary should be sent instead of individual alerts */
+  doDailyDigest: FormControl<boolean>;
+}
 /**
  * Component for editing monitors
  */
@@ -39,54 +92,34 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   monitor: Monitor;
   channelGroups: any;
   metrics: Metric[];
-  emailValidator: Validators = Validators.pattern(
-    /^([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4},?)+$/
-  );
   hideRequiredMarker = true;
   floatLabel = "always";
   removeTriggerIDs = [];
 
-  // form options
-  intervalTypes: string[] = ["minute", "hour", "day"];
-  stats: any[] = [
-    { value: "count", name: "count" },
-    { value: "sum", name: "sum" },
-    { value: "avg", name: "average" },
-    { value: "min", name: "minimum" },
-    { value: "max", name: "maximum" },
-  ];
-  valueOperators: any[] = [
-    { value: "outsideof", name: "outside of" },
-    { value: "within", name: "within" },
-    { value: "==", name: "equal to" },
-    { value: "<", name: "less than" },
-    { value: "<=", name: "less than or equal to" },
-    { value: ">", name: "greater than" },
-    { value: ">=", name: "greater than or equal to" },
-  ];
-  numChannelsOperators: any[] = [
-    { value: "any", name: "any" },
-    { value: "all", name: "all" },
-    { value: "==", name: "exactly" },
-    { value: ">", name: "more than" },
-    { value: "<", name: "less than" },
-  ];
+  INTERVAL_TYPES = INTERVAL_TYPES;
+  MONITOR_STATS = MONITOR_STATS;
+  VALUE_OPERATORS = VALUE_OPERATORS;
+  NUM_CHANNELS_OPERATORS = NUM_CHANNELS_OPERATORS;
 
   selectedChannelGroup: ChannelGroup;
   selectedMetric: Metric;
   groups: any;
-  monitorForm = this.formBuilder.group({
-    name: ["", Validators.required],
-    intervalCount: ["", [Validators.required, Validators.min(1)]],
-    intervalType: ["", Validators.required],
-    stat: ["", Validators.required],
-    metric: ["", Validators.required],
-    channelGroup: ["", Validators.required],
-    triggers: this.formBuilder.array([]),
+  monitorForm: FormGroup<MonitorForm> = this.formBuilder.group<MonitorForm>({
+    name: new FormControl("", Validators.required),
+    intervalCount: new FormControl(null, [
+      Validators.required,
+      Validators.min(1),
+    ]),
+    intervalType: new FormControl(null, Validators.required),
+    stat: new FormControl(null, Validators.required),
+    metric: new FormControl(null, Validators.required),
+    channelGroup: new FormControl(null, Validators.required),
+    triggers: this.formBuilder.array<FormGroup<TriggerForm>>([]),
+    doDailyDigest: new FormControl(false),
   });
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private monitorService: MonitorService,
     public dialogRef: MatDialogRef<MonitorEditComponent>,
     private triggerService: TriggerService,
@@ -103,8 +136,10 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   }
 
   /** @returns Trigger form array */
-  get triggers(): UntypedFormArray {
-    return this.monitorForm.get("triggers") as UntypedFormArray;
+  get triggers(): FormArray<FormGroup<TriggerForm>> {
+    return this.monitorForm.get("triggers") as FormArray<
+      FormGroup<TriggerForm>
+    >;
   }
 
   /**
@@ -113,7 +148,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
    * @param trigger trigger to add, empty if blank form
    * @returns trigger form group
    */
-  makeTriggerForm(trigger?: Trigger): UntypedFormGroup {
+  makeTriggerForm(trigger?: Trigger): FormGroup<TriggerForm> {
     return this.formBuilder.group(
       {
         val1: [trigger ? trigger.val1 : null, Validators.required],
@@ -136,7 +171,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
           Validators.required,
         ],
         alertOnOutOfAlarm: [trigger ? trigger.alertOnOutOfAlarm : false],
-        emailList: [trigger ? trigger.emailList : null, Validators.email], //this.emailValidator
+        emails: [trigger ? trigger.emails : null, emailListStringValidator()], //this.emailValidator
       },
       { updateOn: "blur" }
     );
@@ -211,26 +246,29 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   /** Saves monitor to squacapi */
   save(): void {
     const values = this.monitorForm.value;
-    const monitor = new Monitor(
-      this.id,
-      values.name,
-      values.channelGroup,
-      values.metric.id,
-      values.intervalType,
-      values.intervalCount,
-      values.stat,
-      null,
-      this.triggers.value
-    );
+    const triggers = this.triggers.value as Trigger[];
+    const monitor = new Monitor({
+      id: this.id,
+      name: values.name,
+      channelGroupId: values.channelGroup,
+      metricId: values.metric.id,
+      intervalType: values.intervalType,
+      intervalCount: values.intervalCount,
+      stat: values.stat,
+      triggers,
+      doDailyDigest: values.doDailyDigest,
+    });
     this.monitorService
       .updateOrCreate(monitor)
       .pipe(
-        switchMap((m) => {
+        switchMap((monitorId: number) => {
+          triggers.forEach((t) => {
+            t.monitorId = monitorId;
+          });
           return merge(
-            ...this.triggerService.updateTriggers(
-              this.triggers.value,
-              this.removeTriggerIDs,
-              m.id
+            ...this.triggerService.updateOrDelete(
+              triggers,
+              this.removeTriggerIDs
             )
           );
         })
@@ -264,7 +302,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       this.id = this.monitor.id;
 
       this.selectedMetric = this.metrics.find(
-        (m) => m.id === this.monitor.metric.id
+        (m) => m.id === this.monitor.metricId
       );
 
       this.monitorForm.patchValue({
@@ -272,8 +310,9 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
         intervalCount: this.monitor.intervalCount,
         intervalType: this.monitor.intervalType,
         stat: this.monitor.stat,
-        channelGroup: this.monitor.channelGroup.id,
+        channelGroup: this.monitor.channelGroupId,
         metric: this.selectedMetric,
+        doDailyDigest: this.monitor.doDailyDigest,
       });
 
       this.monitor.triggers.forEach((trigger) => {

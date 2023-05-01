@@ -17,9 +17,14 @@ import { OrganizationService } from "squacapi";
 import { UserService } from "@user/services/user.service";
 import { OrganizationPipe } from "squacapi";
 import { UserPipe } from "squacapi";
-import { ColumnMode, SortType } from "@boring.devs/ngx-datatable";
+import {
+  ColumnMode,
+  SelectionType,
+  SortType,
+} from "@boring.devs/ngx-datatable";
 import { Subscription, tap, filter } from "rxjs";
 import { TableControls, TableFilters, TableOptions } from "./interfaces";
+import { SharedToggleFilter } from "../sharing-toggle/sharing-toggle.interface";
 
 /**
  * Reusable table view component
@@ -68,7 +73,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   //defaultOptions
   tableOptions: TableOptions = {
     columnMode: ColumnMode.force,
-    selectionType: undefined,
+    selectionType: SelectionType.single,
     headerHeight: 30,
     footerHeight: 30,
     rowHeight: "auto",
@@ -113,7 +118,9 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     const userServ = this.userService.user.subscribe({
       next: (user) => {
         this.user = user;
-        this.processRows();
+        if (this.rows) {
+          this.processRows();
+        }
       },
     });
 
@@ -394,28 +401,11 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
 
   /**
    * Change sharing settings and filter table to match
+   *
+   * @param params sharing filter params
    */
-  toggleSharing(): void {
-    const params: {
-      user?: number;
-      organization?: number;
-    } = {};
-    if (this.filters.toggleShared) {
-      switch (this.shareFilter) {
-        case "user":
-          params.user = this.user.id;
-          break;
-
-        case "org":
-          params.organization = this.user.orgId;
-          break;
-
-        default:
-          break;
-      }
-
-      this.filtersChanged.emit(params);
-    }
+  toggleSharing(params: SharedToggleFilter): void {
+    this.filtersChanged.emit(params);
   }
 
   /**

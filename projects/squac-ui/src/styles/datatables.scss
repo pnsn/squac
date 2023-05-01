@@ -43,12 +43,12 @@ ngx-datatable {
 .ngx-datatable.material.datatable-body .datatable-body-row.active,
 .datatable-body-row.active .datatable-row-group,
 .group-header-container.active {
-  background-color: lighten($sq-lt-blue, 30%) !important;
+  background-color: lighten($sq-lt-blue, 10%) !important;
 }
 .datatable-body-row.active:hover,
 .datatable-body-row.active:hover .datatable-row-group,
 .group-header-container.active:hover {
-  background-color: lighten($sq-lt-blue, 20%) !important;
+  background-color: $sq-lt-blue;
 }
 .datatable-body-row:hover,
 .datatable-body-row:hover .datatable-row-group,
@@ -63,7 +63,7 @@ ngx-datatable.shared-view-table {
   }
   &.full {
     .datatable-body {
-      max-height: calc(90vh);
+      max-height: calc(100vh - 210px) !important;
     }
   }
   &.half {
@@ -126,8 +126,6 @@ ngx-datatable.shared-view-table {
     }
     .datatable-body-cell,
     .datatable-body-row {
-      font-weight: lighter;
-
       white-space: normal !important;
       line-height: 1.25 !important;
     }
@@ -189,5 +187,58 @@ ngx-datatable.shared-view-table {
   100% {
     opacity: 0;
     transform: translateX(35%) scale(0.3, 1);
+  }
+}
+
+.channel-table.ngx-datatable {
+  height: 100%;
+  border: $default-border;
+  border-top: none;
+
+  .datatable-header {
+    height: auto !important;
+    background-color: $sq-lt-gray;
+    border-top: $default-border;
+    border-bottom: $default-border;
+  }
+  .datatable-header-cell {
+    padding: 1px !important;
+    white-space: normal !important;
+    &:hover {
+      z-index: 1000;
+      overflow: visible !important;
+    }
+  }
+
+  .datatable-header-cell-template-wrap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .resize-handle {
+    width: 2px !important;
+    padding: 0px 1px !important;
+  }
+  .datatable-header-cell-label {
+    text-overflow: ellipsis;
+  }
+  .header-cell {
+    width: 100%;
+    overflow: hidden;
+    max-height: 50px;
+    span {
+      font-size: inherit;
+    }
+    &:hover {
+      z-index: 1000;
+      overflow: auto;
+      overflow-wrap: break-word;
+      span {
+        display: inline-block;
+        word-break: break-word;
+        font-weight: bold;
+      }
+    }
   }
 }

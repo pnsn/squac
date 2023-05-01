@@ -369,7 +369,7 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../classes/Metric.html" target="_self" >Metric[]</a></code>
+                        <i>Type : </i>    <code>Metric[]</code>
 
                     </td>
                 </tr>
@@ -432,7 +432,7 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../miscellaneous/enumerations.html#WidgetType" target="_self" >WidgetType</a></code>
+                        <i>Type : </i>        <code><a href="../classes/Widget.html" target="_self" >WidgetType</a></code>
 
                     </td>
                 </tr>
@@ -472,8 +472,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="243"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:243</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="242"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:242</a></div>
                 </td>
             </tr>
 
@@ -647,7 +647,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getThresholds(metrics: <a href="../classes/Metric.html" target="_self">Metric[]</a>)</code>
+<code>getThresholds(metrics: Metric[])</code>
                 </td>
             </tr>
 
@@ -681,7 +681,7 @@
                                 <tr>
                                     <td>metrics</td>
                                     <td>
-                                                <code><a href="../classes/Metric.html" target="_self" >Metric[]</a></code>
+                                            <code>Metric[]</code>
                                     </td>
 
                                     <td>
@@ -846,8 +846,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="257"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:257</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="256"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts:256</a></div>
                 </td>
             </tr>
 
@@ -1286,15 +1286,15 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
           const endtime &#x3D; this.dateService.format(newEnd);
 
           const value &#x3D; Math.random() * m.maxVal + m.minVal;
-          const measurement &#x3D; new Measurement(
-            1,
-            1,
-            m.id,
-            c.id,
+          const measurement &#x3D; new Measurement({
+            id: 1,
+            user: 1,
+            metric: m.id,
+            channel: c.id,
             value,
             starttime,
-            endtime
-          );
+            endtime,
+          });
 
           this.dataRange[m.id].count++;
           measurements.push(measurement);
@@ -1329,12 +1329,12 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
       }
 
       this.widgetManager.properties &#x3D; this.properties;
-
+      const configService &#x3D; this.createConfigService();
       const injector &#x3D; Injector.create({
         providers: [
           {
             provide: WidgetConfigService,
-            useValue: this.createConfigService,
+            useValue: configService,
           },
           {
             provide: WidgetManagerService,
@@ -1358,7 +1358,6 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
     configService.thresholds &#x3D; this._thresholds;
     configService.dataRange &#x3D; this.dataRange;
     configService.chartDefaults.dataZoom &#x3D; [];
-
     configService.chartDefaults.grid &#x3D; {
       ...configService.chartDefaults.grid,
       left: 10,

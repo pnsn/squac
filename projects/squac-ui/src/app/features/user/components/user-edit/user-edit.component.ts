@@ -2,11 +2,24 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
   Validators,
-  UntypedFormControl,
-  UntypedFormGroup,
+  ValidationErrors,
+  FormControl,
+  FormGroup,
 } from "@angular/forms";
 import { InviteService } from "squacapi";
 
+/** Password form fields */
+interface PasswordsForm {
+  password: FormControl<string>;
+  confirm: FormControl<string>;
+}
+
+/** User edit form fields */
+interface UserForm {
+  firstname: FormControl<string>;
+  lastname: FormControl<string>;
+  passwords: FormGroup<PasswordsForm>;
+}
 /**
  * User edit component after creation
  */
@@ -26,7 +39,7 @@ export class UserEditComponent implements OnInit {
   hide = true; // show/hide password
   attempts = 0; // soft block for too many
   token: string; // the token
-  userForm: UntypedFormGroup;
+  userForm: FormGroup<UserForm>;
 
   /** init form */
   ngOnInit(): void {
@@ -34,16 +47,19 @@ export class UserEditComponent implements OnInit {
       this.token = params["token"];
     });
 
-    this.userForm = new UntypedFormGroup({
-      firstName: new UntypedFormControl("", [Validators.required]),
-      lastName: new UntypedFormControl("", [Validators.required]),
-      passwords: new UntypedFormGroup(
+    this.userForm = new FormGroup({
+      firstname: new FormControl("", [Validators.required]),
+      lastname: new FormControl("", [Validators.required]),
+      passwords: new FormGroup(
         {
-          password: new UntypedFormControl("", [
+          password: new FormControl("", [
             Validators.minLength(8),
             Validators.required,
           ]),
-          confirm: new UntypedFormControl("", [Validators.required]),
+          confirm: new FormControl("", [
+            Validators.minLength(8),
+            Validators.required,
+          ]),
         },
         [this.passwordValidator]
       ),
@@ -56,16 +72,12 @@ export class UserEditComponent implements OnInit {
    * @param group form group
    * @returns validator function
    */
-  passwordValidator(group: UntypedFormGroup): { mismatch: boolean } {
-    if (
-      group.value.password &&
+  passwordValidator(group: FormGroup<PasswordsForm>): ValidationErrors | null {
+    return group.value.password &&
       group.value.confirm &&
       group.value.password === group.value.confirm
-    ) {
-      return null;
-    } else {
-      return { mismatch: true };
-    }
+      ? null
+      : { mismatch: true };
   }
 
   /**
@@ -80,7 +92,7 @@ export class UserEditComponent implements OnInit {
       return;
     }
     this.inviteService
-      .registerUser(values.firstName, values.lastName, this.token, password1)
+      .registerUser(values.firstname, values.lastname, this.token, password1)
       .subscribe({
         next: (response) => {
           // go to next step

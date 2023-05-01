@@ -109,12 +109,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(alertService: <a href="../injectables/AlertService.html" target="_self">AlertService</a>, dateService: <a href="../injectables/DateService.html" target="_self">DateService</a>)</code>
+<code>constructor(alertService: <a href="../injectables/AlertService.html" target="_self">AlertService</a>, dateService: <a href="../injectables/DateService.html" target="_self">DateService</a>, loadingService: <a href="../injectables/LoadingService.html" target="_self">LoadingService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/alert.resolver.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/squac-ui/src/app/core/resolvers/alert.resolver.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -148,6 +148,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/DateService.html" target="_self" >DateService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>loadingService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/LoadingService.html" target="_self" >LoadingService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -189,8 +201,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/alert.resolver.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="28"
+                            class="link-to-prism">projects/squac-ui/src/app/core/resolvers/alert.resolver.ts:28</a></div>
                 </td>
             </tr>
 
@@ -235,7 +247,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/Alert.html" target="_self" >Observable&lt;Alert | []&gt;</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;Alert | []&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -254,6 +266,7 @@
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { ActivatedRouteSnapshot, Resolve } from &quot;@angular/router&quot;;
 import { DateService } from &quot;@core/services/date.service&quot;;
+import { LoadingService } from &quot;@core/services/loading.service&quot;;
 import { Observable } from &quot;rxjs&quot;;
 import { Alert } from &quot;squacapi&quot;;
 import { AlertService } from &quot;squacapi&quot;;
@@ -267,7 +280,8 @@ import { AlertService } from &quot;squacapi&quot;;
 export class AlertResolver implements Resolve&lt;Observable&lt;Alert | Alert[]&gt;&gt; {
   constructor(
     private alertService: AlertService,
-    private dateService: DateService
+    private dateService: DateService,
+    private loadingService: LoadingService
   ) {}
 
   /**
@@ -278,13 +292,16 @@ export class AlertResolver implements Resolve&lt;Observable&lt;Alert | Alert[]&g
    */
   resolve(route: ActivatedRouteSnapshot): Observable&lt;Alert | Alert[]&gt; {
     const id &#x3D; route.paramMap.get(&quot;alertId&quot;);
+    const delay &#x3D; 500;
+    let req;
     if (id) {
-      return this.alertService.read(+id);
+      req &#x3D; this.alertService.read(+id);
     } else {
       const lastday &#x3D; this.dateService.subtractFromNow(1, &quot;day&quot;).format();
-      return this.alertService.list({ timestampGte: lastday });
-      // return all of them
+      req &#x3D; this.alertService.list({ timestampGte: lastday });
     }
+
+    return this.loadingService.doLoading(req, null, null, delay);
   }
 }
 </code></pre>

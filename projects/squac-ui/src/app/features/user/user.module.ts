@@ -12,6 +12,7 @@ import { UserSettingsComponent } from "./components/user-settings/user-settings.
 import { OrganizationEditComponent } from "./components/organization-edit/organization-edit.component";
 import { OrganizationEditEntryComponent } from "./components/organization-edit-entry/organization-edit-entry.component";
 import { CommonModule } from "@angular/common";
+import { TooltipModule } from "@ui/tooltip/tooltip.module";
 
 /**
  * Module for User feature
@@ -28,6 +29,6 @@ import { CommonModule } from "@angular/common";
     OrganizationEditComponent,
     OrganizationEditEntryComponent,
   ],
-  imports: [CommonModule, SharedModule, UserRoutingModule],
+  imports: [CommonModule, SharedModule, UserRoutingModule, TooltipModule],
 })
 export class UserModule {}

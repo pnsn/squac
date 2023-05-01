@@ -5,6 +5,7 @@ import * as duration from "dayjs/plugin/duration";
 import * as utc from "dayjs/plugin/utc";
 import * as timezone from "dayjs/plugin/timezone";
 import { DEFAULT_LOCALE, Locale } from "@core/locale.constant";
+import { TimeRange } from "@shared/components/date-select/time-range.interface";
 
 /**
  * Service for management of dates
@@ -27,23 +28,25 @@ export class DateService {
   }
 
   /**
-   * Adjust date adding utc offset
+   * Adjust date by subtracting utc offset
    *
-   * @param localDate date in local time to adjust to utc
+   * @param utcDate utc date
    * @returns adjusted date
    */
-  fakeUtcFromLocal(localDate: Dayjs): Dayjs {
-    return localDate.add(localDate.utcOffset(), "minutes").utc();
+  subtractUtcOffset(utcDate: Dayjs): Dayjs {
+    const localOffset = utcDate.clone().local().utcOffset();
+    return utcDate.subtract(localOffset, "minutes");
   }
 
   /**
-   * Adjust date by subtracting utc offset
+   * Adjust date by adding utc offset
    *
    * @param localDate local date
    * @returns adjusted date
    */
-  fakeLocalFromUtc(localDate: Dayjs): Dayjs {
-    return localDate.subtract(localDate.utcOffset(), "minutes").utc();
+  addUtcOffset(localDate: Dayjs): Dayjs {
+    const localOffset = localDate.clone().local().utcOffset();
+    return localDate.add(localOffset, "minutes").utc();
   }
 
   /**
@@ -128,7 +131,7 @@ export class DateService {
    * @param date string to parse
    * @returns new date from string
    */
-  parseUtc(date: string): Dayjs {
+  parseUtc(date: string | number | Dayjs | Date): Dayjs {
     return dayjs.utc(date).clone();
   }
 
@@ -173,5 +176,27 @@ export class DateService {
    */
   duration(count: number, type: string): duration.Duration {
     return dayjs.duration(count, type as duration.DurationUnitType);
+  }
+
+  /**
+   * Finds TimeRange that is the same length as the given seconds
+   *
+   * @param timeRanges time ranges to search in
+   * @param seconds length of timerange
+   * @returns Timerange if found
+   */
+  findRangeFromSeconds(
+    timeRanges: TimeRange[],
+    seconds: number
+  ): TimeRange | undefined {
+    const timeRange = timeRanges.find((range) => {
+      const rangeInSeconds = this.duration(
+        range.amount,
+        range.unit
+      ).asSeconds();
+      return rangeInSeconds === seconds;
+    });
+
+    return timeRange;
   }
 }

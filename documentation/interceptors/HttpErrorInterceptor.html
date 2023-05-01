@@ -238,16 +238,16 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         let errorMessage &#x3D; &quot;Unknown error occured.&quot;;
         if (error.error instanceof Error) {
           // client-side error
-          errorMessage &#x3D; &quot;Error: &quot; + error.error.message;
+          errorMessage &#x3D; error.error.message;
         } else if (typeof error.error &#x3D;&#x3D;&#x3D; &quot;string&quot;) {
           // server-side error
-          errorMessage &#x3D; &quot;Error: &quot; + error.error;
+          errorMessage &#x3D; error.error;
         } else if (error.error instanceof Object) {
+          errorMessage &#x3D; &quot;&quot;;
           const keys &#x3D; Object.keys(error.error);
           if (keys) {
-            errorMessage &#x3D; &quot;Error: &quot;;
             for (const errorMsg of keys) {
-              errorMessage +&#x3D; errorMsg + &quot; &quot; + error.error[errorMsg];
+              errorMessage +&#x3D; error.error[errorMsg];
             }
           }
         }

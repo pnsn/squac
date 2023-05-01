@@ -31,16 +31,16 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         let errorMessage = "Unknown error occured.";
         if (error.error instanceof Error) {
           // client-side error
-          errorMessage = "Error: " + error.error.message;
+          errorMessage = error.error.message;
         } else if (typeof error.error === "string") {
           // server-side error
-          errorMessage = "Error: " + error.error;
+          errorMessage = error.error;
         } else if (error.error instanceof Object) {
+          errorMessage = "";
           const keys = Object.keys(error.error);
           if (keys) {
-            errorMessage = "Error: ";
             for (const errorMsg of keys) {
-              errorMessage += errorMsg + " " + error.error[errorMsg];
+              errorMessage += error.error[errorMsg];
             }
           }
         }

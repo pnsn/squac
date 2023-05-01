@@ -22,13 +22,7 @@ describe("CalendarComponent", () => {
           widgetConfig: {},
         },
       })
-      .provide({
-        provide: WidgetConnectService,
-        useValue: {
-          deemphasizeChannel: of(),
-          emphasizedChannel: of(),
-        },
-      });
+      .keep(WidgetConnectService);
   });
 
   beforeEach(() => {
@@ -36,6 +30,7 @@ describe("CalendarComponent", () => {
     component = fixture.componentInstance;
     component.selectedMetrics = [];
     component.channels = [];
+    component.properties = {};
     fixture.detectChanges();
   });
 

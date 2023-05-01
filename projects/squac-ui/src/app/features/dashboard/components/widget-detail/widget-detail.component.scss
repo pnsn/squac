@@ -9,12 +9,18 @@
 
 .widget-header {
   width: 100%;
-  padding-right: 5px;
-  padding-left: 3px;
-  height: 25px;
-  span {
-    font-size: 11pt;
-    font-weight: 500;
+  padding: 1px;
+  // height: 25px;
+
+  #widget-name {
+    font-weight: 400;
+    padding-left: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  &.hide-controls {
+    display: none;
   }
 }
 .text-button {
@@ -22,10 +28,10 @@
   line-height: 20px;
 }
 .icon-button {
-  height: 20px;
-  width: 20px;
-  line-height: 20px;
-  margin-left: 3px;
+  height: 18px;
+  width: 18px;
+  line-height: 18px;
+  margin-left: 1.5px;
 }
 
 .widget-content {

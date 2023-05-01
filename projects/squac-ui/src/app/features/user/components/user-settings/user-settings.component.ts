@@ -2,13 +2,18 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { UserService } from "../../services/user.service";
 import { Subscription } from "rxjs";
 import { User } from "squacapi";
-import {
-  UntypedFormGroup,
-  UntypedFormControl,
-  Validators,
-} from "@angular/forms";
+import { Validators, FormControl, FormGroup } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
+import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
+
+/** User edit form fields */
+interface UserForm {
+  /** user first name */
+  firstname: FormControl<string>;
+  /** user last name */
+  lastname: FormControl<string>;
+}
 
 /**
  * User Settings Component
@@ -23,8 +28,15 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
   user: User;
   id: number;
   editMode: boolean;
-  userForm: UntypedFormGroup;
+  userForm: FormGroup<UserForm>;
   hide = true;
+  /** Config for detail page */
+  pageOptions: PageOptions = {
+    path: "user",
+    titleButtons: {
+      addButton: true,
+    },
+  };
 
   constructor(
     private route: ActivatedRoute,
@@ -44,9 +56,9 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
    * @param user current user
    */
   initForm(user: User): void {
-    this.userForm = new UntypedFormGroup({
-      firstName: new UntypedFormControl(user.firstName, Validators.required),
-      lastName: new UntypedFormControl(user.lastName, Validators.required),
+    this.userForm = new FormGroup({
+      firstname: new FormControl(user.firstname, Validators.required),
+      lastname: new FormControl(user.lastname, Validators.required),
     });
   }
 

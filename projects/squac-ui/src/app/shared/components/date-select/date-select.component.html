@@ -1,60 +1,35 @@
-<mat-form-field
-  id="date-range"
-  [class]="selectedRange === 'custom' ? 'visible' : 'hidden'"
-  appearance="outline"
-  class="dense-form-field"
->
-  <mat-label>Custom Date Range</mat-label>
-  <input
-    #datePicker
-    matInput
-    placeholder="Set Date Range"
-    floatLabel="always"
-    ngxDaterangepickerMd
-    type="text"
-    [locale]="locale"
-    [showCancel]="true"
-    [maxDate]="maxDate"
-    [(ngModel)]="selected"
-    [timePicker]="true"
-    [timePicker24Hour]="true"
-    [timePickerIncrement]="30"
-    [alwaysShowCalendars]="true"
-    [customRangeDirection]="true"
-    [showRangeLabelOnInput]="true"
-    opens="left"
-    startKey="startDate"
-    endKey="endDate"
-    (datesUpdated)="datePickerChange($event)"
-  />
-</mat-form-field>
-<mat-button-toggle-group
-  name="rangeToggle"
-  #group="matButtonToggleGroup"
-  [(ngModel)]="selectedRange"
-  (change)="toggleRange($event)"
-  class="dense-button-toggle"
->
-  <mat-button-toggle
-    *ngFor="let range of timeRanges"
-    [value]="range"
-    [ngClass]="selectedRange === 'custom' ? 'hidden' : 'visible'"
-    >{{ range.amount }}{{ range.unit[0] }}</mat-button-toggle
-  >
-  <mat-button-toggle
-    value="custom"
-    [ngClass]="selectedRange === 'custom' ? 'hidden' : 'visible'"
-    >Custom <mat-icon>calendar_month</mat-icon></mat-button-toggle
-  >
-  <mat-button-toggle
-    value="relative"
-    [ngClass]="selectedRange !== 'custom' ? 'hidden' : 'visible'"
-    >Relative <mat-icon>calendar_month</mat-icon></mat-button-toggle
-  >
-</mat-button-toggle-group>
+<div id="shared-date-select-components">
+  <mat-form-field id="date-range" appearance="outline" class="dense-form-field">
+    <mat-label>Time Range</mat-label>
+    <input
+      #datePicker
+      matInput
+      placeholder="Set Date Range"
+      floatLabel="always"
+      ngxDaterangepickerMd
+      type="text"
+      [locale]="locale"
+      [showCancel]="true"
+      [maxDate]="maxDate"
+      [(ngModel)]="selected"
+      [timePicker]="true"
+      [timePicker24Hour]="true"
+      [alwaysShowCalendars]="true"
+      [customRangeDirection]="true"
+      [showRangeLabelOnInput]="true"
+      [ranges]="rangesForDatePicker"
+      opens="left"
+      startKey="startDate"
+      endKey="endDate"
+      (ngModelChange)="ngModelChange($event)"
+    />
+  </mat-form-field>
 
-<!--
+  <div>
+    <!--
 <button class="ngx-daterangepicker-action" (click)="openDatePicker($event)">
   open
 </button> -->
-<div class="date-select-popup"></div>
+    <div class="date-select-popup"></div>
+  </div>
+</div>

@@ -77,6 +77,12 @@
 
             </p>
 
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                        <code><a href="../interfaces/DashboardDisplayProperties.html" target="_self" >DashboardDisplayProperties</a></code>
+            </p>
 
         <section>
             <h3 id="index">Index</h3>
@@ -155,7 +161,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>archiveStat:         <code><a href="../classes/Archive.html" target="_self" >ArchiveStatType</a></code>
+                                        <code>archiveStat:         <code><a href="../miscellaneous/variables.html#ArchiveStatType" target="_self" >ArchiveStatType</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -163,7 +169,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="../classes/Archive.html" target="_self" >ArchiveStatType</a></code>
+                                            <i>Type : </i>        <code><a href="../miscellaneous/variables.html#ArchiveStatType" target="_self" >ArchiveStatType</a></code>
 
                                         </td>
                                     </tr>
@@ -199,7 +205,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>archiveType:         <code><a href="../classes/Archive.html" target="_self" >ArchiveType</a></code>
+                                        <code>archiveType:         <code><a href="../miscellaneous/variables.html#ArchiveType" target="_self" >ArchiveType</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -207,7 +213,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="../classes/Archive.html" target="_self" >ArchiveType</a></code>
+                                            <i>Type : </i>        <code><a href="../miscellaneous/variables.html#ArchiveType" target="_self" >ArchiveType</a></code>
 
                                         </td>
                                     </tr>
@@ -402,8 +408,17 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ArchiveStatType, ArchiveType } from &quot;../types&quot;;
 
+export interface DashboardDisplayProperties {
+  /** don&#x27;t show channels without data */
+  hideChannelsWithoutData?: boolean;
+  /** disable default chart linking */
+  linkCharts?: boolean;
+  /** use dense view that hides controls */
+  denseView?: boolean;
+}
+
 /** Dashboard properties */
-export interface DashboardProperties {
+export interface DashboardProperties extends DashboardDisplayProperties {
   /** Time range of dashboard in seconds */
   timeRange?: number;
   /** Start time of dashboard */

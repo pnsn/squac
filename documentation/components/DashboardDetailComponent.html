@@ -91,6 +91,10 @@
     <table class="table table-sm table-hover metadata">
         <tbody>
 
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
+            </tr>
 
 
 
@@ -151,6 +155,9 @@
                                 <a href="#channelGroupId" >channelGroupId</a>
                             </li>
                             <li>
+                                <a href="#channelList" >channelList</a>
+                            </li>
+                            <li>
                                 <a href="#dashboard" >dashboard</a>
                             </li>
                             <li>
@@ -163,14 +170,20 @@
                                 <a href="#error" >error</a>
                             </li>
                             <li>
+                                <a href="#hasUnsavedChanges" >hasUnsavedChanges</a>
+                            </li>
+                            <li>
+                                <a href="#hideRows" >hideRows</a>
+                            </li>
+                            <li>
+                                <a href="#LoadingIndicator" >LoadingIndicator</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Public</span>
                                 <a href="#loadingService" >loadingService</a>
                             </li>
                             <li>
                                 <a href="#startTime" >startTime</a>
-                            </li>
-                            <li>
-                                <a href="#status" >status</a>
                             </li>
                             <li>
                                 <a href="#subscription" >subscription</a>
@@ -232,6 +245,12 @@
                                 <a href="#selectArchiveType" >selectArchiveType</a>
                             </li>
                             <li>
+                                <a href="#toggleChannelList" >toggleChannelList</a>
+                            </li>
+                            <li>
+                                <a href="#toggleView" >toggleView</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Private</span>
                                 <a href="#updateArchiveType" >updateArchiveType</a>
                             </li>
@@ -256,12 +275,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(route: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, viewService: <a href="../injectables/ViewService.html" target="_self">ViewService</a>, ability: <a href="../s/AppAbility.html" target="_self">AppAbility</a>, confirmDialog: <a href="../injectables/ConfirmDialogService.html" target="_self">ConfirmDialogService</a>, messageService: <a href="../injectables/MessageService.html" target="_self">MessageService</a>, loadingService: <a href="../injectables/LoadingService.html" target="_self">LoadingService</a>)</code>
+<code>constructor(route: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, viewService: <a href="../injectables/ViewService.html" target="_self">ViewService</a>, ability: <a href="../s/AppAbility.html" target="_self">AppAbility</a>, confirmDialog: <a href="../injectables/ConfirmDialogService.html" target="_self">ConfirmDialogService</a>, messageService: <a href="../injectables/MessageService.html" target="_self">MessageService</a>, loadingService: <a href="../injectables/LoadingService.html" target="_self">LoadingService</a>, widgetConnectService: <a href="../injectables/WidgetConnectService.html" target="_self">WidgetConnectService</a>, cdr: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:52</a></div>
                             </td>
                         </tr>
 
@@ -362,6 +381,30 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>widgetConnectService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/WidgetConnectService.html" target="_self" >WidgetConnectService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>cdr</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -400,8 +443,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="182"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:182</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="230"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:230</a></div>
                 </td>
             </tr>
 
@@ -439,8 +482,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="168"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:168</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="216"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:216</a></div>
                 </td>
             </tr>
 
@@ -517,8 +560,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="154"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:154</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="200"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:200</a></div>
                 </td>
             </tr>
 
@@ -556,8 +599,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="129"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:129</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="169"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:169</a></div>
                 </td>
             </tr>
 
@@ -596,8 +639,8 @@ if dates larger than 3 days, default to daily, larger than 1 month, monthly</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="109"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:109</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="127"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:127</a></div>
                 </td>
             </tr>
 
@@ -668,8 +711,8 @@ if dates larger than 3 days, default to daily, larger than 1 month, monthly</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="189"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:189</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="237"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:237</a></div>
                 </td>
             </tr>
 
@@ -707,8 +750,8 @@ if dates larger than 3 days, default to daily, larger than 1 month, monthly</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="175"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:175</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="223"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:223</a></div>
                 </td>
             </tr>
 
@@ -746,8 +789,8 @@ if dates larger than 3 days, default to daily, larger than 1 month, monthly</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="231"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:231</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="279"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:279</a></div>
                 </td>
             </tr>
 
@@ -785,8 +828,8 @@ if dates larger than 3 days, default to daily, larger than 1 month, monthly</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:50</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="69"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:69</a></div>
                 </td>
             </tr>
 
@@ -824,8 +867,8 @@ if dates larger than 3 days, default to daily, larger than 1 month, monthly</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="215"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:215</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="263"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:263</a></div>
                 </td>
             </tr>
 
@@ -863,8 +906,8 @@ if dates larger than 3 days, default to daily, larger than 1 month, monthly</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="222"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:222</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="270"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:270</a></div>
                 </td>
             </tr>
 
@@ -902,8 +945,8 @@ if dates larger than 3 days, default to daily, larger than 1 month, monthly</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="119"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:119</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="140"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:140</a></div>
                 </td>
             </tr>
 
@@ -958,6 +1001,84 @@ if dates larger than 3 days, default to daily, larger than 1 month, monthly</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="toggleChannelList"></a>
+                    <span class="name">
+                        <span ><b>toggleChannelList</b></span>
+                        <a href="#toggleChannelList"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleChannelList()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="161"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:161</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Toggles channel list setting for dashboard</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleView"></a>
+                    <span class="name">
+                        <span ><b>toggleView</b></span>
+                        <a href="#toggleView"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleView()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="149"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:149</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Toggles dense view setting for dashboard</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="updateArchiveType"></a>
                     <span class="name">
                         <span class="modifier">Private</span>
@@ -976,8 +1097,8 @@ if dates larger than 3 days, default to daily, larger than 1 month, monthly</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="146"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:146</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="192"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:192</a></div>
                 </td>
             </tr>
 
@@ -1015,8 +1136,8 @@ if dates larger than 3 days, default to daily, larger than 1 month, monthly</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="207"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:207</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="255"
+                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:255</a></div>
                 </td>
             </tr>
 
@@ -1053,13 +1174,13 @@ if dates larger than 3 days, default to daily, larger than 1 month, monthly</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../classes/Archive.html" target="_self" >ArchiveStatType</a></code>
+                        <i>Type : </i>        <code><a href="../miscellaneous/variables.html#ArchiveStatType" target="_self" >ArchiveStatType</a></code>
 
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:40</a></div>
                         </td>
                     </tr>
 
@@ -1079,13 +1200,13 @@ if dates larger than 3 days, default to daily, larger than 1 month, monthly</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../classes/Archive.html" target="_self" >ArchiveType</a></code>
+                        <i>Type : </i>        <code><a href="../miscellaneous/variables.html#ArchiveType" target="_self" >ArchiveType</a></code>
 
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:39</a></div>
                         </td>
                     </tr>
 
@@ -1111,7 +1232,32 @@ if dates larger than 3 days, default to daily, larger than 1 month, monthly</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:43</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="channelList"></a>
+                    <span class="name">
+                        <span ><b>channelList</b></span>
+                        <a href="#channelList"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:45</a></div>
                         </td>
                     </tr>
 
@@ -1131,13 +1277,13 @@ if dates larger than 3 days, default to daily, larger than 1 month, monthly</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../classes/Dashboard.html" target="_self" >Dashboard</a></code>
+                        <i>Type : </i>    <code>Dashboard</code>
 
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:36</a></div>
                         </td>
                     </tr>
 
@@ -1162,7 +1308,7 @@ if dates larger than 3 days, default to daily, larger than 1 month, monthly</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:51</a></div>
                         </td>
                     </tr>
 
@@ -1188,7 +1334,7 @@ if dates larger than 3 days, default to daily, larger than 1 month, monthly</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:42</a></div>
                         </td>
                     </tr>
 
@@ -1219,7 +1365,83 @@ if dates larger than 3 days, default to daily, larger than 1 month, monthly</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:37</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hasUnsavedChanges"></a>
+                    <span class="name">
+                        <span ><b>hasUnsavedChanges</b></span>
+                        <a href="#hasUnsavedChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Observable&lt;boolean&gt;</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hideRows"></a>
+                    <span class="name">
+                        <span ><b>hideRows</b></span>
+                        <a href="#hideRows"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="LoadingIndicator"></a>
+                    <span class="name">
+                        <span ><b>LoadingIndicator</b></span>
+                        <a href="#LoadingIndicator"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>LoadingIndicator</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:52</a></div>
                         </td>
                     </tr>
 
@@ -1246,7 +1468,7 @@ if dates larger than 3 days, default to daily, larger than 1 month, monthly</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:44</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:61</a></div>
                         </td>
                     </tr>
 
@@ -1272,33 +1494,7 @@ if dates larger than 3 days, default to daily, larger than 1 month, monthly</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:29</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="status"></a>
-                    <span class="name">
-                        <span ><b>status</b></span>
-                        <a href="#status"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:41</a></div>
                         </td>
                     </tr>
 
@@ -1329,7 +1525,7 @@ if dates larger than 3 days, default to daily, larger than 1 month, monthly</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:35</a></div>
                         </td>
                     </tr>
 
@@ -1355,7 +1551,7 @@ if dates larger than 3 days, default to daily, larger than 1 month, monthly</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:47</a></div>
                         </td>
                     </tr>
 
@@ -1382,7 +1578,7 @@ if dates larger than 3 days, default to daily, larger than 1 month, monthly</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:40</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts:57</a></div>
                         </td>
                     </tr>
 
@@ -1395,10 +1591,16 @@ if dates larger than 3 days, default to daily, larger than 1 month, monthly</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, OnDestroy } from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from &quot;@angular/core&quot;;
 import { Dashboard } from &quot;squacapi&quot;;
 import { ActivatedRoute, Router } from &quot;@angular/router&quot;;
-import { catchError, EMPTY, Subscription, switchMap, tap } from &quot;rxjs&quot;;
+import { Observable, Subscription, switchMap, tap } from &quot;rxjs&quot;;
 import { ViewService } from &quot;@dashboard/services/view.service&quot;;
 import { AppAbility } from &quot;@core/utils/ability&quot;;
 import { ConfirmDialogService } from &quot;@core/services/confirm-dialog.service&quot;;
@@ -1406,6 +1608,12 @@ import { MessageService } from &quot;@core/services/message.service&quot;;
 import { LoadingService } from &quot;@core/services/loading.service&quot;;
 import { DATE_PICKER_TIMERANGES } from &quot;./dashboard-time-ranges&quot;;
 import { ArchiveStatType, ArchiveType } from &quot;squacapi&quot;;
+import { WidgetConnectService } from &quot;widgets&quot;;
+
+export enum LoadingIndicator {
+  MAIN,
+  CHANNEL_GROUP,
+}
 
 /**
  * Individual dashboard view
@@ -1414,11 +1622,11 @@ import { ArchiveStatType, ArchiveType } from &quot;squacapi&quot;;
   selector: &quot;dashboard-detail&quot;,
   templateUrl: &quot;./dashboard-detail.component.html&quot;,
   styleUrls: [&quot;./dashboard-detail.component.scss&quot;],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardDetailComponent implements OnInit, OnDestroy {
   subscription: Subscription &#x3D; new Subscription();
   dashboard: Dashboard;
-  status: string;
   error: string &#x3D; null;
   // dashboard params
   archiveType: ArchiveType;
@@ -1427,9 +1635,14 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   endTime: string;
   channelGroupId: number;
 
+  channelList &#x3D; true;
+
   timeRange: number;
+  hideRows &#x3D; true;
+  hasUnsavedChanges: Observable&lt;boolean&gt;;
   // time picker config
   datePickerTimeRanges &#x3D; DATE_PICKER_TIMERANGES;
+  LoadingIndicator &#x3D; LoadingIndicator;
 
   constructor(
     private route: ActivatedRoute,
@@ -1438,47 +1651,46 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     private ability: AppAbility,
     private confirmDialog: ConfirmDialogService,
     private messageService: MessageService,
-    public loadingService: LoadingService
+    public loadingService: LoadingService,
+    private widgetConnectService: WidgetConnectService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   /**
    * Subscribe to route params for dashboard id
    */
   ngOnInit(): void {
-    const paramsSub &#x3D; this.route.params
+    this.hasUnsavedChanges &#x3D; this.viewService.hasUnsavedChanges.asObservable();
+    const paramsSub &#x3D; this.route.data
       .pipe(
         tap(() &#x3D;&gt; {
           this.error &#x3D; null;
         }),
-        switchMap((params) &#x3D;&gt; {
-          // get dashboard id &amp; channel group id
-          const dashboardId &#x3D; +params[&quot;dashboardId&quot;];
-          const groupId &#x3D; +this.route.snapshot.queryParams[&quot;group&quot;];
-
-          // request info
-          return this.loadingService.doLoading(
-            this.viewService.setDashboardById(dashboardId, groupId).pipe(
-              tap((channelGroup) &#x3D;&gt; {
-                if (channelGroup) {
-                  this.channelGroupId &#x3D; channelGroup.id;
-                }
-                this.dashboard &#x3D; this.viewService.dashboard;
-                this.archiveStat &#x3D; this.viewService.archiveStat;
-                this.archiveType &#x3D; this.viewService.archiveType;
-                this.timeRange &#x3D; this.viewService.range;
-                this.startTime &#x3D; this.viewService.startTime;
-                this.endTime &#x3D; this.viewService.endTime;
-              }),
-              catchError(() &#x3D;&gt; {
-                if (!this.dashboard) {
-                  this.messageService.error(&quot;Could not load dashboard.&quot;);
-                } else {
-                  this.messageService.error(&quot;Could not load channel group.&quot;);
-                }
-                return EMPTY;
-              })
-            )
+        switchMap(() &#x3D;&gt; {
+          const dashboard &#x3D; this.route.snapshot.data[&quot;dashboard&quot;];
+          let groupId &#x3D; dashboard.channelGroupId;
+          if (this.route.snapshot.queryParams[&quot;group&quot;]) {
+            groupId &#x3D; +this.route.snapshot.queryParams[&quot;group&quot;];
+          }
+          this.channelGroupId &#x3D; groupId;
+          this.viewService.setDashboard(dashboard);
+          this.dashboard &#x3D; this.viewService.dashboard;
+          this.widgetConnectService.useDenseView.next(
+            this.dashboard.properties.denseView
           );
+          this.archiveStat &#x3D; this.viewService.archiveStat;
+          this.archiveType &#x3D; this.viewService.archiveType;
+          this.timeRange &#x3D; this.viewService.range;
+          this.startTime &#x3D; this.viewService.startTime;
+          this.endTime &#x3D; this.viewService.endTime;
+          return this.loadingService.doLoading(
+            this.viewService.getChannelGroup(groupId),
+            this
+          );
+        }),
+        tap(() &#x3D;&gt; {
+          this.viewService.updateDashboard();
+          this.cdr.detectChanges();
         })
       )
       .subscribe();
@@ -1486,7 +1698,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     // get any errors to show from view service
     const errorSub &#x3D; this.viewService.error.subscribe({
       next: (error) &#x3D;&gt; {
-        this.error &#x3D; error;
+        if (error) {
+          this.messageService.error(error);
+        }
       },
     });
 
@@ -1505,6 +1719,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
    */
   datesChanged({ startDate, endDate, liveMode, rangeInSeconds }): void {
     this.viewService.datesChanged(startDate, endDate, liveMode, rangeInSeconds);
+    this.startTime &#x3D; this.viewService.startTime;
+    this.endTime &#x3D; this.viewService.endTime;
+    this.timeRange &#x3D; this.viewService.range;
     this.checkDates();
   }
 
@@ -1520,18 +1737,43 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Toggles dense view setting for dashboard
+   */
+  toggleView(): void {
+    this.widgetConnectService.useDenseView.next(
+      this.dashboard.properties.denseView
+    );
+    this.viewService.updateDashboardProperty(
+      &quot;denseView&quot;,
+      this.dashboard.properties.denseView
+    );
+  }
+  /**
+   * Toggles channel list setting for dashboard
+   */
+  toggleChannelList(): void {
+    this.widgetConnectService.toggleChannelList.next(this.channelList);
+  }
+
+  /**
    * Validate dates
    * if dates larger than 3 days, default to daily, larger than 1 month, monthly
    */
   checkDates(): void {
     this.error &#x3D; &quot;&quot;;
+    let error: string;
     if (this.viewService.archiveType &#x3D;&#x3D;&#x3D; &quot;raw&quot;) {
       if (this.viewService.getTimeSpan(&quot;months&quot;) &gt;&#x3D; 4) {
-        this.error &#x3D; &#x60;Raw data request may be too large for this time range, try using month archives.&#x60;;
+        error &#x3D; &quot;month&quot;;
       } else if (this.viewService.getTimeSpan(&quot;weeks&quot;) &gt;&#x3D; 6) {
-        this.error &#x3D; &#x60;Raw data request may be too large for this time range, try using week archives.&#x60;;
+        error &#x3D; &quot;week&quot;;
       } else if (this.viewService.getTimeSpan(&quot;days&quot;) &gt;&#x3D; 7) {
-        this.error &#x3D; &#x60;Raw data request may be too large for this time range, try using day archives.&#x60;;
+        error &#x3D; &quot;day&quot;;
+      }
+      if (error) {
+        this.messageService.alert(
+          &#x60;Raw data request may be too large for this time range, try using ${error} archives.&#x60;
+        );
       }
     }
     this.updateArchiveType();
@@ -1552,7 +1794,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     if (this.archiveType !&#x3D;&#x3D; &quot;raw&quot;) {
       if (this.viewService.getTimeSpan(this.archiveType) &#x3D;&#x3D;&#x3D; 0) {
         //archiveType is larger than time window
-        this.error &#x3D; &quot;Select a time range greater than the archive size.&quot;;
+        this.messageService.alert(
+          &quot;Select a time range greater than the archive size.&quot;
+        );
       }
     }
   }
@@ -1636,15 +1880,20 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         <pre class="line-numbers"><code class="language-html">&lt;div
   id&#x3D;&quot;dashboard-container&quot;
   class&#x3D;&quot;column&quot;
-  [appIsLoading]&#x3D;&quot;loadingService.isLoading(viewService.dashboard)&quot;
 &gt;
-  &lt;div id&#x3D;&quot;dashboard-header&quot; class&#x3D;&quot;column lt-gray-background box-shadow&quot;&gt;
+  &lt;div
+    id&#x3D;&quot;dashboard-header&quot;
+    class&#x3D;&quot;column lt-gray-background box-shadow&quot;
+  &gt;
     &lt;div class&#x3D;&quot;row&quot;&gt;
-      &lt;div id&#x3D;&quot;dashboard-info&quot; class&#x3D;&quot;auto-margin&quot;&gt;
+      &lt;div
+        id&#x3D;&quot;dashboard-info&quot;
+        class&#x3D;&quot;auto-margin&quot;
+      &gt;
         &lt;h2&gt;{{ dashboard?.name }}&lt;/h2&gt;
         &lt;span *ngIf&#x3D;&quot;dashboard?.owner &amp;&amp; dashboard?.orgId&quot;&gt;
           by {{ dashboard?.owner | user }} ({{
-            dashboard?.orgId | organization
+          dashboard?.orgId | organization
           }})
         &lt;/span&gt;
 
@@ -1654,142 +1903,179 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
           resource&#x3D;&quot;dashboard&quot;
         &gt;&lt;/shared-sharing-indicator&gt;
       &lt;/div&gt;
+      &lt;ng-container *ngIf&#x3D;&quot;viewService.dashboardConfig$ | async as config&quot;&gt;
+        &lt;button
+          [disabled]&#x3D;&quot;!hideRows&quot;
+          mat-button
+          (click)&#x3D;&quot;hideRows &#x3D; false&quot;
+          uiTooltip&#x3D;&quot;time range&quot;
+        &gt;
+          &lt;ng-container *ngIf&#x3D;&quot;config.range; else customRange&quot;&gt;{{
+            config.range
+            }}&lt;/ng-container&gt;
+          &lt;ng-template #customRange&gt;{{ config.start }} - {{ config.end }}&lt;/ng-template&gt;
+        &lt;/button&gt;
+        &lt;button
+          [disabled]&#x3D;&quot;!hideRows&quot;
+          mat-button
+          (click)&#x3D;&quot;hideRows &#x3D; false&quot;
+          uiTooltip&#x3D;&quot;data type&quot;
+        &gt;
+          {{ config.archive | dataType: config.stat }}
+        &lt;/button&gt;
+      &lt;/ng-container&gt;
 
-      &lt;shared-error *ngIf&#x3D;&quot;error&quot; [errorMsg]&#x3D;&quot;error&quot;&gt;&lt;/shared-error&gt;
       &lt;button
+        [disabled]&#x3D;&quot;(hasUnsavedChanges | async) &#x3D;&#x3D;&#x3D; true&quot;
         mat-icon-button
         (click)&#x3D;&quot;refreshData()&quot;
-        matTooltip&#x3D;&quot;Refresh data&quot;
+        uiTooltip&#x3D;&quot;Refresh data&quot;
         aria-label&#x3D;&quot;Button that requests new data from the database&quot;
       &gt;
         &lt;mat-icon&gt;refresh&lt;/mat-icon&gt;
       &lt;/button&gt;
       &lt;button
-        mat-raised-button
-        color&#x3D;&quot;accent&quot;
-        (click)&#x3D;&quot;updateDashboard()&quot;
-        [disabled]&#x3D;&quot;!viewService.hasUnsavedChanges&quot;
-      &gt;
-        Apply Changes
-      &lt;/button&gt;
-      &lt;!-- if they have permission, otherwise show copy only --&gt;
-      &lt;mat-menu
-        #appMenu&#x3D;&quot;matMenu&quot;
-        class&#x3D;&quot;mat-menu-dense&quot;
-        yPosition&#x3D;&quot;below&quot;
-        xPosition&#x3D;&quot;before&quot;
-      &gt;
-        &lt;button
-          mat-menu-item
-          (click)&#x3D;&quot;addWidget()&quot;
-          *ngIf&#x3D;&quot;&#x27;update&#x27; | able: dashboard&quot;
-        &gt;
-          &lt;mat-icon&gt;add&lt;/mat-icon&gt;
-          Add widget
-        &lt;/button&gt;
-
-        &lt;button mat-menu-item (click)&#x3D;&quot;editDashboard()&quot;&gt;
-          &lt;mat-icon&gt;edit&lt;/mat-icon&gt;
-          Edit Dashboard
-        &lt;/button&gt;
-        &lt;button
-          mat-menu-item
-          color&#x3D;&quot;warn&quot;
-          id&#x3D;&quot;delete-dashboard&quot;
-          (click)&#x3D;&quot;deleteDashboard()&quot;
-          *ngIf&#x3D;&quot;&#x27;delete&#x27; | able: dashboard&quot;
-        &gt;
-          &lt;mat-icon color&#x3D;&quot;warn&quot;&gt;delete&lt;/mat-icon&gt;
-          Delete Dashboard
-        &lt;/button&gt;
-      &lt;/mat-menu&gt;
-
-      &lt;button
         mat-icon-button
-        [matMenuTriggerFor]&#x3D;&quot;appMenu&quot;
-        color&#x3D;&quot;primary&quot;
-        *ngIf&#x3D;&quot;&#x27;update&#x27; | able: dashboard&quot;
-        matTooltip&#x3D;&quot;Dashboard configuration&quot;
+        [color]&#x3D;&quot;!hideRows ? &#x27;primary&#x27; : &#x27;&#x27;&quot;
+        uiTooltip&#x3D;&quot;configure dashboard&quot;
+        (click)&#x3D;&quot;hideRows &#x3D; !hideRows&quot;
       &gt;
-        &lt;mat-icon&gt;settings_application&lt;/mat-icon&gt;
+        &lt;mat-icon&gt;tune&lt;/mat-icon&gt;
+      &lt;/button&gt;
+      &lt;button
+        color&#x3D;&quot;accent&quot;
+        mat-icon-button
+        (click)&#x3D;&quot;addWidget()&quot;
+        *ngIf&#x3D;&quot;&#x27;update&#x27; | able: dashboard&quot;
+        uiTooltip&#x3D;&quot;Add widget&quot;
+      &gt;
+        &lt;mat-icon&gt;add&lt;/mat-icon&gt;
       &lt;/button&gt;
     &lt;/div&gt;
-    &lt;div class&#x3D;&quot;row&quot;&gt;
-      &lt;div class&#x3D;&quot;auto-margin&quot;&gt;
-        &lt;!-- &lt;button
-          type&#x3D;&quot;button&quot;
-          mat-icon-button
-          [color]&#x3D;&quot;sideNavOpened ? &#x27;&#x27; : &#x27;accent&#x27;&quot;
-          (click)&#x3D;&quot;drawer.toggle()&quot;
-          matTooltip&#x3D;&quot;Toggle channel list&quot;
-          aria-label&#x3D;&quot;Button to toggle channel list&quot;
-        &gt;
-          &lt;mat-icon&gt;menu&lt;/mat-icon&gt;
-        &lt;/button&gt; --&gt;
-        &lt;shared-channel-group-selector
-          [channelGroupId]&#x3D;&quot;channelGroupId&quot;
-          (channelGroupIdChange)&#x3D;&quot;channelGroupChange($event)&quot;
-          appearance&#x3D;&quot;outline&quot;
-          [dense]&#x3D;&quot;true&quot;
-        &gt;
-        &lt;/shared-channel-group-selector&gt;
-      &lt;/div&gt;
-      &lt;dashboard-data-type-selector
-        [dataType]&#x3D;&quot;archiveType&quot;
-        [statType]&#x3D;&quot;archiveStat&quot;
-        (dataTypeSelected)&#x3D;&quot;selectArchiveType($event)&quot;
+    &lt;div
+      class&#x3D;&quot;row config-row&quot;
+      *ngIf&#x3D;&quot;!hideRows&quot;
+    &gt;
+      &lt;!-- if they have permission, otherwise show copy only --&gt;
+      &lt;shared-channel-group-selector
+        [channelGroupId]&#x3D;&quot;channelGroupId&quot;
+        (channelGroupIdChange)&#x3D;&quot;channelGroupChange($event)&quot;
+        appearance&#x3D;&quot;outline&quot;
+        [dense]&#x3D;&quot;true&quot;
       &gt;
-      &lt;/dashboard-data-type-selector&gt;
+      &lt;/shared-channel-group-selector&gt;
       &lt;shared-date-select
         [secondsAgoFromNow]&#x3D;&quot;timeRange&quot;
         [initialStartDate]&#x3D;&quot;startTime&quot;
         [initialEndDate]&#x3D;&quot;endTime&quot;
         [timeRanges]&#x3D;&quot;datePickerTimeRanges&quot;
         (datesChanged)&#x3D;&quot;datesChanged($event)&quot;
+        (selectedRangeChanged)&#x3D;&quot;viewService.timeRangeChanged($event)&quot;
       &gt;&lt;/shared-date-select&gt;
+      &lt;dashboard-data-type-selector
+        [dataType]&#x3D;&quot;archiveType&quot;
+        [statType]&#x3D;&quot;archiveStat&quot;
+        (dataTypeSelected)&#x3D;&quot;selectArchiveType($event)&quot;
+      &gt;
+      &lt;/dashboard-data-type-selector&gt;
+      &lt;button
+        [disabled]&#x3D;&quot;(hasUnsavedChanges | async) &#x3D;&#x3D;&#x3D; false&quot;
+        mat-raised-button
+        color&#x3D;&quot;accent&quot;
+        (click)&#x3D;&quot;updateDashboard()&quot;
+      &gt;
+        Apply
+      &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div
+      class&#x3D;&quot;row&quot;
+      *ngIf&#x3D;&quot;dashboard?.properties &amp;&amp; !hideRows&quot;
+    &gt;
+      &lt;mat-slide-toggle
+        [(ngModel)]&#x3D;&quot;dashboard.properties.denseView&quot;
+        (change)&#x3D;&quot;toggleView()&quot;
+      &gt;
+        Hide zoom controls
+      &lt;/mat-slide-toggle&gt;
+      &lt;mat-slide-toggle
+        [(ngModel)]&#x3D;&quot;channelList&quot;
+        (change)&#x3D;&quot;toggleChannelList()&quot;
+      &gt;
+        Show channel list&lt;/mat-slide-toggle&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 
-  &lt;div id&#x3D;&quot;dashboard-body&quot;&gt;&lt;router-outlet&gt; &lt;/router-outlet&gt;&lt;/div&gt;
+  &lt;div id&#x3D;&quot;dashboard-body&quot;&gt;
+    &lt;router-outlet&gt; &lt;/router-outlet&gt;
+  &lt;/div&gt;
 &lt;/div&gt;
 
+&lt;mat-menu
+  #appMenu&#x3D;&quot;matMenu&quot;
+  class&#x3D;&quot;mat-menu-dense&quot;
+  yPosition&#x3D;&quot;below&quot;
+  xPosition&#x3D;&quot;before&quot;
+&gt;
+  &lt;button
+    mat-menu-item
+    (click)&#x3D;&quot;addWidget()&quot;
+    *ngIf&#x3D;&quot;&#x27;update&#x27; | able: dashboard&quot;
+  &gt;
+    &lt;mat-icon&gt;add&lt;/mat-icon&gt;
+    Add widget
+  &lt;/button&gt;
+
+  &lt;button
+    mat-menu-item
+    (click)&#x3D;&quot;editDashboard()&quot;
+  &gt;
+    &lt;mat-icon&gt;edit&lt;/mat-icon&gt;
+    Edit Dashboard
+  &lt;/button&gt;
+  &lt;button
+    mat-menu-item
+    color&#x3D;&quot;warn&quot;
+    id&#x3D;&quot;delete-dashboard&quot;
+    (click)&#x3D;&quot;deleteDashboard()&quot;
+    *ngIf&#x3D;&quot;&#x27;delete&#x27; | able: dashboard&quot;
+  &gt;
+    &lt;mat-icon color&#x3D;&quot;warn&quot;&gt;delete&lt;/mat-icon&gt;
+    Delete Dashboard
+  &lt;/button&gt;
+&lt;/mat-menu&gt;
+
 &lt;!-- &lt;router-outlet&gt;&lt;/router-outlet&gt; --&gt;
-&lt;!-- &lt;shared-loading *ngIf&#x3D;&quot;!dashboard &amp;&amp; !error&quot;&gt;&lt;/shared-loading&gt; --&gt;
-</code></pre>
+&lt;!-- &lt;shared-loading *ngIf&#x3D;&quot;!dashboard &amp;&amp; !error&quot;&gt;&lt;/shared-loading&gt; --&gt;</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-styleData">
                 <p class="comment">
                     <code>./dashboard-detail.component.scss</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss">@import &quot;variables&quot;;
-
-:host ::ng-deep .mat-button-toggle-label-content {
-  padding: 3px !important;
-  line-height: unset !important;
+                <pre class="line-numbers"><code class="language-scss">.config-row {
+  justify-content: flex-end;
 }
-
-button {
-  height: 33px;
-  line-height: 2;
-  padding: 0px 10px;
+.opened {
+  opacity: 0.65;
 }
-
 #dashboard-header {
+  padding: 0px 10px;
   top: 0px;
   position: sticky;
   position: -webkit-sticky;
-  padding: 3px;
   z-index: 100;
   gap: 3px;
+
   &amp; &gt; .row {
     align-items: center;
     flex-wrap: wrap;
-    gap: 3px;
+    gap: 5px;
   }
-  mat-button-toggle {
-    max-height: 40px;
-    max-width: 40px;
+  button[mat-icon-button] {
+    font-size: 18px;
+    height: 32px;
+    width: 32px;
+    line-height: 18px;
   }
   mat-menu-item {
     span {
@@ -1797,7 +2083,6 @@ button {
     }
   }
   #dashboard-info {
-    margin-left: 10px;
     h2 {
       display: inline;
       font-size: 12pt;
@@ -1846,9 +2131,9 @@ button {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div  id="dashboard-container"  class="column"  [appIsLoading]="loadingService.isLoading(viewService.dashboard)">  <div id="dashboard-header" class="column lt-gray-background box-shadow">    <div class="row">      <div id="dashboard-info" class="auto-margin">        <h2>{{ dashboard?.name }}</h2>        <span *ngIf="dashboard?.owner && dashboard?.orgId">          by {{ dashboard?.owner | user }} ({{            dashboard?.orgId | organization          }})        </span>        <shared-sharing-indicator          [shareAll]="dashboard?.shareAll"          [shareOrg]="dashboard?.shareOrg"          resource="dashboard"        ></shared-sharing-indicator>      </div>      <shared-error *ngIf="error" [errorMsg]="error"></shared-error>      <button        mat-icon-button        (click)="refreshData()"        matTooltip="Refresh data"        aria-label="Button that requests new data from the database"      >        <mat-icon>refresh</mat-icon>      </button>      <button        mat-raised-button        color="accent"        (click)="updateDashboard()"        [disabled]="!viewService.hasUnsavedChanges"      >        Apply Changes      </button>      <!-- if they have permission, otherwise show copy only -->      <mat-menu        #appMenu="matMenu"        class="mat-menu-dense"        yPosition="below"        xPosition="before"      >        <button          mat-menu-item          (click)="addWidget()"          *ngIf="\'update\' | able: dashboard"        >          <mat-icon>add</mat-icon>          Add widget        </button>        <button mat-menu-item (click)="editDashboard()">          <mat-icon>edit</mat-icon>          Edit Dashboard        </button>        <button          mat-menu-item          color="warn"          id="delete-dashboard"          (click)="deleteDashboard()"          *ngIf="\'delete\' | able: dashboard"        >          <mat-icon color="warn">delete</mat-icon>          Delete Dashboard        </button>      </mat-menu>      <button        mat-icon-button        [matMenuTriggerFor]="appMenu"        color="primary"        *ngIf="\'update\' | able: dashboard"        matTooltip="Dashboard configuration"      >        <mat-icon>settings_application</mat-icon>      </button>    </div>    <div class="row">      <div class="auto-margin">        <!-- <button          type="button"          mat-icon-button          [color]="sideNavOpened ? \'\' : \'accent\'"          (click)="drawer.toggle()"          matTooltip="Toggle channel list"          aria-label="Button to toggle channel list"        >          <mat-icon>menu</mat-icon>        </button> -->        <shared-channel-group-selector          [channelGroupId]="channelGroupId"          (channelGroupIdChange)="channelGroupChange($event)"          appearance="outline"          [dense]="true"        >        </shared-channel-group-selector>      </div>      <dashboard-data-type-selector        [dataType]="archiveType"        [statType]="archiveStat"        (dataTypeSelected)="selectArchiveType($event)"      >      </dashboard-data-type-selector>      <shared-date-select        [secondsAgoFromNow]="timeRange"        [initialStartDate]="startTime"        [initialEndDate]="endTime"        [timeRanges]="datePickerTimeRanges"        (datesChanged)="datesChanged($event)"      ></shared-date-select>    </div>  </div>  <div id="dashboard-body"><router-outlet> </router-outlet></div></div><!-- <router-outlet></router-outlet> --><!-- <shared-loading *ngIf="!dashboard && !error"></shared-loading> --></div>'
-    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SnackbarComponent', 'selector': 'shared-snackbar'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
-    var DIRECTIVES = [{'name': 'LoadingDirective', 'selector': '[appIsLoading]'},{'name': 'WidgetTypeDirective', 'selector': '[widgetContainer]'},{'name': 'WidgetTypeExampleDirective', 'selector': '[appWidgetTypeExample]'}];
+        var COMPONENT_TEMPLATE = '<div><div  id="dashboard-container"  class="column">  <div    id="dashboard-header"    class="column lt-gray-background box-shadow"  >    <div class="row">      <div        id="dashboard-info"        class="auto-margin"      >        <h2>{{ dashboard?.name }}</h2>        <span *ngIf="dashboard?.owner && dashboard?.orgId">          by {{ dashboard?.owner | user }} ({{          dashboard?.orgId | organization          }})        </span>        <shared-sharing-indicator          [shareAll]="dashboard?.shareAll"          [shareOrg]="dashboard?.shareOrg"          resource="dashboard"        ></shared-sharing-indicator>      </div>      <ng-container *ngIf="viewService.dashboardConfig$ | async as config">        <button          [disabled]="!hideRows"          mat-button          (click)="hideRows = false"          uiTooltip="time range"        >          <ng-container *ngIf="config.range; else customRange">{{            config.range            }}</ng-container>          <ng-template #customRange>{{ config.start }} - {{ config.end }}</ng-template>        </button>        <button          [disabled]="!hideRows"          mat-button          (click)="hideRows = false"          uiTooltip="data type"        >          {{ config.archive | dataType: config.stat }}        </button>      </ng-container>      <button        [disabled]="(hasUnsavedChanges | async) === true"        mat-icon-button        (click)="refreshData()"        uiTooltip="Refresh data"        aria-label="Button that requests new data from the database"      >        <mat-icon>refresh</mat-icon>      </button>      <button        mat-icon-button        [color]="!hideRows ? \'primary\' : \'\'"        uiTooltip="configure dashboard"        (click)="hideRows = !hideRows"      >        <mat-icon>tune</mat-icon>      </button>      <button        color="accent"        mat-icon-button        (click)="addWidget()"        *ngIf="\'update\' | able: dashboard"        uiTooltip="Add widget"      >        <mat-icon>add</mat-icon>      </button>    </div>    <div      class="row config-row"      *ngIf="!hideRows"    >      <!-- if they have permission, otherwise show copy only -->      <shared-channel-group-selector        [channelGroupId]="channelGroupId"        (channelGroupIdChange)="channelGroupChange($event)"        appearance="outline"        [dense]="true"      >      </shared-channel-group-selector>      <shared-date-select        [secondsAgoFromNow]="timeRange"        [initialStartDate]="startTime"        [initialEndDate]="endTime"        [timeRanges]="datePickerTimeRanges"        (datesChanged)="datesChanged($event)"        (selectedRangeChanged)="viewService.timeRangeChanged($event)"      ></shared-date-select>      <dashboard-data-type-selector        [dataType]="archiveType"        [statType]="archiveStat"        (dataTypeSelected)="selectArchiveType($event)"      >      </dashboard-data-type-selector>      <button        [disabled]="(hasUnsavedChanges | async) === false"        mat-raised-button        color="accent"        (click)="updateDashboard()"      >        Apply      </button>    </div>    <div      class="row"      *ngIf="dashboard?.properties && !hideRows"    >      <mat-slide-toggle        [(ngModel)]="dashboard.properties.denseView"        (change)="toggleView()"      >        Hide zoom controls      </mat-slide-toggle>      <mat-slide-toggle        [(ngModel)]="channelList"        (change)="toggleChannelList()"      >        Show channel list</mat-slide-toggle>    </div>  </div>  <div id="dashboard-body">    <router-outlet> </router-outlet>  </div></div><mat-menu  #appMenu="matMenu"  class="mat-menu-dense"  yPosition="below"  xPosition="before">  <button    mat-menu-item    (click)="addWidget()"    *ngIf="\'update\' | able: dashboard"  >    <mat-icon>add</mat-icon>    Add widget  </button>  <button    mat-menu-item    (click)="editDashboard()"  >    <mat-icon>edit</mat-icon>    Edit Dashboard  </button>  <button    mat-menu-item    color="warn"    id="delete-dashboard"    (click)="deleteDashboard()"    *ngIf="\'delete\' | able: dashboard"  >    <mat-icon color="warn">delete</mat-icon>    Delete Dashboard  </button></mat-menu><!-- <router-outlet></router-outlet> --><!-- <shared-loading *ngIf="!dashboard && !error"></shared-loading> --></div>'
+    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'SnackbarComponent', 'selector': 'shared-snackbar'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
+    var DIRECTIVES = [{'name': 'LoadingDirective', 'selector': '[appIsLoading]'},{'name': 'TooltipDirective', 'selector': '[uiTooltip]'},{'name': 'WidgetTypeDirective', 'selector': '[widgetContainer]'},{'name': 'WidgetTypeExampleDirective', 'selector': '[appWidgetTypeExample]'}];
     var ACTUAL_COMPONENT = {'name': 'DashboardDetailComponent'};
 </script>
 <script src="../js/tree.js"></script>

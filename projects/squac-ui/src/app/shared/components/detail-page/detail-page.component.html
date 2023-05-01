@@ -1,0 +1,76 @@
+<div class="body-content-container">
+  <div id="page-title">
+    <div
+      id="title-text"
+      class="title"
+    >
+      <h2>
+        {{ title }}
+      </h2>
+      <span>{{ subtext }}</span>
+    </div>
+
+    <div
+      id="title-buttons-container"
+      *ngIf="options.titleButtons as buttons"
+    >
+      <ng-content select="[headerContent]"> </ng-content>
+
+      <button
+        *ngIf="buttons.deleteButton && ('delete' | able: resource)"
+        mat-icon-button
+        (click)="buttonAction('delete')"
+        color="warn"
+        uiTooltip="Delete {{ type }}"
+        attr.aria-label="Button that deletes the {{ type }}"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button
+        *ngIf="buttons.editButton && ('update' | able: resource)"
+        mat-icon-button
+        color="primary"
+        (click)="buttonAction('edit')"
+        uiTooltip="Edit {{ type }}"
+        attr.aria-label="Button that navigates to edit {{ type }} page"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        *ngIf="buttons.cancelButton"
+        (click)="buttonAction('cancel')"
+        uiTooltip="Cancel editing"
+        attr.aria-label="Button that cancels editing and navigates to all {{
+          type
+        }}"
+      >
+        cancel
+      </button>
+
+      <button
+        *ngIf="buttons.saveButton && ('update' | able: resource)"
+        mat-icon-button
+        color="accent"
+        (click)="buttonAction('save')"
+        uiTooltip="Save {{ type }}"
+        attr.aria-label="Button that save the {{ type }}"
+      >
+        <mat-icon>save</mat-icon>
+      </button>
+      <button
+        *ngIf="buttons.addButton && ('create' | able: type)"
+        (click)="buttonAction('add')"
+        color="accent"
+        mat-flat-button
+        uiTooltip="Create new {{ type }}"
+        attr.aria-label="Button that creates new {{ type }}"
+      >
+        New {{ type }}
+      </button>
+    </div>
+  </div>
+  <div class="page-body">
+    <ng-content select="[bodyContent]"> </ng-content>
+  </div>
+</div>

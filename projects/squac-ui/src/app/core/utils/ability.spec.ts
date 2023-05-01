@@ -8,15 +8,15 @@ import { Dashboard } from "squacapi";
 describe("Ability", () => {
   let testAbility: Ability;
 
-  const testUser: User = new User(
-    1,
-    "email",
-    "firstName",
-    "lastName",
-    1,
-    false,
-    []
-  );
+  const testUser: User = new User({
+    id: 1,
+    email: "email",
+    firstname: "firstName",
+    lastname: "lastName",
+    organization: 1,
+    is_staff: false,
+    groups: [],
+  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -30,16 +30,16 @@ describe("Ability", () => {
   });
 
   it("should allow admin to manage all", () => {
-    const adminUser = new User(
-      1,
-      "email",
-      "firstName",
-      "lastName",
-      1,
-      true,
-      []
-    );
-    adminUser.squacAdmin = true;
+    const adminUser = new User({
+      id: 1,
+      email: "email",
+      firstname: "firstName",
+      lastname: "lastName",
+      organization: 1,
+      is_staff: true,
+      groups: [],
+    });
+    adminUser.isStaff = true;
     testAbility.update(defineAbilitiesFor(adminUser));
     expect(testAbility.can("manage", "all")).toEqual(true);
   });
@@ -68,15 +68,12 @@ describe("Ability", () => {
 
   it("should allow user to update owned object", () => {
     testUser.groups = ["viewer", "contributor", "reporter"];
-    const testDashboard = new Dashboard(
-      1,
-      testUser.id,
-      "test",
-      "description",
-      true,
-      false,
-      1
-    );
+    const testDashboard = new Dashboard({
+      id: 1,
+      user: testUser.id,
+      name: "test",
+      description: "test",
+    });
     testAbility.update(defineAbilitiesFor(testUser));
 
     expect(testAbility.can("update", testDashboard)).toEqual(true);
@@ -84,33 +81,14 @@ describe("Ability", () => {
 
   it("should not allow user to update not owned object", () => {
     testUser.groups = ["viewer", "contributor", "reporter"];
-    const testDashboard = new Dashboard(
-      1,
-      3,
-      "test",
-      "description",
-      true,
-      false,
-      1
-    );
+    const testDashboard = new Dashboard({
+      id: 1,
+      user: 3,
+      name: "test",
+      description: "test",
+    });
     testAbility.update(defineAbilitiesFor(testUser));
 
     expect(testAbility.can("update", testDashboard)).toEqual(false);
-  });
-
-  it("should allow user to update owned object", () => {
-    testUser.groups = ["viewer", "contributor", "reporter"];
-    const testDashboard = new Dashboard(
-      1,
-      testUser.id,
-      "test",
-      "description",
-      true,
-      false,
-      1
-    );
-    testAbility.update(defineAbilitiesFor(testUser));
-
-    expect(testAbility.can("update", testDashboard)).toEqual(true);
   });
 });

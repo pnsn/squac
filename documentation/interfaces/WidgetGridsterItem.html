@@ -151,9 +151,15 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnDestroy, OnInit } from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+} from &quot;@angular/core&quot;;
 import { ViewService } from &quot;@dashboard/services/view.service&quot;;
-import { Widget } from &quot;widgets&quot;;
+import { Widget, WidgetConnectService } from &quot;widgets&quot;;
 import { GridsterConfig, GridsterItem } from &quot;angular-gridster2&quot;;
 import { Subscription } from &quot;rxjs&quot;;
 import { ActivatedRoute, Router } from &quot;@angular/router&quot;;
@@ -171,6 +177,7 @@ interface WidgetGridsterItem extends GridsterItem {
   selector: &quot;widget-main&quot;,
   templateUrl: &quot;./widget-main.component.html&quot;,
   styleUrls: [&quot;./widget-main.component.scss&quot;],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WidgetMainComponent implements OnInit, OnDestroy {
   subscription: Subscription &#x3D; new Subscription();
@@ -232,7 +239,9 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     private viewService: ViewService,
     private route: ActivatedRoute,
     private router: Router,
-    private ability: AppAbility
+    private ability: AppAbility,
+    private widgetConnectService: WidgetConnectService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   /** subscrive to router and changes */
@@ -243,6 +252,13 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
         this.updateWidget(widgetId, widget);
       }
     );
+
+    const toggleChannelListSub &#x3D;
+      this.widgetConnectService.toggleChannelList.subscribe(
+        (toggleChannelList: boolean) &#x3D;&gt; {
+          this.sideNavOpened &#x3D; toggleChannelList;
+        }
+      );
 
     //subscribe to router changes for when dashboards change
     const dataSub &#x3D; this.route.data.subscribe((data) &#x3D;&gt; {
@@ -268,6 +284,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.subscription.add(toggleChannelListSub);
     this.subscription.add(widgetSub);
     this.subscription.add(dataSub);
   }
@@ -285,7 +302,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     item.widget.layout.x &#x3D; item.x;
     item.widget.layout.y &#x3D; item.y;
     if (this.canUpdate) {
-      this.viewService.saveWidget(item.widget);
+      this.viewService.saveWidget(item.widget, [&quot;layout&quot;]);
     }
   }
 
@@ -325,6 +342,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
       });
     }
     this.loading &#x3D; false;
+    this.cdr.detectChanges();
   }
 
   /**

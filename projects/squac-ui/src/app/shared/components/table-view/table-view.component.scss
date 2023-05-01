@@ -1,4 +1,8 @@
+#title {
+  margin-bottom: 5px;
+}
 #table-view-container {
+  height: 100%;
   width: 100%;
   #table-head {
     padding: 5px 10px;
@@ -9,6 +13,7 @@
     }
     .row {
       gap: 5px;
+      flex-wrap: wrap;
     }
   }
   #table-body {

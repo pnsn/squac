@@ -30,43 +30,37 @@
       </textarea>
       <!-- <mat-error *ngIf="description.invalid">Please enter a description for your dashboard</mat-error> -->
     </mat-form-field>
+    <div class="custom-form-field">
+      <span class="label">Dashboard sharing</span>
+      <shared-sharing-toggle
+        [filterText]="filterText"
+        [(shareAll)]="shareAll"
+        [(shareOrg)]="shareOrg"
+        [orgId]="orgId"
+      ></shared-sharing-toggle>
 
-    <mat-radio-group
-      aria-label="change view permissions"
-      formControlName="share"
-      id="sharing-radio-group"
-      class="column"
-    >
-      <mat-label>Sharing: </mat-label>
-      <mat-radio-button value="private">Private</mat-radio-button>
-      <mat-radio-button value="shareOrg"
-        >Share with organization</mat-radio-button
-      >
-      <mat-radio-button value="shareAll"
-        >Share with all SQUAC users</mat-radio-button
-      >
-    </mat-radio-group>
-    <div [ngSwitch]="dashboardForm.get('share').value" class="help-container">
-      <p *ngSwitchCase="'shareAll'" class="help-text">
+      <p *ngIf="shareAll" class="help-text">
         Public dashboards should use public channel groups or other users will
         not be able to view the group.
       </p>
-      <p *ngSwitchCase="'shareOrg'" class="help-text">
+      <p *ngIf="shareOrg && !shareAll" class="help-text">
         Organization dashboards should use public or organization channel groups
         or other users will not be able to view the group.
       </p>
-      <p *ngSwitchDefault class="help-text">
+      <p *ngIf="!shareOrg && !shareAll" class="help-text">
         Private dashboards can use private, organization, or public channel
         groups.
       </p>
     </div>
   </form>
-
-  <shared-channel-group-selector
-    [(channelGroupId)]="channelGroupId"
-    label="Default Channel Group"
-  >
-  </shared-channel-group-selector>
+  <div class="custom-form-field">
+    <shared-channel-group-selector
+      [(channelGroupId)]="channelGroupId"
+      label="Channel Group (optional)"
+    >
+    </shared-channel-group-selector>
+    <p class="help-text">Default channel group to use for dashboard.</p>
+  </div>
 </div>
 
 <div mat-dialog-actions class="dialog-options">

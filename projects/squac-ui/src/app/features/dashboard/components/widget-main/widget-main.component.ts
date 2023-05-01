@@ -1,6 +1,12 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+} from "@angular/core";
 import { ViewService } from "@dashboard/services/view.service";
-import { Widget } from "widgets";
+import { Widget, WidgetConnectService } from "widgets";
 import { GridsterConfig, GridsterItem } from "angular-gridster2";
 import { Subscription } from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -18,6 +24,7 @@ interface WidgetGridsterItem extends GridsterItem {
   selector: "widget-main",
   templateUrl: "./widget-main.component.html",
   styleUrls: ["./widget-main.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WidgetMainComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
@@ -79,7 +86,9 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     private viewService: ViewService,
     private route: ActivatedRoute,
     private router: Router,
-    private ability: AppAbility
+    private ability: AppAbility,
+    private widgetConnectService: WidgetConnectService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   /** subscrive to router and changes */
@@ -91,19 +100,25 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
       }
     );
 
+    const toggleChannelListSub =
+      this.widgetConnectService.toggleChannelList.subscribe(
+        (toggleChannelList: boolean) => {
+          this.sideNavOpened = toggleChannelList;
+        }
+      );
+
     //subscribe to router changes for when dashboards change
     const dataSub = this.route.data.subscribe((data) => {
       const dashboardId = +this.route.snapshot.params["dashboardId"];
       if (data["widgets"].error) {
         this.error = "Could not load dashboard or widgets";
       } else {
+        if (data["dashboard"] && data["dashboard"].id === dashboardId) {
+          this.canUpdate = this.ability.can("update", data["dashboard"]);
+        }
         if (data["dashboards"]) {
           this.dashboards = data["dashboards"].filter((d) => {
-            const canUpdate = this.ability.can("update", d);
-            if (d.id === dashboardId) {
-              this.canUpdate = canUpdate;
-            }
-            return canUpdate;
+            return this.ability.can("update", d);
           });
         }
         this.addWidgetsToView(data["widgets"]);
@@ -115,6 +130,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.subscription.add(toggleChannelListSub);
     this.subscription.add(widgetSub);
     this.subscription.add(dataSub);
   }
@@ -132,7 +148,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     item.widget.layout.x = item.x;
     item.widget.layout.y = item.y;
     if (this.canUpdate) {
-      this.viewService.saveWidget(item.widget);
+      this.viewService.saveWidget(item.widget, ["layout"]);
     }
   }
 
@@ -172,6 +188,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
       });
     }
     this.loading = false;
+    this.cdr.detectChanges();
   }
 
   /**
@@ -189,6 +206,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
       widget,
     };
     this.widgetItems.push(item);
+    this.cdr.detectChanges();
   }
 
   /**
@@ -205,7 +223,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     if (index !== -1 && !widget) {
       this.widgetItems.splice(index, 1);
     } else if (index === -1 && widget) {
-      //add new
+      //add ne
       this.addWidgetToGrid(widget, true); //do the find position here
     } else {
       this.widgetItems[index]["widget"] = widget;

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { DashboardDetailComponent } from "./dashboard-detail.component";
 import { RouterTestingModule } from "@angular/router/testing";
 import { ActivatedRoute } from "@angular/router";
-import { of } from "rxjs";
+import { of, Subject } from "rxjs";
 import { Ability } from "@casl/ability";
 import { ViewService } from "@dashboard/services/view.service";
 import { Dashboard } from "squacapi";
@@ -18,6 +18,8 @@ import { DataTypeSelectorComponent } from "./data-type-selector/data-type-select
 import { SharedModule } from "@shared/shared.module";
 import { ChannelFilterComponent } from "./channel-filter/channel-filter.component";
 import { ChannelGroupSelectorComponent } from "@shared/components/channel-group-selector/channel-group-selector.component";
+import { SharingToggleComponent } from "@shared/components/sharing-toggle/sharing-toggle.component";
+import { DataTypePipe } from "./data-type-selector/data-type.pipe";
 
 describe("DashboardDetailComponent", () => {
   let component: DashboardDetailComponent;
@@ -30,11 +32,14 @@ describe("DashboardDetailComponent", () => {
       .mock(MaterialModule)
       .mock(SharedModule)
       .mock(ChannelFilterComponent)
+      .mock(SharingToggleComponent)
+      .mock(DataTypePipe)
       .provide({
         provide: ViewService,
         useValue: {
           status: of(),
           error: of(),
+          hasUnsavedChanges: new Subject(),
           setDashboard: () => {
             return;
           },
@@ -57,15 +62,13 @@ describe("DashboardDetailComponent", () => {
         useValue: {
           params: of({ id: 123 }),
           data: of({
-            dashboard: new Dashboard(
-              1,
-              1,
-              "name",
-              "description",
-              false,
-              false,
-              1
-            ),
+            dashboard: new Dashboard({
+              id: 1,
+              user: 1,
+              name: "name",
+              description: "description",
+              organization: 1,
+            }),
           }),
         },
       })

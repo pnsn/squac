@@ -3,23 +3,14 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { ChannelGroup } from "squacapi";
 import { ChannelGroupService } from "squacapi";
 import {
-  UntypedFormGroup,
-  UntypedFormControl,
   Validators,
-  UntypedFormBuilder,
+  FormControl,
+  FormGroup,
+  FormBuilder,
 } from "@angular/forms";
 import { ChannelService } from "squacapi";
 import { Channel } from "squacapi";
-import {
-  Subscription,
-  switchMap,
-  tap,
-  map,
-  merge,
-  of,
-  catchError,
-  EMPTY,
-} from "rxjs";
+import { Subscription, switchMap, tap, merge, of } from "rxjs";
 import {
   ColumnMode,
   SelectionType,
@@ -34,10 +25,24 @@ import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { MapBounds } from "../channel-group-map/interfaces";
 import { SearchFilter } from "./interfaces";
+import {
+  ButtonEvent,
+  PageOptions,
+} from "@shared/components/detail-page/detail-page.interface";
+import { FilterText } from "@shared/components/sharing-toggle/sharing-toggle.interface";
 
+/** Loading indicator areas */
 enum LoadingIndicator {
   MAIN,
   RESULTS,
+}
+
+/** Channel group edit form */
+interface ChannelGroupForm {
+  /** channel group name */
+  name: FormControl<string>;
+  /** channel group description */
+  description: FormControl<string>;
 }
 /**
  * Channel group editing component
@@ -59,13 +64,15 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   orgId: number;
   showOnlyCurrent = true; // Filter out not-current channels
   searchFilters: SearchFilter;
-  channelGroupForm: UntypedFormGroup; // form stuff
+  channelGroupForm: FormGroup<ChannelGroupForm>; // form stuff
   csvStatus: string;
   channelsInGroup: Channel[] = []; // channels currently saved in group
   selectedChannels: Channel[] = []; // Channels currently in selected list
   selectedInGroupChannels: Channel[] = []; // Channels selected from group table
   previousChannels: Channel[]; // Store last version of channels for undo
 
+  shareOrg = false;
+  shareAll = false;
   // Map stuff
   showChannel: Channel; // Channel to show on map
   bounds: MapBounds; // Latlng bounds to either filter by or make a new request with
@@ -89,12 +96,26 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   @ViewChild("availableTable") availableTable: any;
   @ViewChild("selectedTable") selectedTable: any;
 
+  /** Config for detail page */
+  pageOptions: PageOptions = {
+    titleButtons: {
+      cancelButton: true,
+      deleteButton: true,
+    },
+    path: "/channel-groups",
+  };
+
+  sharedToggleConfig: FilterText = {
+    user: "Private",
+    all: "Public",
+  };
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private channelGroupService: ChannelGroupService,
     private channelService: ChannelService,
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private userService: UserService,
     private confirmDialog: ConfirmDialogService,
     private messageService: MessageService,
@@ -108,52 +129,30 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     this.channelGroupForm = this.formBuilder.group({
-      name: new UntypedFormControl("", Validators.required),
-      description: new UntypedFormControl("", Validators.required),
-      share: ["private", Validators.required],
+      name: new FormControl("", Validators.required),
+      description: new FormControl("", Validators.required),
     });
-    const chanSub = this.route.params
-      .pipe(
-        map((params) => {
-          this.id = params["channelGroupId"];
-          this.editMode = !!params["channelGroupId"];
 
-          return this.id;
-        }),
-        switchMap((groupId: number) => {
-          if (!groupId) {
-            return of();
-          }
-          return this.loadingService.doLoading(
-            this.channelGroupService.read(groupId).pipe(
-              tap((channelGroup: ChannelGroup) => {
-                this.channelGroup = channelGroup;
-              }),
-              switchMap((channelGroup: ChannelGroup) => {
-                this.channelGroup = channelGroup;
-                if (!channelGroup) {
-                  return of([]);
-                }
-                return this.matchingRuleService.list({
-                  group: `${this.channelGroup.id}`,
-                });
-              }),
-              tap((rules: MatchingRule[]) => {
-                this.matchingRules = rules;
-                this.initForm();
-              }),
-              catchError((error) => {
-                this.error = error;
-                return EMPTY;
-              })
-            )
-          );
+    const routeSub = this.route.data
+      .pipe(
+        tap((data: any) => {
+          this.channelGroup = data["channelGroup"];
+          this.matchingRules = data["matchingRules"] || [];
+          this.editMode = !!this.channelGroup;
+          this.id = this.channelGroup?.id;
+          this.pageOptions.titleButtons.deleteButton = this.editMode;
         })
       )
-      .subscribe();
+      .subscribe({
+        next: () => {
+          this.initForm();
+        },
+      });
+
+    this.subscriptions.add(routeSub);
+
     // get orgId
     this.orgId = this.userService.userOrg;
-    this.subscriptions.add(chanSub);
 
     // table columns
     this.columns = [
@@ -208,23 +207,33 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   private initForm(): void {
     // if editing existing group, populate with the info
     if (this.editMode) {
-      let share = "private";
-      if (this.channelGroup.shareAll) {
-        share = "shareAll";
-      } else if (this.channelGroup.shareOrg) {
-        share = "shareOrg";
-      }
       this.channelGroupForm.patchValue({
         name: this.channelGroup.name,
         description: this.channelGroup.description,
-        share,
       });
+      this.shareAll = this.channelGroup.shareAll;
+      this.shareOrg = this.channelGroup.shareOrg;
       this.autoExcludeChannels = [
         ...this.channelGroup.autoExcludeChannels,
       ] as Channel[];
       this.autoIncludeChannels = [
         ...this.channelGroup.autoIncludeChannels,
       ] as Channel[];
+    }
+  }
+
+  /**
+   * Control clicked on header
+   *
+   * @param type type of button click
+   */
+  controlClicked(type: ButtonEvent): void {
+    if (type === "delete") {
+      this.delete();
+    } else if (type === "cancel") {
+      this.cancel();
+    } else if (type === "save") {
+      this.save();
     }
   }
 
@@ -450,21 +459,16 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
    */
   save(): void {
     const values = this.channelGroupForm.value;
-    const shareAll = values.share === "shareAll";
-    const shareOrg = values.share === "shareOrg" || shareAll;
-    const cg = new ChannelGroup();
-
-    cg.id = this.id;
-    cg.name = values.name;
-    cg.description = values.description;
-    cg.orgId = this.orgId;
-
-    //need to updatematching rules
-
-    cg.autoExcludeChannels = this.autoExcludeChannels;
-    cg.autoIncludeChannels = this.autoIncludeChannels;
-    cg.shareAll = shareAll;
-    cg.shareOrg = shareOrg;
+    const cg = new ChannelGroup({
+      id: this.id,
+      name: values.name,
+      description: values.description,
+      organization: this.orgId,
+      autoExcludeChannels: this.autoExcludeChannels,
+      autoIncludeChannels: this.autoIncludeChannels,
+      shareAll: this.shareAll,
+      shareOrg: this.shareOrg,
+    });
 
     /*
       Temp fix for channel groups not updating with channels on
@@ -478,19 +482,21 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     this.loadingService
       .doLoading(
         this.channelGroupService.updateOrCreate(cg).pipe(
-          switchMap((group) => {
-            id = group.id;
+          switchMap((groupId: number) => {
+            id = groupId;
             if (
               this.matchingRules.length === 0 &&
               this.deleteMatchingRulesIds.length === 0
             ) {
               return of([]);
             }
+            this.matchingRules.forEach((m) => {
+              m.channelGroupId = id;
+            });
             return merge(
-              ...this.matchingRuleService.updateMatchingRules(
+              ...this.matchingRuleService.updateOrDelete(
                 this.matchingRules,
-                this.deleteMatchingRulesIds,
-                id
+                this.deleteMatchingRulesIds
               )
             );
           })
@@ -567,7 +573,9 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
    * @param filter search filter
    */
   addFilterToRegex(filter: SearchFilter): void {
-    const newRule = new MatchingRule(null, null, this.id, true);
+    const newRule = new MatchingRule();
+    newRule.channelGroupId = this.id;
+    newRule.isInclude = true;
     newRule.networkRegex = filter.netSearch?.toUpperCase();
     newRule.stationRegex = filter.staSearch?.toUpperCase();
     newRule.locationRegex = filter.locSearch?.toUpperCase();

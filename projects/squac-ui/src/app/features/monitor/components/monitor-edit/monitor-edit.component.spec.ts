@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { UntypedFormBuilder } from "@angular/forms";
+import { FormBuilder } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { ActivatedRoute } from "@angular/router";
 import { UserService } from "@user/services/user.service";
@@ -22,7 +22,7 @@ describe("MonitorEditComponent", () => {
       .mock(MonitorModule)
       .mock(RouterTestingModule.withRoutes([]))
       .mock(UserService)
-      .keep(UntypedFormBuilder)
+      .keep(FormBuilder)
       .provide({
         provide: MatDialogRef,
         useValue: mockDialogRef,

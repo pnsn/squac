@@ -1,30 +1,42 @@
-<shared-table-view
+<shared-detail-page
+  [options]="pageOptions"
+  *ngIf="channelGroups"
+  type="ChannelGroup"
   title="Channel Groups"
-  [options]="options"
-  [rows]="rows"
-  [columns]="columns"
-  (itemSelected)="onSelect($event)"
-  (controlClicked)="onClick($event)"
-  [selectedRowId]="selectedChannelGroupId"
-  (refresh)="refresh()"
-  [controls]="controls"
-  [filters]="filters"
-  [resize]="!!selectedChannelGroupId"
-  [isLoading]="loadingService.isLoading(this)"
-  (filtersChanged)="refresh($event)"
 >
-  <ng-container tableHeadControls> </ng-container>
-  <ng-container tableHeadFilters> </ng-container>
-  <ng-container tableFooter>
-    <div>Footer content</div>
+  <ng-container bodyContent>
+    <shared-table-view
+      title="Channel Groups"
+      [options]="options"
+      [rows]="rows"
+      [columns]="columns"
+      (itemSelected)="onSelect($event)"
+      (controlClicked)="onClick($event)"
+      [selectedRowId]="selectedChannelGroupId"
+      (refresh)="refresh()"
+      [controls]="controls"
+      [filters]="filters"
+      [isLoading]="loadingService.isLoading$(this) | async"
+      (filtersChanged)="refresh($event)"
+    >
+      <ng-container tableHeadControls> </ng-container>
+      <ng-container tableHeadFilters> </ng-container>
+      <ng-container tableFooter>
+        <div>Footer content</div>
+      </ng-container>
+      <ng-template
+        ngx-datatable-cell-template
+        let-row="row"
+        #sharingTemplate
+      >
+        <ng-container *ngIf="row.shareAll; else private"> public </ng-container>
+        <ng-template #private>
+          {{ row.shareOrg ? (row.orgId | organization) : "private" }}
+        </ng-template>
+      </ng-template>
+    </shared-table-view>
   </ng-container>
-  <ng-template ngx-datatable-cell-template let-row="row" #sharingTemplate>
-    <ng-container *ngIf="row.shareAll; else private"> public </ng-container>
-    <ng-template #private>
-      {{ row.shareOrg ? (row.orgId | organization) : "private" }}
-    </ng-template>
-  </ng-template>
-</shared-table-view>
+</shared-detail-page>
 <router-outlet></router-outlet>
 
 <!-- <router-outlet></router-outlet> -->

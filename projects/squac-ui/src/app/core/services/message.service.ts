@@ -73,7 +73,7 @@ export class MessageService implements OnDestroy {
    * @param message snackbar message
    */
   alert(message: string): void {
-    this.openSnackBar("alert", message, 10, "Dismiss");
+    this.openSnackBar("alert", message, 5, "Dismiss");
   }
 
   /**

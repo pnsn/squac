@@ -1,26 +1,34 @@
 <div>
-  <span class="cdk-visually-hidden" *ngIf="!shareOrg && !shareAll">
+  <span
+    class="cdk-visually-hidden"
+    *ngIf="!shareOrg && !shareAll"
+  >
     {{ resource }} is private
   </span>
   <mat-icon
     *ngIf="!shareOrg && !shareAll"
-    matTooltip="{{ resource | titlecase }} is private"
-    >visibility_off</mat-icon
-  >
+    uiTooltip="{{ resource | titlecase }} is private"
+  >visibility_off</mat-icon>
 
-  <span class="cdk-visually-hidden" *ngIf="shareOrg">
+  <span
+    class="cdk-visually-hidden"
+    *ngIf="shareOrg"
+  >
     {{ resource }} is shared with organization
   </span>
   <mat-icon
     *ngIf="shareOrg && !shareAll"
-    matTooltip="{{ resource | titlecase }} is shared with organization"
-    >visibility</mat-icon
-  >
+    uiTooltip="{{ resource | titlecase }} is shared with organization"
+  >visibility</mat-icon>
 
-  <span class="cdk-visually-hidden" *ngIf="shareAll">
+  <span
+    class="cdk-visually-hidden"
+    *ngIf="shareAll"
+  >
     {{ resource }} is public
   </span>
-  <mat-icon *ngIf="shareAll" matTooltip="{{ resource | titlecase }} is public"
-    >public</mat-icon
-  >
+  <mat-icon
+    *ngIf="shareAll"
+    uiTooltip="{{ resource | titlecase }} is public"
+  >public</mat-icon>
 </div>

@@ -67,22 +67,28 @@
                             <a href="#ApiMethod" title="projects/squacapi/src/lib/enums/api-method.enum.ts" ><b>ApiMethod</b>&nbsp;&nbsp;&nbsp;(projects/.../api-method.enum.ts)</a>
                         </li>
                         <li>
-                            <a href="#ArchiveStatType" title="projects/squacapi/src/lib/enums/archive-stat-type.enum.ts" ><b>ArchiveStatType</b>&nbsp;&nbsp;&nbsp;(projects/.../archive-stat-type.enum.ts)</a>
-                        </li>
-                        <li>
-                            <a href="#ArchiveType" title="projects/squacapi/src/lib/enums/archive-type.enum.ts" ><b>ArchiveType</b>&nbsp;&nbsp;&nbsp;(projects/.../archive-type.enum.ts)</a>
-                        </li>
-                        <li>
                             <a href="#DashboardErrors" title="projects/squac-ui/src/app/features/dashboard/interfaces/errors.ts" ><b>DashboardErrors</b>&nbsp;&nbsp;&nbsp;(projects/.../errors.ts)</a>
                         </li>
                         <li>
                             <a href="#InviteApiEndpoint" title="projects/squacapi/src/lib/enums/api-endpoints.enum.ts" ><b>InviteApiEndpoint</b>&nbsp;&nbsp;&nbsp;(projects/.../api-endpoints.enum.ts)</a>
                         </li>
                         <li>
+                            <a href="#LoadingIndicator" title="projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts" ><b>LoadingIndicator</b>&nbsp;&nbsp;&nbsp;(projects/.../dashboard-detail.component.ts)</a>
+                        </li>
+                        <li>
                             <a href="#LoadingIndicator" title="projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts" ><b>LoadingIndicator</b>&nbsp;&nbsp;&nbsp;(projects/.../channel-group-edit.component.ts)</a>
                         </li>
                         <li>
+                            <a href="#LoadingIndicator" title="projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts" ><b>LoadingIndicator</b>&nbsp;&nbsp;&nbsp;(projects/.../monitor-detail.component.ts)</a>
+                        </li>
+                        <li>
                             <a href="#LocalStorageTypes" title="projects/squac-ui/src/app/core/services/local-storage.service.ts" ><b>LocalStorageTypes</b>&nbsp;&nbsp;&nbsp;(projects/.../local-storage.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#TooltipPosition" title="projects/squac-ui/src/app/ui/tooltip/tooltip.enums.ts" ><b>TooltipPosition</b>&nbsp;&nbsp;&nbsp;(projects/.../tooltip.enums.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#TooltipTheme" title="projects/squac-ui/src/app/ui/tooltip/tooltip.enums.ts" ><b>TooltipTheme</b>&nbsp;&nbsp;&nbsp;(projects/.../tooltip.enums.ts)</a>
                         </li>
                         <li>
                             <a href="#WidgetErrors" title="projects/widgets/src/lib/enums/widget-errors.enum.ts" ><b>WidgetErrors</b>&nbsp;&nbsp;&nbsp;(projects/.../widget-errors.enum.ts)</a>
@@ -109,7 +115,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-description"><p>Api endpoints maped to models.</p>
+                            <div class="io-description"><p>Available squacapi end points.</p>
 </div>
                         </td>
                     </tr>
@@ -323,6 +329,12 @@
                         <span class="name "><b>InviteApiEndpoint</b><a href="#InviteApiEndpoint"><span class="icon ion-ios-link"></span></a></span>
                     </td>
                 </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-description"><p>Invite api endpoints</p>
+</div>
+                        </td>
+                    </tr>
                         <tr>
                             <td class="col-md-4">
                                 &nbsp;INVITE
@@ -419,214 +431,6 @@
             </tbody>
         </table>
 </section>
-    <h3>projects/squacapi/src/lib/enums/archive-stat-type.enum.ts</h3>
-    <section>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="ArchiveStatType"></a>
-                        <span class="name "><b>ArchiveStatType</b><a href="#ArchiveStatType"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-description"><p>Stat types available for archive types type</p>
-</div>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;MEAN
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>mean</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;LATEST
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>latest</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;NUM_SAMPS
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>num_samps</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;MEDIAN
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>median</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;MIN
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>min</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;MAX
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>max</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;MIN_ABS
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>minabs</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;MAX_ABS
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>maxabs</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;P95
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>p95</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;P90
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>p90</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;p10
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>p10</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;p05
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>p05</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;STDEV
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>stdev</code>
-                            </td>
-                        </tr>
-            </tbody>
-        </table>
-</section>
-    <h3>projects/squacapi/src/lib/enums/archive-type.enum.ts</h3>
-    <section>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="ArchiveType"></a>
-                        <span class="name "><b>ArchiveType</b><a href="#ArchiveType"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-description"><p>Data types available in SQUAC</p>
-</div>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;DAY
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>day</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;WEEK
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>week</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;MONTH
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>month</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;RAW
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>raw</code>
-                            </td>
-                        </tr>
-            </tbody>
-        </table>
-</section>
     <h3>projects/squac-ui/src/app/features/dashboard/interfaces/errors.ts</h3>
     <section>
         <table class="table table-sm table-bordered">
@@ -650,7 +454,7 @@
             </tbody>
         </table>
 </section>
-    <h3>projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts</h3>
+    <h3>projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts</h3>
     <section>
         <table class="table table-sm table-bordered">
             <tbody>
@@ -667,7 +471,59 @@
                         </tr>
                         <tr>
                             <td class="col-md-4">
+                                &nbsp;CHANNEL_GROUP
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <h3>projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts</h3>
+    <section>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="LoadingIndicator"></a>
+                        <span class="name "><b>LoadingIndicator</b><a href="#LoadingIndicator"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-description"><p>Loading indicator areas</p>
+</div>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;MAIN
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
                                 &nbsp;RESULTS
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <h3>projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts</h3>
+    <section>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="LoadingIndicator"></a>
+                        <span class="name "><b>LoadingIndicator</b><a href="#LoadingIndicator"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;RESULTS
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;MAIN
                             </td>
                         </tr>
             </tbody>
@@ -707,6 +563,131 @@
                         <tr>
                             <td class="col-md-4">
                                 <i>Value : </i><code>session</code>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <h3>projects/squac-ui/src/app/ui/tooltip/tooltip.enums.ts</h3>
+    <section>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="TooltipPosition"></a>
+                        <span class="name "><b>TooltipPosition</b><a href="#TooltipPosition"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-description"><p>Position options for tooltips</p>
+</div>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;ABOVE
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>above</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;BELOW
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>below</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;LEFT
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>left</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;RIGHT
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>right</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;DYNAMIC
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>dynamic</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;DEFAULT
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>below</code>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="TooltipTheme"></a>
+                        <span class="name "><b>TooltipTheme</b><a href="#TooltipTheme"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-description"><p>Theme options for tooltips</p>
+</div>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;DARK
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>dark</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;LIGHT
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>light</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;DEFAULT
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>light</code>
                             </td>
                         </tr>
             </tbody>

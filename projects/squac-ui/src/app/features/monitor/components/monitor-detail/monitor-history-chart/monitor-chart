@@ -1,0 +1,97 @@
+// const series = {
+//   type: "line",
+//   step: "start",
+//   large: true,
+//   largeThreshold: 1000,
+//   legendHoverLink: true,
+//   lineStyle: {
+//     width: 1,
+//     opacity: 1,
+//   },
+//   emphasis: {
+//     focus: "series",
+//   },
+
+//   symbol: "circle",
+//   symbolSize: 2,
+//   sampling: "lttb",
+// };
+
+// this.channels.forEach((channel) => {
+//   const nslc = channel.nslc;
+//   const station = {
+//     ...series,
+//     ...{
+//       name: nslc,
+//       id: nslc,
+//       data: [],
+//       count: 0,
+//       encode: {
+//         x: [0, 1],
+//         y: 2,
+//       },
+//     },
+//   };
+//   if (data.has(channel.id)) {
+//     const measurements = data.get(channel.id).get(metric.id);
+
+//     //start at start time
+//     // increase at interval
+//     // take all measurements within that and calculate
+//     // iterate
+//     // value represents the calculated value for the last interval
+//     const end = this.dateService
+//       .parseUtc(this.widgetManager.endtime)
+//       .startOf("hour");
+//     let start = this.dateService
+//       .parseUtc(this.widgetManager.starttime)
+//       .startOf("hour");
+//     let i = 0; //measurement index
+//     while (start < end && measurements[i]) {
+//       const intervalEnd = start.add(
+//         this.monitor.intervalCount,
+//         this.monitor.intervalType
+//       );
+//       const intervalMeasurements = [];
+//       let lastMeasurementStart = this.dateService.parseUtc(
+//         measurements[i].starttime
+//       );
+//       //find all measurements in the time range
+//       while (lastMeasurementStart < intervalEnd) {
+//         intervalMeasurements.push(measurements[i]);
+//         i++;
+//         if (!measurements[i]) break;
+//         lastMeasurementStart = this.dateService.parseUtc(
+//           measurements[i].starttime
+//         );
+//       }
+
+//       const value = this.measurementPipe.transform(
+//         intervalMeasurements,
+//         this.monitor.stat
+//       );
+
+//       if (
+//         this.dataRange.min === undefined ||
+//         value < this.dataRange.min
+//       ) {
+//         this.dataRange.min = value;
+//       }
+//       if (
+//         this.dataRange.max === undefined ||
+//         value > this.dataRange.max
+//       ) {
+//         this.dataRange.max = value;
+//       }
+
+//       station.data.push({
+//         name: nslc,
+//         value: [intervalEnd.toDate(), start.toDate(), value],
+//       });
+
+//       start = intervalEnd;
+//     }
+//   }
+//   stations.push(station);
+// });
+// this.metricSeries.series = stations;

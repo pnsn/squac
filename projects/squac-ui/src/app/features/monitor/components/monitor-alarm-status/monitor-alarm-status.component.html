@@ -1,0 +1,16 @@
+<ng-container *ngIf="inAlarm !== undefined; else noAlert">
+  <mat-icon *ngIf="inAlarm" aria-label="monitor in alarm" color="accent"
+    >error_outline</mat-icon
+  >
+  <mat-icon
+    *ngIf="!inAlarm"
+    color="primary"
+    aria-label="
+    monitor not in alarm
+  "
+    >check_circle_outline</mat-icon
+  >
+</ng-container>
+<ng-template #noAlert>
+  <mat-icon aria-label="no alert data" class="no-alert">help_outline</mat-icon>
+</ng-template>

@@ -1,48 +1,27 @@
-import { Injectable } from "@angular/core";
-import { Adapter, ReadMeasurement } from "../interfaces";
+import { ReadOnlyResourceModel } from "../interfaces";
+import { ReadOnlyMeasurementSerializer } from "@pnsn/ngx-squacapi-client";
+
+/**
+ *
+ */
+export interface Measurement {
+  metric: number;
+  channel: number;
+  value: number;
+  starttime: string;
+  endtime: string;
+}
 
 /**
  * describes a measurement
  */
-export class Measurement {
-  constructor(
-    public id: number,
-    public owner: number,
-    public metricId: number,
-    public channelId: number,
-    public value: number,
-    public starttime: string,
-    public endtime: string
-  ) {}
-
+export class Measurement extends ReadOnlyResourceModel<
+  ReadOnlyMeasurementSerializer | Measurement
+> {
   /**
    * @returns model name
    */
   static get modelName(): string {
     return "Measurement";
-  }
-}
-
-/**
- * adapt measurement
- */
-@Injectable({
-  providedIn: "root",
-})
-export class MeasurementAdapter
-  implements Adapter<Measurement, ReadMeasurement, unknown>
-{
-  /** @override */
-  adaptFromApi(item: ReadMeasurement): Measurement {
-    const measurement = new Measurement(
-      item.id ? item.id : 0,
-      item.user ? item.user : 0,
-      item.metric,
-      item.channel,
-      item.value,
-      item.starttime,
-      item.endtime
-    );
-    return measurement;
   }
 }
