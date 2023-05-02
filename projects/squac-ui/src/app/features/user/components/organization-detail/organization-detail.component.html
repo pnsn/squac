@@ -1,10 +1,22 @@
 <shared-detail-page
   *ngIf="organization"
-  type="user"
   [resource]="organization"
+  type="Organization"
   title="{{ organization?.name }} Organization"
   [options]="pageOptions"
 >
+  <ng-container headerContent>
+    <button
+      *ngIf="'update' | able: organization"
+      [routerLink]="['user/new']"
+      color="accent"
+      mat-flat-button
+      uiTooltip="Add new user"
+      aria-label="Button that activates user invite modal"
+    >
+      New User
+    </button>
+  </ng-container>
   <ng-container bodyContent>
     <shared-table-view
       [options]="options"
@@ -27,7 +39,10 @@
     <div class="title">
       <h3>Squac User Roles (additive):</h3>
     </div>
-    <div id="roles-container" class="gray-border">
+    <div
+      id="roles-container"
+      class="gray-border"
+    >
       <mat-list dense>
         <mat-list-item *ngFor="let group of groups">
           <span class="label">{{ group.role | titlecase }}</span> -

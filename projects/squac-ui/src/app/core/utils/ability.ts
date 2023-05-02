@@ -61,6 +61,15 @@ export function defineAbilitiesFor(user: User): any {
     can(["read", "create"], ["Measurement", "Metric", "Archive"]);
   }
 
+  if (user.isOrgAdmin) {
+    can(["update"], ["Organization"], {
+      id: user.orgId,
+    });
+    can(["update", "delete"], ["User"], {
+      orgId: user.orgId,
+    });
+  }
+
   if (user.isStaff) {
     can("manage", "all");
   }
