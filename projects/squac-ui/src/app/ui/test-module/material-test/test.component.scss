@@ -1,0 +1,10 @@
+div {
+  overflow: wrap;
+}
+.box-container {
+  div {
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+  }
+}

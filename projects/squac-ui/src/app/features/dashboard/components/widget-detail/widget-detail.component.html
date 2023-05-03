@@ -20,7 +20,7 @@
         uiTooltip="start zoom"
         aria-label="button that enables zoom"
       >
-        <mat-icon>zoom_in</mat-icon>
+        <mat-icon class="small">zoom_in</mat-icon>
       </button>
       <button
         *ngIf="widgetType && widgetType.zoomControls"
@@ -30,18 +30,18 @@
         uiTooltip="reset zoom"
         aria-label="button that resets zoom"
       >
-        <mat-icon>zoom_out</mat-icon>
+        <mat-icon class="small">zoom_out</mat-icon>
       </button>
       <button
         *ngIf="widgetType && widgetType.toggleKey"
-        class="icon-button"
+        class="icon-button "
         mat-button
         [color]="showKey ? 'primary' : 'gray'"
         uiTooltip="toggle key"
         aria-label="button that toggles key"
         (click)="toggleKey()"
       >
-        <mat-icon>legend_toggle</mat-icon>
+        <mat-icon class="small">legend_toggle</mat-icon>
       </button>
       <widget-metric-toggle
         *ngIf="initialMetrics?.length > 0"
@@ -59,7 +59,7 @@
         aria-label="change widget settings"
         uiTooltip="widget options"
       >
-        <mat-icon>more_vert</mat-icon>
+        <mat-icon class="small">more_vert</mat-icon>
       </button>
     </div>
   </div>
@@ -87,7 +87,7 @@
     </button>
     <button
       mat-menu-item
-      class="warn"
+      color="warn"
       (click)="deleteWidget()"
       color="warn"
       *ngIf="canUpdate"

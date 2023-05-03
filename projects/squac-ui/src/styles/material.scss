@@ -1,12 +1,32 @@
 // Angular Material overrides
 @import "variables";
+$xsmall: 16px;
+$small: 18px;
+$medium: 20px;
 
-//default icon sizing
-mat-icon.mat-icon {
-  height: 20px !important;
-  width: 18px !important;
-  font-size: 18px !important;
-  line-height: 1 !important;
+$default: $medium;
+
+$button-height: 32px;
+$menu-item-height: 28px;
+
+mat-icon {
+  &.small {
+    font-size: $small;
+    height: $small;
+    width: $small;
+    line-height: $small;
+    vertical-align: middle;
+  }
+  &:not(.small) {
+    font-size: $default;
+    line-height: $default;
+    height: $default;
+    width: $default;
+    vertical-align: middle;
+  }
+  &[color="gray"] {
+    color: $sq-lt-gray;
+  }
 }
 
 //get rid of rounded corners
@@ -14,11 +34,28 @@ mat-icon.mat-icon {
 .mat-flat-button,
 .mat-stroked-button,
 .mat-raised-button {
-  border-radius: 0 !important;
-  padding: 0px 8px !important;
-  height: 32px !important;
-  line-height: 32px !important;
-  min-width: 0 !important;
+  &.icon-button {
+    border-radius: 0;
+    padding: 0px 4px;
+    width: auto;
+    height: 20px;
+    line-height: normal;
+    min-width: 0;
+  }
+  &:not(.icon-button) {
+    border-radius: 0;
+    padding: 5px 8px;
+    height: $button-height;
+    min-width: 20px;
+    line-height: normal;
+    mat-icon {
+      font-size: $xsmall;
+      line-height: calc($xsmall - 2px);
+      height: $xsmall;
+      width: $xsmall;
+      margin-right: 2px;
+    }
+  }
 }
 
 .mat-form-field-appearance-outline {
@@ -125,6 +162,20 @@ mat-sidenav {
     color: white;
   }
 }
+.dense-button-toggle {
+  height: 33px;
+  &.mat-button-toggle-group-appearance-standard {
+    border-radius: 0px;
+  }
+  .mat-button-toggle-button {
+    span {
+      min-width: 36px;
+      padding: 0px 6px !important;
+      line-height: 2 !important;
+    }
+  }
+}
+
 button[mat-menu-item] {
   &:not([disabled]) {
     &[color="accent"] {
@@ -154,51 +205,24 @@ button[mat-menu-item] {
   }
 }
 
-.dense-button-toggle {
-  height: 33px;
-  &.mat-button-toggle-group-appearance-standard {
-    border-radius: 0px;
-  }
-  .mat-button-toggle-button {
-    span {
-      min-width: 36px;
-      padding: 0px 6px !important;
-      line-height: 2 !important;
-    }
-  }
-}
-
 .mat-menu-dense {
   &.mat-menu-panel {
     min-width: 150px;
     min-height: 46px;
   }
-  .mat-menu-submenu-icon {
-    // right: 8px;
-  }
-  button.mat-menu-item {
-    &.accent {
-      color: $sq-dk-yellow;
-    }
-    &.warn {
-      color: $sq-warn;
-    }
+  button.mat-menu-item,
+  a.mat-menu-item {
     .mat-icon {
       margin-right: 8px;
     }
-    height: 25px !important;
-    line-height: 25px;
-  }
-
-  a.mat-menu-item {
-    height: 25px !important;
-    line-height: 25px;
+    height: $menu-item-height;
+    line-height: normal;
   }
 }
 .mat-nav-list-dense {
   .mat-nav-list {
     a {
-      height: 25px !important;
+      height: $menu-item-height;
     }
   }
 }
@@ -233,7 +257,7 @@ mat-horizontal-stepper {
 }
 
 mat-checkbox {
-  height: 20px;
+  height: $default;
   .mat-checkbox-inner-container {
     height: 12px !important;
     width: 12px !important;

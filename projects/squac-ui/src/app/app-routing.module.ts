@@ -10,6 +10,8 @@ import { UserResolver } from "@core/resolvers/user.resolver";
 import { OrganizationResolver } from "@core/resolvers/organization.resolver";
 import { NotFoundComponent } from "@core/components/not-found/not-found.component";
 import { HomeComponent } from "@core/components/home/home.component";
+import { TestComponent } from "@ui/test-module/test/test.component";
+import { MaterialTestComponent } from "@ui/test-module/material-test/test.component";
 
 const appRoutes: Routes = [
   {
@@ -42,6 +44,11 @@ const appRoutes: Routes = [
         component: UserEditComponent,
       },
     ],
+  },
+  {
+    path: "test",
+    loadChildren: () =>
+      import("@ui/test-module/test.module").then((m) => m.TestModule),
   },
   {
     path: "",

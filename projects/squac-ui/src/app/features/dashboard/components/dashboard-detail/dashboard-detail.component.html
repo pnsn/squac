@@ -51,6 +51,7 @@
       </ng-container>
 
       <button
+        class="icon-button"
         [disabled]="(hasUnsavedChanges | async) === true"
         mat-button
         (click)="refreshData()"
@@ -60,6 +61,7 @@
         <mat-icon>refresh</mat-icon>
       </button>
       <button
+        class="icon-button"
         mat-button
         [color]="!hideRows ? 'primary' : ''"
         uiTooltip="configure dashboard"
@@ -70,6 +72,7 @@
       <button
         color="accent"
         mat-button
+        class="icon-button"
         (click)="addWidget()"
         *ngIf="'update' | able: dashboard"
         uiTooltip="Add widget"
