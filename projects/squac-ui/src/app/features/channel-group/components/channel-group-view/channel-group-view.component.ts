@@ -115,8 +115,11 @@ export class ChannelGroupViewComponent
     const routeSub = this.route.data
       .pipe(
         tap((data: any) => {
-          this.channelGroups = data["channelGroups"];
           const orgId = this.route.snapshot.data["user"].orgId;
+          // default show only org
+          this.channelGroups = data["channelGroups"].filter(
+            (cg: ChannelGroup) => cg.orgId === orgId
+          );
           this.queryParams = { organization: orgId };
         })
       )
