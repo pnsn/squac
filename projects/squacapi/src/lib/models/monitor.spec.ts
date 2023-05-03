@@ -1,4 +1,3 @@
-import { MockService } from "ng-mocks";
 import { Monitor } from "./monitor";
 
 describe("Monitor", () => {

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { modelConstructor, ResourceModel } from "squacapi";
 import { ApiEndpoint, getKlass } from "../enums";
 import { BaseModel, ReadOnlyResourceModel } from "./squac-object.interface";
@@ -30,11 +31,19 @@ describe("SquacObject", () => {
   interface TestWriteResourceModel {
     objName: string;
   }
+  /**
+   *
+   */
   class TestWriteResourceModel extends ResourceModel<
     TestReadSerializer | TestReadSerializer,
     TestWriteSerializer
   > {
-    toJson() {
+    /**
+     * Test to json
+     *
+     * @returns test data
+     */
+    toJson(): TestWriteSerializer {
       return {
         objName: this.objName,
       };
@@ -91,6 +100,9 @@ describe("SquacObject", () => {
     const testData = {
       test: "value",
     };
+    /**
+     *
+     */
     class TestBase extends BaseModel {
       override toJson() {
         return testData;

@@ -288,7 +288,7 @@ export class MapComponent
   /**
    * Creates map markers using processed data
    *
-   * @param data
+   * @param data processed data from request
    */
   buildChartData(data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {

@@ -210,13 +210,16 @@ button[mat-menu-item] {
     min-width: 150px;
     min-height: 46px;
   }
-  button.mat-menu-item,
-  a.mat-menu-item {
+  button.mat-menu-item {
     .mat-icon {
       margin-right: 8px;
     }
     height: $menu-item-height;
     line-height: normal;
+  }
+  a.mat-menu-item {
+    height: $menu-item-height;
+    line-height: $menu-item-height;
   }
 }
 .mat-nav-list-dense {

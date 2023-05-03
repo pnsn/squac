@@ -104,6 +104,7 @@ export class TabularComponent
 
   /**
    * override to disable
+   *
    * @param _useDenseView unused
    */
   override useDenseView(_useDenseView: boolean): void {
