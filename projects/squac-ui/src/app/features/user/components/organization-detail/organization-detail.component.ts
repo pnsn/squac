@@ -45,9 +45,7 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
   /** Config for detail page */
   pageOptions: PageOptions = {
     path: "user",
-    titleButtons: {
-      addButton: true,
-    },
+    titleButtons: {},
   };
 
   controls: TableControls = {
