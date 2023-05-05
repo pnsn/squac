@@ -51,8 +51,6 @@ import { LoadingDirective } from "@shared/directives/loading-directive.directive
     CoreModule,
     BrowserAnimationsModule,
     BrowserModule,
-    LeafletModule,
-    LeafletDrawModule,
     // Always load this at the end or the routing gets weird
     AppRoutingModule,
   ],
