@@ -32,29 +32,23 @@ import {
 import { environment } from "../environments/environment";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { AuthComponent } from "@core/components/auth/auth.component";
-import { HomeComponent } from "@core/components/home/home.component";
-import { MenuComponent } from "@core/components/menu/menu.component";
 import { AuthInterceptor } from "@core/interceptors/auth-interceptor.service";
 import { CacheInterceptor } from "@core/interceptors/cache-interceptor.service";
 import { HttpErrorInterceptor } from "@core/interceptors/http-error-interceptor.service";
 import { AppAbility } from "@core/utils/ability";
+import { CoreModule } from "@core/core.module";
+import { LoadingDirective } from "@shared/directives/loading-directive.directive";
 
 /**
  *
  */
 @NgModule({
-  declarations: [
-    AppComponent,
-    AuthComponent,
-    NotFoundComponent,
-    HomeComponent,
-    MenuComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
+    LoadingDirective,
     ApiModule,
     HttpClientModule,
-    SharedModule,
+    CoreModule,
     BrowserAnimationsModule,
     BrowserModule,
     LeafletModule,

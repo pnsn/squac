@@ -13,6 +13,7 @@ import { ChannelGroupTableComponent } from "./components/channel-group-edit/chan
 import { NgxCsvParserModule } from "ngx-csv-parser";
 import { CsvUploadComponent } from "./components/channel-group-edit/csv-upload/csv-upload.component";
 import { TooltipModule } from "@ui/tooltip/tooltip.module";
+import { LoadingDirective } from "@shared/directives/loading-directive.directive";
 /**
  *
  */
@@ -34,6 +35,7 @@ import { TooltipModule } from "@ui/tooltip/tooltip.module";
     ChannelGroupRoutingModule,
     NgxCsvParserModule,
     TooltipModule,
+    LoadingDirective,
   ],
 })
 export class ChannelGroupModule {}

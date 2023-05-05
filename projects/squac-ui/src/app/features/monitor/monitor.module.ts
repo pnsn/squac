@@ -15,6 +15,7 @@ import { NgxEchartsModule } from "ngx-echarts";
 import { MonitorAlarmStatusComponent } from "./components/monitor-alarm-status/monitor-alarm-status.component";
 import { MonitorChannelHistoryChartComponent } from "./components/monitor-detail/monitor-channel-history-chart/monitor-channel-history-chart.component";
 import { TooltipModule } from "@ui/tooltip/tooltip.module";
+import { LoadingDirective } from "@shared/directives/loading-directive.directive";
 
 /**
  * Module for monitors
@@ -39,6 +40,7 @@ import { TooltipModule } from "@ui/tooltip/tooltip.module";
     WidgetsModule,
     NgxEchartsModule,
     TooltipModule,
+    LoadingDirective,
   ],
 })
 export class MonitorModule {}

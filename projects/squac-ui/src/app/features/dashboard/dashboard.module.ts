@@ -24,6 +24,7 @@ import { WidgetsModule } from "widgets";
 import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
 import { DataTypePipe } from "./components/dashboard-detail/data-type-selector/data-type.pipe";
 import { TooltipModule } from "@ui/tooltip/tooltip.module";
+import { LoadingDirective } from "@shared/directives/loading-directive.directive";
 
 /** Dashboard feature module */
 @NgModule({
@@ -53,6 +54,7 @@ import { TooltipModule } from "@ui/tooltip/tooltip.module";
     SharedModule,
     AbilityModule,
     TooltipModule,
+    LoadingDirective,
   ],
   providers: [
     {
