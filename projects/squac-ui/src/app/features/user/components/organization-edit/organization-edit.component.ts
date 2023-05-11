@@ -40,7 +40,7 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
   orgId: number;
   userForm: FormGroup<UserForm>;
 
-  userIsActive = true;
+  userIsActive = false;
   groupTypes = [
     {
       id: 1,
