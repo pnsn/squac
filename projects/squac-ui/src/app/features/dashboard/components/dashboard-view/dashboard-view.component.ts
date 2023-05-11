@@ -117,7 +117,10 @@ export class DashboardViewComponent
           const orgId = this.route.snapshot.data["user"].orgId;
           this.queryParams = { organization: orgId };
 
-          this.dashboards = data["dashboards"];
+          // default show only org
+          this.dashboards = data["dashboards"].filter(
+            (d: Dashboard) => d.orgId === orgId
+          );
           this.rows = [...this.dashboards];
         })
       )
