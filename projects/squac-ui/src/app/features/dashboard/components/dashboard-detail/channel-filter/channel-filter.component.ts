@@ -9,7 +9,7 @@ import {
 } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Channel } from "squacapi";
-import { Observable, Subscription } from "rxjs";
+import { distinctUntilChanged, Observable, Subscription } from "rxjs";
 import { ViewService } from "@dashboard/services/view.service";
 import { WidgetConnectService } from "widgets";
 import { LoadingService } from "@core/services/loading.service";
@@ -49,10 +49,12 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
    * Subscribe to group changes
    */
   ngOnInit(): void {
-    this.channelsSub = this.viewService.channelGroupId.subscribe(() => {
-      this.channels = this.viewService.allChannels;
-      this.initForm();
-    });
+    this.channelsSub = this.viewService.channelGroupId
+      .pipe(distinctUntilChanged())
+      .subscribe(() => {
+        this.channels = this.viewService.allChannels;
+        this.initForm();
+      });
   }
 
   /**

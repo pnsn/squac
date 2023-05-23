@@ -79,7 +79,7 @@ mat-icon {
   .mat-form-field-flex {
     align-items: center;
     height: 37px;
-    padding: 0 0 0 5px !important;
+    padding: 5px 0 0 5px !important;
     margin-top: 3px;
   }
   .mat-form-field-wrapper {
@@ -87,10 +87,11 @@ mat-icon {
     padding-bottom: 0 !important;
   }
   .mat-form-field-infix {
-    padding: 3px 0 0 0 !important;
+    padding: 0 0 0 0 !important;
     border-top: none;
     .mat-form-field-label-wrapper {
       padding-top: 0 !important;
+      margin-left: 1px;
     }
   }
   .mat-form-field-prefix,
