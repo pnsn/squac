@@ -169,14 +169,7 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
     this.columns = [
       {
         name: "Name",
-        prop: "",
-        // canAutoResize: false,
-        // width: 70,
-        pipe: {
-          transform: (row: User): string => {
-            return row ? row.firstname + " " + row.lastname : "";
-          },
-        },
+        prop: "fullName",
       },
       {
         name: "Groups",
