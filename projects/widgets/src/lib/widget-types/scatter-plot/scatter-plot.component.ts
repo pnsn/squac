@@ -152,8 +152,6 @@ export class ScatterPlotComponent
         },
       };
 
-      console.log(this.channels.length);
-
       this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
         this.selectedMetrics,
 

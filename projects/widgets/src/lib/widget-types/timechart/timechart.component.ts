@@ -1,10 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  NgZone,
-  OnDestroy,
-  OnInit,
-} from "@angular/core";
+import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
 import * as dayjs from "dayjs";
 import { Measurement } from "squacapi";
 
@@ -123,7 +117,6 @@ export class TimechartComponent
    */
   buildChartData(data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {
-      console.log("build chart data");
       this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
         this.selectedMetrics,
         this.properties,
