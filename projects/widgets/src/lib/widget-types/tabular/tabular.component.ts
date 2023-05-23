@@ -5,6 +5,7 @@ import {
   TemplateRef,
   OnInit,
   NgZone,
+  ChangeDetectorRef,
 } from "@angular/core";
 import {
   ColumnMode,
@@ -88,7 +89,8 @@ export class TabularComponent
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
     override widgetManager: WidgetManagerService,
-    override ngZone: NgZone
+    override ngZone: NgZone,
+    override cdr: ChangeDetectorRef
   ) {
     super(widgetManager, widgetConnectService, ngZone);
   }

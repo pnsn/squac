@@ -304,7 +304,7 @@ export class CalendarComponent
     }
 
     visualMaps.show = this.showKey;
-    this.updateOptions = {
+    const options = {
       series: this.metricSeries[displayMetric.id].series,
       visualMap: visualMaps,
       xAxis: axes,
@@ -312,5 +312,15 @@ export class CalendarComponent
         data: this.metricSeries[displayMetric.id].yAxisLabels,
       },
     };
+
+    // using update options only prevented series from removing series
+    // using the combo sets both the inital series and later updates
+    if (!this.echartsInstance) {
+      this.updateOptions = options;
+    } else {
+      this.echartsInstance.setOption(options, {
+        replaceMerge: ["series", "xAxis"],
+      });
+    }
   }
 }

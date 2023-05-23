@@ -1,4 +1,10 @@
-import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  NgZone,
+  OnDestroy,
+  OnInit,
+} from "@angular/core";
 import { ProcessedData, VisualMap, WidgetConfig } from "../../interfaces";
 import { WidgetConnectService, WidgetManagerService } from "../../services";
 import { Channel, Metric } from "squacapi";
@@ -68,7 +74,8 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
   constructor(
     protected widgetManager: WidgetManagerService,
     protected widgetConnector: WidgetConnectService,
-    protected ngZone: NgZone
+    protected ngZone: NgZone,
+    protected cdr?: ChangeDetectorRef
   ) {
     this.widgetConfig = widgetManager.widgetConfig;
   }
@@ -109,6 +116,7 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
     this.properties = this.widgetManager.properties;
     this.buildChartData(data).then(() => {
       this.changeMetrics();
+      this.cdr?.detectChanges();
       this.data = null; //dump data
     });
   }

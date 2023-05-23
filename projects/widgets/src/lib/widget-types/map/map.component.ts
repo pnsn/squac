@@ -97,7 +97,7 @@ export class MapComponent
     protected widgetConnectService: WidgetConnectService,
     override widgetManager: WidgetManagerService,
     protected zone: NgZone,
-    protected cdr: ChangeDetectorRef
+    override cdr: ChangeDetectorRef
   ) {
     super(widgetManager, widgetConnectService, zone);
   }

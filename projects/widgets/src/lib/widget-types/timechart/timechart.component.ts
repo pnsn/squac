@@ -1,4 +1,10 @@
-import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  NgZone,
+  OnDestroy,
+  OnInit,
+} from "@angular/core";
 import * as dayjs from "dayjs";
 import { Measurement } from "squacapi";
 
@@ -117,6 +123,7 @@ export class TimechartComponent
    */
   buildChartData(data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {
+      console.log("build chart data");
       this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
         this.selectedMetrics,
         this.properties,
@@ -207,7 +214,7 @@ export class TimechartComponent
     const colorMetric = this.selectedMetrics[0];
     const visualMaps = this.visualMaps[colorMetric.id];
     visualMaps.show = this.showKey;
-    this.updateOptions = {
+    const options = {
       series: this.metricSeries.series,
       visualMap: visualMaps,
       xAxis: {
@@ -215,5 +222,15 @@ export class TimechartComponent
         max: this.widgetManager.endtime,
       },
     };
+
+    // using update options only prevented series from removing series
+    // using the combo sets both the inital series and later updates
+    if (!this.echartsInstance) {
+      this.updateOptions = options;
+    } else {
+      this.echartsInstance.setOption(options, {
+        replaceMerge: "series",
+      });
+    }
   }
 }
