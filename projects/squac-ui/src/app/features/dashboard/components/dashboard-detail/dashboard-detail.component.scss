@@ -5,7 +5,7 @@
   opacity: 0.65;
 }
 #dashboard-header {
-  padding: 0px 10px;
+  padding: 5px 10px;
   top: 0px;
   position: sticky;
   position: -webkit-sticky;
@@ -17,12 +17,20 @@
     flex-wrap: wrap;
     gap: 5px;
   }
+
   mat-menu-item {
     span {
       margin: 0px 5px;
     }
   }
+  #info-row {
+    justify-content: space-between;
+  }
+  #config-row {
+    justify-content: flex-start;
+  }
   #dashboard-info {
+    order: -1;
     h2 {
       display: inline;
       font-size: 12pt;
@@ -30,6 +38,27 @@
     span {
       font-weight: 200;
     }
+  }
+  #dashboard-controls {
+    order: 0;
+    @media (max-width: 1088px) {
+      order: 1;
+    }
+    flex: 1 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 3px;
+  }
+  #dashboard-buttons {
+    order: 1;
+    @media (max-width: 1088px) {
+      order: 0;
+    }
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    align-items: center;
   }
 }
 .auto-margin {

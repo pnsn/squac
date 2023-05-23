@@ -1,4 +1,10 @@
-import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  NgZone,
+  OnDestroy,
+  OnInit,
+} from "@angular/core";
 import {
   WidgetConnectService,
   WidgetManagerService,
@@ -25,7 +31,8 @@ export class ScatterPlotComponent
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
     override widgetManager: WidgetManagerService,
-    override ngZone: NgZone
+    override ngZone: NgZone,
+    override cdr: ChangeDetectorRef
   ) {
     super(widgetManager, widgetConnectService, ngZone);
   }
@@ -173,7 +180,7 @@ export class ScatterPlotComponent
     const colorMetric = this.selectedMetrics[2];
     const visualMaps = this.visualMaps[colorMetric.id];
     visualMaps.show = this.showKey;
-    this.updateOptions = {
+    const options = {
       series: this.metricSeries.series,
       xAxis: {
         name: `${xMetric.name} (${xMetric.unit})`,
@@ -183,5 +190,15 @@ export class ScatterPlotComponent
         name: `${yMetric.name} (${yMetric.unit})`,
       },
     };
+
+    // using update options only prevented series from removing series
+    // using the combo sets both the inital series and later updates
+    if (!this.echartsInstance) {
+      this.updateOptions = options;
+    } else {
+      this.echartsInstance.setOption(options, {
+        replaceMerge: "series",
+      });
+    }
   }
 }

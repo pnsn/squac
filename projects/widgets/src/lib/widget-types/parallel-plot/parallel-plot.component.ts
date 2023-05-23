@@ -151,12 +151,19 @@ export class ParallelPlotComponent
    * updates series and axes on charts
    */
   changeMetrics(): void {
-    this.updateOptions = {
-      ...this.updateOptions,
+    const options = {
       series: this.metricSeries.series,
       parallelAxis: this.metricSeries.axis,
     };
-    if (this.echartsInstance) {
+
+    // using update options only prevented series from removing series
+    // using the combo sets both the inital series and later updates
+    if (!this.echartsInstance) {
+      this.updateOptions = options;
+    } else {
+      this.echartsInstance.setOption(options, {
+        replaceMerge: ["series", "parallelAxis"],
+      });
       this.resize();
     }
   }

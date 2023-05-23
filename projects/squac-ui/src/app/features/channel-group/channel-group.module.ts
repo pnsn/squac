@@ -14,8 +14,6 @@ import { NgxCsvParserModule } from "ngx-csv-parser";
 import { CsvUploadComponent } from "./components/channel-group-edit/csv-upload/csv-upload.component";
 import { TooltipModule } from "@ui/tooltip/tooltip.module";
 import { LoadingDirective } from "@shared/directives/loading-directive.directive";
-import { LeafletModule } from "@asymmetrik/ngx-leaflet";
-import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
 /**
  *
  */

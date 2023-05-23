@@ -6,11 +6,11 @@
     id="dashboard-header"
     class="column lt-gray-background box-shadow"
   >
-    <div class="row">
-      <div
-        id="dashboard-info"
-        class="auto-margin"
-      >
+    <div
+      class="row"
+      id="info-row"
+    >
+      <div id="dashboard-info">
         <h2>{{ dashboard?.name }}</h2>
         <span *ngIf="dashboard?.owner && dashboard?.orgId">
           by {{ dashboard?.owner | user }} ({{
@@ -24,112 +24,94 @@
           resource="dashboard"
         ></shared-sharing-indicator>
       </div>
-      <ng-container *ngIf="viewService.dashboardConfig$ | async as config">
-        <button
-          [disabled]="!hideRows"
-          mat-button
-          (click)="hideRows = false"
-          uiTooltip="time range"
-        >
-          <mat-icon>
-            calendar_month
-          </mat-icon>
-          <ng-container *ngIf="config.range; else customRange">{{
-            config.range
-            }}</ng-container>
-          <ng-template #customRange>{{ config.start }} - {{ config.end }}</ng-template>
-        </button>
-        <button
-          [disabled]="!hideRows"
-          mat-button
-          (click)="hideRows = false"
-          uiTooltip="data type"
-        >
-          <mat-icon>query_stats</mat-icon>
-          {{ config.archive | dataType: config.stat }}
-        </button>
-      </ng-container>
 
-      <button
-        class="icon-button"
-        [disabled]="(hasUnsavedChanges | async) === true"
-        mat-button
-        (click)="refreshData()"
-        uiTooltip="Refresh data"
-        aria-label="Button that requests new data from the database"
-      >
-        <mat-icon>refresh</mat-icon>
-      </button>
-      <button
-        class="icon-button"
-        mat-button
-        [color]="!hideRows ? 'primary' : ''"
-        uiTooltip="configure dashboard"
-        (click)="hideRows = !hideRows"
-      >
-        <mat-icon>tune</mat-icon>
-      </button>
-      <button
-        color="accent"
-        mat-button
-        class="icon-button"
-        (click)="addWidget()"
-        *ngIf="'update' | able: dashboard"
-        uiTooltip="Add widget"
-      >
-        <mat-icon>add</mat-icon>
-      </button>
+      <div id="dashboard-controls">
+        <shared-channel-group-selector
+          [channelGroupId]="channelGroupId"
+          (channelGroupIdChange)="channelGroupChange($event)"
+          appearance="outline"
+          [dense]="true"
+        >
+        </shared-channel-group-selector>
+        <shared-date-select
+          [secondsAgoFromNow]="timeRange"
+          [initialStartDate]="startTime"
+          [initialEndDate]="endTime"
+          [timeRanges]="datePickerTimeRanges"
+          (datesChanged)="datesChanged($event)"
+          (selectedRangeChanged)="viewService.timeRangeChanged($event)"
+        ></shared-date-select>
+        <dashboard-data-type-selector
+          [dataType]="archiveType"
+          [statType]="archiveStat"
+          (dataTypeSelected)="selectArchiveType($event)"
+        >
+        </dashboard-data-type-selector>
+
+      </div>
+      <div id="dashboard-buttons">
+        <button
+          class="icon-button"
+          [disabled]="(hasUnsavedChanges | async) === true"
+          mat-button
+          (click)="refreshData()"
+          uiTooltip="Refresh data"
+          aria-label="Button that requests new data from the database"
+        >
+          <mat-icon>refresh</mat-icon>
+        </button>
+        <button
+          [disabled]="(hasUnsavedChanges | async) === false"
+          mat-raised-button
+          color="accent"
+          (click)="updateDashboard()"
+        >
+          Apply
+        </button>
+        <button
+          class="icon-button"
+          mat-button
+          [color]="!hideRows ? 'primary' : ''"
+          uiTooltip="configure dashboard"
+          (click)="hideRows = !hideRows"
+        >
+          <mat-icon>tune</mat-icon>
+        </button>
+        <button
+          color="accent"
+          mat-button
+          class="icon-button"
+          (click)="addWidget()"
+          *ngIf="'update' | able: dashboard"
+          uiTooltip="Add widget"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+
     </div>
     <div
       class="row config-row"
+      id="config-row"
       *ngIf="!hideRows"
     >
-      <!-- if they have permission, otherwise show copy only -->
-      <shared-channel-group-selector
-        [channelGroupId]="channelGroupId"
-        (channelGroupIdChange)="channelGroupChange($event)"
-        appearance="outline"
-        [dense]="true"
-      >
-      </shared-channel-group-selector>
-      <shared-date-select
-        [secondsAgoFromNow]="timeRange"
-        [initialStartDate]="startTime"
-        [initialEndDate]="endTime"
-        [timeRanges]="datePickerTimeRanges"
-        (datesChanged)="datesChanged($event)"
-        (selectedRangeChanged)="viewService.timeRangeChanged($event)"
-      ></shared-date-select>
-      <dashboard-data-type-selector
-        [dataType]="archiveType"
-        [statType]="archiveStat"
-        (dataTypeSelected)="selectArchiveType($event)"
-      >
-      </dashboard-data-type-selector>
-      <button
-        [disabled]="(hasUnsavedChanges | async) === false"
-        mat-raised-button
-        color="accent"
-        (click)="updateDashboard()"
-      >
-        Apply
-      </button>
+
     </div>
     <div
       class="row"
       *ngIf="dashboard?.properties && !hideRows"
     >
-      <mat-slide-toggle
+      <mat-checkbox
         [(ngModel)]="dashboard.properties.denseView"
         (change)="toggleView()"
       >
         Hide zoom controls
-      </mat-slide-toggle>
-      <mat-slide-toggle
+      </mat-checkbox>
+      <mat-checkbox
         [(ngModel)]="channelList"
         (change)="toggleChannelList()"
       >
-        Show channel list</mat-slide-toggle>
+        Show channel list</mat-checkbox>
     </div>
   </div>
 

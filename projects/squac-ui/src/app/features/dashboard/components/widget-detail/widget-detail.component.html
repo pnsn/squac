@@ -2,10 +2,7 @@
   class="widget-container box"
   *ngIf="widget"
 >
-  <div
-    class="widget-header row space-between"
-    [ngClass]="{ 'hide-controls': hideControls }"
-  >
+  <div class="widget-header row space-between">
     <div id="widget-name">{{ widget.name }}</div>
     <div
       id="controls"

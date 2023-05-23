@@ -5,6 +5,7 @@ import {
   TemplateRef,
   OnInit,
   NgZone,
+  ChangeDetectorRef,
 } from "@angular/core";
 import {
   ColumnMode,
@@ -26,8 +27,9 @@ import {
 } from "../../interfaces";
 import { GenericWidgetComponent } from "../../shared/components";
 import { ChannelRow, RowMetrics, StationRow } from "./types";
-import { ChannelComparator, MetricComparator } from "./utils";
+import { RowMetricComparator } from "./utils";
 import { MeasurementPipe } from "squacapi";
+import { NslcComparator } from "../../shared";
 
 /**
  * Table based widget
@@ -87,7 +89,8 @@ export class TabularComponent
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
     override widgetManager: WidgetManagerService,
-    override ngZone: NgZone
+    override ngZone: NgZone,
+    override cdr: ChangeDetectorRef
   ) {
     super(widgetManager, widgetConnectService, ngZone);
   }
@@ -155,7 +158,7 @@ export class TabularComponent
         canAutoResize: false,
         frozenLeft: true,
         resizeable: true,
-        comparator: ChannelComparator,
+        comparator: NslcComparator,
       },
     ];
 
@@ -175,7 +178,7 @@ export class TabularComponent
         this.columns.push({
           name: metric.name,
           prop: metric.id,
-          comparator: MetricComparator,
+          comparator: RowMetricComparator,
           width: 65,
           canAutoResize: true,
           sortable: true,

@@ -7,7 +7,7 @@ import { RowMetric } from "./types";
  * @param propB second value
  * @returns difference
  */
-export const MetricComparator = (
+export const RowMetricComparator = (
   propA: RowMetric,
   propB: RowMetric
 ): number => {
@@ -22,15 +22,4 @@ export const MetricComparator = (
     return 1;
   }
   return propA.value - propB.value;
-};
-
-/**
- * Sort function for channels/station rows
- *
- * @param propA first value
- * @param propB second value
- * @returns difference
- */
-export const ChannelComparator = (propA: string, propB: string): number => {
-  return propA.localeCompare(propB);
 };
