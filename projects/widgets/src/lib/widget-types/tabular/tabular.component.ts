@@ -26,8 +26,9 @@ import {
 } from "../../interfaces";
 import { GenericWidgetComponent } from "../../shared/components";
 import { ChannelRow, RowMetrics, StationRow } from "./types";
-import { ChannelComparator, MetricComparator } from "./utils";
+import { RowMetricComparator } from "./utils";
 import { MeasurementPipe } from "squacapi";
+import { NslcComparator } from "../../shared";
 
 /**
  * Table based widget
@@ -155,7 +156,7 @@ export class TabularComponent
         canAutoResize: false,
         frozenLeft: true,
         resizeable: true,
-        comparator: ChannelComparator,
+        comparator: NslcComparator,
       },
     ];
 
@@ -175,7 +176,7 @@ export class TabularComponent
         this.columns.push({
           name: metric.name,
           prop: metric.id,
-          comparator: MetricComparator,
+          comparator: RowMetricComparator,
           width: 65,
           canAutoResize: true,
           sortable: true,

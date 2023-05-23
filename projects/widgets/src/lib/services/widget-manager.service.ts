@@ -14,6 +14,7 @@ import { WidgetErrors, WidgetType } from "../enums";
 import { WidgetConfig, WidgetDisplayOption } from "../interfaces";
 import { WidgetDataService } from ".";
 import { WIDGET_TYPE_INFO } from "../constants";
+import { ChannelComparator } from "../shared";
 
 /**
  * Keeps track of data shared between widget tree components
@@ -190,7 +191,7 @@ export class WidgetManagerService {
     }
 
     this._group = group;
-    this._channels = channels;
+    this._channels = channels.sort(ChannelComparator);
     if (this._channels.length === 0) {
       this.errors$.next(WidgetErrors.NO_CHANNELS);
     }
