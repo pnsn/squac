@@ -6,12 +6,8 @@ import {
 } from "@angular/material/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { LeafletModule } from "@asymmetrik/ngx-leaflet";
-import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
 import { PureAbility } from "@casl/ability";
-import { NotFoundComponent } from "@core/components";
 import { ApiModule, ApiService, BASE_PATH } from "@pnsn/ngx-squacapi-client";
-import { SharedModule } from "@shared/shared.module";
 import {
   AggregateService,
   DayArchiveService,
