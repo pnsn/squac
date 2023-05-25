@@ -1,11 +1,22 @@
-<div mat-dialog-title class="dialog-title">
+<div
+  mat-dialog-title
+  class="dialog-title"
+>
   <h3>{{ editMode ? "Edit Metric" : "New Metric" }}</h3>
-  <button mat-icon-button (click)="cancel()" type="button">
+  <button
+    mat-button
+    (click)="cancel()"
+    type="button"
+  >
     <mat-icon>close</mat-icon>
   </button>
 </div>
 <div mat-dialog-content>
-  <form class="form" action="" [formGroup]="metricForm">
+  <form
+    class="form"
+    action=""
+    [formGroup]="metricForm"
+  >
     <mat-form-field class="large">
       <input
         matInput
@@ -87,7 +98,10 @@
   </form>
 </div>
 
-<div mat-dialog-actions class="dialog-options">
+<div
+  mat-dialog-actions
+  class="dialog-options"
+>
   <div>
     <button
       class="save"

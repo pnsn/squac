@@ -6,12 +6,8 @@ import {
 } from "@angular/material/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { LeafletModule } from "@asymmetrik/ngx-leaflet";
-import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
 import { PureAbility } from "@casl/ability";
-import { NotFoundComponent } from "@core/components";
 import { ApiModule, ApiService, BASE_PATH } from "@pnsn/ngx-squacapi-client";
-import { SharedModule } from "@shared/shared.module";
 import {
   AggregateService,
   DayArchiveService,
@@ -32,33 +28,25 @@ import {
 import { environment } from "../environments/environment";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { AuthComponent } from "@core/components/auth/auth.component";
-import { HomeComponent } from "@core/components/home/home.component";
-import { MenuComponent } from "@core/components/menu/menu.component";
 import { AuthInterceptor } from "@core/interceptors/auth-interceptor.service";
 import { CacheInterceptor } from "@core/interceptors/cache-interceptor.service";
 import { HttpErrorInterceptor } from "@core/interceptors/http-error-interceptor.service";
 import { AppAbility } from "@core/utils/ability";
+import { CoreModule } from "@core/core.module";
+import { LoadingDirective } from "@shared/directives/loading-directive.directive";
 
 /**
  *
  */
 @NgModule({
-  declarations: [
-    AppComponent,
-    AuthComponent,
-    NotFoundComponent,
-    HomeComponent,
-    MenuComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
+    LoadingDirective,
     ApiModule,
     HttpClientModule,
-    SharedModule,
+    CoreModule,
     BrowserAnimationsModule,
     BrowserModule,
-    LeafletModule,
-    LeafletDrawModule,
     // Always load this at the end or the routing gets weird
     AppRoutingModule,
   ],

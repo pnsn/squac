@@ -33,7 +33,7 @@
       >
         <h3>User Information</h3>
         <button
-          mat-icon-button
+          mat-button
           color="accent"
           *ngIf="editMode"
           [disabled]="!userForm.valid"
@@ -44,7 +44,7 @@
           <mat-icon>save</mat-icon>
         </button>
         <button
-          mat-icon-button
+          mat-button
           color="primary"
           (click)="editForm()"
           *ngIf="!editMode"

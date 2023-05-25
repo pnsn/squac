@@ -32,21 +32,28 @@ import { PageOptions } from "@shared/components/detail-page/detail-page.interfac
   templateUrl: "./alert-view.component.html",
 })
 export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
+  /** rxjs subscriptions */
   subscription = new Subscription();
+  /** alerts to display */
   alerts: Alert[];
+  /** monitors to display */
   monitors: Monitor[];
-  refreshInProgress = false;
-  interval;
-  error: boolean;
+  /** true if date has been changed */
   unsavedChanges = false;
+  /** default time range for alert requests */
   timeRange: number = 1 * 24 * 60 * 60;
   // time picker config
   datePickerTimeRanges = DATE_PICKER_TIMERANGES;
+  /** starttime for request */
   starttime: string;
+  /** end time for config */
   endtime: string;
   // Table config
+  /** table rows */
   rows = [];
+  /** table columns */
   columns = [];
+  /** search params */
   params: {
     timestampGte: string;
     timestampLt?: string;
@@ -57,6 +64,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     path: "/alerts",
   };
 
+  /** config for table component */
   controls: TableControls = {
     listenToRouter: true,
     resource: "Monitor",
@@ -68,6 +76,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     links: [{ text: "View All Monitors", path: "/monitors" }],
   };
 
+  /** config for search field */
   filters: TableFilters = {
     searchField: {
       text: "Filter alerts...",
@@ -79,6 +88,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     },
   };
 
+  /** config for table */
   options: TableOptions = {
     messages: {
       emptyMessage: "No alerts found.",
@@ -86,9 +96,13 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     footerLabel: "Alerts",
   };
 
+  /** template for alert state */
   @ViewChild("stateTemplate") stateTemplate: TemplateRef<any>;
+  /** template for trigger column */
   @ViewChild("triggerTemplate") triggerTemplate: TemplateRef<any>;
+  /** template for channels column */
   @ViewChild("channelsTemplate") channelsTemplate: TemplateRef<any>;
+  /** template for monitor column */
   @ViewChild("monitorTemplate") monitorTemplate: TemplateRef<any>;
   constructor(
     private alertService: AlertService,
@@ -218,6 +232,5 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
   /** unsubscribe */
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    clearInterval(this.interval);
   }
 }

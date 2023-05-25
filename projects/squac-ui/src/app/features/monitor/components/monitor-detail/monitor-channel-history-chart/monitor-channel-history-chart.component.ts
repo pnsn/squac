@@ -32,19 +32,31 @@ import {
   styleUrls: ["./monitor-channel-history-chart.component.scss"],
 })
 export class MonitorChannelHistoryChartComponent extends EChartComponent {
+  /** monitor to display on chart  */
   @Input() monitor: Monitor;
+  /** list of alerts (from same monitor) to be displayed */
   @Input() alerts: Alert[];
+  /** alert to highlight */
   @Input() selectedAlert: Alert;
+  /** emits alert when one is selected on the chart */
   @Output() selectedAlertChange: EventEmitter<Alert> = new EventEmitter();
+  /** actual echart instance */
   @ViewChild("chartInstance") chartInstance;
+  /** measurement pipe for transforming values */
   measurementPipe = new MeasurementPipe();
-  error: boolean;
+  /** min and max values of the data on chart  */
   dataRange: { min: number; max: number };
+  /** Chart series name for alerts series */
   alertsSeriesName = "Alerts";
+  /** chart series name for channels series */
   channelsSeriesName = "Channels";
+  /** Channel series to display on chart */
   channelsSeries = [];
+  /** Trigger series to display on chart */
   triggerSeries = [];
+  /** EChart Dataset containing chart data */
   dataset: DatasetComponentOption[] = [];
+  /** echarts conf for channels series */
   channelsSeriesConf: any = {
     type: "line",
     large: true,
@@ -76,11 +88,8 @@ export class MonitorChannelHistoryChartComponent extends EChartComponent {
     super(widgetManager, null, null);
   }
 
-  // Max allowable time between measurements to connect
-  maxMeasurementGap = 1.5;
-
   /**
-   * @override
+   * Creates chart configuration before data is loaded
    */
   configureChart(): void {
     this.options = {
@@ -170,7 +179,12 @@ export class MonitorChannelHistoryChartComponent extends EChartComponent {
     };
   }
 
-  /** @override */
+  /**
+   * Event listener for chart events, emits selected alert when one is clicked
+   *
+   * @param $event echart event
+   * @param type type of event
+   */
   override onChartEvent($event, type): void {
     if (type === "chartClick" && $event.seriesName === this.alertsSeriesName) {
       this.selectedAlertChange.emit($event.value[4]);
@@ -178,16 +192,12 @@ export class MonitorChannelHistoryChartComponent extends EChartComponent {
   }
 
   /**
-   * @override
+   * Takes monitors and alerts and combine to create chart data
+   *
+   * @param _data chart data (unused)
    */
   buildChartData(_data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {
-      // this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
-      //   this.selectedMetrics,
-      //   this.properties,
-      //   2
-      // );
-
       const channelsWithData = new Set<string>();
       this.channelsSeries = [];
       this.triggerSeries = [];
@@ -367,7 +377,7 @@ export class MonitorChannelHistoryChartComponent extends EChartComponent {
   }
 
   /**
-   * @override
+   * Changes selected metrics on chart & updates dataset
    */
   changeMetrics(): void {
     this.updateOptions = {

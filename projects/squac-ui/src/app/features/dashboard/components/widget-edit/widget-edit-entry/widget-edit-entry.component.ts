@@ -55,6 +55,7 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
         maxWidth: 800,
         maxHeight: "100vh",
         panelClass: "dialog-responsive",
+        autoFocus: "first-header",
         data: {
           widget: this.widget,
           dashboardId: this.dashboardId,

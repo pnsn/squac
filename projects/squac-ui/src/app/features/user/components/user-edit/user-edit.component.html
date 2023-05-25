@@ -48,7 +48,7 @@
           [type]="hide ? 'password' : 'text'"
         />
         <button
-          mat-icon-button
+          mat-button
           matSuffix
           type="button"
           (click)="hide = !hide"
@@ -58,16 +58,18 @@
           <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
         </button>
       </mat-form-field>
-      <mat-error
-        *ngIf="
+      <mat-error *ngIf="
           userForm.get('passwords').dirty &&
           userForm.get('passwords').hasError('mismatch')
-        "
-      >
+        ">
         Passwords do not match
       </mat-error>
     </ng-container>
-    <button mat-flat-button color="accent" [disabled]="!userForm.valid">
+    <button
+      mat-flat-button
+      color="accent"
+      [disabled]="!userForm.valid"
+    >
       Create Account
     </button>
   </form>
@@ -76,5 +78,8 @@
     <p>No token, please try again.</p>
   </ng-template>
 
-  <shared-error *ngIf="error" [errorMsg]="error"></shared-error>
+  <shared-error
+    *ngIf="error"
+    [errorMsg]="error"
+  ></shared-error>
 </div>

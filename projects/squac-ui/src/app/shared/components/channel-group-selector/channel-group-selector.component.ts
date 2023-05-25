@@ -15,10 +15,14 @@ import { MatFormFieldAppearance } from "@angular/material/form-field";
 
 /** Grouping of Channel Groups with a name and form value */
 interface Group {
+  /** name of group to show as label */
   name: string;
+  /** value for form option */
   value: string;
+  /** list of ChannelGroups to display */
   groups: ChannelGroup[];
 }
+
 /**
  * Dropdown select for channel groups
  */

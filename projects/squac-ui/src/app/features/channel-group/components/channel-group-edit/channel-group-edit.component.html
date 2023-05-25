@@ -116,7 +116,7 @@
               </div>
 
               <!-- <button
-                mat-icon-button
+                mat-button
                 color="accent"
                 (click)="undoSelectRemove()"
                 [disabled]="!this.changeMade"
@@ -190,6 +190,7 @@
                 [filterText]="sharedToggleConfig"
                 [(shareOrg)]="shareOrg"
                 [(shareAll)]="shareAll"
+                [isFormInput]="true"
               >
               </shared-sharing-toggle>
             </form>

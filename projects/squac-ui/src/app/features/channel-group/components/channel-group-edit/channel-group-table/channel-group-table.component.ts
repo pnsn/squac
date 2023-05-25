@@ -15,7 +15,7 @@ import {
 } from "@boring.devs/ngx-datatable";
 
 /**
- * Channel group edit table
+ * Table showing a list of channels
  */
 @Component({
   selector: "channel-group-edit-table",
@@ -23,20 +23,35 @@ import {
   styleUrls: ["./channel-group-table.component.scss"],
 })
 export class ChannelGroupTableComponent implements OnInit {
+  /** table rows */
   @Input() rows: Channel[] = [];
+  /** selected row on table */
   @Input() selected: Channel[] = [];
+  /** title for table  */
   @Input() title: string;
+  /** true if rows should be selectable */
   @Input() selectable: boolean;
+  /** true if rows should be removable */
   @Input() removable: boolean;
+  /** Emits array of channels */
   @Output() rowsChange = new EventEmitter<Channel[]>();
+  /** Emits selected channels */
   @Output() selectedChange = new EventEmitter<Channel[]>();
+  /** Template for remove option on table */
   @ViewChild("removeTemplate") removeTemplate: TemplateRef<any>;
+  /** Template for header row of table */
   @ViewChild("headerTemplate") headerTemplate: TemplateRef<any>;
-  // table config
+
+  /** Table config */
+  /** ngxdatatable selection type */
   SelectionType = SelectionType;
+  /** ngxdatatable column mode */
   ColumnMode = ColumnMode;
+  /** ngxdatatable sort type */
   SortType = SortType;
+  /** table columns */
   columns: any = [];
+  /** display messages for table */
   messages = {
     emptyMessage: "No channels found.",
   };

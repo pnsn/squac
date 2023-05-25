@@ -1,6 +1,12 @@
 <div class="edit-body">
-  <form #optionsEditForm [formGroup]="optionsForm">
-    <ng-container formGroupName="options" *ngIf="displayOption">
+  <form
+    #optionsEditForm
+    [formGroup]="optionsForm"
+  >
+    <ng-container
+      formGroupName="options"
+      *ngIf="displayOption"
+    >
       <div class="head-row">
         <span class="label">Colors</span>
       </div>
@@ -11,7 +17,10 @@
       <div class="body-row">
         <mat-form-field class="small dense-form-field-select">
           <mat-label>In Range</mat-label>
-          <mat-select #inRange formControlName="inRange">
+          <mat-select
+            #inRange
+            formControlName="inRange"
+          >
             <mat-select-trigger *ngIf="inRange && inRange.value">
               <span
                 *ngIf="
@@ -35,7 +44,10 @@
               </ng-template>
             </mat-select-trigger>
 
-            <mat-option *ngFor="let opt of gradientOptions" [value]="opt">
+            <mat-option
+              *ngFor="let opt of gradientOptions"
+              [value]="opt"
+            >
               <span
                 class="gradient-indicator"
                 [ngStyle]="{
@@ -47,7 +59,10 @@
                 {{ opt.label }}
               </span>
             </mat-option>
-            <mat-option *ngFor="let opt of solidOptions" [value]="opt">
+            <mat-option
+              *ngFor="let opt of solidOptions"
+              [value]="opt"
+            >
               <span
                 *ngIf="opt.color.length === 1"
                 class="color-indicator"
@@ -64,7 +79,10 @@
 
         <mat-form-field class="small dense-form-field-select">
           <mat-label>Out of Range</mat-label>
-          <mat-select #outOfRange formControlName="outOfRange">
+          <mat-select
+            #outOfRange
+            formControlName="outOfRange"
+          >
             <mat-select-trigger>
               <span
                 *ngIf="outOfRange.value"
@@ -74,7 +92,10 @@
                 }"
               ></span>
             </mat-select-trigger>
-            <mat-option *ngFor="let range of solidOptions" [value]="range">
+            <mat-option
+              *ngFor="let range of solidOptions"
+              [value]="range"
+            >
               <span
                 class="color-indicator"
                 [ngStyle]="{
@@ -113,22 +134,26 @@
         <table id="thresholds-table">
           <thead>
             <th class="large">metric</th>
-            <th *ngIf="displayOption?.dimensions" class="small">Dimension</th>
+            <th
+              *ngIf="displayOption?.dimensions"
+              class="small"
+            >Dimension</th>
 
             <th class="small">min value</th>
             <th class="small">max value</th>
           </thead>
           <tbody>
-            <ng-container
-              *ngFor="let threshold of thresholdArray.controls; let i = index"
-            >
+            <ng-container *ngFor="let threshold of thresholdArray.controls; let i = index">
               <tr [formGroupName]="i">
                 <td class="large">
                   <span *ngIf="threshold.controls.metricId.value as metricId">
                     {{ getMetricName(metricId) }}
                   </span>
                 </td>
-                <td *ngIf="displayOption?.dimensions" class="small">
+                <td
+                  *ngIf="displayOption?.dimensions"
+                  class="small"
+                >
                   <mat-form-field class="dense-form-field-select">
                     <mat-select
                       #dimensions
@@ -156,7 +181,7 @@
                     />
                     <button
                       matSuffix
-                      mat-icon-button
+                      mat-button
                       aria-label="Clear"
                       (click)="min.value = null"
                     >
@@ -176,7 +201,7 @@
                     />
                     <button
                       matSuffix
-                      mat-icon-button
+                      mat-button
                       aria-label="Clear"
                       (click)="max.value = null"
                     >

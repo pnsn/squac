@@ -7,19 +7,8 @@ import {
   FormGroup,
 } from "@angular/forms";
 import { InviteService } from "squacapi";
+import { PasswordsForm, UserForm } from "./interfaces";
 
-/** Password form fields */
-interface PasswordsForm {
-  password: FormControl<string>;
-  confirm: FormControl<string>;
-}
-
-/** User edit form fields */
-interface UserForm {
-  firstname: FormControl<string>;
-  lastname: FormControl<string>;
-  passwords: FormGroup<PasswordsForm>;
-}
 /**
  * User edit component after creation
  */

@@ -104,6 +104,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
       this.widgetConnectService.toggleChannelList.subscribe(
         (toggleChannelList: boolean) => {
           this.sideNavOpened = toggleChannelList;
+          this.cdr.detectChanges();
         }
       );
 

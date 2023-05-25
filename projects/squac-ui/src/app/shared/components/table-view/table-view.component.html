@@ -20,6 +20,7 @@
           *ngIf="filters && filters.toggleShared"
           [user]="user"
           (filtersChange)="toggleSharing($event)"
+          [isFormInput]="false"
         >
         </shared-sharing-toggle>
 
@@ -66,7 +67,8 @@
         <ng-content select="[tableHeadControls]"> </ng-content>
         <button
           *ngIf="controls.refresh"
-          mat-icon-button
+          mat-button
+          class="icon-button"
           aria-label="button that refreshes data"
           (click)="refreshResource()"
           uiTooltip="refresh table"

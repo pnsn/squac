@@ -228,20 +228,30 @@ interface DashboardForm {
   styleUrls: [&quot;./dashboard-edit.component.scss&quot;],
 })
 export class DashboardEditComponent implements OnInit, OnDestroy {
+  /** rxjs subscriptions */
   subscriptions: Subscription &#x3D; new Subscription();
+  /** dashboard to edit */
   dashboard: Dashboard;
+  /** true if editing, false if creating */
   editMode: boolean;
+  /** user&#x27;s orgId */
   orgId: number;
+  /** available channel groups */
   channelGroups: ChannelGroup[];
+  /** selected channel group id */
   channelGroupId: number;
+  /** dashboard edit form */
   dashboardForm: FormGroup&lt;DashboardForm&gt; &#x3D; this.formBuilder.group({
     name: [&quot;&quot;, Validators.required],
     description: [&quot;&quot;, Validators.required],
   });
 
+  /** dashboard shareAll setting*/
   shareAll &#x3D; false;
+  /** dashboard shareORg setting */
   shareOrg &#x3D; false;
 
+  /** text options for filter select */
   filterText: FilterText &#x3D; {
     user: &quot;Private&quot;,
     all: &quot;Public&quot;,

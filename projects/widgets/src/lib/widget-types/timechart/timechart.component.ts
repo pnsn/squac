@@ -3,7 +3,11 @@ import * as dayjs from "dayjs";
 import { Measurement } from "squacapi";
 
 import { EChartsOption, TooltipComponentPositionCallbackParams } from "echarts";
-import { LabelFormatterParams, WidgetTypeComponent } from "../../interfaces";
+import {
+  LabelFormatterParams,
+  ProcessedData,
+  WidgetTypeComponent,
+} from "../../interfaces";
 import {
   WidgetConfigService,
   WidgetConnectService,
@@ -24,6 +28,10 @@ export class TimechartComponent
   extends EChartComponent
   implements OnInit, WidgetTypeComponent, OnDestroy
 {
+  /** max # of measurement widths before chart should disconnect */
+  maxMeasurementGap = 1.5;
+
+  /** @ignore */
   constructor(
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
@@ -32,10 +40,9 @@ export class TimechartComponent
   ) {
     super(widgetManager, widgetConnectService, ngZone);
   }
-  // Max allowable time between measurements to connect
-  maxMeasurementGap = 1.5;
+
   /**
-   * @override
+   * Sets up initial chart configuration
    */
   configureChart(): void {
     const dataZoom = this.denseView
@@ -104,9 +111,11 @@ export class TimechartComponent
   }
 
   /**
-   * @override
+   * Builds chart data from measurement data
+   *
+   * @param data measurement data
    */
-  buildChartData(data): Promise<void> {
+  buildChartData(data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {
       this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
         this.selectedMetrics,
@@ -192,13 +201,13 @@ export class TimechartComponent
   }
 
   /**
-   * @override
+   *  Change metrics shown on the chart
    */
   changeMetrics(): void {
     const colorMetric = this.selectedMetrics[0];
     const visualMaps = this.visualMaps[colorMetric.id];
     visualMaps.show = this.showKey;
-    this.updateOptions = {
+    const options = {
       series: this.metricSeries.series,
       visualMap: visualMaps,
       xAxis: {
@@ -206,5 +215,15 @@ export class TimechartComponent
         max: this.widgetManager.endtime,
       },
     };
+
+    // using update options only prevented series from removing series
+    // using the combo sets both the inital series and later updates
+    if (!this.echartsInstance) {
+      this.updateOptions = options;
+    } else {
+      this.echartsInstance.setOption(options, {
+        replaceMerge: "series",
+      });
+    }
   }
 }

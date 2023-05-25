@@ -17,7 +17,6 @@ import { SearchFilterComponent } from "./components/search-filter/search-filter.
 import { DateSelectComponent } from "./components/date-select/date-select.component";
 import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
 import { ChannelGroupSelectorComponent } from "./components/channel-group-selector/channel-group-selector.component";
-import { LoadingDirective } from "./directives/loading-directive.directive";
 import { LoadingOverlayComponent } from "./components/loading-overlay/loading-overlay.component";
 import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-spinner.component";
 import { DetailPageComponent } from "./components/detail-page/detail-page.component";
@@ -40,7 +39,6 @@ import { TooltipModule } from "@ui/tooltip/tooltip.module";
     DateSelectComponent,
     ChannelGroupSelectorComponent,
     LoadingOverlayComponent,
-    LoadingDirective,
     LoadingSpinnerComponent,
     DetailPageComponent,
     SharingToggleComponent,
@@ -80,7 +78,6 @@ import { TooltipModule } from "@ui/tooltip/tooltip.module";
     ChannelGroupSelectorComponent,
     LoadingOverlayComponent,
     LoadingSpinnerComponent,
-    LoadingDirective,
     SquacapiModule,
     DetailPageComponent,
     SharingToggleComponent,

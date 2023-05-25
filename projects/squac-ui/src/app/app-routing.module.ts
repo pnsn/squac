@@ -44,6 +44,11 @@ const appRoutes: Routes = [
     ],
   },
   {
+    path: "test",
+    loadChildren: () =>
+      import("@ui/example-module/test.module").then((m) => m.TestModule),
+  },
+  {
     path: "",
     component: HomeComponent,
     canActivate: [AuthGuard],

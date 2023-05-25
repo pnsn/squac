@@ -20,14 +20,20 @@ import { ArchiveStatType, ArchiveType } from "squacapi";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataTypeSelectorComponent implements OnChanges {
+  /** dataType to select */
   @Input() dataType: ArchiveType;
+  /** Stat type to select */
   @Input() statType: ArchiveStatType;
+  /** emits selected data types */
   @Output() dataTypeSelected = new EventEmitter<any>();
 
+  /** stat types */
   StatTypes = ArchiveStatType;
-
+  /** archive types */
   ArchiveType = ArchiveType;
+  /** Archive type options */
   archiveTypeOptions = ARCHIVE_TYPE_OPTIONS;
+  /** stat type options */
   statTypeOptions = ARCHIVE_STAT_OPTIONS;
 
   /**

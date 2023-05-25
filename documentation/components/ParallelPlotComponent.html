@@ -72,7 +72,7 @@
         <h3>Description</h3>
     </p>
     <p class="comment">
-        <p>Parallel plot widget</p>
+        <p>Parallel plot widget, shows multiple metrics on parallel axes</p>
 
     </p>
 
@@ -412,7 +412,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:112</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:118</a></code>
 </div>
                 </td>
             </tr>
@@ -420,6 +420,8 @@
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Builds chart data from processed data</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -430,6 +432,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -444,6 +447,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>processed measurements for chart</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -487,7 +494,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:147</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:153</a></code>
 </div>
                 </td>
             </tr>
@@ -495,6 +502,8 @@
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>updates series and axes on charts</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -530,7 +539,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:43</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:47</a></code>
 </div>
                 </td>
             </tr>
@@ -538,6 +547,8 @@
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Sets up initial chart configuration</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -575,7 +586,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:78</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:82</a></code>
 </div>
                 </td>
             </tr>
@@ -583,6 +594,8 @@
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>On key toggle, shows or hides legend</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -620,7 +633,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:36</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:40</a></code>
 </div>
                 </td>
             </tr>
@@ -628,6 +641,8 @@
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>overrides to disable parent useDenseView</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -638,6 +653,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -652,6 +668,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>unused</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -2223,7 +2243,7 @@ import {
 } from &quot;echarts&quot;;
 
 /**
- * Parallel plot widget
+ * Parallel plot widget, shows multiple metrics on parallel axes
  */
 @Component({
   selector: &quot;widget-parallel-plot&quot;,
@@ -2243,13 +2263,17 @@ export class ParallelPlotComponent
     super(widgetManager, widgetConnectService, ngZone);
   }
 
-  /** @override */
+  /**
+   * overrides to disable parent useDenseView
+   *
+   * @param _useDenseView unused
+   */
   override useDenseView(_useDenseView: boolean): void {
     return;
   }
 
   /**
-   * @override
+   * Sets up initial chart configuration
    */
   configureChart(): void {
     this.options &#x3D; {
@@ -2284,7 +2308,7 @@ export class ParallelPlotComponent
   }
 
   /**
-   * @override
+   * On key toggle, shows or hides legend
    */
   override toggleKey(): void {
     let temp &#x3D; {
@@ -2318,7 +2342,9 @@ export class ParallelPlotComponent
   }
 
   /**
-   * @override
+   * Builds chart data from processed data
+   *
+   * @param data processed measurements for chart
    */
   buildChartData(data: ProcessedData): Promise&lt;void&gt; {
     return new Promise&lt;void&gt;((resolve) &#x3D;&gt; {
@@ -2353,7 +2379,7 @@ export class ParallelPlotComponent
   }
 
   /**
-   * @override
+   * updates series and axes on charts
    */
   changeMetrics(): void {
     this.updateOptions &#x3D; {

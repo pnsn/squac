@@ -349,7 +349,7 @@ export class TimelineComponent
         },
       };
     }
-    this.updateOptions = {
+    const options = {
       yAxis: {
         data: this.metricSeries[displayMetric.id]?.yAxisLabels,
       },
@@ -357,6 +357,16 @@ export class TimelineComponent
       visualMap: visualMaps,
       xAxis,
     };
+
+    // using update options only prevented series from removing series
+    // using the combo sets both the inital series and later updates
+    if (!this.echartsInstance) {
+      this.updateOptions = options;
+    } else {
+      this.echartsInstance.setOption(options, {
+        replaceMerge: "series",
+      });
+    }
   }
 
   /**

@@ -65,7 +65,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-history-chart/interfaces.ts</code>
+            <code>projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-channel-history-chart/interfaces.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>descrives channel data used on chart</p>
+                <p>channel data for chart</p>
 
             </p>
 
@@ -164,7 +164,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Alert id</p>
+                                    <div class="io-description"><p>alert id</p>
 </div>
                                 </td>
                             </tr>
@@ -320,7 +320,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>channel value</p>
+                                    <div class="io-description"><p>alert value</p>
 </div>
                                 </td>
                             </tr>
@@ -332,11 +332,11 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface ChannelData {
-  /** Alert id */
+  /** alert id */
   alert: number;
   /** channel id */
   channel: number;
-  /** channel value */
+  /** alert value */
   value: number;
   /** alert start time */
   starttime: string;

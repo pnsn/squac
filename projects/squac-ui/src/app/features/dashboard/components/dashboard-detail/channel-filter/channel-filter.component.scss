@@ -9,20 +9,6 @@ form {
   margin-top: 3px;
 }
 
-:host ::ng-deep mat-checkbox {
-  height: 20px;
-  .mat-checkbox-inner-container {
-    height: 12px !important;
-    width: 12px !important;
-    margin-right: 5px;
-  }
-  .mat-ripple {
-    display: none !important;
-  }
-  .mat-checkbox-label div {
-    font-size: 10pt !important;
-  }
-}
 .channel-checkbox-container {
   padding-left: 7px;
 }

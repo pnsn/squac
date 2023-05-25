@@ -38,35 +38,27 @@ export class ChannelGroup extends ResourceModel<
     super.fromRaw(data);
 
     if ("channels" in data && data.channels) {
-      this.channels = data.channels.map((c: ApiChannel | number | Channel) =>
-        typeof c === "number" ? null : new Channel(c)
+      this.channels = data.channels.map(
+        (c: ApiChannel | Channel) => new Channel(c)
       );
     }
     if ("auto_exclude_channels" in data && data.auto_exclude_channels) {
       this.autoExcludeChannels = [...data.auto_exclude_channels].map(
-        (c: ApiChannel | number) => {
-          return typeof c === "number" ? null : new Channel(c);
-        }
+        (c: ApiChannel) => new Channel(c)
       );
     }
 
     if ("auto_include_channels" in data && data.auto_include_channels) {
       this.autoIncludeChannels = [...data.auto_include_channels].map(
-        (c: ApiChannel | number) => {
-          return typeof c === "number" ? null : new Channel(c);
-        }
+        (c: ApiChannel) => new Channel(c)
       );
     }
   }
 
   /** @override */
   toJson(): WriteOnlyGroupSerializer {
-    const incl = this.autoIncludeChannels?.map((c): number =>
-      typeof c === "number" ? c : c.id
-    );
-    const ex = this.autoExcludeChannels?.map((c) =>
-      typeof c === "number" ? c : c.id
-    );
+    const incl = this.autoIncludeChannels?.map((c: Channel): number => c.id);
+    const ex = this.autoExcludeChannels?.map((c: Channel) => c.id);
 
     return {
       name: this.name,

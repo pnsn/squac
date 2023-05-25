@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   ElementRef,
   NgZone,
@@ -41,7 +42,7 @@ import {
 } from "leaflet";
 
 /**
- * Leaflet map widget
+ * Leaflet map widget that displays stations
  */
 @Component({
   selector: "widget-map",
@@ -52,25 +53,41 @@ export class MapComponent
   extends GenericWidgetComponent
   implements OnInit, OnDestroy, WidgetTypeComponent
 {
+  /** element of legend on map*/
   @ViewChild("legendElement", { static: false }) public legendRef: ElementRef;
+  /** map element ref */
   @ViewChild("mapElement", { static: false }) public mapRef: ElementRef;
 
+  /** observer for page resizes */
   resizeObserver: ResizeObserver;
-  precisionPipe = new PrecisionPipe();
+  /** station layers on map */
   stationLayer: LayerGroup;
+  /** metric to display on map */
   displayMetric: Metric;
+  /** Map configuration options */
   options: MapOptions;
-
+  /** Map config for drawing */
   drawOptions: Record<string, never>;
+  /** layers to display on map */
   layers: FeatureGroup[];
+  /** map bounds */
   fitBounds: LatLngBounds;
+  /** leaflet map instance */
   map: Map;
+  /** map layers grouped by metric */
   metricLayers: Record<number, Marker[]>;
+  /** Visual map for coloring icons */
   displayMap: VisualMapTypes;
+  /** leaflet legend control */
   legend: Control;
+  /** Station data */
   stations: StationRow[];
+  /** transform measurements */
   measurementPipe = new MeasurementPipe();
+  /** pipe for calculating prescisions */
+  precisionPipe = new PrecisionPipe();
 
+  /** typeguards */
   isPiecewise = isPiecewise;
   isStoplight = isStoplight;
   isContinuous = isContinuous;
@@ -79,18 +96,25 @@ export class MapComponent
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
     override widgetManager: WidgetManagerService,
-    protected zone: NgZone
+    protected zone: NgZone,
+    override cdr: ChangeDetectorRef
   ) {
     super(widgetManager, widgetConnectService, zone);
   }
 
-  /** @override */
+  /**
+   * override to disable method
+   *
+   * @param _useDenseView unused
+   */
   override useDenseView(_useDenseView: boolean): void {
     return;
   }
 
   /**
-   * @override
+   * override to disable method
+   *
+   * @param _channel unused
    */
   deemphasizeChannel(_channel: string): void {
     return;
@@ -130,12 +154,26 @@ export class MapComponent
    * @param data - data for widget to update
    */
   override updateData(data: ProcessedData): void {
+    //overridden to allow check for if map exists
     this.data = data;
     this.channels = this.widgetManager.channels;
     this.selectedMetrics = this.widgetManager.selectedMetrics;
     this.properties = this.widgetManager.properties;
+    if (this.map) {
+      this.changeData(data);
+    }
+  }
+
+  /**
+   * trigger chart data set up & change metrics
+   *
+   * @param data data to add to the chart
+   */
+  changeData(data: ProcessedData): void {
     this.buildChartData(data).then(() => {
       this.changeMetrics();
+      this.cdr.detectChanges();
+      this.data = null;
     });
   }
 
@@ -163,16 +201,14 @@ export class MapComponent
       this.legend = new Control({
         position: "topright",
       });
-      this.buildChartData(this.data).then(() => {
-        this.changeMetrics();
-        this.toggleKey();
-        this.data = null;
-      });
+      this.changeData(this.data);
     }
   }
 
   /**
-   * @override
+   * emphasize channel on map
+   *
+   * @param channel nslc to emphasize
    */
   emphasizeChannel(channel: string): void {
     // const layer = this.metricLayers[this.displayMetric.id];
@@ -197,14 +233,16 @@ export class MapComponent
   }
 
   /**
-   * set up legend elemend and add to map
+   * set up legend element and add to map
    */
   private initLegend(): void {
-    const legend = this.legendRef.nativeElement;
+    const legend = this.legendRef?.nativeElement;
     this.legend.onAdd = (): HTMLElement => {
       return legend;
     };
-    if (this.map && this.legend) {
+    // only add legend to map if the map is ready
+    // throws errors otherwise
+    if (this.map && legend && this.showKey) {
       this.legend.addTo(this.map);
     }
   }
@@ -251,7 +289,7 @@ export class MapComponent
   }
 
   /**
-   * @override
+   * Remove resize observer when map destroyed
    */
   override ngOnDestroy(): void {
     this.map = null;
@@ -262,124 +300,123 @@ export class MapComponent
   }
 
   /**
-   * @override
+   * Creates map markers using processed data
+   *
+   * @param data processed data from request
    */
   buildChartData(data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {
       this.data = data;
-      if (this.map) {
-        this.metricLayers = {};
+      this.metricLayers = {};
 
-        this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
-          this.selectedMetrics,
-          this.properties,
-          3
-        );
+      this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
+        this.selectedMetrics,
+        this.properties,
+        3
+      );
 
-        this.selectedMetrics.forEach((metric) => {
-          if (!metric) return;
-          const channelRows: ChannelRow[] = [];
-          const stations: string[] = [];
-          const stationRows: StationRow[] = [];
-          const stationChannels: StationChannels = {};
-          this.channels.forEach((channel) => {
-            const identifier = channel.staCode;
-            const nslc = channel.nslc;
-            let agg = 0;
-            let val: number = null;
-            if (data.get(channel.id)) {
-              const rowData: MeasurementTypes[] = data
-                .get(channel.id)
-                .get(metric.id);
-              val = this.measurementPipe.transform(
-                rowData,
-                this.widgetManager.stat
-              );
-            }
+      this.selectedMetrics.forEach((metric) => {
+        if (!metric) return;
+        const channelRows: ChannelRow[] = [];
+        const stations: string[] = [];
+        const stationRows: StationRow[] = [];
+        const stationChannels: StationChannels = {};
+        this.channels.forEach((channel) => {
+          const identifier = channel.staCode;
+          const nslc = channel.nslc;
+          let agg = 0;
+          let val: number = null;
+          if (data.get(channel.id)) {
+            const rowData: MeasurementTypes[] = data
+              .get(channel.id)
+              .get(metric.id);
+            val = this.measurementPipe.transform(
+              rowData,
+              this.widgetManager.stat
+            );
+          }
 
-            const visualMap = this.visualMaps[metric.id];
-            const inRange = visualMap
-              ? this.widgetConfigService.checkValue(val, visualMap)
-              : true;
+          const visualMap = this.visualMaps[metric.id];
+          const inRange = visualMap
+            ? this.widgetConfigService.checkValue(val, visualMap)
+            : true;
 
-            if (val === null || (visualMap && !inRange)) {
-              agg++;
-            }
-            const color = this.getStyle(val, visualMap);
-            const iconHtml = this.getIconHtml(color);
+          if (val === null || (visualMap && !inRange)) {
+            agg++;
+          }
+          const color = this.getStyle(val, visualMap);
+          const iconHtml = this.getIconHtml(color);
 
-            if (!stationChannels[channel.staCode]) {
-              stationChannels[channel.staCode] = "";
-            }
+          if (!stationChannels[channel.staCode]) {
+            stationChannels[channel.staCode] = "";
+          }
 
-            stationChannels[channel.staCode] =
-              stationChannels[channel.staCode] +
-              `<tr> <td> ${iconHtml} ${nslc} </td><td> ${
-                val !== null ? this.precisionPipe.transform(val) : "no data"
-              }</td></tr>`;
+          stationChannels[channel.staCode] =
+            stationChannels[channel.staCode] +
+            `<tr> <td> ${iconHtml} ${nslc} </td><td> ${
+              val !== null ? this.precisionPipe.transform(val) : "no data"
+            }</td></tr>`;
 
-            let channelRow: ChannelRow = {
-              title: nslc,
-              id: channel.id,
-              parentId: identifier,
+          let channelRow: ChannelRow = {
+            title: nslc,
+            id: channel.id,
+            parentId: identifier,
+            staCode: channel.staCode,
+            lat: channel.lat,
+            lon: channel.lon,
+            color,
+            metricAgg: agg,
+          };
+          channelRow = { ...channelRow };
+          channelRows.push(channelRow);
+          let staIndex = stations.indexOf(identifier);
+          if (staIndex < 0) {
+            staIndex = stations.length;
+            stations.push(identifier);
+            const sta: StationRow = {
+              id: identifier,
               staCode: channel.staCode,
               lat: channel.lat,
               lon: channel.lon,
+              count: 0,
+              agg,
               color,
-              metricAgg: agg,
+              channelAgg: 0,
+              metricAgg: 0,
             };
-            channelRow = { ...channelRow };
-            channelRows.push(channelRow);
-            let staIndex = stations.indexOf(identifier);
-            if (staIndex < 0) {
-              staIndex = stations.length;
-              stations.push(identifier);
-              const sta: StationRow = {
-                id: identifier,
-                staCode: channel.staCode,
-                lat: channel.lat,
-                lon: channel.lon,
-                count: 0,
-                agg,
-                color,
-                channelAgg: 0,
-                metricAgg: 0,
-              };
-              stationRows.push(sta);
+            stationRows.push(sta);
+          }
+          const station: StationRow = this.findWorstChannel(
+            channelRow,
+            stationRows[staIndex]
+          );
+
+          if (isStoplight(visualMap)) {
+            let color: string;
+            if (station.channelAgg === 0) {
+              color = visualMap.colors.in;
+            } else if (station.channelAgg === station.count) {
+              color = visualMap.colors.out;
+            } else {
+              color = visualMap.colors.middle;
             }
-            const station: StationRow = this.findWorstChannel(
-              channelRow,
-              stationRows[staIndex]
-            );
+            station.color = color;
+          }
 
-            if (isStoplight(visualMap)) {
-              let color: string;
-              if (station.channelAgg === 0) {
-                color = visualMap.colors.in;
-              } else if (station.channelAgg === station.count) {
-                color = visualMap.colors.out;
-              } else {
-                color = visualMap.colors.middle;
-              }
-              station.color = color;
-            }
+          stationRows[staIndex] = station;
 
-            stationRows[staIndex] = station;
-
-            // check if agg if worse than current agg
-          });
-          const stationMarkers = [];
-
-          stationRows.forEach((station) => {
-            stationMarkers.push(
-              this.makeStationMarker(station, stationChannels)
-            );
-          });
-          //each layer is own feature group
-          this.metricLayers[metric.id] = stationMarkers;
-          this.stations = stationRows;
+          // check if agg if worse than current agg
         });
-      }
+        const stationMarkers = [];
+
+        stationRows.forEach((station) => {
+          stationMarkers.push(this.makeStationMarker(station, stationChannels));
+        });
+        //each layer is own feature group
+        this.metricLayers[metric.id] = stationMarkers;
+        this.stations = stationRows;
+      });
+
       resolve();
     });
   }
@@ -447,26 +484,24 @@ export class MapComponent
   }
 
   /**
-   * @override
+   * Change metric to show on the map and resize after
    */
   changeMetrics(): void {
-    if (this.map) {
-      this.displayMetric = this.selectedMetrics[0];
-      this.displayMap = this.visualMaps[this.displayMetric.id];
-      this.addPanes(this.displayMap);
-      this.layers = [featureGroup(this.metricLayers[this.displayMetric.id])];
-      this.initLegend();
+    this.displayMetric = this.selectedMetrics[0];
+    this.displayMap = this.visualMaps[this.displayMetric.id];
+    this.addPanes(this.displayMap);
+    this.layers = [featureGroup(this.metricLayers[this.displayMetric.id])];
+    this.initLegend();
+    this.fitBounds = this.layers[0].getBounds();
+
+    this.resizeObserver = new ResizeObserver(() => {
+      if (this.map) {
+        this.map.invalidateSize();
+      }
       this.fitBounds = this.layers[0].getBounds();
+    });
 
-      this.resizeObserver = new ResizeObserver(() => {
-        if (this.map) {
-          this.map.invalidateSize();
-        }
-        this.fitBounds = this.layers[0].getBounds();
-      });
-
-      this.resizeObserver.observe(this.mapRef.nativeElement);
-    }
+    this.resizeObserver.observe(this.mapRef.nativeElement);
   }
 
   /**

@@ -1,12 +1,23 @@
-<div mat-dialog-title class="dialog-title">
+<div
+  mat-dialog-title
+  class="dialog-title"
+>
   <h3>{{ editMode ? "Edit Dashboard" : "New Dashboard" }}</h3>
-  <button mat-icon-button (click)="cancel()" type="button">
+  <button
+    mat-button
+    (click)="cancel()"
+    type="button"
+  >
     <mat-icon>close</mat-icon>
   </button>
 </div>
 
 <div mat-dialog-content>
-  <form class="form" action="" [formGroup]="dashboardForm">
+  <form
+    class="form"
+    action=""
+    [formGroup]="dashboardForm"
+  >
     <mat-form-field class="medium">
       <mat-label>Dashboard name (required)</mat-label>
       <input
@@ -37,17 +48,27 @@
         [(shareAll)]="shareAll"
         [(shareOrg)]="shareOrg"
         [orgId]="orgId"
+        [isFormInput]="true"
       ></shared-sharing-toggle>
 
-      <p *ngIf="shareAll" class="help-text">
+      <p
+        *ngIf="shareAll"
+        class="help-text"
+      >
         Public dashboards should use public channel groups or other users will
         not be able to view the group.
       </p>
-      <p *ngIf="shareOrg && !shareAll" class="help-text">
+      <p
+        *ngIf="shareOrg && !shareAll"
+        class="help-text"
+      >
         Organization dashboards should use public or organization channel groups
         or other users will not be able to view the group.
       </p>
-      <p *ngIf="!shareOrg && !shareAll" class="help-text">
+      <p
+        *ngIf="!shareOrg && !shareAll"
+        class="help-text"
+      >
         Private dashboards can use private, organization, or public channel
         groups.
       </p>
@@ -63,7 +84,10 @@
   </div>
 </div>
 
-<div mat-dialog-actions class="dialog-options">
+<div
+  mat-dialog-actions
+  class="dialog-options"
+>
   <div>
     <button
       class="save"

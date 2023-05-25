@@ -1798,8 +1798,14 @@ export class WidgetEditOptionsComponent
 
     <div class="tab-pane fade " id="c-templateData">
         <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;edit-body&quot;&gt;
-  &lt;form #optionsEditForm [formGroup]&#x3D;&quot;optionsForm&quot;&gt;
-    &lt;ng-container formGroupName&#x3D;&quot;options&quot; *ngIf&#x3D;&quot;displayOption&quot;&gt;
+  &lt;form
+    #optionsEditForm
+    [formGroup]&#x3D;&quot;optionsForm&quot;
+  &gt;
+    &lt;ng-container
+      formGroupName&#x3D;&quot;options&quot;
+      *ngIf&#x3D;&quot;displayOption&quot;
+    &gt;
       &lt;div class&#x3D;&quot;head-row&quot;&gt;
         &lt;span class&#x3D;&quot;label&quot;&gt;Colors&lt;/span&gt;
       &lt;/div&gt;
@@ -1810,7 +1816,10 @@ export class WidgetEditOptionsComponent
       &lt;div class&#x3D;&quot;body-row&quot;&gt;
         &lt;mat-form-field class&#x3D;&quot;small dense-form-field-select&quot;&gt;
           &lt;mat-label&gt;In Range&lt;/mat-label&gt;
-          &lt;mat-select #inRange formControlName&#x3D;&quot;inRange&quot;&gt;
+          &lt;mat-select
+            #inRange
+            formControlName&#x3D;&quot;inRange&quot;
+          &gt;
             &lt;mat-select-trigger *ngIf&#x3D;&quot;inRange &amp;&amp; inRange.value&quot;&gt;
               &lt;span
                 *ngIf&#x3D;&quot;
@@ -1834,7 +1843,10 @@ export class WidgetEditOptionsComponent
               &lt;/ng-template&gt;
             &lt;/mat-select-trigger&gt;
 
-            &lt;mat-option *ngFor&#x3D;&quot;let opt of gradientOptions&quot; [value]&#x3D;&quot;opt&quot;&gt;
+            &lt;mat-option
+              *ngFor&#x3D;&quot;let opt of gradientOptions&quot;
+              [value]&#x3D;&quot;opt&quot;
+            &gt;
               &lt;span
                 class&#x3D;&quot;gradient-indicator&quot;
                 [ngStyle]&#x3D;&quot;{
@@ -1846,7 +1858,10 @@ export class WidgetEditOptionsComponent
                 {{ opt.label }}
               &lt;/span&gt;
             &lt;/mat-option&gt;
-            &lt;mat-option *ngFor&#x3D;&quot;let opt of solidOptions&quot; [value]&#x3D;&quot;opt&quot;&gt;
+            &lt;mat-option
+              *ngFor&#x3D;&quot;let opt of solidOptions&quot;
+              [value]&#x3D;&quot;opt&quot;
+            &gt;
               &lt;span
                 *ngIf&#x3D;&quot;opt.color.length &#x3D;&#x3D;&#x3D; 1&quot;
                 class&#x3D;&quot;color-indicator&quot;
@@ -1863,7 +1878,10 @@ export class WidgetEditOptionsComponent
 
         &lt;mat-form-field class&#x3D;&quot;small dense-form-field-select&quot;&gt;
           &lt;mat-label&gt;Out of Range&lt;/mat-label&gt;
-          &lt;mat-select #outOfRange formControlName&#x3D;&quot;outOfRange&quot;&gt;
+          &lt;mat-select
+            #outOfRange
+            formControlName&#x3D;&quot;outOfRange&quot;
+          &gt;
             &lt;mat-select-trigger&gt;
               &lt;span
                 *ngIf&#x3D;&quot;outOfRange.value&quot;
@@ -1873,7 +1891,10 @@ export class WidgetEditOptionsComponent
                 }&quot;
               &gt;&lt;/span&gt;
             &lt;/mat-select-trigger&gt;
-            &lt;mat-option *ngFor&#x3D;&quot;let range of solidOptions&quot; [value]&#x3D;&quot;range&quot;&gt;
+            &lt;mat-option
+              *ngFor&#x3D;&quot;let range of solidOptions&quot;
+              [value]&#x3D;&quot;range&quot;
+            &gt;
               &lt;span
                 class&#x3D;&quot;color-indicator&quot;
                 [ngStyle]&#x3D;&quot;{
@@ -1912,22 +1933,26 @@ export class WidgetEditOptionsComponent
         &lt;table id&#x3D;&quot;thresholds-table&quot;&gt;
           &lt;thead&gt;
             &lt;th class&#x3D;&quot;large&quot;&gt;metric&lt;/th&gt;
-            &lt;th *ngIf&#x3D;&quot;displayOption?.dimensions&quot; class&#x3D;&quot;small&quot;&gt;Dimension&lt;/th&gt;
+            &lt;th
+              *ngIf&#x3D;&quot;displayOption?.dimensions&quot;
+              class&#x3D;&quot;small&quot;
+            &gt;Dimension&lt;/th&gt;
 
             &lt;th class&#x3D;&quot;small&quot;&gt;min value&lt;/th&gt;
             &lt;th class&#x3D;&quot;small&quot;&gt;max value&lt;/th&gt;
           &lt;/thead&gt;
           &lt;tbody&gt;
-            &lt;ng-container
-              *ngFor&#x3D;&quot;let threshold of thresholdArray.controls; let i &#x3D; index&quot;
-            &gt;
+            &lt;ng-container *ngFor&#x3D;&quot;let threshold of thresholdArray.controls; let i &#x3D; index&quot;&gt;
               &lt;tr [formGroupName]&#x3D;&quot;i&quot;&gt;
                 &lt;td class&#x3D;&quot;large&quot;&gt;
                   &lt;span *ngIf&#x3D;&quot;threshold.controls.metricId.value as metricId&quot;&gt;
                     {{ getMetricName(metricId) }}
                   &lt;/span&gt;
                 &lt;/td&gt;
-                &lt;td *ngIf&#x3D;&quot;displayOption?.dimensions&quot; class&#x3D;&quot;small&quot;&gt;
+                &lt;td
+                  *ngIf&#x3D;&quot;displayOption?.dimensions&quot;
+                  class&#x3D;&quot;small&quot;
+                &gt;
                   &lt;mat-form-field class&#x3D;&quot;dense-form-field-select&quot;&gt;
                     &lt;mat-select
                       #dimensions
@@ -1955,7 +1980,7 @@ export class WidgetEditOptionsComponent
                     /&gt;
                     &lt;button
                       matSuffix
-                      mat-icon-button
+                      mat-button
                       aria-label&#x3D;&quot;Clear&quot;
                       (click)&#x3D;&quot;min.value &#x3D; null&quot;
                     &gt;
@@ -1975,7 +2000,7 @@ export class WidgetEditOptionsComponent
                     /&gt;
                     &lt;button
                       matSuffix
-                      mat-icon-button
+                      mat-button
                       aria-label&#x3D;&quot;Clear&quot;
                       (click)&#x3D;&quot;max.value &#x3D; null&quot;
                     &gt;
@@ -2121,7 +2146,7 @@ mat-option {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="edit-body">  <form #optionsEditForm [formGroup]="optionsForm">    <ng-container formGroupName="options" *ngIf="displayOption">      <div class="head-row">        <span class="label">Colors</span>      </div>      <p class="help-text">        If # of splits is 0 the coloring will be continuous. If # of splits > 0,        the color bar will be evenly split.      </p>      <div class="body-row">        <mat-form-field class="small dense-form-field-select">          <mat-label>In Range</mat-label>          <mat-select #inRange formControlName="inRange">            <mat-select-trigger *ngIf="inRange && inRange.value">              <span                *ngIf="                  inRange.value.color && inRange.value.color.length === 1;                  else gradient                "                class="color-indicator"                [ngStyle]="{                  \'background-color\': inRange.value.color[0]                }"              ></span>              <ng-template #gradient>                <span                  class="gradient-indicator"                  [ngStyle]="{                    \'background-image\':                      \'linear-gradient(to right, \' + colors(inRange.value) + \')\'                  }"                ></span>              </ng-template>            </mat-select-trigger>            <mat-option *ngFor="let opt of gradientOptions" [value]="opt">              <span                class="gradient-indicator"                [ngStyle]="{                  \'background-image\':                    \'linear-gradient(to right, \' + colors(opt) + \')\'                }"              ></span>              <span>                {{ opt.label }}              </span>            </mat-option>            <mat-option *ngFor="let opt of solidOptions" [value]="opt">              <span                *ngIf="opt.color.length === 1"                class="color-indicator"                [ngStyle]="{                  \'background-color\': opt.color[0]                }"              ></span>              <span>                {{ opt.label }}              </span>            </mat-option>          </mat-select>        </mat-form-field>        <mat-form-field class="small dense-form-field-select">          <mat-label>Out of Range</mat-label>          <mat-select #outOfRange formControlName="outOfRange">            <mat-select-trigger>              <span                *ngIf="outOfRange.value"                class="color-indicator"                [ngStyle]="{                  \'background-color\': outOfRange.value.color[0]                }"              ></span>            </mat-select-trigger>            <mat-option *ngFor="let range of solidOptions" [value]="range">              <span                class="color-indicator"                [ngStyle]="{                  \'background-color\': range.color[0]                }"              ></span>              {{ range.label }}            </mat-option>          </mat-select>        </mat-form-field>        <mat-form-field class="xsmall dense-form-field">          <mat-label># of splits</mat-label>          <input            matInput            type="number"            name="numSplits"            min="0"            formControlName="numSplits"          />        </mat-form-field>        <mat-checkbox formControlName="reverseColors">          Reverse Colors        </mat-checkbox>      </div>    </ng-container>    <ng-container>      <div class="head-row">        <span class="label">Metric Thresholds</span>      </div>      <p class="help-text">        Values between or equal to the min and max will be \'in range\'. If the        min or max is empty, the chart will use the data min or max instead.        Default values are the suggested min and max for the metric.      </p>      <ng-container formArrayName="thresholdArray">        <table id="thresholds-table">          <thead>            <th class="large">metric</th>            <th *ngIf="displayOption?.dimensions" class="small">Dimension</th>            <th class="small">min value</th>            <th class="small">max value</th>          </thead>          <tbody>            <ng-container              *ngFor="let threshold of thresholdArray.controls; let i = index"            >              <tr [formGroupName]="i">                <td class="large">                  <span *ngIf="threshold.controls.metricId.value as metricId">                    {{ getMetricName(metricId) }}                  </span>                </td>                <td *ngIf="displayOption?.dimensions" class="small">                  <mat-form-field class="dense-form-field-select">                    <mat-select                      #dimensions                      formControlName="dimension"                      (selectionChange)="validateThresholds(i)"                    >                      <mat-option                        *ngFor="let dim of displayOption?.dimensions"                        [value]="dim"                      >                        {{ dim }}                      </mat-option>                    </mat-select>                  </mat-form-field>                </td>                <td class="small">                  <mat-form-field class="dense-form-field">                    <input                      #min                      matInput                      type="number"                      name="min"                      formControlName="min"                    />                    <button                      matSuffix                      mat-icon-button                      aria-label="Clear"                      (click)="min.value = null"                    >                      <mat-icon>close</mat-icon>                    </button>                  </mat-form-field>                </td>                <td class="small">                  <mat-form-field class="dense-form-field">                    <input                      #max                      matInput                      type="number"                      name="max"                      formControlName="max"                    />                    <button                      matSuffix                      mat-icon-button                      aria-label="Clear"                      (click)="max.value = null"                    >                      <mat-icon>close</mat-icon>                    </button>                  </mat-form-field>                </td>                <ng-template #default> default </ng-template>              </tr>            </ng-container>          </tbody>        </table>      </ng-container>    </ng-container>  </form></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="edit-body">  <form    #optionsEditForm    [formGroup]="optionsForm"  >    <ng-container      formGroupName="options"      *ngIf="displayOption"    >      <div class="head-row">        <span class="label">Colors</span>      </div>      <p class="help-text">        If # of splits is 0 the coloring will be continuous. If # of splits > 0,        the color bar will be evenly split.      </p>      <div class="body-row">        <mat-form-field class="small dense-form-field-select">          <mat-label>In Range</mat-label>          <mat-select            #inRange            formControlName="inRange"          >            <mat-select-trigger *ngIf="inRange && inRange.value">              <span                *ngIf="                  inRange.value.color && inRange.value.color.length === 1;                  else gradient                "                class="color-indicator"                [ngStyle]="{                  \'background-color\': inRange.value.color[0]                }"              ></span>              <ng-template #gradient>                <span                  class="gradient-indicator"                  [ngStyle]="{                    \'background-image\':                      \'linear-gradient(to right, \' + colors(inRange.value) + \')\'                  }"                ></span>              </ng-template>            </mat-select-trigger>            <mat-option              *ngFor="let opt of gradientOptions"              [value]="opt"            >              <span                class="gradient-indicator"                [ngStyle]="{                  \'background-image\':                    \'linear-gradient(to right, \' + colors(opt) + \')\'                }"              ></span>              <span>                {{ opt.label }}              </span>            </mat-option>            <mat-option              *ngFor="let opt of solidOptions"              [value]="opt"            >              <span                *ngIf="opt.color.length === 1"                class="color-indicator"                [ngStyle]="{                  \'background-color\': opt.color[0]                }"              ></span>              <span>                {{ opt.label }}              </span>            </mat-option>          </mat-select>        </mat-form-field>        <mat-form-field class="small dense-form-field-select">          <mat-label>Out of Range</mat-label>          <mat-select            #outOfRange            formControlName="outOfRange"          >            <mat-select-trigger>              <span                *ngIf="outOfRange.value"                class="color-indicator"                [ngStyle]="{                  \'background-color\': outOfRange.value.color[0]                }"              ></span>            </mat-select-trigger>            <mat-option              *ngFor="let range of solidOptions"              [value]="range"            >              <span                class="color-indicator"                [ngStyle]="{                  \'background-color\': range.color[0]                }"              ></span>              {{ range.label }}            </mat-option>          </mat-select>        </mat-form-field>        <mat-form-field class="xsmall dense-form-field">          <mat-label># of splits</mat-label>          <input            matInput            type="number"            name="numSplits"            min="0"            formControlName="numSplits"          />        </mat-form-field>        <mat-checkbox formControlName="reverseColors">          Reverse Colors        </mat-checkbox>      </div>    </ng-container>    <ng-container>      <div class="head-row">        <span class="label">Metric Thresholds</span>      </div>      <p class="help-text">        Values between or equal to the min and max will be \'in range\'. If the        min or max is empty, the chart will use the data min or max instead.        Default values are the suggested min and max for the metric.      </p>      <ng-container formArrayName="thresholdArray">        <table id="thresholds-table">          <thead>            <th class="large">metric</th>            <th              *ngIf="displayOption?.dimensions"              class="small"            >Dimension</th>            <th class="small">min value</th>            <th class="small">max value</th>          </thead>          <tbody>            <ng-container *ngFor="let threshold of thresholdArray.controls; let i = index">              <tr [formGroupName]="i">                <td class="large">                  <span *ngIf="threshold.controls.metricId.value as metricId">                    {{ getMetricName(metricId) }}                  </span>                </td>                <td                  *ngIf="displayOption?.dimensions"                  class="small"                >                  <mat-form-field class="dense-form-field-select">                    <mat-select                      #dimensions                      formControlName="dimension"                      (selectionChange)="validateThresholds(i)"                    >                      <mat-option                        *ngFor="let dim of displayOption?.dimensions"                        [value]="dim"                      >                        {{ dim }}                      </mat-option>                    </mat-select>                  </mat-form-field>                </td>                <td class="small">                  <mat-form-field class="dense-form-field">                    <input                      #min                      matInput                      type="number"                      name="min"                      formControlName="min"                    />                    <button                      matSuffix                      mat-button                      aria-label="Clear"                      (click)="min.value = null"                    >                      <mat-icon>close</mat-icon>                    </button>                  </mat-form-field>                </td>                <td class="small">                  <mat-form-field class="dense-form-field">                    <input                      #max                      matInput                      type="number"                      name="max"                      formControlName="max"                    />                    <button                      matSuffix                      mat-button                      aria-label="Clear"                      (click)="max.value = null"                    >                      <mat-icon>close</mat-icon>                    </button>                  </mat-form-field>                </td>                <ng-template #default> default </ng-template>              </tr>            </ng-container>          </tbody>        </table>      </ng-container>    </ng-container>  </form></div></div>'
     var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'SnackbarComponent', 'selector': 'shared-snackbar'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
     var DIRECTIVES = [{'name': 'LoadingDirective', 'selector': '[appIsLoading]'},{'name': 'TooltipDirective', 'selector': '[uiTooltip]'},{'name': 'WidgetTypeDirective', 'selector': '[widgetContainer]'},{'name': 'WidgetTypeExampleDirective', 'selector': '[appWidgetTypeExample]'}];
     var ACTUAL_COMPONENT = {'name': 'WidgetEditOptionsComponent'};

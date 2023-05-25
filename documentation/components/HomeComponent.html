@@ -181,7 +181,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/squac-ui/src/app/core/components/home/home.component.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/squac-ui/src/app/core/components/home/home.component.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -260,14 +260,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="25"
-                            class="link-to-prism">projects/squac-ui/src/app/core/components/home/home.component.ts:25</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">projects/squac-ui/src/app/core/components/home/home.component.ts:26</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Get&#39;s user from resolver data</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -302,10 +304,16 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/squac-ui/src/app/core/components/home/home.component.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/squac-ui/src/app/core/components/home/home.component.ts:16</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>active squac user</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -329,6 +337,7 @@ import { User } from &quot;squacapi&quot;;
   styleUrls: [&quot;./home.component.scss&quot;],
 })
 export class HomeComponent implements OnInit {
+  /** active squac user */
   user: User | undefined;
 
   constructor(
@@ -337,7 +346,7 @@ export class HomeComponent implements OnInit {
   ) {}
 
   /**
-   *
+   * Get&#x27;s user from resolver data
    */
   ngOnInit(): void {
     // get user for header
@@ -352,18 +361,44 @@ export class HomeComponent implements OnInit {
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;mat-toolbar color&#x3D;&quot;primary&quot; class&#x3D;&quot;row space-between box-shadow&quot;&gt;
-  &lt;a [routerLink]&#x3D;&quot;[&#x27;/&#x27;]&quot; routerLinkActive&#x3D;&quot;active&quot; id&#x3D;&quot;logo&quot;&gt;
-    &lt;img src&#x3D;&quot;/assets/text_logo.svg&quot; alt&#x3D;&quot;SQUAC logo&quot; /&gt;
+        <pre class="line-numbers"><code class="language-html">&lt;mat-toolbar
+  color&#x3D;&quot;primary&quot;
+  class&#x3D;&quot;row space-between box-shadow&quot;
+&gt;
+  &lt;a
+    [routerLink]&#x3D;&quot;[&#x27;/&#x27;]&quot;
+    routerLinkActive&#x3D;&quot;active&quot;
+    id&#x3D;&quot;logo&quot;
+  &gt;
+    &lt;img
+      src&#x3D;&quot;/assets/text_logo.svg&quot;
+      alt&#x3D;&quot;SQUAC logo&quot;
+    /&gt;
   &lt;/a&gt;
-  &lt;app-menu *ngIf&#x3D;&quot;user&quot; [user]&#x3D;&quot;user&quot; class&#x3D;&quot;menu-items&quot;&gt;&lt;/app-menu&gt;
-  &lt;button mat-icon-button (click)&#x3D;&quot;sidenav.toggle()&quot; class&#x3D;&quot;menu-button&quot;&gt;
+  &lt;app-menu
+    *ngIf&#x3D;&quot;user&quot;
+    [user]&#x3D;&quot;user&quot;
+    class&#x3D;&quot;menu-items&quot;
+  &gt;&lt;/app-menu&gt;
+  &lt;button
+    mat-button
+    (click)&#x3D;&quot;sidenav.toggle()&quot;
+    class&#x3D;&quot;menu-button&quot;
+  &gt;
     &lt;mat-icon&gt;menu&lt;/mat-icon&gt;
   &lt;/button&gt;
 &lt;/mat-toolbar&gt;
 &lt;mat-sidenav-container&gt;
-  &lt;mat-sidenav #sidenav position&#x3D;&quot;end&quot; color&#x3D;&quot;primary&quot;&gt;
-    &lt;app-menu *ngIf&#x3D;&quot;user&quot; [user]&#x3D;&quot;user&quot; [isSidenav]&#x3D;&quot;true&quot;&gt;&lt;/app-menu&gt;
+  &lt;mat-sidenav
+    #sidenav
+    position&#x3D;&quot;end&quot;
+    color&#x3D;&quot;primary&quot;
+  &gt;
+    &lt;app-menu
+      *ngIf&#x3D;&quot;user&quot;
+      [user]&#x3D;&quot;user&quot;
+      [isSidenav]&#x3D;&quot;true&quot;
+    &gt;&lt;/app-menu&gt;
   &lt;/mat-sidenav&gt;
   &lt;mat-sidenav-content&gt;
     &lt;router-outlet&gt;&lt;/router-outlet&gt;
@@ -433,7 +468,7 @@ mat-sidenav-container {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><mat-toolbar color="primary" class="row space-between box-shadow">  <a [routerLink]="[\'/\']" routerLinkActive="active" id="logo">    <img src="/assets/text_logo.svg" alt="SQUAC logo" />  </a>  <app-menu *ngIf="user" [user]="user" class="menu-items"></app-menu>  <button mat-icon-button (click)="sidenav.toggle()" class="menu-button">    <mat-icon>menu</mat-icon>  </button></mat-toolbar><mat-sidenav-container>  <mat-sidenav #sidenav position="end" color="primary">    <app-menu *ngIf="user" [user]="user" [isSidenav]="true"></app-menu>  </mat-sidenav>  <mat-sidenav-content>    <router-outlet></router-outlet>  </mat-sidenav-content></mat-sidenav-container></div>'
+        var COMPONENT_TEMPLATE = '<div><mat-toolbar  color="primary"  class="row space-between box-shadow">  <a    [routerLink]="[\'/\']"    routerLinkActive="active"    id="logo"  >    <img      src="/assets/text_logo.svg"      alt="SQUAC logo"    />  </a>  <app-menu    *ngIf="user"    [user]="user"    class="menu-items"  ></app-menu>  <button    mat-button    (click)="sidenav.toggle()"    class="menu-button"  >    <mat-icon>menu</mat-icon>  </button></mat-toolbar><mat-sidenav-container>  <mat-sidenav    #sidenav    position="end"    color="primary"  >    <app-menu      *ngIf="user"      [user]="user"      [isSidenav]="true"    ></app-menu>  </mat-sidenav>  <mat-sidenav-content>    <router-outlet></router-outlet>  </mat-sidenav-content></mat-sidenav-container></div>'
     var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'SnackbarComponent', 'selector': 'shared-snackbar'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
     var DIRECTIVES = [{'name': 'LoadingDirective', 'selector': '[appIsLoading]'},{'name': 'TooltipDirective', 'selector': '[uiTooltip]'},{'name': 'WidgetTypeDirective', 'selector': '[widgetContainer]'},{'name': 'WidgetTypeExampleDirective', 'selector': '[appWidgetTypeExample]'}];
     var ACTUAL_COMPONENT = {'name': 'HomeComponent'};

@@ -1,18 +1,32 @@
-<div mat-dialog-title class="dialog-title">
+<div
+  mat-dialog-title
+  class="dialog-title"
+>
   <h3>{{ editMode ? "Edit User" : "New User" }}</h3>
-  <button mat-icon-button (click)="cancel()" type="button">
+  <button
+    mat-button
+    (click)="cancel()"
+    type="button"
+  >
     <mat-icon>close</mat-icon>
   </button>
 </div>
 
 <div mat-dialog-content>
-  <p class="help-text" *ngIf="!editMode; else editUser">
+  <p
+    class="help-text"
+    *ngIf="!editMode; else editUser"
+  >
     Users will get an invitation sent to their email with instructions.
   </p>
   <ng-template #editUser>
     <p class="help-text">Emails cannot be changed.</p>
   </ng-template>
-  <form class="form" action="" [formGroup]="userForm">
+  <form
+    class="form"
+    action=""
+    [formGroup]="userForm"
+  >
     <mat-form-field class="medium">
       <input
         matInput
@@ -42,10 +56,16 @@
     </mat-form-field>
     <mat-form-field class="select-groups">
       <mat-label>Role</mat-label>
-      <mat-select formControlName="groups" multiple>
-        <mat-option *ngFor="let group of groupTypes" [value]="group.role">{{
+      <mat-select
+        formControlName="groups"
+        multiple
+      >
+        <mat-option
+          *ngFor="let group of groupTypes"
+          [value]="group.role"
+        >{{
           group.role
-        }}</mat-option>
+          }}</mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -53,7 +73,10 @@
   </form>
 </div>
 
-<div mat-dialog-actions class="dialog-options">
+<div
+  mat-dialog-actions
+  class="dialog-options"
+>
   <button
     class="save"
     mat-flat-button

@@ -266,13 +266,12 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
       if (data[&quot;widgets&quot;].error) {
         this.error &#x3D; &quot;Could not load dashboard or widgets&quot;;
       } else {
+        if (data[&quot;dashboard&quot;] &amp;&amp; data[&quot;dashboard&quot;].id &#x3D;&#x3D;&#x3D; dashboardId) {
+          this.canUpdate &#x3D; this.ability.can(&quot;update&quot;, data[&quot;dashboard&quot;]);
+        }
         if (data[&quot;dashboards&quot;]) {
           this.dashboards &#x3D; data[&quot;dashboards&quot;].filter((d) &#x3D;&gt; {
-            const canUpdate &#x3D; this.ability.can(&quot;update&quot;, d);
-            if (d.id &#x3D;&#x3D;&#x3D; dashboardId) {
-              this.canUpdate &#x3D; canUpdate;
-            }
-            return canUpdate;
+            return this.ability.can(&quot;update&quot;, d);
           });
         }
         this.addWidgetsToView(data[&quot;widgets&quot;]);
@@ -360,6 +359,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
       widget,
     };
     this.widgetItems.push(item);
+    this.cdr.detectChanges();
   }
 
   /**
@@ -376,7 +376,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     if (index !&#x3D;&#x3D; -1 &amp;&amp; !widget) {
       this.widgetItems.splice(index, 1);
     } else if (index &#x3D;&#x3D;&#x3D; -1 &amp;&amp; widget) {
-      //add new
+      //add ne
       this.addWidgetToGrid(widget, true); //do the find position here
     } else {
       this.widgetItems[index][&quot;widget&quot;] &#x3D; widget;

@@ -33,5 +33,18 @@ describe("Channel", () => {
     const channel = new Channel(testData);
     expect(channel).toBeDefined();
     expect(channel.id).toBe(1);
+    expect(channel.staCode).toEqual("STRING.STRING");
+    expect(Channel.modelName).toEqual("Channel");
+  });
+
+  it("should add nslc if channel does not have it", () => {
+    const channel = new Channel({
+      id: 1,
+      station_code: "test",
+      sample_rate: 1,
+      network: "net",
+      code: "hnz",
+    });
+    expect(channel.nslc).toBe("NET.TEST.--.HNZ");
   });
 });

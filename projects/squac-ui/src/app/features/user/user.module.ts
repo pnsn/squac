@@ -13,6 +13,7 @@ import { OrganizationEditComponent } from "./components/organization-edit/organi
 import { OrganizationEditEntryComponent } from "./components/organization-edit-entry/organization-edit-entry.component";
 import { CommonModule } from "@angular/common";
 import { TooltipModule } from "@ui/tooltip/tooltip.module";
+import { LoadingDirective } from "@shared/directives/loading-directive.directive";
 
 /**
  * Module for User feature
@@ -29,6 +30,12 @@ import { TooltipModule } from "@ui/tooltip/tooltip.module";
     OrganizationEditComponent,
     OrganizationEditEntryComponent,
   ],
-  imports: [CommonModule, SharedModule, UserRoutingModule, TooltipModule],
+  imports: [
+    CommonModule,
+    SharedModule,
+    UserRoutingModule,
+    TooltipModule,
+    LoadingDirective,
+  ],
 })
 export class UserModule {}

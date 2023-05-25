@@ -1061,7 +1061,7 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
       ),
       firstname: new FormControl(&quot;&quot;, Validators.required),
       lastname: new FormControl(&quot;&quot;, Validators.required),
-      isAdmin: new FormControl(null, Validators.required),
+      isAdmin: new FormControl(false),
       groups: new FormControl(null, Validators.required),
     });
 
@@ -1152,21 +1152,35 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;div mat-dialog-title class&#x3D;&quot;dialog-title&quot;&gt;
+        <pre class="line-numbers"><code class="language-html">&lt;div
+  mat-dialog-title
+  class&#x3D;&quot;dialog-title&quot;
+&gt;
   &lt;h3&gt;{{ editMode ? &quot;Edit User&quot; : &quot;New User&quot; }}&lt;/h3&gt;
-  &lt;button mat-icon-button (click)&#x3D;&quot;cancel()&quot; type&#x3D;&quot;button&quot;&gt;
+  &lt;button
+    mat-button
+    (click)&#x3D;&quot;cancel()&quot;
+    type&#x3D;&quot;button&quot;
+  &gt;
     &lt;mat-icon&gt;close&lt;/mat-icon&gt;
   &lt;/button&gt;
 &lt;/div&gt;
 
 &lt;div mat-dialog-content&gt;
-  &lt;p class&#x3D;&quot;help-text&quot; *ngIf&#x3D;&quot;!editMode; else editUser&quot;&gt;
+  &lt;p
+    class&#x3D;&quot;help-text&quot;
+    *ngIf&#x3D;&quot;!editMode; else editUser&quot;
+  &gt;
     Users will get an invitation sent to their email with instructions.
   &lt;/p&gt;
   &lt;ng-template #editUser&gt;
     &lt;p class&#x3D;&quot;help-text&quot;&gt;Emails cannot be changed.&lt;/p&gt;
   &lt;/ng-template&gt;
-  &lt;form class&#x3D;&quot;form&quot; action&#x3D;&quot;&quot; [formGroup]&#x3D;&quot;userForm&quot;&gt;
+  &lt;form
+    class&#x3D;&quot;form&quot;
+    action&#x3D;&quot;&quot;
+    [formGroup]&#x3D;&quot;userForm&quot;
+  &gt;
     &lt;mat-form-field class&#x3D;&quot;medium&quot;&gt;
       &lt;input
         matInput
@@ -1196,10 +1210,16 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
     &lt;/mat-form-field&gt;
     &lt;mat-form-field class&#x3D;&quot;select-groups&quot;&gt;
       &lt;mat-label&gt;Role&lt;/mat-label&gt;
-      &lt;mat-select formControlName&#x3D;&quot;groups&quot; multiple&gt;
-        &lt;mat-option *ngFor&#x3D;&quot;let group of groupTypes&quot; [value]&#x3D;&quot;group.role&quot;&gt;{{
+      &lt;mat-select
+        formControlName&#x3D;&quot;groups&quot;
+        multiple
+      &gt;
+        &lt;mat-option
+          *ngFor&#x3D;&quot;let group of groupTypes&quot;
+          [value]&#x3D;&quot;group.role&quot;
+        &gt;{{
           group.role
-        }}&lt;/mat-option&gt;
+          }}&lt;/mat-option&gt;
       &lt;/mat-select&gt;
     &lt;/mat-form-field&gt;
 
@@ -1207,7 +1227,10 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
   &lt;/form&gt;
 &lt;/div&gt;
 
-&lt;div mat-dialog-actions class&#x3D;&quot;dialog-options&quot;&gt;
+&lt;div
+  mat-dialog-actions
+  class&#x3D;&quot;dialog-options&quot;
+&gt;
   &lt;button
     class&#x3D;&quot;save&quot;
     mat-flat-button
@@ -1262,7 +1285,7 @@ export class OrganizationEditComponent implements OnInit, OnDestroy {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div mat-dialog-title class="dialog-title">  <h3>{{ editMode ? "Edit User" : "New User" }}</h3>  <button mat-icon-button (click)="cancel()" type="button">    <mat-icon>close</mat-icon>  </button></div><div mat-dialog-content>  <p class="help-text" *ngIf="!editMode; else editUser">    Users will get an invitation sent to their email with instructions.  </p>  <ng-template #editUser>    <p class="help-text">Emails cannot be changed.</p>  </ng-template>  <form class="form" action="" [formGroup]="userForm">    <mat-form-field class="medium">      <input        matInput        formControlName="email"        placeholder="Email"        type="text"        id="email"      />    </mat-form-field>    <mat-form-field class="medium">      <input        matInput        formControlName="firstname"        placeholder="First Name"        type="text"        id="firstname"      />    </mat-form-field>    <mat-form-field class="medium">      <input        matInput        formControlName="lastname"        placeholder="Last Name"        type="text"        id="lastname"      />    </mat-form-field>    <mat-form-field class="select-groups">      <mat-label>Role</mat-label>      <mat-select formControlName="groups" multiple>        <mat-option *ngFor="let group of groupTypes" [value]="group.role">{{          group.role        }}</mat-option>      </mat-select>    </mat-form-field>    <mat-checkbox formControlName="isAdmin">Admin</mat-checkbox>  </form></div><div mat-dialog-actions class="dialog-options">  <button    class="save"    mat-flat-button    color="accent"    (click)="save()"    [disabled]="!userForm.valid"  >    {{ editMode ? "Save User" : "Add User" }}  </button>  <button    *ngIf="editMode"    mat-button    color="warn"    (click)="deactivate()"    [disabled]="!userIsActive"  >    Deactivate  </button></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div  mat-dialog-title  class="dialog-title">  <h3>{{ editMode ? "Edit User" : "New User" }}</h3>  <button    mat-button    (click)="cancel()"    type="button"  >    <mat-icon>close</mat-icon>  </button></div><div mat-dialog-content>  <p    class="help-text"    *ngIf="!editMode; else editUser"  >    Users will get an invitation sent to their email with instructions.  </p>  <ng-template #editUser>    <p class="help-text">Emails cannot be changed.</p>  </ng-template>  <form    class="form"    action=""    [formGroup]="userForm"  >    <mat-form-field class="medium">      <input        matInput        formControlName="email"        placeholder="Email"        type="text"        id="email"      />    </mat-form-field>    <mat-form-field class="medium">      <input        matInput        formControlName="firstname"        placeholder="First Name"        type="text"        id="firstname"      />    </mat-form-field>    <mat-form-field class="medium">      <input        matInput        formControlName="lastname"        placeholder="Last Name"        type="text"        id="lastname"      />    </mat-form-field>    <mat-form-field class="select-groups">      <mat-label>Role</mat-label>      <mat-select        formControlName="groups"        multiple      >        <mat-option          *ngFor="let group of groupTypes"          [value]="group.role"        >{{          group.role          }}</mat-option>      </mat-select>    </mat-form-field>    <mat-checkbox formControlName="isAdmin">Admin</mat-checkbox>  </form></div><div  mat-dialog-actions  class="dialog-options">  <button    class="save"    mat-flat-button    color="accent"    (click)="save()"    [disabled]="!userForm.valid"  >    {{ editMode ? "Save User" : "Add User" }}  </button>  <button    *ngIf="editMode"    mat-button    color="warn"    (click)="deactivate()"    [disabled]="!userIsActive"  >    Deactivate  </button></div></div>'
     var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'SnackbarComponent', 'selector': 'shared-snackbar'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
     var DIRECTIVES = [{'name': 'LoadingDirective', 'selector': '[appIsLoading]'},{'name': 'TooltipDirective', 'selector': '[uiTooltip]'},{'name': 'WidgetTypeDirective', 'selector': '[widgetContainer]'},{'name': 'WidgetTypeExampleDirective', 'selector': '[appWidgetTypeExample]'}];
     var ACTUAL_COMPONENT = {'name': 'OrganizationEditComponent'};

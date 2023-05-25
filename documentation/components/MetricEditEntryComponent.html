@@ -275,8 +275,8 @@ Used for routing</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit-entry/metric-edit-entry.component.ts:63</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit-entry/metric-edit-entry.component.ts:64</a></div>
                 </td>
             </tr>
 
@@ -532,6 +532,7 @@ export class MetricEditEntryComponent implements OnInit, OnDestroy {
   openDialog(): void {
     this.dialogRef &#x3D; this.dialog.open(MetricEditComponent, {
       closeOnNavigation: true,
+      autoFocus: &quot;first-header&quot;,
       data: {
         metric: this.metric,
       },

@@ -20,6 +20,7 @@ const OVERLAY_CLASS = "loading-full-screen";
  */
 @Directive({
   selector: "[appIsLoading]",
+  standalone: true,
 })
 export class LoadingDirective implements OnChanges {
   @Input("appIsLoading")

@@ -1305,7 +1305,7 @@ on which values are set</p>
     metric: new FormControl(null, Validators.required),
     channelGroup: new FormControl(null, Validators.required),
     triggers: this.formBuilder.array&lt;FormGroup&lt;TriggerForm&gt;&gt;([]),
-    doDailyDigest: new FormControl(null, Validators.required),
+    doDailyDigest: new FormControl(false),
   })</code>
                     </td>
                 </tr>
@@ -1669,7 +1669,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     metric: new FormControl(null, Validators.required),
     channelGroup: new FormControl(null, Validators.required),
     triggers: this.formBuilder.array&lt;FormGroup&lt;TriggerForm&gt;&gt;([]),
-    doDailyDigest: new FormControl(null, Validators.required),
+    doDailyDigest: new FormControl(false),
   });
 
   constructor(
@@ -1886,21 +1886,47 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;div mat-dialog-title class&#x3D;&quot;dialog-title&quot;&gt;
+        <pre class="line-numbers"><code class="language-html">&lt;div
+  mat-dialog-title
+  class&#x3D;&quot;dialog-title&quot;
+&gt;
   &lt;h3&gt;{{ editMode ? &quot;Edit Monitor&quot; : &quot;New Monitor&quot; }}&lt;/h3&gt;
-  &lt;button mat-icon-button (click)&#x3D;&quot;cancel()&quot; type&#x3D;&quot;button&quot;&gt;
+  &lt;button
+    mat-button
+    (click)&#x3D;&quot;cancel()&quot;
+    type&#x3D;&quot;button&quot;
+  &gt;
     &lt;mat-icon&gt;close&lt;/mat-icon&gt;
   &lt;/button&gt;
 &lt;/div&gt;
 &lt;div mat-dialog-content&gt;
-  &lt;form #monitorEditForm [formGroup]&#x3D;&quot;monitorForm&quot; class&#x3D;&quot;form&quot;&gt;
-    &lt;mat-horizontal-stepper #stepper color&#x3D;&quot;primary&quot;&gt;
-      &lt;mat-step label&#x3D;&quot;Monitor Configuration&quot; #infoStep [completed]&#x3D;&quot;monitorForm.valid&quot; state&#x3D;&quot;monitor&quot;&gt;
+  &lt;form
+    #monitorEditForm
+    [formGroup]&#x3D;&quot;monitorForm&quot;
+    class&#x3D;&quot;form&quot;
+  &gt;
+    &lt;mat-horizontal-stepper
+      #stepper
+      color&#x3D;&quot;primary&quot;
+    &gt;
+      &lt;mat-step
+        label&#x3D;&quot;Monitor Configuration&quot;
+        #infoStep
+        [completed]&#x3D;&quot;monitorForm.valid&quot;
+        state&#x3D;&quot;monitor&quot;
+      &gt;
         &lt;div id&#x3D;&quot;monitor-edit-container&quot;&gt;
           &lt;mat-form-field class&#x3D;&quot;large&quot;&gt;
             &lt;!-- hintLabel&#x3D;&quot;Max 60 characters&quot; --&gt;
             &lt;mat-label for&#x3D;&quot;name&quot;&gt;Monitor Name&lt;/mat-label&gt;
-            &lt;input matInput #name maxLength&#x3D;&quot;60&quot; type&#x3D;&quot;text&quot; name&#x3D;&quot;name&quot; formControlName&#x3D;&quot;name&quot; /&gt;
+            &lt;input
+              matInput
+              #name
+              maxLength&#x3D;&quot;60&quot;
+              type&#x3D;&quot;text&quot;
+              name&#x3D;&quot;name&quot;
+              formControlName&#x3D;&quot;name&quot;
+            /&gt;
             &lt;!-- &lt;mat-hint align&#x3D;&quot;end&quot;&gt;{{ name.value?.length || 0 }}/60&lt;/mat-hint&gt; --&gt;
           &lt;/mat-form-field&gt;
           &lt;p class&#x3D;&quot;help-text&quot;&gt;
@@ -1911,8 +1937,14 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
               &lt;span&gt;The&lt;/span&gt;
               &lt;mat-form-field class&#x3D;&quot;xsmall&quot;&gt;
                 &lt;mat-label&gt;statistic&lt;/mat-label&gt;
-                &lt;mat-select formControlName&#x3D;&quot;stat&quot; name&#x3D;&quot;stat&quot;&gt;
-                  &lt;mat-option *ngFor&#x3D;&quot;let stat of MONITOR_STATS | keyvalue&quot; [value]&#x3D;&quot;stat.key&quot;&gt;
+                &lt;mat-select
+                  formControlName&#x3D;&quot;stat&quot;
+                  name&#x3D;&quot;stat&quot;
+                &gt;
+                  &lt;mat-option
+                    *ngFor&#x3D;&quot;let stat of MONITOR_STATS | keyvalue&quot;
+                    [value]&#x3D;&quot;stat.key&quot;
+                  &gt;
                     {{ stat.value }}
                   &lt;/mat-option&gt;
                 &lt;/mat-select&gt;
@@ -1921,8 +1953,15 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
               &lt;span&gt;of&lt;/span&gt;
               &lt;mat-form-field class&#x3D;&quot;medium&quot;&gt;
                 &lt;mat-label&gt;Metric&lt;/mat-label&gt;
-                &lt;mat-select formControlName&#x3D;&quot;metric&quot; name&#x3D;&quot;metric&quot; placeholder&#x3D;&quot;metric&quot;&gt;
-                  &lt;mat-option *ngFor&#x3D;&quot;let m of metrics&quot; [value]&#x3D;&quot;m&quot;&gt;{{ m.name }}
+                &lt;mat-select
+                  formControlName&#x3D;&quot;metric&quot;
+                  name&#x3D;&quot;metric&quot;
+                  placeholder&#x3D;&quot;metric&quot;
+                &gt;
+                  &lt;mat-option
+                    *ngFor&#x3D;&quot;let m of metrics&quot;
+                    [value]&#x3D;&quot;m&quot;
+                  &gt;{{ m.name }}
                   &lt;/mat-option&gt;
                 &lt;/mat-select&gt;
               &lt;/mat-form-field&gt;
@@ -1935,36 +1974,63 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
                   &lt;span&gt;is&lt;/span&gt;
                   &lt;mat-form-field class&#x3D;&quot;xsmall&quot;&gt;
                     &lt;mat-label for&#x3D;&quot;valueOperator&quot;&gt;operator&lt;/mat-label&gt;
-                    &lt;mat-select formControlName&#x3D;&quot;valueOperator&quot; name&#x3D;&quot;valueOperator&quot;&gt;
-                      &lt;mat-option *ngFor&#x3D;&quot;let o of VALUE_OPERATORS | keyvalue&quot; [value]&#x3D;&quot;o.key&quot;&gt;
+                    &lt;mat-select
+                      formControlName&#x3D;&quot;valueOperator&quot;
+                      name&#x3D;&quot;valueOperator&quot;
+                    &gt;
+                      &lt;mat-option
+                        *ngFor&#x3D;&quot;let o of VALUE_OPERATORS | keyvalue&quot;
+                        [value]&#x3D;&quot;o.key&quot;
+                      &gt;
                         {{ o.value }}
                       &lt;/mat-option&gt;
                     &lt;/mat-select&gt;
                   &lt;/mat-form-field&gt;
                   &lt;mat-form-field class&#x3D;&quot;xsmall&quot;&gt;
                     &lt;mat-label for&#x3D;&quot;val1&quot;&gt;value&lt;/mat-label&gt;
-                    &lt;input matInput name&#x3D;&quot;val1&quot; formControlName&#x3D;&quot;val1&quot; type&#x3D;&quot;number&quot; /&gt;
+                    &lt;input
+                      matInput
+                      name&#x3D;&quot;val1&quot;
+                      formControlName&#x3D;&quot;val1&quot;
+                      type&#x3D;&quot;number&quot;
+                    /&gt;
                   &lt;/mat-form-field&gt;
                   &lt;ng-container&gt; &lt;/ng-container&gt;
                   &lt;span&gt; and &lt;/span&gt;
                   &lt;mat-form-field class&#x3D;&quot;xsmall&quot;&gt;
                     &lt;mat-label for&#x3D;&quot;val2&quot;&gt;value 2&lt;/mat-label&gt;
-                    &lt;input matInput type&#x3D;&quot;number&quot; name&#x3D;&quot;val2&quot; formControlName&#x3D;&quot;val2&quot; /&gt;
+                    &lt;input
+                      matInput
+                      type&#x3D;&quot;number&quot;
+                      name&#x3D;&quot;val2&quot;
+                      formControlName&#x3D;&quot;val2&quot;
+                    /&gt;
                   &lt;/mat-form-field&gt;
                 &lt;/div&gt;
                 &lt;div id&#x3D;&quot;trigger-channels&quot;&gt;
                   &lt;span&gt;for&lt;/span&gt;
                   &lt;mat-form-field class&#x3D;&quot;xsmall&quot;&gt;
                     &lt;mat-label for&#x3D;&quot;numChannelsOperator&quot;&gt;operator&lt;/mat-label&gt;
-                    &lt;mat-select formControlName&#x3D;&quot;numChannelsOperator&quot; name&#x3D;&quot;numChannelsOperator&quot;&gt;
-                      &lt;mat-option *ngFor&#x3D;&quot;let n of NUM_CHANNELS_OPERATORS | keyvalue&quot; [value]&#x3D;&quot;n.key&quot;&gt;
+                    &lt;mat-select
+                      formControlName&#x3D;&quot;numChannelsOperator&quot;
+                      name&#x3D;&quot;numChannelsOperator&quot;
+                    &gt;
+                      &lt;mat-option
+                        *ngFor&#x3D;&quot;let n of NUM_CHANNELS_OPERATORS | keyvalue&quot;
+                        [value]&#x3D;&quot;n.key&quot;
+                      &gt;
                         {{ n.value }}
                       &lt;/mat-option&gt;
                     &lt;/mat-select&gt;
                   &lt;/mat-form-field&gt;
                   &lt;mat-form-field class&#x3D;&quot;xsmall&quot;&gt;
                     &lt;mat-label for&#x3D;&quot;numChannels&quot;&gt;# of channels&lt;/mat-label&gt;
-                    &lt;input matInput type&#x3D;&quot;number&quot; name&#x3D;&quot;numChannels&quot; formControlName&#x3D;&quot;numChannels&quot; /&gt;
+                    &lt;input
+                      matInput
+                      type&#x3D;&quot;number&quot;
+                      name&#x3D;&quot;numChannels&quot;
+                      formControlName&#x3D;&quot;numChannels&quot;
+                    /&gt;
                   &lt;/mat-form-field&gt;
                 &lt;/div&gt;
               &lt;/ng-container&gt;
@@ -1973,9 +2039,18 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
               &lt;span&gt;in&lt;/span&gt;
               &lt;mat-form-field class&#x3D;&quot;medium&quot;&gt;
                 &lt;mat-label&gt; Channel Group &lt;/mat-label&gt;
-                &lt;mat-select formControlName&#x3D;&quot;channelGroup&quot; name&#x3D;&quot;channelGroup&quot;&gt;
-                  &lt;mat-optgroup *ngFor&#x3D;&quot;let group of channelGroups&quot; [label]&#x3D;&quot;group.name&quot;&gt;
-                    &lt;mat-option *ngFor&#x3D;&quot;let channelGroup of group.groups&quot; [value]&#x3D;&quot;channelGroup.id&quot;&gt;{{ channelGroup.name
+                &lt;mat-select
+                  formControlName&#x3D;&quot;channelGroup&quot;
+                  name&#x3D;&quot;channelGroup&quot;
+                &gt;
+                  &lt;mat-optgroup
+                    *ngFor&#x3D;&quot;let group of channelGroups&quot;
+                    [label]&#x3D;&quot;group.name&quot;
+                  &gt;
+                    &lt;mat-option
+                      *ngFor&#x3D;&quot;let channelGroup of group.groups&quot;
+                      [value]&#x3D;&quot;channelGroup.id&quot;
+                    &gt;{{ channelGroup.name
                       }} ({{
                       channelGroup.channelsCount
                       }})&lt;/mat-option&gt;
@@ -1988,12 +2063,23 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
 
               &lt;mat-form-field class&#x3D;&quot;xsmall&quot;&gt;
                 &lt;mat-label for&#x3D;&quot;intervalCount&quot;&gt;# of intervals&lt;/mat-label&gt;
-                &lt;input matInput name&#x3D;&quot;intervalCount&quot; formControlName&#x3D;&quot;intervalCount&quot; type&#x3D;&quot;number&quot; /&gt;
+                &lt;input
+                  matInput
+                  name&#x3D;&quot;intervalCount&quot;
+                  formControlName&#x3D;&quot;intervalCount&quot;
+                  type&#x3D;&quot;number&quot;
+                /&gt;
               &lt;/mat-form-field&gt;
               &lt;mat-form-field class&#x3D;&quot;xsmall&quot;&gt;
                 &lt;mat-label for&#x3D;&quot;IntervalType&quot;&gt;interval&lt;/mat-label&gt;
-                &lt;mat-select formControlName&#x3D;&quot;intervalType&quot; name&#x3D;&quot;intervalType&quot;&gt;
-                  &lt;mat-option *ngFor&#x3D;&quot;let type of INTERVAL_TYPES | keyvalue&quot; [value]&#x3D;&quot;type.key&quot;&gt;
+                &lt;mat-select
+                  formControlName&#x3D;&quot;intervalType&quot;
+                  name&#x3D;&quot;intervalType&quot;
+                &gt;
+                  &lt;mat-option
+                    *ngFor&#x3D;&quot;let type of INTERVAL_TYPES | keyvalue&quot;
+                    [value]&#x3D;&quot;type.key&quot;
+                  &gt;
                     {{ type.value
                     }}{{ monitorForm.value.intervalCount &gt; 1 ? &quot;s&quot; : &quot;&quot; }}
                   &lt;/mat-option&gt;
@@ -2004,8 +2090,12 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/mat-step&gt;
-      &lt;mat-step label&#x3D;&quot;Notification Settings&quot; #triggerStep [completed]&#x3D;&quot;triggers.valid &amp;&amp; triggers.controls.length &gt; 0&quot;
-        state&#x3D;&quot;trigger&quot;&gt;
+      &lt;mat-step
+        label&#x3D;&quot;Notification Settings&quot;
+        #triggerStep
+        [completed]&#x3D;&quot;triggers.valid &amp;&amp; triggers.controls.length &gt; 0&quot;
+        state&#x3D;&quot;trigger&quot;
+      &gt;
         &lt;div id&#x3D;&quot;trigger-container&quot;&gt;
           &lt;p class&#x3D;&quot;help-text&quot;&gt;
             An alert will be sent when the monitor enters the &#x27;in alarm&#x27; state.
@@ -2021,7 +2111,10 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
           &lt;mat-slide-toggle formControlName&#x3D;&quot;doDailyDigest&quot;&gt;
             Send daily digest instead of alerts
           &lt;/mat-slide-toggle&gt;
-          &lt;div id&#x3D;&quot;table-container&quot; formArrayName&#x3D;&quot;triggers&quot;&gt;
+          &lt;div
+            id&#x3D;&quot;table-container&quot;
+            formArrayName&#x3D;&quot;triggers&quot;
+          &gt;
             &lt;table id&#x3D;&quot;trigger-table&quot;&gt;
               &lt;tr&gt;
                 &lt;th&gt;&lt;/th&gt;
@@ -2029,7 +2122,10 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
                 &lt;th colspan&#x3D;&quot;2&quot;&gt;# of channels&lt;/th&gt;
               &lt;/tr&gt;
               &lt;ng-container *ngFor&#x3D;&quot;let trigger of triggers.controls; let i &#x3D; index&quot;&gt;
-                &lt;ng-container [formGroupName]&#x3D;&quot;i&quot; class&#x3D;&quot;trigger&quot;&gt;
+                &lt;ng-container
+                  [formGroupName]&#x3D;&quot;i&quot;
+                  class&#x3D;&quot;trigger&quot;
+                &gt;
                   &lt;tr&gt;
                     &lt;td&gt;
                       Trigger
@@ -2038,8 +2134,14 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
                     &lt;td&gt;
                       &lt;mat-form-field class&#x3D;&quot;xsmall&quot;&gt;
                         &lt;mat-label for&#x3D;&quot;valueOperator&quot;&gt;operator&lt;/mat-label&gt;
-                        &lt;mat-select formControlName&#x3D;&quot;valueOperator&quot; name&#x3D;&quot;valueOperator&quot;&gt;
-                          &lt;mat-option *ngFor&#x3D;&quot;let o of VALUE_OPERATORS | keyvalue&quot; [value]&#x3D;&quot;o.key&quot;&gt;
+                        &lt;mat-select
+                          formControlName&#x3D;&quot;valueOperator&quot;
+                          name&#x3D;&quot;valueOperator&quot;
+                        &gt;
+                          &lt;mat-option
+                            *ngFor&#x3D;&quot;let o of VALUE_OPERATORS | keyvalue&quot;
+                            [value]&#x3D;&quot;o.key&quot;
+                          &gt;
                             {{ o.value }}
                           &lt;/mat-option&gt;
                         &lt;/mat-select&gt;
@@ -2051,21 +2153,37 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
                     &lt;td&gt;
                       &lt;mat-form-field class&#x3D;&quot;xsmall&quot;&gt;
                         &lt;mat-label for&#x3D;&quot;val1&quot;&gt;value&lt;/mat-label&gt;
-                        &lt;input matInput type&#x3D;&quot;number&quot; name&#x3D;&quot;val1&quot; formControlName&#x3D;&quot;val1&quot; /&gt;
+                        &lt;input
+                          matInput
+                          type&#x3D;&quot;number&quot;
+                          name&#x3D;&quot;val1&quot;
+                          formControlName&#x3D;&quot;val1&quot;
+                        /&gt;
                         &lt;mat-error *ngIf&#x3D;&quot;trigger.get(&#x27;val1&#x27;).hasError(&#x27;required&#x27;)&quot;&gt;* required field&lt;/mat-error&gt;
                       &lt;/mat-form-field&gt;
                     &lt;/td&gt;
                     &lt;td&gt;
                       &lt;mat-form-field class&#x3D;&quot;xsmall&quot;&gt;
                         &lt;mat-label for&#x3D;&quot;val2&quot;&gt;value 2&lt;/mat-label&gt;
-                        &lt;input matInput type&#x3D;&quot;number&quot; name&#x3D;&quot;val2&quot; formControlName&#x3D;&quot;val2&quot; /&gt;
+                        &lt;input
+                          matInput
+                          type&#x3D;&quot;number&quot;
+                          name&#x3D;&quot;val2&quot;
+                          formControlName&#x3D;&quot;val2&quot;
+                        /&gt;
                       &lt;/mat-form-field&gt;
                     &lt;/td&gt;
                     &lt;td&gt;
                       &lt;mat-form-field class&#x3D;&quot;xsmall&quot;&gt;
                         &lt;mat-label for&#x3D;&quot;numChannelsOperator&quot;&gt;operator&lt;/mat-label&gt;
-                        &lt;mat-select formControlName&#x3D;&quot;numChannelsOperator&quot; name&#x3D;&quot;numChannelsOperator&quot;&gt;
-                          &lt;mat-option *ngFor&#x3D;&quot;let n of NUM_CHANNELS_OPERATORS | keyvalue&quot; [value]&#x3D;&quot;n.key&quot;&gt;
+                        &lt;mat-select
+                          formControlName&#x3D;&quot;numChannelsOperator&quot;
+                          name&#x3D;&quot;numChannelsOperator&quot;
+                        &gt;
+                          &lt;mat-option
+                            *ngFor&#x3D;&quot;let n of NUM_CHANNELS_OPERATORS | keyvalue&quot;
+                            [value]&#x3D;&quot;n.key&quot;
+                          &gt;
                             {{ n.value }}
                           &lt;/mat-option&gt;
                         &lt;/mat-select&gt;
@@ -2079,7 +2197,12 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
                     &lt;td&gt;
                       &lt;mat-form-field class&#x3D;&quot;xsmall&quot;&gt;
                         &lt;mat-label for&#x3D;&quot;numChannels&quot;&gt;# of channels&lt;/mat-label&gt;
-                        &lt;input matInput type&#x3D;&quot;number&quot; name&#x3D;&quot;numChannels&quot; formControlName&#x3D;&quot;numChannels&quot; /&gt;
+                        &lt;input
+                          matInput
+                          type&#x3D;&quot;number&quot;
+                          name&#x3D;&quot;numChannels&quot;
+                          formControlName&#x3D;&quot;numChannels&quot;
+                        /&gt;
                       &lt;/mat-form-field&gt;
                     &lt;/td&gt;
 
@@ -2092,19 +2215,31 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
                       Send notification to:
                       &lt;mat-form-field&gt;
                         &lt;mat-label for&#x3D;&quot;emails&quot;&gt;email:&lt;/mat-label&gt;
-                        &lt;textarea matInput name&#x3D;&quot;emails&quot; formControlName&#x3D;&quot;emails&quot;&gt;&lt;/textarea&gt;
+                        &lt;textarea
+                          matInput
+                          name&#x3D;&quot;emails&quot;
+                          formControlName&#x3D;&quot;emails&quot;
+                        &gt;&lt;/textarea&gt;
                         &lt;mat-error *ngIf&#x3D;&quot;trigger.get(&#x27;emails&#x27;).hasError(&#x27;email&#x27;)&quot;&gt;Enter a valid email
                           address&lt;/mat-error&gt;
                       &lt;/mat-form-field&gt;
                     &lt;/td&gt;
                     &lt;td&gt;
-                      &lt;mat-slide-toggle name&#x3D;&quot;alertOnOutOfAlarm&quot; formControlName&#x3D;&quot;alertOnOutOfAlarm&quot;&gt;
+                      &lt;mat-slide-toggle
+                        name&#x3D;&quot;alertOnOutOfAlarm&quot;
+                        formControlName&#x3D;&quot;alertOnOutOfAlarm&quot;
+                      &gt;
                         also alert on exit
                       &lt;/mat-slide-toggle&gt;
                     &lt;/td&gt;
                     &lt;td&gt;
-                      &lt;button mat-icon-button color&#x3D;&quot;warn&quot; (click)&#x3D;&quot;removeTrigger(i)&quot;
-                        aria-label&#x3D;&quot;button that removes the trigger&quot; *ngIf&#x3D;&quot;i !&#x3D;&#x3D; 0&quot;&gt;
+                      &lt;button
+                        mat-button
+                        color&#x3D;&quot;warn&quot;
+                        (click)&#x3D;&quot;removeTrigger(i)&quot;
+                        aria-label&#x3D;&quot;button that removes the trigger&quot;
+                        *ngIf&#x3D;&quot;i !&#x3D;&#x3D; 0&quot;
+                      &gt;
                         &lt;mat-icon&gt; delete &lt;/mat-icon&gt;
                       &lt;/button&gt;
                     &lt;/td&gt;
@@ -2138,7 +2273,11 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
               &lt;/span&gt;
             &lt;/div&gt; --&gt;
           &lt;/div&gt;
-          &lt;button mat-button (click)&#x3D;&quot;addTrigger()&quot; aria-label&#x3D;&quot;button that adds a new trigger&quot;&gt;
+          &lt;button
+            mat-button
+            (click)&#x3D;&quot;addTrigger()&quot;
+            aria-label&#x3D;&quot;button that adds a new trigger&quot;
+          &gt;
             &lt;mat-icon&gt; notification_add &lt;/mat-icon&gt; add notification
           &lt;/button&gt;
         &lt;/div&gt;
@@ -2167,21 +2306,40 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   &lt;/div&gt; --&gt;
 &lt;/div&gt;
 
-&lt;div mat-dialog-actions class&#x3D;&quot;dialog-options&quot;&gt;
+&lt;div
+  mat-dialog-actions
+  class&#x3D;&quot;dialog-options&quot;
+&gt;
   &lt;div class&#x3D;&quot;dialog-buttons&quot;&gt;
-    &lt;button mat-stroked-button color&#x3D;&quot;primary&quot; (click)&#x3D;&quot;stepper.previous()&quot; [disabled]&#x3D;&quot;stepper.selectedIndex &#x3D;&#x3D;&#x3D; 0&quot;&gt;
+    &lt;button
+      mat-stroked-button
+      color&#x3D;&quot;primary&quot;
+      (click)&#x3D;&quot;stepper.previous()&quot;
+      [disabled]&#x3D;&quot;stepper.selectedIndex &#x3D;&#x3D;&#x3D; 0&quot;
+    &gt;
       Back
     &lt;/button&gt;
-    &lt;button mat-stroked-button color&#x3D;&quot;primary&quot; (click)&#x3D;&quot;stepper.next()&quot; [disabled]&#x3D;&quot;stepper.selectedIndex &#x3D;&#x3D;&#x3D; 1&quot;&gt;
+    &lt;button
+      mat-stroked-button
+      color&#x3D;&quot;primary&quot;
+      (click)&#x3D;&quot;stepper.next()&quot;
+      [disabled]&#x3D;&quot;stepper.selectedIndex &#x3D;&#x3D;&#x3D; 1&quot;
+    &gt;
       Next
     &lt;/button&gt;
-    &lt;button class&#x3D;&quot;save&quot; mat-flat-button color&#x3D;&quot;accent&quot; (click)&#x3D;&quot;save()&quot;
-      [disabled]&#x3D;&quot;!monitorForm.valid || !triggers.valid&quot;&gt;
+    &lt;button
+      class&#x3D;&quot;save&quot;
+      mat-flat-button
+      color&#x3D;&quot;accent&quot;
+      (click)&#x3D;&quot;save()&quot;
+      [disabled]&#x3D;&quot;!monitorForm.valid || !triggers.valid&quot;
+    &gt;
       Save
     &lt;/button&gt;
   &lt;/div&gt;
   &lt;p class&#x3D;&quot;warn-text&quot;&gt;* required field&lt;/p&gt;
-&lt;/div&gt;</code></pre>
+&lt;/div&gt;
+</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-styleData">
@@ -2240,7 +2398,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div mat-dialog-title class="dialog-title">  <h3>{{ editMode ? "Edit Monitor" : "New Monitor" }}</h3>  <button mat-icon-button (click)="cancel()" type="button">    <mat-icon>close</mat-icon>  </button></div><div mat-dialog-content>  <form #monitorEditForm [formGroup]="monitorForm" class="form">    <mat-horizontal-stepper #stepper color="primary">      <mat-step label="Monitor Configuration" #infoStep [completed]="monitorForm.valid" state="monitor">        <div id="monitor-edit-container">          <mat-form-field class="large">            <!-- hintLabel="Max 60 characters" -->            <mat-label for="name">Monitor Name</mat-label>            <input matInput #name maxLength="60" type="text" name="name" formControlName="name" />            <!-- <mat-hint align="end">{{ name.value?.length || 0 }}/60</mat-hint> -->          </mat-form-field>          <p class="help-text">            A monitor is \'in alarm\' when the following conditions are true.          </p>          <div id="monitor-body">            <div>              <span>The</span>              <mat-form-field class="xsmall">                <mat-label>statistic</mat-label>                <mat-select formControlName="stat" name="stat">                  <mat-option *ngFor="let stat of MONITOR_STATS | keyvalue" [value]="stat.key">                    {{ stat.value }}                  </mat-option>                </mat-select>              </mat-form-field>              <span>of</span>              <mat-form-field class="medium">                <mat-label>Metric</mat-label>                <mat-select formControlName="metric" name="metric" placeholder="metric">                  <mat-option *ngFor="let m of metrics" [value]="m">{{ m.name }}                  </mat-option>                </mat-select>              </mat-form-field>              <span>measurements </span>            </div>            <ng-container formArrayName="triggers">              <ng-container formGroupName="0">                <div>                  <span>is</span>                  <mat-form-field class="xsmall">                    <mat-label for="valueOperator">operator</mat-label>                    <mat-select formControlName="valueOperator" name="valueOperator">                      <mat-option *ngFor="let o of VALUE_OPERATORS | keyvalue" [value]="o.key">                        {{ o.value }}                      </mat-option>                    </mat-select>                  </mat-form-field>                  <mat-form-field class="xsmall">                    <mat-label for="val1">value</mat-label>                    <input matInput name="val1" formControlName="val1" type="number" />                  </mat-form-field>                  <ng-container> </ng-container>                  <span> and </span>                  <mat-form-field class="xsmall">                    <mat-label for="val2">value 2</mat-label>                    <input matInput type="number" name="val2" formControlName="val2" />                  </mat-form-field>                </div>                <div id="trigger-channels">                  <span>for</span>                  <mat-form-field class="xsmall">                    <mat-label for="numChannelsOperator">operator</mat-label>                    <mat-select formControlName="numChannelsOperator" name="numChannelsOperator">                      <mat-option *ngFor="let n of NUM_CHANNELS_OPERATORS | keyvalue" [value]="n.key">                        {{ n.value }}                      </mat-option>                    </mat-select>                  </mat-form-field>                  <mat-form-field class="xsmall">                    <mat-label for="numChannels"># of channels</mat-label>                    <input matInput type="number" name="numChannels" formControlName="numChannels" />                  </mat-form-field>                </div>              </ng-container>            </ng-container>            <div id="monitor-channels">              <span>in</span>              <mat-form-field class="medium">                <mat-label> Channel Group </mat-label>                <mat-select formControlName="channelGroup" name="channelGroup">                  <mat-optgroup *ngFor="let group of channelGroups" [label]="group.name">                    <mat-option *ngFor="let channelGroup of group.groups" [value]="channelGroup.id">{{ channelGroup.name                      }} ({{                      channelGroup.channelsCount                      }})</mat-option>                  </mat-optgroup>                </mat-select>              </mat-form-field>            </div>            <div>              <span>over the last</span>              <mat-form-field class="xsmall">                <mat-label for="intervalCount"># of intervals</mat-label>                <input matInput name="intervalCount" formControlName="intervalCount" type="number" />              </mat-form-field>              <mat-form-field class="xsmall">                <mat-label for="IntervalType">interval</mat-label>                <mat-select formControlName="intervalType" name="intervalType">                  <mat-option *ngFor="let type of INTERVAL_TYPES | keyvalue" [value]="type.key">                    {{ type.value                    }}{{ monitorForm.value.intervalCount > 1 ? "s" : "" }}                  </mat-option>                </mat-select>              </mat-form-field>              <span>.</span>            </div>          </div>        </div>      </mat-step>      <mat-step label="Notification Settings" #triggerStep [completed]="triggers.valid && triggers.controls.length > 0"        state="trigger">        <div id="trigger-container">          <p class="help-text">            An alert will be sent when the monitor enters the \'in alarm\' state.            If \'Alert on Exit\' is true, it will also alert when the monitor is            no longer \'in alarm\'.          </p>          <p class="help-text">            The daily digest is a summary of monitor activity over the last day.            The daily digest will be sent to any email listed in a trigger that            was in alarm in the 24 hours before the digest was evaluated,            instead of sending notifications for every alert.          </p>          <mat-slide-toggle formControlName="doDailyDigest">            Send daily digest instead of alerts          </mat-slide-toggle>          <div id="table-container" formArrayName="triggers">            <table id="trigger-table">              <tr>                <th></th>                <th colspan="3">Values</th>                <th colspan="2"># of channels</th>              </tr>              <ng-container *ngFor="let trigger of triggers.controls; let i = index">                <ng-container [formGroupName]="i" class="trigger">                  <tr>                    <td>                      Trigger                      {{ i + 1 }}:                    </td>                    <td>                      <mat-form-field class="xsmall">                        <mat-label for="valueOperator">operator</mat-label>                        <mat-select formControlName="valueOperator" name="valueOperator">                          <mat-option *ngFor="let o of VALUE_OPERATORS | keyvalue" [value]="o.key">                            {{ o.value }}                          </mat-option>                        </mat-select>                        <mat-error *ngIf="                            trigger.get(\'valueOperator\').hasError(\'required\')                          ">* required field</mat-error>                      </mat-form-field>                    </td>                    <td>                      <mat-form-field class="xsmall">                        <mat-label for="val1">value</mat-label>                        <input matInput type="number" name="val1" formControlName="val1" />                        <mat-error *ngIf="trigger.get(\'val1\').hasError(\'required\')">* required field</mat-error>                      </mat-form-field>                    </td>                    <td>                      <mat-form-field class="xsmall">                        <mat-label for="val2">value 2</mat-label>                        <input matInput type="number" name="val2" formControlName="val2" />                      </mat-form-field>                    </td>                    <td>                      <mat-form-field class="xsmall">                        <mat-label for="numChannelsOperator">operator</mat-label>                        <mat-select formControlName="numChannelsOperator" name="numChannelsOperator">                          <mat-option *ngFor="let n of NUM_CHANNELS_OPERATORS | keyvalue" [value]="n.key">                            {{ n.value }}                          </mat-option>                        </mat-select>                        <mat-error *ngIf="                            trigger                              .get(\'numChannelsOperator\')                              .hasError(\'required\')                          ">* required field</mat-error>                      </mat-form-field>                    </td>                    <td>                      <mat-form-field class="xsmall">                        <mat-label for="numChannels"># of channels</mat-label>                        <input matInput type="number" name="numChannels" formControlName="numChannels" />                      </mat-form-field>                    </td>                    <ng-template #default> default </ng-template>                  </tr>                  <tr>                    <td></td>                    <td colspan="3">                      Send notification to:                      <mat-form-field>                        <mat-label for="emails">email:</mat-label>                        <textarea matInput name="emails" formControlName="emails"></textarea>                        <mat-error *ngIf="trigger.get(\'emails\').hasError(\'email\')">Enter a valid email                          address</mat-error>                      </mat-form-field>                    </td>                    <td>                      <mat-slide-toggle name="alertOnOutOfAlarm" formControlName="alertOnOutOfAlarm">                        also alert on exit                      </mat-slide-toggle>                    </td>                    <td>                      <button mat-icon-button color="warn" (click)="removeTrigger(i)"                        aria-label="button that removes the trigger" *ngIf="i !== 0">                        <mat-icon> delete </mat-icon>                      </button>                    </td>                  </tr>                </ng-container>              </ng-container>            </table>            <!-- <div class="trigger-help">              <span                *ngIf="trigger.value.min !== null || trigger.value.max !== null"              >                Will be in alarm when              </span>              <span                *ngIf="trigger.value.min !== null && trigger.value.max !== null"              >                value                {{ trigger.value.inclusive ? "between" : "not between" }}                {{ trigger.value.min }} and                {{ trigger.value.max }}              </span>              <span                *ngIf="trigger.value.min !== null && trigger.value.max === null"              >                values < {{ trigger.value.min }}              </span>              <span                *ngIf="trigger.value.max !== null && trigger.value.min === null"              >                values > {{ trigger.value.max }}              </span>            </div> -->          </div>          <button mat-button (click)="addTrigger()" aria-label="button that adds a new trigger">            <mat-icon> notification_add </mat-icon> add notification          </button>        </div>      </mat-step>      <ng-template matStepperIcon="monitor">        <mat-icon>add_chart</mat-icon>      </ng-template>      <ng-template matStepperIcon="trigger">        <mat-icon>edit_notifications</mat-icon>      </ng-template>    </mat-horizontal-stepper>  </form>  <!-- <div id="chart-container">    <h4>Preview</h4>    <monitor-chart      [metric]="monitorForm.value.metric"      [triggers]="monitorForm.value.triggers"      [channelGroupId]="monitorForm.value.channelGroup.id"      [stat]="monitorForm.value.stat"      [numberChannels]="monitorForm.value.numberChannels"      [intervalCount]="monitorForm.value.intervalCount"      [intervalType]="monitorForm.value.intervalType"      [invert]="monitorForm.value.invert"      ></monitor-chart>  </div> --></div><div mat-dialog-actions class="dialog-options">  <div class="dialog-buttons">    <button mat-stroked-button color="primary" (click)="stepper.previous()" [disabled]="stepper.selectedIndex === 0">      Back    </button>    <button mat-stroked-button color="primary" (click)="stepper.next()" [disabled]="stepper.selectedIndex === 1">      Next    </button>    <button class="save" mat-flat-button color="accent" (click)="save()"      [disabled]="!monitorForm.valid || !triggers.valid">      Save    </button>  </div>  <p class="warn-text">* required field</p></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div  mat-dialog-title  class="dialog-title">  <h3>{{ editMode ? "Edit Monitor" : "New Monitor" }}</h3>  <button    mat-button    (click)="cancel()"    type="button"  >    <mat-icon>close</mat-icon>  </button></div><div mat-dialog-content>  <form    #monitorEditForm    [formGroup]="monitorForm"    class="form"  >    <mat-horizontal-stepper      #stepper      color="primary"    >      <mat-step        label="Monitor Configuration"        #infoStep        [completed]="monitorForm.valid"        state="monitor"      >        <div id="monitor-edit-container">          <mat-form-field class="large">            <!-- hintLabel="Max 60 characters" -->            <mat-label for="name">Monitor Name</mat-label>            <input              matInput              #name              maxLength="60"              type="text"              name="name"              formControlName="name"            />            <!-- <mat-hint align="end">{{ name.value?.length || 0 }}/60</mat-hint> -->          </mat-form-field>          <p class="help-text">            A monitor is \'in alarm\' when the following conditions are true.          </p>          <div id="monitor-body">            <div>              <span>The</span>              <mat-form-field class="xsmall">                <mat-label>statistic</mat-label>                <mat-select                  formControlName="stat"                  name="stat"                >                  <mat-option                    *ngFor="let stat of MONITOR_STATS | keyvalue"                    [value]="stat.key"                  >                    {{ stat.value }}                  </mat-option>                </mat-select>              </mat-form-field>              <span>of</span>              <mat-form-field class="medium">                <mat-label>Metric</mat-label>                <mat-select                  formControlName="metric"                  name="metric"                  placeholder="metric"                >                  <mat-option                    *ngFor="let m of metrics"                    [value]="m"                  >{{ m.name }}                  </mat-option>                </mat-select>              </mat-form-field>              <span>measurements </span>            </div>            <ng-container formArrayName="triggers">              <ng-container formGroupName="0">                <div>                  <span>is</span>                  <mat-form-field class="xsmall">                    <mat-label for="valueOperator">operator</mat-label>                    <mat-select                      formControlName="valueOperator"                      name="valueOperator"                    >                      <mat-option                        *ngFor="let o of VALUE_OPERATORS | keyvalue"                        [value]="o.key"                      >                        {{ o.value }}                      </mat-option>                    </mat-select>                  </mat-form-field>                  <mat-form-field class="xsmall">                    <mat-label for="val1">value</mat-label>                    <input                      matInput                      name="val1"                      formControlName="val1"                      type="number"                    />                  </mat-form-field>                  <ng-container> </ng-container>                  <span> and </span>                  <mat-form-field class="xsmall">                    <mat-label for="val2">value 2</mat-label>                    <input                      matInput                      type="number"                      name="val2"                      formControlName="val2"                    />                  </mat-form-field>                </div>                <div id="trigger-channels">                  <span>for</span>                  <mat-form-field class="xsmall">                    <mat-label for="numChannelsOperator">operator</mat-label>                    <mat-select                      formControlName="numChannelsOperator"                      name="numChannelsOperator"                    >                      <mat-option                        *ngFor="let n of NUM_CHANNELS_OPERATORS | keyvalue"                        [value]="n.key"                      >                        {{ n.value }}                      </mat-option>                    </mat-select>                  </mat-form-field>                  <mat-form-field class="xsmall">                    <mat-label for="numChannels"># of channels</mat-label>                    <input                      matInput                      type="number"                      name="numChannels"                      formControlName="numChannels"                    />                  </mat-form-field>                </div>              </ng-container>            </ng-container>            <div id="monitor-channels">              <span>in</span>              <mat-form-field class="medium">                <mat-label> Channel Group </mat-label>                <mat-select                  formControlName="channelGroup"                  name="channelGroup"                >                  <mat-optgroup                    *ngFor="let group of channelGroups"                    [label]="group.name"                  >                    <mat-option                      *ngFor="let channelGroup of group.groups"                      [value]="channelGroup.id"                    >{{ channelGroup.name                      }} ({{                      channelGroup.channelsCount                      }})</mat-option>                  </mat-optgroup>                </mat-select>              </mat-form-field>            </div>            <div>              <span>over the last</span>              <mat-form-field class="xsmall">                <mat-label for="intervalCount"># of intervals</mat-label>                <input                  matInput                  name="intervalCount"                  formControlName="intervalCount"                  type="number"                />              </mat-form-field>              <mat-form-field class="xsmall">                <mat-label for="IntervalType">interval</mat-label>                <mat-select                  formControlName="intervalType"                  name="intervalType"                >                  <mat-option                    *ngFor="let type of INTERVAL_TYPES | keyvalue"                    [value]="type.key"                  >                    {{ type.value                    }}{{ monitorForm.value.intervalCount > 1 ? "s" : "" }}                  </mat-option>                </mat-select>              </mat-form-field>              <span>.</span>            </div>          </div>        </div>      </mat-step>      <mat-step        label="Notification Settings"        #triggerStep        [completed]="triggers.valid && triggers.controls.length > 0"        state="trigger"      >        <div id="trigger-container">          <p class="help-text">            An alert will be sent when the monitor enters the \'in alarm\' state.            If \'Alert on Exit\' is true, it will also alert when the monitor is            no longer \'in alarm\'.          </p>          <p class="help-text">            The daily digest is a summary of monitor activity over the last day.            The daily digest will be sent to any email listed in a trigger that            was in alarm in the 24 hours before the digest was evaluated,            instead of sending notifications for every alert.          </p>          <mat-slide-toggle formControlName="doDailyDigest">            Send daily digest instead of alerts          </mat-slide-toggle>          <div            id="table-container"            formArrayName="triggers"          >            <table id="trigger-table">              <tr>                <th></th>                <th colspan="3">Values</th>                <th colspan="2"># of channels</th>              </tr>              <ng-container *ngFor="let trigger of triggers.controls; let i = index">                <ng-container                  [formGroupName]="i"                  class="trigger"                >                  <tr>                    <td>                      Trigger                      {{ i + 1 }}:                    </td>                    <td>                      <mat-form-field class="xsmall">                        <mat-label for="valueOperator">operator</mat-label>                        <mat-select                          formControlName="valueOperator"                          name="valueOperator"                        >                          <mat-option                            *ngFor="let o of VALUE_OPERATORS | keyvalue"                            [value]="o.key"                          >                            {{ o.value }}                          </mat-option>                        </mat-select>                        <mat-error *ngIf="                            trigger.get(\'valueOperator\').hasError(\'required\')                          ">* required field</mat-error>                      </mat-form-field>                    </td>                    <td>                      <mat-form-field class="xsmall">                        <mat-label for="val1">value</mat-label>                        <input                          matInput                          type="number"                          name="val1"                          formControlName="val1"                        />                        <mat-error *ngIf="trigger.get(\'val1\').hasError(\'required\')">* required field</mat-error>                      </mat-form-field>                    </td>                    <td>                      <mat-form-field class="xsmall">                        <mat-label for="val2">value 2</mat-label>                        <input                          matInput                          type="number"                          name="val2"                          formControlName="val2"                        />                      </mat-form-field>                    </td>                    <td>                      <mat-form-field class="xsmall">                        <mat-label for="numChannelsOperator">operator</mat-label>                        <mat-select                          formControlName="numChannelsOperator"                          name="numChannelsOperator"                        >                          <mat-option                            *ngFor="let n of NUM_CHANNELS_OPERATORS | keyvalue"                            [value]="n.key"                          >                            {{ n.value }}                          </mat-option>                        </mat-select>                        <mat-error *ngIf="                            trigger                              .get(\'numChannelsOperator\')                              .hasError(\'required\')                          ">* required field</mat-error>                      </mat-form-field>                    </td>                    <td>                      <mat-form-field class="xsmall">                        <mat-label for="numChannels"># of channels</mat-label>                        <input                          matInput                          type="number"                          name="numChannels"                          formControlName="numChannels"                        />                      </mat-form-field>                    </td>                    <ng-template #default> default </ng-template>                  </tr>                  <tr>                    <td></td>                    <td colspan="3">                      Send notification to:                      <mat-form-field>                        <mat-label for="emails">email:</mat-label>                        <textarea                          matInput                          name="emails"                          formControlName="emails"                        ></textarea>                        <mat-error *ngIf="trigger.get(\'emails\').hasError(\'email\')">Enter a valid email                          address</mat-error>                      </mat-form-field>                    </td>                    <td>                      <mat-slide-toggle                        name="alertOnOutOfAlarm"                        formControlName="alertOnOutOfAlarm"                      >                        also alert on exit                      </mat-slide-toggle>                    </td>                    <td>                      <button                        mat-button                        color="warn"                        (click)="removeTrigger(i)"                        aria-label="button that removes the trigger"                        *ngIf="i !== 0"                      >                        <mat-icon> delete </mat-icon>                      </button>                    </td>                  </tr>                </ng-container>              </ng-container>            </table>            <!-- <div class="trigger-help">              <span                *ngIf="trigger.value.min !== null || trigger.value.max !== null"              >                Will be in alarm when              </span>              <span                *ngIf="trigger.value.min !== null && trigger.value.max !== null"              >                value                {{ trigger.value.inclusive ? "between" : "not between" }}                {{ trigger.value.min }} and                {{ trigger.value.max }}              </span>              <span                *ngIf="trigger.value.min !== null && trigger.value.max === null"              >                values < {{ trigger.value.min }}              </span>              <span                *ngIf="trigger.value.max !== null && trigger.value.min === null"              >                values > {{ trigger.value.max }}              </span>            </div> -->          </div>          <button            mat-button            (click)="addTrigger()"            aria-label="button that adds a new trigger"          >            <mat-icon> notification_add </mat-icon> add notification          </button>        </div>      </mat-step>      <ng-template matStepperIcon="monitor">        <mat-icon>add_chart</mat-icon>      </ng-template>      <ng-template matStepperIcon="trigger">        <mat-icon>edit_notifications</mat-icon>      </ng-template>    </mat-horizontal-stepper>  </form>  <!-- <div id="chart-container">    <h4>Preview</h4>    <monitor-chart      [metric]="monitorForm.value.metric"      [triggers]="monitorForm.value.triggers"      [channelGroupId]="monitorForm.value.channelGroup.id"      [stat]="monitorForm.value.stat"      [numberChannels]="monitorForm.value.numberChannels"      [intervalCount]="monitorForm.value.intervalCount"      [intervalType]="monitorForm.value.intervalType"      [invert]="monitorForm.value.invert"      ></monitor-chart>  </div> --></div><div  mat-dialog-actions  class="dialog-options">  <div class="dialog-buttons">    <button      mat-stroked-button      color="primary"      (click)="stepper.previous()"      [disabled]="stepper.selectedIndex === 0"    >      Back    </button>    <button      mat-stroked-button      color="primary"      (click)="stepper.next()"      [disabled]="stepper.selectedIndex === 1"    >      Next    </button>    <button      class="save"      mat-flat-button      color="accent"      (click)="save()"      [disabled]="!monitorForm.valid || !triggers.valid"    >      Save    </button>  </div>  <p class="warn-text">* required field</p></div></div>'
     var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'SnackbarComponent', 'selector': 'shared-snackbar'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
     var DIRECTIVES = [{'name': 'LoadingDirective', 'selector': '[appIsLoading]'},{'name': 'TooltipDirective', 'selector': '[uiTooltip]'},{'name': 'WidgetTypeDirective', 'selector': '[widgetContainer]'},{'name': 'WidgetTypeExampleDirective', 'selector': '[appWidgetTypeExample]'}];
     var ACTUAL_COMPONENT = {'name': 'MonitorEditComponent'};

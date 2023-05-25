@@ -1,4 +1,10 @@
-import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  NgZone,
+  OnDestroy,
+  OnInit,
+} from "@angular/core";
 import {
   WidgetConnectService,
   WidgetManagerService,
@@ -20,15 +26,18 @@ export class ScatterPlotComponent
   extends EChartComponent
   implements OnInit, WidgetTypeComponent, OnDestroy
 {
+  /** @ignore */
   constructor(
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
     override widgetManager: WidgetManagerService,
-    override ngZone: NgZone
+    override ngZone: NgZone,
+    override cdr: ChangeDetectorRef
   ) {
     super(widgetManager, widgetConnectService, ngZone);
   }
 
+  /** configuration for when dense is enabled */
   override denseOptions: {
     grid: {
       containLabel: true;
@@ -49,13 +58,14 @@ export class ScatterPlotComponent
     dataZoom: [],
   };
 
+  /** configuration for when dense is not enabled */
   override fullOptions = {
     grid: { containLabel: true, top: 5, right: 10, bottom: 38, left: 50 },
     dataZoom: this.chartDefaultOptions.dataZoom,
   };
 
   /**
-   * @override
+   * sets up initial chart configuration
    */
   configureChart(): void {
     const dataZoom = this.denseView
@@ -112,7 +122,9 @@ export class ScatterPlotComponent
   }
 
   /**
-   * @override
+   * Creates chart data from measurement data
+   *
+   * @param data measurement data
    */
   buildChartData(data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {
@@ -160,7 +172,7 @@ export class ScatterPlotComponent
   }
 
   /**
-   * @override
+   * Changes shown metrics on chart
    */
   changeMetrics(): void {
     const xMetric = this.selectedMetrics[0];
@@ -168,7 +180,7 @@ export class ScatterPlotComponent
     const colorMetric = this.selectedMetrics[2];
     const visualMaps = this.visualMaps[colorMetric.id];
     visualMaps.show = this.showKey;
-    this.updateOptions = {
+    const options = {
       series: this.metricSeries.series,
       xAxis: {
         name: `${xMetric.name} (${xMetric.unit})`,
@@ -178,5 +190,15 @@ export class ScatterPlotComponent
         name: `${yMetric.name} (${yMetric.unit})`,
       },
     };
+
+    // using update options only prevented series from removing series
+    // using the combo sets both the inital series and later updates
+    if (!this.echartsInstance) {
+      this.updateOptions = options;
+    } else {
+      this.echartsInstance.setOption(options, {
+        replaceMerge: "series",
+      });
+    }
   }
 }
