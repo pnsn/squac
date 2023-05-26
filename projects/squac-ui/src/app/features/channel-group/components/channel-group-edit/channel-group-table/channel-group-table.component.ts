@@ -2,8 +2,10 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
   TemplateRef,
   ViewChild,
 } from "@angular/core";
@@ -13,6 +15,9 @@ import {
   SelectionType,
   SortType,
 } from "@boring.devs/ngx-datatable";
+import { MatTableDataSource } from "@angular/material/table";
+import { SelectionModel } from "@angular/cdk/collections";
+import { MatSort } from "@angular/material/sort";
 
 /**
  * Table showing a list of channels
@@ -22,7 +27,7 @@ import {
   templateUrl: "./channel-group-table.component.html",
   styleUrls: ["./channel-group-table.component.scss"],
 })
-export class ChannelGroupTableComponent implements OnInit {
+export class ChannelGroupTableComponent implements OnInit, OnChanges {
   /** table rows */
   @Input() rows: Channel[] = [];
   /** selected row on table */
@@ -37,108 +42,36 @@ export class ChannelGroupTableComponent implements OnInit {
   @Output() rowsChange = new EventEmitter<Channel[]>();
   /** Emits selected channels */
   @Output() selectedChange = new EventEmitter<Channel[]>();
-  /** Template for remove option on table */
-  @ViewChild("removeTemplate") removeTemplate: TemplateRef<any>;
-  /** Template for header row of table */
-  @ViewChild("headerTemplate") headerTemplate: TemplateRef<any>;
 
-  /** Table config */
-  /** ngxdatatable selection type */
-  SelectionType = SelectionType;
-  /** ngxdatatable column mode */
-  ColumnMode = ColumnMode;
-  /** ngxdatatable sort type */
-  SortType = SortType;
-  /** table columns */
-  columns: any = [];
-  /** display messages for table */
-  messages = {
-    emptyMessage: "No channels found.",
-  };
+  /** Mat sort directive, used to enable sorting on */
+  @ViewChild(MatSort) sort: MatSort;
+  /** columns shown in table */
+  channelColumns: string[] = ["net", "sta", "loc", "code"];
+  /** alert table data source */
+  dataSource: MatTableDataSource<Channel> = new MatTableDataSource([]);
+  /** selection on alert table */
+  selection: SelectionModel<Channel> = new SelectionModel(true, []);
 
-  /**
-   * Init table columns
-   */
-  ngOnInit(): void {
-    // table columns
-    setTimeout(() => {
-      this.columns = [];
-
-      if (this.selectable) {
-        this.columns.push({
-          width: 30,
-          canAutoResize: false,
-          sortable: false,
-          draggable: false,
-          resizeable: false,
-          headerCheckboxable: true,
-          checkboxable: true,
-        });
-      }
-
-      this.columns = [
-        ...this.columns,
-
-        {
-          name: "Network",
-          prop: "net",
-          draggable: false,
-          sortable: true,
-          resizeable: false,
-          flexGrow: 1,
-          headerTemplate: this.headerTemplate,
-        },
-        {
-          name: "Station",
-          prop: "sta",
-          draggable: false,
-          sortable: true,
-          resizeable: false,
-          flexGrow: 1,
-          headerTemplate: this.headerTemplate,
-        },
-        {
-          name: "Location",
-          prop: "loc",
-          draggable: false,
-          sortable: true,
-          resizeable: false,
-          flexGrow: 1,
-          headerTemplate: this.headerTemplate,
-        },
-        {
-          name: "Channel",
-          prop: "code",
-          draggable: false,
-          sortable: true,
-          resizeable: false,
-          flexGrow: 1,
-          headerTemplate: this.headerTemplate,
-        },
-      ];
-      // if (!this.selectable) {
-      //   this.columns.push({
-      //     name: "",
-      //     prop: "",
-      //     width: 30,
-      //     canAutoResize: false,
-      //     draggable: false,
-      //     sortable: false,
-      //     resizeable: false,
-      //     flexGrow: 1,
-      //     cellTemplate: this.removeTemplate,
-      //   });
-      // }
-    }, 0);
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes["rows"]) {
+      this.dataSource.data = this.rows;
+    }
+    if (changes["selected"]) {
+      this.selection.select(...this.selected);
+    }
   }
-  /**
-   * Select row in table
-   *
-   * @param $event selected row
-   */
-  selectRow($event): void {
-    this.selected = [...$event.selected];
-    this.selectedChange.emit(this.selected);
+
+  ngOnInit(): void {
+    this.dataSource.sort = this.sort;
+    // enable select column
+    if (this.selectable) {
+      this.channelColumns.unshift("select");
+    }
+
+    this.selection.changed.subscribe((channels) => {
+      this.selectedChange.emit(this.selection.selected);
+      console.log("selection change", channels.added.length);
+    });
   }
 
   /**
@@ -146,22 +79,27 @@ export class ChannelGroupTableComponent implements OnInit {
    */
   removeSelected(): void {
     this.rows = this.rows.filter(
-      (channel: Channel) =>
-        this.selected.findIndex((c: Channel) => c.id === channel.id) < 0
+      (channel: Channel) => !this.selection.isSelected(channel)
     );
-    this.selectRow({ selected: [] });
+    this.selection.clear();
     this.rowsChange.emit(this.rows);
   }
 
   /**
-   * Remove row from rows
+   * Whether the number of selected elements matches the total number of rows
    *
-   * @param row row to remove
-   */
-  removeRow(row: Channel): void {
-    this.rows = this.rows.filter((channel) => {
-      return channel.id !== row.id;
-    });
-    this.rowsChange.emit(this.rows);
+   *  @returns true if all rows are selected
+   * */
+  isAllSelected(): boolean {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected == numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  toggleAllRows(): void {
+    this.isAllSelected()
+      ? this.selection.clear()
+      : this.dataSource.data.forEach((row) => this.selection.select(row));
   }
 }

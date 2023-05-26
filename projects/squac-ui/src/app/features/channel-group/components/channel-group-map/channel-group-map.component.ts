@@ -82,6 +82,9 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
       changes["autoExcludeChannels"] ||
       changes["searchedChannels"]
     ) {
+      if (changes["selectedChannels"] || changes["searchedChannels"]) {
+        console.log(this.searchedChannels.length, this.selectedChannels.length);
+      }
       this.updateMap(!!changes["showChannel"]);
     }
     if (!changes["selectedChannels"] && changes["selectedChannels"]) {

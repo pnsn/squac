@@ -1,56 +1,120 @@
-<div class="table-container">
+<div class="channel-group-table-container">
   <div class="action-row">
     <button
       *ngIf="removable"
-      [disabled]="selected.length === 0"
+      [disabled]="selection.isEmpty()"
       mat-stroked-button
       (click)="removeSelected()"
     >
       remove
     </button>
   </div>
-  <ngx-datatable
-    #groupTable
-    class="material channel-table"
-    [rows]="rows"
-    [columns]="columns"
-    [columnMode]="ColumnMode.flex"
-    [headerHeight]="30"
-    [rowHeight]="23"
-    [selectionType]="SelectionType.checkbox"
-    [selected]="selected"
-    [scrollbarV]="true"
-    [sortType]="SortType.multi"
-    (select)="selectRow($event)"
-    [messages]="messages"
-  >
-  </ngx-datatable>
-  <ng-template
-    #headerTemplate
-    let-column="column"
-    let-sort="sortFn"
-    ngx-datatable-header-template
-  >
-    <div
-      class="header-cell datatable-header-cell-wrapper"
-      (click)="sort()"
+  <div class="table-container">
+    <table
+      mat-table
+      matSort
+      [dataSource]="dataSource"
     >
-      <span>{{ column.name }}</span>
-    </div>
-  </ng-template>
-  <ng-template #isLoading>
-    <mat-spinner></mat-spinner>
-  </ng-template>
-  <ng-template
-    ngx-datatable-cell-template
-    let-row="row"
-    #removeTemplate
-  >
-    <button
-      mat-button
-      (click)="removeRow(row)"
-    >
-      <mat-icon>close</mat-icon>
-    </button>
-  </ng-template>
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+        >
+          <mat-checkbox
+            (change)="$event ? toggleAllRows() : null"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+          >
+          </mat-checkbox>
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let row"
+        >
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)"
+            [aria-label]="selection.isSelected(row) ? 'deselect channel' : 'select channel'"
+          >
+          </mat-checkbox>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="net">
+
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          Net
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let row"
+        >
+          {{row.net}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="sta">
+
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          Sta
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let row"
+        >
+          {{row.sta}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="loc">
+
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          Loc
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let row"
+        >
+          {{row.loc}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="code">
+
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          Chan
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let row"
+        >
+          {{row.code}}
+        </td>
+      </ng-container>
+      <tr
+        mat-header-row
+        *matHeaderRowDef="channelColumns; sticky:true"
+      ></tr>
+      <tr
+        mat-row
+        (click)="selection.toggle(row)"
+        *matRowDef="let row; columns: channelColumns;"
+      ></tr>
+    </table>
+  </div>
 </div>
