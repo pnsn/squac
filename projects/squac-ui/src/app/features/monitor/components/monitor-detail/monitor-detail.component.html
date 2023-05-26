@@ -70,23 +70,102 @@
           If 'Daily Digest' is enabled, alerts for individual triggers will not
           be sent.
         </p>
-        <table id="trigger-table">
-          <thead>
-            <th>Alert when:</th>
-            <th>In Alarm:</th>
-            <th>Last State Change:</th>
-            <th>Also alert on exit:</th>
-            <th>Recipients</th>
-          </thead>
-          <tbody>
-            <tr *ngFor="let trigger of monitor.triggers">
-              <td>{{ trigger.fullString }}</td>
-              <td>{{ trigger.inAlarm ? "Yes" : "No" }}</td>
-              <td>{{ trigger.lastUpdate }}</td>
-              <td>{{ trigger.alertOnOutOfAlarm ? "Yes" : "No" }}</td>
-              <td>{{ trigger.emails }}</td>
-            </tr>
-          </tbody>
+        <table
+          mat-table
+          matSort
+          matSortActive="lastUpdate"
+          [dataSource]="triggerDataSource"
+          id="trigger-table"
+        >
+          <ng-container matColumnDef="fullString">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription="sort by trigger conditions"
+            >Conditions</th>
+            <td
+              mat-cell
+              *matCellDef="let element"
+            >
+              {{element.fullString}}
+            </td>
+
+          </ng-container>
+
+          <ng-container matColumnDef="inAlarm">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription="sort by status"
+            >Status</th>
+            <td
+              mat-cell
+              *matCellDef="let element"
+            >
+              <monitor-alarm-status [inAlarm]="element.inAlarm"></monitor-alarm-status>
+            </td>
+
+          </ng-container>
+
+          <ng-container matColumnDef="lastUpdate">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription="sort by status"
+            >Last State Change</th>
+            <td
+              mat-cell
+              *matCellDef="let element"
+            >
+              {{element.lastUpdate}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="alertOnOutOfAlarm">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription="sort by alert on out of alarm setting"
+            >
+              Also alert on exit
+            </th>
+            <td
+              mat-cell
+              *matCellDef="let element"
+            >
+              {{ element.alertOnOutOfAlarm ? "Yes" : "No" }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="emails">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription="sort by email list"
+            >
+              Email List
+            </th>
+            <td
+              mat-cell
+              *matCellDef="let element"
+            >
+              {{ element.emails }}
+            </td>
+          </ng-container>
+
+          <tr
+            mat-header-row
+            *matHeaderRowDef="triggerColumns; sticky:true"
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: triggerColumns;"
+          ></tr>
         </table>
       </div>
       <div id="alert-list">
@@ -94,96 +173,158 @@
         <p class="help-text">
           Select an alert to view more information.
         </p>
-        <div class="alert-table-container">
-          <div>
-            <ngx-datatable
-              [rows]="alerts"
-              id="alert-table"
-              class="material channel-table"
-              [columnMode]="ColumnMode.force"
-              [selectionType]="SelectionType.single"
-              [selected]="[selectedAlert]"
-              [limit]="10"
-              [rowHeight]="25"
-              [scrollbarV]="true"
-              (select)="selectAlert($event)"
+        <div id="alert-tables-container">
+          <div class="alert-table-container">
+
+            <table
+              mat-table
+              matSort
+              matSortActive="timestamp"
+              matSortDirection="desc"
+              [dataSource]="alertDataSource"
             >
-              <ngx-datatable-column
-                name="State"
-                prop="inAlarm"
-                [draggable]="false"
-                [width]="70"
-                [canAutoResize]="false"
-              >
-                <ng-template
-                  let-value="value"
-                  ngx-datatable-cell-template
+              <!-- Checkbox Column -->
+              <ng-container matColumnDef="select">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
                 >
-                  <monitor-alarm-status [inAlarm]="value"></monitor-alarm-status>
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column
-                name="Time"
-                prop="timestamp"
-                [draggable]="false"
-                [width]="160"
-                [canAutoResize]="false"
-              >
-
-              </ngx-datatable-column>
-              <ngx-datatable-column
-                name="Trigger"
-                [width]="200"
-                [canAutoResize]="true"
-              >
-
-                <ng-template
-                  #triggerTemplate
-                  let-value="value"
-                  let-row="row"
-                  ngx-datatable-cell-template
+                </th>
+                <td
+                  mat-cell
+                  *matCellDef="let row"
                 >
-                  values for
-                  <span *ngIf="row.numChannelsOperator !== '=='">
-                    {{ row.numChannelsOperator }}
+                  <mat-checkbox
+                    (click)="$event.stopPropagation()"
+                    (change)="$event ? alertSelection.toggle(row) : null"
+                    [checked]="alertSelection.isSelected(row)"
+                    [aria-label]="alertSelection.isSelected(row) ? 'deselect alert' : 'select alert'"
+                  >
+                  </mat-checkbox>
+                </td>
+              </ng-container>
+              <!-- Position Column -->
+              <ng-container matColumnDef="inAlarm">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  sortActionDescription="Sort by status"
+                >Status</th>
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                >
+                  <monitor-alarm-status [inAlarm]="element.inAlarm"></monitor-alarm-status>
+                </td>
+
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="timestamp">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                >Time</th>
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                >{{element.timestamp}}
+                </td>
+              </ng-container>
+
+              <!-- Weight Column -->
+              <ng-container matColumnDef="triggerId">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                >Trigger</th>
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                >values for
+                  <span *ngIf="element.numChannelsOperator !== '=='">
+                    {{ element.numChannelsOperator }}
                   </span>
-                  {{ row.numChannels }} channel(s) in are {{ row.valueOperator }}
-                  {{ row.val1 }}
-                  <span *ngIf="row.val2 !== null && row.val2 !== undefined">
-                    and {{ row.val2 }}
+                  {{ element.numChannels }} channel(s) in are {{ element.valueOperator }}
+                  {{ element.val1 }}
+                  <span *ngIf="element.val2 !== null && element.val2 !== undefined">
+                    and {{ element.val2 }}
                   </span>
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column
-                name="Breaching Channels"
-                prop="breachingChannels"
-                [width]="150"
-                [canAutoResize]="false"
-              >
-                <ng-template
-                  let-value="value"
-                  ngx-datatable-cell-template
-                >
-                  {{ value.length }}
-                </ng-template>
+                </td>
+              </ng-container>
 
-              </ngx-datatable-column>
-            </ngx-datatable>
+              <!-- Symbol Column -->
+              <ng-container matColumnDef="breachingChannels.length">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                >Breaching Channels</th>
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                >{{element. breachingChannels.length}}</td>
+              </ng-container>
+
+              <tr
+                mat-header-row
+                *matHeaderRowDef="alertColumns; sticky:true"
+              ></tr>
+              <tr
+                mat-row
+                (click)="alertSelection.toggle(row)"
+                *matRowDef="let row; columns: alertColumns;"
+              ></tr>
+            </table>
           </div>
-          <div>
-            <ngx-datatable
-              id="channel-table"
-              *ngIf="selectedAlert as alert"
-              class="channel-table"
-              [scrollbarV]="true"
-              [columns]="columns"
-              [rows]="alert.breachingChannels"
-              [rowHeight]="25"
-              [scrollbarV]="true"
+          <div
+            *ngIf="selectedAlert"
+            class="alert-table-container"
+            id="breaching-channels-table"
+          >
+            <table
+              mat-table
+              matSort
+              [dataSource]="breachingChannelsDataSource"
             >
-            </ngx-datatable>
-          </div>
+              <!-- Symbol Column -->
+              <ng-container matColumnDef="channel">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                >Channel</th>
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                >{{element.channel}}</td>
+              </ng-container>
+              <!-- Symbol Column -->
+              <ng-container [matColumnDef]="monitor.stat">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                >Value ({{monitor.stat}})</th>
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                >{{element[monitor.stat]}}</td>
+              </ng-container>
 
+              <tr
+                mat-header-row
+                *matHeaderRowDef="breachingChannelColumns; sticky:true"
+              ></tr>
+              <tr
+                mat-row
+                *matRowDef="let row; columns: breachingChannelColumns;"
+              ></tr>
+            </table>
+          </div>
         </div>
 
 

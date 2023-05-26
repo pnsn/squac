@@ -1,9 +1,19 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
+import { SelectionChange, SelectionModel } from "@angular/cdk/collections";
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
+import { MatSort } from "@angular/material/sort";
+import { MatTable, MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ColumnMode, SelectionType } from "@boring.devs/ngx-datatable";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { MessageService } from "@core/services/message.service";
+import { nestedPropertyDataAccessor } from "@core/utils/utils";
 import { DATE_PICKER_TIMERANGES } from "@dashboard/components/dashboard-detail/dashboard-time-ranges";
 import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
 import {
@@ -11,7 +21,7 @@ import {
   TableOptions,
 } from "@shared/components/table-view/interfaces";
 import { connect } from "echarts";
-import { forkJoin, Observable, Subscription, switchMap, tap } from "rxjs";
+import { forkJoin, map, Observable, Subscription, switchMap, tap } from "rxjs";
 import {
   Alert,
   AlertService,
@@ -22,6 +32,7 @@ import {
   MetricService,
   Monitor,
   MonitorService,
+  Trigger,
   Widget,
 } from "squacapi";
 import {
@@ -45,11 +56,12 @@ enum LoadingIndicator {
   styleUrls: ["./monitor-detail.component.scss"],
   providers: [WidgetConfigService, WidgetManagerService, WidgetDataService],
 })
-export class MonitorDetailComponent implements OnInit {
+export class MonitorDetailComponent implements OnInit, AfterViewInit {
   /** monitor chart instance */
   @ViewChild("monitorChart") monitorChart;
   /** channel chart instance */
   @ViewChild("channelChart") channelChart;
+  @ViewChild(MatSort) sort: MatSort;
   /** ngxdatatable column config */
   ColumnMode = ColumnMode;
   /** ngxdatatable selection config */
@@ -118,6 +130,33 @@ export class MonitorDetailComponent implements OnInit {
   columns = [];
   /** true if trigger section should be shown */
   viewTriggers = true;
+
+  alertColumns: string[] = [
+    "select",
+    "inAlarm",
+    "timestamp",
+    "triggerId",
+    "breachingChannels.length",
+  ];
+
+  alertDataSource: MatTableDataSource<Alert> = new MatTableDataSource([]);
+
+  alertSelection = new SelectionModel<Alert>(false, []);
+
+  triggerColumns: string[] = [
+    "fullString",
+    "inAlarm",
+    "lastUpdate",
+    "alertOnOutOfAlarm",
+    "emails",
+  ];
+
+  triggerDataSource: MatTableDataSource<Trigger> = new MatTableDataSource([]);
+
+  breachingChannelColumns: string[] = ["channel", "value"];
+  breachingChannelsDataSource: MatTableDataSource<BreachingChannel> =
+    new MatTableDataSource([]);
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -132,10 +171,27 @@ export class MonitorDetailComponent implements OnInit {
     private messageService: MessageService
   ) {}
 
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+    this.alertDataSource.sort = this.sort;
+  }
   /**
    * subscribes to route params
    */
   ngOnInit(): void {
+    this.alertDataSource.sortingDataAccessor = nestedPropertyDataAccessor;
+
+    this.alertSelection.changed
+      .pipe(
+        map((s: SelectionChange<Alert>) => s.added[0]),
+        tap((a: Alert) => {
+          this.selectedAlert = a;
+          console.log(this.selectedAlert);
+          this.breachingChannelsDataSource.data = a ? a.breachingChannels : [];
+        })
+      )
+      .subscribe();
     this.columns = [
       { name: "Channel", prop: "channel" },
       {
@@ -159,6 +215,9 @@ export class MonitorDetailComponent implements OnInit {
         }),
         switchMap((data) => {
           this.monitor = data["monitor"];
+
+          this.breachingChannelColumns = ["channel", this.monitor.stat];
+          this.triggerDataSource.data = this.monitor.triggers;
           return this.loadingService.doLoading(
             forkJoin({
               channelGroup: this.channelGroupService.read(
@@ -219,6 +278,7 @@ export class MonitorDetailComponent implements OnInit {
         next: (alerts: Alert[]) => {
           this.unsavedChanges = false;
           this.alerts = alerts;
+          this.alertDataSource.data = alerts;
           this.changeDetector.detectChanges();
           this.channelChart?.updateData();
           this.monitorChart?.updateData();
