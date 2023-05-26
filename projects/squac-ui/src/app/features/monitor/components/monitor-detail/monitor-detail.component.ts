@@ -61,11 +61,8 @@ export class MonitorDetailComponent implements OnInit, AfterViewInit {
   @ViewChild("monitorChart") monitorChart;
   /** channel chart instance */
   @ViewChild("channelChart") channelChart;
+  /** Mat sort directive, used to enable sorting on */
   @ViewChild(MatSort) sort: MatSort;
-  /** ngxdatatable column config */
-  ColumnMode = ColumnMode;
-  /** ngxdatatable selection config */
-  SelectionType = SelectionType;
   /** true if page has an error */
   error: boolean;
   /** alerts for monitor */
@@ -108,29 +105,11 @@ export class MonitorDetailComponent implements OnInit, AfterViewInit {
     },
     path: "/monitors",
   };
-  /** controls for table config */
-  controls: TableControls = {
-    listenToRouter: true,
-    resource: "Monitor",
-    add: {
-      text: "Add Monitor",
-      path: "/monitors",
-    },
-    links: [{ text: "View All Monitors", path: "/monitors" }],
-  };
 
-  /** table options config */
-  options: TableOptions = {
-    messages: {
-      emptyMessage: "No alerts found.",
-    },
-    footerLabel: "Alerts",
-  };
-  /** table columns */
-  columns = [];
   /** true if trigger section should be shown */
   viewTriggers = true;
 
+  /** columns shown in alert table */
   alertColumns: string[] = [
     "select",
     "inAlarm",
@@ -138,11 +117,12 @@ export class MonitorDetailComponent implements OnInit, AfterViewInit {
     "triggerId",
     "breachingChannels.length",
   ];
-
+  /** alert table data source */
   alertDataSource: MatTableDataSource<Alert> = new MatTableDataSource([]);
-
+  /** selection on alert table */
   alertSelection = new SelectionModel<Alert>(false, []);
 
+  /** columns for trigger table */
   triggerColumns: string[] = [
     "fullString",
     "inAlarm",
@@ -150,10 +130,11 @@ export class MonitorDetailComponent implements OnInit, AfterViewInit {
     "alertOnOutOfAlarm",
     "emails",
   ];
-
+  /** trigger table datasource */
   triggerDataSource: MatTableDataSource<Trigger> = new MatTableDataSource([]);
-
+  /** breaching channel table columns, set in OnInit */
   breachingChannelColumns: string[] = [];
+  /** breaching channels table data source */
   breachingChannelsDataSource: MatTableDataSource<BreachingChannel> =
     new MatTableDataSource([]);
 
@@ -171,9 +152,8 @@ export class MonitorDetailComponent implements OnInit, AfterViewInit {
     private messageService: MessageService
   ) {}
 
+  /** @ignore */
   ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
     this.alertDataSource.sort = this.sort;
     this.triggerDataSource.sort = this.sort;
     this.breachingChannelsDataSource.sort = this.sort;
