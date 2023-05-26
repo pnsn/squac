@@ -74,6 +74,7 @@
           mat-table
           matSort
           matSortActive="lastUpdate"
+          matSortDirection="desc"
           [dataSource]="triggerDataSource"
           id="trigger-table"
         >
@@ -288,6 +289,8 @@
             <table
               mat-table
               matSort
+              matSortActive="channel"
+              matSortDirection="asc"
               [dataSource]="breachingChannelsDataSource"
             >
               <!-- Symbol Column -->
@@ -296,6 +299,7 @@
                   mat-header-cell
                   *matHeaderCellDef
                   mat-sort-header
+                  sortActionDescription="sort by channel scnl"
                 >Channel</th>
                 <td
                   mat-cell
@@ -308,6 +312,7 @@
                   mat-header-cell
                   *matHeaderCellDef
                   mat-sort-header
+                  sortActionDescription="sort by channel value"
                 >Value ({{monitor.stat}})</th>
                 <td
                   mat-cell

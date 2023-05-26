@@ -153,7 +153,7 @@ export class MonitorDetailComponent implements OnInit, AfterViewInit {
 
   triggerDataSource: MatTableDataSource<Trigger> = new MatTableDataSource([]);
 
-  breachingChannelColumns: string[] = ["channel", "value"];
+  breachingChannelColumns: string[] = [];
   breachingChannelsDataSource: MatTableDataSource<BreachingChannel> =
     new MatTableDataSource([]);
 
@@ -175,6 +175,8 @@ export class MonitorDetailComponent implements OnInit, AfterViewInit {
     //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     //Add 'implements AfterViewInit' to the class.
     this.alertDataSource.sort = this.sort;
+    this.triggerDataSource.sort = this.sort;
+    this.breachingChannelsDataSource.sort = this.sort;
   }
   /**
    * subscribes to route params
@@ -187,26 +189,10 @@ export class MonitorDetailComponent implements OnInit, AfterViewInit {
         map((s: SelectionChange<Alert>) => s.added[0]),
         tap((a: Alert) => {
           this.selectedAlert = a;
-          console.log(this.selectedAlert);
           this.breachingChannelsDataSource.data = a ? a.breachingChannels : [];
         })
       )
       .subscribe();
-    this.columns = [
-      { name: "Channel", prop: "channel" },
-      {
-        name: "Value",
-        prop: "",
-        pipe: {
-          transform: (row: BreachingChannel): number => {
-            return row[this.monitor.stat];
-          },
-        },
-        comparator: (a: BreachingChannel, b: BreachingChannel): number => {
-          return a[this.monitor.stat] - b[this.monitor.stat];
-        },
-      },
-    ];
 
     const chanSub = this.route.data
       .pipe(
@@ -309,17 +295,6 @@ export class MonitorDetailComponent implements OnInit, AfterViewInit {
         this.messageService.error("Could not delete monitor");
       },
     });
-  }
-
-  /**
-   * Select alert on table and store t selectedAlert
-   *
-   * @param event selection event
-   */
-  selectAlert(event): void {
-    if (event.selected) {
-      this.selectedAlert = event.selected[0];
-    }
   }
 
   /**
