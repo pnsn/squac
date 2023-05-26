@@ -7,19 +7,14 @@ import {
   ViewChild,
 } from "@angular/core";
 import { MatSort } from "@angular/material/sort";
-import { MatTable, MatTableDataSource } from "@angular/material/table";
+import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ColumnMode, SelectionType } from "@boring.devs/ngx-datatable";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { MessageService } from "@core/services/message.service";
 import { nestedPropertyDataAccessor } from "@core/utils/utils";
 import { DATE_PICKER_TIMERANGES } from "@dashboard/components/dashboard-detail/dashboard-time-ranges";
 import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
-import {
-  TableControls,
-  TableOptions,
-} from "@shared/components/table-view/interfaces";
 import { connect } from "echarts";
 import { forkJoin, map, Observable, Subscription, switchMap, tap } from "rxjs";
 import {
