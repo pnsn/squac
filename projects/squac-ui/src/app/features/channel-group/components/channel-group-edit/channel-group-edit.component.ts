@@ -153,52 +153,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
 
     // get orgId
     this.orgId = this.userService.userOrg;
-
-    // table columns
-    this.columns = [
-      {
-        width: 30,
-        canAutoResize: false,
-        sortable: false,
-        draggable: false,
-        resizeable: false,
-        headerCheckboxable: true,
-        checkboxable: true,
-      },
-
-      {
-        name: "Network",
-        prop: "net",
-        draggable: false,
-        sortable: true,
-        resizeable: false,
-        flexGrow: 1,
-      },
-      {
-        name: "Station",
-        prop: "net",
-        draggable: false,
-        sortable: true,
-        resizeable: false,
-        flexGrow: 1,
-      },
-      {
-        name: "Location",
-        prop: "loc",
-        draggable: false,
-        sortable: true,
-        resizeable: false,
-        flexGrow: 1,
-      },
-      {
-        name: "Channel",
-        prop: "code",
-        draggable: false,
-        sortable: true,
-        resizeable: false,
-        flexGrow: 1,
-      },
-    ];
   }
 
   /**
@@ -246,14 +200,13 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     //get all channels that aren't already in add channels
     const addChannels = this.findChannelsInGroup(this.autoIncludeChannels);
 
-    // add channels
+    // remove channels from the autoExcludeChannels list
     this.autoExcludeChannels = this.autoExcludeChannels.filter((channel) => {
       const index = addChannels.findIndex((c) => c.id === channel.id);
       return index === -1;
     });
 
     this.autoIncludeChannels = [...this.autoIncludeChannels, ...addChannels];
-    //remove from excluded
     this.selectedChannels = [];
   }
 
@@ -262,15 +215,17 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
    */
   excludeChannels(): void {
     this.updateState();
+
+    //find channels that need to be added
     const addChannels = this.findChannelsInGroup(this.autoExcludeChannels);
 
+    //remove channels from the include
     this.autoIncludeChannels = this.autoIncludeChannels.filter((channel) => {
       const index = addChannels.findIndex((c) => c.id === channel.id);
       return index === -1;
     });
 
     this.autoExcludeChannels = [...this.autoExcludeChannels, ...addChannels];
-    //remove from included
     this.selectedChannels = [];
   }
 

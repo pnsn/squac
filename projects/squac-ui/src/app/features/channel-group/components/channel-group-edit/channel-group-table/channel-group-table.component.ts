@@ -57,7 +57,8 @@ export class ChannelGroupTableComponent implements OnInit, OnChanges {
       this.dataSource.data = this.rows;
     }
     if (changes["selected"]) {
-      this.selection.select(...this.selected);
+      this.selection.setSelection(...this.selected);
+      console.log(this.selection.selected);
     }
   }
 
@@ -68,9 +69,8 @@ export class ChannelGroupTableComponent implements OnInit, OnChanges {
       this.channelColumns.unshift("select");
     }
 
-    this.selection.changed.subscribe((channels) => {
+    this.selection.changed.subscribe(() => {
       this.selectedChange.emit(this.selection.selected);
-      console.log("selection change", channels.added.length);
     });
   }
 
@@ -83,6 +83,7 @@ export class ChannelGroupTableComponent implements OnInit, OnChanges {
     );
     this.selection.clear();
     this.rowsChange.emit(this.rows);
+    this.selectedChange.emit(this.selection.selected);
   }
 
   /**

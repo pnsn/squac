@@ -19,14 +19,19 @@ import {
   latLng,
   LatLngBounds,
   Layer,
-  Map,
+  Map as LeafletMap,
   Marker,
   marker,
   tileLayer,
 } from "leaflet";
 import { Channel } from "squacapi";
 import { MapBounds, MapStation } from "./interfaces";
-
+interface ChannelMap {
+  included: boolean;
+  excluded: boolean;
+  searched: boolean;
+  selected: boolean;
+}
 /**
  * Shared map for channels
  */
@@ -36,10 +41,10 @@ import { MapBounds, MapStation } from "./interfaces";
   styleUrls: ["./channel-group-map.component.scss"],
 })
 export class ChannelGroupMapComponent implements OnInit, OnChanges {
-  @Input() searchedChannels: Channel[]; // channels already in group
-  @Input() autoExcludeChannels: Channel[];
-  @Input() autoIncludeChannels: Channel[];
-  @Input() selectedChannels: Channel[]; // channels selected
+  @Input() searchedChannels: Channel[] = []; // channels already in group
+  @Input() autoExcludeChannels: Channel[] = [];
+  @Input() autoIncludeChannels: Channel[] = [];
+  @Input() selectedChannels: Channel[] = []; // channels selected
   @Input() editPage: boolean; //is used on edit page or not
   @Input() showChannel: Channel; // channel to show
   @Output() showChannelChange = new EventEmitter<any>(); //channel to show changed
@@ -58,7 +63,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
   layers: Layer[];
   fitBounds: LatLngBounds;
   rectLayer: any;
-  map: Map;
+  map: LeafletMap;
   lastZoom = null;
 
   constructor(private zone: NgZone) {}
@@ -82,12 +87,9 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
       changes["autoExcludeChannels"] ||
       changes["searchedChannels"]
     ) {
-      if (changes["selectedChannels"] || changes["searchedChannels"]) {
-        console.log(this.searchedChannels.length, this.selectedChannels.length);
-      }
       this.updateMap(!!changes["showChannel"]);
     }
-    if (!changes["selectedChannels"] && changes["selectedChannels"]) {
+    if (!changes["searchedChannels"] && changes["selectedChannels"]) {
       this.selectChannels(this.showChannel);
     }
   }
@@ -149,7 +151,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
    *
    * @param map leaflet map reference
    */
-  onMapReady(map: Map): void {
+  onMapReady(map: LeafletMap): void {
     this.map = map;
     this.legend.addTo(this.map);
     setTimeout(() => {
@@ -180,6 +182,28 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     }
   }
 
+  /** creates a station object or returns existing */
+  getStation(channel: Channel, stations: MapStation[]): MapStation {
+    let station = stations.find((s) => {
+      return s.code === channel.staCode;
+    });
+
+    if (!station) {
+      // make station if there isn't one yet
+      station = {
+        code: channel.staCode,
+        lat: channel.lat,
+        lon: channel.lon,
+        autoIncludeChannels: [],
+        autoExcludeChannels: [],
+        selectedChannels: [],
+        searchedChannels: [],
+      };
+      stations.push(station);
+    }
+    return station;
+  }
+
   //TODO: too many iterations over similar groups
   /**
    * Create channel markers for each station
@@ -188,94 +212,34 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
    */
   updateMap(showChannel: boolean): void {
     const stations: MapStation[] = [];
+
+    const stationMap = new WeakMap<{
+      code: string;
+      lat: number;
+      lon: number;
+      channels: Map<string, ChannelMap>;
+    }>();
     if (this.stationLayer) {
       this.layers.pop();
       const stationMarkers = []; // Marker array
 
       this.searchedChannels?.forEach((channel) => {
-        let station = stations.find((s) => {
-          return s.code === channel.staCode;
-        });
-
-        if (!station) {
-          // make station if there isn't one yet
-          station = {
-            code: channel.staCode,
-            lat: channel.lat,
-            lon: channel.lon,
-            autoIncludeChannels: [],
-            autoExcludeChannels: [],
-            selectedChannels: [],
-            searchedChannels: [],
-          };
-          stations.push(station);
-        }
-
+        const station = this.getStation(channel, stations);
         station.searchedChannels.push(channel);
       });
 
       this.autoIncludeChannels?.forEach((channel) => {
-        let station = stations.find((s) => {
-          return s.code === channel.staCode;
-        });
-
-        if (!station) {
-          // make station if there isn't one yet
-          station = {
-            code: channel.staCode,
-            lat: channel.lat,
-            lon: channel.lon,
-            autoIncludeChannels: [],
-            autoExcludeChannels: [],
-            selectedChannels: [],
-            searchedChannels: [],
-          };
-          stations.push(station);
-        }
-
+        const station = this.getStation(channel, stations);
         station.autoIncludeChannels.push(channel);
       });
 
       this.autoExcludeChannels?.forEach((channel) => {
-        let station = stations.find((s) => {
-          return s.code === channel.staCode;
-        });
-
-        if (!station) {
-          // make station if there isn't one yet
-          station = {
-            code: channel.staCode,
-            lat: channel.lat,
-            lon: channel.lon,
-            autoIncludeChannels: [],
-            autoExcludeChannels: [],
-            selectedChannels: [],
-            searchedChannels: [],
-          };
-          stations.push(station);
-        }
-
+        const station = this.getStation(channel, stations);
         station.autoExcludeChannels.push(channel);
       });
 
       this.selectedChannels?.forEach((channel) => {
-        let station = stations.find((s) => {
-          return s.code === channel.staCode;
-        });
-
-        if (!station) {
-          station = {
-            code: channel.staCode,
-            lat: channel.lat,
-            lon: channel.lon,
-            autoIncludeChannels: [],
-            autoExcludeChannels: [],
-            selectedChannels: [],
-            searchedChannels: [],
-          };
-          stations.push(station);
-        }
-
+        const station = this.getStation(channel, stations);
         // check if station is already in the group
         const includeIndex = station.autoIncludeChannels.findIndex(
           (c) => c.id === channel.id
