@@ -48,6 +48,12 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
       this.widget.dashboardId = dashboardId;
     }
     this.metrics = this.data["metrics"];
+
+    // select widget metrics from metrics list, so they are same object
+    const temp = this.metrics.filter((metric) =>
+      this.widget.metricsIds.includes(metric.id)
+    );
+    this.widget.metrics = temp;
   }
 
   /** unsubscribe */

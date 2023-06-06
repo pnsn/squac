@@ -19,12 +19,20 @@
   justify-content: space-between;
 }
 
-#table-container {
-  display: flex;
-  flex-direction: row;
-  flex: 1 1;
-  overflow: hidden;
-  width: 100%;
-  justify-items: stretch;
-  align-items: stretch;
+// #table-container {
+//   display: flex;
+//   flex-direction: row;
+//   flex: 1 1;
+//   overflow: hidden;
+//   width: 100%;
+//   justify-items: stretch;
+//   align-items: stretch;
+// }
+
+.table-container {
+  height: 400px;
+  overflow: auto;
+  table {
+    width: 100%;
+  }
 }

@@ -1,3 +1,4 @@
+import { SelectionModel } from "@angular/cdk/collections";
 import {
   Component,
   OnInit,
@@ -9,8 +10,10 @@ import {
   OnChanges,
   AfterContentChecked,
 } from "@angular/core";
+import { MatSort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
 import { SelectionType, ColumnMode } from "@boring.devs/ngx-datatable";
-import { Metric } from "squacapi";
+import { Channel, Metric } from "squacapi";
 import { WIDGET_TYPE_INFO } from "widgets";
 import { WidgetType } from "widgets";
 
@@ -23,9 +26,7 @@ import { WidgetType } from "widgets";
   templateUrl: "./widget-edit-metrics.component.html",
   styleUrls: ["./widget-edit-metrics.component.scss"],
 })
-export class WidgetEditMetricsComponent
-  implements OnInit, OnChanges, AfterContentChecked
-{
+export class WidgetEditMetricsComponent implements OnInit, OnChanges {
   @Input() metrics: Metric[];
   @Input() selectedMetrics: Metric[];
   @Input() type: WidgetType;
@@ -34,52 +35,25 @@ export class WidgetEditMetricsComponent
   minLength = 1;
   done = false;
 
-  @ViewChild("metricTable") metricTable;
-  // table config
-  selected: Metric[] = [];
-  SelectionType = SelectionType;
-  ColumnMode = ColumnMode;
-  rows: Metric[] = [];
   columns: any[] = [];
+
+  /** Mat sort directive, used to enable sorting on */
+  @ViewChild(MatSort) sort: MatSort;
+  /** columns shown in table */
+  metricColumns: string[] = ["select", "name", "unit", "description"];
+  /** alert table data source */
+  dataSource: MatTableDataSource<Metric> = new MatTableDataSource([]);
+  /** selection on alert table */
+  selection: SelectionModel<Metric> = new SelectionModel(true, []);
 
   /** init columns */
   ngOnInit(): void {
-    this.columns = [
-      {
-        width: 30,
-        canAutoResize: false,
-        sortable: false,
-        draggable: false,
-        resizeable: false,
-        headerCheckboxable: true,
-        checkboxable: true,
-      },
-      {
-        name: "Name",
-        flexGrow: 2,
-      },
-      {
-        name: "Unit",
-        width: 50,
-        canAutoResize: false,
-        resizeable: true,
-      },
-      {
-        name: "Description",
-        flexGrow: 4,
-      },
-    ];
-  }
+    this.dataSource.sort = this.sort;
 
-  /** after ciontent checked, update selected metrics */
-  ngAfterContentChecked(): void {
-    if (this.selectedMetrics) {
-      const temp = this.metrics.filter((metric) => {
-        return this.selectedMetrics.findIndex((m) => m.id === metric.id) > -1;
-      });
-      this.selected = [...temp];
+    this.selection.changed.subscribe(() => {
+      this.selectedMetricsChange.emit(this.selection.selected);
       this.checkValid();
-    }
+    });
   }
 
   /**
@@ -88,9 +62,11 @@ export class WidgetEditMetricsComponent
    * @param changes config changes
    */
   ngOnChanges(changes: SimpleChanges): void {
-    //update metrics
-    if (this.columns && changes["metrics"] && changes["metrics"].currentValue) {
-      this.rows = [...this.metrics];
+    if (changes["metrics"]) {
+      this.dataSource.data = this.metrics;
+    }
+    if (changes["selectedMetrics"]) {
+      this.selection.setSelection(...this.selectedMetrics);
     }
 
     // change min length when type changes
@@ -102,15 +78,21 @@ export class WidgetEditMetricsComponent
   }
 
   /**
-   * emit metrics when changed
+   * Whether the number of selected elements matches the total number of rows
    *
-   * @param event selection
-   * @param event.selected selected metrics
-   */
-  metricsSelected({ selected }): void {
-    this.selected = [...selected];
-    this.selectedMetricsChange.emit(selected);
-    this.checkValid();
+   *  @returns true if all rows are selected
+   * */
+  isAllSelected(): boolean {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected == numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  toggleAllRows(): void {
+    this.isAllSelected()
+      ? this.selection.clear()
+      : this.dataSource.data.forEach((row) => this.selection.select(row));
   }
 
   /**
@@ -130,12 +112,7 @@ export class WidgetEditMetricsComponent
   updateFilter(event): void {
     const val = event.target.value.toLowerCase();
 
+    this.dataSource.filter = val;
     // filter our data
-    const temp = this.metrics.filter((d) => {
-      return d.name.toLowerCase().indexOf(val) !== -1 || !val;
-    });
-
-    // update the rows
-    this.rows = [...temp];
   }
 }
