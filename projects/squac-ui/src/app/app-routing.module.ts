@@ -102,7 +102,7 @@ const appRoutes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(appRoutes, {
-      relativeLinkResolution: "corrected",
+      // relativeLinkResolution: "corrected",
       paramsInheritanceStrategy: "always",
       anchorScrolling: "enabled",
     }),

@@ -2,10 +2,10 @@
   "name": "widgets",
   "version": "0.0.1",
   "peerDependencies": {
-    "@angular/common": "^14.2.6",
-    "@angular/core": "^14.2.6",
-    "@angular/platform-browser": "^14.2.6",
-    "@pnsn/ngx-squacapi-client": "~2.1.12-alpha.5",
+    "@angular/common": "^15.0.0",
+    "@angular/core": "^15.0.0",
+    "@angular/platform-browser": "^15.0.0",
+    "@pnsn/ngx-squacapi-client": "^2.2.0",
     "dayjs": "^1.10.7",
     "echarts": "^5.3.2",
     "leaflet": "^1.6.0",
@@ -15,14 +15,5 @@
   },
   "dependencies": {
     "tslib": "^2.3.0"
-  },
-  "devDependencies": {
-    "@pnsn/ngx-squacapi-client": "~2.1.12-alpha.5",
-    "dayjs": "^1.10.7",
-    "echarts": "^5.3.2",
-    "leaflet": "^1.6.0",
-    "colormap": "^2.3.2",
-    "ngx-echarts": "^14.0.0",
-    "@asymmetrik/ngx-leaflet": "^14.0.1"
   }
 }
