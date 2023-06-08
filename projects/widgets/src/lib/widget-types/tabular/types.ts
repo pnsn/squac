@@ -19,7 +19,7 @@ export interface Row {
   /** count of out of spec metrics or channels */
   agg: number;
   /** metric data for row */
-  metrics: RowMetrics;
+  metrics?: RowMetrics;
   /** child rows to show on expand */
   children?: Row[];
   /** on a station, the worst channel's agg */

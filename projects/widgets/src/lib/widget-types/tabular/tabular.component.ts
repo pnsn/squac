@@ -2,19 +2,10 @@ import {
   Component,
   ViewChild,
   OnDestroy,
-  TemplateRef,
   OnInit,
   NgZone,
   ChangeDetectorRef,
 } from "@angular/core";
-import {
-  ColumnMode,
-  DataTableColumnCellDirective,
-  DataTableColumnHeaderDirective,
-  DatatableComponent,
-  SelectionType,
-  SortType,
-} from "@boring.devs/ngx-datatable";
 import {
   WidgetConnectService,
   WidgetManagerService,
@@ -306,9 +297,9 @@ export class TabularComponent
             const stationRow: Row = {
               title: stationId,
               children: [],
-              metrics: {},
+              metrics: null,
               agg: 0,
-              channelAgg: 0,
+              channelAgg: null,
             };
             stationRowsMap.set(stationId, stationRow);
           }
@@ -347,16 +338,8 @@ export class TabularComponent
           if (!inSpec) {
             channelRow.agg++;
           }
-
-          if (stationRow && !stationRow.metrics[metric.code]) {
-            stationRow.metrics[metric.code] = {
-              value: null,
-              color: null,
-              inSpec,
-            };
-          }
-
           if (this.properties.displayType === "stoplight" && visualMap) {
+            if (!stationRow.metrics) stationRow.metrics = {};
             this.stationStoplight(
               metric.code,
               inSpec,
@@ -371,7 +354,7 @@ export class TabularComponent
             stationRow.agg++;
           }
           if (this.properties.displayType === "worst") {
-            if (!stationRow.metrics || channelRow.agg > stationRow.agg) {
+            if (!stationRow.metrics || channelRow.agg > stationRow.channelAgg) {
               stationRow.metrics = channelRow.metrics;
               stationRow.channelAgg = channelRow.agg;
             }
@@ -405,6 +388,14 @@ export class TabularComponent
     stationRow: Row,
     visualMap: StoplightVisualMapOption
   ): void {
+    if (!stationRow.metrics[code]) {
+      stationRow.metrics[code] = {
+        value: 0,
+        color: null,
+        inSpec,
+      };
+    }
+
     const stationMetric = stationRow.metrics[code];
     if (!inSpec) {
       stationMetric.value++;

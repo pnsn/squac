@@ -5,7 +5,10 @@
     [dataSource]="dataSource"
     multiTemplateDataRows
   >
-    <ng-container matColumnDef="expand">
+    <ng-container
+      matColumnDef="expand"
+      sticky
+    >
       <th
         mat-header-cell
         *matHeaderCellDef
@@ -59,7 +62,7 @@
         mat-cell
         *matCellDef="let row"
       >
-        {{row.agg}}
+        {{row.channelAgg ?? row.agg}}
 
       </td>
     </ng-container>
@@ -77,6 +80,7 @@
       <td
         mat-cell
         *matCellDef="let row"
+        [ngStyle]="{ 'background-color': !showKey || properties.displayType === 'stoplight' ? row.metrics[metric.code]?.color : 'white' }"
       >
         <ng-container *ngIf="row.metrics[metric.code] as metricData; else noValue">
           <ng-container
@@ -98,79 +102,6 @@
       (click)="row.children ? expandRow(row) : expandedElement = null"
     >
     </tr>
-
-    <!-- <ng-container *ngIf="expandedElement">
-      <ng-container *ngFor="let child of expandedElement.children">
-        <tr
-          mat-row
-          *matRowDef="let row; columns: columns;"
-          class="example-detail-row"
-        >
-        </tr>
-
-      </ng-container>
-
-    </ng-container> -->
-
-
-    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-    <ng-container matColumnDef="expandedDetail">
-      <ng-container class="example-element-detail">
-        <td
-          mat-cell
-          *matCellDef="let row"
-          [attr.colspan]="columns.length"
-        >
-          <table
-            class="element-detail-table"
-            mat-table
-            [dataSource]="row.children"
-            [@detailExpand]="row === expandedElement ? 'expanded' : 'collapsed'"
-          >
-            <ng-container matColumnDef="title">
-              <td
-                mat-cell
-                *matCellDef="let row"
-              >
-                {{row.title}}
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="agg">
-              <td
-                mat-cell
-                *matCellDef="let row"
-              >
-                {{row.agg}}
-              </td>
-            </ng-container>
-            <ng-container
-              *ngFor="let metric of selectedMetrics"
-              [matColumnDef]="metric.code"
-            >
-              <td
-                mat-cell
-                *matCellDef="let row"
-              >
-                <ng-container *ngIf="row[metric.code] as value; else noValue">
-                  <ng-container *ngTemplateOutlet="cell; value">
-                  </ng-container>
-                </ng-container>
-              </td>
-            </ng-container>
-            <tr
-              mat-row
-              *matRowDef="let row; columns: columns;"
-            ></tr>
-          </table>
-
-        </td>
-
-      </ng-container>
-
-
-
-    </ng-container>
-
   </table>
 </div>
 
@@ -183,23 +114,18 @@
     <span
       *ngIf="properties.displayType === 'stoplight'; else notStoplight"
       class="cell-full"
-      [ngClass]="{ border: color === 'white' }"
       [ngStyle]="{ 'background-color': color }"
     ></span>
     <ng-template #notStoplight>
       <div
         *ngIf="showKey"
         class="cell-icon"
-        [ngClass]="{ border: color === 'white' }"
         [ngStyle]="{ 'background-color': color }"
       ></div>
       <span *ngIf="showKey">{{ value | precision }}</span>
       <div
         *ngIf="!showKey"
         class="cell-full"
-        [ngClass]="{
-  border: color === 'gray' || color === '#808080'
-}"
         [ngStyle]="{ 'background-color': color, color }"
       >
         <span>
