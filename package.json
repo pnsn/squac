@@ -31,7 +31,6 @@
     "@angular/router": "^14.2.6",
     "@asymmetrik/ngx-leaflet": "^14.0.1",
     "@asymmetrik/ngx-leaflet-draw": "^14.0.1",
-    "@boring.devs/ngx-datatable": "^20.0.0",
     "@casl/ability": "^6.3.1",
     "@casl/angular": "^8.1.0",
     "@pnsn/ngx-squacapi-client": "~2.1.12-alpha.5",

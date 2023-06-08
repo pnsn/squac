@@ -79,108 +79,104 @@
     </div>
   </div>
   <div id="table-body">
-    <ngx-datatable
-      #table
-      id="shared-data-table"
-      class="shared-view-table full"
-      [rows]="tableRows"
-      [columns]="tableColumns"
-      [columnMode]="tableOptions.columnMode"
-      [selectionType]="tableOptions.selectionType"
-      [headerHeight]="tableOptions.headerHeight"
-      [footerHeight]="tableOptions.footerHeight"
-      [rowHeight]="tableOptions.rowHeight"
-      [limit]="tableOptions.limit"
-      [reorderable]="tableOptions.reorderable"
-      [scrollbarH]="tableOptions.scrollbarH"
-      [scrollbarV]="tableOptions.scrollbarV"
-      [sortType]="tableOptions.sortType"
-      [sorts]="tableOptions.sorts"
-      [messages]="tableOptions.messages"
-      (select)="onSelect($event)"
-      [selected]="selected"
-      [groupRowsBy]="tableOptions.groupRowsBy"
-      [groupExpansionDefault]="tableOptions.groupExpansionDefault"
-      [selectAllRowsOnPage]="tableOptions.selectAllRowsOnPage"
-      [virtualization]="tableOptions.virtualization"
-      [loadingIndicator]="isLoading"
+    <table
+      mat-table
+      matSort
+      [dataSource]="dataSource"
     >
-      <ngx-datatable-group-header
-        [rowHeight]="50"
-        *ngIf="groupHeaderTemplate"
+      <ng-container
+        *ngFor="let column of columns"
+        [matColumnDef]="column.columnDef"
       >
-        <ng-template
-          let-group="group"
-          let-expanded="expanded"
-          ngx-datatable-group-header-template
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
         >
-          <div
-            (click)="selectGroupHeader(group)"
-            class="group-header-container"
-            [ngClass]="selectedGroupKey === group.key ? 'active' : ''"
-          >
-            <ng-container
-              [ngTemplateOutlet]="groupHeaderTemplate"
-              [ngTemplateOutletContext]="{ group: group, expanded: expanded }"
-            ></ng-container>
-          </div>
-        </ng-template>
-      </ngx-datatable-group-header>
-      <ngx-datatable-row-detail
-        #rowDetail
-        [rowHeight]="50"
-        *ngIf="rowDetailTemplate"
-      >
-        <ng-template
-          let-row="row"
-          ngx-datatable-row-detail-template
-        >
-          <ng-container
-            [ngTemplateOutlet]="rowDetailTemplate"
-            [ngTemplateOutletContext]="{ row: row }"
-          ></ng-container>
-        </ng-template>
-      </ngx-datatable-row-detail>
-      <ngx-datatable-footer>
-        <ng-template
-          ngx-datatable-footer-template
-          let-selectedCount="selectedCount"
-          let-rowCount="rowCount"
-          let-pageSize="pageSize"
-          let-curPage="curPage"
-          let-offset="offset"
-        >
-          <ng-container *ngIf="!tableFooterTemplate">
-            <div></div>
-            <div>
-              Showing {{ tableRows?.length }} of {{ rows?.length }}
-              {{
-              tableOptions.footerLabel
-              ? tableOptions.footerLabel
-              : controls.resource + "s"
-              }}
-            </div>
+          {{column.name}}
+        </th>
+        <ng-container [ngSwitch]="column.columnDef">
+          <ng-container *ngSwitchCase="'owner'">
+            <td
+              mat-cell
+              *matCellDef="let row"
+            >
+              {{row.owner | user}}
+            </td>
+
           </ng-container>
-          <ng-container
-            [ngTemplateOutlet]="tableFooterTemplate"
-            [ngTemplateOutletContext]="{
-              rowCount: rowCount,
-              selectedCount: selectedCount
-            }"
-          ></ng-container>
-        </ng-template>
-      </ngx-datatable-footer>
-      <ng-template
-        ngx-datatable-cell-template
-        let-row="row"
-        #nameTemplate
+          <ng-container *ngSwitchCase="'organization'">
+            <td
+              mat-cell
+              *matCellDef="let row"
+            >
+              {{row.orgId | organization}}
+
+            </td>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'name'">
+            <td
+              mat-cell
+              *matCellDef="let row"
+            >
+              <a
+                *ngIf="tableOptions.autoRouteToDetail; else noLink"
+                [routerLink]="[row.id]"
+              >{{ row.name }}</a>
+              <ng-template #noLink>{{row.name}}</ng-template>
+
+
+            </td>
+          </ng-container>
+          <ng-container *ngSwitchCase="'sharing'">
+            <td
+              mat-cell
+              *matCellDef="let row"
+            >
+
+              <ng-container *ngIf="row.shareAll; else private"> public </ng-container>
+              <ng-template #private>
+                {{ row.shareOrg ? (row.orgId | organization) : "private" }}
+              </ng-template>
+
+
+            </td>
+          </ng-container>
+
+          <ng-container *ngSwitchDefault>
+
+            <td
+              mat-cell
+              *matCellDef="let row"
+            >
+              <ng-container *ngIf="column.cellTemplate; else noTemplate">
+                <ng-container
+                  *ngTemplateOutlet="column.cellTemplate; context:{row:row, value: row[column.columnDef]}"></ng-container>
+
+              </ng-container>
+              <ng-template #noTemplate> {{row[column.columnDef]}}</ng-template>
+            </td>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+      <tr
+        mat-header-row
+        *matHeaderRowDef="tableColumns; sticky:true"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: tableColumns;"
+        (click)="selectRow(row)"
+        [ngClass]="{'selected': selection.isSelected(row)}"
       >
-        <a [routerLink]="[row.id]">{{ row.name }}</a>
-      </ng-template>
-      <!-- <ng-template ngx-datatable-cell-template let-row="row" #checkboxTemplate>
-        <mat-checkbox (click)="checkboxChecked(row)"></mat-checkbox>
-      </ng-template> -->
-    </ngx-datatable>
+      </tr>
+      <!-- <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr> -->
+      <!-- Row shown when there is no matching data. -->
+      <!-- <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+    </tr> -->
+    </table>
   </div>
 </div>
 

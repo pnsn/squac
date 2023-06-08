@@ -35,6 +35,13 @@
           this organization.
         </p>
       </ng-container>
+      <ng-template
+        #booleanTemplate
+        let-value="value"
+      >
+        {{value ? "yes": "no"}}
+      </ng-template>
+
     </shared-table-view>
     <div class="title">
       <h3>Squac User Roles (additive):</h3>

@@ -1,4 +1,11 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewChild,
+  TemplateRef,
+  AfterViewInit,
+} from "@angular/core";
 import { OrganizationService } from "squacapi";
 import { User } from "squacapi";
 import { Organization } from "squacapi";
@@ -11,6 +18,7 @@ import { OrganizationUserService } from "squacapi";
 import { Observable } from "rxjs";
 import {
   MenuAction,
+  TableColumn,
   TableControls,
   TableFilters,
   TableOptions,
@@ -25,7 +33,9 @@ import { PageOptions } from "@shared/components/detail-page/detail-page.interfac
   templateUrl: "./organization-detail.component.html",
   styleUrls: ["./organization-detail.component.scss"],
 })
-export class OrganizationDetailComponent implements OnInit, OnDestroy {
+export class OrganizationDetailComponent
+  implements OnInit, OnDestroy, AfterViewInit
+{
   subscription: Subscription = new Subscription();
   organization: Organization;
   orgId: number;
@@ -38,7 +48,7 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
 
   // table config
   rows = [];
-  columns = [];
+  columns: TableColumn[] = [];
   selectedId: number;
   selected: User;
 
@@ -87,6 +97,8 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
       description: "can add metrics and measurements.",
     },
   ];
+
+  @ViewChild("booleanTemplate") booleanTemplate: TemplateRef<any>;
   constructor(
     private orgService: OrganizationService,
     private orgUserService: OrganizationUserService,
@@ -113,6 +125,7 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
             (this.user.isOrgAdmin && this.user.orgId === this.organization.id);
 
           if (this.isAdmin) {
+            console.log("is admin");
             this.controls.menu = {
               text: "Actions",
               path: "user",
@@ -133,8 +146,11 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
                 },
               ],
             };
+            this.columns.splice(1, 0, {
+              name: "Email",
+              columnDef: "email",
+            });
           }
-          this.buildColumns();
         })
       )
       .subscribe();
@@ -142,6 +158,29 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
     this.subscription.add(orgSub);
   }
 
+  ngAfterViewInit(): void {
+    this.columns = [
+      ...this.columns,
+      {
+        name: "Name",
+        columnDef: "fullName",
+      },
+      {
+        name: "Groups",
+        columnDef: "groups",
+      },
+      {
+        name: "Is Admin",
+        columnDef: "isAdmin",
+        cellTemplate: this.booleanTemplate,
+      },
+      {
+        name: "Is Active", //Admin only
+        columnDef: "isActive",
+        cellTemplate: this.booleanTemplate,
+      },
+    ];
+  }
   /**
    * Get new organization data
    *
@@ -160,52 +199,6 @@ export class OrganizationDetailComponent implements OnInit, OnDestroy {
           return EMPTY;
         })
       );
-  }
-
-  /**
-   * Make columns for table
-   */
-  buildColumns(): void {
-    this.columns = [
-      {
-        name: "Name",
-        prop: "",
-        // canAutoResize: false,
-        // width: 70,
-        pipe: {
-          transform: (row: User): string => {
-            return row ? row.firstname + " " + row.lastname : "";
-          },
-        },
-      },
-      {
-        name: "Groups",
-        pipe: {
-          transform: (groups): string => {
-            return groups ? Array.from(groups).join(", ") : "";
-          },
-        },
-      },
-      {
-        name: "Is Admin",
-        prop: "isAdmin",
-        canAutoResize: false,
-        width: 100,
-      },
-      {
-        name: "Is Active", //Admin only
-        prop: "isActive",
-        canAutoResize: false,
-        width: 100,
-      },
-    ];
-
-    if (this.isAdmin) {
-      this.columns.splice(1, 0, {
-        name: "Email", //FIXME: admin only
-        draggable: false,
-      });
-    }
   }
 
   /**

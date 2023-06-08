@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ChannelGroup, MatchingRule } from "squacapi";
 import { Router, ActivatedRoute } from "@angular/router";
-import { ColumnMode, SelectionType } from "@boring.devs/ngx-datatable";
 import { Subscription, tap } from "rxjs";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { MessageService } from "@core/services/message.service";
@@ -27,8 +26,6 @@ export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
   selectedChannels = [];
   channels: Channel[];
   // table config
-  ColumnMode = ColumnMode;
-  SelectionType = SelectionType;
   selectedRows = [];
 
   /** Config for detail page */

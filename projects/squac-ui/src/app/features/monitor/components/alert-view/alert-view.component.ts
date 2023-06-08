@@ -16,6 +16,7 @@ import { AlertService } from "squacapi";
 import { catchError, EMPTY, Subscription, switchMap, tap } from "rxjs";
 import { Observable } from "rxjs";
 import {
+  TableColumn,
   TableControls,
   TableFilters,
   TableOptions,
@@ -52,7 +53,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
   /** table rows */
   rows = [];
   /** table columns */
-  columns = [];
+  columns: TableColumn[] = [];
   /** search params */
   params: {
     timestampGte: string;
@@ -90,6 +91,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /** config for table */
   options: TableOptions = {
+    autoRouteToDetail: false,
     messages: {
       emptyMessage: "No alerts found.",
     },
@@ -112,6 +114,37 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     private cdr: ChangeDetectorRef
   ) {}
 
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+
+    this.columns = [
+      {
+        name: "State",
+        columnDef: "inAlarm",
+        cellTemplate: this.stateTemplate,
+      },
+      {
+        name: "Time",
+        columnDef: "timestamp",
+      },
+      {
+        name: "Monitor",
+        columnDef: "monitorName",
+        cellTemplate: this.monitorTemplate,
+      },
+      {
+        name: "Trigger",
+        columnDef: "trigger",
+        cellTemplate: this.triggerTemplate,
+      },
+      {
+        name: "Breaching Channels",
+        columnDef: "breachingChannels",
+        cellTemplate: this.channelsTemplate,
+      },
+    ];
+  }
   /** subscribe to route events */
   ngOnInit(): void {
     const monitorsSub = this.route.params
@@ -123,47 +156,6 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe();
 
     this.subscription.add(monitorsSub);
-  }
-
-  /** Set up columns */
-  ngAfterViewInit(): void {
-    this.columns = [
-      {
-        name: "State",
-        prop: "inAlarm",
-        width: 70,
-        minWidth: 70,
-        canAutoResize: false,
-        cellTemplate: this.stateTemplate,
-      },
-      {
-        name: "Time",
-        prop: "timestamp",
-        width: 160,
-        canAutoResize: false,
-        comparator: sortTimestamps,
-      },
-      {
-        name: "Monitor",
-        prop: "monitorName",
-        width: 150,
-        cellTemplate: this.monitorTemplate,
-      },
-      {
-        name: "Trigger",
-        width: 200,
-        cellTemplate: this.triggerTemplate,
-        sortable: false,
-      },
-      {
-        name: "Breaching Channels",
-        prop: "breachingChannels",
-        width: 150,
-        canAutoResize: false,
-        cellTemplate: this.channelsTemplate,
-      },
-    ];
-    this.cdr.detectChanges();
   }
 
   /**

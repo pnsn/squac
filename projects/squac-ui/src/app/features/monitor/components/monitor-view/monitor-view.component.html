@@ -18,12 +18,18 @@
       (refresh)="refresh()"
     >
     </shared-table-view>
-    <ng-template let-value="value" #stateTemplate>
-      <monitor-alarm-status [inAlarm]="value"></monitor-alarm-status>
+    <ng-template
+      let-row="row"
+      #stateTemplate
+    >
+      <monitor-alarm-status [inAlarm]="row.inAlarm"></monitor-alarm-status>
     </ng-template>
-    <ng-template let-value="value" #updateTemplate>
-      <ng-container *ngIf="value; else noAlert">
-        {{ value }}
+    <ng-template
+      let-row="row"
+      #updateTemplate
+    >
+      <ng-container *ngIf="row.lastUpdate; else noAlert">
+        {{ row.lastUpdate }}
       </ng-container>
       <ng-template #noAlert>no alerts</ng-template>
     </ng-template>

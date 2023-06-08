@@ -29,7 +29,6 @@
             "styles": [
               "projects/squac-ui/src/styles.scss",
               "projects/squac-ui/src/styles/material.scss",
-              "projects/squac-ui/src/styles/datatables.scss",
               "projects/squac-ui/src/styles/date-range-picker.scss"
             ],
             "stylePreprocessorOptions": {

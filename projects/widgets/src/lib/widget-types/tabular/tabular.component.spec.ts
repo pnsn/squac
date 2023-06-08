@@ -6,7 +6,6 @@ import { WidgetConfigService } from "../../services/widget-config.service";
 import { MockBuilder } from "ng-mocks";
 import { WidgetConnectService } from "../../services/widget-connect.service";
 import { of } from "rxjs";
-import { NgxDatatableModule } from "@boring.devs/ngx-datatable";
 import { WidgetManagerService } from "../../services/widget-manager.service";
 
 describe("TabularComponent", () => {
@@ -17,7 +16,6 @@ describe("TabularComponent", () => {
     return MockBuilder(TabularComponent)
       .mock(ViewService)
       .mock(WidgetConfigService)
-      .mock(NgxDatatableModule)
       .provide({
         provide: WidgetManagerService,
         useValue: {

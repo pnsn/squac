@@ -18,8 +18,6 @@ import {
   TableFilters,
   TableOptions,
 } from "@shared/components/table-view/interfaces";
-import { SelectionType } from "@boring.devs/ngx-datatable";
-import { sortTimestamps } from "@core/utils/utils";
 import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
 
 /**
@@ -90,7 +88,6 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
   };
 
   options: TableOptions = {
-    selectionType: SelectionType.single,
     messages: {
       emptyMessage: "No monitors found.",
     },
@@ -98,7 +95,6 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
   };
 
   // table templates
-  @ViewChild("monitorTable") table: any;
   @ViewChild("stateTemplate") stateTemplate: any;
   @ViewChild("updateTemplate") updateTemplate: any;
 
@@ -132,43 +128,29 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.columns = [
       {
         name: "State",
-        prop: "inAlarm",
-        draggable: false,
-        width: 70,
-        minWidth: 70,
-        canAutoResize: false,
+        columnDef: "inAlarm",
         cellTemplate: this.stateTemplate,
       },
       {
         name: "Name",
-        draggable: false,
-        sortable: true,
+        columnDef: "name",
       },
       {
         name: "Last State Change",
-        prop: "lastUpdate",
-        draggable: false,
-        canAutoResize: false,
-        sortable: true,
-        width: 160,
-        minWidth: 160,
+        columnDef: "lastUpdate",
         cellTemplate: this.updateTemplate,
-        comparator: sortTimestamps,
       },
       {
         name: "Channel Group",
-        prop: "channelGroupName",
+        columnDef: "channelGroupName",
       },
       {
         name: "Metric",
-        prop: "metricName",
+        columnDef: "metricName",
       },
       {
         name: "Owner",
-        prop: "owner",
-        draggable: false,
-        sortable: true,
-        width: 120,
+        columnDef: "owner",
       },
     ];
     this.cdr.detectChanges();

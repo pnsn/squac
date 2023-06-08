@@ -19,11 +19,14 @@
   #table-body {
     height: 100%;
   }
-  ngx-datatable {
+}
+#table-body {
+  overflow: auto;
+  table {
     width: 100%;
-    height: 100%;
-    span.sort-button {
-      text-align: right;
-    }
   }
+}
+
+.selected {
+  background-color: red;
 }

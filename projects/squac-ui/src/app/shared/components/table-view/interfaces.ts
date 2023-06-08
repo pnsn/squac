@@ -1,9 +1,4 @@
-import {
-  ColumnMode,
-  SelectionType,
-  SortPropDir,
-  SortType,
-} from "@boring.devs/ngx-datatable";
+import { TemplateRef } from "@angular/core";
 import { SearchFilterConfig } from "../search-filter/interfaces";
 
 export type MenuAction = "edit" | "add" | "view" | "delete" | string;
@@ -19,36 +14,24 @@ export interface TableMessages {
   selectedMessage?: string;
 }
 
-/** Table configuration options, see ngx-datatable */
+/** columns to display on table */
+export interface TableColumn {
+  /** display name for column */
+  name: string;
+  /**
+   * column identifier string if different than lower cased name,
+   * will define the sorting property
+   * */
+  columnDef?: string;
+  cellTemplate?: TemplateRef<any>;
+}
+
+/** Table configuration options */
 export interface TableOptions {
-  /** column type */
-  columnMode?: ColumnMode;
-  /** selection type */
-  selectionType?: SelectionType;
-  /** height of header */
-  headerHeight?: number;
-  /** height of footer */
-  footerHeight?: number;
-  /** height of rows */
-  rowHeight?: number | "auto";
   /** limit number of rows to show */
   limit?: number;
   /** can reorder columns? */
   reorderable?: boolean;
-  /** show horizontal scrollbar */
-  scrollbarH?: boolean;
-  /** show vertical scrollbar */
-  scrollbarV?: boolean;
-  /** sort options */
-  sortType?: SortType;
-  /** sort properties */
-  sorts?: SortPropDir[];
-  /** row grouping property */
-  groupRowsBy?: string;
-  /** true if rows should be grouped by default */
-  groupExpansionDefault?: boolean;
-  /** group parent model type */
-  groupParentType?: string;
   /** true if tabel should route to detail page */
   autoRouteToDetail?: boolean;
   /** true if should show option to select all rows on page */
@@ -57,8 +40,6 @@ export interface TableOptions {
   displayCheck?: boolean;
   /** table messages */
   messages?: TableMessages;
-  /** true if use virtualization */
-  virtualization?: false;
   /** Footer label text */
   footerLabel?: string;
 }

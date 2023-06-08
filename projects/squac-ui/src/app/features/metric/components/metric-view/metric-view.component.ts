@@ -6,6 +6,7 @@ import { MetricService } from "squacapi";
 import { LoadingService } from "@core/services/loading.service";
 import { Observable } from "rxjs";
 import {
+  TableColumn,
   TableControls,
   TableFilters,
   TableOptions,
@@ -19,16 +20,41 @@ import { PageOptions } from "@shared/components/detail-page/detail-page.interfac
   selector: "metric-view",
   templateUrl: "./metric-view.component.html",
 })
-export class MetricViewComponent
-  implements OnInit, OnDestroy, AfterContentInit
-{
+export class MetricViewComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   metrics: Metric[];
   selectedMetricId: number = null;
 
   // table config
-  columns = [];
-  rows = [];
+  columns: TableColumn[] = [
+    {
+      name: "Metric Name",
+      columnDef: "name",
+    },
+    { name: "Default Min", columnDef: "minVal" },
+    {
+      name: "Default Max",
+      columnDef: "maxVal",
+    },
+    {
+      name: "Unit",
+      columnDef: "unit",
+    },
+    {
+      name: "Sample Rate",
+      columnDef: "sampleRate",
+    },
+    {
+      name: "Description",
+      columnDef: "description",
+    },
+    {
+      name: "Owner",
+      columnDef: "owner",
+    },
+  ];
+
+  rows: Metric[] = [];
   /** Config for detail page */
   pageOptions: PageOptions = {
     path: "/metrics",
@@ -89,63 +115,6 @@ export class MetricViewComponent
       });
 
     this.subscription.add(routeSub);
-  }
-
-  /** init columns */
-  ngAfterContentInit(): void {
-    this.columns = [
-      {
-        name: "Name",
-        draggable: false,
-        sortable: true,
-        width: 150,
-        canAutoResize: false,
-      },
-      {
-        name: "Default Min",
-        prop: "minVal",
-        draggable: false,
-        canAutoResize: false,
-        sortable: true,
-        width: 115,
-      },
-      {
-        name: "Default Max",
-        prop: "maxVal",
-        canAutoResize: false,
-        draggable: false,
-        sortable: true,
-        width: 115,
-      },
-      {
-        name: "Unit",
-        canAutoResize: false,
-        draggable: false,
-        sortable: true,
-        width: 115,
-      },
-      {
-        name: "Sample Rate",
-        prop: "sampleRate",
-        canAutoResize: false,
-        draggable: false,
-        sortable: true,
-        width: 115,
-      },
-      {
-        name: "Description",
-        draggable: false,
-        sortable: true,
-      },
-      {
-        name: "Owner",
-        prop: "owner",
-        canAutoResize: false,
-        draggable: false,
-        sortable: true,
-        width: 120,
-      },
-    ];
   }
 
   /**

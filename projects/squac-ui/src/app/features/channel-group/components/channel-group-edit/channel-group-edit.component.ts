@@ -11,11 +11,6 @@ import {
 import { ChannelService } from "squacapi";
 import { Channel } from "squacapi";
 import { Subscription, switchMap, tap, merge, of } from "rxjs";
-import {
-  ColumnMode,
-  SelectionType,
-  SortType,
-} from "@boring.devs/ngx-datatable";
 import { UserService } from "@user/services/user.service";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { MessageService } from "@core/services/message.service";
@@ -78,9 +73,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   bounds: MapBounds; // Latlng bounds to either filter by or make a new request with
 
   // table config
-  SelectionType = SelectionType;
-  ColumnMode = ColumnMode;
-  SortType = SortType;
   columns: any = [];
   rows: Channel[] = [];
   deleteMatchingRulesIds = [];

@@ -12,7 +12,6 @@
     "colormap": "^2.3.2",
     "ngx-echarts": "^14.0.0",
     "@asymmetrik/ngx-leaflet": "^14.0.1",
-    "@boring.devs/ngx-datatable": "^20.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
@@ -25,6 +24,5 @@
     "colormap": "^2.3.2",
     "ngx-echarts": "^14.0.0",
     "@asymmetrik/ngx-leaflet": "^14.0.1",
-    "@boring.devs/ngx-datatable": "^20.0.0"
   }
 }

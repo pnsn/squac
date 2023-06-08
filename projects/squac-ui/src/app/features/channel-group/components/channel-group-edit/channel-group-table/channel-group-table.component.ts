@@ -6,15 +6,9 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-  TemplateRef,
   ViewChild,
 } from "@angular/core";
 import { Channel } from "squacapi";
-import {
-  ColumnMode,
-  SelectionType,
-  SortType,
-} from "@boring.devs/ngx-datatable";
 import { MatTableDataSource } from "@angular/material/table";
 import { SelectionModel } from "@angular/cdk/collections";
 import { MatSort } from "@angular/material/sort";

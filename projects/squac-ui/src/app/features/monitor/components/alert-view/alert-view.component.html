@@ -39,21 +39,19 @@
 </shared-detail-page>
 <router-outlet></router-outlet>
 <ng-template
-  let-value="value"
+  let-row="row"
   #stateTemplate
 >
-  <monitor-alarm-status [inAlarm]="value"></monitor-alarm-status>
+  <monitor-alarm-status [inAlarm]="row.inAlarm"></monitor-alarm-status>
 </ng-template>
 <ng-template
   #monitorTemplate
   let-row="row"
-  let-value="value"
 >
-  <a [routerLink]="['/monitors', row.monitorId]">{{ value }}</a>
+  <a [routerLink]="['/monitors', row.monitorId]">{{ row.monitorName }}</a>
 </ng-template>
 <ng-template
   #triggerTemplate
-  let-value="value"
   let-row="row"
 >
   values for
@@ -67,8 +65,8 @@
   </span>
 </ng-template>
 <ng-template
-  let-value="value"
+  let-row="row"
   #channelsTemplate
 >
-  {{ value.length }}
+  {{ row.breachingChannels.length }}
 </ng-template>

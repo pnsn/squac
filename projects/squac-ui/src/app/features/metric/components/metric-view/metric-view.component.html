@@ -15,13 +15,6 @@
       [isLoading]="loadingService.isLoading$(this) | async"
       [selectedRowId]="selectedMetricId"
     >
-      <ng-template
-        ngx-datatable-cell-template
-        let-row="row"
-        #nameTemplate
-      >
-        <a [routerLink]="[row.referenceUrl]">{{ row.name }}</a>
-      </ng-template>
     </shared-table-view>
   </ng-container>
 </shared-detail-page>

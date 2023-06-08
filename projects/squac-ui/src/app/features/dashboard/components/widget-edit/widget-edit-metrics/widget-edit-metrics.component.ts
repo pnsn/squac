@@ -8,12 +8,10 @@ import {
   EventEmitter,
   SimpleChanges,
   OnChanges,
-  AfterContentChecked,
 } from "@angular/core";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-import { SelectionType, ColumnMode } from "@boring.devs/ngx-datatable";
-import { Channel, Metric } from "squacapi";
+import { Metric } from "squacapi";
 import { WIDGET_TYPE_INFO } from "widgets";
 import { WidgetType } from "widgets";
 

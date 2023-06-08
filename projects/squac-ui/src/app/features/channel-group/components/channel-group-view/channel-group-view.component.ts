@@ -14,6 +14,7 @@ import { ChannelGroupService } from "squacapi";
 import { LoadingService } from "@core/services/loading.service";
 import {
   MenuAction,
+  TableColumn,
   TableControls,
   TableFilters,
   TableOptions,
@@ -28,16 +29,13 @@ import { PageOptions } from "@shared/components/detail-page/detail-page.interfac
   templateUrl: "./channel-group-view.component.html",
   styleUrls: ["./channel-group-view.component.scss"],
 })
-export class ChannelGroupViewComponent
-  implements OnInit, OnDestroy, AfterViewInit
-{
+export class ChannelGroupViewComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   @ViewChild("sharingTemplate") sharingTemplate: TemplateRef<any>;
   channelGroups: ChannelGroup[] = [];
   selectedChannelGroupId: number;
 
   // config for table
-  columns = [];
   rows = [];
   options: TableOptions = {
     messages: {
@@ -87,6 +85,30 @@ export class ChannelGroupViewComponent
     refresh: true,
   };
 
+  columns: TableColumn[] = [
+    {
+      name: "Name",
+      columnDef: "name",
+    },
+    { name: "Description", columnDef: "description" },
+    {
+      name: "Channels",
+      columnDef: "channelsCount",
+    },
+    {
+      name: "Owner",
+      columnDef: "owner",
+    },
+    {
+      name: "Org.",
+      columnDef: "organization",
+    },
+    {
+      name: "Sharing",
+      columnDef: "sharing",
+    },
+  ];
+
   // settings for which filters to show
   filters: TableFilters = {
     toggleShared: true,
@@ -130,51 +152,6 @@ export class ChannelGroupViewComponent
       });
 
     this.subscription.add(routeSub);
-  }
-
-  /**
-   * Build channel group columns
-   */
-  ngAfterViewInit(): void {
-    this.columns = [
-      {
-        name: "Name",
-        draggable: false,
-        sortable: true,
-      },
-      { name: "Description", draggable: false, sortable: true },
-      {
-        name: "Channels",
-        prop: "channelsCount",
-        draggable: false,
-        sortable: true,
-        width: 25,
-      },
-      {
-        name: "Owner",
-        prop: "owner",
-        draggable: false,
-        sortable: true,
-        width: 50,
-      },
-      {
-        name: "Org.",
-        prop: "orgId",
-        canAutoResize: false,
-        draggable: false,
-        sortable: true,
-        width: 70,
-      },
-      {
-        name: "Sharing",
-        draggable: false,
-        canAutoResize: false,
-        width: 70,
-        sortable: false,
-        cellTemplate: this.sharingTemplate,
-      },
-    ];
-    this.cdr.detectChanges();
   }
 
   /**

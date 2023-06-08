@@ -12,8 +12,8 @@ import { UserService } from "@user/services/user.service";
 import { MockBuilder, MockRender } from "ng-mocks";
 import { BehaviorSubject } from "rxjs";
 import { OrganizationService } from "squacapi";
-import { SearchFilterComponent } from "../search-filter/search-filter.component";
-import { SharingToggleComponent } from "../sharing-toggle/sharing-toggle.component";
+import { SearchFilterComponent } from "@shared/components/search-filter/search-filter.component";
+import { SharingToggleComponent } from "@shared/components/sharing-toggle/sharing-toggle.component";
 import { TableViewComponent } from "./table-view.component";
 
 describe("TableViewComponent", () => {

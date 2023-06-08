@@ -15,6 +15,7 @@ import { Dashboard } from "squacapi";
 import { Observable } from "rxjs";
 import {
   MenuAction,
+  TableColumn,
   TableControls,
   TableFilters,
   TableOptions,
@@ -29,16 +30,30 @@ import { PageOptions } from "@shared/components/detail-page/detail-page.interfac
   templateUrl: "./dashboard-view.component.html",
   styleUrls: ["./dashboard-view.component.scss"],
 })
-export class DashboardViewComponent
-  implements OnInit, OnDestroy, AfterViewInit
-{
+export class DashboardViewComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
-  @ViewChild("sharingTemplate") sharingTemplate: TemplateRef<any>;
-  @ViewChild("nameTemplate") nameTemplate: TemplateRef<any>;
-
   dashboards: Dashboard[] = [];
   rows: Dashboard[] = [];
-  columns = [];
+  columns: TableColumn[] = [
+    {
+      name: "Dashboard Name",
+      columnDef: "name",
+    },
+    { name: "Description", columnDef: "description" },
+    {
+      name: "Owner",
+      columnDef: "owner",
+    },
+    {
+      name: "Org.",
+      columnDef: "organization",
+    },
+    {
+      name: "Sharing",
+      columnDef: "sharing",
+    },
+  ];
+
   selectedDashboardId: number;
 
   /** Config for detail page */
@@ -102,8 +117,7 @@ export class DashboardViewComponent
   constructor(
     private route: ActivatedRoute,
     private dashboardService: DashboardService,
-    public loadingService: LoadingService,
-    private cdr: ChangeDetectorRef
+    public loadingService: LoadingService
   ) {}
 
   /**
@@ -127,46 +141,6 @@ export class DashboardViewComponent
       .subscribe();
 
     this.subscription.add(dashboardsSub);
-  }
-
-  /**
-   * set up table columns
-   */
-  ngAfterViewInit(): void {
-    // set up columns
-    this.columns = [
-      {
-        name: "Dashboard Name",
-        prop: "name",
-        draggable: false,
-        sortable: true,
-      },
-      { name: "Description", draggable: false, sortable: true },
-      {
-        name: "Owner",
-        prop: "owner",
-        draggable: false,
-        sortable: true,
-        width: 50,
-      },
-      {
-        name: "Org.",
-        prop: "orgId",
-        draggable: false,
-        sortable: true,
-        canAutoResize: false,
-        width: 70,
-      },
-      {
-        name: "Sharing",
-        draggable: false,
-        canAutoResize: false,
-        width: 70,
-        sortable: false,
-        cellTemplate: this.sharingTemplate,
-      },
-    ];
-    this.cdr.detectChanges();
   }
 
   /**

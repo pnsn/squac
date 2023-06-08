@@ -5,7 +5,6 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MaterialModule } from "@shared/material.module";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { NgxDatatableModule } from "@boring.devs/ngx-datatable";
 import { AbilityModule } from "@casl/angular";
 import { PureAbility } from "@casl/ability";
 import { AppAbility } from "@core/utils/ability";
@@ -36,7 +35,6 @@ describe("WidgetEditComponent", () => {
         FormsModule,
         ReactiveFormsModule,
         MaterialModule,
-        NgxDatatableModule,
         AbilityModule,
       ],
       providers: [
