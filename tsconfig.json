@@ -16,26 +16,46 @@
       "squacapi": [
         "./dist/squacapi"
       ],
-      "widgets" : [
+      "widgets": [
         "./dist/widgets"
       ],
-      "@core": ["./projects/squac-ui/src/app/core"],
-      "@core/*": ["./projects/squac-ui/src/app/core/*"],
-      "@ui/*": ["./projects/squac-ui/src/app/ui/*"],
-      "@shared/*": ["./projects/squac-ui/src/app/shared/*"],
-      "@squacapi/*": ["./projects/squac-ui/src/app/squacapi/*"],
-      "@dashboard/*": ["./projects/squac-ui/src/app/features/dashboard/*"],
-      "@channelGroup/*": ["./projects/squac-ui/src/app/features/channel-group/*"],
-      "@metric/*": ["./projects/squac-ui/src/app/features/metric/*"],
-      "@monitor/*": ["./projects/squac-ui/src/app/features/monitor/*"],
-      "@user/*": ["./projects/squac-ui/src/app/features/user/*"]
+      "@core": [
+        "./projects/squac-ui/src/app/core"
+      ],
+      "@core/*": [
+        "./projects/squac-ui/src/app/core/*"
+      ],
+      "@ui/*": [
+        "./projects/squac-ui/src/app/ui/*"
+      ],
+      "@shared/*": [
+        "./projects/squac-ui/src/app/shared/*"
+      ],
+      "@squacapi/*": [
+        "./projects/squac-ui/src/app/squacapi/*"
+      ],
+      "@dashboard/*": [
+        "./projects/squac-ui/src/app/features/dashboard/*"
+      ],
+      "@channelGroup/*": [
+        "./projects/squac-ui/src/app/features/channel-group/*"
+      ],
+      "@metric/*": [
+        "./projects/squac-ui/src/app/features/metric/*"
+      ],
+      "@monitor/*": [
+        "./projects/squac-ui/src/app/features/monitor/*"
+      ],
+      "@user/*": [
+        "./projects/squac-ui/src/app/features/user/*"
+      ]
     },
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "ES2020",
+    "target": "ES2022",
     "module": "ES2020",
     "useDefineForClassFields": false,
     "lib": [

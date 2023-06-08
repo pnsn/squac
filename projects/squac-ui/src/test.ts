@@ -7,8 +7,6 @@ import {
 } from "@angular/platform-browser-dynamic/testing";
 import { DefaultTitleStrategy, TitleStrategy } from "@angular/router";
 import { MockInstance, MockService, ngMocks } from "ng-mocks";
-
-declare const require: any;
 declare const jasmine: any;
 // console.warn = (message) => {throw new Error(message)};
 // ngMocks.autoSpy("jasmine");
@@ -34,7 +32,3 @@ getTestBed().initTestEnvironment(
     teardown: { destroyAfterEach: true },
   }
 );
-// Then we find all the tests.
-const context = require.context("./", true, /\.spec\.ts$/);
-// And load the modules.
-context.keys().map(context);
