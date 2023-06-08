@@ -125,7 +125,6 @@ export class OrganizationDetailComponent
             (this.user.isOrgAdmin && this.user.orgId === this.organization.id);
 
           if (this.isAdmin) {
-            console.log("is admin");
             this.controls.menu = {
               text: "Actions",
               path: "user",
@@ -158,6 +157,9 @@ export class OrganizationDetailComponent
     this.subscription.add(orgSub);
   }
 
+  /**
+   *
+   */
   ngAfterViewInit(): void {
     this.columns = [
       ...this.columns,

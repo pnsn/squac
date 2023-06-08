@@ -26,12 +26,12 @@ import {
 } from "leaflet";
 import { Channel } from "squacapi";
 import { MapBounds, MapStation } from "./interfaces";
-interface ChannelMap {
-  included: boolean;
-  excluded: boolean;
-  searched: boolean;
-  selected: boolean;
-}
+// interface ChannelMap {
+//   included: boolean;
+//   excluded: boolean;
+//   searched: boolean;
+//   selected: boolean;
+// }
 /**
  * Shared map for channels
  */
@@ -182,7 +182,13 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     }
   }
 
-  /** creates a station object or returns existing */
+  /**
+   * creates a station object or returns existing
+   *
+   * @param channel channel to check
+   * @param stations existing stations
+   * @returns station object
+   */
   getStation(channel: Channel, stations: MapStation[]): MapStation {
     let station = stations.find((s) => {
       return s.code === channel.staCode;
@@ -213,12 +219,12 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
   updateMap(showChannel: boolean): void {
     const stations: MapStation[] = [];
 
-    const stationMap = new WeakMap<{
-      code: string;
-      lat: number;
-      lon: number;
-      channels: Map<string, ChannelMap>;
-    }>();
+    // const _stationMap = new WeakMap<{
+    //   code: string;
+    //   lat: number;
+    //   lon: number;
+    //   channels: Map<string, ChannelMap>;
+    // }>();
     if (this.stationLayer) {
       this.layers.pop();
       const stationMarkers = []; // Marker array

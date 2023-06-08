@@ -7,6 +7,8 @@ import { MockBuilder } from "ng-mocks";
 import { WidgetConnectService } from "../../services/widget-connect.service";
 import { of } from "rxjs";
 import { WidgetManagerService } from "../../services/widget-manager.service";
+import { MatTableModule } from "@angular/material/table";
+import { MatSortModule } from "@angular/material/sort";
 
 describe("TabularComponent", () => {
   let component: TabularComponent;
@@ -15,6 +17,8 @@ describe("TabularComponent", () => {
   beforeEach(() => {
     return MockBuilder(TabularComponent)
       .mock(ViewService)
+      .mock(MatTableModule)
+      .mock(MatSortModule)
       .mock(WidgetConfigService)
       .provide({
         provide: WidgetManagerService,

@@ -46,16 +46,21 @@ export class ChannelGroupTableComponent implements OnInit, OnChanges {
   /** selection on alert table */
   selection: SelectionModel<Channel> = new SelectionModel(true, []);
 
+  /**
+   * @inheritdoc
+   */
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["rows"]) {
       this.dataSource.data = this.rows;
     }
     if (changes["selected"]) {
       this.selection.setSelection(...this.selected);
-      console.log(this.selection.selected);
     }
   }
 
+  /**
+   *
+   */
   ngOnInit(): void {
     this.dataSource.sort = this.sort;
     // enable select column
@@ -84,7 +89,7 @@ export class ChannelGroupTableComponent implements OnInit, OnChanges {
    * Whether the number of selected elements matches the total number of rows
    *
    *  @returns true if all rows are selected
-   * */
+   */
   isAllSelected(): boolean {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;

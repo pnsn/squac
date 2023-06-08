@@ -22,7 +22,6 @@ import {
   TableOptions,
 } from "@shared/components/table-view/interfaces";
 import { DATE_PICKER_TIMERANGES } from "@dashboard/components/dashboard-detail/dashboard-time-ranges";
-import { sortTimestamps } from "@core/utils/utils";
 import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
 
 /**
@@ -114,6 +113,9 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     private cdr: ChangeDetectorRef
   ) {}
 
+  /**
+   *
+   */
   ngAfterViewInit(): void {
     //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     //Add 'implements AfterViewInit' to the class.

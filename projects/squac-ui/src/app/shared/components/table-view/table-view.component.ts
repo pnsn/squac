@@ -105,6 +105,9 @@ export class TableViewComponent
     this.orgPipe = new OrganizationPipe(orgService);
   }
 
+  /**
+   *
+   */
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
   }
@@ -201,7 +204,7 @@ export class TableViewComponent
   /**
    * Respond to select row event and emit row id
    *
-   * @param event click event
+   * @param row selected table row
    */
   selectRow(row: any): void {
     //already selected
@@ -220,17 +223,17 @@ export class TableViewComponent
   /**
    * Select resource in table by id
    *
-   * @param id id of resource
+   * @param row selected row
    */
   private selectResource(row: any): void {
     this.selectedRow = row;
     this.itemSelected.next(this.selectedRow);
   }
 
-  /*
+  /**
    * Select resource in table by id
    *
-   * @param id id of resource
+   * @param rowId id of resource
    */
   private selectResourceById(rowId: number): void {
     this.selectedRow = this.rows.find((row) => row.id === rowId);

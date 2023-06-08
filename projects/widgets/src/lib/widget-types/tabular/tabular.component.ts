@@ -238,7 +238,12 @@ export class TabularComponent
     });
   }
 
-  expandRow(row: Row) {
+  /**
+   * Inserts child rows into a table if the row has children
+   *
+   * @param row row to expand
+   */
+  expandRow(row: Row): void {
     const data = [...this.rows];
     //if this row is already expanded, close it
     // if no children, ignore row and close others
@@ -261,6 +266,7 @@ export class TabularComponent
 
     // expandedElement = expandedElement === row ? null : row
   }
+
   /**
    * @override
    */

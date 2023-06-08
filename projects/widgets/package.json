@@ -11,7 +11,7 @@
     "leaflet": "^1.6.0",
     "colormap": "^2.3.2",
     "ngx-echarts": "^14.0.0",
-    "@asymmetrik/ngx-leaflet": "^14.0.1",
+    "@asymmetrik/ngx-leaflet": "^14.0.1"
   },
   "dependencies": {
     "tslib": "^2.3.0"
@@ -23,6 +23,6 @@
     "leaflet": "^1.6.0",
     "colormap": "^2.3.2",
     "ngx-echarts": "^14.0.0",
-    "@asymmetrik/ngx-leaflet": "^14.0.1",
+    "@asymmetrik/ngx-leaflet": "^14.0.1"
   }
 }

@@ -21,7 +21,7 @@ export interface TableColumn {
   /**
    * column identifier string if different than lower cased name,
    * will define the sorting property
-   * */
+   */
   columnDef?: string;
   cellTemplate?: TemplateRef<any>;
 }

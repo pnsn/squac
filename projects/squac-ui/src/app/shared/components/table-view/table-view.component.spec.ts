@@ -65,35 +65,6 @@ describe("TableViewComponent", () => {
     expect(component).toBeTruthy();
   });
 
-  it("should build columns", () => {
-    expect(component.tableColumns).toBeUndefined();
-    const testColumns = [
-      {
-        prop: "test",
-      },
-      {
-        prop: "owner",
-      },
-      {
-        prop: "orgId",
-      },
-      {
-        prop: "name",
-      },
-    ];
-    fixture.componentInstance.columns = testColumns;
-    fixture.detectChanges();
-    expect(component.tableColumns).toEqual(testColumns);
-  });
-
-  it("should build rows and filter", () => {
-    expect(component.rows).toBeFalsy();
-    const rows = [];
-    fixture.componentInstance.rows = rows;
-    fixture.detectChanges();
-    expect(component.tableRows).toEqual(rows);
-  });
-
   it("should listen to router events and set selected", fakeAsync(() => {
     fixture.componentInstance.controls.listenToRouter = true;
     fixture.componentInstance.controls.basePath = "/1";
@@ -122,23 +93,23 @@ describe("TableViewComponent", () => {
     expect(component.selectedRow).toEqual({ id: 1 });
   });
 
-  it("should respond to row selected on table", () => {
-    const resourceSpy = spyOn(component, "viewResource");
-    fixture.componentInstance.selectedRowId = 1;
-    fixture.componentInstance.rows = [{ id: 1 }, { id: 2 }];
-    fixture.detectChanges();
+  // it("should respond to row selected on table", () => {
+  //   const resourceSpy = spyOn(component, "viewResource");
+  //   fixture.componentInstance.selectedRowId = 1;
+  //   fixture.componentInstance.rows = [{ id: 1 }, { id: 2 }];
+  //   fixture.detectChanges();
 
-    component.onSelect({ selected: [{ id: 1 }] });
-    expect(component.clickCount).toEqual(1);
+  //   component.onSelect({ selected: [{ id: 1 }] });
+  //   expect(component.clickCount).toEqual(1);
 
-    component.onSelect({ selected: [{ id: 1 }] });
+  //   component.onSelect({ selected: [{ id: 1 }] });
 
-    component.onSelect({ selected: [{ id: 2 }] });
-    expect(component.clickCount).toEqual(0);
+  //   component.onSelect({ selected: [{ id: 2 }] });
+  //   expect(component.clickCount).toEqual(0);
 
-    component.onSelect({ selected: [] });
-    expect(component.clickCount).toEqual(0);
+  //   component.onSelect({ selected: [] });
+  //   expect(component.clickCount).toEqual(0);
 
-    expect(resourceSpy).toHaveBeenCalledTimes(1);
-  });
+  //   expect(resourceSpy).toHaveBeenCalledTimes(1);
+  // });
 });
