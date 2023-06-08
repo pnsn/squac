@@ -3,7 +3,7 @@ import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 import { ChannelGroupFilterComponent } from "./channel-group-filter.component";
 import { MaterialModule } from "@shared/material.module";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
-import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatLegacyFormFieldModule as MatFormFieldModule } from "@angular/material/legacy-form-field";
 import { FormsModule } from "@angular/forms";
 
 describe("ChannelGroupFilterComponent", () => {

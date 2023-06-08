@@ -8,7 +8,7 @@ import { BehaviorSubject, Subject } from "rxjs";
 import { WidgetDataService } from "widgets";
 import { DashboardService } from "squacapi";
 import { MetricToggleComponent } from "./metric-toggle/metric-toggle.component";
-import { MatMenuModule } from "@angular/material/menu";
+import { MatLegacyMenuModule as MatMenuModule } from "@angular/material/legacy-menu";
 import { AbilityModule } from "@casl/angular";
 import { MatIconModule } from "@angular/material/icon";
 import { LoadingDirective } from "@shared/directives/loading-directive.directive";

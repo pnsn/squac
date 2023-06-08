@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatButtonModule } from "@angular/material/button";
+import { MatLegacyButtonModule as MatButtonModule } from "@angular/material/legacy-button";
 import {
-  MatSnackBarRef,
-  MAT_SNACK_BAR_DATA,
-} from "@angular/material/snack-bar";
+  MatLegacySnackBarRef as MatSnackBarRef,
+  MAT_LEGACY_SNACK_BAR_DATA as MAT_SNACK_BAR_DATA,
+} from "@angular/material/legacy-snack-bar";
 
 import { SnackbarComponent } from "./snackbar.component";
 

@@ -11,7 +11,7 @@ import { Location } from "@angular/common";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ChannelGroup } from "squacapi";
 import { ChannelGroupService } from "squacapi";
-import { MatFormFieldAppearance } from "@angular/material/form-field";
+import { MatLegacyFormFieldAppearance as MatFormFieldAppearance } from "@angular/material/legacy-form-field";
 
 /** Grouping of Channel Groups with a name and form value */
 interface Group {

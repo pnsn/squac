@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatDialog, MatDialogModule } from "@angular/material/dialog";
+import { MatLegacyDialog as MatDialog, MatLegacyDialogModule as MatDialogModule } from "@angular/material/legacy-dialog";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MetricService } from "squacapi";
 import { MockBuilder } from "ng-mocks";

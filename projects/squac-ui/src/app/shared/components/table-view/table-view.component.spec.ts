@@ -1,7 +1,7 @@
 import { Location } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { fakeAsync, tick } from "@angular/core/testing";
-import { MatMenuModule } from "@angular/material/menu";
+import { MatLegacyMenuModule as MatMenuModule } from "@angular/material/legacy-menu";
 import { ActivatedRoute, Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgxDatatableModule } from "@boring.devs/ngx-datatable";

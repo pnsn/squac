@@ -9,7 +9,7 @@ import {
 import { DashboardService } from "squacapi";
 import { Subscription } from "rxjs";
 import { UserService } from "@user/services/user.service";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from "@angular/material/legacy-dialog";
 import { MessageService } from "@core/services/message.service";
 import { ChannelGroup } from "squacapi";
 import { FilterText } from "@shared/components/sharing-toggle/sharing-toggle.interface";

@@ -28,7 +28,7 @@ import { GenericWidgetComponent } from "../../shared/components";
 import { Row } from "./types";
 import { Channel, MeasurementPipe } from "squacapi";
 import { MatSort } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
+import { MatLegacyTableDataSource as MatTableDataSource } from "@angular/material/legacy-table";
 import { SelectionModel } from "@angular/cdk/collections";
 
 /**

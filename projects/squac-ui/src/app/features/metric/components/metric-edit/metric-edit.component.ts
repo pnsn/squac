@@ -8,7 +8,7 @@ import {
 } from "@angular/forms";
 import { MetricService } from "squacapi";
 import { Subscription } from "rxjs";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from "@angular/material/legacy-dialog";
 
 /** Metric edit form contrils */
 interface MetricForm {
