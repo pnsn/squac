@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from "@angular/material/legacy-dialog";
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA as MAT_DIALOG_DATA,
+} from "@angular/material/dialog";
 import { MaterialModule } from "@shared/material.module";
 import { MockBuilder } from "ng-mocks";
 import { OrganizationEditComponent } from "./organization-edit.component";

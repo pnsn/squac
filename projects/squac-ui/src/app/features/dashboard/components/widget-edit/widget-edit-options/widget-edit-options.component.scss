@@ -20,9 +20,9 @@
   }
   .small {
     max-width: 100px;
-    mat-form-field {
-      max-width: 100px;
-    }
+    // mat-form-field {
+    //   max-width: 100px;
+    // }
   }
 }
 .default {
@@ -38,9 +38,9 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  mat-radio-button {
-    margin: 3px 0px;
-  }
+  // mat-radio-button {
+  //   margin: 3px 0px;
+  // }
 }
 .indicator {
   display: inline-block;
@@ -68,26 +68,26 @@
   margin-bottom: 5px;
 }
 
-mat-select-trigger {
-  .gradient-indicator {
-    @extend .indicator;
-    width: 100%;
-  }
+// mat-select-trigger {
+//   .gradient-indicator {
+//     @extend .indicator;
+//     width: 100%;
+//   }
 
-  .color-indicator {
-    @extend .indicator;
-    width: 100%;
-  }
-}
-mat-option {
-  .gradient-indicator {
-    @extend .indicator;
-    width: 50%;
-  }
+//   .color-indicator {
+//     @extend .indicator;
+//     width: 100%;
+//   }
+// }
+// mat-option {
+//   .gradient-indicator {
+//     @extend .indicator;
+//     width: 50%;
+//   }
 
-  .color-indicator {
-    @extend .indicator;
-    width: 10px;
-    margin-right: 5px;
-  }
-}
+//   .color-indicator {
+//     @extend .indicator;
+//     width: 10px;
+//     margin-right: 5px;
+//   }
+// }

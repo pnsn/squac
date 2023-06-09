@@ -26,7 +26,7 @@ import {
 } from "./interfaces";
 import { SharedToggleFilter } from "@shared/components/sharing-toggle/sharing-toggle.interface";
 import { MatSort } from "@angular/material/sort";
-import { MatLegacyTableDataSource as MatTableDataSource } from "@angular/material/legacy-table";
+import { MatTableDataSource } from "@angular/material/table";
 import { SelectionModel } from "@angular/cdk/collections";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 

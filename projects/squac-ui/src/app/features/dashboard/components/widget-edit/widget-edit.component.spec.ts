@@ -4,7 +4,10 @@ import { WidgetEditComponent } from "./widget-edit.component";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MaterialModule } from "@shared/material.module";
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from "@angular/material/legacy-dialog";
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA as MAT_DIALOG_DATA,
+} from "@angular/material/dialog";
 import { AbilityModule } from "@casl/angular";
 import { PureAbility } from "@casl/ability";
 import { AppAbility } from "@core/utils/ability";

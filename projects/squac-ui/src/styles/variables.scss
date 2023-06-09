@@ -13,6 +13,18 @@ $squac-ui-neutral: mat.define-palette($mat-sqgray, 300, 50, 600);
 // The warn palette is optional (defaults to red).
 $squac-ui-warn: mat.define-palette(mat.$red-palette, 300);
 
+$my-custom-typography-config: mat.define-typography-config(
+  $font-family: "Source Sans Pro",
+  $headline-1:
+    mat.define-typography-level(112px, 112px, 300, $letter-spacing: -0.05em),
+  $headline-2:
+    mat.define-typography-level(56px, 56px, 400, $letter-spacing: -0.02em),
+  $headline-3:
+    mat.define-typography-level(45px, 48px, 400, $letter-spacing: -0.005em),
+  $headline-4: mat.define-typography-level(34px, 40px, 400),
+  $headline-5: mat.define-typography-level(24px, 32px, 400),
+);
+
 // Create the theme object (a Sass map containing all of the palettes).
 $squac-ui-theme: mat.define-light-theme(
   (
@@ -21,8 +33,8 @@ $squac-ui-theme: mat.define-light-theme(
       accent: $squac-ui-accent,
       warn: $squac-ui-warn,
     ),
-    typography: mat.define-typography-config(),
-    density: 0,
+    typography: $my-custom-typography-config,
+    density: -2,
   )
 );
 

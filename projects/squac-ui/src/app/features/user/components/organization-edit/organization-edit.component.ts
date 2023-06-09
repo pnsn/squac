@@ -7,7 +7,10 @@ import {
 } from "@angular/forms";
 import { User } from "squacapi";
 import { Subscription } from "rxjs";
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from "@angular/material/legacy-dialog";
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA as MAT_DIALOG_DATA,
+} from "@angular/material/dialog";
 import { MessageService } from "@core/services/message.service";
 import { InviteService } from "squacapi";
 import { OrganizationUserService } from "squacapi";

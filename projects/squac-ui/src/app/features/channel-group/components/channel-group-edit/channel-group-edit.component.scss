@@ -69,38 +69,38 @@
     flex: 1;
   }
 }
-:host ::ng-deep .mat-expansion-panel-body {
-  padding: 0px 5px !important;
-}
-:host ::ng-deep .mat-expansion-indicator {
-  margin-top: -3px;
-}
+// :host ::ng-deep .mat-expansion-panel-body {
+//   padding: 0px 5px !important;
+// }
+// :host ::ng-deep .mat-expansion-indicator {
+//   margin-top: -3px;
+// }
 
 channel-group-edit-table {
   height: 100%;
 }
 
-mat-accordion {
-  mat-expansion-panel {
-    mat-expansion-panel-header {
-      min-height: 35px;
-      padding: 0px 12px;
-      max-height: 50px;
-    }
+// mat-accordion {
+//   mat-expansion-panel {
+//     mat-expansion-panel-header {
+//       min-height: 35px;
+//       padding: 0px 12px;
+//       max-height: 50px;
+//     }
 
-    border-radius: 0 !important;
-    border: $light-border;
-    border-top: none;
-    border-right: none;
-    box-shadow: none !important;
-  }
-}
+//     border-radius: 0 !important;
+//     border: $light-border;
+//     border-top: none;
+//     border-right: none;
+//     box-shadow: none !important;
+//   }
+// }
 #sharing-radio-group {
   margin: 3px 0;
   align-items: flex-start;
-  mat-radio-button {
-    margin-bottom: 5px;
-  }
+  // mat-radio-button {
+  //   margin-bottom: 5px;
+  // }
 }
 
 .searched-channels-container {

@@ -7,7 +7,7 @@ import { of } from "rxjs";
 import { MockBuilder } from "ng-mocks";
 import { WidgetEditComponent } from "../widget-edit.component";
 import { WidgetService } from "squacapi";
-import { MatLegacyDialogModule as MatDialogModule } from "@angular/material/legacy-dialog";
+import { MatDialogModule } from "@angular/material/dialog";
 
 describe("WidgetEditEntryComponent", () => {
   let component: WidgetEditEntryComponent;

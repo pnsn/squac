@@ -9,7 +9,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import { Channel } from "squacapi";
-import { MatLegacyTableDataSource as MatTableDataSource } from "@angular/material/legacy-table";
+import { MatTableDataSource } from "@angular/material/table";
 import { SelectionModel } from "@angular/cdk/collections";
 import { MatSort } from "@angular/material/sort";
 

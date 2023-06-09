@@ -11,7 +11,7 @@ import { Location } from "@angular/common";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ChannelGroup } from "squacapi";
 import { ChannelGroupService } from "squacapi";
-import { MatLegacyFormFieldAppearance as MatFormFieldAppearance } from "@angular/material/legacy-form-field";
+import { MatFormFieldAppearance } from "@angular/material/form-field";
 
 /** Grouping of Channel Groups with a name and form value */
 interface Group {
@@ -39,7 +39,7 @@ export class ChannelGroupSelectorComponent implements OnInit, OnChanges {
   /** true if field required */
   @Input() required = false;
   /** form appearance */
-  @Input() appearance: MatFormFieldAppearance = "standard";
+  @Input() appearance: MatFormFieldAppearance = "fill";
   /** true if use dense style */
   @Input() dense = false;
   /** channel groups available for select */

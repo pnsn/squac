@@ -6,7 +6,7 @@
 >
   <div>
     <div class="label">Title:</div>
-    <mat-form-field floatLabel="never" class="large">
+    <mat-form-field class="large">
       <input
         matInput
         type="text"
@@ -15,18 +15,17 @@
         placeholder="Widget title"
         required
       />
-      <mat-error *ngIf="widgetForm.get('name').hasError('required')"
-        >Please add a title.</mat-error
-      >
+      <mat-error *ngIf="widgetForm.get('name').hasError('required')">Please add a title.</mat-error>
     </mat-form-field>
   </div>
 
   <div class="label">Widget type:</div>
-  <mat-error
-    *ngIf="widgetForm.touched && widgetForm.get('type').hasError('required')"
-    >Please select a widget type.</mat-error
+  <mat-error *ngIf="widgetForm.touched && widgetForm.get('type').hasError('required')">Please select a widget
+    type.</mat-error>
+  <div
+    id="widget-type-container"
+    (mouseleave)="changePreviewType()"
   >
-  <div id="widget-type-container" (mouseleave)="changePreviewType()">
     <div id="mat-button-toggle-container">
       <mat-button-toggle-group formControlName="type">
         <mat-button-toggle
@@ -43,7 +42,10 @@
 
     <ng-container *ngIf="previewType; else selectWidget">
       <ng-container *ngIf="WidgetTypeInfo[previewType].config as config">
-        <div id="type-detail-container" (click)="updateType()">
+        <div
+          id="type-detail-container"
+          (click)="updateType()"
+        >
           <div class="label">
             {{ WidgetTypeInfo[previewType].config.name | titlecase }} Widget:
           </div>
@@ -54,10 +56,16 @@
             </p>
           </div>
 
-          <div id="stat-type-container" *ngIf="config.useAggregate">
+          <div
+            id="stat-type-container"
+            *ngIf="config.useAggregate"
+          >
             <div class="label">Select measurement aggregation:</div>
             <mat-form-field class="dense-form-field-select">
-              <mat-select formControlName="stat" required>
+              <mat-select
+                formControlName="stat"
+                required
+              >
                 <mat-option
                   *ngFor="let statType of WidgetStatType"
                   [value]="statType"
@@ -82,7 +90,8 @@
                 *ngFor="let option of config.displayOptions | keyvalue"
                 [value]="option.key"
                 class="radio-button-dense"
-                ><div class="option-container">
+              >
+                <div class="option-container">
                   <span>{{ option.value.description }}</span>
                 </div>
               </mat-radio-button>

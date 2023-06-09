@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { WidgetEditComponent } from "../widget-edit.component";
-import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from "@angular/material/legacy-dialog";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ActivatedRoute, Router, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 import { Metric } from "squacapi";

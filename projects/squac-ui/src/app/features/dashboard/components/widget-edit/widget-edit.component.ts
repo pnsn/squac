@@ -1,5 +1,8 @@
 import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from "@angular/material/legacy-dialog";
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA as MAT_DIALOG_DATA,
+} from "@angular/material/dialog";
 import { Metric } from "squacapi";
 import { MessageService } from "@core/services/message.service";
 import { ViewService } from "@dashboard/services/view.service";
@@ -39,7 +42,8 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
     this.editMode = !!this.data["widget"];
     const dashboardId = this.data["dashboardId"];
     this.widget =
-      this.data.widget || new Widget({ dashboard: dashboardId, name: "" });
+      this.data.widget ||
+      new Widget({ dashboard: dashboardId, name: "", metrics: [] });
 
     //check if copying to new dashboard
     this.copyWidget = this.widget.dashboardId !== dashboardId;
@@ -49,11 +53,13 @@ export class WidgetEditComponent implements OnDestroy, OnInit {
     }
     this.metrics = this.data["metrics"];
 
-    // select widget metrics from metrics list, so they are same object
-    const temp = this.metrics.filter((metric) =>
-      this.widget.metricsIds.includes(metric.id)
-    );
-    this.widget.metrics = temp;
+    if (this.editMode) {
+      // select widget metrics from metrics list, so they are same object
+      const temp = this.metrics.filter((metric) =>
+        this.widget.metricsIds.includes(metric.id)
+      );
+      this.widget.metrics = temp;
+    }
   }
 
   /** unsubscribe */

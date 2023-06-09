@@ -10,7 +10,7 @@ import {
   OnChanges,
 } from "@angular/core";
 import { MatSort } from "@angular/material/sort";
-import { MatLegacyTableDataSource as MatTableDataSource } from "@angular/material/legacy-table";
+import { MatTableDataSource } from "@angular/material/table";
 import { Metric } from "squacapi";
 import { WIDGET_TYPE_INFO } from "widgets";
 import { WidgetType } from "widgets";

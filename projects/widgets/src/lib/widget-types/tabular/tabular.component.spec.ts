@@ -7,7 +7,7 @@ import { MockBuilder } from "ng-mocks";
 import { WidgetConnectService } from "../../services/widget-connect.service";
 import { of } from "rxjs";
 import { WidgetManagerService } from "../../services/widget-manager.service";
-import { MatLegacyTableModule as MatTableModule } from "@angular/material/legacy-table";
+import { MatTableModule } from "@angular/material/table";
 import { MatSortModule } from "@angular/material/sort";
 
 describe("TabularComponent", () => {
