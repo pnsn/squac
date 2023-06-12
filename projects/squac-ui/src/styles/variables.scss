@@ -15,15 +15,15 @@ $squac-ui-warn: mat.define-palette(mat.$red-palette, 300);
 
 $my-custom-typography-config: mat.define-typography-config(
   $font-family: "Source Sans Pro",
-  $headline-1:
-    mat.define-typography-level(112px, 112px, 300, $letter-spacing: -0.05em),
-  $headline-2:
-    mat.define-typography-level(56px, 56px, 400, $letter-spacing: -0.02em),
-  $headline-3:
-    mat.define-typography-level(45px, 48px, 400, $letter-spacing: -0.005em),
-  $headline-4: mat.define-typography-level(34px, 40px, 400),
-  $headline-5: mat.define-typography-level(24px, 32px, 400),
 );
+
+// $headline-6: mat.define-typography-level(),
+// $subtitle-1: mat.define-typography-level(),
+// $subtitle-2: mat.define-typography-level(),
+// $body-1: mat.define-typography-level(),
+// $body-2: mat.define-typography-level(),
+// $caption: mat.define-typography-level(),
+// $button: mat.define-typography-level(),
 
 // Create the theme object (a Sass map containing all of the palettes).
 $squac-ui-theme: mat.define-light-theme(
@@ -42,6 +42,7 @@ $squac-ui-theme: mat.define-light-theme(
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include mat.all-component-themes($squac-ui-theme);
+@include mat.typography-hierarchy($my-custom-typography-config);
 
 $sq-yellow: mat.get-color-from-palette($squac-ui-accent);
 $sq-gray: mat.get-color-from-palette($squac-ui-neutral);
