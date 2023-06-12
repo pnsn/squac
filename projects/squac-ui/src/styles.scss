@@ -1,13 +1,11 @@
 @import "./styles/mixins.scss";
 @import "~leaflet/dist/leaflet.css";
 @import "~leaflet-draw/dist/leaflet.draw.css";
-@import "./styles/variables.scss";
 
 /* You can add global styles to this file, and also import other style files */
 // @include date-range-picker-theme($squac-ui-theme);
 * {
   box-sizing: border-box;
-  font-size: 11pt;
   font-family: "Source Sans Pro", sans-serif;
 }
 
@@ -18,10 +16,8 @@ body {
   padding: 0;
 }
 
-body {
-  margin: 0;
-  background-color: darken($sq-lt-gray, 5);
-}
+@import "./styles/variables.scss";
+
 .body-content-container {
   width: 100%;
   height: calc(100% - 60px);
@@ -340,4 +336,25 @@ a {
 }
 .leaflet-control-attribution a {
   font-size: 10pt;
+}
+
+$dense-checkbox-size: 28px;
+.dense-checkbox {
+  .mdc-form-field > .mdc-checkbox {
+    padding: calc(($dense-checkbox-size - 18px) / 2);
+    input[type="checkbox"] {
+      height: $dense-checkbox-size;
+      width: $dense-checkbox-size;
+    }
+    .mdc-checkbox__background {
+      top: 5px;
+      left: 5px;
+    }
+  }
+}
+
+.dense-form-field-input {
+  .mat-mdc-form-field-subscript-wrapper {
+    height: 0;
+  }
 }

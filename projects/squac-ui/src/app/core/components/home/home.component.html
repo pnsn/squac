@@ -25,11 +25,13 @@
     <mat-icon>menu</mat-icon>
   </button>
 </mat-toolbar>
-<mat-sidenav-container>
+<mat-sidenav-container class="main-sidenav-container">
   <mat-sidenav
     #sidenav
     position="end"
     color="primary"
+    fixedInViewport="true"
+    fixedTopGap="47"
   >
     <app-menu
       *ngIf="user"

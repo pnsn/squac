@@ -1,41 +1,25 @@
 <button (click)="useMaterial = !useMaterial">toggle material</button>
 {{useMaterial}}
 <div [ngClass]="{'mat-typography': useMaterial}">
-  <div class="mat-headline-1">mat-headline-1</div>
-  <div class="mat-headline-2">mat-headline-2</div>
-  <div class="mat-headline-3">mat-headline-3</div>
-  <div class="mat-headline-4">mat-headline-4</div>
-  <div class="mat-headline-5 mat-h1">mat-headline-5 mat-h1</div>
-  <div class="mat-headline-6 mat-h2">mat-headline-6 mat-h2</div>
-  <div class="mat-subtitle-1 mat-h3">mat-subtitle-1 mat-h3</div>
-  <div class="mat-body-1 mat-h4">mat-body-1 mat-h4</div>
-  <div class="mat-h5">mat-h5</div>
-  <div class="mat-h6">mat-h6</div>
-  <div class="mat-body mat-body-2">mat-body mat-body-2</div>
-  <div class="mat-body-strong mat-subtitle-2">mat-body-strong subtitle-2</div>
-  <div class="mat-small mat-caption">mat-small mat-caption</div>
-  <div>
-    <h1>H1 Header</h1>
-    <h2>H2 Header</h2>
-    <h3>H3 Header</h3>
-    <h4>H4 Header</h4>
-    <h5>H5 Header</h5>
-  </div>
+  <div class="mat-headline-1">$headline-1: mat-headline-1</div>
+  <div class="mat-headline-2">$headline-2: mat-headline-2</div>
+  <div class="mat-headline-3">$headline-3: mat-headline-3</div>
+  <div class="mat-headline-4">$headline-4: mat-headline-4</div>
+  <div class="mat-headline-5 mat-h1">$headline-5: mat-headline-5 mat-h1, &lt;h1&gt;</div>
+  <div class="mat-headline-6 mat-h2">$headline-6: mat-headline-6 mat-h2, &lt;h2&gt; </div>
+  <div class="mat-subtitle-1 mat-h3">$subtitle-1: mat-subtitle-1 mat-h3, &lt;h3&gt;</div>
+  <div class="mat-body-strong mat-subtitle-2">$subtitle-2: mat-body-strong subtitle-2</div>
+  <div class="mat-body-1 mat-h4">$body-1: mat-body-1 mat-h4, &lt;h4&gt;</div>
+  <div class="mat-body mat-body-2">$body-2: mat-body mat-body-2, body</div>
+  <div class="mat-small mat-caption">$caption: mat-small mat-caption</div>
+  <button mat-button>$button: Button Text</button>
 
   <div class="title">
     <h1>H1 Header in title</h1>
-    <h2>H2 Header in title</h2>
-    <h3>H3 Header in title</h3>
-    <h4>H4 Header in title</h4>
-    <h5>H5 Header in title</h5>
   </div>
 
   <div class="header-title">
     <h1>H1 Header in header-title</h1>
-    <h2>H2 Header in header-title</h2>
-    <h3>H3 Header in header-title</h3>
-    <h4>H4 Header in header-title</h4>
-    <h5>H5 Header in header-title</h5>
   </div>
 
   <div class="box">

@@ -1,5 +1,6 @@
 <mat-form-field
   class="medium"
+  class="dense-form-field-input"
   [appearance]="appearance"
   [ngClass]="{ 'dense-form-field': dense }"
 >
@@ -20,12 +21,14 @@
     #autoChannelGroup="matAutocomplete"
     [displayWith]="displayFn"
   >
-    <mat-optgroup *ngFor="let group of sortedGroups" [label]="group.name">
+    <mat-optgroup
+      *ngFor="let group of sortedGroups"
+      [label]="group.name"
+    >
       <mat-option
         *ngFor="let channelGroup of group.groups"
         [value]="channelGroup"
-        >{{ channelGroup.name }} ({{ channelGroup.channelsCount }})</mat-option
-      >
+      >{{ channelGroup.name }} ({{ channelGroup.channelsCount }})</mat-option>
     </mat-optgroup>
   </mat-autocomplete>
 </mat-form-field>

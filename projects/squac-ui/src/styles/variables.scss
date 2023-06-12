@@ -15,15 +15,29 @@ $squac-ui-warn: mat.define-palette(mat.$red-palette, 300);
 
 $my-custom-typography-config: mat.define-typography-config(
   $font-family: "Source Sans Pro",
+  $headline-1:
+    mat.define-typography-level(80px, 80px, 300, $letter-spacing: -1.5px),
+  $headline-2:
+    mat.define-typography-level(60px, 60px, 300, $letter-spacing: -0.5px),
+  $headline-3:
+    mat.define-typography-level(48px, 50px, 400, $letter-spacing: 0px),
+  $headline-4:
+    mat.define-typography-level(34px, 40px, 400, $letter-spacing: 0.25px),
+  $headline-5:
+    mat.define-typography-level(24px, 32px, 400, $letter-spacing: 0px),
+  $headline-6:
+    mat.define-typography-level(20px, 32px, 600, $letter-spacing: 0.15px),
+  $subtitle-1:
+    mat.define-typography-level(16px, 28px, 400, $letter-spacing: 0.15px),
+  $subtitle-2:
+    mat.define-typography-level(16px, 22px, 600, $letter-spacing: 0.1px),
+  $body-1: mat.define-typography-level(16px, 23px, 400, $letter-spacing: 0.5px),
+  $body-2: mat.define-typography-level(16px, 24px, 400, $letter-spacing: 0.25px),
+  $caption: mat.define-typography-level(12px, 12px, 400, $letter-spacing: 0.4px),
+  $button: mat.define-typography-level(16px, 16px, 600),
+  $overline:
+    mat.define-typography-level(10px, normal, 400, $letter-spacing: 1.54px),
 );
-
-// $headline-6: mat.define-typography-level(),
-// $subtitle-1: mat.define-typography-level(),
-// $subtitle-2: mat.define-typography-level(),
-// $body-1: mat.define-typography-level(),
-// $body-2: mat.define-typography-level(),
-// $caption: mat.define-typography-level(),
-// $button: mat.define-typography-level(),
 
 // Create the theme object (a Sass map containing all of the palettes).
 $squac-ui-theme: mat.define-light-theme(
@@ -44,6 +58,11 @@ $squac-ui-theme: mat.define-light-theme(
 @include mat.all-component-themes($squac-ui-theme);
 @include mat.typography-hierarchy($my-custom-typography-config);
 
+@include mat.form-field-density(-5);
+@include mat.input-density(-5);
+@include mat.select-density(-5);
+@include mat.button-toggle-density(-5);
+@include mat.checkbox-density(-3);
 $sq-yellow: mat.get-color-from-palette($squac-ui-accent);
 $sq-gray: mat.get-color-from-palette($squac-ui-neutral);
 $sq-blue: mat.get-color-from-palette($squac-ui-primary);

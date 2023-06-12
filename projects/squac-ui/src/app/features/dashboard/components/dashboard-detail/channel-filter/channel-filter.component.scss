@@ -2,6 +2,17 @@
   &:hover {
     font-weight: bold;
   }
+  .mdc-checkbox {
+    padding: 5px;
+    height: 28px;
+    width: 28px;
+    input[type="checkbox"] {
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+  }
 }
 
 // :host ::ng-deep .mat-button,

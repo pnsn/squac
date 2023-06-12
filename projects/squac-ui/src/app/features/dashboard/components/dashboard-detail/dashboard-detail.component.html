@@ -51,9 +51,8 @@
       </div>
       <div id="dashboard-buttons">
         <button
-          class="icon-button"
           [disabled]="(hasUnsavedChanges | async) === true"
-          mat-button
+          mat-icon-button
           (click)="refreshData()"
           uiTooltip="Refresh data"
           aria-label="Button that requests new data from the database"
@@ -69,8 +68,7 @@
           Apply
         </button>
         <button
-          class="icon-button"
-          mat-button
+          mat-icon-button
           [color]="!hideRows ? 'primary' : ''"
           uiTooltip="configure dashboard"
           (click)="hideRows = !hideRows"
@@ -79,8 +77,7 @@
         </button>
         <button
           color="accent"
-          mat-button
-          class="icon-button"
+          mat-icon-button
           (click)="addWidget()"
           *ngIf="'update' | able: dashboard"
           uiTooltip="Add widget"
