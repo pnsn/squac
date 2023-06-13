@@ -22,6 +22,7 @@
           *matHeaderCellDef
         >
           <mat-checkbox
+            class="dense-checkbox"
             (change)="$event ? toggleAllRows() : null"
             [checked]="selection.hasValue() && isAllSelected()"
             [indeterminate]="selection.hasValue() && !isAllSelected()"
@@ -33,6 +34,7 @@
           *matCellDef="let row"
         >
           <mat-checkbox
+            class="dense-checkbox"
             (click)="$event.stopPropagation()"
             (change)="$event ? selection.toggle(row) : null"
             [checked]="selection.isSelected(row)"
@@ -106,6 +108,13 @@
           {{row.code}}
         </td>
       </ng-container>
+      <ng-container matColumnDef="footer">
+        <td
+          mat-footer-cell
+          *matFooterCellDef
+          [attr.colspan]="channelColumns.length"
+        >{{selection.selected.length}} / {{dataSource.data.length}} channels selected</td>
+      </ng-container>
       <tr
         mat-header-row
         *matHeaderRowDef="channelColumns; sticky:true"
@@ -115,6 +124,19 @@
         (click)="selection.toggle(row)"
         *matRowDef="let row; columns: channelColumns;"
       ></tr>
+      <tr
+        mat-footer-row
+        *matFooterRowDef="['footer']; sticky:true"
+      ></tr>
+      <tr
+        class="mat-row"
+        *matNoDataRow
+      >
+        <td
+          class="mat-cell"
+          [attr.colspan]="channelColumns.length"
+        >No channels found.</td>
+      </tr>
     </table>
   </div>
 </div>

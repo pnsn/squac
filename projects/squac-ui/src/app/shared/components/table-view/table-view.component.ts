@@ -29,6 +29,7 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { SelectionModel } from "@angular/cdk/collections";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
+import { MatPaginator } from "@angular/material/paginator";
 
 /**
  * Reusable table view component
@@ -90,7 +91,8 @@ export class TableViewComponent
   dataSource: MatTableDataSource<any> = new MatTableDataSource([]);
   /** selection on alert table */
   selection: SelectionModel<any> = new SelectionModel(false, []);
-
+  /** table pagination */
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   /** currently selected row */
   selectedRow: any;
 
@@ -109,6 +111,7 @@ export class TableViewComponent
    *
    */
   ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
   //doubleclick on row to view detail?
@@ -348,6 +351,9 @@ export class TableViewComponent
   searchFieldChanged(rows: any[]): void {
     this.hideShared = false;
     this.dataSource.data = [...rows];
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   /**

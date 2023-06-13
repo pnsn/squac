@@ -2,7 +2,10 @@
   id="filter-container"
   class="row wrap space-between"
 >
-  <mat-form-field>
+  <mat-form-field
+    class="dense-form-field"
+    subscriptSizing="dynamic"
+  >
     <input
       matInput
       [(ngModel)]="net"
@@ -10,8 +13,9 @@
       (input)="net = net.toUpperCase()"
     />
     <button
-      matSuffix
-      mat-button
+      matIconSuffix
+      mat-icon-button
+      class="dense-icon-button"
       [class]="net ? 'has-input' : 'no-input'"
       aria-label="Clear"
       (click)="net = null"
@@ -19,7 +23,10 @@
       <mat-icon>close</mat-icon>
     </button>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field
+    class="dense-form-field"
+    subscriptSizing="dynamic"
+  >
     <input
       matInput
       [(ngModel)]="sta"
@@ -27,8 +34,9 @@
       (input)="sta = sta.toUpperCase()"
     />
     <button
-      matSuffix
-      mat-button
+      matIconSuffix
+      mat-icon-button
+      class="dense-icon-button"
       aria-label="Clear"
       [class]="sta ? 'has-input' : 'no-input'"
       (click)="sta = null"
@@ -36,7 +44,10 @@
       <mat-icon>close</mat-icon>
     </button>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field
+    class="dense-form-field"
+    subscriptSizing="dynamic"
+  >
     <input
       matInput
       [(ngModel)]="loc"
@@ -44,16 +55,20 @@
       (input)="loc = loc.toUpperCase()"
     />
     <button
-      matSuffix
-      mat-button
+      matIconSuffix
+      mat-icon-button
       aria-label="Clear"
+      class="dense-icon-button"
       [class]="loc ? 'has-input' : 'no-input'"
       (click)="loc = null"
     >
       <mat-icon>close</mat-icon>
     </button>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field
+    class="dense-form-field"
+    subscriptSizing="dynamic"
+  >
     <input
       matInput
       [(ngModel)]="chan"
@@ -61,8 +76,9 @@
       (input)="chan = chan.toUpperCase()"
     />
     <button
-      matSuffix
-      mat-button
+      matIconSuffix
+      mat-icon-button
+      class="dense-icon-button"
       [class]="chan ? 'has-input' : 'no-input'"
       aria-label="Clear"
       (click)="chan = null"

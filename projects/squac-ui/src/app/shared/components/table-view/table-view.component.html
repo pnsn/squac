@@ -78,7 +78,10 @@
       </div>
     </div>
   </div>
-  <div id="table-body">
+  <div
+    id="table-body"
+    [appIsLoading]="isLoading"
+  >
     <table
       mat-table
       matSort
@@ -160,6 +163,13 @@
           </ng-container>
         </ng-container>
       </ng-container>
+      <ng-container matColumnDef="footer">
+        <td
+          mat-footer-cell
+          *matFooterCellDef
+          [attr.colspan]="tableColumns.length"
+        >{{dataSource.data.length}} results.</td>
+      </ng-container>
       <tr
         mat-header-row
         *matHeaderRowDef="tableColumns; sticky:true"
@@ -172,12 +182,26 @@
         [ngClass]="{'selected': selection.isSelected(row)}"
       >
       </tr>
-      <!-- <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr> -->
+      <!-- <tr
+        mat-footer-row
+        *matFooterRowDef="['footer']; sticky: true"
+      ></tr> -->
       <!-- Row shown when there is no matching data. -->
-      <!-- <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-    </tr> -->
+      <tr
+        class="mat-row"
+        *matNoDataRow
+      >
+        <td
+          class="mat-cell"
+          [attr.colspan]="tableColumns.length"
+        >No results found"</td>
+      </tr>
     </table>
+    <mat-paginator
+      pageSize="25"
+      [pageSizeOptions]="[25, 50, 100]"
+      aria-label="Select page of data"
+    ></mat-paginator>
   </div>
 </div>
 

@@ -49,6 +49,7 @@
       >
         <div class="medium">
           <mat-checkbox
+            class="dense-checkbox"
             #isInclude
             formControlName="isInclude"
             (change)="updateRules()"
@@ -57,7 +58,7 @@
         </div>
 
         <div class="field-column">
-          <mat-form-field>
+          <mat-form-field class="dense-form-field">
             <input
               #networkRegex
               matInput
@@ -69,7 +70,7 @@
         </div>
 
         <div class="field-column">
-          <mat-form-field>
+          <mat-form-field class="dense-form-field">
             <input
               #stationRegex
               matInput
@@ -81,7 +82,7 @@
         </div>
 
         <div class="field-column">
-          <mat-form-field>
+          <mat-form-field class="dense-form-field">
             <input
               #locationRegex
               matInput
@@ -93,7 +94,7 @@
         </div>
 
         <div class="field-column">
-          <mat-form-field>
+          <mat-form-field class="dense-form-field">
             <input
               #channelRegex
               matInput

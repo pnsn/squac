@@ -22,6 +22,7 @@ import { SquacapiModule } from "squacapi";
 import { SharingToggleComponent } from "./components/sharing-toggle/sharing-toggle.component";
 import { TooltipModule } from "@ui/tooltip/tooltip.module";
 import { TableViewComponent } from "./components/table-view/table-view.component";
+import { LoadingDirective } from "./directives/loading-directive.directive";
 /**
  * Shared module for features
  */
@@ -31,7 +32,6 @@ import { TableViewComponent } from "./components/table-view/table-view.component
     ConfirmDialogComponent,
     LoadingComponent,
     ErrorComponent,
-
     SnackbarComponent,
     SharedIndicatorComponent,
     DateSelectComponent,
@@ -54,6 +54,7 @@ import { TableViewComponent } from "./components/table-view/table-view.component
     NgxDaterangepickerMd.forRoot(),
     SquacapiModule,
     TooltipModule,
+    LoadingDirective,
   ],
   exports: [
     MaterialModule,

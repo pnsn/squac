@@ -4,8 +4,6 @@
 * to all components.
 */
 
-.dense-form-field {
-}
 // @include mat.tree-density(-2);
 // density config, will change if material implements more native density control
 $dense-checkbox-size: 28px;
@@ -13,6 +11,16 @@ $dense-icon-size: 20px;
 $dense-icon-button-size: 28px;
 $dense-menu-item-height: 30px;
 $dense-option-height: 30px;
+
+.dense-form-field {
+  .mat-mdc-form-field-icon-prefix > mat-icon,
+  .mat-mdc-form-field-icon-suffix > mat-icon {
+    padding: 3px;
+    height: $dense-icon-size;
+    width: $dense-icon-size;
+    font-size: $dense-icon-size;
+  }
+}
 
 // mat-checkbox, smaller checkbox field
 $dense-checkbox-padding-size: calc(($dense-checkbox-size - 18px) / 2);

@@ -35,6 +35,7 @@
           *matHeaderCellDef
         >
           <mat-checkbox
+            class="dense-checkbox"
             (change)="$event ? toggleAllRows() : null"
             [checked]="selection.hasValue() && isAllSelected()"
             [indeterminate]="selection.hasValue() && !isAllSelected()"
@@ -102,6 +103,13 @@
           {{row.description}}
         </td>
       </ng-container>
+      <ng-container matColumnDef="footer">
+        <td
+          mat-footer-cell
+          *matFooterCellDef
+          [attr.colspan]="metricColumns.length"
+        >{{selection.selected.length}} / {{dataSource.data.length}} metrics selected</td>
+      </ng-container>
       <tr
         mat-header-row
         *matHeaderRowDef="metricColumns; sticky:true"
@@ -110,6 +118,10 @@
         mat-row
         (click)="selection.toggle(row)"
         *matRowDef="let row; columns: metricColumns;"
+      ></tr>
+      <tr
+        mat-footer-row
+        *matFooterRowDef="['footer']; sticky:true"
       ></tr>
 
     </table>
