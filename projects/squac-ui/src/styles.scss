@@ -297,3 +297,15 @@ a {
 .leaflet-control-attribution a {
   font-size: 10pt;
 }
+
+.centered-form {
+  @extend .form;
+
+  width: 100%;
+  align-items: stretch;
+  button {
+    align-self: center;
+    margin-bottom: 5px;
+  }
+  margin-bottom: 5px;
+}

@@ -1,5 +1,5 @@
 <div class="column centered">
-  <h1>Sign In</h1>
+  <h1 class="mat-h1">Sign In</h1>
   <span
     *ngIf="error"
     class="error"
@@ -13,7 +13,7 @@
     {{ message }}
   </span>
   <form
-    class="form"
+    class="centered-form"
     [formGroup]="loginForm"
     (ngSubmit)="onSubmit()"
   >

@@ -17,69 +17,68 @@
     >View All Organizations</a>
   </ng-container>
   <ng-container bodyContent>
-    <div
-      id="user-settings-content"
-      class="box"
-    >
-      <p>
-        Role: {{ user.isOrgAdmin ? "Admin" : "User" }} in the
-        <a [routerLink]="['../organizations', user.orgId]">{{ user.orgId | organization }}
-        </a>
-        organization.
-      </p>
-      <div
-        id="user-info-top"
-        class="row"
-      >
-        <h3>User Information</h3>
-        <button
-          mat-button
-          color="accent"
-          *ngIf="editMode"
-          [disabled]="!userForm.valid"
-          (click)="save()"
-          uiTooltip="Save user information."
-          aria-label="Button that saves the user information."
+    <mat-card>
+      <mat-card-content>
+        <p>
+          Role: {{ user.isOrgAdmin ? "Admin" : "User" }} in the
+          <a [routerLink]="['../organizations', user.orgId]">{{ user.orgId | organization }}
+          </a>
+          organization.
+        </p>
+        <div
+          id="user-info-top"
+          class="row"
         >
-          <mat-icon>save</mat-icon>
-        </button>
-        <button
-          mat-button
-          color="primary"
-          (click)="editForm()"
-          *ngIf="!editMode"
-          uiTooltip="Edit user information."
-          aria-label="Button that enables editing of the user information."
-        >
-          <mat-icon>edit</mat-icon>
-        </button>
-      </div>
+          <h3>User Information</h3>
+          <button
+            mat-button
+            color="accent"
+            *ngIf="editMode"
+            [disabled]="!userForm.valid"
+            (click)="save()"
+            uiTooltip="Save user information."
+            aria-label="Button that saves the user information."
+          >
+            <mat-icon>save</mat-icon>
+          </button>
+          <button
+            mat-button
+            color="primary"
+            (click)="editForm()"
+            *ngIf="!editMode"
+            uiTooltip="Edit user information."
+            aria-label="Button that enables editing of the user information."
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
 
-      <form
-        [formGroup]="userForm"
-        class="form"
-      >
-        <div class="row">
-          <span id="label">First Name:</span>
-          <mat-form-field class="medium">
-            <input
-              matInput
-              formControlName="firstname"
-              [readonly]="!editMode"
-            />
-          </mat-form-field>
-        </div>
-        <div class="row">
-          <span id="label">Last Name:</span>
-          <mat-form-field class="medium">
-            <input
-              matInput
-              formControlName="lastname"
-              [readonly]="!editMode"
-            />
-          </mat-form-field>
-        </div>
-      </form>
-    </div>
+        <form
+          [formGroup]="userForm"
+          class="form"
+        >
+          <div class="row">
+            <span id="label">First Name:</span>
+            <mat-form-field class="medium">
+              <input
+                matInput
+                formControlName="firstname"
+                [readonly]="!editMode"
+              />
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <span id="label">Last Name:</span>
+            <mat-form-field class="medium">
+              <input
+                matInput
+                formControlName="lastname"
+                [readonly]="!editMode"
+              />
+            </mat-form-field>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
   </ng-container>
 </shared-detail-page>

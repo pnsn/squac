@@ -9,7 +9,6 @@ import { Router, ActivatedRoute } from "@angular/router";
 @Component({
   selector: "user-password-reset",
   templateUrl: "./password-reset.component.html",
-  styleUrls: ["./password-reset.component.scss"],
 })
 export class PasswordResetComponent implements OnInit {
   emailSent = false; // has email been sent
