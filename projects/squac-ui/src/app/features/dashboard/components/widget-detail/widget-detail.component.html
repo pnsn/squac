@@ -10,8 +10,8 @@
     >
       <button
         *ngIf="widgetType && widgetType.zoomControls"
-        mat-button
-        class="icon-button"
+        mat-icon-button
+        class="dense-icon-button"
         [color]="zooming === 'start' ? 'accent' : ''"
         (click)="updateZoom()"
         uiTooltip="start zoom"
@@ -21,8 +21,8 @@
       </button>
       <button
         *ngIf="widgetType && widgetType.zoomControls"
-        mat-button
-        class="icon-button"
+        class="dense-icon-button"
+        mat-icon-button
         (click)="updateZoom('reset')"
         uiTooltip="reset zoom"
         aria-label="button that resets zoom"
@@ -31,8 +31,8 @@
       </button>
       <button
         *ngIf="widgetType && widgetType.toggleKey"
-        class="icon-button "
-        mat-button
+        class="dense-icon-button"
+        mat-icon-button
         [color]="showKey ? 'primary' : 'gray'"
         uiTooltip="toggle key"
         aria-label="button that toggles key"
@@ -49,8 +49,8 @@
         [expectedMetrics]="expectedMetrics"
       ></widget-metric-toggle>
       <button
-        class="icon-button"
-        mat-button
+        class="dense-icon-button"
+        mat-icon-button
         [matMenuTriggerFor]="widgetMenu"
         color="primary"
         aria-label="change widget settings"
@@ -62,7 +62,7 @@
   </div>
   <mat-menu
     #widgetMenu="matMenu"
-    class="mat-menu-dense"
+    class="dense-menu"
     yPosition="below"
     xPosition="before"
   >
@@ -94,7 +94,7 @@
   </mat-menu>
   <mat-menu
     #dashboardMenu="matMenu"
-    class="mat-menu-dense"
+    class="dense-menu"
   >
     <ng-template
       matMenuContent

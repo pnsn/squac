@@ -63,6 +63,8 @@ $squac-ui-theme: mat.define-light-theme(
 @include mat.select-density(-5);
 @include mat.button-toggle-density(-5);
 @include mat.checkbox-density(-3);
+@include mat.menu-density(-3);
+@include mat.list-density(-3);
 $sq-yellow: mat.get-color-from-palette($squac-ui-accent);
 $sq-gray: mat.get-color-from-palette($squac-ui-neutral);
 $sq-blue: mat.get-color-from-palette($squac-ui-primary);

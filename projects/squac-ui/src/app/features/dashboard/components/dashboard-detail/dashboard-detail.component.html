@@ -11,7 +11,7 @@
       id="info-row"
     >
       <div id="dashboard-info">
-        <h2>{{ dashboard?.name }}</h2>
+        <h2 class="mat-h2">{{ dashboard?.name }}</h2>
         <span *ngIf="dashboard?.owner && dashboard?.orgId">
           by {{ dashboard?.owner | user }} ({{
           dashboard?.orgId | organization
@@ -119,7 +119,7 @@
 
 <mat-menu
   #appMenu="matMenu"
-  class="mat-menu-dense"
+  class="dense-menu"
   yPosition="below"
   xPosition="before"
 >

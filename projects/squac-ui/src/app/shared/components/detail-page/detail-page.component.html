@@ -18,7 +18,7 @@
 
       <button
         *ngIf="buttons.deleteButton && ('delete' | able: resource)"
-        mat-button
+        mat-icon-button
         (click)="buttonAction('delete')"
         color="warn"
         uiTooltip="Delete {{ type }}"
@@ -28,7 +28,7 @@
       </button>
       <button
         *ngIf="buttons.editButton && ('update' | able: resource)"
-        mat-button
+        mat-icon-button
         color="primary"
         (click)="buttonAction('edit')"
         uiTooltip="Edit {{ type }}"
@@ -50,7 +50,7 @@
 
       <button
         *ngIf="buttons.saveButton && ('update' | able: resource)"
-        mat-button
+        mat-icon-button
         color="accent"
         (click)="buttonAction('save')"
         uiTooltip="Save {{ type }}"

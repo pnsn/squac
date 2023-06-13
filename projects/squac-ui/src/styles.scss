@@ -339,16 +339,17 @@ a {
 }
 
 $dense-checkbox-size: 28px;
+$dense-checkbox-padding-size: calc(($dense-checkbox-size - 18px) / 2);
 .dense-checkbox {
   .mdc-form-field > .mdc-checkbox {
-    padding: calc(($dense-checkbox-size - 18px) / 2);
+    padding: $dense-checkbox-padding-size;
     input[type="checkbox"] {
       height: $dense-checkbox-size;
       width: $dense-checkbox-size;
     }
     .mdc-checkbox__background {
-      top: 5px;
-      left: 5px;
+      top: $dense-checkbox-padding-size;
+      left: $dense-checkbox-padding-size;
     }
   }
 }
@@ -356,5 +357,27 @@ $dense-checkbox-size: 28px;
 .dense-form-field-input {
   .mat-mdc-form-field-subscript-wrapper {
     height: 0;
+  }
+}
+
+$dense-icon-size: 20px;
+$dense-icon-button-size: 28px;
+.dense-icon-button.mat-mdc-icon-button.mat-mdc-button-base {
+  height: $dense-icon-button-size;
+  width: $dense-icon-button-size;
+  padding: calc(($dense-icon-button-size - $dense-icon-size) / 2);
+
+  mat-icon {
+    height: $dense-icon-size;
+    width: $dense-icon-size;
+    font-size: $dense-icon-size;
+  }
+}
+
+.dense-menu {
+  .mat-mdc-menu-content {
+    .mat-mdc-menu-item {
+      min-height: 30px;
+    }
   }
 }

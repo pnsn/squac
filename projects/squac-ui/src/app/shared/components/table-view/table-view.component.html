@@ -43,7 +43,7 @@
         </button>
         <mat-menu
           #menu
-          class="mat-menu-dense"
+          class="dense-menu"
         >
           <ng-container *ngFor="let item of controls.menu?.options">
             <button
@@ -67,11 +67,11 @@
         <ng-content select="[tableHeadControls]"> </ng-content>
         <button
           *ngIf="controls.refresh"
-          mat-button
+          mat-icon-button
           class="icon-button"
           aria-label="button that refreshes data"
           (click)="refreshResource()"
-          uiTooltip="refresh table"
+          matTooltip="refresh table"
         >
           <mat-icon>refresh</mat-icon>
         </button>

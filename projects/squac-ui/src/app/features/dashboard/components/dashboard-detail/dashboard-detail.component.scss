@@ -31,9 +31,13 @@
   }
   #dashboard-info {
     order: -1;
-    h2 {
-      display: inline;
-      font-size: 12pt;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-items: flex-start;
+    gap: 3px;
+    .mat-h2 {
+      margin: 0;
     }
     span {
       font-weight: 200;

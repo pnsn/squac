@@ -1,17 +1,17 @@
 <mat-drawer-container
   autosize
   id="dashboard-sidenav"
+  class="dense-sidenav"
 >
   <mat-drawer
     #drawer
-    id="dashboard-sidenav-content"
     class="sidenav"
     [(opened)]="sideNavOpened"
     (opened)="toggleSidenav()"
     (closed)="toggleSidenav()"
     mode="side"
   >
-    <h4 class="header">Channels</h4>
+    <h4 class="mat-h4">Channels</h4>
 
     <dashboard-channel-filter (closeSidenav)="drawer.toggle()"></dashboard-channel-filter>
   </mat-drawer>
