@@ -48,7 +48,6 @@ $squac-ui-theme: mat.define-light-theme(
       warn: $squac-ui-warn,
     ),
     typography: $my-custom-typography-config,
-    density: -2,
   )
 );
 
@@ -58,14 +57,13 @@ $squac-ui-theme: mat.define-light-theme(
 @include mat.all-component-themes($squac-ui-theme);
 @include mat.typography-hierarchy($my-custom-typography-config);
 
-// @include mat.card-density(-2);
-// @include mat.progress-bar-density(-2);
+@include mat.card-density(-2);
+@include mat.progress-bar-density(-2);
 // @include mat.progress-spinner-density(-2);
-// @include mat.tooltip-density(-2);
-// @include mat.core-density(-2);
-// @include mat.checkbox-density(-2);
-// @include mat.autocomplete-density(-2);
-@include mat.dialog-density(-3);
+@include mat.tooltip-density(-2);
+@include mat.core-density(-2);
+@include mat.checkbox-density(-2);
+@include mat.autocomplete-density(-2);
 // @include mat.chips-density(-2);
 @include mat.slide-toggle-density(-3);
 @include mat.radio-density(-3);
@@ -84,6 +82,9 @@ $squac-ui-theme: mat.define-light-theme(
 @include mat.stepper-density(-3);
 @include mat.toolbar-density(-2);
 
+@include mat.dialog-density(-2);
+@include mat.form-field-density(-1);
+@include mat.input-density(-3);
 // applying globally messes up form field in forms
 .dense-form-field {
   @include mat.form-field-density(-5);

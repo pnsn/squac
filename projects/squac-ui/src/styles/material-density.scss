@@ -60,11 +60,14 @@ $dense-checkbox-padding-size: calc(($dense-checkbox-size - 18px) / 2);
       transform: none;
     }
   }
+  .mat-mdc-option {
+    min-height: $dense-option-height;
+  }
 }
 
 .dense-optgroup {
-  & > .mat-mdc-optgroup-label {
-  }
-  & > .mat-mdc-option {
+  .mat-mdc-optgroup-label,
+  .mat-mdc-option {
+    min-height: $dense-option-height;
   }
 }

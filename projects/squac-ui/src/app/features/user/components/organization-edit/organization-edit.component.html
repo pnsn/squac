@@ -28,17 +28,18 @@
     [formGroup]="userForm"
   >
     <mat-form-field>
+      <mat-label>Email</mat-label>
       <input
         matInput
         required
         floatLabel="always"
-        placeholder="Email"
         formControlName="email"
         type="text"
         id="email"
       />
     </mat-form-field>
     <mat-form-field>
+      <mat-label>First Name</mat-label>
       <input
         matInput
         formControlName="firstname"
@@ -48,6 +49,7 @@
       />
     </mat-form-field>
     <mat-form-field>
+      <mat-label>Last Name</mat-label>
       <input
         matInput
         formControlName="lastname"
@@ -57,10 +59,10 @@
       />
     </mat-form-field>
     <mat-form-field>
+      <mat-label>Permission Groups</mat-label>
       <mat-select
         formControlName="groups"
         multiple
-        placeholder="Permission Groups"
         class="dense-select"
       >
         <mat-option
