@@ -20,11 +20,13 @@
       >
         <button
           *ngIf="!row.parentId"
+          mat-icon-button
+          class="dense-icon-button"
           aria-label="expand row"
           (click)="(row.children ? expandRow(row) : expandedElement = null); $event.stopPropagation()"
         >
-          <span *ngIf="expandedElement !== row">^</span>
-          <span *ngIf="expandedElement === row">v</span>
+          <mat-icon *ngIf="expandedElement !== row">expand_less</mat-icon>
+          <mat-icon *ngIf="expandedElement === row">expand_more</mat-icon>
         </button>
       </td>
     </ng-container>
@@ -73,13 +75,16 @@
       <th
         mat-header-cell
         *matHeaderCellDef
+        [matTooltip]="metric.name"
         mat-sort-header
+        class="metric-column"
       >
         {{metric.name}}
       </th>
       <td
         mat-cell
         *matCellDef="let row"
+        class="metric-column"
         [ngStyle]="{ 'background-color': !showKey || properties.displayType === 'stoplight' ? row.metrics[metric.code]?.color : 'white' }"
       >
         <ng-container *ngIf="row.metrics[metric.code] as metricData; else noValue">

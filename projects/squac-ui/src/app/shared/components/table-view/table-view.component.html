@@ -168,6 +168,7 @@
         mat-row
         *matRowDef="let row; columns: tableColumns;"
         (click)="selectRow(row)"
+        class="table-row"
         [ngClass]="{'selected': selection.isSelected(row)}"
       >
       </tr>

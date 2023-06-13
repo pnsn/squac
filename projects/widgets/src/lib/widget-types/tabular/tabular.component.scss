@@ -4,8 +4,15 @@ $font-size: 9pt !important;
   height: 100%;
   width: 100%;
   overflow: auto;
-  table {
+  table.mat-mdc-table {
     width: 100%;
+    .mdc-data-table__row {
+      height: 25px;
+    }
+    .mdc-data-table__cell,
+    .mdc-data-table__header-cell {
+      font-size: 14px;
+    }
   }
 }
 
@@ -27,4 +34,29 @@ $font-size: 9pt !important;
 }
 span {
   font-size: $font-size;
+}
+
+.metric-column {
+  padding-left: 5px;
+  padding-right: 5px;
+  .mat-sort-header-content {
+    min-width: 40px;
+    max-width: 50px;
+  }
+  // word-break: break-all;
+}
+
+th.mat-column-expand,
+th.mat-column-agg,
+td.mat-column-agg,
+td.mat-column-expand {
+  width: 35px;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+th.mat-column-title,
+td.mat-column-title {
+  padding-left: 4px;
+  padding-right: 4px;
 }

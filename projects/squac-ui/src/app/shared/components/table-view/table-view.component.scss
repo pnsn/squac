@@ -29,6 +29,12 @@
   }
 }
 
-.selected {
-  background-color: red;
+tr.table-row {
+  &:not(.selected):hover,
+  &.selected {
+    background: whitesmoke;
+  }
+  &:active {
+    background: #efefef;
+  }
 }
