@@ -1,8 +1,8 @@
 <mat-form-field
   class="medium"
-  class="dense-form-field-input"
   [appearance]="appearance"
   [ngClass]="{ 'dense-form-field': dense }"
+  subscriptSizing="dynamic"
 >
   <!-- <mat-label>{{ label }}{{ required ? "(required)" : "" }}</mat-label> -->
   <mat-label *ngIf="selectedChannelGroup">Channel Group</mat-label>
@@ -24,6 +24,7 @@
     <mat-optgroup
       *ngFor="let group of sortedGroups"
       [label]="group.name"
+      class="dense-optgroup"
     >
       <mat-option
         *ngFor="let channelGroup of group.groups"

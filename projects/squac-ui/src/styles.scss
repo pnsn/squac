@@ -32,13 +32,6 @@ body {
 }
 
 #dashboard-container {
-  // margin: -10px -1% 0;
-  // @include md {
-  //   margin: -10px -2% 0;
-  // }
-  // @include lg {
-  //   margin: -10px -4.25% 0;
-  // }
   width: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -95,39 +88,6 @@ body {
   border: $light-border;
 }
 
-// /* Text styles */
-
-// h1 {
-//   font-size: 1.3rem;
-//   font-weight: 600;
-// }
-
-// h2 {
-//   font-size: 1.2rem;
-//   font-weight: 600;
-// }
-
-// h3 {
-//   font-size: 1.1rem;
-//   font-weight: 600;
-//   margin-block-start: 0.8em;
-//   margin-block-end: 0.8em;
-// }
-
-// h4 {
-//   font-size: 1rem;
-//   font-weight: 600;
-//   margin-block-start: 0.8em;
-//   margin-block-end: 0.8em;
-// }
-
-// p {
-//   margin-top: 10px;
-//   font-size: 1rem;
-//   font-weight: 400;
-// }
-
-//shared flex styling
 .row-reverse {
   display: flex;
   flex-direction: row-reverse;
@@ -336,48 +296,4 @@ a {
 }
 .leaflet-control-attribution a {
   font-size: 10pt;
-}
-
-$dense-checkbox-size: 28px;
-$dense-checkbox-padding-size: calc(($dense-checkbox-size - 18px) / 2);
-.dense-checkbox {
-  .mdc-form-field > .mdc-checkbox {
-    padding: $dense-checkbox-padding-size;
-    input[type="checkbox"] {
-      height: $dense-checkbox-size;
-      width: $dense-checkbox-size;
-    }
-    .mdc-checkbox__background {
-      top: $dense-checkbox-padding-size;
-      left: $dense-checkbox-padding-size;
-    }
-  }
-}
-
-.dense-form-field-input {
-  .mat-mdc-form-field-subscript-wrapper {
-    height: 0;
-  }
-}
-
-$dense-icon-size: 20px;
-$dense-icon-button-size: 28px;
-.dense-icon-button.mat-mdc-icon-button.mat-mdc-button-base {
-  height: $dense-icon-button-size;
-  width: $dense-icon-button-size;
-  padding: calc(($dense-icon-button-size - $dense-icon-size) / 2);
-
-  mat-icon {
-    height: $dense-icon-size;
-    width: $dense-icon-size;
-    font-size: $dense-icon-size;
-  }
-}
-
-.dense-menu {
-  .mat-mdc-menu-content {
-    .mat-mdc-menu-item {
-      min-height: 30px;
-    }
-  }
 }

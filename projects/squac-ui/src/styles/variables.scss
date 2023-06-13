@@ -58,14 +58,41 @@ $squac-ui-theme: mat.define-light-theme(
 @include mat.all-component-themes($squac-ui-theme);
 @include mat.typography-hierarchy($my-custom-typography-config);
 
-@include mat.form-field-density(-5);
-@include mat.input-density(-5);
-@include mat.select-density(-5);
-@include mat.button-toggle-density(-4);
-@include mat.checkbox-density(-3);
+// @include mat.card-density(-2);
+// @include mat.progress-bar-density(-2);
+// @include mat.progress-spinner-density(-2);
+// @include mat.tooltip-density(-2);
+// @include mat.core-density(-2);
+// @include mat.checkbox-density(-2);
+// @include mat.autocomplete-density(-2);
+@include mat.dialog-density(-3);
+// @include mat.chips-density(-2);
+@include mat.slide-toggle-density(-3);
+@include mat.radio-density(-3);
+// @include mat.slider-density(-2);
 @include mat.menu-density(-3);
-@include mat.list-density(-3);
+@include mat.list-density(-2);
+// @include mat.paginator-density(-2);
+// @include mat.tabs-density(-2);
+@include mat.snack-bar-density(-2);
 @include mat.button-density(-1);
+@include mat.icon-button-density(-2);
+@include mat.fab-density(-2);
+@include mat.button-toggle-density(-4);
+@include mat.table-density(-4);
+@include mat.expansion-density(-2);
+@include mat.stepper-density(-3);
+@include mat.toolbar-density(-2);
+
+// applying globally messes up form field in forms
+.dense-form-field {
+  @include mat.form-field-density(-5);
+  @include mat.input-density(-4);
+}
+.dense-select {
+  @include mat.select-density(-5);
+}
+
 $sq-yellow: mat.get-color-from-palette($squac-ui-accent);
 $sq-gray: mat.get-color-from-palette($squac-ui-neutral);
 $sq-blue: mat.get-color-from-palette($squac-ui-primary);

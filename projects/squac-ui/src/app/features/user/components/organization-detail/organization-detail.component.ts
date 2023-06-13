@@ -145,10 +145,12 @@ export class OrganizationDetailComponent
                 },
               ],
             };
-            this.columns.splice(1, 0, {
-              name: "Email",
-              columnDef: "email",
-            });
+            if (!this.columns.find((column) => column.columnDef === "email")) {
+              this.columns.splice(1, 0, {
+                name: "Email",
+                columnDef: "email",
+              });
+            }
           }
         })
       )
@@ -161,6 +163,7 @@ export class OrganizationDetailComponent
    *
    */
   ngAfterViewInit(): void {
+    console.log("before", this.columns.slice());
     this.columns = [
       ...this.columns,
       {

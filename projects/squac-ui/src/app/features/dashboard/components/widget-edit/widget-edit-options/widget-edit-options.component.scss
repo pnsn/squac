@@ -68,26 +68,33 @@
   margin-bottom: 5px;
 }
 
-// mat-select-trigger {
-//   .gradient-indicator {
-//     @extend .indicator;
-//     width: 100%;
-//   }
+::ng-deep .range-select-option .mdc-list-item__primary-text {
+  width: 100%;
+}
 
-//   .color-indicator {
-//     @extend .indicator;
-//     width: 100%;
-//   }
-// }
-// mat-option {
-//   .gradient-indicator {
-//     @extend .indicator;
-//     width: 50%;
-//   }
+.range-select-trigger {
+  .gradient-indicator {
+    @extend .indicator;
+    width: 100%;
+  }
 
-//   .color-indicator {
-//     @extend .indicator;
-//     width: 10px;
-//     margin-right: 5px;
-//   }
-// }
+  .color-indicator {
+    @extend .indicator;
+    width: 100%;
+  }
+}
+.range-select-option {
+  .gradient-indicator {
+    @extend .indicator;
+    width: 100%;
+  }
+  .gradient-label {
+    display: block;
+    width: 100%;
+  }
+  .color-indicator {
+    @extend .indicator;
+    width: 10px;
+    margin-right: 5px;
+  }
+}

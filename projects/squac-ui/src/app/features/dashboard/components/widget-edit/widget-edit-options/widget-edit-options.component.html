@@ -15,13 +15,20 @@
         the color bar will be evenly split.
       </p>
       <div class="body-row">
-        <mat-form-field class="small dense-form-field-select">
+        <mat-form-field
+          class="small dense-form-field"
+          subscriptSizing="dynamic"
+        >
           <mat-label>In Range</mat-label>
           <mat-select
             #inRange
             formControlName="inRange"
+            class="dense-select"
           >
-            <mat-select-trigger *ngIf="inRange && inRange.value">
+            <mat-select-trigger
+              class="range-select-trigger"
+              *ngIf="inRange && inRange.value"
+            >
               <span
                 *ngIf="
                   inRange.value.color && inRange.value.color.length === 1;
@@ -47,7 +54,9 @@
             <mat-option
               *ngFor="let opt of gradientOptions"
               [value]="opt"
+              class="range-select-option"
             >
+
               <span
                 class="gradient-indicator"
                 [ngStyle]="{
@@ -55,13 +64,14 @@
                     'linear-gradient(to right, ' + colors(opt) + ')'
                 }"
               ></span>
-              <span>
+              <span class="gradient-label">
                 {{ opt.label }}
               </span>
             </mat-option>
             <mat-option
               *ngFor="let opt of solidOptions"
               [value]="opt"
+              class="range-select-option"
             >
               <span
                 *ngIf="opt.color.length === 1"
@@ -77,13 +87,17 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field class="small dense-form-field-select">
+        <mat-form-field
+          class="small dense-form-field"
+          subscriptSizing="dynamic"
+        >
           <mat-label>Out of Range</mat-label>
           <mat-select
             #outOfRange
             formControlName="outOfRange"
+            class="dense-select"
           >
-            <mat-select-trigger>
+            <mat-select-trigger class="range-select-trigger">
               <span
                 *ngIf="outOfRange.value"
                 class="color-indicator"
@@ -93,6 +107,7 @@
               ></span>
             </mat-select-trigger>
             <mat-option
+              class="range-select-option"
               *ngFor="let range of solidOptions"
               [value]="range"
             >
@@ -106,7 +121,10 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field class="xsmall dense-form-field">
+        <mat-form-field
+          class="xsmall dense-form-field"
+          subscriptSizing="dynamic"
+        >
           <mat-label># of splits</mat-label>
           <input
             matInput
@@ -154,11 +172,15 @@
                   *ngIf="displayOption?.dimensions"
                   class="small"
                 >
-                  <mat-form-field class="dense-form-field-select">
+                  <mat-form-field
+                    class="dense-form-field"
+                    subscriptSizing="dynamic"
+                  >
                     <mat-select
                       #dimensions
                       formControlName="dimension"
                       (selectionChange)="validateThresholds(i)"
+                      class="dense-select"
                     >
                       <mat-option
                         *ngFor="let dim of displayOption?.dimensions"
@@ -171,7 +193,10 @@
                 </td>
 
                 <td class="small">
-                  <mat-form-field class="dense-form-field">
+                  <mat-form-field
+                    class="dense-form-field"
+                    subscriptSizing="dynamic"
+                  >
                     <input
                       #min
                       matInput
@@ -191,7 +216,10 @@
                 </td>
 
                 <td class="small">
-                  <mat-form-field class="dense-form-field">
+                  <mat-form-field
+                    class="dense-form-field"
+                    subscriptSizing="dynamic"
+                  >
                     <input
                       #max
                       matInput

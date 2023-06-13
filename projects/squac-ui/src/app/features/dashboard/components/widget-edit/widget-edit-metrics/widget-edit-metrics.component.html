@@ -3,12 +3,19 @@
     id="metric-header"
     class="row"
   >
-    <input
-      type="text"
-      class="metric-filter"
-      placeholder="Filter by metric name..."
-      (keyup)="updateFilter($event)"
-    />
+    <mat-form-field
+      class="dense-form-field"
+      appearance="outline"
+      subscriptSizing="dynamic"
+    >
+      <input
+        matInput
+        type="text"
+        class="metric-filter"
+        placeholder="Filter by metric name..."
+        (keyup)="updateFilter($event)"
+      />
+    </mat-form-field>
 
     <div class="help-text">Metrics can be toggled after widget creation.</div>
   </div>

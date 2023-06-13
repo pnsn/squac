@@ -6,7 +6,7 @@
 >
   <div>
     <div class="label">Title:</div>
-    <mat-form-field class="large">
+    <mat-form-field class="large dense-form-field">
       <input
         matInput
         type="text"
@@ -61,14 +61,19 @@
             *ngIf="config.useAggregate"
           >
             <div class="label">Select measurement aggregation:</div>
-            <mat-form-field class="dense-form-field-select">
+            <mat-form-field
+              class="dense-form-field"
+              subscriptSizing="dynamic"
+            >
               <mat-select
                 formControlName="stat"
                 required
+                class="dense-select"
               >
                 <mat-option
                   *ngFor="let statType of WidgetStatType"
                   [value]="statType"
+                  class="dense-option"
                 >
                   {{ WIDGET_STAT_TYPE_NAMES[statType] }}
                 </mat-option>
