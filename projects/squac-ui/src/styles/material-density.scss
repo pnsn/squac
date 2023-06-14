@@ -109,3 +109,14 @@ mat-icon.dense-icon {
     padding: 0 10px 10px;
   }
 }
+
+.dense-list.mat-mdc-list {
+  padding: 0;
+  & > .mat-mdc-list-item {
+    padding: 0;
+    & > span.mat-mdc-list-item-title {
+      height: 30px;
+    }
+    // height: 35px;
+  }
+}

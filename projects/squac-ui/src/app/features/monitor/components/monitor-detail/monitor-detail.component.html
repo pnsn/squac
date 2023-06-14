@@ -19,7 +19,7 @@
         class="column"
       >
         <div class="row">
-          <div>
+          <div class="mat-body-2">
             <h2 class="mat-h2">Monitor Information</h2>
             <div>
               <strong>Metric: </strong> {{ monitor.stat }} of
@@ -39,6 +39,10 @@
               <strong>Daily Digest: </strong>
               {{ monitor.doDailyDigest ? "Yes" : "No" }}
             </div>
+            <p class="mat-small">
+              If 'Daily Digest' is enabled, alerts for individual triggers will not
+              be sent.
+            </p>
           </div>
 
           <div class="date-select-row">
@@ -65,11 +69,8 @@
         class="chart-container"
         *ngIf="viewTriggers"
       >
-        <h3>Triggers</h3>
-        <p class="help-text">
-          If 'Daily Digest' is enabled, alerts for individual triggers will not
-          be sent.
-        </p>
+        <h2 class="mat-h2">Triggers</h2>
+
         <table
           mat-table
           matSort
@@ -170,7 +171,7 @@
         </table>
       </div>
       <div id="alert-list">
-        <h3>Alerts</h3>
+        <h2 class="mat-h2">Alerts</h2>
         <p class="help-text">
           Select an alert to view more information.
         </p>
@@ -338,13 +339,13 @@
 
       </div>
       <div class="chart-container">
-        <h3>Alert History</h3>
-        <p class="help-text">
+        <h2 class="mat-h2">Alert History</h2>
+        <p class="mat-body-2">
           An alert will be generated when a trigger is 'In Alarm' and when the
           trigger exits the alarm state. Once the trigger is no longer 'In
           Alarm', no alerts will be generated until it is 'In Alarm' again;
         </p>
-        <p class="help-text">click on an alert to view details</p>
+        <p class="mat-small">click on an alert to view details</p>
         <div
           [appIsLoading]="
             loadingService.isLoading$(this, LoadingIndicator.RESULTS) | async
@@ -362,8 +363,8 @@
         </div>
       </div>
       <div class="chart-container">
-        <h3>Breaching Channel History</h3>
-        <p class="help-text">
+        <h2 class="mat-h2">Breaching Channel History</h2>
+        <p class="mat-body">
           Channels shown are only those that are considered "breaching". Values
           shown are the calculated values used to evaluate if a monitor is in
           alarm, not raw measurements at that time.

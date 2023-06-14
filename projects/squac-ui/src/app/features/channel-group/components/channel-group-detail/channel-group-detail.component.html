@@ -15,48 +15,47 @@
   <ng-container bodyContent>
     <div
       id="channel-group-container"
-      class="column box"
+      class="box"
     >
       <div id="group-info-container">
         <div>
-          <h3>Channel Group Information</h3>
-          <div><strong>Name: </strong> {{ channelGroup.name }} of</div>
+          <h2 class="mat-h2">Channel Group Information</h2>
+          <div><strong>Name: </strong> {{ channelGroup.name }}</div>
           <div>
             <strong> Description: </strong>
             {{ channelGroup.description }}
           </div>
         </div>
       </div>
-      <h3>Channels ({{ channelGroup.channels.length }}):</h3>
-      <div
-        id="channel-map-container"
-        class="row"
-      >
-        <div id="channels-container">
-          <channel-group-edit-table
-            [rows]="channelGroup.channels"
-            [selectable]="false"
-            [selected]="selectedRows"
-            (selectedChange)="onSelect($event)"
-          >
-          </channel-group-edit-table>
-        </div>
-        <div id="map-container">
-          <channel-group-map
-            [autoIncludeChannels]="channels"
-            [selectedChannels]="selectedChannels"
-            (showChannelChange)="selectChannel($event)"
-            [showChannel]="showChannel"
-            [editPage]="false"
-          ></channel-group-map>
-        </div>
+      <div [style.grid-area]="'channels'">
+        <h2 class="mat-h2">Channels ({{ channelGroup.channels.length }}):</h2>
+
+        <channel-group-edit-table
+          [rows]="channelGroup.channels"
+          [selectable]="false"
+          [selected]="selectedRows"
+          (selectedChange)="onSelect($event)"
+        >
+        </channel-group-edit-table>
       </div>
+
+
+      <channel-group-map
+        [style.grid-area]="'map'"
+        [autoIncludeChannels]="channels"
+        [selectedChannels]="selectedChannels"
+        (showChannelChange)="selectChannel($event)"
+        [showChannel]="showChannel"
+        [editPage]="false"
+      ></channel-group-map>
+
+
 
       <div
         id="matching-rules-container"
-        class="column"
+        [style.grid-area]="'rules'"
       >
-        <h3>Regex Rules ({{ matchingRules.length }}):</h3>
+        <h2 class="mat-h2">Regex Rules ({{ matchingRules.length }}):</h2>
 
         <div>
           <table>
@@ -77,36 +76,32 @@
           </table>
         </div>
       </div>
-      <div
-        id="auto-channels-container"
-        class="row"
-      >
-        <div>
-          <h3>
-            Auto Included Channels ({{
-            channelGroup.autoIncludeChannels.length
-            }}):
-          </h3>
 
-          <channel-group-edit-table
-            [rows]="channelGroup.autoIncludeChannels"
-            [selectable]="false"
-          >
-          </channel-group-edit-table>
-        </div>
-        <div>
-          <h3>
-            Auto Excluded Channels ({{
-            channelGroup.autoExcludeChannels.length
-            }}):
-          </h3>
+      <div [style.grid-area]="'included'">
+        <h2 class="mat-h2">
+          Auto Included Channels ({{
+          channelGroup.autoIncludeChannels.length
+          }}):
+        </h2>
 
-          <channel-group-edit-table
-            [rows]="channelGroup.autoExcludeChannels"
-            [selectable]="false"
-          >
-          </channel-group-edit-table>
-        </div>
+        <channel-group-edit-table
+          [rows]="channelGroup.autoIncludeChannels"
+          [selectable]="false"
+        >
+        </channel-group-edit-table>
+      </div>
+      <div [style.grid-area]="'excluded'">
+        <h2 class="mat-h2">
+          Auto Excluded Channels ({{
+          channelGroup.autoExcludeChannels.length
+          }}):
+        </h2>
+
+        <channel-group-edit-table
+          [rows]="channelGroup.autoExcludeChannels"
+          [selectable]="false"
+        >
+        </channel-group-edit-table>
       </div>
     </div>
   </ng-container>
