@@ -1,62 +1,76 @@
-$font-size: 9pt !important;
-
+$row-height: 20px;
+$icon-size: 18px;
+$space: calc(($row-height - $icon-size) / 2);
 .table-container {
   height: 100%;
   width: 100%;
   overflow: auto;
-  table.mat-mdc-table {
+  table.widget-table.mat-mdc-table {
     width: 100%;
-    .mdc-data-table__row {
-      height: 25px;
+    .table-row.mdc-data-table__row {
+      height: $row-height !important;
+      .metric-column-value-container {
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
     }
     .mdc-data-table__cell,
     .mdc-data-table__header-cell {
-      font-size: 14px;
+      // font-size: 14px;
+
+      .dense-icon-button.mat-mdc-icon-button.mat-mdc-button-base {
+        height: calc($row-height - 1px);
+        width: calc($row-height - 1px);
+        display: none;
+        & > *[role="img"] {
+          width: $icon-size;
+          height: $icon-size;
+          font-size: $icon-size;
+
+          svg {
+            width: $icon-size;
+            height: $icon-size;
+          }
+        }
+
+        .mat-mdc-button-touch-target {
+          width: calc($row-height - 1px) !important;
+          height: calc($row-height - 1px) !important;
+        }
+      }
+    }
+    .cell-icon {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      margin-right: 3px;
+    }
+    .metric-column {
+      padding-left: 3px;
+      padding-right: 3px;
+      .mat-sort-header-content {
+        min-width: 40px;
+        max-width: 50px;
+      }
+      // word-break: break-all;
+    }
+
+    th.mat-column-expand,
+    th.mat-column-agg,
+    td.mat-column-agg,
+    td.mat-column-expand {
+      width: 25px;
+      padding-left: 2px;
+      padding-right: 2px;
+    }
+
+    th.mat-column-title,
+    td.mat-column-title {
+      padding-left: 2px;
+      padding-right: 2px;
+      min-width: 40px;
     }
   }
-}
-
-.cell-icon,
-.cell-full {
-  height: 19px;
-  display: inline-block;
-}
-.cell-icon {
-  width: 19px;
-  margin-right: 2px;
-}
-.cell-full {
-  width: 100%;
-  padding-left: 2px;
-  span {
-    color: black;
-  }
-}
-span {
-  font-size: $font-size;
-}
-
-.metric-column {
-  padding-left: 5px;
-  padding-right: 5px;
-  .mat-sort-header-content {
-    min-width: 40px;
-    max-width: 50px;
-  }
-  // word-break: break-all;
-}
-
-th.mat-column-expand,
-th.mat-column-agg,
-td.mat-column-agg,
-td.mat-column-expand {
-  width: 35px;
-  padding-left: 3px;
-  padding-right: 3px;
-}
-
-th.mat-column-title,
-td.mat-column-title {
-  padding-left: 4px;
-  padding-right: 4px;
 }

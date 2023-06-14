@@ -182,8 +182,8 @@ export class TabularComponent
    */
   changeMetrics(): void {
     this.dataSource.data = this.rows;
-    if (this.useStationView) {
-      this.metricColumns.splice(0, 0, "expand");
+    if (this.useStationView && !this.metricColumns.includes("expand")) {
+      this.metricColumns.unshift("expand");
     }
     this.columns = [
       ...this.metricColumns,

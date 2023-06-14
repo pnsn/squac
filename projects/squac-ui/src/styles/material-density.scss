@@ -7,18 +7,27 @@
 // @include mat.tree-density(-2);
 // density config, will change if material implements more native density control
 $dense-checkbox-size: 28px;
-$dense-icon-size: 20px;
-$dense-icon-button-size: 28px;
-$dense-menu-item-height: 30px;
-$dense-option-height: 30px;
+$dense-icon-size: 18px;
+$dense-icon-button-size: 26px;
+$dense-menu-item-height: 34px;
+$dense-option-height: 34px;
+
+.custom-mat-icon {
+  width: $dense-icon-size;
+  height: $dense-icon-size;
+  font-size: $dense-icon-size;
+
+  svg {
+    width: $dense-icon-size;
+    height: $dense-icon-size;
+  }
+}
 
 .dense-form-field {
   .mat-mdc-form-field-icon-prefix > mat-icon,
   .mat-mdc-form-field-icon-suffix > mat-icon {
     padding: 3px;
-    height: $dense-icon-size;
-    width: $dense-icon-size;
-    font-size: $dense-icon-size;
+    @extend .custom-mat-icon;
   }
 }
 
@@ -38,16 +47,26 @@ $dense-checkbox-padding-size: calc(($dense-checkbox-size - 18px) / 2);
   }
 }
 
+mat-icon.dense-icon {
+  @extend .custom-mat-icon;
+}
+
 // mat-icon-button, smaller button and icon
 .dense-icon-button.mat-mdc-icon-button.mat-mdc-button-base {
   height: $dense-icon-button-size;
   width: $dense-icon-button-size;
-  padding: calc(($dense-icon-button-size - $dense-icon-size) / 2);
+  padding: 0px !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
 
-  mat-icon {
-    height: $dense-icon-size;
-    width: $dense-icon-size;
-    font-size: $dense-icon-size;
+  & > *[role="img"] {
+    @extend .custom-mat-icon;
+  }
+
+  .mat-mdc-button-touch-target {
+    width: $dense-icon-button-size;
+    height: $dense-icon-button-size;
   }
 }
 

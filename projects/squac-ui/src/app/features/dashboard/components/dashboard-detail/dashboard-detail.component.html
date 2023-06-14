@@ -12,7 +12,10 @@
     >
       <div id="dashboard-info">
         <h2 class="mat-h2">{{ dashboard?.name }}</h2>
-        <span *ngIf="dashboard?.owner && dashboard?.orgId">
+        <span
+          class="mat-small"
+          *ngIf="dashboard?.owner && dashboard?.orgId"
+        >
           by {{ dashboard?.owner | user }} ({{
           dashboard?.orgId | organization
           }})

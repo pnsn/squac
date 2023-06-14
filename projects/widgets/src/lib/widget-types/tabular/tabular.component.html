@@ -1,5 +1,6 @@
 <div class="table-container">
   <table
+    class="widget-table"
     mat-table
     matSort
     [dataSource]="dataSource"
@@ -25,8 +26,7 @@
           aria-label="expand row"
           (click)="(row.children ? expandRow(row) : expandedElement = null); $event.stopPropagation()"
         >
-          <mat-icon *ngIf="expandedElement !== row">expand_less</mat-icon>
-          <mat-icon *ngIf="expandedElement === row">expand_more</mat-icon>
+          <mat-icon>{{expandedElement !== row ? 'expand_less' : 'expand_more'}}</mat-icon>
         </button>
       </td>
     </ng-container>
@@ -57,8 +57,9 @@
         mat-header-cell
         *matHeaderCellDef
         mat-sort-header
+        [matTooltip]="properties.displayType === 'stoplight' ? '# of channels out of spec' : '# of metrics out of spec'"
       >
-        # out
+        #
       </th>
       <td
         mat-cell
@@ -85,15 +86,20 @@
         mat-cell
         *matCellDef="let row"
         class="metric-column"
-        [ngStyle]="{ 'background-color': !showKey || properties.displayType === 'stoplight' ? row.metrics[metric.code]?.color : 'white' }"
       >
-        <ng-container *ngIf="row.metrics[metric.code] as metricData; else noValue">
+        <div
+          *ngIf="row.metrics[metric.code] as metricData; else noValue"
+          class="metric-column-value-container"
+          [class.show-key]="showKey"
+          [style.background-color]="!showKey || properties.displayType === 'stoplight' ? row.metrics[metric.code]?.color : 'white'"
+        >
           <ng-container
+            *ngIf="metricData.value; else noValue"
             [ngTemplateOutlet]="cell"
             [ngTemplateOutletContext]="metricData"
           >
           </ng-container>
-        </ng-container>
+        </div>
       </td>
     </ng-container>
     <tr
@@ -104,6 +110,7 @@
       mat-row
       *matRowDef="let row; columns: columns;"
       [class.example-expanded-row]="expandedElement === row"
+      class="table-row"
       (click)="row.children ? expandRow(row) : expandedElement = null"
     >
     </tr>
@@ -115,30 +122,13 @@
   let-value="value"
   let-color="color"
 >
-  <ng-container *ngIf="value !== null; else noValue">
+  <ng-container *ngIf="properties.displayType !== 'stoplight'">
     <span
-      *ngIf="properties.displayType === 'stoplight'; else notStoplight"
-      class="cell-full"
+      *ngIf="showKey"
+      class="cell-icon"
       [ngStyle]="{ 'background-color': color }"
     ></span>
-    <ng-template #notStoplight>
-      <div
-        *ngIf="showKey"
-        class="cell-icon"
-        [ngStyle]="{ 'background-color': color }"
-      ></div>
-      <span *ngIf="showKey">{{ value | precision }}</span>
-      <div
-        *ngIf="!showKey"
-        class="cell-full"
-        [ngStyle]="{ 'background-color': color, color }"
-      >
-        <span>
-          {{ value | precision }}
-        </span>
-      </div>
-
-    </ng-template>
+    <span>{{ value | precision }}</span>
   </ng-container>
 
 

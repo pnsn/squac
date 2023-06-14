@@ -33,10 +33,10 @@ $my-custom-typography-config: mat.define-typography-config(
     mat.define-typography-level(16px, 22px, 600, $letter-spacing: 0.1px),
   $body-1: mat.define-typography-level(16px, 23px, 400, $letter-spacing: 0.5px),
   $body-2: mat.define-typography-level(16px, 24px, 400, $letter-spacing: 0.25px),
-  $caption: mat.define-typography-level(12px, 12px, 400, $letter-spacing: 0.4px),
+  $caption: mat.define-typography-level(16px, 16px, 300, $letter-spacing: 0.4px),
   $button: mat.define-typography-level(16px, 16px, 600),
   $overline:
-    mat.define-typography-level(10px, normal, 400, $letter-spacing: 1.54px),
+    mat.define-typography-level(14px, normal, 400, $letter-spacing: 1.54px),
 );
 
 // Create the theme object (a Sass map containing all of the palettes).
