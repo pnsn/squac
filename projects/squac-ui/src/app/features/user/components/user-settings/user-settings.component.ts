@@ -21,7 +21,6 @@ interface UserForm {
 @Component({
   selector: "user-settings",
   templateUrl: "./user-settings.component.html",
-  styleUrls: ["./user-settings.component.scss"],
 })
 export class UserSettingsComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();

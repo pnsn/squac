@@ -19,7 +19,6 @@ interface LoginForm {
 @Component({
   selector: "user-login",
   templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent implements OnDestroy {
   subscription = new Subscription();

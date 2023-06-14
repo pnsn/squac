@@ -11,7 +11,6 @@ import { catchError, EMPTY, Observable, Subscription, tap } from "rxjs";
 @Component({
   selector: "user-organizations-view",
   templateUrl: "./organizations-view.component.html",
-  styleUrls: ["./organizations-view.component.scss"],
 })
 export class OrganizationsViewComponent implements OnInit, OnDestroy {
   organizations: Organization[];

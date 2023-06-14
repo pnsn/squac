@@ -31,7 +31,6 @@ import { PageOptions } from "@shared/components/detail-page/detail-page.interfac
 @Component({
   selector: "user-organization-detail",
   templateUrl: "./organization-detail.component.html",
-  styleUrls: ["./organization-detail.component.scss"],
 })
 export class OrganizationDetailComponent
   implements OnInit, OnDestroy, AfterViewInit
@@ -163,7 +162,6 @@ export class OrganizationDetailComponent
    *
    */
   ngAfterViewInit(): void {
-    console.log("before", this.columns.slice());
     this.columns = [
       ...this.columns,
       {

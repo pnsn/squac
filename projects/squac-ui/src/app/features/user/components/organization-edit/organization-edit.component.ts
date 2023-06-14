@@ -34,7 +34,6 @@ interface UserForm {
 @Component({
   selector: "user-organization-edit",
   templateUrl: "./organization-edit.component.html",
-  styleUrls: ["./organization-edit.component.scss"],
 })
 export class OrganizationEditComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();

@@ -3,24 +3,25 @@
 .box {
   padding: 0px 10px 10px;
   .mat-h2 {
-    margin: 0px 0px 5px;
+    margin: 0px;
   }
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-#monitor-container {
-  overflow: hidden;
-  .row {
-    align-items: flex-end;
-    justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-rows: auto;
+  padding: 5px;
+  column-gap: 5px;
+  row-gap: 5px;
+  p {
+    margin: 0;
   }
-  .date-select-row {
-    display: flex;
-    flex-direction: row;
-    padding: 3px;
-  }
+  justify-content: center;
+  grid-template-areas:
+    "info ."
+    "info date"
+    "triggers triggers"
+    "alerts alerts "
+    "history history "
+    "channels channels ";
 }
 
 .chart-container {
@@ -48,4 +49,13 @@
   #breaching-channels-table {
     flex: 0 0 275px;
   }
+}
+
+.mat-mdc-cell,
+.mat-mdc-header-cell {
+  padding: 0px 5px;
+}
+.mat-column-inAlarm,
+.mat-column-select {
+  width: 35px;
 }
