@@ -52,9 +52,12 @@
           id="add-channel-header"
           class="row wrap space-between"
         >
-          <h3>Add Channels to Group</h3>
-          <mat-slide-toggle [(ngModel)]="showOnlyCurrent">
-            <span class="help-text">Only Show Current Channels</span>
+          <h2 class="mat-h2">Add Channels to Group</h2>
+          <mat-slide-toggle
+            [(ngModel)]="showOnlyCurrent"
+            [aria-label]="showOnlyCurrent ? 'only return results for current channels' : 'return all channels'"
+          >
+            Only Show Current Channels
           </mat-slide-toggle>
           <channel-group-csv-upload
             [(channels)]="selectedChannels"
@@ -67,7 +70,7 @@
           </channel-group-csv-upload>
         </div>
 
-        <p class="help-text">
+        <p class="mat-body">
           Channel groups can have a fixed set of channels or can be
           automatically updated with channels that match a set of regular
           expressions. Add regular expressions on the right under 'Regex' or
@@ -76,7 +79,7 @@
         </p>
         <p
           *ngIf="error"
-          class="warn-text"
+          class="mat-body error"
         >
           {{ error }}
         </p>
@@ -95,10 +98,10 @@
         >
           <div class="search-results-container">
             <div class="row space-between select-channels-controls wrap">
-              <h4>Results ({{ rows.length }})</h4>
+              <h3 class="mat-h3">Results ({{ rows.length }})</h3>
 
               <div class="row space-between wrap">
-                <p class="help-text">add selected to:</p>
+                <p class="mat-small">add selected to:</p>
                 <button
                   mat-stroked-button
                   color="accent"
@@ -153,12 +156,14 @@
           displayMode="flat"
           multi
         >
-          <mat-expansion-panel expanded="true">
+          <mat-expansion-panel
+            expanded="true"
+            class="dense-expansion-panel"
+          >
             <mat-expansion-panel-header>
               <mat-panel-title>
-                <h4>Group Information</h4>
+                Group Information
               </mat-panel-title>
-              <mat-panel-description>(required)</mat-panel-description>
             </mat-expansion-panel-header>
 
             <form
@@ -170,6 +175,7 @@
                 class="medium"
                 subscriptSizing="dynamic"
               >
+                <mat-label> Group Name </mat-label>
                 <input
                   matInput
                   placeholder="Name"
@@ -182,6 +188,7 @@
                 id="description"
                 subscriptSizing="dynamic"
               >
+                <mat-label> Group Description </mat-label>
                 <textarea
                   matInput
                   placeholder="Description"
@@ -200,14 +207,17 @@
             </form>
           </mat-expansion-panel>
 
-          <mat-expansion-panel expanded="false">
+          <mat-expansion-panel
+            expanded="false"
+            class="dense-expansion-panel"
+          >
             <mat-expansion-panel-header>
               <mat-panel-title>
-                <h4>RegEx Rules ({{ matchingRules?.length }})</h4>
+                RegEx Rules ({{ matchingRules?.length }})
               </mat-panel-title>
-              <mat-panel-description> (optional) </mat-panel-description>
+
             </mat-expansion-panel-header>
-            <p class="help-text">
+            <p class="mat-body">
               Channel groups can be defined by sets of regular expressions.
               Groups will be updated daily with any channels that match the
               rules.
@@ -221,12 +231,14 @@
             </channel-group-matching-rule-edit>
           </mat-expansion-panel>
 
-          <mat-expansion-panel expanded="true">
+          <mat-expansion-panel
+            expanded="true"
+            class="dense-expansion-panel"
+          >
             <mat-expansion-panel-header>
               <mat-panel-title>
-                <h4>Included ({{ autoIncludeChannels.length }})</h4>
+                Included Channels ({{ autoIncludeChannels.length }})
               </mat-panel-title>
-              <mat-panel-description>Channels always in group.</mat-panel-description>
             </mat-expansion-panel-header>
 
             <channel-group-edit-table
@@ -239,12 +251,14 @@
             </channel-group-edit-table>
           </mat-expansion-panel>
 
-          <mat-expansion-panel expanded="false">
+          <mat-expansion-panel
+            expanded="false"
+            class="dense-expansion-panel"
+          >
             <mat-expansion-panel-header>
               <mat-panel-title>
-                <h4>Excluded ({{ autoExcludeChannels.length }})</h4>
+                Excluded Channels ({{ autoExcludeChannels.length }})
               </mat-panel-title>
-              <mat-panel-description>Channels never in group.</mat-panel-description>
             </mat-expansion-panel-header>
             <channel-group-edit-table
               (rowsChange)="updateState()"

@@ -7,6 +7,9 @@ $space: calc(($row-height - $icon-size) / 2);
   overflow: auto;
   table.widget-table.mat-mdc-table {
     width: 100%;
+    tr.mat-mdc-header-row {
+      height: 25px;
+    }
     .table-row.mdc-data-table__row {
       height: $row-height !important;
       .metric-column-value-container {

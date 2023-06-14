@@ -38,6 +38,11 @@ body {
   height: 100%;
 }
 
+p {
+  margin-block-end: 0.5em;
+  margin-block-start: 0.5em;
+}
+
 /* Background color */
 
 .blue-background {
@@ -68,7 +73,8 @@ body {
 .info {
   color: $sq-dk-gray;
 }
-.dk-blue {
+.dk-blue,
+.emphasis {
   color: $sq-dk-blue;
 }
 .warn,
@@ -115,15 +121,11 @@ body {
 }
 //text styling
 .help-text {
-  font-weight: 300;
-  margin-top: 3px;
-  margin-bottom: 3px;
   overflow-wrap: break-word;
   hyphens: manual;
 }
 .warn-text {
   @extend .help-text;
-  font-weight: 300;
   color: $sq-warn;
 }
 .emphasis-text {

@@ -102,12 +102,14 @@
       *ngIf="dashboard?.properties && !hideRows"
     >
       <mat-checkbox
+        class="dense-checkbox"
         [(ngModel)]="dashboard.properties.denseView"
         (change)="toggleView()"
       >
         Hide zoom controls
       </mat-checkbox>
       <mat-checkbox
+        class="dense-checkbox"
         [(ngModel)]="channelList"
         (change)="toggleChannelList()"
       >

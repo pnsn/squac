@@ -32,11 +32,11 @@
       class="header-row"
       *ngIf="rules.controls.length > 0"
     >
-      <div class="medium"><span>include?</span></div>
-      <div class="field-column"><span>network</span></div>
-      <div class="field-column"><span>station</span></div>
-      <div class="field-column"><span>location</span></div>
-      <div class="field-column"><span>channel</span></div>
+      <div class="medium"><span>incl.?</span></div>
+      <div class="field-column"><span>net</span></div>
+      <div class="field-column"><span>sta</span></div>
+      <div class="field-column"><span>loc</span></div>
+      <div class="field-column"><span>chan</span></div>
       <div class="narrow"></div>
     </div>
     <ng-container *ngIf="rules.controls.length === 0">
@@ -58,7 +58,10 @@
         </div>
 
         <div class="field-column">
-          <mat-form-field class="dense-form-field">
+          <mat-form-field
+            class="dense-form-field"
+            subscriptSizing="dynamic"
+          >
             <input
               #networkRegex
               matInput
@@ -70,7 +73,10 @@
         </div>
 
         <div class="field-column">
-          <mat-form-field class="dense-form-field">
+          <mat-form-field
+            class="dense-form-field"
+            subscriptSizing="dynamic"
+          >
             <input
               #stationRegex
               matInput
@@ -82,7 +88,10 @@
         </div>
 
         <div class="field-column">
-          <mat-form-field class="dense-form-field">
+          <mat-form-field
+            class="dense-form-field"
+            subscriptSizing="dynamic"
+          >
             <input
               #locationRegex
               matInput
@@ -93,8 +102,14 @@
           </mat-form-field>
         </div>
 
-        <div class="field-column">
-          <mat-form-field class="dense-form-field">
+        <div
+          class="field-column"
+          subscriptSizing="dynamic"
+        >
+          <mat-form-field
+            class="dense-form-field"
+            subscriptSizing="dynamic"
+          >
             <input
               #channelRegex
               matInput
@@ -107,7 +122,8 @@
 
         <div class="narrow">
           <button
-            mat-button
+            mat-icon-button
+            class="dense-icon-button"
             type="button"
             (click)="removeRule(i)"
           >
