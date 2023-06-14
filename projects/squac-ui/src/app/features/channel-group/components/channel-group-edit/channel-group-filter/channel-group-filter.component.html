@@ -9,7 +9,7 @@
     <input
       matInput
       [(ngModel)]="net"
-      placeholder="Network"
+      placeholder="Net"
       (input)="net = net.toUpperCase()"
     />
     <button
@@ -30,7 +30,7 @@
     <input
       matInput
       [(ngModel)]="sta"
-      placeholder="Station"
+      placeholder="Sta"
       (input)="sta = sta.toUpperCase()"
     />
     <button
@@ -51,7 +51,7 @@
     <input
       matInput
       [(ngModel)]="loc"
-      placeholder="Location"
+      placeholder="Loc"
       (input)="loc = loc.toUpperCase()"
     />
     <button
@@ -72,7 +72,7 @@
     <input
       matInput
       [(ngModel)]="chan"
-      placeholder="Channel"
+      placeholder="Chan"
       (input)="chan = chan.toUpperCase()"
     />
     <button
@@ -101,7 +101,7 @@
   <button
     mat-stroked-button
     (click)="removeFilters()"
-    uiTooltip="Clear filters"
+    uiTooltip="Clear filters and results"
     aria-label="Button that clears form input "
   >
     clear

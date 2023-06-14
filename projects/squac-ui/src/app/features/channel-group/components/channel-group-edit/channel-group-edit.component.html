@@ -46,30 +46,34 @@
     </ng-template>
   </ng-container>
   <ng-container bodyContent>
-    <div class="edit-body gray-border white-background">
-      <div id="left-side">
-        <div
-          id="add-channel-header"
-          class="row wrap space-between"
-        >
-          <h2 class="mat-h2">Add Channels to Group</h2>
-          <mat-slide-toggle
-            [(ngModel)]="showOnlyCurrent"
-            [aria-label]="showOnlyCurrent ? 'only return results for current channels' : 'return all channels'"
-          >
-            Only Show Current Channels
-          </mat-slide-toggle>
-          <channel-group-csv-upload
-            [(channels)]="selectedChannels"
-            (channelsChange)="addChannelsFromCSV($event)"
-            [(error)]="error"
-            [showOnlyCurrent]="showOnlyCurrent"
-            [context]="this"
-            [loadingIndicator]="LoadingIndicator.RESULTS"
-          >
-          </channel-group-csv-upload>
-        </div>
+    <div
+      id="edit-container"
+      class="gray-border white-background"
+    >
+      <h2
+        class="mat-h2"
+        [style.grid-area]="'title'"
+      >Add Channels to Group</h2>
 
+      <mat-slide-toggle
+        [style.grid-area]="'controls'"
+        [(ngModel)]="showOnlyCurrent"
+        [aria-label]="showOnlyCurrent ? 'only return results for current channels' : 'return all channels'"
+      >
+        Only Show Current Channels
+      </mat-slide-toggle>
+      <channel-group-csv-upload
+        [style.grid-area]="'csv'"
+        [(channels)]="selectedChannels"
+        (channelsChange)="addChannelsFromCSV($event)"
+        [(error)]="error"
+        [showOnlyCurrent]="showOnlyCurrent"
+        [context]="this"
+        [loadingIndicator]="LoadingIndicator.RESULTS"
+      >
+      </channel-group-csv-upload>
+
+      <div [style.grid-area]="'info'">
         <p class="mat-body">
           Channel groups can have a fixed set of channels or can be
           automatically updated with channels that match a set of regular
@@ -83,42 +87,45 @@
         >
           {{ error }}
         </p>
+      </div>
 
-        <channel-group-filter
-          (filtersChanged)="filtersChanged($event)"
-          (addFilterToRegex)="addFilterToRegex($event)"
-        >
-        </channel-group-filter>
 
-        <div
-          class="row channels-row"
-          [appIsLoading]="
+      <channel-group-filter
+        (filtersChanged)="filtersChanged($event)"
+        (addFilterToRegex)="addFilterToRegex($event)"
+        [style.grid-area]="'search'"
+      >
+      </channel-group-filter>
+
+      <div
+        [style.display]="'contents'"
+        [appIsLoading]="
             loadingService.isLoading$(this, LoadingIndicator.RESULTS) | async
           "
-        >
-          <div class="search-results-container">
-            <div class="row space-between select-channels-controls wrap">
-              <h3 class="mat-h3">Results ({{ rows.length }})</h3>
+      >
 
-              <div class="row space-between wrap">
-                <p class="mat-small">add selected to:</p>
-                <button
-                  mat-stroked-button
-                  color="accent"
-                  (click)="includeChannels()"
-                >
-                  included
-                </button>
-                <button
-                  mat-stroked-button
-                  color="accent"
-                  (click)="excludeChannels()"
-                >
-                  excluded
-                </button>
-              </div>
+        <div [style.grid-area]="'results'">
+          <h3 class="mat-h3">Results ({{ rows.length }})</h3>
 
-              <!-- <button
+          <div class="row space-between wrap">
+            <p class="mat-small">add selected to:</p>
+            <button
+              mat-stroked-button
+              color="accent"
+              (click)="includeChannels()"
+            >
+              included
+            </button>
+            <button
+              mat-stroked-button
+              color="accent"
+              (click)="excludeChannels()"
+            >
+              excluded
+            </button>
+          </div>
+
+          <!-- <button
                 mat-button
                 color="accent"
                 (click)="undoSelectRemove()"
@@ -127,150 +134,158 @@
               >
                 <mat-icon>undo</mat-icon>
               </button> -->
-            </div>
-            <div class="searched-channels-container">
-              <channel-group-edit-table
-                [rows]="rows"
-                [removable]="false"
-                [selected]="selectedChannels"
-                (selectedChange)="selectRow($event)"
-                [selectable]="true"
-              >
-              </channel-group-edit-table>
-            </div>
-          </div>
-
-          <channel-group-map
-            [autoIncludeChannels]="autoIncludeChannels"
-            [autoExcludeChannels]="autoExcludeChannels"
-            [searchedChannels]="rows"
-            [selectedChannels]="selectedChannels"
-            [showChannel]="showChannel"
-            [editPage]="true"
-            (boundsChange)="updateBounds($event)"
-          ></channel-group-map>
         </div>
-      </div>
-      <div>
-        <mat-accordion
-          displayMode="flat"
-          multi
+        <div
+          class="searched-channels-container"
+          [style.grid-area]="'table'"
         >
-          <mat-expansion-panel
-            expanded="true"
-            class="dense-expansion-panel"
+          <channel-group-edit-table
+            [rows]="rows"
+            [removable]="false"
+            [selected]="selectedChannels"
+            (selectedChange)="selectRow($event)"
+            [selectable]="true"
           >
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Group Information
-              </mat-panel-title>
-            </mat-expansion-panel-header>
+          </channel-group-edit-table>
+        </div>
 
-            <form
-              [formGroup]="channelGroupForm"
-              class="column"
-            >
-              <mat-form-field
-                class="channel-group-input"
-                class="medium"
-                subscriptSizing="dynamic"
-              >
-                <mat-label> Group Name </mat-label>
-                <input
-                  matInput
-                  placeholder="Name"
-                  formControlName="name"
-                  required
-                />
-              </mat-form-field>
 
-              <mat-form-field
-                id="description"
-                subscriptSizing="dynamic"
-              >
-                <mat-label> Group Description </mat-label>
-                <textarea
-                  matInput
-                  placeholder="Description"
-                  formControlName="description"
-                  required
-                ></textarea>
-              </mat-form-field>
-              <shared-sharing-toggle
-                [orgId]="orgId"
-                [filterText]="sharedToggleConfig"
-                [(shareOrg)]="shareOrg"
-                [(shareAll)]="shareAll"
-                [isFormInput]="true"
-              >
-              </shared-sharing-toggle>
-            </form>
-          </mat-expansion-panel>
-
-          <mat-expansion-panel
-            expanded="false"
-            class="dense-expansion-panel"
-          >
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                RegEx Rules ({{ matchingRules?.length }})
-              </mat-panel-title>
-
-            </mat-expansion-panel-header>
-            <p class="mat-body">
-              Channel groups can be defined by sets of regular expressions.
-              Groups will be updated daily with any channels that match the
-              rules.
-            </p>
-            <channel-group-matching-rule-edit
-              [(matchingRules)]="matchingRules"
-              (matchingRuleDeleteIds)="deleteMatchingRules($event)"
-              (previewRules)="previewRules($event)"
-              [channelGroupId]="channelGroup?.id"
-            >
-            </channel-group-matching-rule-edit>
-          </mat-expansion-panel>
-
-          <mat-expansion-panel
-            expanded="true"
-            class="dense-expansion-panel"
-          >
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Included Channels ({{ autoIncludeChannels.length }})
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-
-            <channel-group-edit-table
-              (rowsChange)="updateState()"
-              [(rows)]="autoIncludeChannels"
-              title="Included Channels"
-              [removable]="true"
-              [selectable]="true"
-            >
-            </channel-group-edit-table>
-          </mat-expansion-panel>
-
-          <mat-expansion-panel
-            expanded="false"
-            class="dense-expansion-panel"
-          >
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Excluded Channels ({{ autoExcludeChannels.length }})
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <channel-group-edit-table
-              (rowsChange)="updateState()"
-              [(rows)]="autoExcludeChannels"
-              title="Excluded Channels"
-              [removable]="true"
-              [selectable]="true"
-            >
-            </channel-group-edit-table>
-          </mat-expansion-panel>
-        </mat-accordion>
+        <channel-group-map
+          [autoIncludeChannels]="autoIncludeChannels"
+          [autoExcludeChannels]="autoExcludeChannels"
+          [searchedChannels]="rows"
+          [selectedChannels]="selectedChannels"
+          [showChannel]="showChannel"
+          [editPage]="true"
+          (boundsChange)="updateBounds($event)"
+          [style.grid-area]="'map'"
+        ></channel-group-map>
       </div>
+
+
+      <mat-accordion
+        class="group-info-accordian"
+        displayMode="flat"
+        multi
+        [style.grid-area]="'group'"
+      >
+        <mat-expansion-panel
+          expanded="true"
+          class="dense-expansion-panel"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Group Information
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <form
+            [formGroup]="channelGroupForm"
+            class="column"
+          >
+            <mat-form-field
+              class="channel-group-input"
+              class="medium"
+              subscriptSizing="dynamic"
+            >
+              <mat-label> Group Name </mat-label>
+              <input
+                matInput
+                placeholder="Name"
+                formControlName="name"
+                required
+              />
+            </mat-form-field>
+
+            <mat-form-field
+              id="description"
+              subscriptSizing="dynamic"
+            >
+              <mat-label> Group Description </mat-label>
+              <textarea
+                matInput
+                placeholder="Description"
+                formControlName="description"
+                required
+              ></textarea>
+            </mat-form-field>
+            <shared-sharing-toggle
+              [orgId]="orgId"
+              [filterText]="sharedToggleConfig"
+              [(shareOrg)]="shareOrg"
+              [(shareAll)]="shareAll"
+              [isFormInput]="true"
+            >
+            </shared-sharing-toggle>
+          </form>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel
+          expanded="false"
+          class="dense-expansion-panel"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              RegEx Rules ({{ matchingRules?.length }})
+            </mat-panel-title>
+
+          </mat-expansion-panel-header>
+          <p class="mat-body">
+            Channel groups can be defined by sets of regular expressions.
+            Groups will be updated daily with any channels that match the
+            rules.
+          </p>
+          <channel-group-matching-rule-edit
+            [(matchingRules)]="matchingRules"
+            (matchingRuleDeleteIds)="deleteMatchingRules($event)"
+            (previewRules)="previewRules($event)"
+            [channelGroupId]="channelGroup?.id"
+          >
+          </channel-group-matching-rule-edit>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel
+          expanded="true"
+          class="dense-expansion-panel"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Included Channels ({{ autoIncludeChannels.length }})
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <channel-group-edit-table
+            (rowsChange)="updateState()"
+            [(rows)]="autoIncludeChannels"
+            title="Included Channels"
+            [removable]="true"
+            [selectable]="true"
+          >
+          </channel-group-edit-table>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel
+          expanded="false"
+          class="dense-expansion-panel"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Excluded Channels ({{ autoExcludeChannels.length }})
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <channel-group-edit-table
+            (rowsChange)="updateState()"
+            [(rows)]="autoExcludeChannels"
+            title="Excluded Channels"
+            [removable]="true"
+            [selectable]="true"
+          >
+          </channel-group-edit-table>
+        </mat-expansion-panel>
+      </mat-accordion>
+
+
+
     </div>
   </ng-container>
 </shared-detail-page>
