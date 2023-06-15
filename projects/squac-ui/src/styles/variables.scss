@@ -73,7 +73,7 @@ $squac-ui-theme: mat.define-light-theme(
 @include mat.list-density(-2);
 // @include mat.paginator-density(-2);
 // @include mat.tabs-density(-2);
-@include mat.snack-bar-density(-2);
+@include mat.snack-bar-density(0);
 @include mat.button-density(-1);
 @include mat.icon-button-density(-2);
 @include mat.fab-density(-2);

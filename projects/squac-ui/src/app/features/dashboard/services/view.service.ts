@@ -445,12 +445,9 @@ export class ViewService {
         next: (newWidget: Widget) => {
           if (index > -1) {
             this._widgets[index] = newWidget;
-            this.messageService.message("Widget updated.");
           } else {
             this._widgets.push(newWidget);
-            this.messageService.message("Widget added.");
           }
-
           this.widgetChanged(newWidget.id);
         },
         error: () => {

@@ -9,7 +9,6 @@ import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
 import { ErrorComponent } from "./components/error/error.component";
 import { AbilityModule } from "@casl/angular";
 import { ConfirmDialogComponent } from "./components/confirm-dialog/confirm-dialog.component";
-import { SnackbarComponent } from "./components/snackbar/snackbar.component";
 import { SharedIndicatorComponent } from "./components/shared-indicator/shared-indicator.component";
 import { SearchFilterComponent } from "./components/search-filter/search-filter.component";
 import { DateSelectComponent } from "./components/date-select/date-select.component";
@@ -32,7 +31,6 @@ import { LoadingDirective } from "./directives/loading-directive.directive";
     ConfirmDialogComponent,
     LoadingComponent,
     ErrorComponent,
-    SnackbarComponent,
     SharedIndicatorComponent,
     DateSelectComponent,
     ChannelGroupSelectorComponent,
@@ -68,7 +66,6 @@ import { LoadingDirective } from "./directives/loading-directive.directive";
     ConfirmDialogComponent,
     LeafletModule,
     LeafletDrawModule,
-    SnackbarComponent,
     SharedIndicatorComponent,
     SearchFilterComponent,
     DateSelectComponent,
