@@ -1,7 +1,15 @@
 #monitor-body {
-  // mat-form-field {
-  //   margin: 0px 10px;
-  // }
+  mat-form-field {
+    margin: 0px 5px;
+    &.xsmall {
+    }
+    &.small {
+    }
+    &.medium {
+    }
+    &.large {
+    }
+  }
   div {
     display: inline-block;
   }
@@ -12,7 +20,23 @@
 }
 #trigger-table {
   width: 100%;
+  table-layout: fixed;
+  th,
+  td {
+    &.trigger-id {
+      width: 80px;
+    }
+    &.delete {
+      width: 30px;
+    }
+  }
   th {
     text-align: left;
+  }
+  td {
+    // width: 16%;
+    mat-form-field {
+      width: 100%;
+    }
   }
 }

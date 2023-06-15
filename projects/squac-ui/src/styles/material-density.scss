@@ -144,3 +144,14 @@ mat-icon.dense-icon {
     @extend .dense-checkbox;
   }
 }
+
+.dense-table {
+  width: 100%;
+  .mat-mdc-header-cell,
+  .mat-mdc-cell {
+    padding: 0px 5px;
+  }
+  .mat-column-select {
+    width: 30px;
+  }
+}

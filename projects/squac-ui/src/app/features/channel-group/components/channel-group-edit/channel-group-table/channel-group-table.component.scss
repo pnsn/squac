@@ -1,14 +1,4 @@
 .table-container {
   height: 400px;
   overflow: auto;
-  table.channel-table {
-    width: 100%;
-    .mat-mdc-header-cell,
-    .mat-mdc-cell {
-      padding: 0px 4px;
-    }
-    .mat-column-select {
-      width: 30px;
-    }
-  }
 }
