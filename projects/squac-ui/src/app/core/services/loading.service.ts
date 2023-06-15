@@ -59,7 +59,6 @@ export class LoadingService {
         this.startLoading(context, loaderId);
       }, delay ?? 0),
       observeOn(asyncScheduler),
-      tap(() => {}),
       finalize(() => {
         this.endLoading(context, loaderId);
       })

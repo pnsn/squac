@@ -49,7 +49,6 @@ export class WidgetEditMetricsComponent implements OnInit, OnChanges {
     this.dataSource.sort = this.sort;
 
     this.selection.changed.subscribe(() => {
-      console.log(this.selection.selected);
       this.selectedMetricsChange.emit(this.selection.selected);
       this.checkValid();
     });

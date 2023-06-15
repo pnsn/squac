@@ -5,7 +5,7 @@ import { MatTableModule } from "@angular/material/table";
 import { MatSortModule } from "@angular/material/sort";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
-import { MatTooltip, MatTooltipModule } from "@angular/material/tooltip";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 /**
  *
