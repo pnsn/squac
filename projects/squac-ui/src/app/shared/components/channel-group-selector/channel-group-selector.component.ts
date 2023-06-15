@@ -29,7 +29,6 @@ interface Group {
 @Component({
   selector: "shared-channel-group-selector",
   templateUrl: "./channel-group-selector.component.html",
-  styleUrls: ["./channel-group-selector.component.scss"],
 })
 export class ChannelGroupSelectorComponent implements OnInit, OnChanges {
   /** channel group id */

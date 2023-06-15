@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from "@angular/core";
 import { executeDelayed } from "@core/utils/utils";
 import { asyncScheduler, BehaviorSubject, Observable } from "rxjs";
-import { finalize, observeOn } from "rxjs/operators";
+import { finalize, observeOn, tap } from "rxjs/operators";
 
 type LoadingContext = object;
 type LoaderId = string | number; // expected enum values
@@ -53,12 +53,20 @@ export class LoadingService {
     delay?: number
   ): Observable<V> {
     context = context || DEFAULT_CONTEXT;
+
     return source$.pipe(
       executeDelayed(() => {
         this.startLoading(context, loaderId);
+        console.log("start loading", context);
       }, delay ?? 0),
       observeOn(asyncScheduler),
-      finalize(() => this.endLoading(context, loaderId))
+      tap(() => {
+        console.log("tapped ");
+      }),
+      finalize(() => {
+        this.endLoading(context, loaderId);
+        console.log("stop loading", context);
+      })
     );
   }
 
