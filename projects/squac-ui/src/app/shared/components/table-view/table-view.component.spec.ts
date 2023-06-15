@@ -4,7 +4,6 @@ import { fakeAsync, tick } from "@angular/core/testing";
 import { MatMenuModule } from "@angular/material/menu";
 import { ActivatedRoute, Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
-import { NgxDatatableModule } from "@boring.devs/ngx-datatable";
 import { AbilityModule } from "@casl/angular";
 import { SharedModule } from "@shared/shared.module";
 import { UserService } from "@user/services/user.service";
@@ -15,6 +14,7 @@ import { OrganizationService } from "squacapi";
 import { SearchFilterComponent } from "@shared/components/search-filter/search-filter.component";
 import { SharingToggleComponent } from "@shared/components/sharing-toggle/sharing-toggle.component";
 import { TableViewComponent } from "./table-view.component";
+import { MatTableModule } from "@angular/material/table";
 
 describe("TableViewComponent", () => {
   let component: TableViewComponent;
@@ -23,7 +23,7 @@ describe("TableViewComponent", () => {
   beforeEach(() => {
     return MockBuilder(TableViewComponent)
       .mock(SharedModule)
-      .keep(NgxDatatableModule)
+      .keep(MatTableModule)
       .mock(SharingToggleComponent)
       .keep(HttpClientTestingModule)
       .mock([

@@ -57,15 +57,11 @@ export class LoadingService {
     return source$.pipe(
       executeDelayed(() => {
         this.startLoading(context, loaderId);
-        console.log("start loading", context);
       }, delay ?? 0),
       observeOn(asyncScheduler),
-      tap(() => {
-        console.log("tapped ");
-      }),
+      tap(() => {}),
       finalize(() => {
         this.endLoading(context, loaderId);
-        console.log("stop loading", context);
       })
     );
   }
