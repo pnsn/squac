@@ -180,17 +180,8 @@ a {
   h3 {
     display: inline-block;
   }
-  // &.mat-dialog-title {
-  //   margin: 0px !important;
-  //   h3 {
-  //     margin-block-end: 10px;
-  //     margin-block-start: 10px;
-  //   }
-  // }
 }
-.dialog-title {
-  @extend .title;
-}
+
 .header-title {
   @extend .title;
   @extend .lt-gray-background;
@@ -202,9 +193,10 @@ a {
 }
 
 .dialog-options {
-  @extend .row-reverse;
-  @extend .space-between;
-  .save {
+  .dialog-cancel {
+    margin-right: auto;
+  }
+  .dialog-save {
     margin-left: 20px;
   }
 }
@@ -283,6 +275,9 @@ a {
   @include sm {
     width: auto;
   }
+  .dialog-stepper {
+    width: 100%;
+  }
 }
 
 @media only screen and (max-width: 760px) {
@@ -310,4 +305,12 @@ a {
     margin-bottom: 5px;
   }
   margin-bottom: 5px;
+}
+
+.custom-form-field {
+  .label {
+    color: rgba(0, 0, 0, 0.84);
+    display: block;
+    font-weight: normal;
+  }
 }

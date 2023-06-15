@@ -30,7 +30,6 @@ interface DashboardForm {
 @Component({
   selector: "dashboard-edit",
   templateUrl: "./dashboard-edit.component.html",
-  styleUrls: ["./dashboard-edit.component.scss"],
 })
 export class DashboardEditComponent implements OnInit, OnDestroy {
   /** rxjs subscriptions */

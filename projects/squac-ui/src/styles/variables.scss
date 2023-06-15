@@ -80,7 +80,7 @@ $squac-ui-theme: mat.define-light-theme(
 @include mat.button-toggle-density(-4);
 @include mat.table-density(-4);
 @include mat.expansion-density(-3);
-@include mat.stepper-density(-3);
+@include mat.stepper-density(-4);
 @include mat.toolbar-density(-2);
 
 @include mat.dialog-density(-2);

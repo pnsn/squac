@@ -51,6 +51,7 @@ export class OrganizationEditEntryComponent implements OnInit, OnDestroy {
     this.dialogRef = this.dialog.open(OrganizationEditComponent, {
       closeOnNavigation: true,
       autoFocus: "first-header",
+      panelClass: "dialog-responsive",
       data: {
         user: this.user,
         orgId: this.organization.id,

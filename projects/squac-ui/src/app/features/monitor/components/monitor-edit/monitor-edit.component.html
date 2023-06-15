@@ -1,16 +1,5 @@
-<div
-  mat-dialog-title
-  class="dialog-title"
->
-  <h3>{{ editMode ? "Edit Monitor" : "New Monitor" }}</h3>
-  <button
-    mat-icon-button
-    (click)="cancel()"
-    type="button"
-  >
-    <mat-icon>close</mat-icon>
-  </button>
-</div>
+<h2 mat-dialog-title>{{ editMode ? "Edit Monitor" : "New Monitor" }}</h2>
+
 <div mat-dialog-content>
   <form
     #monitorEditForm
@@ -18,6 +7,7 @@
     class="form"
   >
     <mat-horizontal-stepper
+      class="dialog-stepper dense-stepper"
       #stepper
       color="primary"
     >
@@ -41,7 +31,7 @@
             />
             <!-- <mat-hint align="end">{{ name.value?.length || 0 }}/60</mat-hint> -->
           </mat-form-field>
-          <p class="help-text">
+          <p class="mat-small">
             A monitor is 'in alarm' when the following conditions are true.
           </p>
           <div id="monitor-body">
@@ -402,52 +392,49 @@
       </ng-template>
     </mat-horizontal-stepper>
   </form>
-
-  <!-- <div id="chart-container">
-    <h4>Preview</h4>
-    <monitor-chart
-      [metric]="monitorForm.value.metric"
-      [triggers]="monitorForm.value.triggers"
-      [channelGroupId]="monitorForm.value.channelGroup.id"
-      [stat]="monitorForm.value.stat"
-      [numberChannels]="monitorForm.value.numberChannels"
-      [intervalCount]="monitorForm.value.intervalCount"
-      [intervalType]="monitorForm.value.intervalType"
-      [invert]="monitorForm.value.invert"
-      ></monitor-chart>
-  </div> -->
+  <span class="warn-text mat-small">* required field</span>
 </div>
+
 
 <div
   mat-dialog-actions
+  align="end"
   class="dialog-options"
 >
-  <div class="dialog-buttons">
-    <button
-      mat-stroked-button
-      color="primary"
-      (click)="stepper.previous()"
-      [disabled]="stepper.selectedIndex === 0"
-    >
-      Back
-    </button>
-    <button
-      mat-stroked-button
-      color="primary"
-      (click)="stepper.next()"
-      [disabled]="stepper.selectedIndex === 1"
-    >
-      Next
-    </button>
-    <button
-      class="save"
-      mat-flat-button
-      color="accent"
-      (click)="save()"
-      [disabled]="!monitorForm.valid || !triggers.valid"
-    >
-      Save
-    </button>
-  </div>
-  <p class="warn-text">* required field</p>
+  <button
+    class="dialog-cancel"
+    mat-stroked-button
+    mat-dialog-close
+    (click)="cancel()"
+    type="button"
+  >
+    Cancel
+  </button>
+  <button
+    mat-stroked-button
+    color="primary"
+    (click)="stepper.previous()"
+    [disabled]="stepper.selectedIndex === 0"
+  >
+    Back
+  </button>
+  <button
+    mat-stroked-button
+    color="primary"
+    (click)="stepper.next()"
+    [disabled]="stepper.selectedIndex === 1"
+  >
+    Next
+  </button>
+  <button
+    class="dialog-save"
+    mat-flat-button
+    color="accent"
+    (click)="save()"
+    [disabled]="!monitorForm.valid || !triggers.valid"
+  >
+    Save
+  </button>
+
+
 </div>

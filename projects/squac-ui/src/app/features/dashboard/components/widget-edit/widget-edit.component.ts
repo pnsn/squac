@@ -16,7 +16,6 @@ import { Subscription } from "rxjs";
 @Component({
   selector: "widget-edit",
   templateUrl: "./widget-edit.component.html",
-  styleUrls: ["./widget-edit.component.scss"],
 })
 export class WidgetEditComponent implements OnDestroy, OnInit {
   subscriptions: Subscription = new Subscription();

@@ -49,6 +49,7 @@ export class WidgetEditMetricsComponent implements OnInit, OnChanges {
     this.dataSource.sort = this.sort;
 
     this.selection.changed.subscribe(() => {
+      console.log(this.selection.selected);
       this.selectedMetricsChange.emit(this.selection.selected);
       this.checkValid();
     });
@@ -97,8 +98,7 @@ export class WidgetEditMetricsComponent implements OnInit, OnChanges {
    * Checks there are the minimum number of metrics for widgets
    */
   checkValid(): void {
-    this.done =
-      this.selectedMetrics && this.selectedMetrics.length >= this.minLength;
+    this.done = this.selection.selected.length >= this.minLength;
   }
 
   //TODO: replace with shared filter component

@@ -1,19 +1,5 @@
-#metric-edit-container {
-  height: 100%;
-  overflow: hidden;
-  gap: 5px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-items: stretch;
-  align-items: stretch;
-}
-#metric-header {
-  margin-top: 7px;
-  justify-content: space-between;
-}
-.table-container {
-  height: 400px;
+#table-container {
+  height: 500px;
   overflow: auto;
   table {
     width: 100%;

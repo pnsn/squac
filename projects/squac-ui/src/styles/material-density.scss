@@ -120,3 +120,27 @@ mat-icon.dense-icon {
     // height: 35px;
   }
 }
+
+.dense-stepper {
+  .mat-step-header {
+    height: 40px;
+    padding: 0 12px;
+  }
+  .mat-horizontal-content-container {
+    padding: 12px;
+  }
+}
+
+.dense-radio-button-group {
+  .mdc-form-field > .mdc-radio {
+    padding: $dense-checkbox-padding-size;
+    input[type="radio"] {
+      height: $dense-checkbox-size;
+      width: $dense-checkbox-size;
+    }
+  }
+  mat-radio-button {
+    display: block;
+    @extend .dense-checkbox;
+  }
+}
