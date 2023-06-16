@@ -1,5 +1,7 @@
 import { Component, HostListener, Inject, OnInit } from "@angular/core";
+import { MatButtonModule } from "@angular/material/button";
 import {
+  MatDialogModule,
   MatDialogRef,
   MAT_DIALOG_DATA as MAT_DIALOG_DATA,
 } from "@angular/material/dialog";
@@ -10,6 +12,8 @@ import {
 @Component({
   selector: "shared-confirm-dialog",
   templateUrl: "./confirm-dialog.component.html",
+  standalone: true,
+  imports: [MatDialogModule, MatButtonModule],
 })
 export class ConfirmDialogComponent implements OnInit {
   confirmButtonColor: string;

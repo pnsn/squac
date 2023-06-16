@@ -41,7 +41,6 @@ export class ChannelGroupViewComponent implements OnInit, OnDestroy {
       emptyMessage: "No channel groups found.",
     },
     footerLabel: "Channel Groups",
-    displayCheck: true,
   };
 
   /** Config for detail page */

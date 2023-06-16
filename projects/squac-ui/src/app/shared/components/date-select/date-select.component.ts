@@ -8,12 +8,17 @@ import {
   SimpleChanges,
   ViewChild,
 } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { MatFormFieldModule } from "@angular/material/form-field";
 import { Locale } from "@core/locale.constant";
 import { DateService } from "@core/services/date.service";
 import dayjs from "dayjs";
 import * as timezone from "dayjs/plugin/timezone";
 import * as utc from "dayjs/plugin/utc";
-import { DaterangepickerDirective } from "ngx-daterangepicker-material";
+import {
+  DaterangepickerDirective,
+  NgxDaterangepickerMd,
+} from "ngx-daterangepicker-material";
 // import { TimePeriod } from "ngx-daterangepicker-material/daterangepicker.component";
 import { TimeRange } from "./time-range.interface";
 
@@ -31,6 +36,8 @@ export interface TimePeriod {
   selector: "shared-date-select",
   templateUrl: "./date-select.component.html",
   styleUrls: ["./date-select.component.scss"],
+  standalone: true,
+  imports: [NgxDaterangepickerMd, MatFormFieldModule, FormsModule],
 })
 export class DateSelectComponent implements OnInit, OnChanges {
   @ViewChild(DaterangepickerDirective, { static: true })

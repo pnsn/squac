@@ -35,6 +35,7 @@ export type MeasurementTransformTypes =
  */
 @Pipe({
   name: "measurement",
+  standalone: true,
 })
 export class MeasurementPipe implements PipeTransform {
   /**

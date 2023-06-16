@@ -7,11 +7,17 @@ import {
   Output,
   SimpleChanges,
 } from "@angular/core";
-import { Location } from "@angular/common";
+import { Location, NgClass, NgIf } from "@angular/common";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ChannelGroup } from "squacapi";
 import { ChannelGroupService } from "squacapi";
-import { MatFormFieldAppearance } from "@angular/material/form-field";
+import {
+  MatFormFieldAppearance,
+  MatFormFieldModule,
+} from "@angular/material/form-field";
+import { FormsModule } from "@angular/forms";
+import { MatOptionModule } from "@angular/material/core";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
 
 /** Grouping of Channel Groups with a name and form value */
 interface Group {
@@ -29,6 +35,15 @@ interface Group {
 @Component({
   selector: "shared-channel-group-selector",
   templateUrl: "./channel-group-selector.component.html",
+  standalone: true,
+  imports: [
+    MatFormFieldModule,
+    FormsModule,
+    NgIf,
+    NgClass,
+    MatOptionModule,
+    MatAutocompleteModule,
+  ],
 })
 export class ChannelGroupSelectorComponent implements OnInit, OnChanges {
   /** channel group id */

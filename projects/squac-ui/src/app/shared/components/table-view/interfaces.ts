@@ -29,15 +29,13 @@ export interface TableColumn {
 /** Table configuration options */
 export interface TableOptions {
   /** limit number of rows to show */
-  limit?: number;
+  // limit?: number;
   /** can reorder columns? */
-  reorderable?: boolean;
+  // reorderable?: boolean;
   /** true if tabel should route to detail page */
   autoRouteToDetail?: boolean;
   /** true if should show option to select all rows on page */
-  selectAllRowsOnPage?: boolean;
-  /** true if checkboxes should be available for rows */
-  displayCheck?: boolean;
+  // selectAllRowsOnPage?: boolean;
   /** table messages */
   messages?: TableMessages;
   /** Footer label text */

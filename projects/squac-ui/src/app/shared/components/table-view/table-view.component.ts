@@ -8,15 +8,21 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-  TemplateRef,
   ViewChild,
 } from "@angular/core";
-import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
-import { User } from "squacapi";
-import { OrganizationService } from "squacapi";
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterModule,
+} from "@angular/router";
+import {
+  User,
+  OrganizationPipe,
+  OrganizationService,
+  UserPipe,
+} from "squacapi";
 import { UserService } from "@user/services/user.service";
-import { OrganizationPipe } from "squacapi";
-import { UserPipe } from "squacapi";
 import { Subscription, tap, filter } from "rxjs";
 import {
   TableColumn,
@@ -25,11 +31,20 @@ import {
   TableOptions,
 } from "./interfaces";
 import { SharedToggleFilter } from "@shared/components/sharing-toggle/sharing-toggle.interface";
-import { MatSort } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
+import { MatSort, MatSortModule } from "@angular/material/sort";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { SelectionModel } from "@angular/cdk/collections";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
-import { MatPaginator } from "@angular/material/paginator";
+import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
+import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
+import { CommonModule } from "@angular/common";
+import { MatMenuModule } from "@angular/material/menu";
+import { AbilityModule } from "@casl/angular";
+import { SharingToggleComponent } from "../sharing-toggle/sharing-toggle.component";
+import { SharedIndicatorComponent } from "../shared-indicator/shared-indicator.component";
+import { LoadingDirective } from "@shared/directives/loading-directive.directive";
+import { SearchFilterComponent } from "../search-filter/search-filter.component";
 
 /**
  * Reusable table view component
@@ -38,6 +53,24 @@ import { MatPaginator } from "@angular/material/paginator";
   selector: "shared-table-view",
   templateUrl: "./table-view.component.html",
   styleUrls: ["./table-view.component.scss"],
+  standalone: true,
+  imports: [
+    CommonModule,
+    AbilityModule,
+    OrganizationPipe,
+    UserPipe,
+    MatButtonModule,
+    MatIconModule,
+    RouterModule,
+    MatTableModule,
+    MatSortModule,
+    MatMenuModule,
+    MatPaginatorModule,
+    SharingToggleComponent,
+    SharedIndicatorComponent,
+    LoadingDirective,
+    SearchFilterComponent,
+  ],
 })
 export class TableViewComponent
   implements OnInit, OnDestroy, OnChanges, AfterViewInit
@@ -50,19 +83,13 @@ export class TableViewComponent
   @Input() controls: TableControls;
   @Input() filters: TableFilters;
   @Input() selectedRowId: number;
-  @Input() resize: boolean;
-  @Input() groupHeaderTemplate: TemplateRef<any>;
-  @Input() tableFooterTemplate: TemplateRef<any>;
-  @Input() rowDetailTemplate: TemplateRef<any>;
   @Input() isLoading: boolean;
-  @Input() dataService: any;
+
   @Output() itemSelected = new EventEmitter<any>();
   @Output() controlClicked = new EventEmitter<any>();
   @Output() refresh = new EventEmitter<any>();
   @Output() filtersChanged = new EventEmitter<any>();
-  @ViewChild("table") table;
-  @ViewChild("nameTemplate") nameTemplate: TemplateRef<any>;
-  @ViewChild("checkboxTemplate") checkboxTemplate: TemplateRef<any>;
+
   userPipe: UserPipe;
   orgPipe: OrganizationPipe;
   searchString: string;
@@ -72,14 +99,9 @@ export class TableViewComponent
 
   //defaultOptions
   tableOptions: TableOptions = {
-    limit: undefined,
-    reorderable: false,
     autoRouteToDetail: true,
-    selectAllRowsOnPage: false,
-    displayCheck: false,
     messages: {
-      emptyMessage: "No data",
-      totalMessage: "total",
+      emptyMessage: "No results found",
     },
   };
 
@@ -140,6 +162,7 @@ export class TableViewComponent
     Object.keys(this.options).forEach((key) => {
       this.tableOptions[key] = this.options[key];
     });
+
     const userServ = this.userService.user.subscribe({
       next: (user) => {
         this.user = user;
@@ -148,7 +171,6 @@ export class TableViewComponent
         }
       },
     });
-
     this.subscription.add(userServ);
     if (this.controls.listenToRouter) {
       const currentPath =
@@ -185,12 +207,6 @@ export class TableViewComponent
     }
     if (changes["selectedRowId"] && !changes["selectedRowId"].firstChange) {
       this.selectResourceById(this.selectedRowId);
-    }
-
-    if (changes["resize"]) {
-      if (this.table) {
-        this.table.recalculate();
-      }
     }
   }
 
@@ -370,17 +386,6 @@ export class TableViewComponent
    */
   controlClick(type: string): void {
     this.controlClicked.emit(type);
-  }
-
-  /**
-   * Toggle expand or collapse group
-   *
-   * @param group group id
-   * @returns if should toggle
-   */
-  toggleExpandGroup(group): boolean {
-    this.table.groupHeader.toggleExpandGroup(group);
-    return false;
   }
 
   /**

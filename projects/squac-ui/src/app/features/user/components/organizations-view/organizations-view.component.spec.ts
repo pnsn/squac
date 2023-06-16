@@ -7,6 +7,8 @@ import { of } from "rxjs";
 
 import { OrganizationsViewComponent } from "./organizations-view.component";
 import { DetailPageComponent } from "@shared/components/detail-page/detail-page.component";
+import { MatCardModule } from "@angular/material/card";
+import { MatListModule } from "@angular/material/list";
 
 describe("OrganizationsViewComponent", () => {
   let component: OrganizationsViewComponent;
@@ -14,6 +16,8 @@ describe("OrganizationsViewComponent", () => {
 
   beforeEach(() => {
     return MockBuilder(OrganizationsViewComponent)
+      .keep([MatCardModule, MatListModule])
+
       .mock(RouterTestingModule.withRoutes([]))
       .mock(OrganizationService)
       .mock(DetailPageComponent)

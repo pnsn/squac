@@ -12,7 +12,6 @@ import { ConfirmDialogComponent } from "./components/confirm-dialog/confirm-dial
 import { SharedIndicatorComponent } from "./components/shared-indicator/shared-indicator.component";
 import { SearchFilterComponent } from "./components/search-filter/search-filter.component";
 import { DateSelectComponent } from "./components/date-select/date-select.component";
-import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
 import { ChannelGroupSelectorComponent } from "./components/channel-group-selector/channel-group-selector.component";
 import { LoadingOverlayComponent } from "./components/loading-overlay/loading-overlay.component";
 import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-spinner.component";
@@ -26,20 +25,7 @@ import { LoadingDirective } from "./directives/loading-directive.directive";
  * Shared module for features
  */
 @NgModule({
-  declarations: [
-    SearchFilterComponent,
-    ConfirmDialogComponent,
-    LoadingComponent,
-    ErrorComponent,
-    SharedIndicatorComponent,
-    DateSelectComponent,
-    ChannelGroupSelectorComponent,
-    LoadingOverlayComponent,
-    LoadingSpinnerComponent,
-    DetailPageComponent,
-    SharingToggleComponent,
-    TableViewComponent,
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     MaterialModule,
@@ -49,10 +35,21 @@ import { LoadingDirective } from "./directives/loading-directive.directive";
     ReactiveFormsModule,
     FormsModule,
     RouterModule,
-    NgxDaterangepickerMd.forRoot(),
     SquacapiModule,
     TooltipModule,
     LoadingDirective,
+    TableViewComponent,
+    SharedIndicatorComponent,
+    SharingToggleComponent,
+    SearchFilterComponent,
+    LoadingSpinnerComponent,
+    LoadingComponent,
+    LoadingOverlayComponent,
+    ChannelGroupSelectorComponent,
+    ConfirmDialogComponent,
+    DateSelectComponent,
+    ErrorComponent,
+    DetailPageComponent,
   ],
   exports: [
     MaterialModule,

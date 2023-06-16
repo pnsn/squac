@@ -6,6 +6,7 @@ import { OrganizationService } from "../services";
  */
 @Pipe({
   name: "organization",
+  standalone: true,
 })
 export class OrganizationPipe implements PipeTransform {
   constructor(private orgService: OrganizationService) {}

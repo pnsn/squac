@@ -16,14 +16,14 @@ import { SharingToggleComponent } from "@shared/components/sharing-toggle/sharin
 import { TableViewComponent } from "./table-view.component";
 import { MatTableModule } from "@angular/material/table";
 
-describe("TableViewComponent", () => {
+fdescribe("TableViewComponent", () => {
   let component: TableViewComponent;
   let fixture;
 
   beforeEach(() => {
     return MockBuilder(TableViewComponent)
       .mock(SharedModule)
-      .keep(MatTableModule)
+
       .mock(SharingToggleComponent)
       .keep(HttpClientTestingModule)
       .mock([
@@ -31,6 +31,7 @@ describe("TableViewComponent", () => {
         ActivatedRoute,
         AbilityModule,
         MatMenuModule,
+        MatTableModule,
       ])
       .keep(
         RouterTestingModule.withRoutes([
@@ -86,11 +87,13 @@ describe("TableViewComponent", () => {
   }));
 
   it("should select row", () => {
+    const testRow = { id: 1 };
+    fixture.componentInstance.rows = [testRow, { id: 2 }];
+    fixture.detectChanges();
     fixture.componentInstance.selectedRowId = 1;
-    fixture.componentInstance.rows = [{ id: 1 }, { id: 2 }];
     fixture.detectChanges();
 
-    expect(component.selectedRow).toEqual({ id: 1 });
+    expect(component.selection.isSelected(testRow)).toBeTrue();
   });
 
   // it("should respond to row selected on table", () => {
@@ -113,3 +116,21 @@ describe("TableViewComponent", () => {
   //   expect(resourceSpy).toHaveBeenCalledTimes(1);
   // });
 });
+
+// renders a table
+// populates table with rows
+// populates table with columns
+// can sort
+// displays userIds as names
+// displays orgIds as organization names
+// selects resources using Id
+// emits resource id when selected on table
+// renders menu options set up by config and responds
+// navigation/evetns:
+// allows resource deletion
+// allows resource viewing
+// allows resource editing
+// allows resource creatio
+// renders a search field that alters rows, emits results
+// emits refresh event
+// inputted controls and options affect view
