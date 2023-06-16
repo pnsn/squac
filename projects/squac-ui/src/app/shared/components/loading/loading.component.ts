@@ -7,7 +7,7 @@ import { MatProgressBarModule } from "@angular/material/progress-bar";
 @Component({
   selector: "shared-loading",
   templateUrl: "./loading.component.html",
-  styleUrls: ["./loading.component.scss"],
+  styles: ["#loading-container {height: 100%; width: 100%; padding: 10px;}"],
   standalone: true,
   imports: [MatProgressBarModule],
 })

@@ -27,7 +27,6 @@ import { FilterText, SharedToggleFilter } from "./sharing-toggle.interface";
 @Component({
   selector: "shared-sharing-toggle",
   templateUrl: "./sharing-toggle.component.html",
-  styleUrls: ["./sharing-toggle.component.scss"],
   standalone: true,
   imports: [
     MatButtonToggleModule,

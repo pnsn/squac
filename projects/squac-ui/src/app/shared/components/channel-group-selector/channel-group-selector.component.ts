@@ -7,7 +7,7 @@ import {
   Output,
   SimpleChanges,
 } from "@angular/core";
-import { Location, NgClass, NgIf } from "@angular/common";
+import { Location, NgClass, NgFor, NgIf } from "@angular/common";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ChannelGroup } from "squacapi";
 import { ChannelGroupService } from "squacapi";
@@ -18,6 +18,7 @@ import {
 import { FormsModule } from "@angular/forms";
 import { MatOptionModule } from "@angular/material/core";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatInputModule } from "@angular/material/input";
 
 /** Grouping of Channel Groups with a name and form value */
 interface Group {
@@ -38,8 +39,10 @@ interface Group {
   standalone: true,
   imports: [
     MatFormFieldModule,
+    MatInputModule,
     FormsModule,
     NgIf,
+    NgFor,
     NgClass,
     MatOptionModule,
     MatAutocompleteModule,

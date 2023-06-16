@@ -6,7 +6,7 @@
     id="table-head"
     class="lt-gray-background"
   >
-    <div class="row space-between">
+    <div class="row space-between wrap">
       <shared-search-filter
         *ngIf="filters && filters.searchField"
         [config]="filters.searchField"
@@ -15,7 +15,7 @@
       >
       </shared-search-filter>
       <ng-content select="[tableHeadFilters]"> </ng-content>
-      <div class="row space-between">
+      <div class="row space-between wrap">
         <shared-sharing-toggle
           *ngIf="filters && filters.toggleShared"
           [user]="user"

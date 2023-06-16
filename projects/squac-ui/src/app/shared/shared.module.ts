@@ -21,6 +21,7 @@ import { SharingToggleComponent } from "./components/sharing-toggle/sharing-togg
 import { TooltipModule } from "@ui/tooltip/tooltip.module";
 import { TableViewComponent } from "./components/table-view/table-view.component";
 import { LoadingDirective } from "./directives/loading-directive.directive";
+import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
 /**
  * Shared module for features
  */
@@ -50,6 +51,7 @@ import { LoadingDirective } from "./directives/loading-directive.directive";
     DateSelectComponent,
     ErrorComponent,
     DetailPageComponent,
+    NgxDaterangepickerMd.forRoot(),
   ],
   exports: [
     MaterialModule,

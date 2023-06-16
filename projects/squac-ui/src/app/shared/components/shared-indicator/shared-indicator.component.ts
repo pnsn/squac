@@ -9,7 +9,6 @@ import { TooltipModule } from "@ui/tooltip/tooltip.module";
 @Component({
   selector: "shared-sharing-indicator",
   templateUrl: "./shared-indicator.component.html",
-  styleUrls: ["./shared-indicator.component.scss"],
   standalone: true,
   imports: [TooltipModule, MatIconModule, NgIf, TitleCasePipe],
 })

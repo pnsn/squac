@@ -3,35 +3,21 @@
   width: 100%;
   #table-head {
     padding: 5px 10px;
-    #controls,
-    #filters {
-      align-items: center;
-      justify-content: space-between;
-    }
-    .row {
-      gap: 5px;
-      flex-wrap: wrap;
-    }
   }
-
   #table-body {
     height: 100%;
-  }
-}
-
-#table-body {
-  overflow: auto;
-  table {
-    width: 100%;
-  }
-}
-
-tr.table-row {
-  &:not(.selected):hover,
-  &.selected {
-    background: whitesmoke;
-  }
-  &:active {
-    background: #efefef;
+    overflow: auto;
+    table {
+      width: 100%;
+      tr.table-row {
+        &:not(.selected):hover,
+        &.selected {
+          background: whitesmoke;
+        }
+        &:active {
+          background: #efefef;
+        }
+      }
+    }
   }
 }

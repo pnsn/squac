@@ -1,9 +1,6 @@
 <div class="body-content-container">
-  <div id="page-title">
-    <div
-      id="title-text"
-      class="title"
-    >
+  <div class="row space-between">
+    <div class="title">
       <h1 class="mat-h1">
         {{ title }}
       </h1>
@@ -11,8 +8,8 @@
     </div>
 
     <div
-      id="title-buttons-container"
       *ngIf="options.titleButtons as buttons"
+      class="row space-between"
     >
       <ng-content select="[headerContent]"> </ng-content>
 
