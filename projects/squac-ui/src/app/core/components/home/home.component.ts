@@ -1,8 +1,12 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, RouterModule } from "@angular/router";
 import { MessageService } from "../../services/message.service";
 import { User } from "squacapi";
-
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { MenuComponent } from "../menu/menu.component";
+import { MatIconModule } from "@angular/material/icon";
+import { NgIf } from "@angular/common";
 /**
  * Home page
  */
@@ -10,6 +14,15 @@ import { User } from "squacapi";
   selector: "app-home",
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.scss"],
+  standalone: true,
+  imports: [
+    RouterModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MenuComponent,
+    MatIconModule,
+    NgIf,
+  ],
 })
 export class HomeComponent implements OnInit {
   /** active squac user */

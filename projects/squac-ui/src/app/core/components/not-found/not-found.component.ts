@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { NavigationEnd, Router } from "@angular/router";
+import { NavigationEnd, Router, RouterModule } from "@angular/router";
 import { filter } from "rxjs/operators";
 
 /**
@@ -9,6 +9,8 @@ import { filter } from "rxjs/operators";
   selector: "app-not-found",
   templateUrl: "./not-found.component.html",
   styleUrls: ["./not-found.component.scss"],
+  standalone: true,
+  imports: [RouterModule],
 })
 export class NotFoundComponent {
   previousUrl = "";

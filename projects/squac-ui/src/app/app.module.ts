@@ -32,8 +32,8 @@ import { AuthInterceptor } from "@core/interceptors/auth-interceptor.service";
 import { CacheInterceptor } from "@core/interceptors/cache-interceptor.service";
 import { HttpErrorInterceptor } from "@core/interceptors/http-error-interceptor.service";
 import { AppAbility } from "@core/utils/ability";
-import { CoreModule } from "@core/core.module";
 import { LoadingDirective } from "@shared/directives/loading-directive.directive";
+import { CoreModule } from "@core/core.module";
 
 /**
  *
@@ -44,9 +44,9 @@ import { LoadingDirective } from "@shared/directives/loading-directive.directive
     LoadingDirective,
     ApiModule,
     HttpClientModule,
-    CoreModule,
     BrowserAnimationsModule,
     BrowserModule,
+    CoreModule,
     // Always load this at the end or the routing gets weird
     AppRoutingModule,
   ],
