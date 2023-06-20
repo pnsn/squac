@@ -23,7 +23,6 @@ type CheckboxForm = Record<string, FormControl<boolean>>;
 @Component({
   selector: "dashboard-channel-filter",
   templateUrl: "./channel-filter.component.html",
-  styleUrls: ["./channel-filter.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChannelFilterComponent implements OnInit, OnDestroy {

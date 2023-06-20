@@ -39,10 +39,10 @@
     <shared-loading *ngIf="loading"></shared-loading>
     <ng-template #noWidgets>
       <div
-        id="add-widget"
         *ngIf="!loading && !error"
+        class="column centered"
       >
-        <p>There are currently no widgets for this dashboard.</p>
+        <p class="mat-body">There are currently no widgets for this dashboard.</p>
         <button
           mat-flat-button
           *ngIf="canUpdate"

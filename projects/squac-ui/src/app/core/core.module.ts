@@ -11,14 +11,6 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
  * Module for core imports, to be imported into main app module
  */
 @NgModule({
-  imports: [
-    AuthComponent,
-    NotFoundComponent,
-    HomeComponent,
-    MenuComponent,
-    CommonModule,
-    MatDialogModule,
-    MatSnackBarModule,
-  ],
+  imports: [MatDialogModule, MatSnackBarModule],
 })
 export class CoreModule {}
