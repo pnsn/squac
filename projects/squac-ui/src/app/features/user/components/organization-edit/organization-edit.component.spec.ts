@@ -19,7 +19,7 @@ describe("OrganizationEditComponent", () => {
       .mock(MAT_DIALOG_DATA, {
         data: {},
       })
-      .keep(ReactiveFormsModule);
+      .mock(ReactiveFormsModule);
   });
 
   it("should create", () => {

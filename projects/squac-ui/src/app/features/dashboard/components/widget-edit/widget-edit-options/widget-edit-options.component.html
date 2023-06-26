@@ -165,7 +165,7 @@
             <th></th>
           </thead>
           <tbody>
-            <ng-container *ngFor="let threshold of thresholdArray.controls; let i = index">
+            <ng-container *ngFor="let threshold of thresholdArray?.controls; let i = index">
               <tr [formGroupName]="i">
                 <td class="large">
                   <span *ngIf="threshold.controls.metricId.value as metricId">

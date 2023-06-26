@@ -5,6 +5,7 @@ import { LoadingComponent } from "@shared/components/loading/loading.component";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { MetricService } from "squacapi";
 import { MaterialModule } from "@shared/material.module";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 
 describe("WidgetEditMetricsComponent", () => {
   let component: WidgetEditMetricsComponent;
@@ -12,9 +13,14 @@ describe("WidgetEditMetricsComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, MaterialModule],
+      imports: [
+        HttpClientTestingModule,
+        MaterialModule,
+        LoadingComponent,
+        NoopAnimationsModule,
+      ],
       providers: [MetricService],
-      declarations: [WidgetEditMetricsComponent, LoadingComponent],
+      declarations: [WidgetEditMetricsComponent],
     }).compileComponents();
   }));
 

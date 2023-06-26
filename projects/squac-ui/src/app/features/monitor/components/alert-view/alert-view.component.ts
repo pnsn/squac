@@ -146,6 +146,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
         cellTemplate: this.channelsTemplate,
       },
     ];
+    this.cdr.detectChanges();
   }
   /** subscribe to route events */
   ngOnInit(): void {

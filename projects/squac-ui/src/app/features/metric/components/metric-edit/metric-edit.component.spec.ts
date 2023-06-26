@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { MetricEditComponent } from "./metric-edit.component";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MetricService } from "squacapi";
+import { ReactiveFormsModule } from "@angular/forms";
 import {
   MatDialogRef,
   MAT_DIALOG_DATA as MAT_DIALOG_DATA,
@@ -15,15 +14,14 @@ describe("MetricEditComponent", () => {
   let fixture: ComponentFixture<MetricEditComponent>;
 
   beforeEach(() => {
-    return MockBuilder(MetricEditComponent)
-      .mock(MaterialModule)
-      .mock(MatDialogRef)
-      .mock(MAT_DIALOG_DATA, {
-        data: {},
-      })
-      .keep(ReactiveFormsModule)
-      .keep(FormsModule)
-      .mock(MetricService);
+    return MockBuilder(MetricEditComponent, [
+      MaterialModule,
+      MatDialogRef,
+      MAT_DIALOG_DATA,
+      ReactiveFormsModule,
+    ]).mock(MAT_DIALOG_DATA, {
+      data: {},
+    });
   });
 
   it("should create", () => {

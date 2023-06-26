@@ -1,45 +1,47 @@
-import { Location } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { fakeAsync, tick } from "@angular/core/testing";
 import { MatMenuModule } from "@angular/material/menu";
-import { ActivatedRoute, Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { AbilityModule } from "@casl/angular";
-import { SharedModule } from "@shared/shared.module";
 import { UserService } from "@user/services/user.service";
 
 import { MockBuilder, MockRender } from "ng-mocks";
 import { BehaviorSubject } from "rxjs";
-import { OrganizationService } from "squacapi";
+import { OrganizationPipe, OrganizationService, UserPipe } from "squacapi";
 import { SearchFilterComponent } from "@shared/components/search-filter/search-filter.component";
 import { SharingToggleComponent } from "@shared/components/sharing-toggle/sharing-toggle.component";
 import { TableViewComponent } from "./table-view.component";
 import { MatTableModule } from "@angular/material/table";
+import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
+import { MatSortModule } from "@angular/material/sort";
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { SharedIndicatorComponent } from "../shared-indicator/shared-indicator.component";
+import { LoadingDirective } from "@shared/directives/loading-directive.directive";
 
-fdescribe("TableViewComponent", () => {
+describe("TableViewComponent", () => {
   let component: TableViewComponent;
   let fixture;
 
   beforeEach(() => {
     return MockBuilder(TableViewComponent)
-      .mock(SharedModule)
-
-      .mock(SharingToggleComponent)
       .keep(HttpClientTestingModule)
+      .keep(RouterTestingModule.withRoutes([]))
       .mock([
-        SearchFilterComponent,
-        ActivatedRoute,
         AbilityModule,
-        MatMenuModule,
+        OrganizationPipe,
+        UserPipe,
+        MatButtonModule,
+        MatIconModule,
         MatTableModule,
+        MatSortModule,
+        MatMenuModule,
+        MatPaginatorModule,
+        SharingToggleComponent,
+        SharedIndicatorComponent,
+        LoadingDirective,
+        SearchFilterComponent,
+        OrganizationService,
       ])
-      .keep(
-        RouterTestingModule.withRoutes([
-          { path: "1", component: TableViewComponent },
-          { path: "2", component: TableViewComponent },
-        ])
-      )
-      .mock(OrganizationService)
       .mock(UserService, {
         user: new BehaviorSubject(null),
       });
@@ -65,26 +67,6 @@ fdescribe("TableViewComponent", () => {
   it("should create", () => {
     expect(component).toBeTruthy();
   });
-
-  it("should listen to router events and set selected", fakeAsync(() => {
-    fixture.componentInstance.controls.listenToRouter = true;
-    fixture.componentInstance.controls.basePath = "/1";
-    fixture.detectChanges();
-    const router: Router = fixture.point.injector.get(Router);
-    const location: Location = fixture.point.injector.get(Location);
-    // First we need to initialize navigation.
-    location.go("/1");
-    if (fixture.ngZone) {
-      fixture.ngZone.run(() => router.initialNavigation());
-      tick(); // is needed for rendering of the current route.
-    }
-    location.go("/2");
-    location.go("/1");
-    // We should see Target1Component component on /1 page.
-    expect(location.path()).toEqual("/1");
-
-    expect(fixture.componentInstance.selectedRowId).toBeNull();
-  }));
 
   it("should select row", () => {
     const testRow = { id: 1 };

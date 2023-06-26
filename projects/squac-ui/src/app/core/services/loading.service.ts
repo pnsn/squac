@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from "@angular/core";
 import { executeDelayed } from "@core/utils/utils";
 import { asyncScheduler, BehaviorSubject, Observable } from "rxjs";
-import { finalize, observeOn, tap } from "rxjs/operators";
+import { finalize, observeOn } from "rxjs/operators";
 
 type LoadingContext = object;
 type LoaderId = string | number; // expected enum values

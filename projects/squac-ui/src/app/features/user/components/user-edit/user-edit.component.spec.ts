@@ -13,9 +13,10 @@ describe("UserEditComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [UserEditComponent, ErrorComponent],
+      declarations: [UserEditComponent],
       imports: [
         HttpClientTestingModule,
+        ErrorComponent,
         ReactiveFormsModule,
         MaterialModule,
         RouterTestingModule.withRoutes([

@@ -1,6 +1,7 @@
 import { ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { AuthService } from "@core/services/auth.service";
+import { MaterialModule } from "@shared/material.module";
 import { UserModule } from "@user/user.module";
 import { MockBuilder, MockInstance, MockRender } from "ng-mocks";
 import { of } from "rxjs";
@@ -8,16 +9,15 @@ import { LoginComponent } from "./login.component";
 
 describe("LoginComponent", () => {
   beforeEach(() => {
-    return MockBuilder(LoginComponent)
-      .mock(UserModule)
-      .keep(ReactiveFormsModule)
-      .keep(RouterTestingModule.withRoutes([]))
-      .provide({
-        provide: AuthService,
-        useValue: {
-          login: () => of("Login Successful"),
-        },
-      });
+    return MockBuilder(
+      [LoginComponent, UserModule, RouterTestingModule.withRoutes([])],
+      [MaterialModule, ReactiveFormsModule]
+    ).provide({
+      provide: AuthService,
+      useValue: {
+        login: () => of("Login Successful"),
+      },
+    });
   });
 
   it("should create", () => {

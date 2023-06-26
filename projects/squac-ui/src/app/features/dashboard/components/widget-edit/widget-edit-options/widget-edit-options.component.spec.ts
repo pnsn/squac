@@ -2,14 +2,18 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { WidgetEditOptionsComponent } from "./widget-edit-options.component";
 import { MockBuilder } from "ng-mocks";
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
 
 describe("WidgetEditOptionsComponent", () => {
   let component: WidgetEditOptionsComponent;
   let fixture: ComponentFixture<WidgetEditOptionsComponent>;
 
   beforeEach(() => {
-    return MockBuilder(WidgetEditOptionsComponent).keep(ReactiveFormsModule);
+    return MockBuilder([
+      WidgetEditOptionsComponent,
+      ReactiveFormsModule,
+      FormBuilder,
+    ]);
   });
 
   beforeEach(() => {

@@ -14,7 +14,7 @@ describe("MessageService", () => {
         {
           provide: MatSnackBar,
           useValue: {
-            openFromComponent: (_component, _config): any => {
+            open: (_message, _actions, _options?): any => {
               return {
                 dismiss: (): any => {
                   return;
@@ -34,7 +34,7 @@ describe("MessageService", () => {
   });
 
   it("should open snackbar", () => {
-    const openSpy = spyOn(snackbar, "openFromComponent");
+    const openSpy = spyOn(snackbar, "open");
     service.openSnackBar("default", "message");
     expect(openSpy).toHaveBeenCalled();
   });

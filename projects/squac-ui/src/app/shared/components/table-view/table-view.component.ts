@@ -10,12 +10,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from "@angular/core";
-import {
-  ActivatedRoute,
-  NavigationEnd,
-  Router,
-  RouterModule,
-} from "@angular/router";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import {
   User,
   OrganizationPipe,
@@ -23,7 +18,7 @@ import {
   UserPipe,
 } from "squacapi";
 import { UserService } from "@user/services/user.service";
-import { Subscription, tap, filter } from "rxjs";
+import { Subscription } from "rxjs";
 import {
   TableColumn,
   TableControls,
@@ -162,7 +157,6 @@ export class TableViewComponent
     Object.keys(this.options).forEach((key) => {
       this.tableOptions[key] = this.options[key];
     });
-
     const userServ = this.userService.user.subscribe({
       next: (user) => {
         this.user = user;
@@ -172,23 +166,6 @@ export class TableViewComponent
       },
     });
     this.subscription.add(userServ);
-    if (this.controls.listenToRouter) {
-      const currentPath =
-        this.controls.basePath || this.router.routerState.snapshot.url;
-      const routerEvents = this.router.events
-        .pipe(
-          filter((e) => e instanceof NavigationEnd),
-          tap((e: NavigationEnd) => {
-            if (e.urlAfterRedirects.toString() === currentPath) {
-              // this.refreshResource();
-              this.selectResource(null);
-            }
-          })
-        )
-        .subscribe();
-
-      this.subscription.add(routerEvents);
-    }
   }
 
   /**

@@ -295,7 +295,7 @@ export class WidgetEditOptionsComponent
 
   /** @returns threshold form array */
   get thresholdArray(): FormArray<FormGroup<ThresholdForm>> {
-    return this.optionsForm.controls["thresholdArray"] as FormArray;
+    return this.optionsForm?.controls["thresholdArray"] as FormArray;
   }
 
   /**
