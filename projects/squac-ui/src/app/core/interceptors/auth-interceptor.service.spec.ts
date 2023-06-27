@@ -1,7 +1,19 @@
-import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import {
+  HttpClient,
+  HttpClientModule,
+  HTTP_INTERCEPTORS,
+} from "@angular/common/http";
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
-import { MockBuilder, NG_MOCKS_INTERCEPTORS } from "ng-mocks";
+import {
+  MockBuilder,
+  MockInstance,
+  MockRender,
+  NG_MOCKS_INTERCEPTORS,
+} from "ng-mocks";
 import { AppModule } from "../../app.module";
 import { AuthService } from "../services/auth.service";
 import { AuthInterceptor } from "./auth-interceptor.service";
@@ -20,41 +32,41 @@ describe(`AuthInterceptor`, () => {
     expect(interceptor).toBeTruthy();
   });
 
-  // it("should add an Authorization header if user logged in", () => {
-  //   MockInstance(AuthService, "loggedIn", true);
-  //   MockInstance(AuthService, "auth", "auth");
+  it("should add an Authorization header if user logged in", () => {
+    MockInstance(AuthService, "isAuthenticated", () => true);
+    MockInstance(AuthService, "auth", "auth");
 
-  //   const fixture = MockRender("");
-  //   const client: HttpClient = fixture.debugElement.injector.get(HttpClient);
-  //   const httpMock: HttpTestingController = fixture.debugElement.injector.get(
-  //     HttpTestingController
-  //   );
+    MockRender();
+    const client: HttpClient = TestBed.inject(HttpClient);
+    const httpMock: HttpTestingController = TestBed.inject(
+      HttpTestingController
+    );
 
-  //   // Make an HTTP GET request
-  //   client.get("https://test.test.test/").subscribe();
+    // Make an HTTP GET request
+    client.get("https://test.test.test/").subscribe();
 
-  //   const httpRequest = httpMock.expectOne("https://test.test.test/");
-  //   httpRequest.flush("");
-  //   httpMock.verify();
-  //   expect(httpRequest.request.headers.has("Authorization")).toEqual(true);
-  // });
+    const httpRequest = httpMock.expectOne("https://test.test.test/");
+    httpRequest.flush("");
+    httpMock.verify();
+    expect(httpRequest.request.headers.has("Authorization")).toEqual(true);
+  });
 
-  // it("should not add an Authorization header if user not logged in", () => {
-  //   MockInstance(AuthService, "loggedIn", false);
-  //   // Make an HTTP GET request
-  //   const fixture = MockRender("");
-  //   const client: HttpClient = fixture.debugElement.injector.get(HttpClient);
-  //   const httpMock: HttpTestingController = fixture.debugElement.injector.get(
-  //     HttpTestingController
-  //   );
+  it("should not add an Authorization header if user not logged in", () => {
+    MockInstance(AuthService, "isAuthenticated", () => false);
+    // Make an HTTP GET request
+    MockRender();
+    const client: HttpClient = TestBed.inject(HttpClient);
+    const httpMock: HttpTestingController = TestBed.inject(
+      HttpTestingController
+    );
 
-  //   // Make an HTTP GET request
-  //   client.get("https://test.test.test/").subscribe();
+    // Make an HTTP GET request
+    client.get("https://test.test.test/").subscribe();
 
-  //   const httpRequest = httpMock.expectOne("https://test.test.test/");
-  //   httpRequest.flush("");
-  //   httpMock.verify();
+    const httpRequest = httpMock.expectOne("https://test.test.test/");
+    httpRequest.flush("");
+    httpMock.verify();
 
-  //   expect(httpRequest.request.headers.has("Authorization")).toEqual(false);
-  // });
+    expect(httpRequest.request.headers.has("Authorization")).toEqual(false);
+  });
 });

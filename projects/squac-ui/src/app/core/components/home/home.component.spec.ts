@@ -12,11 +12,11 @@ import {
 import { User } from "squacapi";
 import { HomeComponent } from "./home.component";
 
-fdescribe("HomeComponent", () => {
+describe("HomeComponent", () => {
   ngMocks.faster();
   MockInstance.scope();
 
-  beforeAll(() => {
+  beforeEach(() => {
     return MockBuilder(HomeComponent).mock(ActivatedRoute);
   });
 
