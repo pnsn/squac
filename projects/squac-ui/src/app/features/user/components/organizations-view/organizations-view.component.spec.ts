@@ -15,19 +15,19 @@ describe("OrganizationsViewComponent", () => {
   let fixture: ComponentFixture<OrganizationsViewComponent>;
 
   beforeEach(() => {
-    return MockBuilder(OrganizationsViewComponent)
-      .keep([MatCardModule, MatListModule])
-
-      .mock(RouterTestingModule.withRoutes([]))
-      .mock(OrganizationService)
-      .mock(DetailPageComponent)
-      .provide({
-        provide: ActivatedRoute,
-        useValue: {
-          params: of(),
-          data: of(),
-        },
-      });
+    return MockBuilder(OrganizationsViewComponent, [
+      MatCardModule,
+      MatListModule,
+      RouterTestingModule.withRoutes([]),
+      OrganizationService,
+      DetailPageComponent,
+    ]).provide({
+      provide: ActivatedRoute,
+      useValue: {
+        params: of(),
+        data: of(),
+      },
+    });
   });
 
   beforeEach(() => {

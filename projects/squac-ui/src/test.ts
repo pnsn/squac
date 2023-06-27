@@ -18,6 +18,10 @@ jasmine.getEnv().addReporter({
   suiteStarted: MockInstance.remember,
 });
 
+ngMocks.autoSpy("jasmine");
+// // uncomment in case if existing tests are with spies already.
+jasmine.getEnv().allowRespy(true);
+
 ngMocks.config({
   onTestBedFlushNeed: "warn",
 });

@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
    */
   ngOnInit(): void {
     // get user for header
-    if (this.route.snapshot.data["user"]) {
+    if (this.route.snapshot?.data["user"]) {
       this.user = this.route.snapshot.data["user"];
     } else {
       this.messageService.error("Could not load user information.");

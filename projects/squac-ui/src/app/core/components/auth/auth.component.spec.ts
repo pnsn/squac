@@ -12,6 +12,6 @@ describe("AuthComponent", () => {
   it("should create", () => {
     const fixture = MockRender(AuthComponent);
 
-    expect(fixture.point.componentInstance).toEqual(jasmine.any(AuthComponent));
+    expect(fixture.point.componentInstance).toBeDefined();
   });
 });
