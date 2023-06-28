@@ -1,7 +1,6 @@
 import { TestBed } from "@angular/core/testing";
 import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { MockBuilder } from "ng-mocks";
-import { of } from "rxjs";
 
 import { UserMeService } from "./user-me.service";
 

@@ -1,7 +1,6 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { ApiService } from "@pnsn/ngx-squacapi-client";
-import { MockBuilder, MockInstance, MockRender } from "ng-mocks";
+import { MockBuilder } from "ng-mocks";
 import { of } from "rxjs";
 import { ChannelGroup } from "squacapi";
 import { ChannelGroupService } from "./channel-group.service";

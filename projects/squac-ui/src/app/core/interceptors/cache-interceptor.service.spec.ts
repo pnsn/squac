@@ -1,7 +1,6 @@
 import {
   HttpClient,
   HttpClientModule,
-  HttpContext,
   HttpResponse,
   HTTP_INTERCEPTORS,
 } from "@angular/common/http";
@@ -17,7 +16,6 @@ import {
   MockRender,
   NG_MOCKS_INTERCEPTORS,
 } from "ng-mocks";
-import { REFRESH_REQUEST } from "squacapi";
 import { AppModule } from "../../app.module";
 import { CacheInterceptor } from "./cache-interceptor.service";
 

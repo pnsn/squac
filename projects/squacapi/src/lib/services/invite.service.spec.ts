@@ -1,5 +1,4 @@
 import { TestBed } from "@angular/core/testing";
-import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { MockBuilder } from "ng-mocks";
 import { InviteService } from "./invite.service";
 import { InviteService as InviteApiService } from "@pnsn/ngx-squacapi-client";

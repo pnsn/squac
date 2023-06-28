@@ -31,18 +31,15 @@ export class OrganizationService extends BaseReadOnlyApiService<Organization> {
   ): Observable<Organization[]> {
     return super.list(params, refresh).pipe(
       tap((organizations: Organization[]) => {
-        if (organizations) {
-          console.log(organizations);
-          this.localOrganizations = organizations.slice();
-          organizations.forEach((org) => {
-            for (const user of org.users) {
-              this.orgUsers[user.id] = {
-                first: user.firstname,
-                last: user.lastname,
-              };
-            }
-          });
-        }
+        this.localOrganizations = organizations?.slice();
+        organizations.forEach((org) => {
+          for (const user of org.users) {
+            this.orgUsers[user.id] = {
+              first: user.firstname,
+              last: user.lastname,
+            };
+          }
+        });
       })
     );
   }
