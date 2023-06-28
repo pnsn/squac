@@ -10,11 +10,10 @@ import {
 } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { MockBuilder, MockRender, NG_MOCKS_INTERCEPTORS } from "ng-mocks";
-import { throwError } from "rxjs";
 import { AppModule } from "../../app.module";
 import { HttpErrorInterceptor } from "./http-error-interceptor.service";
 
-fdescribe("HttpErrorInterceptor", () => {
+describe("HttpErrorInterceptor", () => {
   beforeEach(() => {
     return MockBuilder(HttpErrorInterceptor, AppModule)
       .replace(HttpClientModule, HttpClientTestingModule)
