@@ -104,12 +104,8 @@ export class MeasurementPipe implements PipeTransform {
 
         case "latest":
           return mostRecent(values);
-
-        default: // most recent
-          return mostRecent(values);
       }
-    } else {
-      return null;
     }
+    return null;
   }
 }

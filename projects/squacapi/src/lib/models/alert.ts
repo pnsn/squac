@@ -75,8 +75,6 @@ export class Alert extends ReadOnlyResourceModel<
         } catch (e) {
           breachingChannels = [];
         }
-      } else if (Array.isArray(data.breaching_channels)) {
-        breachingChannels = data.breaching_channels as BreachingChannel[];
       }
       this.breachingChannels = breachingChannels;
     }
