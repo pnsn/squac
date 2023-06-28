@@ -1,6 +1,6 @@
 import { TestBed } from "@angular/core/testing";
 import { OrganizationService } from "../services/organization.service";
-import { ngMocks, MockBuilder, MockInstance } from "ng-mocks";
+import { ngMocks, MockBuilder } from "ng-mocks";
 import { OrganizationPipe } from "./organization.pipe";
 
 describe("OrganizationPipe", () => {
