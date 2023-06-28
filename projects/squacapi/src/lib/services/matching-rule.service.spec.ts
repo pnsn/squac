@@ -1,20 +1,16 @@
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { ApiService } from "@pnsn/ngx-squacapi-client";
+import { MockBuilder } from "ng-mocks";
 import { MatchingRuleService } from "./matching-rule.service";
 
 describe("MatchingRuleService", () => {
-  let service: MatchingRuleService;
-
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [{ provide: ApiService, useValue: {} }],
-    });
-    service = TestBed.inject(MatchingRuleService);
+    return MockBuilder(MatchingRuleService, ApiService);
   });
 
   it("should be created", () => {
-    expect(service).toBeTruthy();
+    const service = TestBed.inject(MatchingRuleService);
+    expect(service).toBeDefined();
   });
 });

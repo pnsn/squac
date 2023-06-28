@@ -4,17 +4,12 @@ import { MockBuilder } from "ng-mocks";
 import { AggregateService } from "./aggregate.service";
 
 describe("AggregateService", () => {
-  let service: AggregateService;
-
   beforeEach(() => {
-    return MockBuilder(AggregateService).mock(ApiService);
-  });
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(AggregateService);
+    return MockBuilder(AggregateService, ApiService);
   });
 
   it("should be created", () => {
-    expect(service).toBeTruthy();
+    const service = TestBed.inject(AggregateService);
+    expect(service).toBeDefined();
   });
 });

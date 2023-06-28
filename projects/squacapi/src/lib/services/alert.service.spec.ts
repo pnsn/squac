@@ -1,20 +1,16 @@
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { ApiService } from "@pnsn/ngx-squacapi-client";
+import { MockBuilder } from "ng-mocks";
 import { AlertService } from "./alert.service";
 
 describe("AlertService", () => {
-  let service: AlertService;
-
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [{ providers: ApiService, useValue: {} }],
-    });
-    service = TestBed.inject(AlertService);
+    return MockBuilder(AlertService, ApiService);
   });
 
   it("should be created", () => {
+    const service = TestBed.inject(AlertService);
     expect(service).toBeTruthy();
   });
 });

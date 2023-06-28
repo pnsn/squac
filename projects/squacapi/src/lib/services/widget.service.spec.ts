@@ -7,16 +7,7 @@ import { WidgetService } from "./widget.service";
 
 describe("WidgetService", () => {
   beforeEach(() => {
-    return MockBuilder(WidgetService)
-      .mock(ApiService)
-      .provide({
-        provide: ChannelGroupService,
-        useValue: {
-          getChannelGroup: (_id) => {
-            return of([]);
-          },
-        },
-      });
+    return MockBuilder(WidgetService, ApiService);
   });
 
   it("should be created", () => {

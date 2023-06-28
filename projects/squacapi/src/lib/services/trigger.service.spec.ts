@@ -4,16 +4,11 @@ import { MockBuilder } from "ng-mocks";
 import { TriggerService } from "./trigger.service";
 
 describe("TriggerService", () => {
-  let service: TriggerService = undefined;
-
   beforeEach(() => {
-    return MockBuilder(TriggerService).mock(ApiService);
+    return MockBuilder(TriggerService, ApiService).mock(ApiService);
   });
-  beforeEach(() => {
-    service = TestBed.inject(TriggerService);
-  });
-
   it("should be created", () => {
+    const service = TestBed.inject(TriggerService);
     expect(service).toBeTruthy();
   });
 });
