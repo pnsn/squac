@@ -12,7 +12,7 @@ import { PartialUpdateService, SquacApiService } from "../interfaces";
 import { BaseWriteableApiService } from "./generic-api.service";
 import { ApiEndpoint } from "../enums";
 import { Injectable } from "@angular/core";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HttpContext } from "@angular/common/http";
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -65,6 +65,16 @@ describe("Generic Api Service", () => {
 
   it("should be created", () => {
     expect(service).toBeDefined();
+  });
+
+  it("should have refresh context", () => {
+    const context = new HttpContext().set(REFRESH_REQUEST, true);
+    expect(context.get(REFRESH_REQUEST)).toBeTrue();
+
+    const falseContext = new HttpContext().set(REFRESH_REQUEST, false);
+    expect(falseContext.get(REFRESH_REQUEST)).toBeFalse();
+
+    expect(REFRESH_REQUEST.defaultValue()).toBeFalse();
   });
 
   it("should be able to delete", () => {

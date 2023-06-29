@@ -69,6 +69,25 @@ describe("MeasurementPipe", () => {
 
     expect(pipe.transform(testValues, "med")).toBe(med);
     expect(pipe.transform(testValues, "median")).toBe(med);
+
+    // even # of measuyrements should use the middle of the two values
+    expect(
+      pipe.transform(
+        [
+          ...testValues,
+          new Measurement({
+            value: 5,
+            starttime: "2020-12-03T18:43:59.780000Z",
+            id: 1,
+            user: 2,
+            endtime: "2020-12-01T18:43:59.780000Z",
+            metric: 1,
+            channel: 1,
+          }),
+        ],
+        "med"
+      )
+    ).toBe(2.5);
   });
 
   it("should return the most recent value", () => {

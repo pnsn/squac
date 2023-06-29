@@ -72,6 +72,8 @@ describe("Widget", () => {
   });
 
   it("should apply widget thresholds", () => {
+    const widget = new Widget();
+    expect(widget.thresholds).toBeUndefined();
     const widgetNoThresholds = new Widget({});
     expect(widgetNoThresholds.thresholds).toEqual([]);
 
