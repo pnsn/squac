@@ -411,15 +411,15 @@ export class TabularComponent
     // add 1 because current channel hasn't been added yet
     const totalNumChannels = stationRow.children.length + 1;
     let color;
-    if (totalNumChannels > numOutOfSpec) {
+    if (numOutOfSpec === 0) {
       //some out of spec
-      color = visualMap.colors.middle;
+      color = visualMap.colors.in;
     } else if (totalNumChannels === numOutOfSpec) {
       //all out of spec
       color = visualMap.colors.out;
-    } else if (numOutOfSpec === 0) {
+    } else if (totalNumChannels > numOutOfSpec) {
       // all in spec
-      color = visualMap.colors.in;
+      color = visualMap.colors.middle;
     } else {
       // something got messed up
       color = "gray";

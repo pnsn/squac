@@ -40,12 +40,14 @@
         mat-header-cell
         *matHeaderCellDef
         mat-sort-header
+        [class]="useStationView ? 'station-column' : 'channel-column'"
       >
         {{useStationView ? "Station": "Channel"}}
       </th>
       <td
         mat-cell
         *matCellDef="let row"
+        [class]="useStationView ? 'station-column' : 'channel-column'"
       >
         {{row.title}}
       </td>
@@ -80,7 +82,10 @@
         mat-sort-header
         class="metric-column"
       >
-        {{metric.name}}
+        <span class="metric-name">
+          {{metric.name}}
+        </span>
+        <!-- {{metric.name.length > 12 ? metric.name.slice(0, 12) + "...": metric.name}} -->
       </th>
       <td
         mat-cell
@@ -91,14 +96,26 @@
           *ngIf="row.metrics[metric.code] as metricData; else noValue"
           class="metric-column-value-container"
           [class.show-key]="showKey"
-          [style.background-color]="!showKey || properties.displayType === 'stoplight' ? metricData.color : 'white'"
+          [style.background-color]="!showKey ? metricData.color : 'white'"
         >
-          <ng-container
-            *ngIf="metricData.value; else noValue"
-            [ngTemplateOutlet]="cell"
-            [ngTemplateOutletContext]="metricData"
-          >
+          <ng-container *ngIf="properties.displayType === 'stoplight' && row.children; else notStoplight">
+            <span
+              *ngIf="showKey"
+              class="cell-icon"
+              [ngStyle]="{ 'background-color': metricData.color }"
+            ></span>
+            <span class="cell-value"><ng-container *ngIf="showKey">{{ metricData.value }} out </ng-container></span>
           </ng-container>
+
+          <ng-template #notStoplight>
+            <ng-container
+              *ngIf="metricData.value !== null; else noValue"
+              [ngTemplateOutlet]="cell"
+              [ngTemplateOutletContext]="metricData"
+            >
+            </ng-container>
+          </ng-template>
+
         </div>
       </td>
     </ng-container>
@@ -122,13 +139,13 @@
   let-value="value"
   let-color="color"
 >
-  <ng-container *ngIf="properties.displayType !== 'stoplight'">
+  <ng-container>
     <span
       *ngIf="showKey"
       class="cell-icon"
       [ngStyle]="{ 'background-color': color }"
     ></span>
-    <span>{{ value | precision }}</span>
+    <span class="cell-value">{{ value | precision }}</span>
   </ng-container>
 
 

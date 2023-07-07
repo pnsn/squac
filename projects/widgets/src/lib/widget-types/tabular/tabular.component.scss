@@ -1,6 +1,7 @@
 $row-height: 20px;
 $icon-size: 18px;
 $space: calc(($row-height - $icon-size) / 2);
+$font-size: 11px;
 .table-container {
   height: 100%;
   width: 100%;
@@ -21,7 +22,7 @@ $space: calc(($row-height - $icon-size) / 2);
     }
     .mdc-data-table__cell,
     .mdc-data-table__header-cell {
-      // font-size: 14px;
+      font-size: 12px;
 
       .dense-icon-button.mat-mdc-icon-button.mat-mdc-button-base {
         height: calc($row-height - 1px);
@@ -50,14 +51,21 @@ $space: calc(($row-height - $icon-size) / 2);
       height: 18px;
       margin-right: 3px;
     }
+
+    .cell-value {
+      margin-left: 3px;
+      height: 18px;
+    }
     .metric-column {
       padding-left: 3px;
       padding-right: 3px;
-      .mat-sort-header-content {
-        min-width: 40px;
-        max-width: 50px;
+      .metric-name {
+        max-width: 100px;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
-      // word-break: break-all;
+      // min-width: 40px;
+      // max-width: 50px;
     }
 
     th.mat-column-expand,
@@ -71,6 +79,9 @@ $space: calc(($row-height - $icon-size) / 2);
 
     th.mat-column-title,
     td.mat-column-title {
+      &.channel-column {
+        min-width: 100px;
+      }
       padding-left: 2px;
       padding-right: 2px;
       min-width: 40px;
