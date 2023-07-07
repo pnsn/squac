@@ -16,18 +16,10 @@ export class PrecisionPipe implements PipeTransform {
    * @example Invoking 1.93842 | precision:3 in a template will produce 1.93
    */
   transform(value: number | string, precision = 4): string {
-    switch (typeof value) {
-      case "number":
-        return value.toPrecision(precision);
-      case "string":
-        try {
-          const val = +value;
-          return val.toPrecision(precision);
-        } catch {
-          return "";
-        }
-      default:
-        return "";
+    const val = +value;
+    if (typeof value === "number" || !Number.isNaN(val)) {
+      return val.toPrecision(precision);
     }
+    return "";
   }
 }

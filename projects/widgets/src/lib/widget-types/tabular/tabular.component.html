@@ -91,7 +91,7 @@
           *ngIf="row.metrics[metric.code] as metricData; else noValue"
           class="metric-column-value-container"
           [class.show-key]="showKey"
-          [style.background-color]="!showKey || properties.displayType === 'stoplight' ? row.metrics[metric.code]?.color : 'white'"
+          [style.background-color]="!showKey || properties.displayType === 'stoplight' ? metricData.color : 'white'"
         >
           <ng-container
             *ngIf="metricData.value; else noValue"
