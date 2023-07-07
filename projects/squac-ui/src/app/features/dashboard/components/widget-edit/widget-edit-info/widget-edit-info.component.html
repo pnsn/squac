@@ -25,16 +25,12 @@
     >Please select a widget
       type.</span></div>
 
-  <div
-    id="widget-type-container"
-    (mouseleave)="changePreviewType()"
-  >
+  <div id="widget-type-container">
     <div id="mat-button-toggle-container">
       <mat-button-toggle-group formControlName="type">
         <mat-button-toggle
           *ngFor="let widgetType of WidgetType | keyvalue"
           [value]="widgetType.value"
-          (mouseenter)="changePreviewType(widgetType.value)"
         >
           <div class="type-label">
             {{ WidgetTypeInfo[widgetType.value].config.name | titlecase }}

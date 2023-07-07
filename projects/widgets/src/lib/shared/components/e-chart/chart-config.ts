@@ -4,6 +4,7 @@ import { EChartsOption } from "echarts";
  * Default options for echart based widgets
  */
 export const ECHART_DEFAULTS: EChartsOption = {
+  backgroundColor: "white",
   textStyle: {
     fontSize: 11,
   },

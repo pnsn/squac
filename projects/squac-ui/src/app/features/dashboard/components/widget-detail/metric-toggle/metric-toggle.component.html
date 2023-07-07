@@ -42,18 +42,22 @@
           mat-menu-item
           (click)="changeThreshold($event, threshold, index, metric)"
         >
+
           <ng-container *ngIf="index > -1; else notSelected">
             <ng-container *ngIf="threshold.dimension; else noDimensions">
               <span>{{ threshold.dimension }}:</span>
-              {{ metric.name }}
+              <span>{{ metric.name }}</span>
             </ng-container>
             <ng-template #noDimensions>
-              <mat-icon>check_box</mat-icon> {{ metric.name }}
+              <mat-icon class="dense-icon">check_box</mat-icon>
+              <span>{{ metric.name }}</span>
             </ng-template>
           </ng-container>
 
+
           <ng-template #notSelected>
-            <mat-icon>check_box_outline_blank</mat-icon> {{ metric.name }}
+            <mat-icon class="dense-icon">check_box_outline_blank</mat-icon>
+            <span>{{ metric.name }}</span>
           </ng-template>
         </button>
       </ng-template>
