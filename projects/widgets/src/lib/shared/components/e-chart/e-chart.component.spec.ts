@@ -1,9 +1,12 @@
-import { NgZone, ɵNoopNgZone } from "@angular/core";
+import { NgZone } from "@angular/core";
 import { MockBuilder } from "ng-mocks";
 import { ProcessedData } from "../../../interfaces";
 import { WidgetConnectService, WidgetManagerService } from "../../../services";
 import { EChartComponent } from "./e-chart.component";
 
+/**
+ *
+ */
 class TestComponent extends EChartComponent {
   constructor(
     override widgetManager: WidgetManagerService,
@@ -13,22 +16,37 @@ class TestComponent extends EChartComponent {
     super(widgetManager, widgetConnector, ngZone);
   }
 
-  buildChartData(data: ProcessedData): Promise<void> {
+  /**
+   * stubbed
+   *
+   * @param _data input data
+   */
+  buildChartData(_data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {
       resolve();
     });
   }
 
-  changeMetrics(): void {}
+  /**
+   *
+   */
+  changeMetrics(): void {
+    return;
+  }
 
-  configureChart(): void {}
+  /**
+   *
+   */
+  configureChart(): void {
+    return;
+  }
 }
 
 describe("EChartComponent", () => {
-  let chartComponent: TestComponent;
+  let _chartComponent: TestComponent;
 
   beforeEach(() => {
     return MockBuilder(TestComponent);
   });
-  it("should create", () => {});
+  // it("should create", () => {});
 });
