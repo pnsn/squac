@@ -11,7 +11,7 @@ import { User } from "squacapi";
 import { Organization } from "squacapi";
 import { catchError, EMPTY, Subscription, tap } from "rxjs";
 import { InviteService } from "squacapi";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, RouterLink, RouterOutlet } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
 import { LoadingService } from "@core/services/loading.service";
 import { OrganizationUserService } from "squacapi";
@@ -24,6 +24,13 @@ import {
   TableOptions,
 } from "@shared/components/table-view/interfaces";
 import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
+import { DetailPageComponent } from "@shared/components/detail-page/detail-page.component";
+import { TableViewComponent } from "@shared/components/table-view/table-view.component";
+import { MatCardModule } from "@angular/material/card";
+import { MatListModule } from "@angular/material/list";
+import { NgFor, NgIf, TitleCasePipe } from "@angular/common";
+import { AbilityModule } from "@casl/angular";
+import { MatButtonModule } from "@angular/material/button";
 
 /**
  * Displays info for single organization, mostly list of users
@@ -31,6 +38,20 @@ import { PageOptions } from "@shared/components/detail-page/detail-page.interfac
 @Component({
   selector: "user-organization-detail",
   templateUrl: "./organization-detail.component.html",
+  standalone: true,
+  imports: [
+    DetailPageComponent,
+    RouterLink,
+    TableViewComponent,
+    MatCardModule,
+    MatListModule,
+    TitleCasePipe,
+    RouterOutlet,
+    NgFor,
+    NgIf,
+    AbilityModule,
+    MatButtonModule,
+  ],
 })
 export class OrganizationDetailComponent
   implements OnInit, OnDestroy, AfterViewInit

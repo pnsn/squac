@@ -27,7 +27,6 @@ import { MonitorHistoryChartComponent } from "@monitor/components/monitor-histor
 import { DateSelectComponent } from "@shared/components/date-select/date-select.component";
 import { DetailPageComponent } from "@shared/components/detail-page/detail-page.component";
 import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
-import { TableViewComponent } from "@shared/components/table-view/table-view.component";
 import { LoadingDirective } from "@shared/directives/loading-directive.directive";
 import { connect } from "echarts";
 import { forkJoin, map, Observable, Subscription, switchMap, tap } from "rxjs";

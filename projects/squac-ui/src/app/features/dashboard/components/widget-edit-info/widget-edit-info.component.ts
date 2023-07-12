@@ -16,10 +16,7 @@ import { KeyValuePipe, NgForOf, NgIf, TitleCasePipe } from "@angular/common";
 import { MatSelectModule } from "@angular/material/select";
 import { MatRadioModule } from "@angular/material/radio";
 import { WidgetTypeExampleDirective } from "../widget-type-example/widget-type-example.directive";
-import {
-  MatButtonToggle,
-  MatButtonToggleModule,
-} from "@angular/material/button-toggle";
+import { MatButtonToggleModule } from "@angular/material/button-toggle";
 
 /** Widget information edit form */
 interface WidgetForm {

@@ -5,9 +5,16 @@ import {
   ValidationErrors,
   FormControl,
   FormGroup,
+  ReactiveFormsModule,
 } from "@angular/forms";
 import { InviteService } from "squacapi";
 import { PasswordsForm, UserForm } from "./interfaces";
+import { MatInputModule } from "@angular/material/input";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { ErrorComponent } from "@shared/components/error/error.component";
+import { MatButton, MatButtonModule } from "@angular/material/button";
+import { NgIf } from "@angular/common";
 
 /**
  * User edit component after creation
@@ -15,6 +22,16 @@ import { PasswordsForm, UserForm } from "./interfaces";
 @Component({
   selector: "user-edit",
   templateUrl: "./user-edit.component.html",
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatIconModule,
+    ErrorComponent,
+    MatButtonModule,
+    NgIf,
+  ],
 })
 export class UserEditComponent implements OnInit {
   constructor(

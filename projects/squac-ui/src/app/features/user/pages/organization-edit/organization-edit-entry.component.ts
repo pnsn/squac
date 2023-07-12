@@ -1,5 +1,9 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import {
+  MatDialog,
+  MatDialogModule,
+  MatDialogRef,
+} from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Organization } from "squacapi";
 import { User } from "squacapi";
@@ -13,6 +17,8 @@ import { OrganizationEditComponent } from "../../components/organization-edit/or
 @Component({
   selector: "user-organization-edit-entry",
   template: "",
+  standalone: true,
+  imports: [MatDialogModule, OrganizationEditComponent],
 })
 export class OrganizationEditEntryComponent implements OnInit, OnDestroy {
   dialogRef: MatDialogRef<OrganizationEditComponent>;

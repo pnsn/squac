@@ -1,11 +1,23 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { UserService } from "../../services/user.service";
 import { Subscription } from "rxjs";
-import { User } from "squacapi";
-import { Validators, FormControl, FormGroup } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
+import { OrganizationPipe, User } from "squacapi";
+import {
+  Validators,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from "@angular/forms";
+import { ActivatedRoute, RouterLink } from "@angular/router";
 import { MessageService } from "@core/services/message.service";
 import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
+import { DetailPageComponent } from "@shared/components/detail-page/detail-page.component";
+import { MatCardModule } from "@angular/material/card";
+import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { NgIf } from "@angular/common";
 
 /** User edit form fields */
 interface UserForm {
@@ -21,6 +33,19 @@ interface UserForm {
 @Component({
   selector: "user-settings",
   templateUrl: "./user-settings.component.html",
+  standalone: true,
+  imports: [
+    DetailPageComponent,
+    RouterLink,
+    OrganizationPipe,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    NgIf,
+  ],
 })
 export class UserSettingsComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();

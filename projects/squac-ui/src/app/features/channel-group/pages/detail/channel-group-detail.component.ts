@@ -14,7 +14,6 @@ import { Channel } from "squacapi";
 import { LoadingService } from "@core/services/loading.service";
 import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
 import { DetailPageComponent } from "@shared/components/detail-page/detail-page.component";
-import { ChannelGroupEditComponent } from "../edit/channel-group-edit.component";
 import { ChannelGroupTableComponent } from "@channelGroup/components/channel-group-table/channel-group-table.component";
 import { ChannelGroupMapComponent } from "@channelGroup/components/channel-group-map/channel-group-map.component";
 import { AsyncPipe, NgFor, NgIf } from "@angular/common";

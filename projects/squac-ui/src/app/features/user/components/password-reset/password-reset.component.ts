@@ -1,7 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-import { FormControl, Validators } from "@angular/forms";
+import { FormControl, ReactiveFormsModule, Validators } from "@angular/forms";
 import { PasswordResetService } from "squacapi";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router, ActivatedRoute, RouterLink } from "@angular/router";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatIconModule } from "@angular/material/icon";
+import { NgIf } from "@angular/common";
 
 /**
  * Password reset component
@@ -9,6 +13,15 @@ import { Router, ActivatedRoute } from "@angular/router";
 @Component({
   selector: "user-password-reset",
   templateUrl: "./password-reset.component.html",
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    RouterLink,
+    NgIf,
+  ],
 })
 export class PasswordResetComponent implements OnInit {
   emailSent = false; // has email been sent

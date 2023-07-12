@@ -6,12 +6,6 @@ import { ViewService } from "@dashboard/services/view.service";
 import { MockBuilder } from "ng-mocks";
 import { BehaviorSubject, Subject } from "rxjs";
 import { WidgetDataService } from "widgets";
-import { DashboardService } from "squacapi";
-import { MetricToggleComponent } from "../metric-toggle/metric-toggle.component";
-import { MatMenuModule } from "@angular/material/menu";
-import { AbilityModule } from "@casl/angular";
-import { MatIconModule } from "@angular/material/icon";
-import { LoadingDirective } from "@shared/directives/loading-directive.directive";
 import { DashboardModule } from "@dashboard/dashboard.module";
 
 describe("WidgetDetailComponent", () => {

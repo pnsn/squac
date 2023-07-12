@@ -1,9 +1,12 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, RouterLink } from "@angular/router";
 import { LoadingService } from "@core/services/loading.service";
 import { OrganizationService } from "squacapi";
 import { Organization } from "squacapi";
 import { catchError, EMPTY, Observable, Subscription, tap } from "rxjs";
+import { DetailPageComponent } from "@shared/components/detail-page/detail-page.component";
+import { MatCardModule } from "@angular/material/card";
+import { MatListModule } from "@angular/material/list";
 
 /**
  * Display list of organizations in squac
@@ -11,6 +14,8 @@ import { catchError, EMPTY, Observable, Subscription, tap } from "rxjs";
 @Component({
   selector: "user-organizations-view",
   templateUrl: "./organizations-view.component.html",
+  standalone: true,
+  imports: [DetailPageComponent, MatCardModule, MatListModule, RouterLink],
 })
 export class OrganizationsViewComponent implements OnInit, OnDestroy {
   organizations: Organization[];

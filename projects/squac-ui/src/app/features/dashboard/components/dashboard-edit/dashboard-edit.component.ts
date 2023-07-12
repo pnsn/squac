@@ -18,7 +18,7 @@ import {
 import { MessageService } from "@core/services/message.service";
 import { ChannelGroup } from "squacapi";
 import { FilterText } from "@shared/components/sharing-toggle/sharing-toggle.interface";
-import { MatFormField, MatFormFieldModule } from "@angular/material/form-field";
+import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { SharingToggleComponent } from "@shared/components/sharing-toggle/sharing-toggle.component";
 import { NgIf } from "@angular/common";

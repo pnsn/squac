@@ -1,10 +1,5 @@
-import { RouterModule, Routes } from "@angular/router";
-import { NgModule } from "@angular/core";
-import { ChannelGroupComponent } from "./pages/main/channel-group.component";
+import { Routes } from "@angular/router";
 import { AuthGuard } from "@core/guards/auth.guard";
-import { ChannelGroupViewComponent } from "./pages/list/channel-group-view.component";
-import { ChannelGroupEditComponent } from "./pages/edit/channel-group-edit.component";
-import { ChannelGroupDetailComponent } from "./pages/detail/channel-group-detail.component";
 import { ChannelGroupResolver } from "@core/resolvers/channel-group.resolver";
 import { MatchingRuleResolver } from "@core/resolvers/matching-rule.resolver";
 

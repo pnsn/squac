@@ -1,23 +1,19 @@
-import { RouterModule, Routes } from "@angular/router";
-import { NgModule } from "@angular/core";
+import { Routes } from "@angular/router";
 import { AuthGuard } from "@core/guards/auth.guard";
-import { UserComponent } from "./pages/main/user.component";
 import { UserResolver } from "@core/resolvers/user.resolver";
 import { OrganizationDetailComponent } from "./pages/organization-detail/organization-detail.component";
 import { OrganizationResolver } from "@core/resolvers/organization.resolver";
-import { UserSettingsComponent } from "./pages/detail/user-settings.component";
-import { OrganizationsViewComponent } from "./pages/organization-list/organizations-view.component";
 import { OrganizationEditEntryComponent } from "./pages/organization-edit/organization-edit-entry.component";
 
-// TODO: fix this weird routing set up
-export const routes: Routes = [
+export const USER_ROUTES: Routes = [
   {
     path: "",
     resolve: {
       user: UserResolver,
     },
     canActivate: [AuthGuard],
-    component: UserComponent,
+    loadComponent: () =>
+      import("./pages/main/user.component").then((c) => c.UserComponent),
     children: [
       {
         path: "",
@@ -26,19 +22,27 @@ export const routes: Routes = [
       },
       {
         path: "settings",
-        component: UserSettingsComponent,
+        loadComponent: () =>
+          import("./pages/detail/user-settings.component").then(
+            (c) => c.UserSettingsComponent
+          ),
       },
       {
         path: "organizations",
-        component: OrganizationsViewComponent,
+        loadComponent: () =>
+          import("./pages/organization-list/organizations-view.component").then(
+            (c) => c.OrganizationsViewComponent
+          ),
         resolve: {
           organizations: OrganizationResolver,
         },
       },
       {
         path: "organizations/:orgId",
-
-        component: OrganizationDetailComponent,
+        loadComponent: () =>
+          import(
+            "./pages/organization-detail/organization-detail.component"
+          ).then((c) => c.OrganizationDetailComponent),
         runGuardsAndResolvers: "always",
         resolve: {
           organization: OrganizationResolver,
@@ -46,23 +50,20 @@ export const routes: Routes = [
         children: [
           {
             path: "user/:userId/edit",
-            component: OrganizationEditEntryComponent,
+            loadComponent: () =>
+              import(
+                "./pages/organization-edit/organization-edit-entry.component"
+              ).then((c) => c.OrganizationEditEntryComponent),
           },
           {
             path: "user/new",
-            component: OrganizationEditEntryComponent,
+            loadComponent: () =>
+              import(
+                "./pages/organization-edit/organization-edit-entry.component"
+              ).then((c) => c.OrganizationEditEntryComponent),
           },
         ],
       },
     ],
   },
 ];
-
-/**
- * Module for user feature
- */
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class UserRoutingModule {}

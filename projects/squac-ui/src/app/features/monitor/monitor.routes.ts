@@ -1,13 +1,7 @@
-import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
-import { MonitorComponent } from "./pages/main/monitor.component";
-import { MonitorViewComponent } from "./pages/list/monitor-view.component";
+import { Routes } from "@angular/router";
 import { AuthGuard } from "@core/guards/auth.guard";
-import { MonitorEditEntryComponent } from "./pages/edit/monitor-edit-entry.component";
-import { AlertViewComponent } from "./pages/alert-list/alert-view.component";
 import { MonitorResolver } from "@core/resolvers/monitor.resolver";
 import { MetricResolver } from "@core/resolvers/metric.resolver";
-import { MonitorDetailComponent } from "./pages/detail/monitor-detail.component";
 import { ChannelGroupResolver } from "@core/resolvers/channel-group.resolver";
 
 export const MONITOR_ROUTES: Routes = [
