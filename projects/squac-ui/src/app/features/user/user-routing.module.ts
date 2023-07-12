@@ -1,13 +1,13 @@
 import { RouterModule, Routes } from "@angular/router";
 import { NgModule } from "@angular/core";
 import { AuthGuard } from "@core/guards/auth.guard";
-import { UserComponent } from "./components/user/user.component";
+import { UserComponent } from "./pages/main/user.component";
 import { UserResolver } from "@core/resolvers/user.resolver";
-import { OrganizationDetailComponent } from "./components/organization-detail/organization-detail.component";
+import { OrganizationDetailComponent } from "./pages/organization-detail/organization-detail.component";
 import { OrganizationResolver } from "@core/resolvers/organization.resolver";
-import { UserSettingsComponent } from "./components/user-settings/user-settings.component";
-import { OrganizationsViewComponent } from "./components/organizations-view/organizations-view.component";
-import { OrganizationEditEntryComponent } from "./components/organization-edit-entry/organization-edit-entry.component";
+import { UserSettingsComponent } from "./pages/user-settings/user-settings.component";
+import { OrganizationsViewComponent } from "./pages/organization-list/organizations-view.component";
+import { OrganizationEditEntryComponent } from "./pages/organization-edit-entry/organization-edit-entry.component";
 
 // TODO: fix this weird routing set up
 export const routes: Routes = [

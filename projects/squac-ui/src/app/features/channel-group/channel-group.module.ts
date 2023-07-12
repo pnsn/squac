@@ -14,26 +14,38 @@ import { ChannelGroupComponent } from "./pages/main/channel-group.component";
 import { ChannelGroupEditComponent } from "./pages/edit/channel-group-edit.component";
 import { ChannelGroupViewComponent } from "./pages/list/channel-group-view.component";
 import { ChannelGroupDetailComponent } from "./pages/detail/channel-group-detail.component";
+import { MatButtonModule } from "@angular/material/button";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { MatExpansionModule } from "@angular/material/expansion";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+
 /**
  *
  */
 @NgModule({
   declarations: [
-    ChannelGroupComponent,
     ChannelGroupEditComponent,
     ChannelGroupViewComponent,
     ChannelGroupDetailComponent,
   ],
   imports: [
+    SharedModule,
+    MatButtonModule,
+    MatSlideToggleModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    ChannelGroupComponent,
     ChannelGroupFilterComponent,
     MatchingRuleEditComponent,
     ChannelGroupTableComponent,
     CsvUploadComponent,
     ChannelGroupMapComponent,
     CommonModule,
-    SharedModule,
     ChannelGroupRoutingModule,
-    NgxCsvParserModule,
     TooltipModule,
     LoadingDirective,
   ],

@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Organization } from "squacapi";
 import { User } from "squacapi";
 import { Subscription } from "rxjs";
-import { OrganizationEditComponent } from "../organization-edit/organization-edit.component";
+import { OrganizationEditComponent } from "../../components/organization-edit/organization-edit.component";
 
 /**
  * Entry component for edit modal

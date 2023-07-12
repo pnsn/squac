@@ -16,6 +16,14 @@ import { MonitorAlarmStatusComponent } from "./components/monitor-alarm-status/m
 import { MonitorChannelHistoryChartComponent } from "./components/monitor-detail/monitor-channel-history-chart/monitor-channel-history-chart.component";
 import { TooltipModule } from "@ui/tooltip/tooltip.module";
 import { LoadingDirective } from "@shared/directives/loading-directive.directive";
+import { MatIconModule } from "@angular/material/icon";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatTableModule } from "@angular/material/table";
+import { MatSortModule } from "@angular/material/sort";
+import { MatStepperModule } from "@angular/material/stepper";
+import { MatOptionModule } from "@angular/material/core";
 
 /**
  * Module for monitors
@@ -33,6 +41,15 @@ import { LoadingDirective } from "@shared/directives/loading-directive.directive
     MonitorAlarmStatusComponent,
   ],
   imports: [
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatTableModule,
+    MatSortModule,
+    MatStepperModule,
+    MatOptionModule,
+    MatFormFieldModule,
     CommonModule,
     MonitorRoutingModule,
     SharedModule,

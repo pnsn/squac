@@ -29,7 +29,6 @@ import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
   declarations: [],
   imports: [
     CommonModule,
-    MaterialModule,
     AbilityModule,
     ReactiveFormsModule,
     FormsModule,
@@ -52,7 +51,6 @@ import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
     NgxDaterangepickerMd.forRoot(),
   ],
   exports: [
-    MaterialModule,
     CommonModule,
     RouterModule,
     ReactiveFormsModule,

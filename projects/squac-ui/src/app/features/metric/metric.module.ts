@@ -8,6 +8,10 @@ import { MetricRoutingModule } from "./metric-routing.module";
 import { MetricEditEntryComponent } from "./components/metric-edit/metric-edit-entry/metric-edit-entry.component";
 import { TooltipModule } from "@ui/tooltip/tooltip.module";
 import { LoadingDirective } from "@shared/directives/loading-directive.directive";
+import { MatIconModule } from "@angular/material/icon";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatCheckboxModule } from "@angular/material/checkbox";
 
 /** Metric module */
 @NgModule({
@@ -18,6 +22,9 @@ import { LoadingDirective } from "@shared/directives/loading-directive.directive
     MetricEditEntryComponent,
   ],
   imports: [
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
     CommonModule,
     SharedModule,
     MetricRoutingModule,

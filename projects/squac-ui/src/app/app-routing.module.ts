@@ -5,7 +5,7 @@ import { AuthGuard } from "@core/guards/auth.guard";
 import { LoggedInGuard } from "@core/guards/logged-in.guard";
 import { PasswordResetComponent } from "@user/components/password-reset/password-reset.component";
 import { LoginComponent } from "@user/components/login/login.component";
-import { UserEditComponent } from "@user/components/user-edit/user-edit.component";
+import { UserEditComponent } from "@user/pages/user-edit/user-edit.component";
 import { UserResolver } from "@core/resolvers/user.resolver";
 import { OrganizationResolver } from "@core/resolvers/organization.resolver";
 import { NotFoundComponent } from "@core/components/not-found/not-found.component";

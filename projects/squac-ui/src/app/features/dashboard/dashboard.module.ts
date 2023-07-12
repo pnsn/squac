@@ -25,6 +25,20 @@ import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
 import { DataTypePipe } from "./components/dashboard-detail/data-type-selector/data-type.pipe";
 import { TooltipModule } from "@ui/tooltip/tooltip.module";
 import { LoadingDirective } from "@shared/directives/loading-directive.directive";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatIconModule } from "@angular/material/icon";
+import { MatButtonModule } from "@angular/material/button";
+import { MatMenuModule } from "@angular/material/menu";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatButtonToggleModule } from "@angular/material/button-toggle";
+import { MatOptionModule } from "@angular/material/core";
+import { MatRadioModule } from "@angular/material/radio";
+import { MatTableModule } from "@angular/material/table";
+import { MatSortModule } from "@angular/material/sort";
+import { MatSelectModule } from "@angular/material/select";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatStepperModule } from "@angular/material/stepper";
+import { MatSidenavModule } from "@angular/material/sidenav";
 
 /** Dashboard feature module */
 @NgModule({
@@ -48,6 +62,20 @@ import { LoadingDirective } from "@shared/directives/loading-directive.directive
     DataTypePipe,
   ],
   imports: [
+    MatCheckboxModule,
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatFormFieldModule,
+    MatButtonToggleModule,
+    MatOptionModule,
+    MatRadioModule,
+    MatTableModule,
+    MatSortModule,
+    MatSelectModule,
+    MatDialogModule,
+    MatStepperModule,
+    MatSidenavModule,
     GridsterModule,
     WidgetsModule,
     DashboardRoutingModule,
