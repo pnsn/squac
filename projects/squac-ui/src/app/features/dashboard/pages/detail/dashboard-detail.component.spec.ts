@@ -14,12 +14,12 @@ import { MaterialModule } from "@shared/material.module";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { MockBuilder } from "ng-mocks";
 import { DateSelectComponent } from "@shared/components/date-select/date-select.component";
-import { DataTypeSelectorComponent } from "./data-type-selector/data-type-selector.component";
+import { DataTypeSelectorComponent } from "../../components/data-type-selector/data-type-selector.component";
 import { SharedModule } from "@shared/shared.module";
-import { ChannelFilterComponent } from "./channel-filter/channel-filter.component";
+import { ChannelFilterComponent } from "../../components/channel-filter/channel-filter.component";
 import { ChannelGroupSelectorComponent } from "@shared/components/channel-group-selector/channel-group-selector.component";
 import { SharingToggleComponent } from "@shared/components/sharing-toggle/sharing-toggle.component";
-import { DataTypePipe } from "./data-type-selector/data-type.pipe";
+import { DataTypePipe } from "../../components/data-type-selector/data-type.pipe";
 
 describe("DashboardDetailComponent", () => {
   let component: DashboardDetailComponent;

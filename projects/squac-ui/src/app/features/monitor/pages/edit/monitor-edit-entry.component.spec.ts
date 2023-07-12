@@ -3,7 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MonitorModule } from "@monitor/monitor.module";
 import { MockBuilder } from "ng-mocks";
-import { MonitorEditComponent } from "../monitor-edit/monitor-edit.component";
+import { MonitorEditComponent } from "../../components/monitor-edit/monitor-edit.component";
 
 import { MonitorEditEntryComponent } from "./monitor-edit-entry.component";
 

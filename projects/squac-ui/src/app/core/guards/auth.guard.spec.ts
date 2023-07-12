@@ -13,7 +13,7 @@ import {
 import { EMPTY } from "rxjs";
 import { AuthGuard } from "./auth.guard";
 import { LoginComponent } from "@user/components/login/login.component";
-import { DashboardComponent } from "@dashboard/components/dashboard-main/dashboard.component";
+import { DashboardComponent } from "@dashboard/pages/main/dashboard.component";
 
 describe("AuthGuard", () => {
   ngMocks.faster();

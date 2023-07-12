@@ -21,7 +21,7 @@ import {
   TableFilters,
   TableOptions,
 } from "@shared/components/table-view/interfaces";
-import { DATE_PICKER_TIMERANGES } from "@dashboard/components/dashboard-detail/dashboard-time-ranges";
+import { DATE_PICKER_TIMERANGES } from "@dashboard/pages/detail/dashboard-time-ranges";
 import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
 
 /**

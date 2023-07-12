@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { WidgetEditComponent } from "../widget-edit.component";
+import { WidgetEditComponent } from "../../components/widget-edit/widget-edit.component";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ActivatedRoute, Router, Params } from "@angular/router";
 import { Subscription } from "rxjs";

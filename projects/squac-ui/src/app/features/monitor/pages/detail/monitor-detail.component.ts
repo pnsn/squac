@@ -13,7 +13,7 @@ import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { MessageService } from "@core/services/message.service";
 import { nestedPropertyDataAccessor } from "@core/utils/utils";
-import { DATE_PICKER_TIMERANGES } from "@dashboard/components/dashboard-detail/dashboard-time-ranges";
+import { DATE_PICKER_TIMERANGES } from "@dashboard/pages/detail/dashboard-time-ranges";
 import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
 import { connect } from "echarts";
 import { forkJoin, map, Observable, Subscription, switchMap, tap } from "rxjs";

@@ -15,16 +15,16 @@ import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { MessageService } from "@core/services/message.service";
 import { ChannelGroup } from "squacapi";
 import { Metric } from "squacapi";
-import { WidgetEditOptionsComponent } from "./widget-edit-options/widget-edit-options.component";
-import { WidgetEditMetricsComponent } from "./widget-edit-metrics/widget-edit-metrics.component";
+import { WidgetEditOptionsComponent } from "../widget-edit-options/widget-edit-options.component";
+import { WidgetEditMetricsComponent } from "../widget-edit-metrics/widget-edit-metrics.component";
 import {
   MockComponents,
   MockDirective,
   MockProviders,
   MockService,
 } from "ng-mocks";
-import { WidgetEditInfoComponent } from "./widget-edit-info/widget-edit-info.component";
-import { WidgetTypeExampleDirective } from "./widget-edit-info/widget-type-example/widget-type-example.directive";
+import { WidgetEditInfoComponent } from "../widget-edit-info/widget-edit-info.component";
+import { WidgetTypeExampleDirective } from "../widget-type-example/widget-type-example.directive";
 
 describe("WidgetEditComponent", () => {
   let component: WidgetEditComponent;

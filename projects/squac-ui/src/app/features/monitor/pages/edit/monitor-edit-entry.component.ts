@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { MonitorEditComponent } from "../monitor-edit/monitor-edit.component";
+import { MonitorEditComponent } from "../../components/monitor-edit/monitor-edit.component";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription, switchMap } from "rxjs";

@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { ChannelGroup } from "squacapi";
 import { Dashboard } from "squacapi";
 import { Subscription } from "rxjs";
-import { DashboardEditComponent } from "../dashboard-edit.component";
+import { DashboardEditComponent } from "../../components/dashboard-edit/dashboard-edit.component";
 
 /**
  * Entry component for dashboard edit modal

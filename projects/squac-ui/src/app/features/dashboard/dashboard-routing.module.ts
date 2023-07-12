@@ -1,16 +1,16 @@
 import { NgModule } from "@angular/core";
-import { DashboardComponent } from "./components/dashboard-main/dashboard.component";
-import { DashboardDetailComponent } from "./components/dashboard-detail/dashboard-detail.component";
+import { DashboardComponent } from "./pages/main/dashboard.component";
+import { DashboardDetailComponent } from "./pages/detail/dashboard-detail.component";
 import { Routes, RouterModule } from "@angular/router";
 import { AuthGuard } from "@core/guards/auth.guard";
-import { DashboardViewComponent } from "./components/dashboard-view/dashboard-view.component";
-import { DashboardEditEntryComponent } from "./components/dashboard-edit/dashboard-edit-entry/dashboard-edit-entry.component";
+import { DashboardViewComponent } from "./pages/list/dashboard-view.component";
+import { DashboardEditEntryComponent } from "./pages/edit/dashboard-edit-entry.component";
 import { ChannelGroupResolver } from "@core/resolvers/channel-group.resolver";
 import { DashboardResolver } from "@core/resolvers/dashboard.resolver";
-import { WidgetMainComponent } from "./components/widget-main/widget-main.component";
+import { WidgetMainComponent } from "./pages/widget-main/widget-main.component";
 import { WidgetResolver } from "@core/resolvers/widget.resolver";
 import { MetricResolver } from "@core/resolvers/metric.resolver";
-import { WidgetEditEntryComponent } from "./components/widget-edit/widget-edit-entry/widget-edit-entry.component";
+import { WidgetEditEntryComponent } from "./pages/widget-edit/widget-edit-entry.component";
 
 export const routes: Routes = [
   {

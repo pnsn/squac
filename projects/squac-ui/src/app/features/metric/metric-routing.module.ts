@@ -1,10 +1,10 @@
 import { RouterModule, Routes } from "@angular/router";
 import { NgModule } from "@angular/core";
 import { AuthGuard } from "@core/guards/auth.guard";
-import { MetricComponent } from "./components/metric/metric.component";
+import { MetricComponent } from "./pages/main/metric.component";
 import { MetricResolver } from "@core/resolvers/metric.resolver";
-import { MetricViewComponent } from "./components/metric-view/metric-view.component";
-import { MetricEditEntryComponent } from "./components/metric-edit/metric-edit-entry/metric-edit-entry.component";
+import { MetricViewComponent } from "./pages/list/metric-view.component";
+import { MetricEditEntryComponent } from "./pages/edit/metric-edit-entry.component";
 
 export const routes: Routes = [
   {

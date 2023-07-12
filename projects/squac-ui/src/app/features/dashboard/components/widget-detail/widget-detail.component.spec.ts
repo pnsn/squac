@@ -7,7 +7,7 @@ import { MockBuilder } from "ng-mocks";
 import { BehaviorSubject, Subject } from "rxjs";
 import { WidgetDataService } from "widgets";
 import { DashboardService } from "squacapi";
-import { MetricToggleComponent } from "./metric-toggle/metric-toggle.component";
+import { MetricToggleComponent } from "../metric-toggle/metric-toggle.component";
 import { MatMenuModule } from "@angular/material/menu";
 import { AbilityModule } from "@casl/angular";
 import { MatIconModule } from "@angular/material/icon";

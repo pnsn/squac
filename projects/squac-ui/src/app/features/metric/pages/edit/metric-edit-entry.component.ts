@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
-import { MetricEditComponent } from "../metric-edit.component";
+import { MetricEditComponent } from "../../components/metric-edit/metric-edit.component";
 import { Subscription } from "rxjs";
 import { Metric } from "squacapi";
 

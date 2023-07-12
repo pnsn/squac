@@ -11,9 +11,9 @@ import { AppAbility } from "@core/utils/ability";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ViewService } from "@dashboard/services/view.service";
 import { MockComponent, MockModule, MockProvider } from "ng-mocks";
-import { WidgetDetailComponent } from "../widget-detail/widget-detail.component";
+import { WidgetDetailComponent } from "../../components/widget-detail/widget-detail.component";
 import { MatSidenavModule } from "@angular/material/sidenav";
-import { ChannelFilterComponent } from "../dashboard-detail/channel-filter/channel-filter.component";
+import { ChannelFilterComponent } from "../../components/channel-filter/channel-filter.component";
 import { LoadingComponent } from "@shared/components/loading/loading.component";
 
 describe("WidgetMainComponent", () => {

@@ -5,7 +5,7 @@ import { ActivatedRoute } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { of } from "rxjs";
 import { MockBuilder } from "ng-mocks";
-import { WidgetEditComponent } from "../widget-edit.component";
+import { WidgetEditComponent } from "../../components/widget-edit/widget-edit.component";
 import { WidgetService } from "squacapi";
 import { MatDialogModule } from "@angular/material/dialog";
 

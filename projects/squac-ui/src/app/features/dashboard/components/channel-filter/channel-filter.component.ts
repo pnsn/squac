@@ -13,7 +13,7 @@ import { distinctUntilChanged, Observable, Subscription } from "rxjs";
 import { ViewService } from "@dashboard/services/view.service";
 import { WidgetConnectService } from "widgets";
 import { LoadingService } from "@core/services/loading.service";
-import { LoadingIndicator } from "../dashboard-detail.component";
+import { LoadingIndicator } from "../../pages/detail/dashboard-detail.component";
 
 type CheckboxForm = Record<string, FormControl<boolean>>;
 

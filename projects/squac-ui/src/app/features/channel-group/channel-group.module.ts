@@ -6,7 +6,6 @@ import { ChannelGroupRoutingModule } from "./channel-group-routing.module";
 import { ChannelGroupMapComponent } from "./components/channel-group-map/channel-group-map.component";
 import { MatchingRuleEditComponent } from "./components/matching-rule-edit/matching-rule-edit.component";
 import { ChannelGroupTableComponent } from "./components/channel-group-table/channel-group-table.component";
-import { NgxCsvParserModule } from "ngx-csv-parser";
 import { CsvUploadComponent } from "./components/csv-upload/csv-upload.component";
 import { TooltipModule } from "@ui/tooltip/tooltip.module";
 import { LoadingDirective } from "@shared/directives/loading-directive.directive";
