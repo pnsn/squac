@@ -1,5 +1,10 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { ChannelGroup, MatchingRule } from "squacapi";
+import {
+  ChannelGroup,
+  MatchingRule,
+  OrganizationPipe,
+  UserPipe,
+} from "squacapi";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Subscription, tap } from "rxjs";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
@@ -8,6 +13,12 @@ import { ChannelGroupService } from "squacapi";
 import { Channel } from "squacapi";
 import { LoadingService } from "@core/services/loading.service";
 import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
+import { DetailPageComponent } from "@shared/components/detail-page/detail-page.component";
+import { ChannelGroupEditComponent } from "../edit/channel-group-edit.component";
+import { ChannelGroupTableComponent } from "@channelGroup/components/channel-group-table/channel-group-table.component";
+import { ChannelGroupMapComponent } from "@channelGroup/components/channel-group-map/channel-group-map.component";
+import { AsyncPipe, NgFor, NgIf } from "@angular/common";
+import { LoadingDirective } from "@shared/directives/loading-directive.directive";
 
 /**
  * Channel group detail with table and map
@@ -16,6 +27,18 @@ import { PageOptions } from "@shared/components/detail-page/detail-page.interfac
   selector: "channel-group-detail",
   templateUrl: "./channel-group-detail.component.html",
   styleUrls: ["./channel-group-detail.component.scss"],
+  standalone: true,
+  imports: [
+    DetailPageComponent,
+    ChannelGroupTableComponent,
+    ChannelGroupMapComponent,
+    OrganizationPipe,
+    UserPipe,
+    AsyncPipe,
+    LoadingDirective,
+    NgFor,
+    NgIf,
+  ],
 })
 export class ChannelGroupDetailComponent implements OnInit, OnDestroy {
   subscription = new Subscription();

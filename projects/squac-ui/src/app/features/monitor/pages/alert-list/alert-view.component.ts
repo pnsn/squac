@@ -7,7 +7,7 @@ import {
   TemplateRef,
   ViewChild,
 } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, RouterLink, RouterOutlet } from "@angular/router";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { Alert } from "squacapi";
@@ -23,6 +23,12 @@ import {
 } from "@shared/components/table-view/interfaces";
 import { DATE_PICKER_TIMERANGES } from "@dashboard/pages/detail/dashboard-time-ranges";
 import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
+import { DetailPageComponent } from "@shared/components/detail-page/detail-page.component";
+import { TableViewComponent } from "@shared/components/table-view/table-view.component";
+import { LoadingDirective } from "@shared/directives/loading-directive.directive";
+import { AsyncPipe, NgIf } from "@angular/common";
+import { DateSelectComponent } from "@shared/components/date-select/date-select.component";
+import { MonitorAlarmStatusComponent } from "@monitor/components/monitor-alarm-status/monitor-alarm-status.component";
 
 /**
  * Component for viewing list of alerts
@@ -30,6 +36,18 @@ import { PageOptions } from "@shared/components/detail-page/detail-page.interfac
 @Component({
   selector: "monitor-alert-view",
   templateUrl: "./alert-view.component.html",
+  standalone: true,
+  imports: [
+    DetailPageComponent,
+    TableViewComponent,
+    LoadingDirective,
+    AsyncPipe,
+    DateSelectComponent,
+    RouterOutlet,
+    MonitorAlarmStatusComponent,
+    RouterLink,
+    NgIf,
+  ],
 })
 export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
   /** rxjs subscriptions */

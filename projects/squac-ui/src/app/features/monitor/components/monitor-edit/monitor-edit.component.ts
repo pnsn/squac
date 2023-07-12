@@ -5,9 +5,11 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
+  ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
 import {
+  MatDialogModule,
   MatDialogRef,
   MAT_DIALOG_DATA as MAT_DIALOG_DATA,
 } from "@angular/material/dialog";
@@ -31,6 +33,16 @@ import { MessageService } from "@core/services/message.service";
 import { merge, Subscription } from "rxjs";
 import { switchMap } from "rxjs/operators";
 import { emailListStringValidator } from "@core/utils/validators";
+import { MatStepperModule } from "@angular/material/stepper";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatOptionModule } from "@angular/material/core";
+import { MatIcon, MatIconModule } from "@angular/material/icon";
+import { KeyValuePipe, NgFor, NgIf } from "@angular/common";
+import { MatButtonModule } from "@angular/material/button";
+import { MatSelectModule } from "@angular/material/select";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 
 /**
  * Trigger form fields
@@ -80,6 +92,23 @@ interface MonitorForm {
   selector: "monitor-edit",
   templateUrl: "./monitor-edit.component.html",
   styleUrls: ["./monitor-edit.component.scss"],
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    MatStepperModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatOptionModule,
+    MatIconModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    NgIf,
+    NgFor,
+    KeyValuePipe,
+  ],
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,

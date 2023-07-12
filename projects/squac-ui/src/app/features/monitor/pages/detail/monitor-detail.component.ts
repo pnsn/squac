@@ -1,4 +1,5 @@
 import { SelectionChange, SelectionModel } from "@angular/cdk/collections";
+import { AsyncPipe, NgIf } from "@angular/common";
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -6,15 +7,28 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
-import { MatSort } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
-import { ActivatedRoute, Router } from "@angular/router";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatSort, MatSortModule } from "@angular/material/sort";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterOutlet,
+} from "@angular/router";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { MessageService } from "@core/services/message.service";
 import { nestedPropertyDataAccessor } from "@core/utils/utils";
 import { DATE_PICKER_TIMERANGES } from "@dashboard/pages/detail/dashboard-time-ranges";
+import { MonitorAlarmStatusComponent } from "@monitor/components/monitor-alarm-status/monitor-alarm-status.component";
+import { MonitorChannelHistoryChartComponent } from "@monitor/components/monitor-channel-history-chart/monitor-channel-history-chart.component";
+import { MonitorHistoryChartComponent } from "@monitor/components/monitor-history-chart/monitor-history-chart.component";
+import { DateSelectComponent } from "@shared/components/date-select/date-select.component";
+import { DetailPageComponent } from "@shared/components/detail-page/detail-page.component";
 import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
+import { TableViewComponent } from "@shared/components/table-view/table-view.component";
+import { LoadingDirective } from "@shared/directives/loading-directive.directive";
 import { connect } from "echarts";
 import { forkJoin, map, Observable, Subscription, switchMap, tap } from "rxjs";
 import {
@@ -27,7 +41,9 @@ import {
   MetricService,
   Monitor,
   MonitorService,
+  OrganizationPipe,
   Trigger,
+  UserPipe,
   Widget,
 } from "squacapi";
 import {
@@ -50,6 +66,24 @@ enum LoadingIndicator {
   templateUrl: "./monitor-detail.component.html",
   styleUrls: ["./monitor-detail.component.scss"],
   providers: [WidgetConfigService, WidgetManagerService, WidgetDataService],
+  standalone: true,
+  imports: [
+    DetailPageComponent,
+    MatTableModule,
+    MatSortModule,
+    UserPipe,
+    OrganizationPipe,
+    LoadingDirective,
+    MatCheckboxModule,
+    AsyncPipe,
+    RouterLink,
+    DateSelectComponent,
+    MonitorAlarmStatusComponent,
+    MonitorHistoryChartComponent,
+    MonitorChannelHistoryChartComponent,
+    RouterOutlet,
+    NgIf,
+  ],
 })
 export class MonitorDetailComponent implements OnInit, AfterViewInit {
   /** monitor chart instance */

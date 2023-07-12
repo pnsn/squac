@@ -8,15 +8,21 @@ import { ChannelGroupDetailComponent } from "./pages/detail/channel-group-detail
 import { ChannelGroupResolver } from "@core/resolvers/channel-group.resolver";
 import { MatchingRuleResolver } from "@core/resolvers/matching-rule.resolver";
 
-export const routes: Routes = [
+export const CHANNEL_GROUP_ROUTES: Routes = [
   {
     path: "",
-    component: ChannelGroupComponent,
+    loadComponent: () =>
+      import("./pages/main/channel-group.component").then(
+        (c) => c.ChannelGroupComponent
+      ),
     canActivate: [AuthGuard],
     children: [
       {
         path: "new",
-        component: ChannelGroupEditComponent,
+        loadComponent: () =>
+          import("./pages/edit/channel-group-edit.component").then(
+            (c) => c.ChannelGroupEditComponent
+          ),
       },
 
       {
@@ -29,11 +35,17 @@ export const routes: Routes = [
         children: [
           {
             path: "",
-            component: ChannelGroupDetailComponent,
+            loadComponent: () =>
+              import("./pages/detail/channel-group-detail.component").then(
+                (c) => c.ChannelGroupDetailComponent
+              ),
           },
           {
             path: "edit",
-            component: ChannelGroupEditComponent,
+            loadComponent: () =>
+              import("./pages/edit/channel-group-edit.component").then(
+                (c) => c.ChannelGroupEditComponent
+              ),
           },
         ],
       },
@@ -44,17 +56,11 @@ export const routes: Routes = [
           channelGroups: ChannelGroupResolver,
         },
         runGuardsAndResolvers: "always",
-        component: ChannelGroupViewComponent,
+        loadComponent: () =>
+          import("./pages/list/channel-group-view.component").then(
+            (c) => c.ChannelGroupViewComponent
+          ),
       },
     ],
   },
 ];
-
-/**
- *
- */
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class ChannelGroupRoutingModule {}

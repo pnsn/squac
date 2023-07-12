@@ -44,7 +44,6 @@ import { TooltipDirective } from "@shared/directives/tooltip.directive";
   declarations: [
     DashboardComponent,
     DashboardDetailComponent,
-    DashboardEditComponent,
     DashboardViewComponent,
     DashboardEditEntryComponent,
     WidgetMainComponent,
@@ -54,6 +53,7 @@ import { TooltipDirective } from "@shared/directives/tooltip.directive";
     WidgetEditEntryComponent,
   ],
   imports: [
+    DashboardEditComponent,
     WidgetEditMetricsComponent,
     WidgetEditInfoComponent,
     MetricToggleComponent,

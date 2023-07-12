@@ -8,7 +8,7 @@ import {
 } from "@angular/core";
 import { ChannelGroup } from "squacapi";
 import { catchError, EMPTY, Observable, Subscription, tap } from "rxjs";
-import { Router, ActivatedRoute, Params } from "@angular/router";
+import { Router, ActivatedRoute, Params, RouterOutlet } from "@angular/router";
 import { ChannelGroupService } from "squacapi";
 import { LoadingService } from "@core/services/loading.service";
 import {
@@ -19,6 +19,9 @@ import {
   TableOptions,
 } from "@shared/components/table-view/interfaces";
 import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
+import { TableViewComponent } from "@shared/components/table-view/table-view.component";
+import { DetailPageComponent } from "@shared/components/detail-page/detail-page.component";
+import { AsyncPipe } from "@angular/common";
 
 /**
  * Table of channel groups
@@ -27,6 +30,8 @@ import { PageOptions } from "@shared/components/detail-page/detail-page.interfac
   selector: "channel-group-view",
   templateUrl: "./channel-group-view.component.html",
   styleUrls: ["./channel-group-view.component.scss"],
+  standalone: true,
+  imports: [RouterOutlet, TableViewComponent, DetailPageComponent, AsyncPipe],
 })
 export class ChannelGroupViewComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();

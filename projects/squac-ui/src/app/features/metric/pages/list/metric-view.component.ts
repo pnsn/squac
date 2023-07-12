@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, RouterOutlet } from "@angular/router";
 import { catchError, EMPTY, Subscription, tap } from "rxjs";
 import { Metric } from "squacapi";
 import { MetricService } from "squacapi";
@@ -12,6 +12,9 @@ import {
   TableOptions,
 } from "@shared/components/table-view/interfaces";
 import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
+import { DetailPageComponent } from "@shared/components/detail-page/detail-page.component";
+import { TableViewComponent } from "@shared/components/table-view/table-view.component";
+import { AsyncPipe } from "@angular/common";
 
 /**
  * Shows list of metrics
@@ -19,6 +22,8 @@ import { PageOptions } from "@shared/components/detail-page/detail-page.interfac
 @Component({
   selector: "metric-view",
   templateUrl: "./metric-view.component.html",
+  standalone: true,
+  imports: [DetailPageComponent, TableViewComponent, RouterOutlet, AsyncPipe],
 })
 export class MetricViewComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();

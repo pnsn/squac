@@ -5,13 +5,19 @@ import {
   FormControl,
   FormGroup,
   FormBuilder,
+  ReactiveFormsModule,
 } from "@angular/forms";
 import { MetricService } from "squacapi";
 import { Subscription } from "rxjs";
 import {
+  MatDialogModule,
   MatDialogRef,
   MAT_DIALOG_DATA as MAT_DIALOG_DATA,
 } from "@angular/material/dialog";
+import { MatIconModule } from "@angular/material/icon";
+import { MatFormField, MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatButtonModule } from "@angular/material/button";
 
 /** Metric edit form contrils */
 interface MetricForm {
@@ -38,7 +44,15 @@ interface MetricForm {
 @Component({
   selector: "widget-edit-metrics",
   templateUrl: "./metric-edit.component.html",
-  styleUrls: ["./metric-edit.component.scss"],
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDialogModule,
+    MatButtonModule,
+  ],
 })
 export class MetricEditComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();

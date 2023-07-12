@@ -6,7 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, RouterOutlet } from "@angular/router";
 import { LoadingService } from "@core/services/loading.service";
 import { Alert } from "squacapi";
 import { Monitor } from "squacapi";
@@ -19,6 +19,10 @@ import {
   TableOptions,
 } from "@shared/components/table-view/interfaces";
 import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
+import { DetailPageComponent } from "@shared/components/detail-page/detail-page.component";
+import { TableViewComponent } from "@shared/components/table-view/table-view.component";
+import { AsyncPipe, NgIf } from "@angular/common";
+import { MonitorAlarmStatusComponent } from "@monitor/components/monitor-alarm-status/monitor-alarm-status.component";
 
 /**
  * Component for displaying list of monitors
@@ -27,6 +31,15 @@ import { PageOptions } from "@shared/components/detail-page/detail-page.interfac
   selector: "monitor-view",
   templateUrl: "./monitor-view.component.html",
   styleUrls: ["./monitor-view.component.scss"],
+  standalone: true,
+  imports: [
+    DetailPageComponent,
+    TableViewComponent,
+    AsyncPipe,
+    MonitorAlarmStatusComponent,
+    RouterOutlet,
+    NgIf,
+  ],
 })
 export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
   subscription = new Subscription();

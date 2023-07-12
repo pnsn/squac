@@ -1,15 +1,13 @@
-import { RouterModule, Routes } from "@angular/router";
-import { NgModule } from "@angular/core";
+import { Routes } from "@angular/router";
 import { AuthGuard } from "@core/guards/auth.guard";
-import { MetricComponent } from "./pages/main/metric.component";
 import { MetricResolver } from "@core/resolvers/metric.resolver";
 import { MetricViewComponent } from "./pages/list/metric-view.component";
-import { MetricEditEntryComponent } from "./pages/edit/metric-edit-entry.component";
 
-export const routes: Routes = [
+export const METRIC_ROUTES: Routes = [
   {
     path: "",
-    component: MetricComponent,
+    loadComponent: () =>
+      import("./pages/main/metric.component").then((c) => c.MetricComponent),
     canActivate: [AuthGuard],
     runGuardsAndResolvers: "always",
     resolve: {
@@ -22,11 +20,17 @@ export const routes: Routes = [
         children: [
           {
             path: "new",
-            component: MetricEditEntryComponent,
+            loadComponent: () =>
+              import("./pages/edit/metric-edit-entry.component").then(
+                (c) => c.MetricEditEntryComponent
+              ),
           },
           {
             path: ":metricId/edit",
-            component: MetricEditEntryComponent,
+            loadComponent: () =>
+              import("./pages/edit/metric-edit-entry.component").then(
+                (c) => c.MetricEditEntryComponent
+              ),
             resolve: {
               metric: MetricResolver,
             },
@@ -35,15 +39,11 @@ export const routes: Routes = [
       },
       {
         path: ":metricId",
-        component: MetricViewComponent,
+        loadComponent: () =>
+          import("./pages/list/metric-view.component").then(
+            (c) => c.MetricViewComponent
+          ),
       },
     ],
   },
 ];
-
-/** Metric routing module */
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class MetricRoutingModule {}

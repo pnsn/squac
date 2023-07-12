@@ -1,6 +1,10 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { MonitorEditComponent } from "../../components/monitor-edit/monitor-edit.component";
-import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import {
+  MatDialog,
+  MatDialogModule,
+  MatDialogRef,
+} from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription, switchMap } from "rxjs";
 import { Metric } from "squacapi";
@@ -14,6 +18,8 @@ import { ChannelGroupService } from "squacapi";
 @Component({
   selector: "monitor-edit-entry",
   template: "",
+  standalone: true,
+  imports: [MatDialogModule, MonitorEditComponent],
 })
 export class MonitorEditEntryComponent implements OnInit, OnDestroy {
   dialogRef: MatDialogRef<MonitorEditComponent>;

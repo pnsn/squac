@@ -70,14 +70,14 @@ const appRoutes: Routes = [
       {
         path: "channel-groups",
         loadChildren: () =>
-          import("@channelGroup/channel-group.module").then(
-            (m) => m.ChannelGroupModule
+          import("@channelGroup/channel-group.routes").then(
+            (r) => r.CHANNEL_GROUP_ROUTES
           ),
       },
       {
         path: "metrics",
         loadChildren: () =>
-          import("@metric/metric.module").then((m) => m.MetricModule),
+          import("@metric/metric.routes").then((r) => r.METRIC_ROUTES),
       },
       {
         path: "user",
@@ -87,7 +87,7 @@ const appRoutes: Routes = [
       {
         path: "monitors",
         loadChildren: () =>
-          import("@monitor/monitor.module").then((m) => m.MonitorModule),
+          import("@monitor/monitor.routes").then((r) => r.MONITOR_ROUTES),
       },
       { path: "not-found", component: NotFoundComponent, pathMatch: "full" },
       { path: "**", redirectTo: "not-found" },

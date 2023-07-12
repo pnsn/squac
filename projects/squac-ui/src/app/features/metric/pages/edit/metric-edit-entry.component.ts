@@ -1,5 +1,9 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import {
+  MatDialog,
+  MatDialogModule,
+  MatDialogRef,
+} from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MetricEditComponent } from "../../components/metric-edit/metric-edit.component";
 import { Subscription } from "rxjs";
@@ -12,6 +16,8 @@ import { Metric } from "squacapi";
 @Component({
   selector: "metric-edit-entry",
   template: "",
+  standalone: true,
+  imports: [MatDialogModule],
 })
 export class MetricEditEntryComponent implements OnInit, OnDestroy {
   dialogRef: MatDialogRef<MetricEditComponent>;

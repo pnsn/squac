@@ -1,12 +1,14 @@
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
-import { ChannelGroup } from "squacapi";
+import { ChannelGroup, OrganizationPipe, UserPipe } from "squacapi";
 import { ChannelGroupService } from "squacapi";
 import {
   Validators,
   FormControl,
   FormGroup,
   FormBuilder,
+  ReactiveFormsModule,
+  FormsModule,
 } from "@angular/forms";
 import { ChannelService } from "squacapi";
 import { Channel } from "squacapi";
@@ -26,6 +28,21 @@ import {
 import { FilterText } from "@shared/components/sharing-toggle/sharing-toggle.interface";
 import { SearchFilter } from "@channelGroup/components/channel-group-filter/interfaces";
 import { MapBounds } from "@channelGroup/components/channel-group-map/interfaces";
+import { DetailPageComponent } from "@shared/components/detail-page/detail-page.component";
+import { LoadingDirective } from "@shared/directives/loading-directive.directive";
+import { AsyncPipe, NgIf } from "@angular/common";
+import { MatButton, MatButtonModule } from "@angular/material/button";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { CsvUploadComponent } from "@channelGroup/components/csv-upload/csv-upload.component";
+import { ChannelGroupFilterComponent } from "@channelGroup/components/channel-group-filter/channel-group-filter.component";
+import { ChannelGroupTableComponent } from "@channelGroup/components/channel-group-table/channel-group-table.component";
+import { ChannelGroupMapComponent } from "@channelGroup/components/channel-group-map/channel-group-map.component";
+import { MatExpansionModule } from "@angular/material/expansion";
+import { MatFormField, MatFormFieldModule } from "@angular/material/form-field";
+import { MatInput, MatInputModule } from "@angular/material/input";
+import { SharingToggleComponent } from "@shared/components/sharing-toggle/sharing-toggle.component";
+import { MatchingRuleEditComponent } from "@channelGroup/components/matching-rule-edit/matching-rule-edit.component";
+import { AbilityModule } from "@casl/angular";
 
 /** Loading indicator areas */
 enum LoadingIndicator {
@@ -47,6 +64,30 @@ interface ChannelGroupForm {
   selector: "channel-group-edit",
   templateUrl: "./channel-group-edit.component.html",
   styleUrls: ["./channel-group-edit.component.scss"],
+  standalone: true,
+  imports: [
+    DetailPageComponent,
+    LoadingDirective,
+    NgIf,
+    MatButtonModule,
+    MatSlideToggleModule,
+    CsvUploadComponent,
+    ChannelGroupFilterComponent,
+    ChannelGroupTableComponent,
+    ChannelGroupMapComponent,
+    MatExpansionModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    SharingToggleComponent,
+    MatchingRuleEditComponent,
+    AsyncPipe,
+    MatSlideToggleModule,
+    FormsModule,
+    AbilityModule,
+    OrganizationPipe,
+    UserPipe,
+  ],
 })
 // TODO: this is getting massive - consider restructuring
 export class ChannelGroupEditComponent implements OnInit, OnDestroy {

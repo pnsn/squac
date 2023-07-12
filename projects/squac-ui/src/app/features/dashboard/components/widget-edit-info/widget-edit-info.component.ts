@@ -12,10 +12,14 @@ import { WidgetProperties, WidgetStatType } from "squacapi";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatIconModule } from "@angular/material/icon";
-import { KeyValuePipe, NgForOf, NgIf } from "@angular/common";
+import { KeyValuePipe, NgForOf, NgIf, TitleCasePipe } from "@angular/common";
 import { MatSelectModule } from "@angular/material/select";
 import { MatRadioModule } from "@angular/material/radio";
 import { WidgetTypeExampleDirective } from "../widget-type-example/widget-type-example.directive";
+import {
+  MatButtonToggle,
+  MatButtonToggleModule,
+} from "@angular/material/button-toggle";
 
 /** Widget information edit form */
 interface WidgetForm {
@@ -47,6 +51,8 @@ interface WidgetForm {
     NgIf,
     NgForOf,
     WidgetTypeExampleDirective,
+    TitleCasePipe,
+    MatButtonToggleModule,
   ],
 })
 export class WidgetEditInfoComponent implements OnInit {
