@@ -9,7 +9,7 @@ import {
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
-import { TooltipModule } from "@ui/tooltip/tooltip.module";
+import { TooltipDirective } from "@shared/directives/tooltip.directive";
 import { OrganizationPipe, User } from "squacapi";
 import { FilterText, SharedToggleFilter } from "./sharing-toggle.interface";
 
@@ -30,7 +30,7 @@ import { FilterText, SharedToggleFilter } from "./sharing-toggle.interface";
   standalone: true,
   imports: [
     MatButtonToggleModule,
-    TooltipModule,
+    TooltipDirective,
     OrganizationPipe,
     NgIf,
     FormsModule,

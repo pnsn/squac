@@ -1,9 +1,21 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from "@angular/forms";
 import { WIDGET_TYPE_INFO, WIDGET_STAT_TYPE_NAMES } from "widgets";
 import { WidgetConfig } from "widgets";
 import { WidgetType } from "widgets";
 import { WidgetProperties, WidgetStatType } from "squacapi";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatIconModule } from "@angular/material/icon";
+import { KeyValuePipe, NgForOf, NgIf } from "@angular/common";
+import { MatSelectModule } from "@angular/material/select";
+import { MatRadioModule } from "@angular/material/radio";
+import { WidgetTypeExampleDirective } from "../widget-type-example/widget-type-example.directive";
 
 /** Widget information edit form */
 interface WidgetForm {
@@ -23,6 +35,19 @@ interface WidgetForm {
   selector: "widget-edit-info",
   templateUrl: "./widget-edit-info.component.html",
   styleUrls: ["./widget-edit-info.component.scss"],
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatSelectModule,
+    MatRadioModule,
+    KeyValuePipe,
+    NgIf,
+    NgForOf,
+    WidgetTypeExampleDirective,
+  ],
 })
 export class WidgetEditInfoComponent implements OnInit {
   /** widget name */

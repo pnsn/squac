@@ -10,7 +10,7 @@ import {
   OnDestroy,
 } from "@angular/core";
 import { fromEvent, tap } from "rxjs";
-import { TooltipComponent } from "./tooltip.component";
+import { TooltipComponent } from "../components/tooltip/tooltip.component";
 import { TooltipPosition, TooltipTheme } from "./tooltip.enums";
 
 /**
@@ -29,6 +29,7 @@ import { TooltipPosition, TooltipTheme } from "./tooltip.enums";
  */
 @Directive({
   selector: "[uiTooltip]",
+  standalone: true,
 })
 export class TooltipDirective implements OnDestroy {
   /** Tooltip text */

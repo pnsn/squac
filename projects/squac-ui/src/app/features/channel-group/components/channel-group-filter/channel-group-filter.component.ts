@@ -4,7 +4,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
-import { TooltipModule } from "@ui/tooltip/tooltip.module";
+import { TooltipDirective } from "@shared/directives/tooltip.directive";
 import { SearchFilter } from "./interfaces";
 
 /**
@@ -21,7 +21,7 @@ import { SearchFilter } from "./interfaces";
     FormsModule,
     MatIconModule,
     MatButtonModule,
-    TooltipModule,
+    TooltipDirective,
   ],
 })
 export class ChannelGroupFilterComponent {

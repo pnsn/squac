@@ -19,12 +19,12 @@ import { atLeastOneValidator, regexValidator } from "@core/utils/validators";
 import { MatchingRule } from "squacapi";
 import { Subscription } from "rxjs";
 import { MatButtonModule } from "@angular/material/button";
-import { TooltipModule } from "@ui/tooltip/tooltip.module";
 import { MatIconModule } from "@angular/material/icon";
 import { CommonModule } from "@angular/common";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatCheckboxModule } from "@angular/material/checkbox";
+import { TooltipDirective } from "@shared/directives/tooltip.directive";
 
 /** Matching rule edit form fields */
 interface MatchingRuleForm {
@@ -60,7 +60,7 @@ interface MatchingRulesForm {
   standalone: true,
   imports: [
     MatButtonModule,
-    TooltipModule,
+    TooltipDirective,
     MatIconModule,
     ReactiveFormsModule,
     CommonModule,

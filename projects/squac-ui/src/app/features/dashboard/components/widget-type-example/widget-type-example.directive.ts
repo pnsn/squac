@@ -39,6 +39,7 @@ import { WIDGET_TYPE_INFO } from "widgets";
 @Directive({
   selector: "[appWidgetTypeExample]",
   providers: [WidgetConfigService, WidgetDataService],
+  standalone: true,
 })
 export class WidgetTypeExampleDirective implements OnChanges, OnInit {
   @Input() type: WidgetType;

@@ -1,4 +1,5 @@
 import { SelectionModel } from "@angular/cdk/collections";
+import { NgIf } from "@angular/common";
 import {
   Component,
   OnInit,
@@ -9,8 +10,11 @@ import {
   SimpleChanges,
   OnChanges,
 } from "@angular/core";
-import { MatSort } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatSort, MatSortModule } from "@angular/material/sort";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { Metric } from "squacapi";
 import { WIDGET_TYPE_INFO } from "widgets";
 import { WidgetType } from "widgets";
@@ -23,6 +27,15 @@ import { WidgetType } from "widgets";
   selector: "widget-edit-metrics",
   templateUrl: "./widget-edit-metrics.component.html",
   styleUrls: ["./widget-edit-metrics.component.scss"],
+  standalone: true,
+  imports: [
+    MatTableModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    NgIf,
+  ],
 })
 export class WidgetEditMetricsComponent implements OnInit, OnChanges {
   @Input() metrics: Metric[];

@@ -1,5 +1,6 @@
+import { NgClass } from "@angular/common";
 import { Component } from "@angular/core";
-import { TooltipPosition, TooltipTheme } from "./tooltip.enums";
+import { TooltipPosition, TooltipTheme } from "../../directives/tooltip.enums";
 
 /**
  * Tooltip component, attached to element using uiTooltip directive
@@ -8,6 +9,8 @@ import { TooltipPosition, TooltipTheme } from "./tooltip.enums";
   selector: "ui-tooltip",
   templateUrl: "./tooltip.component.html",
   styleUrls: ["./tooltip.component.scss"],
+  standalone: true,
+  imports: [NgClass],
 })
 export class TooltipComponent {
   /** Positioning of tooltip relative to the element */

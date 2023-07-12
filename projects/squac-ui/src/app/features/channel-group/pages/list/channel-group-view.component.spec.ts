@@ -6,7 +6,6 @@ import { ChannelGroupService } from "squacapi";
 import { TableViewComponent } from "@shared/components/table-view/table-view.component";
 import { MockBuilder } from "ng-mocks";
 import { AbilityModule } from "@casl/angular";
-import { MaterialModule } from "@shared/material.module";
 import { ActivatedRoute } from "@angular/router";
 import { of, Subject } from "rxjs";
 import { DetailPageComponent } from "@shared/components/detail-page/detail-page.component";
@@ -24,7 +23,6 @@ describe("ChannelGroupViewComponent", () => {
         },
       })
       .mock(DetailPageComponent)
-      .mock(MaterialModule)
       .mock(TableViewComponent)
       .mock(AbilityModule)
       .mock(ChannelGroupService);

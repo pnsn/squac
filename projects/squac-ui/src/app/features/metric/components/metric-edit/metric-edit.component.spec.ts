@@ -6,7 +6,6 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA as MAT_DIALOG_DATA,
 } from "@angular/material/dialog";
-import { MaterialModule } from "@shared/material.module";
 import { MockBuilder } from "ng-mocks";
 
 describe("MetricEditComponent", () => {
@@ -15,7 +14,6 @@ describe("MetricEditComponent", () => {
 
   beforeEach(() => {
     return MockBuilder(MetricEditComponent, [
-      MaterialModule,
       MatDialogRef,
       MAT_DIALOG_DATA,
       ReactiveFormsModule,

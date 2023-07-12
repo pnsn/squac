@@ -18,12 +18,9 @@ import { WidgetEditEntryComponent } from "./pages/widget-edit/widget-edit-entry.
 import { WidgetEditMetricsComponent } from "./components/widget-edit-metrics/widget-edit-metrics.component";
 import { WidgetEditInfoComponent } from "./components/widget-edit-info/widget-edit-info.component";
 import { MetricToggleComponent } from "./components/metric-toggle/metric-toggle.component";
-import { WidgetTypeExampleDirective } from "./components/widget-type-example/widget-type-example.directive";
 import { GridsterModule } from "angular-gridster2";
 import { WidgetsModule } from "widgets";
 import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
-import { DataTypePipe } from "./components/data-type-selector/data-type.pipe";
-import { TooltipModule } from "@ui/tooltip/tooltip.module";
 import { LoadingDirective } from "@shared/directives/loading-directive.directive";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatIconModule } from "@angular/material/icon";
@@ -39,6 +36,8 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatStepperModule } from "@angular/material/stepper";
 import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatInputModule } from "@angular/material/input";
+import { TooltipDirective } from "@shared/directives/tooltip.directive";
 
 /** Dashboard feature module */
 @NgModule({
@@ -49,24 +48,23 @@ import { MatSidenavModule } from "@angular/material/sidenav";
     DashboardViewComponent,
     DashboardEditEntryComponent,
     WidgetMainComponent,
-    DataTypeSelectorComponent,
-    ChannelFilterComponent,
     WidgetDetailComponent,
     WidgetEditComponent,
     WidgetEditOptionsComponent,
-    WidgetEditMetricsComponent,
     WidgetEditEntryComponent,
-    WidgetEditInfoComponent,
-    MetricToggleComponent,
-    WidgetTypeExampleDirective,
-    DataTypePipe,
   ],
   imports: [
+    WidgetEditMetricsComponent,
+    WidgetEditInfoComponent,
+    MetricToggleComponent,
+    ChannelFilterComponent,
+    DataTypeSelectorComponent,
     MatCheckboxModule,
     MatIconModule,
     MatButtonModule,
     MatMenuModule,
     MatFormFieldModule,
+    MatInputModule,
     MatButtonToggleModule,
     MatOptionModule,
     MatRadioModule,
@@ -81,7 +79,7 @@ import { MatSidenavModule } from "@angular/material/sidenav";
     DashboardRoutingModule,
     SharedModule,
     AbilityModule,
-    TooltipModule,
+    TooltipDirective,
     LoadingDirective,
   ],
   providers: [

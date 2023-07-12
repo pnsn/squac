@@ -7,13 +7,24 @@ import {
   OnInit,
   Output,
 } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from "@angular/forms";
 import { Channel } from "squacapi";
 import { distinctUntilChanged, Observable, Subscription } from "rxjs";
 import { ViewService } from "@dashboard/services/view.service";
 import { WidgetConnectService } from "widgets";
 import { LoadingService } from "@core/services/loading.service";
 import { LoadingIndicator } from "../../pages/detail/dashboard-detail.component";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { LoadingDirective } from "@shared/directives/loading-directive.directive";
+import { AsyncPipe, KeyValuePipe, NgFor, NgIf } from "@angular/common";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
 
 type CheckboxForm = Record<string, FormControl<boolean>>;
 
@@ -24,6 +35,19 @@ type CheckboxForm = Record<string, FormControl<boolean>>;
   selector: "dashboard-channel-filter",
   templateUrl: "./channel-filter.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    MatCheckboxModule,
+    LoadingDirective,
+    ReactiveFormsModule,
+    FormsModule,
+    NgFor,
+    KeyValuePipe,
+    AsyncPipe,
+    NgIf,
+    MatFormFieldModule,
+    MatInputModule,
+  ],
 })
 export class ChannelFilterComponent implements OnInit, OnDestroy {
   filteredChannels: Observable<Channel[]>;

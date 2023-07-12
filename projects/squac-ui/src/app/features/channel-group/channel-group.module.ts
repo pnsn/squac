@@ -7,7 +7,6 @@ import { ChannelGroupMapComponent } from "./components/channel-group-map/channel
 import { MatchingRuleEditComponent } from "./components/matching-rule-edit/matching-rule-edit.component";
 import { ChannelGroupTableComponent } from "./components/channel-group-table/channel-group-table.component";
 import { CsvUploadComponent } from "./components/csv-upload/csv-upload.component";
-import { TooltipModule } from "@ui/tooltip/tooltip.module";
 import { LoadingDirective } from "@shared/directives/loading-directive.directive";
 import { ChannelGroupComponent } from "./pages/main/channel-group.component";
 import { ChannelGroupEditComponent } from "./pages/edit/channel-group-edit.component";
@@ -19,6 +18,7 @@ import { MatExpansionModule } from "@angular/material/expansion";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatCheckboxModule } from "@angular/material/checkbox";
+import { TooltipDirective } from "@shared/directives/tooltip.directive";
 
 /**
  *
@@ -45,7 +45,7 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
     ChannelGroupMapComponent,
     CommonModule,
     ChannelGroupRoutingModule,
-    TooltipModule,
+    TooltipDirective,
     LoadingDirective,
   ],
 })

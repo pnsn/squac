@@ -6,34 +6,20 @@ import { of, Subject } from "rxjs";
 import { Ability } from "@casl/ability";
 import { ViewService } from "@dashboard/services/view.service";
 import { Dashboard } from "squacapi";
-import { UserPipe } from "squacapi";
-import { OrganizationPipe } from "squacapi";
-import { SharedIndicatorComponent } from "@shared/components/shared-indicator/shared-indicator.component";
-import { ErrorComponent } from "@shared/components/error/error.component";
-import { MaterialModule } from "@shared/material.module";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { MockBuilder } from "ng-mocks";
-import { DateSelectComponent } from "@shared/components/date-select/date-select.component";
-import { DataTypeSelectorComponent } from "../../components/data-type-selector/data-type-selector.component";
-import { SharedModule } from "@shared/shared.module";
-import { ChannelFilterComponent } from "../../components/channel-filter/channel-filter.component";
-import { ChannelGroupSelectorComponent } from "@shared/components/channel-group-selector/channel-group-selector.component";
-import { SharingToggleComponent } from "@shared/components/sharing-toggle/sharing-toggle.component";
-import { DataTypePipe } from "../../components/data-type-selector/data-type.pipe";
+import { DashboardModule } from "@dashboard/dashboard.module";
 
 describe("DashboardDetailComponent", () => {
   let component: DashboardDetailComponent;
   let fixture: ComponentFixture<DashboardDetailComponent>;
 
   beforeEach(() =>
-    MockBuilder(DashboardDetailComponent)
-      .keep(RouterTestingModule.withRoutes([]))
+    MockBuilder(
+      [DashboardDetailComponent, RouterTestingModule.withRoutes([])],
+      DashboardModule
+    )
       .mock(ConfirmDialogService)
-      .mock(MaterialModule)
-      .mock(SharedModule)
-      .mock(ChannelFilterComponent)
-      .mock(SharingToggleComponent)
-      .mock(DataTypePipe)
       .provide({
         provide: ViewService,
         useValue: {
@@ -45,18 +31,14 @@ describe("DashboardDetailComponent", () => {
           },
         },
       })
-      .mock(Ability)
-      .mock(DataTypeSelectorComponent)
-      .mock([
-        DateSelectComponent,
-        DataTypeSelectorComponent,
-        UserPipe,
-        OrganizationPipe,
-        SharedIndicatorComponent,
-        ErrorComponent,
-        ChannelFilterComponent,
-        ChannelGroupSelectorComponent,
-      ])
+      .provide({
+        provide: Ability,
+        useValue: {
+          can: (_type, _resource) => {
+            return _resource ? true : undefined;
+          },
+        },
+      })
       .provide({
         provide: ActivatedRoute,
         useValue: {

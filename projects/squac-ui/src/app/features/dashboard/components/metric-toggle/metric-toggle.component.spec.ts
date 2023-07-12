@@ -1,7 +1,4 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatIconModule } from "@angular/material/icon";
-import { MatMenuModule } from "@angular/material/menu";
-
 import { MetricToggleComponent } from "./metric-toggle.component";
 
 describe("MetricToggleComponent", () => {
@@ -10,8 +7,7 @@ describe("MetricToggleComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MetricToggleComponent],
-      imports: [MatMenuModule, MatIconModule],
+      imports: [MetricToggleComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MetricToggleComponent);

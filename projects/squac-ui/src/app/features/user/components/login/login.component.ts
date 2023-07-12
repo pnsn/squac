@@ -1,10 +1,17 @@
+import { NgIf } from "@angular/common";
 import { Component, OnDestroy } from "@angular/core";
 import {
   Validators,
   FormControl,
   FormGroup,
   FormBuilder,
+  ReactiveFormsModule,
 } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { RouterLink } from "@angular/router";
 import { AuthService } from "@core/services/auth.service";
 import { Subscription } from "rxjs";
 
@@ -19,6 +26,16 @@ interface LoginForm {
 @Component({
   selector: "user-login",
   templateUrl: "./login.component.html",
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    NgIf,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule,
+    RouterLink,
+  ],
 })
 export class LoginComponent implements OnDestroy {
   subscription = new Subscription();

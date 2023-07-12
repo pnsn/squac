@@ -10,7 +10,7 @@ import {
  * Usage:
  *   dataType | dataType:statType
  */
-@Pipe({ name: "dataType" })
+@Pipe({ name: "dataType", standalone: true })
 export class DataTypePipe implements PipeTransform {
   archiveTypeOptions = ARCHIVE_TYPE_OPTIONS;
   statTypeOptions = ARCHIVE_STAT_OPTIONS;

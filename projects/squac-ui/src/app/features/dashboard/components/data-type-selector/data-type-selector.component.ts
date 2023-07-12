@@ -1,3 +1,4 @@
+import { NgClass, NgForOf, NgIf } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,8 +8,13 @@ import {
   Output,
   SimpleChanges,
 } from "@angular/core";
+import { MatButtonModule } from "@angular/material/button";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatMenuModule } from "@angular/material/menu";
 import { ARCHIVE_STAT_OPTIONS, ARCHIVE_TYPE_OPTIONS } from "squacapi";
 import { ArchiveStatType, ArchiveType } from "squacapi";
+import { DataTypePipe } from "./data-type.pipe";
 
 /**
  * Component for selecting archive type
@@ -18,6 +24,17 @@ import { ArchiveStatType, ArchiveType } from "squacapi";
   templateUrl: "./data-type-selector.component.html",
   styleUrls: ["./data-type-selector.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    MatMenuModule,
+    MatButtonModule,
+    NgIf,
+    NgClass,
+    NgForOf,
+    DataTypePipe,
+  ],
 })
 export class DataTypeSelectorComponent implements OnChanges {
   /** dataType to select */

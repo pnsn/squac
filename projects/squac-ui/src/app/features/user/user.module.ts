@@ -12,7 +12,6 @@ import { UserSettingsComponent } from "./pages/detail/user-settings.component";
 import { OrganizationEditComponent } from "./components/organization-edit/organization-edit.component";
 import { OrganizationEditEntryComponent } from "./pages/organization-edit/organization-edit-entry.component";
 import { CommonModule } from "@angular/common";
-import { TooltipModule } from "@ui/tooltip/tooltip.module";
 import { LoadingDirective } from "@shared/directives/loading-directive.directive";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
@@ -21,6 +20,7 @@ import { MatOptionModule } from "@angular/material/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatListModule } from "@angular/material/list";
+import { TooltipDirective } from "@shared/directives/tooltip.directive";
 
 /**
  * Module for User feature
@@ -29,7 +29,6 @@ import { MatListModule } from "@angular/material/list";
   declarations: [
     UserComponent,
     PasswordResetComponent,
-    LoginComponent,
     OrganizationDetailComponent,
     UserEditComponent,
     OrganizationsViewComponent,
@@ -38,6 +37,7 @@ import { MatListModule } from "@angular/material/list";
     OrganizationEditEntryComponent,
   ],
   imports: [
+    LoginComponent,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
@@ -48,7 +48,7 @@ import { MatListModule } from "@angular/material/list";
     CommonModule,
     SharedModule,
     UserRoutingModule,
-    TooltipModule,
+    TooltipDirective,
     LoadingDirective,
   ],
 })

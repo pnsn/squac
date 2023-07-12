@@ -15,7 +15,6 @@ import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-sp
 import { DetailPageComponent } from "./components/detail-page/detail-page.component";
 import { SquacapiModule } from "squacapi";
 import { SharingToggleComponent } from "./components/sharing-toggle/sharing-toggle.component";
-import { TooltipModule } from "@ui/tooltip/tooltip.module";
 import { TableViewComponent } from "./components/table-view/table-view.component";
 import { LoadingDirective } from "./directives/loading-directive.directive";
 import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
@@ -31,7 +30,6 @@ import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
     FormsModule,
     RouterModule,
     SquacapiModule,
-    TooltipModule,
     LoadingDirective,
     TableViewComponent,
     SharedIndicatorComponent,

@@ -14,7 +14,6 @@ import { WidgetsModule } from "widgets";
 import { NgxEchartsModule } from "ngx-echarts";
 import { MonitorAlarmStatusComponent } from "./components/monitor-alarm-status/monitor-alarm-status.component";
 import { MonitorChannelHistoryChartComponent } from "./components/monitor-channel-history-chart/monitor-channel-history-chart.component";
-import { TooltipModule } from "@ui/tooltip/tooltip.module";
 import { LoadingDirective } from "@shared/directives/loading-directive.directive";
 import { MatIconModule } from "@angular/material/icon";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -24,6 +23,7 @@ import { MatTableModule } from "@angular/material/table";
 import { MatSortModule } from "@angular/material/sort";
 import { MatStepperModule } from "@angular/material/stepper";
 import { MatOptionModule } from "@angular/material/core";
+import { TooltipDirective } from "@shared/directives/tooltip.directive";
 
 /**
  * Module for monitors
@@ -56,7 +56,7 @@ import { MatOptionModule } from "@angular/material/core";
     AbilityModule,
     WidgetsModule,
     NgxEchartsModule,
-    TooltipModule,
+    TooltipDirective,
     LoadingDirective,
   ],
 })

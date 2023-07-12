@@ -9,7 +9,6 @@ import { InviteService } from "squacapi";
 import { OrganizationService } from "squacapi";
 import { TableViewComponent } from "@shared/components/table-view/table-view.component";
 import { MockBuilder } from "ng-mocks";
-import { MaterialModule } from "@shared/material.module";
 import { RouterTestingModule } from "@angular/router/testing";
 
 describe("OrganizationDetailComponent", () => {
@@ -22,7 +21,6 @@ describe("OrganizationDetailComponent", () => {
       .mock(RouterTestingModule.withRoutes([]))
       .keep(ReactiveFormsModule)
       .mock(OrganizationService)
-      .mock(MaterialModule)
       .mock(UserService)
       .mock(InviteService)
       .provide({

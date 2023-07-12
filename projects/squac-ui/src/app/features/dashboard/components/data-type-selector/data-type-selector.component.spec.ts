@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { MaterialModule } from "@shared/material.module";
 import { MockBuilder } from "ng-mocks";
 
 import { DataTypeSelectorComponent } from "./data-type-selector.component";
@@ -10,9 +9,7 @@ describe("DataTypeSelectorComponent", () => {
   let fixture: ComponentFixture<DataTypeSelectorComponent>;
 
   beforeEach(() => {
-    return MockBuilder(DataTypeSelectorComponent)
-      .mock(MaterialModule)
-      .mock(DataTypePipe);
+    return MockBuilder(DataTypeSelectorComponent).mock(DataTypePipe);
   });
 
   beforeEach(() => {

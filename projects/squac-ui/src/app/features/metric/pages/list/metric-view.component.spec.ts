@@ -3,7 +3,6 @@ import { MetricViewComponent } from "./metric-view.component";
 import { MetricService } from "squacapi";
 import { AbilityModule } from "@casl/angular";
 import { MockBuilder } from "ng-mocks";
-import { MaterialModule } from "@shared/material.module";
 import { RouterTestingModule } from "@angular/router/testing";
 import { TableViewComponent } from "@shared/components/table-view/table-view.component";
 import { ActivatedRoute } from "@angular/router";
@@ -25,7 +24,6 @@ describe("MetricViewComponent", () => {
         },
       })
       .mock(TableViewComponent)
-      .mock(MaterialModule)
       .mock(MetricService)
       .mock(DetailPageComponent)
       .mock(AbilityModule);

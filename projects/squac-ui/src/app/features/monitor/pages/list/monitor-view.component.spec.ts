@@ -6,7 +6,6 @@ import { DateService } from "@core/services/date.service";
 import { AlertService } from "squacapi";
 import { MonitorService } from "squacapi";
 import { TableViewComponent } from "@shared/components/table-view/table-view.component";
-import { MaterialModule } from "@shared/material.module";
 import { MockBuilder } from "ng-mocks";
 import { of } from "rxjs";
 
@@ -21,7 +20,6 @@ describe("MonitorViewComponent", () => {
     return MockBuilder(MonitorViewComponent)
       .keep(RouterTestingModule.withRoutes([]))
       .mock(TableViewComponent)
-      .mock(MaterialModule)
       .mock(AlertService)
       .mock(DetailPageComponent)
       .mock(DateService)

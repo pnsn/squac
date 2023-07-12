@@ -5,7 +5,6 @@ import { DashboardService } from "squacapi";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { DashboardViewComponent } from "@dashboard/pages/list/dashboard-view.component";
 import { RouterTestingModule } from "@angular/router/testing";
-import { MaterialModule } from "@shared/material.module";
 import { Ability, PureAbility } from "@casl/ability";
 import { AbilityModule } from "@casl/angular";
 import { AppAbility } from "@core/utils/ability";
@@ -22,7 +21,6 @@ describe("DashboardComponent", () => {
         HttpClientTestingModule,
         NoopAnimationsModule,
         RouterTestingModule.withRoutes([]),
-        MaterialModule,
         AbilityModule,
         MatToolbarModule,
       ],

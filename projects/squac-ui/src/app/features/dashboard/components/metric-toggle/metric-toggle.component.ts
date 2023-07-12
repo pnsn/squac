@@ -1,3 +1,4 @@
+import { NgForOf, NgIf, NgTemplateOutlet } from "@angular/common";
 import {
   Component,
   EventEmitter,
@@ -5,6 +6,9 @@ import {
   OnChanges,
   Output,
 } from "@angular/core";
+import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
+import { MatMenuModule } from "@angular/material/menu";
 import { Metric } from "squacapi";
 import { Threshold } from "squacapi";
 
@@ -14,6 +18,15 @@ import { Threshold } from "squacapi";
 @Component({
   selector: "widget-metric-toggle",
   templateUrl: "./metric-toggle.component.html",
+  standalone: true,
+  imports: [
+    MatButtonModule,
+    MatMenuModule,
+    MatIconModule,
+    NgForOf,
+    NgIf,
+    NgTemplateOutlet,
+  ],
 })
 export class MetricToggleComponent implements OnChanges {
   // ids of metrics selected

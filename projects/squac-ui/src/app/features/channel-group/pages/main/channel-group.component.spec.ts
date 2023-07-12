@@ -14,8 +14,11 @@ describe("ChannelGroupComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([]), HttpClientTestingModule],
-      declarations: [ChannelGroupComponent],
+      imports: [
+        RouterTestingModule.withRoutes([]),
+        HttpClientTestingModule,
+        ChannelGroupComponent,
+      ],
       providers: [
         ChannelGroupService,
         NetworkService,

@@ -5,7 +5,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AbilityModule } from "@casl/angular";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
-import { TooltipModule } from "@ui/tooltip/tooltip.module";
+import { TooltipDirective } from "@shared/directives/tooltip.directive";
 import { SquacObject } from "squacapi";
 import { ButtonEvent, PageOptions } from "./detail-page.interface";
 /**
@@ -15,7 +15,13 @@ import { ButtonEvent, PageOptions } from "./detail-page.interface";
   selector: "shared-detail-page",
   templateUrl: "./detail-page.component.html",
   standalone: true,
-  imports: [TooltipModule, NgIf, MatButtonModule, AbilityModule, MatIconModule],
+  imports: [
+    TooltipDirective,
+    NgIf,
+    MatButtonModule,
+    AbilityModule,
+    MatIconModule,
+  ],
 })
 export class DetailPageComponent {
   /** type of squac model being shown */

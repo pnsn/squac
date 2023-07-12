@@ -1,7 +1,7 @@
 import { NgIf, TitleCasePipe } from "@angular/common";
 import { Component, Input } from "@angular/core";
 import { MatIconModule } from "@angular/material/icon";
-import { TooltipModule } from "@ui/tooltip/tooltip.module";
+import { TooltipDirective } from "@shared/directives/tooltip.directive";
 
 /**
  * Indicates sharing level
@@ -10,7 +10,7 @@ import { TooltipModule } from "@ui/tooltip/tooltip.module";
   selector: "shared-sharing-indicator",
   templateUrl: "./shared-indicator.component.html",
   standalone: true,
-  imports: [TooltipModule, MatIconModule, NgIf, TitleCasePipe],
+  imports: [TooltipDirective, MatIconModule, NgIf, TitleCasePipe],
 })
 export class SharedIndicatorComponent {
   /** true if shared with organization */

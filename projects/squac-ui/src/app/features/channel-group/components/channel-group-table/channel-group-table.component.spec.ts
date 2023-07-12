@@ -1,6 +1,4 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { ChannelGroupModule } from "@channelGroup/channel-group.module";
-import { MaterialModule } from "@shared/material.module";
 import { MockBuilder } from "ng-mocks";
 
 import { ChannelGroupTableComponent } from "./channel-group-table.component";
@@ -10,9 +8,7 @@ describe("ChannelGroupTableComponent", () => {
   let fixture: ComponentFixture<ChannelGroupTableComponent>;
 
   beforeEach(() => {
-    return MockBuilder(ChannelGroupTableComponent, ChannelGroupModule).mock(
-      MaterialModule
-    );
+    return MockBuilder(ChannelGroupTableComponent);
   });
 
   it("should create", () => {
