@@ -14,7 +14,6 @@ import { Threshold } from "squacapi";
 @Component({
   selector: "widget-metric-toggle",
   templateUrl: "./metric-toggle.component.html",
-  styleUrls: ["../widget-detail.component.scss"],
 })
 export class MetricToggleComponent implements OnChanges {
   // ids of metrics selected

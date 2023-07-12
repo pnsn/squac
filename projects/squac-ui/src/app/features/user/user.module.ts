@@ -3,14 +3,14 @@ import { UserComponent } from "@user/pages/main/user.component";
 import { PasswordResetComponent } from "@user/components/password-reset/password-reset.component";
 import { LoginComponent } from "@user/components/login/login.component";
 import { OrganizationDetailComponent } from "@user/pages/organization-detail/organization-detail.component";
-import { UserEditComponent } from "@user/pages/user-edit/user-edit.component";
+import { UserEditComponent } from "@user/pages/edit/user-edit.component";
 
 import { SharedModule } from "@shared/shared.module";
 import { UserRoutingModule } from "./user-routing.module";
 import { OrganizationsViewComponent } from "./pages/organization-list/organizations-view.component";
-import { UserSettingsComponent } from "./pages/user-settings/user-settings.component";
+import { UserSettingsComponent } from "./pages/detail/user-settings.component";
 import { OrganizationEditComponent } from "./components/organization-edit/organization-edit.component";
-import { OrganizationEditEntryComponent } from "./pages/organization-edit-entry/organization-edit-entry.component";
+import { OrganizationEditEntryComponent } from "./pages/organization-edit/organization-edit-entry.component";
 import { CommonModule } from "@angular/common";
 import { TooltipModule } from "@ui/tooltip/tooltip.module";
 import { LoadingDirective } from "@shared/directives/loading-directive.directive";

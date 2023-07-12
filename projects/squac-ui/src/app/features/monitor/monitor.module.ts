@@ -9,11 +9,11 @@ import { MonitorEditEntryComponent } from "./pages/edit/monitor-edit-entry.compo
 import { AlertViewComponent } from "./pages/alert-list/alert-view.component";
 import { AbilityModule } from "@casl/angular";
 import { MonitorDetailComponent } from "./pages/detail/monitor-detail.component";
-import { MonitorHistoryChartComponent } from "./pages/detail/monitor-history-chart/monitor-history-chart.component";
+import { MonitorHistoryChartComponent } from "./components/monitor-history-chart/monitor-history-chart.component";
 import { WidgetsModule } from "widgets";
 import { NgxEchartsModule } from "ngx-echarts";
 import { MonitorAlarmStatusComponent } from "./components/monitor-alarm-status/monitor-alarm-status.component";
-import { MonitorChannelHistoryChartComponent } from "./pages/detail/monitor-channel-history-chart/monitor-channel-history-chart.component";
+import { MonitorChannelHistoryChartComponent } from "./components/monitor-channel-history-chart/monitor-channel-history-chart.component";
 import { TooltipModule } from "@ui/tooltip/tooltip.module";
 import { LoadingDirective } from "@shared/directives/loading-directive.directive";
 import { MatIconModule } from "@angular/material/icon";
