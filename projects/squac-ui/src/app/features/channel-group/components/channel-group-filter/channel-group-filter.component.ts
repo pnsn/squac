@@ -5,7 +5,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { TooltipModule } from "@ui/tooltip/tooltip.module";
-import { SearchFilter } from "../interfaces";
+import { SearchFilter } from "./interfaces";
 
 /**
  * Search boxes for channel group editing

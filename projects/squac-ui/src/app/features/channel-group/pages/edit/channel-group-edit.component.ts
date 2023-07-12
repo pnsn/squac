@@ -18,13 +18,14 @@ import { MatchingRuleService } from "squacapi";
 import { MatchingRule } from "squacapi";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
-import { MapBounds } from "../channel-group-map/interfaces";
-import { SearchFilter } from "./interfaces";
+
 import {
   ButtonEvent,
   PageOptions,
 } from "@shared/components/detail-page/detail-page.interface";
 import { FilterText } from "@shared/components/sharing-toggle/sharing-toggle.interface";
+import { SearchFilter } from "@channelGroup/components/channel-group-filter/interfaces";
+import { MapBounds } from "@channelGroup/components/channel-group-map/interfaces";
 
 /** Loading indicator areas */
 enum LoadingIndicator {
