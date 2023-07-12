@@ -10,15 +10,18 @@ import { OrganizationService } from "squacapi";
 import { TableViewComponent } from "@shared/components/table-view/table-view.component";
 import { MockBuilder } from "ng-mocks";
 import { RouterTestingModule } from "@angular/router/testing";
+import { UserModule } from "@user/user.module";
 
 describe("OrganizationDetailComponent", () => {
   let component: OrganizationDetailComponent;
   let fixture: ComponentFixture<OrganizationDetailComponent>;
 
   beforeEach(() => {
-    return MockBuilder(OrganizationDetailComponent)
+    return MockBuilder(
+      [OrganizationDetailComponent, RouterTestingModule.withRoutes([])],
+      UserModule
+    )
       .mock(TableViewComponent)
-      .mock(RouterTestingModule.withRoutes([]))
       .keep(ReactiveFormsModule)
       .mock(OrganizationService)
       .mock(UserService)

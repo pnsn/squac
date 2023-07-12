@@ -1,5 +1,10 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from "@angular/forms";
 import { ViewService } from "@dashboard/services/view.service";
 import { DashboardModule } from "@dashboard/dashboard.module";
 import { WidgetConnectService } from "widgets";
@@ -16,6 +21,7 @@ describe("ChannelFilterComponent", () => {
     return MockBuilder(ChannelFilterComponent, DashboardModule)
       .mock(FormsModule)
       .mock(ReactiveFormsModule)
+      .mock(FormBuilder)
       .provide({
         provide: ViewService,
         useValue: {

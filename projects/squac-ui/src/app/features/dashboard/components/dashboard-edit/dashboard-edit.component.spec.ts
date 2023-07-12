@@ -13,6 +13,7 @@ import { ChannelGroupSelectorComponent } from "@shared/components/channel-group-
 import { SharingToggleComponent } from "@shared/components/sharing-toggle/sharing-toggle.component";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
+import { DashboardModule } from "@dashboard/dashboard.module";
 
 describe("DashboardEditComponent", () => {
   let component: DashboardEditComponent;
@@ -21,17 +22,7 @@ describe("DashboardEditComponent", () => {
   beforeEach(() => {
     return MockBuilder(
       [DashboardEditComponent, MatDialogRef],
-      [
-        ReactiveFormsModule,
-        MatDialogModule,
-        MatFormFieldModule,
-        MatInputModule,
-        SharingToggleComponent,
-        DashboardService,
-        UserService,
-        ChannelGroupSelectorComponent,
-        MAT_DIALOG_DATA,
-      ]
+      [DashboardModule, MAT_DIALOG_DATA]
     )
       .mock(MatDialogRef, {})
       .mock(MAT_DIALOG_DATA, {

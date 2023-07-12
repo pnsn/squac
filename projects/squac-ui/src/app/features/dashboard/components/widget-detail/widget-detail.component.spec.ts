@@ -12,20 +12,17 @@ import { MatMenuModule } from "@angular/material/menu";
 import { AbilityModule } from "@casl/angular";
 import { MatIconModule } from "@angular/material/icon";
 import { LoadingDirective } from "@shared/directives/loading-directive.directive";
+import { DashboardModule } from "@dashboard/dashboard.module";
 
 describe("WidgetDetailComponent", () => {
   let component: WidgetDetailComponent;
   let fixture: ComponentFixture<WidgetDetailComponent>;
 
   beforeEach(() => {
-    return MockBuilder(WidgetDetailComponent)
-      .keep(RouterTestingModule.withRoutes([]))
-      .mock(DashboardService)
-      .mock(MetricToggleComponent)
-      .mock(MatMenuModule)
-      .mock(MatIconModule)
-      .mock(LoadingDirective)
-      .mock(AbilityModule)
+    return MockBuilder(
+      [WidgetDetailComponent, RouterTestingModule.withRoutes([])],
+      DashboardModule
+    )
       .mock(WidgetDataService)
       .provide({
         provide: WidgetManagerService,
