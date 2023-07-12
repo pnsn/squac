@@ -19,17 +19,17 @@ import { LoadingDirective } from "@shared/directives/loading-directive.directive
  */
 @NgModule({
   declarations: [
-    ChannelGroupMapComponent,
     ChannelGroupComponent,
     ChannelGroupEditComponent,
     ChannelGroupViewComponent,
-    ChannelGroupFilterComponent,
     ChannelGroupDetailComponent,
+  ],
+  imports: [
+    ChannelGroupFilterComponent,
     MatchingRuleEditComponent,
     ChannelGroupTableComponent,
     CsvUploadComponent,
-  ],
-  imports: [
+    ChannelGroupMapComponent,
     CommonModule,
     SharedModule,
     ChannelGroupRoutingModule,

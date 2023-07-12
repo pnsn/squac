@@ -9,9 +9,12 @@ import {
   ViewChild,
 } from "@angular/core";
 import { Channel } from "squacapi";
-import { MatTableDataSource } from "@angular/material/table";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { SelectionModel } from "@angular/cdk/collections";
-import { MatSort } from "@angular/material/sort";
+import { MatSort, MatSortModule } from "@angular/material/sort";
+import { CommonModule } from "@angular/common";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCheckboxModule } from "@angular/material/checkbox";
 
 /**
  * Table showing a list of channels
@@ -20,6 +23,14 @@ import { MatSort } from "@angular/material/sort";
   selector: "channel-group-edit-table",
   templateUrl: "./channel-group-table.component.html",
   styleUrls: ["./channel-group-table.component.scss"],
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatTableModule,
+    MatSortModule,
+    MatCheckboxModule,
+  ],
 })
 export class ChannelGroupTableComponent implements OnInit, OnChanges {
   /** table rows */

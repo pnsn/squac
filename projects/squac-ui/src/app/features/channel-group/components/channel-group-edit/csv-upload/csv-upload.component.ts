@@ -9,8 +9,11 @@ import { Channel } from "squacapi";
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { ChannelService } from "squacapi";
-import { NgxCsvParser } from "ngx-csv-parser";
+import { NgxCsvParser, NgxCsvParserModule } from "ngx-csv-parser";
 import { switchMap, tap, map, merge, Observable } from "rxjs";
+import { TooltipModule } from "@ui/tooltip/tooltip.module";
+import { MatIconModule } from "@angular/material/icon";
+import { MatButtonModule } from "@angular/material/button";
 
 /**
  * Component for uploading csvs of channels
@@ -19,6 +22,8 @@ import { switchMap, tap, map, merge, Observable } from "rxjs";
   selector: "channel-group-csv-upload",
   templateUrl: "./csv-upload.component.html",
   styleUrls: ["./csv-upload.component.scss"],
+  standalone: true,
+  imports: [NgxCsvParserModule, TooltipModule, MatIconModule, MatButtonModule],
 })
 export class CsvUploadComponent {
   /** csv rows */

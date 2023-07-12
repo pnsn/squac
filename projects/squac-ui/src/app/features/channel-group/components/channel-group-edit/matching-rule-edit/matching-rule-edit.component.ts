@@ -8,10 +8,23 @@ import {
   Output,
   SimpleChanges,
 } from "@angular/core";
-import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from "@angular/forms";
 import { atLeastOneValidator, regexValidator } from "@core/utils/validators";
 import { MatchingRule } from "squacapi";
 import { Subscription } from "rxjs";
+import { MatButtonModule } from "@angular/material/button";
+import { TooltipModule } from "@ui/tooltip/tooltip.module";
+import { MatIconModule } from "@angular/material/icon";
+import { CommonModule } from "@angular/common";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatCheckboxModule } from "@angular/material/checkbox";
 
 /** Matching rule edit form fields */
 interface MatchingRuleForm {
@@ -44,6 +57,17 @@ interface MatchingRulesForm {
   selector: "channel-group-matching-rule-edit",
   templateUrl: "./matching-rule-edit.component.html",
   styleUrls: ["./matching-rule-edit.component.scss"],
+  standalone: true,
+  imports: [
+    MatButtonModule,
+    TooltipModule,
+    MatIconModule,
+    ReactiveFormsModule,
+    CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+  ],
 })
 export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
   _matchingRules: MatchingRule[];

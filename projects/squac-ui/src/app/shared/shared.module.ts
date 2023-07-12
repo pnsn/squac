@@ -30,8 +30,6 @@ import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
   imports: [
     CommonModule,
     MaterialModule,
-    LeafletModule,
-    LeafletDrawModule,
     AbilityModule,
     ReactiveFormsModule,
     FormsModule,
@@ -63,8 +61,6 @@ import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
     ErrorComponent,
     AbilityModule,
     ConfirmDialogComponent,
-    LeafletModule,
-    LeafletDrawModule,
     SharedIndicatorComponent,
     SearchFilterComponent,
     DateSelectComponent,

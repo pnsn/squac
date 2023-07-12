@@ -1,3 +1,4 @@
+import { NgClass, NgIf } from "@angular/common";
 import {
   Component,
   Input,
@@ -8,6 +9,8 @@ import {
   SimpleChanges,
   NgZone,
 } from "@angular/core";
+import { LeafletModule } from "@asymmetrik/ngx-leaflet";
+import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
 import {
   Control,
   divIcon,
@@ -39,6 +42,8 @@ import { MapBounds, MapStation } from "./interfaces";
   selector: "channel-group-map",
   templateUrl: "./channel-group-map.component.html",
   styleUrls: ["./channel-group-map.component.scss"],
+  standalone: true,
+  imports: [LeafletModule, LeafletDrawModule, NgIf, NgClass],
 })
 export class ChannelGroupMapComponent implements OnInit, OnChanges {
   @Input() searchedChannels: Channel[] = []; // channels already in group

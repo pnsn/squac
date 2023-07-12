@@ -1,4 +1,11 @@
 import { Component, EventEmitter, Output } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { TooltipModule } from "@ui/tooltip/tooltip.module";
 import { SearchFilter } from "../interfaces";
 
 /**
@@ -8,6 +15,15 @@ import { SearchFilter } from "../interfaces";
   selector: "channel-group-filter",
   templateUrl: "./channel-group-filter.component.html",
   styleUrls: ["./channel-group-filter.component.scss"],
+  standalone: true,
+  imports: [
+    MatInputModule,
+    MatFormFieldModule,
+    FormsModule,
+    MatIconModule,
+    MatButtonModule,
+    TooltipModule,
+  ],
 })
 export class ChannelGroupFilterComponent {
   @Output() filtersChanged = new EventEmitter<SearchFilter>();
