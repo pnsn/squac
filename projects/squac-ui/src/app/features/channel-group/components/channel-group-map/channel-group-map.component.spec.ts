@@ -10,8 +10,7 @@ describe("MapComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [LeafletModule, LeafletDrawModule],
-      declarations: [ChannelGroupMapComponent],
+      imports: [LeafletModule, LeafletDrawModule, ChannelGroupMapComponent],
     }).compileComponents();
   }));
 

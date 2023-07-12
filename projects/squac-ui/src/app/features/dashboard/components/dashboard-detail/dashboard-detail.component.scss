@@ -44,6 +44,9 @@
     flex-direction: row;
     justify-content: flex-end;
     gap: 3px;
+
+    .dense-form-control {
+    }
   }
   #dashboard-buttons {
     order: 1;
