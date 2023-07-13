@@ -5,8 +5,8 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
 } from "@angular/core";
-import { Dashboard } from "squacapi";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Dashboard, OrganizationPipe, UserPipe } from "squacapi";
+import { ActivatedRoute, Router, RouterOutlet } from "@angular/router";
 import { Observable, Subscription, switchMap, tap } from "rxjs";
 import { ViewService } from "@dashboard/services/view.service";
 import { AppAbility } from "@core/utils/ability";
@@ -16,6 +16,18 @@ import { LoadingService } from "@core/services/loading.service";
 import { DATE_PICKER_TIMERANGES } from "./dashboard-time-ranges";
 import { ArchiveStatType, ArchiveType } from "squacapi";
 import { WidgetConnectService } from "widgets";
+import { AsyncPipe, NgIf } from "@angular/common";
+import { SharedIndicatorComponent } from "@shared/components/shared-indicator/shared-indicator.component";
+import { ChannelGroupSelectorComponent } from "@shared/components/channel-group-selector/channel-group-selector.component";
+import { DateSelectComponent } from "@shared/components/date-select/date-select.component";
+import { DataTypeSelectorComponent } from "@dashboard/components/data-type-selector/data-type-selector.component";
+import { MatButtonModule } from "@angular/material/button";
+import { TooltipDirective } from "@shared/directives/tooltip.directive";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatMenuModule } from "@angular/material/menu";
+import { MatIconModule } from "@angular/material/icon";
+import { AbilityModule } from "@casl/angular";
+import { FormsModule } from "@angular/forms";
 
 export enum LoadingIndicator {
   MAIN,
@@ -30,6 +42,25 @@ export enum LoadingIndicator {
   templateUrl: "./dashboard-detail.component.html",
   styleUrls: ["./dashboard-detail.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    SharedIndicatorComponent,
+    ChannelGroupSelectorComponent,
+    DateSelectComponent,
+    DataTypeSelectorComponent,
+    MatButtonModule,
+    TooltipDirective,
+    MatCheckboxModule,
+    MatMenuModule,
+    UserPipe,
+    OrganizationPipe,
+    AsyncPipe,
+    MatIconModule,
+    AbilityModule,
+    FormsModule,
+    RouterOutlet,
+  ],
 })
 export class DashboardDetailComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();

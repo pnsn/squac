@@ -7,11 +7,21 @@ import {
 } from "@angular/core";
 import { ViewService } from "@dashboard/services/view.service";
 import { Widget, WidgetConnectService } from "widgets";
-import { GridsterConfig, GridsterItem } from "angular-gridster2";
+import {
+  GridsterConfig,
+  GridsterItem,
+  GridsterModule,
+} from "angular-gridster2";
 import { Subscription } from "rxjs";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, RouterOutlet } from "@angular/router";
 import { Dashboard } from "squacapi";
 import { AppAbility } from "@core/utils/ability";
+import { WidgetDetailComponent } from "@dashboard/components/detail/widget-detail.component";
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { ChannelFilterComponent } from "@dashboard/components/channel-filter/channel-filter.component";
+import { LoadingComponent } from "@shared/components/loading/loading.component";
+import { NgFor, NgIf } from "@angular/common";
+import { MatButtonModule } from "@angular/material/button";
 
 /** Gridster item with widget */
 interface WidgetGridsterItem extends GridsterItem {
@@ -25,6 +35,18 @@ interface WidgetGridsterItem extends GridsterItem {
   templateUrl: "./widget-main.component.html",
   styleUrls: ["./widget-main.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    WidgetDetailComponent,
+    GridsterModule,
+    MatSidenavModule,
+    ChannelFilterComponent,
+    LoadingComponent,
+    RouterOutlet,
+    NgIf,
+    MatButtonModule,
+    NgFor,
+  ],
 })
 export class WidgetMainComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();

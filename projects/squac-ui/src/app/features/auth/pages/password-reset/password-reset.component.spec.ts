@@ -4,7 +4,6 @@ import { PasswordResetComponent } from "./password-reset.component";
 import { RouterTestingModule } from "@angular/router/testing";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MockBuilder } from "ng-mocks";
-import { UserModule } from "@user/user.module";
 import { PasswordResetService } from "squacapi";
 
 describe("PasswordResetComponent", () => {
@@ -13,7 +12,6 @@ describe("PasswordResetComponent", () => {
 
   beforeEach(() => {
     return MockBuilder(PasswordResetComponent)
-      .mock(UserModule)
       .keep(RouterTestingModule.withRoutes([]))
       .mock(ReactiveFormsModule)
       .mock(PasswordResetService);

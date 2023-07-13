@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ActivatedRoute } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
-import { MonitorModule } from "@monitor/monitor.module";
 import { MockBuilder } from "ng-mocks";
 import { MonitorEditComponent } from "../../components/monitor-edit/monitor-edit.component";
 
@@ -13,7 +12,6 @@ describe("MonitorEditEntryComponent", () => {
 
   beforeEach(() => {
     return MockBuilder(MonitorEditComponent)
-      .mock(MonitorModule)
       .mock(MonitorEditComponent)
       .keep(ActivatedRoute)
       .keep(RouterTestingModule.withRoutes([]));

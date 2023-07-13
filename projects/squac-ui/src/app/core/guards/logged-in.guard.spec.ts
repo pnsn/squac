@@ -1,5 +1,5 @@
 import { RouterTestingModule } from "@angular/router/testing";
-import { LoginComponent } from "@user/components/login/login.component";
+import { LoginComponent } from "@core/components/login/login.component";
 import {
   MockBuilder,
   MockInstance,

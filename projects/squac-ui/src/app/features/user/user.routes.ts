@@ -1,9 +1,7 @@
 import { Routes } from "@angular/router";
 import { AuthGuard } from "@core/guards/auth.guard";
 import { UserResolver } from "@core/resolvers/user.resolver";
-import { OrganizationDetailComponent } from "./pages/organization-detail/organization-detail.component";
 import { OrganizationResolver } from "@core/resolvers/organization.resolver";
-import { OrganizationEditEntryComponent } from "./pages/organization-edit/organization-edit-entry.component";
 
 export const USER_ROUTES: Routes = [
   {

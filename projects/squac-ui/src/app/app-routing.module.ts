@@ -1,15 +1,10 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
-import { AuthComponent } from "@core/components/auth/auth.component";
 import { AuthGuard } from "@core/guards/auth.guard";
-import { LoggedInGuard } from "@core/guards/logged-in.guard";
-import { PasswordResetComponent } from "@user/components/password-reset/password-reset.component";
-import { LoginComponent } from "@user/components/login/login.component";
-import { UserEditComponent } from "@user/pages/edit/user-edit.component";
 import { UserResolver } from "@core/resolvers/user.resolver";
 import { OrganizationResolver } from "@core/resolvers/organization.resolver";
-import { NotFoundComponent } from "@core/components/not-found/not-found.component";
-import { HomeComponent } from "@core/components/home/home.component";
+import { NotFoundComponent } from "@core/pages/not-found/not-found.component";
+import { LoggedInGuard } from "@core/guards/logged-in.guard";
 
 const appRoutes: Routes = [
   {
@@ -19,38 +14,45 @@ const appRoutes: Routes = [
   },
   {
     path: "login",
-    component: AuthComponent,
+    loadComponent: () =>
+      import("@auth/pages/auth/auth.component").then((c) => c.AuthComponent),
     canActivate: [LoggedInGuard],
     children: [
       {
         path: "",
-        component: LoginComponent,
+        loadComponent: () =>
+          import("@auth/pages/login/login.component").then(
+            (c) => c.LoginComponent
+          ),
       },
       {
         path: "password-reset",
-        component: PasswordResetComponent,
+        loadComponent: () =>
+          import("@auth/pages/password-reset/password-reset.component").then(
+            (c) => c.PasswordResetComponent
+          ),
       },
     ],
   },
   {
     path: "signup",
-    component: AuthComponent,
+    loadComponent: () =>
+      import("@auth/pages/auth/auth.component").then((c) => c.AuthComponent),
     canActivate: [LoggedInGuard],
     children: [
       {
         path: "",
-        component: UserEditComponent,
+        loadComponent: () =>
+          import("@auth/pages/edit/user-edit.component").then(
+            (c) => c.UserEditComponent
+          ),
       },
     ],
   },
   {
-    path: "test",
-    loadChildren: () =>
-      import("@ui/example-module/test.module").then((m) => m.TestModule),
-  },
-  {
     path: "",
-    component: HomeComponent,
+    loadComponent: () =>
+      import("@core/pages/home/home.component").then((c) => c.HomeComponent),
     canActivate: [AuthGuard],
     resolve: {
       user: UserResolver,
@@ -65,7 +67,7 @@ const appRoutes: Routes = [
       {
         path: "dashboards",
         loadChildren: () =>
-          import("@dashboard/dashboard.module").then((m) => m.DashboardModule),
+          import("@dashboard/dashboard.routes").then((r) => r.DASHBOARD_ROUTES),
       },
       {
         path: "channel-groups",

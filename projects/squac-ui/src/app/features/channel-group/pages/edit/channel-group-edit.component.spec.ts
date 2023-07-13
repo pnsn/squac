@@ -9,7 +9,6 @@ import { FormBuilder } from "@angular/forms";
 import { of } from "rxjs";
 import { UserService } from "@user/services/user.service";
 import { MockBuilder } from "ng-mocks";
-import { ChannelGroupModule } from "@channelGroup/channel-group.module";
 import { MessageService } from "@core/services/message.service";
 import { MatchingRuleService } from "squacapi";
 import { DateService } from "@core/services/date.service";
@@ -24,7 +23,6 @@ describe("ChannelGroupEditComponent", () => {
 
   beforeEach(() => {
     return MockBuilder(ChannelGroupEditComponent)
-      .mock(ChannelGroupModule)
       .mock([
         UserService,
         MessageService,

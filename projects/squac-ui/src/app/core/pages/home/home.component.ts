@@ -4,7 +4,7 @@ import { MessageService } from "../../services/message.service";
 import { User } from "squacapi";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatSidenavModule } from "@angular/material/sidenav";
-import { MenuComponent } from "../menu/menu.component";
+import { MenuComponent } from "../../components/menu/menu.component";
 import { MatIconModule } from "@angular/material/icon";
 import { NgIf } from "@angular/common";
 /**

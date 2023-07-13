@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ActivatedRoute } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { DateService } from "@core/services/date.service";
-import { MonitorModule } from "@monitor/monitor.module";
 import { MockBuilder } from "ng-mocks";
 import { of } from "rxjs";
 
@@ -14,7 +13,6 @@ describe("AlertViewComponent", () => {
 
   beforeEach(() => {
     return MockBuilder(AlertViewComponent)
-      .mock(MonitorModule)
       .mock(RouterTestingModule.withRoutes([]))
       .mock(DateService)
       .provide({

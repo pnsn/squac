@@ -23,6 +23,7 @@ import { MatInputModule } from "@angular/material/input";
 import { SharingToggleComponent } from "@shared/components/sharing-toggle/sharing-toggle.component";
 import { NgIf } from "@angular/common";
 import { ChannelGroupSelectorComponent } from "@shared/components/channel-group-selector/channel-group-selector.component";
+import { MatButtonModule } from "@angular/material/button";
 
 /** dashboard edit form */
 interface DashboardForm {
@@ -46,6 +47,7 @@ interface DashboardForm {
     NgIf,
     ChannelGroupSelectorComponent,
     ReactiveFormsModule,
+    MatButtonModule,
   ],
 })
 export class DashboardEditComponent implements OnInit, OnDestroy {

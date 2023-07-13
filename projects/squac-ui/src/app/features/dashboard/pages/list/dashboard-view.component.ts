@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute, Params, RouterOutlet } from "@angular/router";
 import { LoadingService } from "@core/services/loading.service";
 import { DashboardService } from "squacapi";
 import { catchError, EMPTY, Subscription, tap } from "rxjs";
@@ -13,6 +13,10 @@ import {
   TableOptions,
 } from "@shared/components/table-view/interfaces";
 import { PageOptions } from "@shared/components/detail-page/detail-page.interface";
+import { AsyncPipe, NgIf } from "@angular/common";
+import { DetailPageComponent } from "@shared/components/detail-page/detail-page.component";
+import { TableViewComponent } from "@shared/components/table-view/table-view.component";
+import { LoadingDirective } from "@shared/directives/loading-directive.directive";
 
 /**
  * Displays list of dashboards
@@ -21,6 +25,15 @@ import { PageOptions } from "@shared/components/detail-page/detail-page.interfac
   selector: "dashboard-view",
   templateUrl: "./dashboard-view.component.html",
   styleUrls: ["./dashboard-view.component.scss"],
+  standalone: true,
+  imports: [
+    NgIf,
+    DetailPageComponent,
+    TableViewComponent,
+    LoadingDirective,
+    AsyncPipe,
+    RouterOutlet,
+  ],
 })
 export class DashboardViewComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();

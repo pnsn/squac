@@ -5,7 +5,6 @@ import { UserService } from "@user/services/user.service";
 import { UserSettingsComponent } from "./user-settings.component";
 import { MockBuilder } from "ng-mocks";
 import { MessageService } from "@core/services/message.service";
-import { UserModule } from "@user/user.module";
 import { MatCardModule } from "@angular/material/card";
 import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -17,7 +16,6 @@ describe("UserSettingsComponent", () => {
 
   beforeEach(() => {
     return MockBuilder(UserSettingsComponent, [
-      UserModule,
       MatCardModule,
       MatInputModule,
       MatFormFieldModule,

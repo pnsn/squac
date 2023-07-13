@@ -19,6 +19,9 @@
       "widgets": [
         "./dist/widgets"
       ],
+      "@auth/*": [
+        "./projects/squac-ui/src/app/features/auth/*"
+      ],
       "@core": [
         "./projects/squac-ui/src/app/core"
       ],

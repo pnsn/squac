@@ -1,21 +1,17 @@
-import { NgModule } from "@angular/core";
-import { DashboardComponent } from "./pages/main/dashboard.component";
-import { DashboardDetailComponent } from "./pages/detail/dashboard-detail.component";
-import { Routes, RouterModule } from "@angular/router";
+import { Routes } from "@angular/router";
 import { AuthGuard } from "@core/guards/auth.guard";
-import { DashboardViewComponent } from "./pages/list/dashboard-view.component";
-import { DashboardEditEntryComponent } from "./pages/edit/dashboard-edit-entry.component";
 import { ChannelGroupResolver } from "@core/resolvers/channel-group.resolver";
 import { DashboardResolver } from "@core/resolvers/dashboard.resolver";
-import { WidgetMainComponent } from "./pages/widget-main/widget-main.component";
 import { WidgetResolver } from "@core/resolvers/widget.resolver";
 import { MetricResolver } from "@core/resolvers/metric.resolver";
-import { WidgetEditEntryComponent } from "./pages/widget-edit/widget-edit-entry.component";
 
-export const routes: Routes = [
+export const DASHBOARD_ROUTES: Routes = [
   {
     path: "",
-    component: DashboardComponent,
+    loadComponent: () =>
+      import("./pages/main/dashboard.component").then(
+        (c) => c.DashboardComponent
+      ),
     canActivate: [AuthGuard],
     resolve: {
       dashboards: DashboardResolver,
@@ -23,19 +19,28 @@ export const routes: Routes = [
     children: [
       {
         path: "",
-        component: DashboardViewComponent,
+        loadComponent: () =>
+          import("./pages/list/dashboard-view.component").then(
+            (c) => c.DashboardViewComponent
+          ),
         runGuardsAndResolvers: "always",
         children: [
           {
             path: "new",
-            component: DashboardEditEntryComponent,
+            loadComponent: () =>
+              import("./pages/edit/dashboard-edit-entry.component").then(
+                (c) => c.DashboardEditEntryComponent
+              ),
           },
         ],
       },
 
       {
         path: ":dashboardId",
-        component: DashboardDetailComponent,
+        loadComponent: () =>
+          import("./pages/detail/dashboard-detail.component").then(
+            (c) => c.DashboardDetailComponent
+          ),
         runGuardsAndResolvers: "paramsChange",
         resolve: {
           dashboard: DashboardResolver,
@@ -45,7 +50,10 @@ export const routes: Routes = [
         children: [
           {
             path: "edit",
-            component: DashboardEditEntryComponent,
+            loadComponent: () =>
+              import("./pages/edit/dashboard-edit-entry.component").then(
+                (c) => c.DashboardEditEntryComponent
+              ),
             resolve: {
               channelGroups: ChannelGroupResolver,
               dashboard: DashboardResolver,
@@ -58,19 +66,28 @@ export const routes: Routes = [
           },
           {
             path: "widgets",
-            component: WidgetMainComponent,
+            loadComponent: () =>
+              import("./pages/widget-main/widget-main.component").then(
+                (c) => c.WidgetMainComponent
+              ),
             runGuardsAndResolvers: "paramsOrQueryParamsChange",
             children: [
               {
                 path: "new",
-                component: WidgetEditEntryComponent,
+                loadComponent: () =>
+                  import(
+                    "./pages/widget-edit/widget-edit-entry.component"
+                  ).then((c) => c.WidgetEditEntryComponent),
               },
               {
                 path: ":widgetId/edit",
                 resolve: {
                   widget: WidgetResolver,
                 },
-                component: WidgetEditEntryComponent,
+                loadComponent: () =>
+                  import(
+                    "./pages/widget-edit/widget-edit-entry.component"
+                  ).then((c) => c.WidgetEditEntryComponent),
               },
             ],
           },
@@ -79,10 +96,3 @@ export const routes: Routes = [
     ],
   },
 ];
-
-/** Dashboard routing module */
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class DashboardRoutingModule {}

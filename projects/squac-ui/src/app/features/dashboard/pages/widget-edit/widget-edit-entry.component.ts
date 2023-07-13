@@ -12,6 +12,8 @@ import { Widget } from "widgets";
 @Component({
   selector: "widget-edit-entry",
   template: "",
+  standalone: true,
+  imports: [],
 })
 export class WidgetEditEntryComponent implements OnInit, OnDestroy {
   dialogRef: MatDialogRef<WidgetEditComponent>;

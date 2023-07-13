@@ -6,7 +6,6 @@ import { of } from "rxjs";
 import { ChannelGroup } from "squacapi";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MockBuilder } from "ng-mocks";
-import { ChannelGroupModule } from "@channelGroup/channel-group.module";
 import { MessageService } from "@core/services/message.service";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { ChannelGroupService } from "squacapi";
@@ -19,7 +18,6 @@ describe("ChannelGroupDetailComponent", () => {
 
   beforeEach(() => {
     return MockBuilder(ChannelGroupDetailComponent)
-      .mock(ChannelGroupModule)
       .mock([
         MessageService,
         ConfirmDialogService,

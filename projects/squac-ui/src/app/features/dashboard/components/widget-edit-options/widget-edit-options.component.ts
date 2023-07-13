@@ -1,3 +1,4 @@
+import { NgFor, NgIf, NgStyle } from "@angular/common";
 import {
   Component,
   EventEmitter,
@@ -13,8 +14,16 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
+  ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatSelectModule } from "@angular/material/select";
+import { TooltipDirective } from "@shared/directives/tooltip.directive";
 import * as colormap from "colormap";
 import { Subscription } from "rxjs";
 import { Metric, Threshold, WidgetProperties } from "squacapi";
@@ -37,6 +46,20 @@ import { OptionForm, OptionsForm, ThresholdForm } from "./interfaces";
   selector: "widget-edit-options",
   templateUrl: "./widget-edit-options.component.html",
   styleUrls: ["./widget-edit-options.component.scss"],
+  standalone: true,
+  imports: [
+    NgIf,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    NgFor,
+    MatCheckboxModule,
+    ReactiveFormsModule,
+    TooltipDirective,
+    MatIconModule,
+    NgStyle,
+    MatButtonModule,
+  ],
 })
 export class WidgetEditOptionsComponent
   implements OnChanges, OnDestroy, OnInit

@@ -12,6 +12,7 @@ import { DashboardEditComponent } from "../../components/dashboard-edit/dashboar
 @Component({
   selector: "dashboard-edit-entry",
   template: "",
+  standalone: true,
 })
 export class DashboardEditEntryComponent implements OnInit, OnDestroy {
   dialogRef: MatDialogRef<DashboardEditComponent>;

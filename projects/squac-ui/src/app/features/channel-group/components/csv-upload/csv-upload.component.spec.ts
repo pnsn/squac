@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { ChannelGroupModule } from "@channelGroup/channel-group.module";
 import { ChannelService } from "squacapi";
 import { MockBuilder } from "ng-mocks";
 import { NgxCsvParserModule } from "ngx-csv-parser";
@@ -11,7 +10,7 @@ describe("CsvUploadComponent", () => {
   let fixture: ComponentFixture<CsvUploadComponent>;
 
   beforeEach(() => {
-    return MockBuilder(CsvUploadComponent, ChannelGroupModule)
+    return MockBuilder(CsvUploadComponent)
       .mock(ChannelService)
       .keep(NgxCsvParserModule);
   });

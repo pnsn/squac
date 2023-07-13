@@ -13,7 +13,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from "@angular/material/icon";
 import { ErrorComponent } from "@shared/components/error/error.component";
-import { MatButton, MatButtonModule } from "@angular/material/button";
+import { MatButtonModule } from "@angular/material/button";
 import { NgIf } from "@angular/common";
 
 /**

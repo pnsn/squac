@@ -1,5 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
 import {
+  MatDialogModule,
   MatDialogRef,
   MAT_DIALOG_DATA as MAT_DIALOG_DATA,
 } from "@angular/material/dialog";
@@ -9,6 +10,13 @@ import { ViewService } from "@dashboard/services/view.service";
 import { WidgetService } from "squacapi";
 import { Widget } from "widgets";
 import { Subscription } from "rxjs";
+import { WidgetEditInfoComponent } from "../widget-edit-info/widget-edit-info.component";
+import { WidgetEditMetricsComponent } from "../widget-edit-metrics/widget-edit-metrics.component";
+import { WidgetEditOptionsComponent } from "../widget-edit-options/widget-edit-options.component";
+import { MatButtonModule } from "@angular/material/button";
+import { MatStepperModule } from "@angular/material/stepper";
+import { MatIconModule } from "@angular/material/icon";
+import { NgIf } from "@angular/common";
 
 /**
  * Widget edit main component
@@ -16,6 +24,17 @@ import { Subscription } from "rxjs";
 @Component({
   selector: "widget-edit",
   templateUrl: "./widget-edit.component.html",
+  standalone: true,
+  imports: [
+    WidgetEditInfoComponent,
+    WidgetEditMetricsComponent,
+    WidgetEditOptionsComponent,
+    MatDialogModule,
+    MatButtonModule,
+    MatStepperModule,
+    MatIconModule,
+    NgIf,
+  ],
 })
 export class WidgetEditComponent implements OnDestroy, OnInit {
   subscriptions: Subscription = new Subscription();

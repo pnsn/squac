@@ -3,7 +3,6 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA as MAT_DIALOG_DATA,
 } from "@angular/material/dialog";
-import { UserModule } from "@user/user.module";
 import { MockBuilder } from "ng-mocks";
 import { OrganizationEditComponent } from "./organization-edit.component";
 
@@ -13,7 +12,6 @@ describe("OrganizationEditComponent", () => {
 
   beforeEach(() => {
     return MockBuilder(OrganizationEditComponent, [
-      UserModule,
       MatDialogRef,
       MAT_DIALOG_DATA,
     ])

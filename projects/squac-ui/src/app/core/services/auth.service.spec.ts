@@ -4,7 +4,7 @@ import { AbilityModule } from "@casl/angular";
 import { ApiService } from "@pnsn/ngx-squacapi-client";
 import { UserService } from "@user/services/user.service";
 import { MockBuilder } from "ng-mocks";
-import { AuthComponent } from "../components/auth/auth.component";
+import { AuthComponent } from "../../features/auth/pages/auth/auth.component";
 import { AuthService } from "./auth.service";
 
 describe("AuthService", () => {

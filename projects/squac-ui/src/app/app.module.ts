@@ -34,6 +34,7 @@ import { HttpErrorInterceptor } from "@core/interceptors/http-error-interceptor.
 import { AppAbility } from "@core/utils/ability";
 import { LoadingDirective } from "@shared/directives/loading-directive.directive";
 import { CoreModule } from "@core/core.module";
+import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
 
 /**
  *
@@ -54,6 +55,10 @@ import { CoreModule } from "@core/core.module";
     {
       provide: BASE_PATH,
       useValue: environment.API_BASE_PATH,
+    },
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { showError: true },
     },
 
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },

@@ -10,7 +10,6 @@ import { of } from "rxjs";
 
 import { MonitorEditComponent } from "./monitor-edit.component";
 import { MockBuilder } from "ng-mocks";
-import { MonitorModule } from "@monitor/monitor.module";
 import { RouterTestingModule } from "@angular/router/testing";
 
 describe("MonitorEditComponent", () => {
@@ -22,7 +21,6 @@ describe("MonitorEditComponent", () => {
 
   beforeEach(() => {
     return MockBuilder(MonitorEditComponent)
-      .mock(MonitorModule)
       .mock(RouterTestingModule.withRoutes([]))
       .mock(UserService)
       .keep(FormBuilder)
