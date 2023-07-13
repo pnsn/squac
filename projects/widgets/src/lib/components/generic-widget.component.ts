@@ -140,6 +140,7 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
         this.useDenseView(useDenseView);
       }
     );
+
     this.configureChart();
     if (this.widgetConfig?.toggleKey) {
       this.initToggleKey();
