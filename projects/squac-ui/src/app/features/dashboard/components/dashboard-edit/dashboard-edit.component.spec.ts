@@ -5,7 +5,6 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA as MAT_DIALOG_DATA,
 } from "@angular/material/dialog";
-import { DashboardModule } from "@dashboard/dashboard.module";
 
 describe("DashboardEditComponent", () => {
   let component: DashboardEditComponent;
@@ -14,7 +13,7 @@ describe("DashboardEditComponent", () => {
   beforeEach(() => {
     return MockBuilder(
       [DashboardEditComponent, MatDialogRef],
-      [DashboardModule, MAT_DIALOG_DATA]
+      [MAT_DIALOG_DATA]
     )
       .mock(MatDialogRef, {})
       .mock(MAT_DIALOG_DATA, {

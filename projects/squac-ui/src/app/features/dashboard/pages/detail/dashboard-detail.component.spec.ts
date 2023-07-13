@@ -8,17 +8,14 @@ import { ViewService } from "@dashboard/services/view.service";
 import { Dashboard } from "squacapi";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
 import { MockBuilder } from "ng-mocks";
-import { DashboardModule } from "@dashboard/dashboard.module";
 
 describe("DashboardDetailComponent", () => {
   let component: DashboardDetailComponent;
   let fixture: ComponentFixture<DashboardDetailComponent>;
 
   beforeEach(() =>
-    MockBuilder(
-      [DashboardDetailComponent, RouterTestingModule.withRoutes([])],
-      DashboardModule
-    )
+    MockBuilder(DashboardDetailComponent)
+      .keep(RouterTestingModule.withRoutes([]))
       .mock(ConfirmDialogService)
       .provide({
         provide: ViewService,

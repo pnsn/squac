@@ -15,8 +15,6 @@ describe("MapComponent", () => {
 
   beforeEach(() => {
     return MockBuilder(MapComponent)
-      .mock(LeafletModule)
-      .mock(LeafletDrawModule)
       .mock(WidgetConfigService)
       .provide({
         provide: WidgetManagerService,

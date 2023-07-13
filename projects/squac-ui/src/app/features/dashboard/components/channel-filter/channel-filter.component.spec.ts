@@ -6,7 +6,6 @@ import {
   ReactiveFormsModule,
 } from "@angular/forms";
 import { ViewService } from "@dashboard/services/view.service";
-import { DashboardModule } from "@dashboard/dashboard.module";
 import { WidgetConnectService } from "widgets";
 import { MockBuilder } from "ng-mocks";
 import { Subject } from "rxjs";
@@ -18,7 +17,7 @@ describe("ChannelFilterComponent", () => {
   let fixture: ComponentFixture<ChannelFilterComponent>;
 
   beforeEach(() => {
-    return MockBuilder(ChannelFilterComponent, DashboardModule)
+    return MockBuilder(ChannelFilterComponent)
       .mock(FormsModule)
       .mock(ReactiveFormsModule)
       .mock(FormBuilder)

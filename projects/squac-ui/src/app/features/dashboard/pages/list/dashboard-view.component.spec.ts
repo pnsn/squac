@@ -3,7 +3,6 @@ import { DashboardViewComponent } from "./dashboard-view.component";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MockBuilder } from "ng-mocks";
 import { DashboardService } from "squacapi";
-import { DashboardModule } from "@dashboard/dashboard.module";
 import { ActivatedRoute } from "@angular/router";
 import { of } from "rxjs";
 
@@ -13,7 +12,6 @@ describe("DashboardViewComponent", () => {
 
   beforeEach(() => {
     return MockBuilder(DashboardViewComponent)
-      .mock(DashboardModule)
       .keep(RouterTestingModule.withRoutes([]))
       .provide({
         provide: ActivatedRoute,

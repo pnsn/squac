@@ -6,14 +6,12 @@ import {
   MAT_DIALOG_DATA as MAT_DIALOG_DATA,
 } from "@angular/material/dialog";
 import { MockBuilder } from "ng-mocks";
-import { DashboardModule } from "@dashboard/dashboard.module";
 
 describe("WidgetEditComponent", () => {
   let component: WidgetEditComponent;
   let fixture: ComponentFixture<WidgetEditComponent>;
   beforeEach(() => {
     return MockBuilder(WidgetEditComponent, [
-      DashboardModule,
       MatDialogRef,
       MAT_DIALOG_DATA,
     ]).provide({

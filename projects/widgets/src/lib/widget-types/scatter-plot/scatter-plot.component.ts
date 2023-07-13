@@ -20,8 +20,8 @@ import { NgxEchartsModule } from "ngx-echarts";
  */
 @Component({
   selector: "widget-scatter-plot",
-  templateUrl: "../../shared/components/e-chart/e-chart.component.html",
-  styleUrls: ["../../shared/components/e-chart/e-chart.component.scss"],
+  templateUrl: "../../components/e-chart/e-chart.component.html",
+  styleUrls: ["../../components/e-chart/e-chart.component.scss"],
   standalone: true,
   imports: [NgxEchartsModule],
 })

@@ -4,32 +4,30 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { Widget, WidgetConnectService, WidgetManagerService } from "widgets";
 import { ViewService } from "@dashboard/services/view.service";
 import { MockBuilder } from "ng-mocks";
-import { BehaviorSubject, Subject } from "rxjs";
+import { BehaviorSubject, ReplaySubject, Subject } from "rxjs";
 import { WidgetDataService } from "widgets";
-import { DashboardModule } from "@dashboard/dashboard.module";
 
 describe("WidgetDetailComponent", () => {
   let component: WidgetDetailComponent;
   let fixture: ComponentFixture<WidgetDetailComponent>;
 
   beforeEach(() => {
-    return MockBuilder(
-      [WidgetDetailComponent, RouterTestingModule.withRoutes([])],
-      DashboardModule
-    )
+    return MockBuilder(WidgetDetailComponent)
+      .keep(RouterTestingModule.withRoutes([]))
       .mock(WidgetDataService)
-      .provide({
-        provide: WidgetManagerService,
-        useValue: {
-          widget$: new Subject(),
-          zoomStatus$: new Subject(),
-          toggleKey$: new Subject(),
-        },
-      })
+      .keep(WidgetManagerService)
       .provide({
         provide: WidgetConnectService,
         useValue: {
           useDenseView: new Subject(),
+        },
+      })
+      .provide({
+        provide: WidgetManagerService,
+        useValue: {
+          widget$: new ReplaySubject(),
+          zoomStatus$: new Subject(),
+          toggleKey$: new Subject(),
         },
       })
       .provide({

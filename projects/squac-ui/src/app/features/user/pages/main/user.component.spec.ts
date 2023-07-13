@@ -10,40 +10,15 @@ import { ActivatedRoute } from "@angular/router";
 import { of } from "rxjs";
 import { MessageService } from "@core/services/message.service";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { MockBuilder } from "ng-mocks";
 
 describe("UserComponent", () => {
   let component: UserComponent;
   let fixture: ComponentFixture<UserComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [UserComponent],
-      imports: [
-        RouterTestingModule.withRoutes([]),
-        HttpClientTestingModule,
-        AbilityModule,
-        BrowserAnimationsModule,
-      ],
-      providers: [
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            params: of({ id: 123 }),
-            snapshot: {
-              data: {
-                organization: {},
-              },
-            },
-          },
-        },
-        UserService,
-        MessageService,
-        { provide: AppAbility, useValue: new AppAbility() },
-        { provide: PureAbility, useExisting: Ability },
-      ],
-    }).compileComponents();
-  }));
-
+  beforeEach(() => {
+    return MockBuilder(UserComponent);
+  });
   beforeEach(() => {
     fixture = TestBed.createComponent(UserComponent);
     component = fixture.componentInstance;

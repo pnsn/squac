@@ -12,8 +12,8 @@ import {
 } from "ng-mocks";
 import { EMPTY } from "rxjs";
 import { AuthGuard } from "./auth.guard";
-import { LoginComponent } from "@core/components/login/login.component";
 import { DashboardComponent } from "@dashboard/pages/main/dashboard.component";
+import { LoginComponent } from "@auth/pages/login/login.component";
 
 describe("AuthGuard", () => {
   ngMocks.faster();

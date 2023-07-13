@@ -10,29 +10,15 @@ import { AbilityModule } from "@casl/angular";
 import { AppAbility } from "@core/utils/ability";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { MatToolbarModule } from "@angular/material/toolbar";
+import { MockBuilder } from "ng-mocks";
 
 describe("DashboardComponent", () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        NoopAnimationsModule,
-        RouterTestingModule.withRoutes([]),
-        AbilityModule,
-        MatToolbarModule,
-      ],
-      declarations: [DashboardComponent, DashboardViewComponent],
-      providers: [
-        DashboardService,
-        { provide: AppAbility, useValue: new AppAbility() },
-        { provide: PureAbility, useExisting: Ability },
-      ],
-    }).compileComponents();
-  }));
-
+  beforeEach(() => {
+    return MockBuilder(DashboardComponent);
+  });
   beforeEach(() => {
     fixture = TestBed.createComponent(DashboardComponent);
     component = fixture.componentInstance;

@@ -12,7 +12,6 @@ describe("CalendarComponent", () => {
   let fixture: ComponentFixture<CalendarComponent>;
   beforeEach(() => {
     return MockBuilder(CalendarComponent)
-      .mock(NgxEchartsModule)
       .mock(WidgetConfigService)
       .provide({
         provide: WidgetManagerService,

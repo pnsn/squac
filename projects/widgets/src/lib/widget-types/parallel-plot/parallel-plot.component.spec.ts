@@ -14,7 +14,6 @@ describe("ParallelPlotComponent", () => {
 
   beforeEach(() => {
     return MockBuilder(ParallelPlotComponent)
-      .mock(NgxEchartsModule)
       .mock(WidgetConfigService)
       .provide({
         provide: WidgetManagerService,
