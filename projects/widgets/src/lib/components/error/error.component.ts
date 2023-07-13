@@ -8,6 +8,8 @@ import { Component, Input } from "@angular/core";
   template:
     '<div id="error-container" class="error column centered"><p>{{errorMsg}}</p><div>',
   styleUrls: ["./error.component.scss"],
+  standalone: true,
+  imports: [],
 })
 export class ErrorComponent {
   /** Message to display */

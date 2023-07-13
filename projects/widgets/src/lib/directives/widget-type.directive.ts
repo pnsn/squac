@@ -18,7 +18,7 @@ import { Widget } from "../models";
 import { Subscription, tap } from "rxjs";
 import { ProcessedData, WidgetTypeComponent } from "../interfaces";
 import { WIDGET_TYPE_INFO } from "../constants";
-import { ErrorComponent } from "../shared/components/error/error.component";
+import { ErrorComponent } from "../components/error/error.component";
 
 /**
  * Directive for inserting error component or correct widget type
@@ -26,6 +26,7 @@ import { ErrorComponent } from "../shared/components/error/error.component";
 @Directive({
   selector: "[widgetContainer]",
   providers: [WidgetConfigService],
+  standalone: true,
 })
 export class WidgetTypeDirective implements OnInit, OnDestroy {
   currentWidgetType;

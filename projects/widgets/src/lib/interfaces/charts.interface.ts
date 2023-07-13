@@ -5,7 +5,7 @@ import {
   SingleAxisComponentOption,
   Color,
 } from "echarts";
-import { TypeGuard } from "../shared/pipes/guard-type.pipe";
+import { TypeGuard } from "../pipes/guard-type.pipe";
 
 /** Visual map base types */
 interface VisualMapBase {

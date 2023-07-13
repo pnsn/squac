@@ -1,7 +1,7 @@
 import { NgZone } from "@angular/core";
 import { MockBuilder } from "ng-mocks";
-import { ProcessedData } from "../../../interfaces";
-import { WidgetConnectService, WidgetManagerService } from "../../../services";
+import { ProcessedData } from "../../interfaces";
+import { WidgetConnectService, WidgetManagerService } from "../../services";
 import { EChartComponent } from "./e-chart.component";
 
 /**

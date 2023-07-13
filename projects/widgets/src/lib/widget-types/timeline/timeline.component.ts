@@ -14,11 +14,12 @@ import {
   WidgetConfigService,
 } from "../../services";
 import { isContinuous, WidgetTypeComponent } from "../../interfaces";
-import { EChartComponent } from "../../shared/components";
-import { parseUtc } from "../../shared/utils";
+import { EChartComponent } from "../../components";
+import { parseUtc } from "../../utils";
 import { ProcessedData } from "../../interfaces";
 import { LabelFormatterParams } from "../../interfaces";
 import { OpUnitType } from "dayjs";
+import { NgxEchartsModule } from "ngx-echarts";
 
 /**
  * Custom echart widget
@@ -27,6 +28,8 @@ import { OpUnitType } from "dayjs";
   selector: "widget-timeline",
   templateUrl: "../../shared/components/e-chart/e-chart.component.html",
   styleUrls: ["../../shared/components/e-chart/e-chart.component.scss"],
+  standalone: true,
+  imports: [NgxEchartsModule],
 })
 export class TimelineComponent
   extends EChartComponent

@@ -13,8 +13,9 @@ import {
   WidgetConnectService,
   WidgetManagerService,
 } from "../../services";
-import { parseUtc } from "../../shared/utils";
-import { EChartComponent } from "../../shared/components";
+import { parseUtc } from "../../utils";
+import { EChartComponent } from "../../components";
+import { NgxEchartsModule } from "ngx-echarts";
 
 /**
  * Time series widget with channels as lines
@@ -23,6 +24,8 @@ import { EChartComponent } from "../../shared/components";
   selector: "widget-timechart",
   templateUrl: "../../shared/components/e-chart/e-chart.component.html",
   styleUrls: ["../../shared/components/e-chart/e-chart.component.scss"],
+  standalone: true,
+  imports: [NgxEchartsModule],
 })
 export class TimechartComponent
   extends EChartComponent

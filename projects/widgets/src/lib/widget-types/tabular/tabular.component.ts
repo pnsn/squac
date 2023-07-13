@@ -24,12 +24,17 @@ import {
   transition,
   trigger,
 } from "@angular/animations";
-import { GenericWidgetComponent } from "../../shared/components";
+import { GenericWidgetComponent } from "../../components";
 import { Row } from "./types";
 import { Channel, MeasurementPipe } from "squacapi";
-import { MatSort } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
+import { MatSort, MatSortModule } from "@angular/material/sort";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { SelectionModel } from "@angular/cdk/collections";
+import { MatIconModule } from "@angular/material/icon";
+import { MatButtonModule } from "@angular/material/button";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { PrecisionPipe } from "../../pipes/precision.pipe";
+import { NgForOf, NgIf, NgStyle, NgTemplateOutlet } from "@angular/common";
 
 /**
  * Table based widget
@@ -47,6 +52,19 @@ import { SelectionModel } from "@angular/cdk/collections";
         animate("225ms cubic-bezier(0.4, 0.0, 0.2, 1)")
       ),
     ]),
+  ],
+  standalone: true,
+  imports: [
+    MatTableModule,
+    MatSortModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTooltipModule,
+    PrecisionPipe,
+    NgStyle,
+    NgTemplateOutlet,
+    NgForOf,
+    NgIf,
   ],
 })
 export class TabularComponent

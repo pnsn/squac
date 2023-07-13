@@ -14,7 +14,7 @@ import { WidgetErrors, WidgetType } from "../enums";
 import { WidgetConfig, WidgetDisplayOption } from "../interfaces";
 import { WidgetDataService } from ".";
 import { WIDGET_TYPE_INFO } from "../constants";
-import { ChannelComparator } from "../shared";
+import { ChannelComparator } from "../utils";
 
 /**
  * Keeps track of data shared between widget tree components

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { parseUtc, format } from "../shared/utils";
+import { parseUtc, format } from "../utils";
 import {
   MeasurementAggregatedListRequestParams,
   MeasurementDayArchivesListRequestParams,

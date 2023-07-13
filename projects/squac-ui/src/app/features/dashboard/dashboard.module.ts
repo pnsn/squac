@@ -11,15 +11,12 @@ import { DashboardEditEntryComponent } from "./pages/edit/dashboard-edit-entry.c
 import { DataTypeSelectorComponent } from "./components/data-type-selector/data-type-selector.component";
 import { ChannelFilterComponent } from "./components/channel-filter/channel-filter.component";
 import { WidgetMainComponent } from "./pages/widget-main/widget-main.component";
-import { WidgetDetailComponent } from "./components/widget-detail/widget-detail.component";
 import { WidgetEditComponent } from "./components/widget-edit/widget-edit.component";
 import { WidgetEditOptionsComponent } from "./components/widget-edit-options/widget-edit-options.component";
 import { WidgetEditEntryComponent } from "./pages/widget-edit/widget-edit-entry.component";
 import { WidgetEditMetricsComponent } from "./components/widget-edit-metrics/widget-edit-metrics.component";
 import { WidgetEditInfoComponent } from "./components/widget-edit-info/widget-edit-info.component";
-import { MetricToggleComponent } from "./components/metric-toggle/metric-toggle.component";
 import { GridsterModule } from "angular-gridster2";
-import { WidgetsModule } from "widgets";
 import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
 import { LoadingDirective } from "@shared/directives/loading-directive.directive";
 import { MatCheckboxModule } from "@angular/material/checkbox";
@@ -38,6 +35,7 @@ import { MatStepperModule } from "@angular/material/stepper";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatInputModule } from "@angular/material/input";
 import { TooltipDirective } from "@shared/directives/tooltip.directive";
+import { WidgetDetailComponent } from "./components/detail/widget-detail.component";
 
 /** Dashboard feature module */
 @NgModule({
@@ -47,16 +45,15 @@ import { TooltipDirective } from "@shared/directives/tooltip.directive";
     DashboardViewComponent,
     DashboardEditEntryComponent,
     WidgetMainComponent,
-    WidgetDetailComponent,
     WidgetEditComponent,
     WidgetEditOptionsComponent,
     WidgetEditEntryComponent,
   ],
   imports: [
+    WidgetDetailComponent,
     DashboardEditComponent,
     WidgetEditMetricsComponent,
     WidgetEditInfoComponent,
-    MetricToggleComponent,
     ChannelFilterComponent,
     DataTypeSelectorComponent,
     MatCheckboxModule,
@@ -75,7 +72,6 @@ import { TooltipDirective } from "@shared/directives/tooltip.directive";
     MatStepperModule,
     MatSidenavModule,
     GridsterModule,
-    WidgetsModule,
     DashboardRoutingModule,
     SharedModule,
     AbilityModule,

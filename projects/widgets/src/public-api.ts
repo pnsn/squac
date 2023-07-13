@@ -8,5 +8,4 @@ export * from "./lib/services";
 // export * from "./lib/utils";
 export * from "./lib/constants";
 export * from "./lib/models";
-export * from "./lib/shared/components";
-export * from "./lib/widgets.module";
+export * from "./lib/components";

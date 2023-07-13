@@ -5,8 +5,8 @@ import {
   OnDestroy,
   OnInit,
 } from "@angular/core";
-import { ProcessedData, VisualMap, WidgetConfig } from "../../interfaces";
-import { WidgetConnectService, WidgetManagerService } from "../../services";
+import { ProcessedData, VisualMap, WidgetConfig } from "../interfaces";
+import { WidgetConnectService, WidgetManagerService } from "../services";
 import { Channel, Metric } from "squacapi";
 import { WidgetProperties } from "squacapi";
 import { Subscription } from "rxjs";

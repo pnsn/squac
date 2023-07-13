@@ -1,9 +1,9 @@
 import { Component, NgZone, OnDestroy } from "@angular/core";
 import { EChartsOption, EChartsType } from "echarts";
 
-import { WidgetConnectService, WidgetManagerService } from "../../../services";
+import { WidgetConnectService, WidgetManagerService } from "../../services";
 import { GenericWidgetComponent } from "..";
-import { WidgetTypeComponent } from "../../../interfaces";
+import { WidgetTypeComponent } from "../../interfaces";
 import { ECHART_DEFAULTS, ECHART_DENSE_DEFAULTS } from "./chart-config";
 
 /**

@@ -16,9 +16,17 @@ import {
   WidgetConnectService,
   WidgetDataService,
   WidgetManagerService,
+  WidgetTypeDirective,
 } from "widgets";
 import { Threshold } from "squacapi";
 import { WidgetDisplayOption, WidgetConfig, Widget } from "widgets";
+import { AsyncPipe, NgFor, NgIf } from "@angular/common";
+import { MatButtonModule } from "@angular/material/button";
+import { MatMenuModule } from "@angular/material/menu";
+import { TooltipDirective } from "@shared/directives/tooltip.directive";
+import { LoadingDirective } from "@shared/directives/loading-directive.directive";
+import { MatIconModule } from "@angular/material/icon";
+import { MetricToggleComponent } from "../metric-toggle/metric-toggle.component";
 
 /**
  * Component for displaying a single widget
@@ -28,6 +36,19 @@ import { WidgetDisplayOption, WidgetConfig, Widget } from "widgets";
   templateUrl: "./widget-detail.component.html",
   styleUrls: ["./widget-detail.component.scss"],
   providers: [WidgetManagerService, WidgetDataService],
+  standalone: true,
+  imports: [
+    NgIf,
+    NgFor,
+    TooltipDirective,
+    MetricToggleComponent,
+    MatButtonModule,
+    MatMenuModule,
+    AsyncPipe,
+    LoadingDirective,
+    MatIconModule,
+    WidgetTypeDirective,
+  ],
 })
 export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
   subscription = new Subscription();
