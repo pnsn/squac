@@ -9,7 +9,7 @@ import { ECHART_DEFAULTS, ECHART_DENSE_DEFAULTS } from "./chart-config";
 /**
  * Class to make creation of Echart widgets simpler
  */
-@Component({ template: "" })
+@Component({ template: "", standalone: true })
 // extends GenericWidgetComponent
 export abstract class EChartComponent
   extends GenericWidgetComponent

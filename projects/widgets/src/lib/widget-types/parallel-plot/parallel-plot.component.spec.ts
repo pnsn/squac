@@ -4,7 +4,6 @@ import { WidgetManagerService } from "../../services/widget-manager.service";
 import { WidgetConfigService } from "../../services/widget-config.service";
 import { MockBuilder } from "ng-mocks";
 import { of } from "rxjs";
-
 import { ParallelPlotComponent } from "./parallel-plot.component";
 
 describe("ParallelPlotComponent", () => {

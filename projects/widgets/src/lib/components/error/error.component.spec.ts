@@ -8,7 +8,7 @@ describe("ErrorComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ErrorComponent],
+      imports: [ErrorComponent],
     }).compileComponents();
   }));
 

@@ -1,4 +1,10 @@
-import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
+import {
+  Component,
+  forwardRef,
+  NgZone,
+  OnDestroy,
+  OnInit,
+} from "@angular/core";
 import { Measurement } from "squacapi";
 
 import { PrecisionPipe } from "../../pipes/precision.pipe";
@@ -15,8 +21,8 @@ import {
   tooltipFormatter,
   weekTimeXAxisConfig,
   weekXAxisConfig,
-} from "./config";
-import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
+} from "./echart.config";
+import { NgxEchartsModule } from "ngx-echarts";
 import { EChartComponent } from "../../components/e-chart/e-chart.component";
 
 /**
@@ -29,12 +35,6 @@ import { EChartComponent } from "../../components/e-chart/e-chart.component";
   styleUrls: ["../../components/e-chart/e-chart.component.scss"],
   standalone: true,
   imports: [NgxEchartsModule],
-  providers: [
-    {
-      provide: NGX_ECHARTS_CONFIG,
-      useFactory: () => ({ echarts: () => import("echarts") }),
-    },
-  ],
 })
 export class CalendarComponent
   extends EChartComponent

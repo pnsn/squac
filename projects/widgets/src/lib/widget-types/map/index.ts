@@ -1,2 +1,2 @@
-export * from "./map.component";
 export * from "./config";
+export * from "./map.component";
