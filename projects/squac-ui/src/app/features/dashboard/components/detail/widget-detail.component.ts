@@ -64,7 +64,7 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
   initialMetrics: Metric[];
   thresholds: Threshold[];
 
-  widgetType: WidgetConfig;
+  widgetConfig: WidgetConfig;
   displayType: WidgetDisplayOption;
   @ViewChild("widgetChild") widgetChild: any;
 
@@ -167,9 +167,9 @@ export class WidgetDetailComponent implements OnDestroy, OnChanges, OnInit {
    */
   initWidget(widget: Widget): void {
     // widget manager will check if valid
-    this.widgetType = this.widgetManager.widgetConfig;
+    this.widgetConfig = this.widgetManager.widgetConfig;
     this.displayType = this.widgetManager.widgetDisplayOption;
-    this.expectedMetrics = this.widgetType.minMetrics;
+    this.expectedMetrics = this.widgetConfig.minMetrics;
     this.initialMetrics = widget.metrics.slice();
     this.thresholds = widget.thresholds.slice();
     if ("showLegend" in this.widget.properties) {

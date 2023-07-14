@@ -9,15 +9,15 @@ import {
   WidgetConfigService,
 } from "../../services";
 import { ProcessedData, WidgetTypeComponent } from "../../interfaces";
-import { EChartComponent } from "../../components";
 import { parseUtc } from "../../utils";
 import {
   singleXAxisConfig,
   tooltipFormatter,
   weekTimeXAxisConfig,
   weekXAxisConfig,
-} from "./chart-config";
-import { NgxEchartsModule } from "ngx-echarts";
+} from "./config";
+import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
+import { EChartComponent } from "../../components/e-chart/e-chart.component";
 
 /**
  * Chart that plots channels as the y axis and time,
@@ -29,6 +29,12 @@ import { NgxEchartsModule } from "ngx-echarts";
   styleUrls: ["../../components/e-chart/e-chart.component.scss"],
   standalone: true,
   imports: [NgxEchartsModule],
+  providers: [
+    {
+      provide: NGX_ECHARTS_CONFIG,
+      useFactory: () => ({ echarts: () => import("echarts") }),
+    },
+  ],
 })
 export class CalendarComponent
   extends EChartComponent

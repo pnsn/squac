@@ -12,7 +12,7 @@
       *ngIf="!error"
     >
       <button
-        *ngIf="widgetType && widgetType.zoomControls"
+        *ngIf="widgetConfig && widgetConfig.zoomControls"
         mat-icon-button
         class="dense-icon-button"
         [color]="zooming === 'start' ? 'accent' : ''"
@@ -23,7 +23,7 @@
         <mat-icon class="small">zoom_in</mat-icon>
       </button>
       <button
-        *ngIf="widgetType && widgetType.zoomControls"
+        *ngIf="widgetConfig && widgetConfig.zoomControls"
         class="dense-icon-button"
         mat-icon-button
         (click)="updateZoom('reset')"
@@ -33,7 +33,7 @@
         <mat-icon class="small">zoom_out</mat-icon>
       </button>
       <button
-        *ngIf="widgetType && widgetType.toggleKey"
+        *ngIf="widgetConfig && widgetConfig.toggleKey"
         class="dense-icon-button"
         mat-icon-button
         [color]="showKey ? 'primary' : 'gray'"

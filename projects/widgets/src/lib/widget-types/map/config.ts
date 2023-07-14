@@ -2,7 +2,7 @@ import { WidgetTypeInfo } from "../../constants";
 import { MapComponent } from "./map.component";
 
 /** config for map component */
-export const CONFIG: WidgetTypeInfo = {
+export const MAP_CONFIG: WidgetTypeInfo = {
   component: MapComponent,
   config: {
     name: "map",

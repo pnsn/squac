@@ -14,7 +14,6 @@ describe("ScatterPlotComponent", () => {
 
   beforeEach(() => {
     return MockBuilder(ScatterPlotComponent)
-      .mock(NgxEchartsModule)
       .mock(WidgetConfigService)
       .provide({
         provide: WidgetManagerService,

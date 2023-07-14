@@ -2,7 +2,7 @@ import { WidgetTypeInfo } from "../../constants";
 import { TabularComponent } from "./tabular.component";
 
 /** Chart config for tabular component */
-export const CONFIG: WidgetTypeInfo = {
+export const TABULAR_CONFIG: WidgetTypeInfo = {
   component: TabularComponent,
   config: {
     name: "table",

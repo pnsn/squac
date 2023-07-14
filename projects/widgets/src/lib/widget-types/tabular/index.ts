@@ -1,2 +1,2 @@
-export * from "./chart-config";
+export * from "./config";
 export * from "./tabular.component";

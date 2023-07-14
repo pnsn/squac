@@ -14,7 +14,6 @@ describe("TimechartComponent", () => {
 
   beforeEach(() => {
     return MockBuilder(TimechartComponent)
-      .mock(NgxEchartsModule)
       .mock(WidgetConfigService)
       .provide({
         provide: WidgetManagerService,

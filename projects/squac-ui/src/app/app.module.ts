@@ -19,11 +19,13 @@ import {
 import {
   AggregateFactory,
   DayArchiveFactory,
+  DEFAULT_WIDGET_TYPES,
   FakeMeasurementBackend,
   HourArchiveFactory,
   MeasurementFactory,
   MonthArchiveFactory,
   WeekArchiveFactory,
+  WIDGET_TYPES,
 } from "widgets";
 import { environment } from "../environments/environment";
 import { AppRoutingModule } from "./app-routing.module";
@@ -60,7 +62,10 @@ import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
       provide: STEPPER_GLOBAL_OPTIONS,
       useValue: { showError: true },
     },
-
+    {
+      provide: WIDGET_TYPES,
+      useValue: DEFAULT_WIDGET_TYPES,
+    },
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     {
       provide: HTTP_INTERCEPTORS,

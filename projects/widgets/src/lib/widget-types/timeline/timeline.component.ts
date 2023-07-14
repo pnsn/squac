@@ -14,7 +14,7 @@ import {
   WidgetConfigService,
 } from "../../services";
 import { isContinuous, WidgetTypeComponent } from "../../interfaces";
-import { EChartComponent } from "../../components";
+import { EChartComponent } from "../../components/e-chart/e-chart.component";
 import { parseUtc } from "../../utils";
 import { ProcessedData } from "../../interfaces";
 import { LabelFormatterParams } from "../../interfaces";

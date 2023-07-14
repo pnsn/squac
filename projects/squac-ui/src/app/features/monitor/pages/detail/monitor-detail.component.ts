@@ -104,7 +104,7 @@ export class MonitorDetailComponent implements OnInit, AfterViewInit {
     dashboard: 1,
     metrics: [],
     properties: {},
-    type: WidgetType.TIMESERIES,
+    type: "timeseries",
   });
   /** currently selected alert */
   selectedAlert: Alert;
@@ -242,7 +242,7 @@ export class MonitorDetailComponent implements OnInit, AfterViewInit {
             results.channelGroup.channels as Channel[]
           );
 
-          this.widgetManager.updateWidgetType(WidgetType.TIMESERIES);
+          this.widgetManager.updateWidgetType("timeseries");
           this.update();
         },
       });

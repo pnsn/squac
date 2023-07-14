@@ -2,6 +2,7 @@ import { NgFor, NgIf, NgStyle } from "@angular/common";
 import {
   Component,
   EventEmitter,
+  Inject,
   Input,
   OnChanges,
   OnDestroy,
@@ -33,9 +34,10 @@ import {
   WidgetConfig,
   WidgetDisplayOption,
   WidgetType,
+  WidgetTypes,
   WIDGET_GRADIENT_COLORS,
   WIDGET_SOLID_COLORS,
-  WIDGET_TYPE_INFO,
+  WIDGET_TYPES,
 } from "widgets";
 import { OptionForm, OptionsForm, ThresholdForm } from "./interfaces";
 
@@ -74,7 +76,6 @@ export class WidgetEditOptionsComponent
   @Output() propertiesChange = new EventEmitter<any>();
 
   widgetConfig: WidgetConfig;
-  WidgetTypeInfo = WIDGET_TYPE_INFO;
   displayOption: WidgetDisplayOption;
   gradientOptions: GradientColorOption[];
   solidOptions: SolidColorOption[];
@@ -89,7 +90,10 @@ export class WidgetEditOptionsComponent
     }),
   });
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    @Inject(WIDGET_TYPES) private widgetTypes: WidgetTypes
+  ) {
     this.gradientOptions = WIDGET_GRADIENT_COLORS;
     this.solidOptions = WIDGET_SOLID_COLORS;
   }
@@ -130,7 +134,7 @@ export class WidgetEditOptionsComponent
 
     // if type changes, redo options
     if (changes["type"] && this.type) {
-      this.widgetConfig = this.WidgetTypeInfo[this.type].config;
+      this.widgetConfig = this.widgetTypes[this.type].config;
       if (!this.widgetConfig) {
         this.thresholds = [];
         this.thresholdArray.clear();

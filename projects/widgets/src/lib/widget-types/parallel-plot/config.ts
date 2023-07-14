@@ -2,7 +2,7 @@ import { WidgetTypeInfo } from "../../constants";
 import { ParallelPlotComponent } from "./parallel-plot.component";
 
 /** Parallel plot config */
-export const CONFIG: WidgetTypeInfo = {
+export const PARALLEL_CONFIG: WidgetTypeInfo = {
   component: ParallelPlotComponent,
   config: {
     name: "parallel",

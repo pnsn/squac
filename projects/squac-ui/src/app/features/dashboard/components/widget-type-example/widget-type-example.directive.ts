@@ -2,6 +2,7 @@ import {
   ComponentRef,
   Directive,
   ElementRef,
+  Inject,
   Injector,
   Input,
   OnChanges,
@@ -15,6 +16,8 @@ import {
   ProcessedData,
   WidgetConfig,
   WidgetTypeComponent,
+  WidgetTypes,
+  WIDGET_TYPES,
 } from "widgets";
 import {
   WidgetConfigService,
@@ -31,7 +34,6 @@ import {
   starttime,
 } from "./widget-example-config";
 import { WidgetType } from "widgets";
-import { WIDGET_TYPE_INFO } from "widgets";
 
 /**
  * Directive for adding a widget with fake data
@@ -64,7 +66,8 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
     protected readonly viewContainerRef: ViewContainerRef,
     protected widgetConfigService: WidgetConfigService,
     protected widgetDataService: WidgetDataService,
-    private dateService: DateService
+    private dateService: DateService,
+    @Inject(WIDGET_TYPES) private widgetTypes: WidgetTypes
   ) {}
 
   /** set up widget manager and metrics */
@@ -181,7 +184,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
     const widgetType = this.type;
     if (widgetType) {
       this.widgetManager.widgetType = widgetType;
-      const widgetConfig = WIDGET_TYPE_INFO[widgetType].config;
+      const widgetConfig = this.widgetTypes[widgetType].config;
 
       const displayOptions = widgetConfig.displayOptions;
 
@@ -209,7 +212,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
           },
         ],
       });
-      const componentType = WIDGET_TYPE_INFO[widgetType].component;
+      const componentType = this.widgetTypes[widgetType].component;
       this.addWidgetComponent(componentType, injector);
     }
   }

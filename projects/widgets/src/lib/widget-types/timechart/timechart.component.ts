@@ -14,7 +14,7 @@ import {
   WidgetManagerService,
 } from "../../services";
 import { parseUtc } from "../../utils";
-import { EChartComponent } from "../../components";
+import { EChartComponent } from "../../components/e-chart/e-chart.component";
 import { NgxEchartsModule } from "ngx-echarts";
 
 /**

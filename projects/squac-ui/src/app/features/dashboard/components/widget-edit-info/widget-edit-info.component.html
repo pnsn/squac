@@ -29,11 +29,11 @@
     <div id="mat-button-toggle-container">
       <mat-button-toggle-group formControlName="type">
         <mat-button-toggle
-          *ngFor="let widgetType of WidgetType | keyvalue"
-          [value]="widgetType.value"
+          *ngFor="let widgetType of WidgetType"
+          [value]="widgetType"
         >
           <div class="type-label">
-            {{ WidgetTypeInfo[widgetType.value].config.name | titlecase }}
+            {{ widgetTypes[widgetType].config.name | titlecase }}
           </div>
         </mat-button-toggle>
       </mat-button-toggle-group>
@@ -41,13 +41,13 @@
 
 
     <ng-container *ngIf="previewType; else selectWidget">
-      <ng-container *ngIf="WidgetTypeInfo[previewType].config as config">
+      <ng-container *ngIf="widgetTypes[previewType].config as config">
         <div
           class="type-detail-container"
           (click)="updateType()"
         >
           <div class="label">
-            {{ WidgetTypeInfo[previewType].config.name | titlecase }} Widget:
+            {{ widgetTypes[previewType].config.name | titlecase }} Widget:
           </div>
 
           <!-- <div class="label">Description:</div> -->

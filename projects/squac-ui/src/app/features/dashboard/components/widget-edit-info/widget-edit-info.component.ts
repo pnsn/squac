@@ -1,11 +1,18 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  OnInit,
+  Output,
+} from "@angular/core";
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { WIDGET_TYPE_INFO, WIDGET_STAT_TYPE_NAMES } from "widgets";
+import { WIDGET_STAT_TYPE_NAMES, WIDGET_TYPES, WidgetTypes } from "widgets";
 import { WidgetConfig } from "widgets";
 import { WidgetType } from "widgets";
 import { WidgetProperties, WidgetStatType } from "squacapi";
@@ -71,7 +78,6 @@ export class WidgetEditInfoComponent implements OnInit {
 
   previewType: WidgetType;
   WidgetType = WidgetType;
-  WidgetTypeInfo = WIDGET_TYPE_INFO;
   WidgetStatType = WidgetStatType;
   WIDGET_STAT_TYPE_NAMES = WIDGET_STAT_TYPE_NAMES;
   widgetConfig: WidgetConfig;
@@ -87,7 +93,7 @@ export class WidgetEditInfoComponent implements OnInit {
     stat: new FormControl<WidgetStatType>("latest", Validators.required), // default is raw data
     displayType: new FormControl<string>(""),
   });
-
+  constructor(@Inject(WIDGET_TYPES) protected widgetTypes: WidgetTypes) {}
   /** init widget form change subscriptions */
   ngOnInit(): void {
     this.widgetForm.get("displayType").valueChanges.subscribe((displayType) => {
@@ -153,7 +159,7 @@ export class WidgetEditInfoComponent implements OnInit {
    */
   changeTypes(): void {
     if (this.type) {
-      this.widgetConfig = this.WidgetTypeInfo[this.type].config;
+      this.widgetConfig = this.widgetTypes[this.type].config;
       // default to 'mean'
       if (!this.stat) {
         this.stat = "mean";

@@ -2,12 +2,12 @@ import { Component, NgZone, OnDestroy } from "@angular/core";
 import { EChartsOption, EChartsType } from "echarts";
 
 import { WidgetConnectService, WidgetManagerService } from "../../services";
-import { GenericWidgetComponent } from "..";
+import { GenericWidgetComponent } from "../generic-widget.component";
 import { WidgetTypeComponent } from "../../interfaces";
 import { ECHART_DEFAULTS, ECHART_DENSE_DEFAULTS } from "./chart-config";
 
 /**
- * Abstract class to make creation of Echart widgets simpler
+ * Class to make creation of Echart widgets simpler
  */
 @Component({ template: "" })
 // extends GenericWidgetComponent

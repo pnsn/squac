@@ -2,7 +2,7 @@ import { WidgetTypeInfo } from "../../constants";
 import { ScatterPlotComponent } from "./scatter-plot.component";
 
 /** Scatter plot config */
-export const CONFIG: WidgetTypeInfo = {
+export const SCATTER_CONFIG: WidgetTypeInfo = {
   component: ScatterPlotComponent,
   config: {
     name: "scatter",

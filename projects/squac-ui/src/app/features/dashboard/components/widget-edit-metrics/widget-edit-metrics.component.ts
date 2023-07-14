@@ -9,6 +9,7 @@ import {
   EventEmitter,
   SimpleChanges,
   OnChanges,
+  Inject,
 } from "@angular/core";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -16,7 +17,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { Metric } from "squacapi";
-import { WIDGET_TYPE_INFO } from "widgets";
+import { WidgetTypes, WIDGET_TYPES } from "widgets";
 import { WidgetType } from "widgets";
 
 // TODO: make sortable/draggable
@@ -57,6 +58,8 @@ export class WidgetEditMetricsComponent implements OnInit, OnChanges {
   /** selection on alert table */
   selection: SelectionModel<Metric> = new SelectionModel(true, []);
 
+  constructor(@Inject(WIDGET_TYPES) private widgetTypes: WidgetTypes) {}
+
   /** init columns */
   ngOnInit(): void {
     this.dataSource.sort = this.sort;
@@ -82,7 +85,7 @@ export class WidgetEditMetricsComponent implements OnInit, OnChanges {
 
     // change min length when type changes
     if (changes["type"] && this.type) {
-      const selectedType = WIDGET_TYPE_INFO[this.type].config;
+      const selectedType = this.widgetTypes[this.type].config;
       this.minLength = selectedType?.minMetrics || 1;
       this.checkValid();
     }
