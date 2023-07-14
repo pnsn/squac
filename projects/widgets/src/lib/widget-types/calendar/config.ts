@@ -1,8 +1,6 @@
 import { WidgetTypeInfo } from "../../constants";
 import { CalendarComponent } from "./calendar.component";
 
-import { forwardRef } from "@angular/core";
-
 /** config for calendar component */
 export const CALENDAR_CONFIG: WidgetTypeInfo = {
   component: CalendarComponent,

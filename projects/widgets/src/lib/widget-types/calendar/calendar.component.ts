@@ -1,10 +1,4 @@
-import {
-  Component,
-  forwardRef,
-  NgZone,
-  OnDestroy,
-  OnInit,
-} from "@angular/core";
+import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
 import { Measurement } from "squacapi";
 
 import { PrecisionPipe } from "../../pipes/precision.pipe";

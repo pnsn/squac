@@ -1,6 +1,6 @@
 import { TestBed } from "@angular/core/testing";
 import { MockBuilder } from "ng-mocks";
-import { of, Subject } from "rxjs";
+import { of } from "rxjs";
 import { MeasurementService } from "squacapi";
 
 import { WidgetDataService } from "./widget-data.service";
