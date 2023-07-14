@@ -49,7 +49,6 @@ import {
   WidgetConfigService,
   WidgetDataService,
   WidgetManagerService,
-  WidgetType,
 } from "widgets";
 
 /** loading indicator areas */
