@@ -13,7 +13,7 @@ import {
   graphic,
   TooltipComponentFormatterCallbackParams,
 } from "echarts";
-import { NgxEchartsModule } from "ngx-echarts";
+import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
 import { Alert, MeasurementPipe, Monitor, Trigger } from "squacapi";
 import {
   EChartComponent,
@@ -32,6 +32,14 @@ import {
   styleUrls: ["./monitor-history-chart.component.scss"],
   standalone: true,
   imports: [NgxEchartsModule],
+  providers: [
+    {
+      provide: NGX_ECHARTS_CONFIG,
+      useFactory: (): unknown => ({
+        echarts: (): unknown => import("echarts"),
+      }),
+    },
+  ],
 })
 export class MonitorHistoryChartComponent extends EChartComponent {
   /** monitor to display on chart */

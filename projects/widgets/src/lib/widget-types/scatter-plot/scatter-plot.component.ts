@@ -13,7 +13,7 @@ import {
 import { ProcessedData, WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../../components/e-chart/e-chart.component";
 import { TooltipComponentFormatterCallbackParams } from "echarts";
-import { NgxEchartsModule } from "ngx-echarts";
+import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
 
 /**
  * Scatter plot widget
@@ -24,6 +24,14 @@ import { NgxEchartsModule } from "ngx-echarts";
   styleUrls: ["../../components/e-chart/e-chart.component.scss"],
   standalone: true,
   imports: [NgxEchartsModule],
+  providers: [
+    {
+      provide: NGX_ECHARTS_CONFIG,
+      useFactory: (): unknown => ({
+        echarts: (): unknown => import("echarts"),
+      }),
+    },
+  ],
 })
 export class ScatterPlotComponent
   extends EChartComponent

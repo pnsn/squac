@@ -16,7 +16,7 @@ import {
   weekTimeXAxisConfig,
   weekXAxisConfig,
 } from "./echart.config";
-import { NgxEchartsModule } from "ngx-echarts";
+import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
 import { EChartComponent } from "../../components/e-chart/e-chart.component";
 
 /**
@@ -29,6 +29,14 @@ import { EChartComponent } from "../../components/e-chart/e-chart.component";
   styleUrls: ["../../components/e-chart/e-chart.component.scss"],
   standalone: true,
   imports: [NgxEchartsModule],
+  providers: [
+    {
+      provide: NGX_ECHARTS_CONFIG,
+      useFactory: (): unknown => ({
+        echarts: (): unknown => import("echarts"),
+      }),
+    },
+  ],
 })
 export class CalendarComponent
   extends EChartComponent

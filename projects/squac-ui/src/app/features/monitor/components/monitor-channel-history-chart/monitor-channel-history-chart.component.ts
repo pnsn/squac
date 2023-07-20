@@ -8,7 +8,7 @@ import {
 import { DateService } from "@core/services/date.service";
 import { LoadingService } from "@core/services/loading.service";
 import { DatasetComponentOption } from "echarts";
-import { NgxEchartsModule } from "ngx-echarts";
+import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
 import {
   Alert,
   BreachingChannel,
@@ -33,6 +33,14 @@ import {
   styleUrls: ["./monitor-channel-history-chart.component.scss"],
   standalone: true,
   imports: [NgxEchartsModule],
+  providers: [
+    {
+      provide: NGX_ECHARTS_CONFIG,
+      useFactory: (): unknown => ({
+        echarts: (): unknown => import("echarts"),
+      }),
+    },
+  ],
 })
 export class MonitorChannelHistoryChartComponent extends EChartComponent {
   /** monitor to display on chart  */

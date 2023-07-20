@@ -19,7 +19,7 @@ import { parseUtc } from "../../utils";
 import { ProcessedData } from "../../interfaces";
 import { LabelFormatterParams } from "../../interfaces";
 import { OpUnitType } from "dayjs";
-import { NgxEchartsModule } from "ngx-echarts";
+import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
 
 /**
  * Custom echart widget
@@ -30,6 +30,14 @@ import { NgxEchartsModule } from "ngx-echarts";
   styleUrls: ["../../components/e-chart/e-chart.component.scss"],
   standalone: true,
   imports: [NgxEchartsModule],
+  providers: [
+    {
+      provide: NGX_ECHARTS_CONFIG,
+      useFactory: (): unknown => ({
+        echarts: (): unknown => import("echarts"),
+      }),
+    },
+  ],
 })
 export class TimelineComponent
   extends EChartComponent

@@ -15,7 +15,7 @@ import {
 } from "../../services";
 import { parseUtc } from "../../utils";
 import { EChartComponent } from "../../components/e-chart/e-chart.component";
-import { NgxEchartsModule } from "ngx-echarts";
+import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
 
 /**
  * Time series widget with channels as lines
@@ -26,6 +26,14 @@ import { NgxEchartsModule } from "ngx-echarts";
   styleUrls: ["../../components/e-chart/e-chart.component.scss"],
   standalone: true,
   imports: [NgxEchartsModule],
+  providers: [
+    {
+      provide: NGX_ECHARTS_CONFIG,
+      useFactory: (): unknown => ({
+        echarts: (): unknown => import("echarts"),
+      }),
+    },
+  ],
 })
 export class TimechartComponent
   extends EChartComponent
