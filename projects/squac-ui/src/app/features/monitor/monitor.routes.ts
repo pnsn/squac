@@ -1,8 +1,8 @@
 import { Routes } from "@angular/router";
 import { AuthGuard } from "@core/guards/auth.guard";
-import { MonitorResolver } from "@core/resolvers/monitor.resolver";
-import { MetricResolver } from "@core/resolvers/metric.resolver";
-import { ChannelGroupResolver } from "@core/resolvers/channel-group.resolver";
+import { MonitorResolver } from "@core/pages/resolvers/monitor.resolver";
+import { MetricResolver } from "@core/pages/resolvers/metric.resolver";
+import { ChannelGroupResolver } from "@core/pages/resolvers/channel-group.resolver";
 
 export const MONITOR_ROUTES: Routes = [
   {

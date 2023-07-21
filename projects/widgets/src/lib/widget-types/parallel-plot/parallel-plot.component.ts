@@ -10,7 +10,7 @@ import {
   ParallelSeriesOption,
   TooltipComponentFormatterCallbackParams,
 } from "echarts";
-import { NgxEchartsModule } from "ngx-echarts";
+import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
 
 /**
  * Parallel plot widget, shows multiple metrics on parallel axes
@@ -21,6 +21,14 @@ import { NgxEchartsModule } from "ngx-echarts";
   styleUrls: ["../../components/e-chart/e-chart.component.scss"],
   standalone: true,
   imports: [NgxEchartsModule],
+  providers: [
+    {
+      provide: NGX_ECHARTS_CONFIG,
+      useFactory: (): unknown => ({
+        echarts: (): unknown => import("echarts"),
+      }),
+    },
+  ],
 })
 export class ParallelPlotComponent
   extends EChartComponent

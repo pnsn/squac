@@ -1,4 +1,4 @@
-import { Injectable, NgZone, OnDestroy } from "@angular/core";
+import { Injectable, OnDestroy } from "@angular/core";
 import {
   catchError,
   EMPTY,
@@ -62,8 +62,7 @@ export class WidgetDataService implements OnDestroy {
     private aggregateService: AggregateService,
     private dayArchiveService: DayArchiveService,
     private monthArchiveService: MonthArchiveService,
-    private weekArchiveService: WeekArchiveService,
-    private ngZone: NgZone
+    private weekArchiveService: WeekArchiveService
   ) {
     // listen to param changes and make request
     this.measurementReq$ = this.paramsObs$.pipe(

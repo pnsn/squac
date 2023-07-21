@@ -1,7 +1,7 @@
 import { Routes } from "@angular/router";
 import { AuthGuard } from "@core/guards/auth.guard";
-import { ChannelGroupResolver } from "@core/resolvers/channel-group.resolver";
-import { MatchingRuleResolver } from "@core/resolvers/matching-rule.resolver";
+import { ChannelGroupResolver } from "@core/pages/resolvers/channel-group.resolver";
+import { MatchingRuleResolver } from "@core/pages/resolvers/matching-rule.resolver";
 
 export const CHANNEL_GROUP_ROUTES: Routes = [
   {

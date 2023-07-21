@@ -1,4 +1,4 @@
-import { LocalStorageTypes } from "./services/local-storage.service";
+import { LocalStorageTypes } from "../services/local-storage.service";
 
 /** route patterns that can be cached */
 export const CACHEABLE_ROUTE_PATTERNS: Record<string, any> = {

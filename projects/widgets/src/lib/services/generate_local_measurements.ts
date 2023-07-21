@@ -1,6 +1,9 @@
-import { Injectable } from "@angular/core";
+import { forwardRef, Inject, inject, Injectable } from "@angular/core";
 import { parseUtc, format } from "../utils";
 import {
+  ApiService,
+  BASE_PATH,
+  Configuration,
   MeasurementAggregatedListRequestParams,
   MeasurementDayArchivesListRequestParams,
   MeasurementHourArchivesListRequestParams,
@@ -17,9 +20,11 @@ import {
   ReadOnlyAggregateSerializer,
   Channel,
   MeasurementParams,
+  ChannelGroup,
 } from "squacapi";
 import { ChannelGroupService } from "squacapi";
 import { map, Observable, of } from "rxjs";
+import { HttpClient, HttpContext } from "@angular/common/http";
 
 type TimeInterval = "minutes" | "day" | "hour" | "week" | "month";
 
@@ -38,13 +43,23 @@ interface DataParams {
 }
 
 /**
+ * Returns random number between 0 and maxValue
+ *
+ * @param maxValue max value to generate
+ * @returns random number
+ */
+function getRandom(maxValue = 100): number {
+  return Math.random() * maxValue;
+}
+
+/**
  * Fakes measurement backends for local
  */
 @Injectable({
   providedIn: "root",
 })
 export class FakeMeasurementBackend {
-  constructor(private channelGroupService: ChannelGroupService) {}
+  channelGroupService = inject(ChannelGroupService);
 
   /**
    * Request channels for channel group and maps ids
@@ -52,22 +67,14 @@ export class FakeMeasurementBackend {
    * @param group group id
    * @returns observable of channel ids
    */
-  private channelsFromGroup(group: number): Observable<number[]> {
+  private getChannelsFromGroup(group: number): Observable<number[]> {
     return this.channelGroupService.read(group).pipe(
-      map((cg) => {
+      map((cg: ChannelGroup) => {
         return cg.channels.map((channel: Channel) => channel.id);
       })
     );
   }
-  /**
-   * Returns random number between 0 and maxValue
-   *
-   * @param maxValue max value to generate
-   * @returns random number
-   */
-  private getRandom(maxValue = 100): number {
-    return Math.random() * maxValue;
-  }
+
   /**
    * Returns channel parameters from group id or channel ids
    *
@@ -76,7 +83,7 @@ export class FakeMeasurementBackend {
    */
   private getChannels(params: MeasurementParams): Observable<number[]> {
     if (params.group) {
-      return this.channelsFromGroup(params.group[0]);
+      return this.getChannelsFromGroup(params.group[0]);
     } else if (params.channel) {
       return of(params.channel);
     }
@@ -93,7 +100,7 @@ export class FakeMeasurementBackend {
     return {
       starttime: params.starttime,
       endtime: params.endtime,
-      value: this.getRandom(params.maxValue),
+      value: getRandom(params.maxValue),
       metric: params.metric,
       channel: params.channel,
     };
@@ -112,7 +119,7 @@ export class FakeMeasurementBackend {
     | ReadOnlyArchiveHourSerializer
     | ReadOnlyArchiveMonthSerializer
     | ReadOnlyArchiveWeekSerializer {
-    const value = this.getRandom(params.maxValue);
+    const value = getRandom(params.maxValue);
     return {
       starttime: params.starttime,
       endtime: params.endtime,
@@ -141,7 +148,7 @@ export class FakeMeasurementBackend {
    * @returns aggregate
    */
   aggregate(params: DataParams): ReadOnlyAggregateSerializer {
-    const value = this.getRandom(params.maxValue) - 40;
+    const value = getRandom(params.maxValue) - 40;
 
     return {
       starttime: params.starttime,
@@ -191,7 +198,7 @@ export class FakeMeasurementBackend {
       endtime = s;
     }
     params.metric.forEach((m: number) => {
-      const metricMax = this.getRandom();
+      const metricMax = getRandom();
       channels.forEach((c: number) => {
         let currentTime = starttime;
         while (currentTime < endtime) {
@@ -247,100 +254,88 @@ export class FakeMeasurementBackend {
     );
   }
 
-  /**
-   * Measurement list function
-   *
-   * @param params measurement params
-   * @returns observable of measurement data
-   */
+  /** @override */
   measurementMeasurementsList(
-    params: MeasurementMeasurementsListRequestParams
-  ): Observable<ReadOnlyMeasurementSerializer[]> {
+    requestParameters: MeasurementMeasurementsListRequestParams,
+    _observe?: any,
+    _reportProgress?: boolean,
+    _options?: { httpHeaderAccept?: "application/json"; context?: HttpContext }
+  ): any {
     return this.getList<ReadOnlyMeasurementSerializer>(
-      params,
+      requestParameters,
       this.measurement.bind(this),
       10,
       "minutes"
     );
   }
 
-  /**
-   * Aggregated list function
-   *
-   * @param params aggregated params
-   * @returns observable of aggregated data
-   */
+  /** @override */
   measurementAggregatedList(
-    params: MeasurementAggregatedListRequestParams
-  ): Observable<ReadOnlyAggregateSerializer[]> {
+    requestParameters: MeasurementAggregatedListRequestParams,
+    _observe?: any,
+    _reportProgress?: boolean,
+    _options?: { httpHeaderAccept?: "application/json"; context?: HttpContext }
+  ): any {
     return this.getList<ReadOnlyAggregateSerializer>(
-      params,
+      requestParameters,
       this.aggregate.bind(this)
     );
   }
 
-  /**
-   * Archive list function
-   *
-   * @param params archive params
-   * @returns observable of archives data
-   */
+  /** @override */
   measurementDayArchivesList(
-    params: MeasurementDayArchivesListRequestParams
-  ): Observable<ReadOnlyArchiveDaySerializer[]> {
+    requestParameters: MeasurementDayArchivesListRequestParams,
+    _observe?: any,
+    _reportProgress?: boolean,
+    _options?: { httpHeaderAccept?: "application/json"; context?: HttpContext }
+  ): any {
     return this.getList<ReadOnlyArchiveDaySerializer>(
-      params,
+      requestParameters,
       this.archive.bind(this),
       1,
       "day"
     ).pipe();
   }
 
-  /**
-   * Archive list function
-   *
-   * @param params archive params
-   * @returns observable of archives data
-   */
+  /** @override */
   measurementHourArchivesList(
-    params: MeasurementHourArchivesListRequestParams
-  ): Observable<ReadOnlyArchiveHourSerializer[]> {
-    return this.getList<ReadOnlyArchiveHourSerializer>(
-      params,
+    requestParameters: MeasurementHourArchivesListRequestParams,
+    _observe?: any,
+    _reportProgress?: boolean,
+    _options?: { httpHeaderAccept?: "application/json"; context?: HttpContext }
+  ): any {
+    return this.getList<ReadOnlyArchiveMonthSerializer>(
+      requestParameters,
       this.archive.bind(this),
       1,
-      "hour"
+      "month"
     );
   }
 
-  /**
-   * Archive list function
-   *
-   * @param params archive params
-   * @returns observable of archives data
-   */
+  /** @override */
   measurementWeekArchivesList(
-    params: MeasurementWeekArchivesListRequestParams
-  ): Observable<ReadOnlyArchiveWeekSerializer[]> {
+    requestParameters: MeasurementWeekArchivesListRequestParams,
+    _observe?: any,
+    _reportProgress?: boolean,
+    _options?: { httpHeaderAccept?: "application/json"; context?: HttpContext }
+  ): any {
     return this.getList<ReadOnlyArchiveWeekSerializer>(
-      params,
+      requestParameters,
       this.archive.bind(this),
       1,
       "week"
     );
   }
 
-  /**
-   * Archive list function
-   *
-   * @param params archive params
-   * @returns observable of archives data
-   */
+  /** @override */
   measurementMonthArchivesList(
-    params: MeasurementMonthArchivesListRequestParams
-  ): Observable<ReadOnlyArchiveMonthSerializer[]> {
+    requestParameters: MeasurementMonthArchivesListRequestParams,
+    _observe?: any,
+    _reportProgress?: boolean,
+    _options?: { httpHeaderAccept?: "application/json"; context?: HttpContext }
+  ): any {
     return this.getList<ReadOnlyArchiveMonthSerializer>(
-      params,
+      requestParameters,
       this.archive.bind(this),
       1,
       "month"

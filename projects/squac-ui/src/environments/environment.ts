@@ -8,7 +8,7 @@ export const environment = {
   API_BASE_PATH: "https://staging-squacapi.pnsn.org",
   // API_BASE_PATH: "https://squacapi.pnsn.org",
   // apiUrl: "https://squacapi.pnsn.org/",
-  fakeMeasurements: false,
+  fakeMeasurements: true,
 };
 
 /*

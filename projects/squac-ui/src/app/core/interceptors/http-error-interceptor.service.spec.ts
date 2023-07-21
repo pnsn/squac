@@ -10,7 +10,6 @@ import {
 } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { MockBuilder, MockRender, NG_MOCKS_INTERCEPTORS } from "ng-mocks";
-import { AppModule } from "../../app.module";
 import { HttpErrorInterceptor } from "./http-error-interceptor.service";
 
 describe("HttpErrorInterceptor", () => {

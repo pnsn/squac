@@ -7,6 +7,7 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
+import { MatButtonModule } from "@angular/material/button";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
@@ -66,6 +67,7 @@ enum LoadingIndicator {
   providers: [WidgetConfigService, WidgetManagerService, WidgetDataService],
   standalone: true,
   imports: [
+    MatButtonModule,
     DetailPageComponent,
     MatTableModule,
     MatSortModule,

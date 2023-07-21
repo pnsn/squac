@@ -11,13 +11,15 @@ import {
 import { FormsModule } from "@angular/forms";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
-import { Locale } from "@core/locale.constant";
+import { DEFAULT_LOCALE } from "@core/constants/locale.constant";
 import { DateService } from "@core/services/date.service";
 import dayjs from "dayjs";
 import * as timezone from "dayjs/plugin/timezone";
 import * as utc from "dayjs/plugin/utc";
 import {
   DaterangepickerDirective,
+  LocaleService,
+  LOCALE_CONFIG,
   NgxDaterangepickerMd,
 } from "ngx-daterangepicker-material";
 import { TimeRange } from "./time-range.interface";
@@ -36,6 +38,10 @@ export interface TimePeriod {
   selector: "shared-date-select",
   templateUrl: "./date-select.component.html",
   standalone: true,
+  providers: [
+    { provide: LOCALE_CONFIG, useValue: DEFAULT_LOCALE },
+    LocaleService,
+  ],
   imports: [
     NgxDaterangepickerMd,
     MatFormFieldModule,
@@ -54,8 +60,6 @@ export class DateSelectComponent implements OnInit, OnChanges {
   @Input() timeRanges: TimeRange[] = [];
   startDate: dayjs.Dayjs;
   maxDate: dayjs.Dayjs;
-  // settings for date select
-  locale: Locale;
   firstLoad = true; // only take external input changes on first load
 
   selected:
@@ -73,7 +77,6 @@ export class DateSelectComponent implements OnInit, OnChanges {
     dayjs.extend(timezone);
     this.maxDate = this.dateService.now().startOf("minute");
     this.startDate = this.dateService.now().startOf("minute");
-    this.locale = this.dateService.locale;
   }
 
   /**
