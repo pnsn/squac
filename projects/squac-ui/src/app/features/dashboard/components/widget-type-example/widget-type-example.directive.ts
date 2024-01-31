@@ -79,6 +79,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
       starttime: starttime,
       endtime: endtime,
       channels: this.channels,
+      stat: undefined,
     };
 
     this._metrics =
@@ -174,6 +175,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
         data.get(c.id).set(m.id, measurements);
       });
     });
+    console.log(data);
     return data;
   }
 
@@ -189,6 +191,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
       const displayOptions = widgetConfig.displayOptions;
 
       this.widgetManager.widgetConfig = widgetConfig;
+      this.widgetManager.stat = this.stat;
       this.widgetDataService.stat = this.stat;
       if (
         !this.properties.displayType ||
@@ -213,6 +216,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
         ],
       });
       const componentType = this.widgetTypes[widgetType].component;
+      console.log(widgetType);
       this.addWidgetComponent(componentType, injector);
     }
   }

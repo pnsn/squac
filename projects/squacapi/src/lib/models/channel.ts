@@ -44,7 +44,7 @@ export class Channel extends ReadOnlyResourceModel<
   ): void {
     super.fromRaw(data);
 
-    if ("sample_rate" in data) {
+    if ("station_code" in data) {
       //is serialized data
       this.code = data.code.toUpperCase();
       this.loc = data.loc ? data.loc.toUpperCase() : "--";
