@@ -59,6 +59,14 @@ export class Alert extends ReadOnlyResourceModel<
     return "Alert";
   }
 
+  /** Timestamps should not show decimal seconds */
+  formatTimeStamp(): void {
+    if (this.timestamp) {
+      const timestr = this.timestamp.split(".");
+      this.timestamp = timestr[0] + "Z";
+    }
+  }
+
   /** @override */
   override fromRaw(data: ReadOnlyAlertDetailSerializer | Alert): void {
     super.fromRaw(data);
@@ -78,5 +86,6 @@ export class Alert extends ReadOnlyResourceModel<
       }
       this.breachingChannels = breachingChannels;
     }
+    this.formatTimeStamp();
   }
 }
