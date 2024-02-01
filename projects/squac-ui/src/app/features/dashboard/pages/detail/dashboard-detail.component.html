@@ -101,19 +101,21 @@
       class="row"
       *ngIf="dashboard?.properties && !hideRows"
     >
-      <mat-checkbox
+      <mat-slide-toggle
         class="dense-checkbox"
         [(ngModel)]="dashboard.properties.denseView"
         (change)="toggleView()"
       >
-        Hide zoom controls
-      </mat-checkbox>
-      <mat-checkbox
+        use denser view
+      </mat-slide-toggle>
+      <mat-slide-toggle
         class="dense-checkbox"
         [(ngModel)]="channelList"
         (change)="toggleChannelList()"
       >
-        Show channel list</mat-checkbox>
+        show channel list
+      </mat-slide-toggle>
+
     </div>
   </div>
 

@@ -5,17 +5,17 @@
   opacity: 0.65;
 }
 #dashboard-header {
-  padding: 5px 10px;
+  padding: 10px 10px;
   top: 0px;
   position: sticky;
   position: -webkit-sticky;
   z-index: 100;
-  gap: 3px;
+  gap: 5px;
 
   & > .row {
     align-items: center;
     flex-wrap: wrap;
-    gap: 5px;
+    gap: 10px;
   }
   #info-row {
     justify-content: space-between;
@@ -29,7 +29,7 @@
     flex-direction: row;
     align-items: baseline;
     justify-items: flex-start;
-    gap: 3px;
+    gap: 5px;
     .mat-h2 {
       margin: 0;
     }

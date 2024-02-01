@@ -28,6 +28,7 @@ import { MatMenuModule } from "@angular/material/menu";
 import { MatIconModule } from "@angular/material/icon";
 import { AbilityModule } from "@casl/angular";
 import { FormsModule } from "@angular/forms";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 
 export enum LoadingIndicator {
   MAIN,
@@ -60,6 +61,7 @@ export enum LoadingIndicator {
     AbilityModule,
     FormsModule,
     RouterOutlet,
+    MatSlideToggleModule,
   ],
 })
 export class DashboardDetailComponent implements OnInit, OnDestroy {
