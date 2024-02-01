@@ -98,6 +98,8 @@ export class TableViewComponent
     messages: {
       emptyMessage: "No results found",
     },
+    defaultSort: "name",
+    defaultSortDir: "asc",
   };
 
   /** Mat sort directive, used to enable sorting on */

@@ -105,6 +105,8 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
       emptyMessage: "No monitors found.",
     },
     footerLabel: "Monitors",
+    defaultSort: "lastUpdate",
+    defaultSortDir: "desc",
   };
 
   // table templates

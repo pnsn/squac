@@ -86,6 +86,8 @@
       mat-table
       class="dense-table"
       matSort
+      [matSortActive]="tableOptions.defaultSort"
+      [matSortDirection]="tableOptions.defaultSortDir"
       [dataSource]="dataSource"
     >
       <ng-container

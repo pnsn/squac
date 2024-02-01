@@ -1,4 +1,5 @@
 import { TemplateRef } from "@angular/core";
+import { SortDirection } from "@angular/material/sort";
 import { SearchFilterConfig } from "../search-filter/interfaces";
 
 export type MenuAction = "edit" | "add" | "view" | "delete" | string;
@@ -40,6 +41,10 @@ export interface TableOptions {
   messages?: TableMessages;
   /** Footer label text */
   footerLabel?: string;
+  /** Default sort column */
+  defaultSort?: string;
+  /** Default diretion for sorting */
+  defaultSortDir?: SortDirection;
 }
 
 /** Table control configuration */
