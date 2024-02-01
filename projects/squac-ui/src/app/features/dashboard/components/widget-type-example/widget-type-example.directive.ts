@@ -175,7 +175,6 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
         data.get(c.id).set(m.id, measurements);
       });
     });
-    console.log(data);
     return data;
   }
 
@@ -216,7 +215,6 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
         ],
       });
       const componentType = this.widgetTypes[widgetType].component;
-      console.log(widgetType);
       this.addWidgetComponent(componentType, injector);
     }
   }

@@ -1,9 +1,6 @@
-import { forwardRef, Inject, inject, Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { parseUtc, format } from "../utils";
 import {
-  ApiService,
-  BASE_PATH,
-  Configuration,
   MeasurementAggregatedListRequestParams,
   MeasurementDayArchivesListRequestParams,
   MeasurementHourArchivesListRequestParams,
@@ -24,7 +21,7 @@ import {
 } from "squacapi";
 import { ChannelGroupService } from "squacapi";
 import { map, Observable, of } from "rxjs";
-import { HttpClient, HttpContext } from "@angular/common/http";
+import { HttpContext } from "@angular/common/http";
 
 type TimeInterval = "minutes" | "day" | "hour" | "week" | "month";
 

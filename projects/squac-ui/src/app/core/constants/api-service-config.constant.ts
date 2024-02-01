@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { forwardRef, inject, InjectionToken } from "@angular/core";
+import { inject, InjectionToken } from "@angular/core";
 import { ApiService, BASE_PATH } from "@pnsn/ngx-squacapi-client";
 import {
   AggregateService,
@@ -17,7 +17,7 @@ export const USE_FAKE_MEASUREMENTS = new InjectionToken<boolean>(
 export const MEASUREMENT_PROVIDERS = [
   {
     provide: MeasurementService,
-    useFactory: (httpClient, basePath) => {
+    useFactory: (httpClient, basePath): MeasurementService => {
       const useFakeMeasurements = inject(USE_FAKE_MEASUREMENTS);
       let service;
       if (useFakeMeasurements) {
@@ -31,7 +31,7 @@ export const MEASUREMENT_PROVIDERS = [
   },
   {
     provide: AggregateService,
-    useFactory: (httpClient, basePath) => {
+    useFactory: (httpClient, basePath): AggregateService => {
       const useFakeMeasurements = inject(USE_FAKE_MEASUREMENTS);
       let service;
       if (useFakeMeasurements) {
@@ -45,7 +45,7 @@ export const MEASUREMENT_PROVIDERS = [
   },
   {
     provide: MeasurementService,
-    useFactory: (httpClient, basePath) => {
+    useFactory: (httpClient, basePath): MeasurementService => {
       const useFakeMeasurements = inject(USE_FAKE_MEASUREMENTS);
       let service;
       if (useFakeMeasurements) {
@@ -59,7 +59,7 @@ export const MEASUREMENT_PROVIDERS = [
   },
   {
     provide: DayArchiveService,
-    useFactory: (httpClient, basePath) => {
+    useFactory: (httpClient, basePath): DayArchiveService => {
       const useFakeMeasurements = inject(USE_FAKE_MEASUREMENTS);
       let service;
       if (useFakeMeasurements) {
@@ -73,7 +73,7 @@ export const MEASUREMENT_PROVIDERS = [
   },
   {
     provide: WeekArchiveService,
-    useFactory: (httpClient, basePath) => {
+    useFactory: (httpClient, basePath): WeekArchiveService => {
       const useFakeMeasurements = inject(USE_FAKE_MEASUREMENTS);
       let service;
       if (useFakeMeasurements) {
@@ -87,7 +87,7 @@ export const MEASUREMENT_PROVIDERS = [
   },
   {
     provide: MonthArchiveService,
-    useFactory: (httpClient, basePath) => {
+    useFactory: (httpClient, basePath): MonthArchiveService => {
       const useFakeMeasurements = inject(USE_FAKE_MEASUREMENTS);
       let service;
       if (useFakeMeasurements) {
