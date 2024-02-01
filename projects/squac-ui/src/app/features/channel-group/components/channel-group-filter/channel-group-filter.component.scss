@@ -1,8 +1,9 @@
-#filter-container {
-  width: 100%;
-  gap: 3px;
+.filter-container {
+  // width: 100%;
+  width: auto;
+  gap: 10px;
   .dense-form-field {
-    width: 70px;
+    width: 90px;
     flex-grow: 1;
     max-width: 90px;
     .no-input {
@@ -12,10 +13,5 @@
     .has-input {
       display: inline-block;
     }
-  }
-  div {
-    display: flex;
-    flex-direction: row;
-    gap: 3px;
   }
 }

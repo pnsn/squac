@@ -1,118 +1,121 @@
-<div
-  id="filter-container"
-  class="row wrap space-between"
->
-  <mat-form-field
-    class="dense-form-field"
-    subscriptSizing="dynamic"
-  >
-    <input
-      matInput
-      [(ngModel)]="net"
-      placeholder="Net"
-      (input)="net = net.toUpperCase()"
-    />
-    <button
-      matIconSuffix
-      mat-icon-button
-      class="dense-icon-button"
-      [class]="net ? 'has-input' : 'no-input'"
-      aria-label="Clear"
-      (click)="net = null"
+<div class="row wrap space-between">
+  <div class="row filter-container">
+    <mat-form-field
+      class="dense-form-field"
+      subscriptSizing="dynamic"
     >
-      <mat-icon>close</mat-icon>
-    </button>
-  </mat-form-field>
-  <mat-form-field
-    class="dense-form-field"
-    subscriptSizing="dynamic"
-  >
-    <input
-      matInput
-      [(ngModel)]="sta"
-      placeholder="Sta"
-      (input)="sta = sta.toUpperCase()"
-    />
-    <button
-      matIconSuffix
-      mat-icon-button
-      class="dense-icon-button"
-      aria-label="Clear"
-      [class]="sta ? 'has-input' : 'no-input'"
-      (click)="sta = null"
+      <input
+        matInput
+        [(ngModel)]="net"
+        placeholder="Net"
+        (input)="net = net.toUpperCase()"
+      />
+      <button
+        matIconSuffix
+        mat-icon-button
+        class="dense-icon-button"
+        [class]="net ? 'has-input' : 'no-input'"
+        aria-label="Clear"
+        (click)="net = null"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field
+      class="dense-form-field"
+      subscriptSizing="dynamic"
     >
-      <mat-icon>close</mat-icon>
-    </button>
-  </mat-form-field>
-  <mat-form-field
-    class="dense-form-field"
-    subscriptSizing="dynamic"
-  >
-    <input
-      matInput
-      [(ngModel)]="loc"
-      placeholder="Loc"
-      (input)="loc = loc.toUpperCase()"
-    />
-    <button
-      matIconSuffix
-      mat-icon-button
-      aria-label="Clear"
-      class="dense-icon-button"
-      [class]="loc ? 'has-input' : 'no-input'"
-      (click)="loc = null"
+      <input
+        matInput
+        [(ngModel)]="sta"
+        placeholder="Sta"
+        (input)="sta = sta.toUpperCase()"
+      />
+      <button
+        matIconSuffix
+        mat-icon-button
+        class="dense-icon-button"
+        aria-label="Clear"
+        [class]="sta ? 'has-input' : 'no-input'"
+        (click)="sta = null"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field
+      class="dense-form-field"
+      subscriptSizing="dynamic"
     >
-      <mat-icon>close</mat-icon>
-    </button>
-  </mat-form-field>
-  <mat-form-field
-    class="dense-form-field"
-    subscriptSizing="dynamic"
-  >
-    <input
-      matInput
-      [(ngModel)]="chan"
-      placeholder="Chan"
-      (input)="chan = chan.toUpperCase()"
-    />
-    <button
-      matIconSuffix
-      mat-icon-button
-      class="dense-icon-button"
-      [class]="chan ? 'has-input' : 'no-input'"
-      aria-label="Clear"
-      (click)="chan = null"
+      <input
+        matInput
+        [(ngModel)]="loc"
+        placeholder="Loc"
+        (input)="loc = loc.toUpperCase()"
+      />
+      <button
+        matIconSuffix
+        mat-icon-button
+        aria-label="Clear"
+        class="dense-icon-button"
+        [class]="loc ? 'has-input' : 'no-input'"
+        (click)="loc = null"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field
+      class="dense-form-field"
+      subscriptSizing="dynamic"
     >
-      <mat-icon>close</mat-icon>
-    </button>
-  </mat-form-field>
+      <input
+        matInput
+        [(ngModel)]="chan"
+        placeholder="Chan"
+        (input)="chan = chan.toUpperCase()"
+      />
+      <button
+        matIconSuffix
+        mat-icon-button
+        class="dense-icon-button"
+        [class]="chan ? 'has-input' : 'no-input'"
+        aria-label="Clear"
+        (click)="chan = null"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
 
-  <button
-    mat-raised-button
-    color="accent"
-    (click)="updateFilters()"
-    uiTooltip="Search for channels"
-    aria-label="Button that searches for channels matching filters"
-  >
-    <mat-icon>search</mat-icon>
-    search
-  </button>
 
-  <button
-    mat-stroked-button
-    (click)="removeFilters()"
-    uiTooltip="Clear filters and results"
-    aria-label="Button that clears form input "
-  >
-    clear
-  </button>
-  <button
-    mat-flat-button
-    color="primary"
-    (click)="addToRegex()"
-    uiTooltip="Add filters to rules"
-    aria-label="Button that searches for channels matching filters"
-  >
-    add to rules
-  </button>
+  <div class="row filter-container">
+    <button
+      mat-raised-button
+      color="accent"
+      (click)="updateFilters()"
+      uiTooltip="Search for channels"
+      aria-label="Button that searches for channels matching filters"
+    >
+      <mat-icon>search</mat-icon>
+      search
+    </button>
+
+    <button
+      mat-stroked-button
+      (click)="removeFilters()"
+      uiTooltip="Clear filters and results"
+      aria-label="Button that clears form input "
+    >
+      clear
+    </button>
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="addToRegex()"
+      uiTooltip="Add filters to rules"
+      aria-label="Button that searches for channels matching filters"
+    >
+      add to rules
+    </button>
+  </div>
+
 </div>

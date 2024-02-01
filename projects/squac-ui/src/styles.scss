@@ -118,6 +118,10 @@ p {
   flex-direction: row;
   gap: 5px;
 }
+.align-end {
+  align-items: center;
+  justify-items: flex-end;
+}
 .wrap {
   flex-wrap: wrap;
 }
