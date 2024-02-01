@@ -10,6 +10,7 @@
   <ng-template #hasChannels>
     <mat-checkbox
       class="dense-checkbox"
+      [style.margin-bottom]="'5px'"
       type="checkbox"
       [(ngModel)]="toggledAll"
       (click)="toggleAll()"
