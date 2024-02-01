@@ -6,8 +6,8 @@
   "editor.formatOnSave": true,
   // ... more config
   "editor.codeActionsOnSave": {
-    "source.fixAll.esLint": true,
-    "source.organizeImports": false
+    "source.fixAll.esLint": "explicit",
+    "source.organizeImports": "never"
   },
   "eslint.alwaysShowStatus": true,
   "eslint.validate": [
