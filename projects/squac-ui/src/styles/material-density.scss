@@ -26,7 +26,7 @@ $dense-button-toggle-height: 32px;
 
 .dense-form-field {
   .mdc-text-field > .mat-mdc-form-field-flex > .mat-mdc-form-field-infix {
-    min-height: $dense-button-height;
+    // min-height: $dense-button-height;
     line-height: 22px;
   }
   .mat-mdc-form-field-icon-prefix > mat-icon,

@@ -18,7 +18,10 @@
     [formGroup]="loginForm"
     (ngSubmit)="onSubmit()"
   >
-    <mat-form-field appearance="outline">
+    <mat-form-field
+      appearance="outline"
+      class="dense-form-field"
+    >
       <mat-label> Email </mat-label>
       <input
         matInput
@@ -33,7 +36,10 @@
       />
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field
+      appearance="outline"
+      class="dense-form-field"
+    >
       <mat-label> Password </mat-label>
       <input
         matInput
