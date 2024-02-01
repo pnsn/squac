@@ -50,10 +50,7 @@
       id="edit-container"
       class="gray-border white-background"
     >
-      <h2
-        class="mat-h2"
-        [style.grid-area]="'title'"
-      >Add Channels to Group</h2>
+
 
       <mat-slide-toggle
         [style.grid-area]="'controls'"
@@ -74,6 +71,7 @@
       </channel-group-csv-upload>
 
       <div [style.grid-area]="'info'">
+        <h3 class="mat-h3">Add Channels to Group</h3>
         <p class="mat-body">
           Channel groups can have a fixed set of channels or can be
           automatically updated with channels that match a set of regular
@@ -103,8 +101,8 @@
             loadingService.isLoading$(this, LoadingIndicator.RESULTS) | async
           "
       >
-
         <div [style.grid-area]="'results'">
+
           <h3 class="mat-h3">Results ({{ rows.length }})</h3>
 
           <div class="row wrap align-end">
@@ -180,10 +178,10 @@
 
           <form
             [formGroup]="channelGroupForm"
-            class="column"
+            class="column gap-m"
           >
             <mat-form-field
-              class="channel-group-input"
+              class="channel-group-inpu dense-form-field"
               class="medium"
               subscriptSizing="dynamic"
             >

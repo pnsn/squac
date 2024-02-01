@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
+import { MatDividerModule } from "@angular/material/divider";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
@@ -22,6 +23,7 @@ import { SearchFilter } from "./interfaces";
     MatIconModule,
     MatButtonModule,
     TooltipDirective,
+    MatDividerModule,
   ],
 })
 export class ChannelGroupFilterComponent {

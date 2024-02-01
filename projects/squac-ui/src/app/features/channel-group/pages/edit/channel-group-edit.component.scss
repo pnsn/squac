@@ -6,16 +6,16 @@
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   grid-template-rows: 40px auto;
   padding: 10px;
-  column-gap: 10px;
+  column-gap: 20px;
   row-gap: 10px;
   p {
     margin: 0;
   }
   justify-content: center;
   grid-template-areas:
-    "title . group"
     "info info group"
-    "controls csv group"
+    "info info group"
+    "csv controls group"
     "search search group"
     "results map group"
     "table map group";

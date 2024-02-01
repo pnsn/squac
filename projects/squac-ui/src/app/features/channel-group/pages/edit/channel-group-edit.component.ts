@@ -43,6 +43,7 @@ import { MatInputModule } from "@angular/material/input";
 import { SharingToggleComponent } from "@shared/components/sharing-toggle/sharing-toggle.component";
 import { MatchingRuleEditComponent } from "@channelGroup/components/matching-rule-edit/matching-rule-edit.component";
 import { AbilityModule } from "@casl/angular";
+import { MatDivider, MatDividerModule } from "@angular/material/divider";
 
 /** Loading indicator areas */
 enum LoadingIndicator {
