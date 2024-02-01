@@ -3,7 +3,7 @@
 
 .form-content {
   height: 100%;
-  gap: 5px;
+  gap: 10px;
   width: 100%;
   justify-items: stretch;
   align-items: stretch;
@@ -18,7 +18,7 @@
     flex-direction: column;
     padding: 10px;
     border: 1px solid $sq-blue;
-    gap: 5px;
+    gap: 10px;
     // justify-content: space-between;
     height: 400px;
     overflow: auto;

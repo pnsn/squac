@@ -234,7 +234,6 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   validateTrigger(values, triggerFormGroup): void {
     const val2 = triggerFormGroup.get("val2");
     const numChannels = triggerFormGroup.get("numChannels");
-
     // if not outside of or within, val2 not required
     if (
       values.valueOperator !== "outsideof" &&

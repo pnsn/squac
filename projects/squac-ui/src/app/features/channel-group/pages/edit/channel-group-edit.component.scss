@@ -5,9 +5,9 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   grid-template-rows: 40px auto;
-  padding: 5px;
-  column-gap: 5px;
-  row-gap: 5px;
+  padding: 10px;
+  column-gap: 10px;
+  row-gap: 10px;
   p {
     margin: 0;
   }
