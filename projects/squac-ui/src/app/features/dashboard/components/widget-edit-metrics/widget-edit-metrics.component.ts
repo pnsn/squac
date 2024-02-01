@@ -50,7 +50,7 @@ export class WidgetEditMetricsComponent implements OnInit, OnChanges {
   columns: any[] = [];
 
   /** Mat sort directive, used to enable sorting on */
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
   /** columns shown in table */
   metricColumns: string[] = ["select", "name", "unit", "description"];
   /** alert table data source */

@@ -49,7 +49,7 @@ export class ChannelGroupTableComponent implements OnInit, OnChanges {
   @Output() selectedChange = new EventEmitter<Channel[]>();
 
   /** Mat sort directive, used to enable sorting on */
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
   /** columns shown in table */
   channelColumns: string[] = ["net", "sta", "loc", "code"];
   /** alert table data source */

@@ -91,7 +91,13 @@ export class MonitorDetailComponent implements OnInit, AfterViewInit {
   /** channel chart instance */
   @ViewChild("channelChart") channelChart;
   /** Mat sort directive, used to enable sorting on */
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild("alertTable", { read: MatSort }) alertSort: MatSort;
+  /** Mat sort directive, used to enable sorting on */
+  @ViewChild("triggerTable", { read: MatSort })
+  triggerSort: MatSort;
+  /** Mat sort directive, used to enable sorting on */
+  @ViewChild("channelTable", { read: MatSort })
+  channelSort: MatSort;
   /** true if page has an error */
   error: boolean;
   /** alerts for monitor */
@@ -183,9 +189,9 @@ export class MonitorDetailComponent implements OnInit, AfterViewInit {
 
   /** @ignore */
   ngAfterViewInit(): void {
-    this.alertDataSource.sort = this.sort;
-    this.triggerDataSource.sort = this.sort;
-    this.breachingChannelsDataSource.sort = this.sort;
+    this.alertDataSource.sort = this.alertSort;
+    this.triggerDataSource.sort = this.triggerSort;
+    this.breachingChannelsDataSource.sort = this.channelSort;
   }
   /**
    * subscribes to route params
