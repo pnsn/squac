@@ -86,13 +86,13 @@ describe("Trigger", () => {
       alert_on_out_of_alarm: true,
       latest_alert: {
         trigger: 1,
-        timestamp: "00:00:01Z",
+        timestamp: "00:00:01",
         in_alarm: true,
       },
     });
 
     expect(triggerWithAlert.inAlarm).toBeTrue();
-    expect(triggerWithAlert.lastUpdate).toBe("00:00:01");
+    expect(triggerWithAlert.lastUpdate).toBe("00:00:01Z");
   });
 
   it("should serialize object to json", () => {
