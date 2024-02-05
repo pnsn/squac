@@ -40,6 +40,6 @@ describe("Monitor", () => {
     const monitor = new Monitor(testData);
     expect(monitor).toBeDefined();
     expect(monitor.inAlarm).toBeTrue();
-    expect(monitor.lastUpdate).toBe("2020-01-01");
+    expect(monitor.lastUpdate).toBe("2020-01-01Z");
   });
 });

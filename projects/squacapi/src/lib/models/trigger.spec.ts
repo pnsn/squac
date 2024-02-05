@@ -86,7 +86,7 @@ describe("Trigger", () => {
       alert_on_out_of_alarm: true,
       latest_alert: {
         trigger: 1,
-        timestamp: "00:00:01",
+        timestamp: "00:00:01Z",
         in_alarm: true,
       },
     });
