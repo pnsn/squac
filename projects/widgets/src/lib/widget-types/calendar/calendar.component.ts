@@ -1,7 +1,7 @@
 import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
 import { Measurement } from "squacapi";
 
-import { PrecisionPipe } from "../../shared/pipes/precision.pipe";
+import { PrecisionPipe } from "../../pipes/precision.pipe";
 import { EChartsOption } from "echarts";
 import {
   WidgetConnectService,
@@ -9,14 +9,15 @@ import {
   WidgetConfigService,
 } from "../../services";
 import { ProcessedData, WidgetTypeComponent } from "../../interfaces";
-import { EChartComponent } from "../../shared/components";
-import { parseUtc } from "../../shared/utils";
+import { parseUtc } from "../../utils";
 import {
   singleXAxisConfig,
   tooltipFormatter,
   weekTimeXAxisConfig,
   weekXAxisConfig,
-} from "./chart-config";
+} from "./echart.config";
+import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
+import { EChartComponent } from "../../components/e-chart/e-chart.component";
 
 /**
  * Chart that plots channels as the y axis and time,
@@ -24,8 +25,18 @@ import {
  */
 @Component({
   selector: "widget-calendar-plot",
-  templateUrl: "../../shared/components/e-chart/e-chart.component.html",
-  styleUrls: ["../../shared/components/e-chart/e-chart.component.scss"],
+  templateUrl: "../../components/e-chart/e-chart.component.html",
+  styleUrls: ["../../components/e-chart/e-chart.component.scss"],
+  standalone: true,
+  imports: [NgxEchartsModule],
+  providers: [
+    {
+      provide: NGX_ECHARTS_CONFIG,
+      useFactory: (): unknown => ({
+        echarts: (): unknown => import("echarts"),
+      }),
+    },
+  ],
 })
 export class CalendarComponent
   extends EChartComponent

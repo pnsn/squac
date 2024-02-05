@@ -1,15 +1,12 @@
 {
   "name": "squacapi",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "peerDependencies": {
-    "@angular/common": "^14.2.0",
-    "@angular/core": "^14.2.0",
-    "@pnsn/ngx-squacapi-client": "~2.1.12-alpha.5"
+    "@angular/common": "^15.2.9",
+    "@angular/core": "^15.2.9",
+    "@pnsn/ngx-squacapi-client": "^2.2.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
-  },
-  "devDependencies": {
-    "@pnsn/ngx-squacapi-client": "~2.1.12-alpha.5"
   }
 }

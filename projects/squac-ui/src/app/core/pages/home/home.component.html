@@ -1,0 +1,45 @@
+<mat-toolbar
+  color="primary"
+  class="row space-between box-shadow"
+>
+  <a
+    [routerLink]="['/']"
+    routerLinkActive="active"
+    id="logo"
+  >
+    <img
+      src="/assets/text_logo.svg"
+      alt="SQUAC logo"
+    />
+  </a>
+  <app-menu
+    *ngIf="user"
+    [user]="user"
+    class="menu-items"
+  ></app-menu>
+  <button
+    mat-button
+    (click)="sidenav.toggle()"
+    class="menu-button"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+</mat-toolbar>
+<mat-sidenav-container class="main-sidenav-container">
+  <mat-sidenav
+    #sidenav
+    position="end"
+    color="primary"
+    fixedInViewport="true"
+    fixedTopGap="47"
+  >
+    <app-menu
+      *ngIf="user"
+      [user]="user"
+      [isSidenav]="true"
+    ></app-menu>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

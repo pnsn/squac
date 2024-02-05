@@ -1,25 +1,12 @@
-<div
-  mat-dialog-title
-  class="dialog-title"
->
-  <h3>{{ editMode ? "Edit Dashboard" : "New Dashboard" }}</h3>
-  <button
-    mat-button
-    (click)="cancel()"
-    type="button"
-  >
-    <mat-icon>close</mat-icon>
-  </button>
-</div>
-
+<h2 mat-dialog-title>{{ editMode ? "Edit Dashboard" : "New Dashboard" }}</h2>
 <div mat-dialog-content>
   <form
-    class="form"
+    class="centered-form"
     action=""
     [formGroup]="dashboardForm"
   >
     <mat-form-field class="medium">
-      <mat-label>Dashboard name (required)</mat-label>
+      <mat-label>Dashboard name</mat-label>
       <input
         matInput
         formControlName="name"
@@ -30,7 +17,7 @@
       <!-- <mat-error *ngIf="name.invalid">Please name your dashboard</mat-error> -->
     </mat-form-field>
     <mat-form-field class="large">
-      <mat-label>Dashboard description (required)</mat-label>
+      <mat-label>Dashboard description</mat-label>
       <textarea
         matInput
         id="description"
@@ -53,21 +40,21 @@
 
       <p
         *ngIf="shareAll"
-        class="help-text"
+        class="mat-small"
       >
         Public dashboards should use public channel groups or other users will
         not be able to view the group.
       </p>
       <p
         *ngIf="shareOrg && !shareAll"
-        class="help-text"
+        class="mat-small"
       >
         Organization dashboards should use public or organization channel groups
         or other users will not be able to view the group.
       </p>
       <p
         *ngIf="!shareOrg && !shareAll"
-        class="help-text"
+        class="mat-small"
       >
         Private dashboards can use private, organization, or public channel
         groups.
@@ -75,28 +62,37 @@
     </div>
   </form>
   <div class="custom-form-field">
+    <span class="label">Default Channel Group (optional)</span>
     <shared-channel-group-selector
       [(channelGroupId)]="channelGroupId"
-      label="Channel Group (optional)"
+      label="Channel Group"
     >
     </shared-channel-group-selector>
-    <p class="help-text">Default channel group to use for dashboard.</p>
   </div>
+  <span class="warn-text mat-small">* required field</span>
 </div>
 
 <div
   mat-dialog-actions
   class="dialog-options"
 >
-  <div>
-    <button
-      class="save"
-      mat-flat-button
-      color="accent"
-      (click)="save()"
-      [disabled]="!dashboardForm.valid"
-    >
-      Save
-    </button>
-  </div>
+  <button
+    class="dialog-cancel"
+    mat-stroked-button
+    (click)="cancel()"
+    type="button"
+  >
+    Cancel
+  </button>
+
+  <button
+    class="dialog-save"
+    mat-flat-button
+    color="accent"
+    (click)="save()"
+    [disabled]="!dashboardForm?.valid"
+  >
+    Save
+  </button>
+
 </div>

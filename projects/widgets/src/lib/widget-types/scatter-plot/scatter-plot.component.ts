@@ -11,16 +11,27 @@ import {
   WidgetConfigService,
 } from "../../services";
 import { ProcessedData, WidgetTypeComponent } from "../../interfaces";
-import { EChartComponent } from "../../shared/components";
+import { EChartComponent } from "../../components/e-chart/e-chart.component";
 import { TooltipComponentFormatterCallbackParams } from "echarts";
+import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
 
 /**
  * Scatter plot widget
  */
 @Component({
   selector: "widget-scatter-plot",
-  templateUrl: "../../shared/components/e-chart/e-chart.component.html",
-  styleUrls: ["../../shared/components/e-chart/e-chart.component.scss"],
+  templateUrl: "../../components/e-chart/e-chart.component.html",
+  styleUrls: ["../../components/e-chart/e-chart.component.scss"],
+  standalone: true,
+  imports: [NgxEchartsModule],
+  providers: [
+    {
+      provide: NGX_ECHARTS_CONFIG,
+      useFactory: (): unknown => ({
+        echarts: (): unknown => import("echarts"),
+      }),
+    },
+  ],
 })
 export class ScatterPlotComponent
   extends EChartComponent

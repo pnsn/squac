@@ -14,7 +14,7 @@ describe("MessageService", () => {
         {
           provide: MatSnackBar,
           useValue: {
-            openFromComponent: (_component, _config): any => {
+            open: (_message, _actions, _options?): any => {
               return {
                 dismiss: (): any => {
                   return;
@@ -34,13 +34,13 @@ describe("MessageService", () => {
   });
 
   it("should open snackbar", () => {
-    const openSpy = spyOn(snackbar, "openFromComponent");
-    service.openSnackBar("default", "message", 0);
+    const openSpy = spyOn(snackbar, "open");
+    service.openSnackBar("default", "message");
     expect(openSpy).toHaveBeenCalled();
   });
 
   it("should close snackbar", () => {
-    service.openSnackBar("default", "message", 0);
+    service.openSnackBar("default", "message");
     const closeSpy = spyOn(service.snackBarRef, "dismiss");
     service.close();
 
@@ -52,24 +52,6 @@ describe("MessageService", () => {
     service.close();
 
     expect(service.snackBarRef).toBeUndefined();
-  });
-
-  it("should open a message snackbar", () => {
-    const openSpy = spyOn(snackbar, "openFromComponent");
-    service.message("message");
-    expect(openSpy).toHaveBeenCalled();
-  });
-
-  it("should open an error snackbar", () => {
-    const openSpy = spyOn(snackbar, "openFromComponent");
-    service.error("error");
-    expect(openSpy).toHaveBeenCalled();
-  });
-
-  it("should open an alert snackbar", () => {
-    const openSpy = spyOn(snackbar, "openFromComponent");
-    service.alert("alert");
-    expect(openSpy).toHaveBeenCalled();
   });
 
   it("should close on destroy", () => {

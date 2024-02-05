@@ -7,7 +7,7 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
-import { PrecisionPipe } from "../../shared/pipes/precision.pipe";
+import { PrecisionPipe } from "../../pipes/precision.pipe";
 
 import {
   WidgetConnectService,
@@ -22,7 +22,7 @@ import {
   isStoplight,
   ProcessedData,
 } from "../../interfaces";
-import { GenericWidgetComponent } from "../../shared/components";
+import { GenericWidgetComponent } from "../../components";
 import { ChannelRow, StationChannels, StationRow } from "./types";
 import { MeasurementPipe, MeasurementTypes, Metric } from "squacapi";
 import {
@@ -40,6 +40,10 @@ import {
   MarkerOptions,
   tileLayer,
 } from "leaflet";
+import { NgFor, NgIf } from "@angular/common";
+import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
+import { LeafletModule } from "@asymmetrik/ngx-leaflet";
+import { GuardTypePipe } from "../../pipes/guard-type.pipe";
 
 /**
  * Leaflet map widget that displays stations
@@ -48,6 +52,15 @@ import {
   selector: "widget-map",
   templateUrl: "./map.component.html",
   styleUrls: ["./map.component.scss"],
+  standalone: true,
+  imports: [
+    NgFor,
+    LeafletDrawModule,
+    LeafletModule,
+    PrecisionPipe,
+    NgIf,
+    GuardTypePipe,
+  ],
 })
 export class MapComponent
   extends GenericWidgetComponent

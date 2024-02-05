@@ -3,7 +3,6 @@ import { WidgetConnectService } from "../../services/widget-connect.service";
 import { WidgetManagerService } from "../../services/widget-manager.service";
 import { WidgetConfigService } from "../../services/widget-config.service";
 import { MockBuilder } from "ng-mocks";
-import { NgxEchartsModule } from "ngx-echarts";
 import { of } from "rxjs";
 
 import { TimechartComponent } from "./timechart.component";
@@ -14,7 +13,6 @@ describe("TimechartComponent", () => {
 
   beforeEach(() => {
     return MockBuilder(TimechartComponent)
-      .mock(NgxEchartsModule)
       .mock(WidgetConfigService)
       .provide({
         provide: WidgetManagerService,

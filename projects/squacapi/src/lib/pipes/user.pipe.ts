@@ -6,6 +6,7 @@ import { OrganizationService } from "../services";
  */
 @Pipe({
   name: "user",
+  standalone: true,
 })
 export class UserPipe implements PipeTransform {
   constructor(private orgService: OrganizationService) {}
@@ -16,10 +17,11 @@ export class UserPipe implements PipeTransform {
    * @param value user id
    * @returns user's first and last name
    */
-  transform(value: number): string {
-    if (typeof value === "string") {
-      return value;
+  transform(value: number | string): string {
+    const id = +value;
+    if (typeof value === "number" || !Number.isNaN(id)) {
+      return this.orgService.getOrgUserName(id);
     }
-    return this.orgService.getOrgUserName(value);
+    return value;
   }
 }

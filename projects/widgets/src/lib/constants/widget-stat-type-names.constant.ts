@@ -1,6 +1,6 @@
 import { WidgetStatType } from "squacapi";
 
-/** Names of widget stat types */
+/** Display names of widget stat types */
 export const WIDGET_STAT_TYPE_NAMES: { [key in WidgetStatType]: string } = {
   ["mean"]: "Average",
   ["latest"]: "Most Recent",

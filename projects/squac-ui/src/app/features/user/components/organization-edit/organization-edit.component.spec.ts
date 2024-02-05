@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { ReactiveFormsModule } from "@angular/forms";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { MaterialModule } from "@shared/material.module";
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA as MAT_DIALOG_DATA,
+} from "@angular/material/dialog";
 import { MockBuilder } from "ng-mocks";
 import { OrganizationEditComponent } from "./organization-edit.component";
 
@@ -10,13 +11,14 @@ describe("OrganizationEditComponent", () => {
   let fixture: ComponentFixture<OrganizationEditComponent>;
 
   beforeEach(() => {
-    return MockBuilder(OrganizationEditComponent)
-      .mock(MaterialModule)
+    return MockBuilder(OrganizationEditComponent, [
+      MatDialogRef,
+      MAT_DIALOG_DATA,
+    ])
       .mock(MatDialogRef)
       .mock(MAT_DIALOG_DATA, {
         data: {},
-      })
-      .keep(ReactiveFormsModule);
+      });
   });
 
   it("should create", () => {

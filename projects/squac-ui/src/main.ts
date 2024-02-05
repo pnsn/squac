@@ -1,19 +1,11 @@
-import { ApplicationRef, enableProdMode } from "@angular/core";
-import { enableDebugTools } from "@angular/platform-browser";
-import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
-
-import { AppModule } from "./app/app.module";
+import { enableProdMode } from "@angular/core";
+import { bootstrapApplication } from "@angular/platform-browser";
 import { environment } from "./environments/environment";
+import { AppComponent } from "./app/app.component";
+import { APP_CONFIG } from "./app/app.config";
 
 if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic()
-  .bootstrapModule(AppModule)
-  .then((module) => {
-    const appRef = module.injector.get(ApplicationRef);
-    const appComponent = appRef.components[0];
-    enableDebugTools(appComponent);
-  })
-  .catch((err) => console.error(err)); // eslint-disable-line
+bootstrapApplication(AppComponent, APP_CONFIG);

@@ -1,0 +1,26 @@
+@import "variables";
+#channel-group-container {
+  padding: 0px 10px 10px;
+
+  display: grid;
+
+  .mat-h2 {
+    margin-bottom: 5px;
+  }
+  justify-content: stretch;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  padding: 10px;
+  column-gap: 10px;
+  row-gap: 10px;
+  p {
+    margin: 0;
+  }
+  grid-template-areas:
+    "title ."
+    "channels map"
+    "rules . "
+    "included excluded";
+}

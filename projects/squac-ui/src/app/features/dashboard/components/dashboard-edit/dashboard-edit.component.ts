@@ -5,14 +5,25 @@ import {
   FormControl,
   FormGroup,
   FormBuilder,
+  ReactiveFormsModule,
 } from "@angular/forms";
 import { DashboardService } from "squacapi";
 import { Subscription } from "rxjs";
 import { UserService } from "@user/services/user.service";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import {
+  MatDialogModule,
+  MatDialogRef,
+  MAT_DIALOG_DATA as MAT_DIALOG_DATA,
+} from "@angular/material/dialog";
 import { MessageService } from "@core/services/message.service";
 import { ChannelGroup } from "squacapi";
 import { FilterText } from "@shared/components/sharing-toggle/sharing-toggle.interface";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { SharingToggleComponent } from "@shared/components/sharing-toggle/sharing-toggle.component";
+import { NgIf } from "@angular/common";
+import { ChannelGroupSelectorComponent } from "@shared/components/channel-group-selector/channel-group-selector.component";
+import { MatButtonModule } from "@angular/material/button";
 
 /** dashboard edit form */
 interface DashboardForm {
@@ -27,7 +38,17 @@ interface DashboardForm {
 @Component({
   selector: "dashboard-edit",
   templateUrl: "./dashboard-edit.component.html",
-  styleUrls: ["./dashboard-edit.component.scss"],
+  standalone: true,
+  imports: [
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    SharingToggleComponent,
+    NgIf,
+    ChannelGroupSelectorComponent,
+    ReactiveFormsModule,
+    MatButtonModule,
+  ],
 })
 export class DashboardEditComponent implements OnInit, OnDestroy {
   /** rxjs subscriptions */

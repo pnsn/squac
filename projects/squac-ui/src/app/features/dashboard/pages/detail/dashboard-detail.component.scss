@@ -1,0 +1,70 @@
+.config-row {
+  justify-content: flex-end;
+}
+.opened {
+  opacity: 0.65;
+}
+#dashboard-header {
+  padding: 10px 10px;
+  top: 0px;
+  position: sticky;
+  position: -webkit-sticky;
+  z-index: 100;
+  gap: 5px;
+
+  & > .row {
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  #info-row {
+    justify-content: space-between;
+  }
+  #config-row {
+    justify-content: flex-start;
+  }
+  #dashboard-info {
+    order: -1;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-items: flex-start;
+    gap: 5px;
+    .mat-h2 {
+      margin: 0;
+    }
+  }
+  #dashboard-controls {
+    order: 0;
+    @media (max-width: 1088px) {
+      order: 1;
+    }
+    flex: 1 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 3px;
+
+    .dense-form-control {
+    }
+  }
+  #dashboard-buttons {
+    order: 1;
+    @media (max-width: 1088px) {
+      order: 0;
+    }
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    align-items: center;
+  }
+}
+.auto-margin {
+  margin-inline-end: auto;
+}
+#dashboard-body {
+  z-index: 0;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}

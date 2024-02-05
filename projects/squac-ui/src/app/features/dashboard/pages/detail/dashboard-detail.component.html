@@ -1,0 +1,162 @@
+<div
+  id="dashboard-container"
+  class="column"
+>
+  <div
+    id="dashboard-header"
+    class="column lt-gray-background box-shadow"
+  >
+    <div
+      class="row"
+      id="info-row"
+    >
+      <div id="dashboard-info">
+        <h2 class="mat-h2">{{ dashboard?.name }}</h2>
+        <span
+          class="mat-small"
+          *ngIf="dashboard?.owner && dashboard?.orgId"
+        >
+          by {{ dashboard?.owner | user }} ({{
+          dashboard?.orgId | organization
+          }})
+        </span>
+
+        <shared-sharing-indicator
+          [shareAll]="dashboard?.shareAll"
+          [shareOrg]="dashboard?.shareOrg"
+          resource="dashboard"
+        ></shared-sharing-indicator>
+      </div>
+
+      <div id="dashboard-controls">
+        <shared-channel-group-selector
+          [channelGroupId]="channelGroupId"
+          (channelGroupIdChange)="channelGroupChange($event)"
+          appearance="outline"
+          [dense]="true"
+        >
+        </shared-channel-group-selector>
+        <shared-date-select
+          [secondsAgoFromNow]="timeRange"
+          [initialStartDate]="startTime"
+          [initialEndDate]="endTime"
+          [timeRanges]="datePickerTimeRanges"
+          (datesChanged)="datesChanged($event)"
+          (selectedRangeChanged)="viewService.timeRangeChanged($event)"
+        ></shared-date-select>
+        <dashboard-data-type-selector
+          [dataType]="archiveType"
+          [statType]="archiveStat"
+          (dataTypeSelected)="selectArchiveType($event)"
+        >
+        </dashboard-data-type-selector>
+
+      </div>
+      <div id="dashboard-buttons">
+        <button
+          [disabled]="(hasUnsavedChanges | async) === true"
+          mat-icon-button
+          (click)="refreshData()"
+          uiTooltip="Refresh data"
+          aria-label="Button that requests new data from the database"
+        >
+          <mat-icon>refresh</mat-icon>
+        </button>
+        <button
+          [disabled]="(hasUnsavedChanges | async) === false"
+          mat-raised-button
+          color="accent"
+          (click)="updateDashboard()"
+        >
+          Apply
+        </button>
+        <button
+          mat-icon-button
+          [color]="!hideRows ? 'primary' : ''"
+          uiTooltip="configure dashboard"
+          (click)="hideRows = !hideRows"
+        >
+          <mat-icon>tune</mat-icon>
+        </button>
+        <button
+          color="accent"
+          mat-icon-button
+          (click)="addWidget()"
+          *ngIf="'update' | able: dashboard"
+          uiTooltip="Add widget"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+
+    </div>
+    <div
+      class="row config-row"
+      id="config-row"
+      *ngIf="!hideRows"
+    >
+
+    </div>
+    <div
+      class="row"
+      *ngIf="dashboard?.properties && !hideRows"
+    >
+      <mat-slide-toggle
+        class="dense-checkbox"
+        [(ngModel)]="dashboard.properties.denseView"
+        (change)="toggleView()"
+      >
+        use denser view
+      </mat-slide-toggle>
+      <mat-slide-toggle
+        class="dense-checkbox"
+        [(ngModel)]="channelList"
+        (change)="toggleChannelList()"
+      >
+        show channel list
+      </mat-slide-toggle>
+
+    </div>
+  </div>
+
+  <div id="dashboard-body">
+    <router-outlet> </router-outlet>
+  </div>
+</div>
+
+<mat-menu
+  #appMenu="matMenu"
+  class="dense-menu"
+  yPosition="below"
+  xPosition="before"
+>
+  <button
+    mat-menu-item
+    (click)="addWidget()"
+    *ngIf="'update' | able: dashboard"
+  >
+    <mat-icon>add</mat-icon>
+    Add widget
+  </button>
+
+  <button
+    mat-menu-item
+    (click)="editDashboard()"
+  >
+    <mat-icon>edit</mat-icon>
+    Edit Dashboard
+  </button>
+  <button
+    mat-menu-item
+    color="warn"
+    id="delete-dashboard"
+    (click)="deleteDashboard()"
+    *ngIf="'delete' | able: dashboard"
+  >
+    <mat-icon color="warn">delete</mat-icon>
+    Delete Dashboard
+  </button>
+</mat-menu>
+
+<!-- <router-outlet></router-outlet> -->
+<!-- <shared-loading *ngIf="!dashboard && !error"></shared-loading> -->

@@ -1,70 +1,71 @@
-<div>
-  <h1>H1 Header</h1>
-  <h2>H2 Header</h2>
-  <h3>H3 Header</h3>
-  <h4>H4 Header</h4>
-  <h5>H5 Header</h5>
-</div>
+<button (click)="useMaterial = !useMaterial">toggle material</button>
+{{useMaterial}}
+<div [ngClass]="{'mat-typography': useMaterial}">
+  <div class="mat-headline-1">$headline-1: mat-headline-1</div>
+  <div class="mat-headline-2">$headline-2: mat-headline-2</div>
+  <div class="mat-headline-3">$headline-3: mat-headline-3</div>
+  <div class="mat-headline-4">$headline-4: mat-headline-4</div>
+  <div class="mat-headline-5 mat-h1">$headline-5: mat-headline-5 mat-h1, &lt;h1&gt;</div>
+  <div class="mat-headline-6 mat-h2">$headline-6: mat-headline-6 mat-h2, &lt;h2&gt; </div>
+  <div class="mat-subtitle-1 mat-h3">$subtitle-1: mat-subtitle-1 mat-h3, &lt;h3&gt;</div>
+  <div class="mat-body-strong mat-subtitle-2">$subtitle-2: mat-body-strong subtitle-2</div>
+  <div class="mat-body-1 mat-h4">$body-1: mat-body-1 mat-h4, &lt;h4&gt;</div>
+  <div class="mat-body mat-body-2">$body-2: mat-body mat-body-2, body</div>
+  <div class="mat-small mat-caption">$caption: mat-small mat-caption</div>
+  <button mat-button>$button: Button Text</button>
 
-<div class="title">
-  <h1>H1 Header in title</h1>
-  <h2>H2 Header in title</h2>
-  <h3>H3 Header in title</h3>
-  <h4>H4 Header in title</h4>
-  <h5>H5 Header in title</h5>
-</div>
+  <div class="title">
+    <h1>H1 Header in title</h1>
+  </div>
 
-<div class="header-title">
-  <h1>H1 Header in header-title</h1>
-  <h2>H2 Header in header-title</h2>
-  <h3>H3 Header in header-title</h3>
-  <h4>H4 Header in header-title</h4>
-  <h5>H5 Header in header-title</h5>
-</div>
+  <div class="header-title">
+    <h1>H1 Header in header-title</h1>
+  </div>
 
-<div class="box">
-  <p> Default paragraph type. Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci accusantium deleniti
-    asperiores eveniet fugiat commodi aut voluptates animi tenetur aperiam ad illum excepturi accusamus harum officia
-    ipsum enim, eos numquam!</p>
-  <p class="help-text"> Help text. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus autem reiciendis
-    labore
-    nesciunt, numquam atque rerum ad facilis necessitatibus nobis earum laboriosam reprehenderit eius excepturi,
-    commodi
-    ratione quasi laudantium facere.</p>
-  <p class="warn-text">Warning text. Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam, veritatis
-    consectetur, quasi autem dicta sequi libero mollitia dolore officia neque consequatur distinctio, molestias
-    pariatur
-    laborum doloremque aliquam sapiente placeat quaerat.</p>
-  <p class="emphasis-text">Emphasiss text. Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur dolores
-    nisi doloremque voluptates? Quis inventore quibusdam alias, commodi numquam qui tenetur ut ullam cupiditate
-    deserunt
-    obcaecati dicta. Quaerat, ab sint.</p>
+  <div class="box">
+    <p> Default paragraph type. Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci accusantium deleniti
+      asperiores eveniet fugiat commodi aut voluptates animi tenetur aperiam ad illum excepturi accusamus harum officia
+      ipsum enim, eos numquam!</p>
+    <p class="help-text"> Help text. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus autem reiciendis
+      labore
+      nesciunt, numquam atque rerum ad facilis necessitatibus nobis earum laboriosam reprehenderit eius excepturi,
+      commodi
+      ratione quasi laudantium facere.</p>
+    <p class="warn-text">Warning text. Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam, veritatis
+      consectetur, quasi autem dicta sequi libero mollitia dolore officia neque consequatur distinctio, molestias
+      pariatur
+      laborum doloremque aliquam sapiente placeat quaerat.</p>
+    <p class="emphasis-text">Emphasiss text. Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur dolores
+      nisi doloremque voluptates? Quis inventore quibusdam alias, commodi numquam qui tenetur ut ullam cupiditate
+      deserunt
+      obcaecati dicta. Quaerat, ab sint.</p>
 
-  <a>Example link text</a>
-</div>
+    <a href="">Example link text</a>
+  </div>
 
-<h1>Colors and borders</h1>
-<div class="row space-between">
-  <span class="blue">blue</span>
-  <span class="primary">primary</span>
-  <span class="defa">default</span>
-  <span class-="lt-gray">lt-gray</span>
-  <span class="dk-gray">dk-gray</span>
-  <span class="info">info</span>
-  <span class="warn">warn</span>
-  <span class="error">error</span>
-  <span class="accent">accent</span>
-  <span class="alert">alert</span>
-</div>
-<div class="box-container row space-between">
-  <div class="box-shadow">box-shadow</div>
-  <div class="box">box</div>
-  <div class="gray-border">gray-border</div>
-  <div class="lt-gray-border">lt-gray-border</div>
-</div>
-<div class="box-container row space-between">
-  <div class="blue-background">blue-background</div>
-  <div class="lt-gray-background">lt-gray-backgroundy</div>
-  <div class="gray-background">gray-background</div>
-  <div class="white-background">white-background</div>
+  <h1>Colors and borders</h1>
+  <div class="row space-between">
+    <span class="blue">blue</span>
+    <span class="primary">primary</span>
+    <span class="defa">default</span>
+    <span class-="lt-gray">lt-gray</span>
+    <span class="dk-gray">dk-gray</span>
+    <span class="info">info</span>
+    <span class="warn">warn</span>
+    <span class="error">error</span>
+    <span class="accent">accent</span>
+    <span class="alert">alert</span>
+  </div>
+  <div class="box-container row space-between">
+    <div class="box-shadow">box-shadow</div>
+    <div class="box">box</div>
+    <div class="gray-border">gray-border</div>
+    <div class="lt-gray-border">lt-gray-border</div>
+  </div>
+  <div class="box-container row space-between">
+    <div class="blue-background">blue-background</div>
+    <div class="lt-gray-background">lt-gray-backgroundy</div>
+    <div class="gray-background">gray-background</div>
+    <div class="white-background">white-background</div>
+  </div>
 </div>

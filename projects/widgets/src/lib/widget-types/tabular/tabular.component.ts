@@ -2,19 +2,10 @@ import {
   Component,
   ViewChild,
   OnDestroy,
-  TemplateRef,
   OnInit,
   NgZone,
   ChangeDetectorRef,
 } from "@angular/core";
-import {
-  ColumnMode,
-  DataTableColumnCellDirective,
-  DataTableColumnHeaderDirective,
-  DatatableComponent,
-  SelectionType,
-  SortType,
-} from "@boring.devs/ngx-datatable";
 import {
   WidgetConnectService,
   WidgetManagerService,
@@ -22,14 +13,28 @@ import {
 } from "../../services";
 import {
   ProcessedData,
+  StoplightVisualMapOption,
   VisualMapTypes,
   WidgetTypeComponent,
 } from "../../interfaces";
-import { GenericWidgetComponent } from "../../shared/components";
-import { ChannelRow, RowMetrics, StationRow } from "./types";
-import { RowMetricComparator } from "./utils";
-import { MeasurementPipe } from "squacapi";
-import { NslcComparator } from "../../shared";
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from "@angular/animations";
+import { GenericWidgetComponent } from "../../components";
+import { Row } from "./types";
+import { Channel, MeasurementPipe } from "squacapi";
+import { MatSort, MatSortModule } from "@angular/material/sort";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { SelectionModel } from "@angular/cdk/collections";
+import { MatIconModule } from "@angular/material/icon";
+import { MatButtonModule } from "@angular/material/button";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { PrecisionPipe } from "../../pipes/precision.pipe";
+import { NgForOf, NgIf, NgStyle, NgTemplateOutlet } from "@angular/common";
 
 /**
  * Table based widget
@@ -38,31 +43,38 @@ import { NslcComparator } from "../../shared";
   selector: "widget-tabular",
   templateUrl: "./tabular.component.html",
   styleUrls: ["./tabular.component.scss"],
+  animations: [
+    trigger("detailExpand", [
+      state("collapsed", style({ height: "0px", minHeight: "0" })),
+      state("expanded", style({ height: "*" })),
+      transition(
+        "expanded <=> collapsed",
+        animate("225ms cubic-bezier(0.4, 0.0, 0.2, 1)")
+      ),
+    ]),
+  ],
+  standalone: true,
+  imports: [
+    MatTableModule,
+    MatSortModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTooltipModule,
+    PrecisionPipe,
+    NgStyle,
+    NgTemplateOutlet,
+    NgForOf,
+    NgIf,
+  ],
 })
 export class TabularComponent
   extends GenericWidgetComponent
   implements OnInit, OnDestroy, WidgetTypeComponent
 {
-  /** ngx datatable component */
-  @ViewChild("dataTable") table: DatatableComponent;
-  /** cell template for data table  */
-  @ViewChild("cellTemplate")
-  cellTemplate: TemplateRef<DataTableColumnCellDirective>;
-  /** header template for table */
-  @ViewChild("headerTemplate")
-  headerTemplate: TemplateRef<DataTableColumnHeaderDirective>;
-
   /** nslc of currently emphasized channel */
   emphasizedChannel: string;
   /** nslc of channel to deemphasize */
   deemphasizedChannel: string;
-
-  /** ngxdatatable column options */
-  ColumnMode = ColumnMode;
-  /** ngxdatatable sort options */
-  SortType = SortType;
-  /** ngxdatatable selection options */
-  SelectionType = SelectionType;
   /** table rows */
   rows = [];
   /** table columns */
@@ -72,19 +84,20 @@ export class TabularComponent
   /** pipe for transforming measurements */
   measurementPipe = new MeasurementPipe();
 
-  /** table messages */
-  messages = {
-    // Message to show when array is presented
-    // but contains no values
-    emptyMessage: "Loading data.",
+  /** Mat sort directive, used to enable sorting on */
+  @ViewChild(MatSort) sort: MatSort;
+  /** columns shown in table */
+  metricColumns: string[] = ["title", "agg"];
+  /** alert table data source */
+  dataSource: MatTableDataSource<Row> = new MatTableDataSource([]);
+  /** selection on alert table */
+  selection: SelectionModel<Row> = new SelectionModel(true, []);
 
-    // Footer total message
-    totalMessage: "total",
+  expandedElement: Row | null;
 
-    // Footer selected message
-    selectedMessage: "selected",
-  };
-  sorts = [{ prop: "title", dir: "asc" }];
+  /** true if table should use nested rows for stations and channels */
+  useStationView = false;
+
   constructor(
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
@@ -99,6 +112,60 @@ export class TabularComponent
    * Init
    */
   override ngOnInit(): void {
+    this.dataSource.sort = this.sort;
+    this.dataSource.sortingDataAccessor = (
+      data: Row,
+      sortHeaderId: string
+    ): string | number => {
+      const dataItem = data[sortHeaderId];
+      if (dataItem) {
+        return dataItem;
+      } else {
+        return data.metrics[sortHeaderId]?.value;
+      }
+    };
+
+    //override sort to allow child rows to stay with parent
+    this.dataSource.sortData = (data: Row[], sort: MatSort): Row[] => {
+      if (!sort.active || sort.direction === "") {
+        return data;
+      }
+
+      // actively sorted column
+      const active = sort.active;
+      // sort direction
+      const direction = sort.direction;
+
+      // keep children grouped to parent
+
+      // less than 0 if A is first, more than 0 if B is first
+      return data.sort((a: Row, b: Row) => {
+        let comparatorResult = 0;
+
+        // b is directly behind parent
+        if (b.parentId && !a.parentId) {
+          return a.title.localeCompare(b.parentId);
+        } else if (a.parentId && !b.parentId) {
+          return b.title.localeCompare(a.parentId);
+        }
+        switch (sort.active) {
+          case "title":
+            comparatorResult = a.title.localeCompare(b.title);
+            break;
+          case "agg":
+            comparatorResult = a.agg - b.agg;
+            break;
+          default:
+            //keep no data values at the bottom
+            if (a.metrics[active].value === null) return 1;
+            if (b.metrics[active].value === null) return -1;
+            comparatorResult =
+              a.metrics[active].value - b.metrics[active].value;
+            break;
+        }
+        return comparatorResult * (direction == "asc" ? 1 : -1);
+      });
+    };
     this.subscription.add(
       this.widgetManager.resize$.subscribe(this.resize.bind(this))
     );
@@ -132,62 +199,14 @@ export class TabularComponent
    * @override
    */
   changeMetrics(): void {
-    let name;
-    let isTreeColumn;
-    switch (this.properties.displayType) {
-      case "channel":
-        name = "Channel";
-        isTreeColumn = false;
-        break;
-      case "stoplight":
-        name = "Station";
-        isTreeColumn = true;
-        break;
-      default:
-        name = "Station";
-        isTreeColumn = true;
-        break;
+    this.dataSource.data = this.rows;
+    if (this.useStationView && !this.metricColumns.includes("expand")) {
+      this.metricColumns.unshift("expand");
     }
-
     this.columns = [
-      {
-        name,
-        prop: "title",
-        isTreeColumn,
-        width: 100,
-        canAutoResize: false,
-        frozenLeft: true,
-        resizeable: true,
-        comparator: NslcComparator,
-      },
+      ...this.metricColumns,
+      ...this.selectedMetrics.map((metric) => metric.code), //has to be string
     ];
-
-    this.columns.push({
-      name: "# out",
-      prop: "agg",
-      width: 45,
-      canAutoResize: false,
-      frozenLeft: true,
-      resizeable: false,
-    });
-
-    // Using set timeout because sometimes fails in onchanges binding
-    setTimeout(() => {
-      this.selectedMetrics.forEach((metric) => {
-        if (!metric) return;
-        this.columns.push({
-          name: metric.name,
-          prop: metric.id,
-          comparator: RowMetricComparator,
-          width: 65,
-          canAutoResize: true,
-          sortable: true,
-          cellTemplate: this.cellTemplate,
-          headerTemplate: this.headerTemplate,
-        });
-      });
-      this.columns = [...this.columns];
-    }, 0);
   }
 
   /**
@@ -205,8 +224,8 @@ export class TabularComponent
     const row = this.rows[index];
     this.emphasizedChannel = channel;
     this.selectedRow = [row];
-    this.table.element.querySelector(".datatable-body").scrollTop =
-      index * (this.table.rowHeight as number);
+    // this.table.element.querySelector(".datatable-body").scrollTop =
+    //   index * (this.table.rowHeight as number);
   }
 
   /**
@@ -220,9 +239,9 @@ export class TabularComponent
    * redraw table on resize
    */
   resize(): void {
-    if (this.table) {
-      this.table.recalculate();
-    }
+    // if (this.table) {
+    //   this.table.recalculate();
+    // }
   }
 
   /**
@@ -238,13 +257,46 @@ export class TabularComponent
   }
 
   /**
+   * Inserts child rows into a table if the row has children
+   *
+   * @param row row to expand
+   */
+  expandRow(row: Row): void {
+    const data = [...this.rows];
+    //if this row is already expanded, close it
+    // if no children, ignore row and close others
+    if (row === this.expandedElement || !row.children) {
+      this.dataSource.data = this.rows;
+      this.expandedElement = null;
+      return;
+    }
+
+    const rowIndex = data.findIndex((item) => row.title === item.title);
+    //splice children into data
+    if (rowIndex > -1 && row.children) {
+      data.splice(rowIndex + 1, 0, ...row.children);
+    }
+
+    this.dataSource.data = data;
+    this.expandedElement = row;
+
+    // if this row is not currentl expanded, insert child rows )
+
+    // expandedElement = expandedElement === row ? null : row
+  }
+
+  /**
    * @override
    */
   buildChartData(data: ProcessedData): Promise<void> {
     return new Promise<void>((resolve) => {
       const rows = [];
-      const stations = [];
-      const stationRows = [];
+      const stationRowsMap = new Map<string, Row>();
+
+      // true if group channels by station
+      this.useStationView =
+        this.properties.displayType === "stoplight" ||
+        this.properties.displayType === "worst";
 
       this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
         this.selectedMetrics,
@@ -252,20 +304,39 @@ export class TabularComponent
         3
       );
 
-      this.channels.forEach((channel) => {
-        const identifier = channel.staCode;
+      this.channels.forEach((channel: Channel) => {
+        const stationId = channel.staCode;
         const nslc = channel.nslc;
-        let agg = 0;
-        const rowMetrics: RowMetrics = {};
-        const stationRowMetrics: RowMetrics = {};
+        const channelRow: Row = {
+          title: this.useStationView ? `${channel.loc}.${channel.code}` : nslc,
+          metrics: {},
+          agg: 0,
+        };
+
+        let stationRow;
+        // add station row that will expand to show channels
+        if (this.useStationView) {
+          channelRow.parentId = stationId;
+          if (!stationRowsMap.has(stationId)) {
+            const stationRow: Row = {
+              title: stationId,
+              children: [],
+              metrics: null,
+              agg: 0,
+              channelAgg: null,
+            };
+            stationRowsMap.set(stationId, stationRow);
+          }
+          stationRow = stationRowsMap.get(stationId);
+        }
+
         this.selectedMetrics.forEach((metric) => {
           if (!metric) return;
-          let val: number = null;
-          let count: number;
+          let value: number = null; //column value
 
           if (data.get(channel.id)) {
             const rowData = data.get(channel.id).get(metric.id);
-            val = this.measurementPipe.transform(
+            value = this.measurementPipe.transform(
               rowData,
               this.widgetManager.stat
             );
@@ -273,152 +344,105 @@ export class TabularComponent
 
           const visualMap = this.visualMaps[metric.id];
           const inRange = visualMap
-            ? this.widgetConfigService.checkValue(val, visualMap)
+            ? this.widgetConfigService.checkValue(value, visualMap)
             : true;
-          if (val === null || (visualMap && !inRange)) {
-            agg++;
-            count = 0;
-          } else {
-            count = 1;
-          }
 
-          rowMetrics[metric.id] = {
-            value: val,
-            color: this.getStyle(val, visualMap),
-            count: 0,
+          // metric is in spec if the value exists and is in Range
+          const inSpec = value !== null && visualMap && inRange;
+
+          // display color for channel
+          const color = this.getStyle(value, visualMap);
+
+          // add metric data to channel row
+          channelRow.metrics[metric.code] = {
+            value,
+            color,
+            inSpec,
           };
-          stationRowMetrics[metric.id] = {
-            value: val,
-            color: this.getStyle(val, visualMap),
-            count, //channel in range for this metric
-          };
+          if (!inSpec) {
+            channelRow.agg++;
+          }
+          if (this.properties.displayType === "stoplight" && visualMap) {
+            if (!stationRow.metrics) stationRow.metrics = {};
+            this.stationStoplight(
+              metric.code,
+              inSpec,
+              stationRow,
+              visualMap as StoplightVisualMapOption
+            );
+          }
         });
-        let title: string;
-        if (this.properties.displayType === "channel") {
-          title = nslc;
-        } else {
-          title = channel.loc + "." + channel.code;
-        }
 
-        let row: ChannelRow = {
-          title,
-          id: channel.id,
-          nslc: nslc,
-          parentId: identifier,
-          treeStatus: "disabled",
-          agg,
-        };
-        row = { ...row, ...rowMetrics };
-        rows.push(row);
-
-        if (this.properties.displayType !== "channel") {
-          let staIndex = stations.indexOf(identifier);
-          if (staIndex < 0) {
-            staIndex = stations.length;
-            stations.push(identifier);
-            const station: StationRow = {
-              ...{
-                title: identifier,
-                id: identifier,
-                treeStatus: "collapsed",
-                count: 0, //number of channels the station has
-                agg, //number of channels/metrics out of spec
-                type: this.properties.displayType,
-              },
-            };
-
-            stationRows.push(station);
+        if (stationRow) {
+          if (channelRow.agg > 0) {
+            stationRow.agg++;
           }
-          stationRows[staIndex] = this.findWorstChannel(
-            row,
-            stationRows[staIndex],
-            stationRowMetrics
-          );
-          // check if agg if worse than current agg
+          if (this.properties.displayType === "worst") {
+            if (!stationRow.metrics || channelRow.agg > stationRow.channelAgg) {
+              stationRow.metrics = channelRow.metrics;
+              stationRow.channelAgg = channelRow.agg;
+            }
+          }
+          stationRow.children.push(channelRow);
+        } else {
+          rows.push(channelRow);
         }
       });
-      this.rows = [...stationRows, ...rows];
+      if (stationRowsMap.size > 0) {
+        this.rows = [...stationRowsMap.values()];
+      } else {
+        this.rows = [...rows];
+      }
       resolve();
     });
   }
 
-  //FIXME: this needs to be cleaned up - can this use widget properties instead of station
-  // properties
   /**
-   * Finds worst channel value to represent station
+   * Calculates properties for the station row for a single metric
+   * with the stoplight type
    *
-   * @param channel - channel to compare against station
-   * @param station - station to compare
-   * @param stationRowMetrics - metrics for station
-   * @returns updated station row
+   * @param code metric identifying code
+   * @param inSpec is channel in spec for this metric
+   * @param stationRow station row for the channel
+   * @param visualMap visual map for metric
    */
-  private findWorstChannel(
-    channel: ChannelRow,
-    station: StationRow,
-    stationRowMetrics: RowMetrics
-  ): StationRow {
-    station.count++;
-    if (station.type === "worst") {
-      if (channel.agg >= station.agg) {
-        const newStation = { ...station, ...stationRowMetrics };
-        newStation.treeStatus = station.treeStatus;
-        newStation.id = station.id;
-        newStation.parentId = null;
-        return newStation;
-      }
-    } else if (station.type === "stoplight") {
-      Object.keys(stationRowMetrics).forEach((key) => {
-        if (!station[key]) {
-          station[key] = { ...stationRowMetrics[key] };
-        } else {
-          station[key].count += stationRowMetrics[key].count;
-        }
-
-        if (station[key].count === station.count) {
-          //all in
-          station[key].color = this.visualMaps[key]?.colors.in;
-        } else if (station[key].count > 0) {
-          //some out
-          station[key].color = this.visualMaps[key]?.colors.middle;
-        } else if (station[key].count === 0) {
-          // all out
-          station[key].color = this.visualMaps[key]?.colors.out;
-        }
-
-        if (!station[key].color) {
-          station[key].color = "gray";
-        }
-      });
+  private stationStoplight(
+    code: string,
+    inSpec: boolean,
+    stationRow: Row,
+    visualMap: StoplightVisualMapOption
+  ): void {
+    if (!stationRow.metrics[code]) {
+      stationRow.metrics[code] = {
+        value: 0,
+        color: null,
+        inSpec,
+      };
     }
-    return station;
-  }
 
-  /**
-   * Table tree action, shows or collapses selected row
-   *
-   * @param event - table event
-   * @param event.row - selected row
-   */
-  onTreeAction(event: { row: StationRow }): void {
-    const row = event.row;
-    if (row.treeStatus === "collapsed") {
-      row.treeStatus = "loading";
-      row.treeStatus = "expanded";
-      this.rows = [...this.rows];
+    const stationMetric = stationRow.metrics[code];
+    if (!inSpec) {
+      stationMetric.value++;
+    }
+    // number of out of spec channels already
+    const numOutOfSpec = stationMetric.value;
+    // add 1 because current channel hasn't been added yet
+    const totalNumChannels = stationRow.children.length + 1;
+    let color;
+    if (numOutOfSpec === 0) {
+      //some out of spec
+      color = visualMap.colors.in;
+    } else if (totalNumChannels === numOutOfSpec) {
+      //all out of spec
+      color = visualMap.colors.out;
+    } else if (totalNumChannels > numOutOfSpec) {
+      // all in spec
+      color = visualMap.colors.middle;
     } else {
-      row.treeStatus = "collapsed";
-      this.rows = [...this.rows];
+      // something got messed up
+      color = "gray";
     }
-  }
-
-  /**
-   * On select event, triggers tree action
-   *
-   * @param event - table event
-   * @param event.selected - selected row
-   */
-  onSelect(event: { selected: StationRow }): void {
-    this.onTreeAction({ row: event.selected[0] });
+    stationMetric.color = color;
   }
 
   /**

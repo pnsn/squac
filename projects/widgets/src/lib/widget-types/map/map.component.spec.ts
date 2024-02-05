@@ -1,6 +1,4 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { LeafletModule } from "@asymmetrik/ngx-leaflet";
-import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
 import { WidgetConnectService } from "../../services/widget-connect.service";
 import { WidgetManagerService } from "../../services/widget-manager.service";
 import { WidgetConfigService } from "../../services/widget-config.service";
@@ -15,8 +13,6 @@ describe("MapComponent", () => {
 
   beforeEach(() => {
     return MockBuilder(MapComponent)
-      .mock(LeafletModule)
-      .mock(LeafletDrawModule)
       .mock(WidgetConfigService)
       .provide({
         provide: WidgetManagerService,

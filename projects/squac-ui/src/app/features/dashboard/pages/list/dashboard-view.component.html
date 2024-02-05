@@ -1,0 +1,24 @@
+<shared-detail-page
+  [options]="pageOptions"
+  *ngIf="dashboards"
+  type="Dashboard"
+  title="Dashboards"
+>
+  <ng-container bodyContent>
+    <shared-table-view
+      title="Dashboards"
+      [options]="options"
+      [rows]="rows"
+      [columns]="columns"
+      (itemSelected)="onSelect($event)"
+      (controlClicked)="onClick($event)"
+      (refresh)="refresh()"
+      [controls]="controls"
+      [filters]="filters"
+      [isLoading]="loadingService.isLoading$(this) | async"
+      (filtersChanged)="refresh($event)"
+    ></shared-table-view>
+  </ng-container>
+</shared-detail-page>
+
+<router-outlet></router-outlet>

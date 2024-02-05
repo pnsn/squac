@@ -7,8 +7,8 @@ import { UserPipe } from "./pipes/user.pipe";
  * Module for squacapi
  */
 @NgModule({
-  declarations: [UserPipe, OrganizationPipe, MeasurementPipe],
+  declarations: [],
   exports: [UserPipe, OrganizationPipe, MeasurementPipe],
-  imports: [],
+  imports: [UserPipe, OrganizationPipe, MeasurementPipe],
 })
 export class SquacapiModule {}

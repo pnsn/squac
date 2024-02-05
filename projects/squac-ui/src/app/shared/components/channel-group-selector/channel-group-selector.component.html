@@ -2,6 +2,7 @@
   class="medium"
   [appearance]="appearance"
   [ngClass]="{ 'dense-form-field': dense }"
+  subscriptSizing="dynamic"
 >
   <!-- <mat-label>{{ label }}{{ required ? "(required)" : "" }}</mat-label> -->
   <mat-label *ngIf="selectedChannelGroup">Channel Group</mat-label>
@@ -20,12 +21,15 @@
     #autoChannelGroup="matAutocomplete"
     [displayWith]="displayFn"
   >
-    <mat-optgroup *ngFor="let group of sortedGroups" [label]="group.name">
+    <mat-optgroup
+      *ngFor="let group of sortedGroups"
+      [label]="group.name"
+      class="dense-optgroup"
+    >
       <mat-option
         *ngFor="let channelGroup of group.groups"
         [value]="channelGroup"
-        >{{ channelGroup.name }} ({{ channelGroup.channelsCount }})</mat-option
-      >
+      >{{ channelGroup.name }} ({{ channelGroup.channelsCount }})</mat-option>
     </mat-optgroup>
   </mat-autocomplete>
 </mat-form-field>

@@ -26,8 +26,8 @@ import {
 } from "squacapi";
 import { Widget } from "widgets";
 import { TimeRange } from "@shared/components/date-select/time-range.interface";
-import { DATE_PICKER_TIMERANGES } from "@dashboard/components/dashboard-detail/dashboard-time-ranges";
-import { LoadingIndicator } from "@dashboard/components/dashboard-detail/dashboard-detail.component";
+import { DATE_PICKER_TIMERANGES } from "@dashboard/pages/detail/dashboard-time-ranges";
+import { LoadingIndicator } from "@dashboard/pages/detail/dashboard-detail.component";
 import { LoadingService } from "@core/services/loading.service";
 
 /** Current state of the dashboard configuration */
@@ -445,12 +445,9 @@ export class ViewService {
         next: (newWidget: Widget) => {
           if (index > -1) {
             this._widgets[index] = newWidget;
-            this.messageService.message("Widget updated.");
           } else {
             this._widgets.push(newWidget);
-            this.messageService.message("Widget added.");
           }
-
           this.widgetChanged(newWidget.id);
         },
         error: () => {

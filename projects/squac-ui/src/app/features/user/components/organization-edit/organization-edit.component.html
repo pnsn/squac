@@ -1,16 +1,4 @@
-<div
-  mat-dialog-title
-  class="dialog-title"
->
-  <h3>{{ editMode ? "Edit User" : "New User" }}</h3>
-  <button
-    mat-button
-    (click)="cancel()"
-    type="button"
-  >
-    <mat-icon>close</mat-icon>
-  </button>
-</div>
+<h2 mat-dialog-title>{{ editMode ? "Edit User" : "New User" }}</h2>
 
 <div mat-dialog-content>
   <p
@@ -27,16 +15,19 @@
     action=""
     [formGroup]="userForm"
   >
-    <mat-form-field class="medium">
+    <mat-form-field>
+      <mat-label>Email</mat-label>
       <input
         matInput
+        required
+        floatLabel="always"
         formControlName="email"
-        placeholder="Email"
         type="text"
         id="email"
       />
     </mat-form-field>
-    <mat-form-field class="medium">
+    <mat-form-field>
+      <mat-label>First Name</mat-label>
       <input
         matInput
         formControlName="firstname"
@@ -45,7 +36,8 @@
         id="firstname"
       />
     </mat-form-field>
-    <mat-form-field class="medium">
+    <mat-form-field>
+      <mat-label>Last Name</mat-label>
       <input
         matInput
         formControlName="lastname"
@@ -54,13 +46,15 @@
         id="lastname"
       />
     </mat-form-field>
-    <mat-form-field class="select-groups">
-      <mat-label>Role</mat-label>
+    <mat-form-field>
+      <mat-label>Permission Groups</mat-label>
       <mat-select
         formControlName="groups"
         multiple
+        class="dense-select"
       >
         <mat-option
+          class="dense-option"
           *ngFor="let group of groupTypes"
           [value]="group.role"
         >{{
@@ -75,14 +69,24 @@
 
 <div
   mat-dialog-actions
+  align="end"
   class="dialog-options"
 >
+  <button
+    class="dialog-cancel"
+    mat-stroked-button
+    mat-dialog-close
+    (click)="cancel()"
+    type="button"
+  >
+    Cancel
+  </button>
   <button
     class="save"
     mat-flat-button
     color="accent"
     (click)="save()"
-    [disabled]="!userForm.valid"
+    [disabled]="!userForm?.valid"
   >
     {{ editMode ? "Save User" : "Add User" }}
   </button>

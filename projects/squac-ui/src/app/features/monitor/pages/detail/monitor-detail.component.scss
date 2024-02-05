@@ -1,0 +1,53 @@
+@import "variables";
+
+.box {
+  padding: 0px 10px 10px;
+  .mat-h2 {
+    margin: 0px;
+  }
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-rows: auto;
+  padding: 10px;
+  column-gap: 10px;
+  row-gap: 10px;
+  p {
+    margin: 0;
+  }
+  justify-content: center;
+  grid-template-areas:
+    "info ."
+    "info date"
+    "triggers triggers"
+    "alerts alerts "
+    "history history "
+    "channels channels ";
+}
+
+.chart-container {
+  z-index: 10;
+}
+
+#trigger-table {
+  width: 100%;
+  text-align: left;
+}
+
+#alert-tables-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  .alert-table-container {
+    height: 300px;
+    overflow: auto;
+    flex: 1 1 275px;
+    display: inline-block;
+  }
+  #breaching-channels-table {
+    flex: 0 0 275px;
+  }
+}
+
+.mat-column-inAlarm {
+  width: 30px;
+}

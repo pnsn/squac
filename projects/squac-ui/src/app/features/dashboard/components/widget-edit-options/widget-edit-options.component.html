@@ -1,0 +1,251 @@
+<div class="column">
+  <form
+    #optionsEditForm
+    [formGroup]="optionsForm"
+  >
+    <ng-container
+      formGroupName="options"
+      *ngIf="displayOption"
+    >
+      <div class="head-row">
+        <span class="label">Colors</span>
+      </div>
+      <p class="help-text">
+        If # of splits is 0 the coloring will be continuous. If # of splits > 0,
+        the color bar will be evenly split.
+      </p>
+      <div class="row">
+        <mat-form-field
+          class="small dense-form-field"
+          subscriptSizing="dynamic"
+        >
+          <mat-label>In Range</mat-label>
+          <mat-select
+            #inRange
+            formControlName="inRange"
+            class="dense-select"
+          >
+            <mat-select-trigger
+              class="range-select-trigger"
+              *ngIf="inRange && inRange.value"
+            >
+              <span
+                *ngIf="
+                  inRange.value.color && inRange.value.color.length === 1;
+                  else gradient
+                "
+                class="color-indicator"
+                [ngStyle]="{
+                  'background-color': inRange.value.color[0]
+                }"
+              ></span>
+
+              <ng-template #gradient>
+                <span
+                  class="gradient-indicator"
+                  [ngStyle]="{
+                    'background-image':
+                      'linear-gradient(to right, ' + colors(inRange.value) + ')'
+                  }"
+                ></span>
+              </ng-template>
+            </mat-select-trigger>
+
+            <mat-option
+              *ngFor="let opt of gradientOptions"
+              [value]="opt"
+              class="range-select-option dense-option"
+            >
+
+              <span
+                class="gradient-indicator"
+                [ngStyle]="{
+                  'background-image':
+                    'linear-gradient(to right, ' + colors(opt) + ')'
+                }"
+              ></span>
+              <span class="gradient-label">
+                {{ opt.label }}
+              </span>
+            </mat-option>
+            <mat-option
+              *ngFor="let opt of solidOptions"
+              [value]="opt"
+              class="range-select-option dense-option"
+            >
+              <span
+                *ngIf="opt.color.length === 1"
+                class="color-indicator"
+                [ngStyle]="{
+                  'background-color': opt.color[0]
+                }"
+              ></span>
+              <span>
+                {{ opt.label }}
+              </span>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field
+          class="small dense-form-field"
+          subscriptSizing="dynamic"
+        >
+          <mat-label>Out of Range</mat-label>
+          <mat-select
+            #outOfRange
+            formControlName="outOfRange"
+            class="dense-select"
+          >
+            <mat-select-trigger class="range-select-trigger">
+              <span
+                *ngIf="outOfRange.value"
+                class="color-indicator"
+                [ngStyle]="{
+                  'background-color': outOfRange.value.color[0]
+                }"
+              ></span>
+            </mat-select-trigger>
+            <mat-option
+              class="range-select-option dense-option"
+              *ngFor="let range of solidOptions"
+              [value]="range"
+            >
+              <span
+                class="color-indicator"
+                [ngStyle]="{
+                  'background-color': range.color[0]
+                }"
+              ></span>
+              {{ range.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field
+          class="small dense-form-field"
+          subscriptSizing="dynamic"
+        >
+          <mat-label># of splits</mat-label>
+          <input
+            matInput
+            type="number"
+            name="numSplits"
+            min="0"
+            formControlName="numSplits"
+          />
+        </mat-form-field>
+        <mat-checkbox
+          formControlName="reverseColors"
+          class="dense-checkbox"
+        >
+          Reverse Colors
+        </mat-checkbox>
+      </div>
+    </ng-container>
+    <ng-container>
+      <div class="head-row">
+        <span class="label">Metric Thresholds</span>
+      </div>
+      <p class="mat-body-2">
+        Values between or equal to the min and max will be 'in range'. If the
+        min or max is empty, the chart will use the data min or max instead.
+        Default values are the suggested min and max for the metric.
+      </p>
+      <ng-container formArrayName="thresholdArray">
+        <table id="thresholds-table">
+          <thead>
+            <th class="large">metric</th>
+            <th
+              *ngIf="displayOption?.dimensions"
+              class="small"
+            >dimension</th>
+
+            <th class="small">min value</th>
+            <th class="small">max value</th>
+            <th></th>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let threshold of thresholdArray?.controls; let i = index">
+              <tr [formGroupName]="i">
+                <td class="large">
+                  <span *ngIf="threshold.controls.metricId.value as metricId">
+                    {{ getMetricName(metricId) }}
+                  </span>
+                </td>
+                <td
+                  *ngIf="displayOption?.dimensions"
+                  class="small"
+                >
+                  <mat-form-field
+                    class="dense-form-field"
+                    subscriptSizing="dynamic"
+                  >
+                    <mat-select
+                      #dimensions
+                      formControlName="dimension"
+                      (selectionChange)="validateThresholds(i)"
+                      class="dense-select"
+                    >
+                      <mat-option
+                        *ngFor="let dim of displayOption?.dimensions"
+                        class="dense-option"
+                        [value]="dim"
+                      >
+                        {{ dim }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </td>
+
+                <td class="small">
+                  <mat-form-field
+                    class="dense-form-field"
+                    subscriptSizing="dynamic"
+                  >
+                    <input
+                      #min
+                      matInput
+                      type="number"
+                      name="min"
+                      formControlName="min"
+                    />
+                  </mat-form-field>
+                </td>
+
+                <td class="small">
+                  <mat-form-field
+                    class="dense-form-field"
+                    subscriptSizing="dynamic"
+                  >
+                    <input
+                      #max
+                      matInput
+                      type="number"
+                      name="max"
+                      formControlName="max"
+                    />
+
+                  </mat-form-field>
+                </td>
+                <td>
+                  <button
+                    matIconSuffix
+                    mat-icon-button
+                    class="dense-icon-button"
+                    aria-label="Reset values"
+                    uiTooltip="Clear values"
+                    (click)="min.value = null; max.value= null"
+                  >
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </td>
+
+                <ng-template #default> default </ng-template>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </ng-container>
+    </ng-container>
+  </form>
+</div>

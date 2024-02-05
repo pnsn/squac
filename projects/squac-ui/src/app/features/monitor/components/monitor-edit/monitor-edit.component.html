@@ -1,16 +1,5 @@
-<div
-  mat-dialog-title
-  class="dialog-title"
->
-  <h3>{{ editMode ? "Edit Monitor" : "New Monitor" }}</h3>
-  <button
-    mat-button
-    (click)="cancel()"
-    type="button"
-  >
-    <mat-icon>close</mat-icon>
-  </button>
-</div>
+<h2 mat-dialog-title>{{ editMode ? "Edit Monitor" : "New Monitor" }}</h2>
+
 <div mat-dialog-content>
   <form
     #monitorEditForm
@@ -18,6 +7,7 @@
     class="form"
   >
     <mat-horizontal-stepper
+      class="dialog-stepper dense-stepper"
       #stepper
       color="primary"
     >
@@ -28,20 +18,23 @@
         state="monitor"
       >
         <div id="monitor-edit-container">
-          <mat-form-field class="large">
-            <!-- hintLabel="Max 60 characters" -->
-            <mat-label for="name">Monitor Name</mat-label>
-            <input
-              matInput
-              #name
-              maxLength="60"
-              type="text"
-              name="name"
-              formControlName="name"
-            />
-            <!-- <mat-hint align="end">{{ name.value?.length || 0 }}/60</mat-hint> -->
-          </mat-form-field>
-          <p class="help-text">
+          <div>
+            <div class="label">Name:</div>
+            <mat-form-field class="large">
+              <!-- hintLabel="Max 60 characters" -->
+              <mat-label for="name">Monitor Name</mat-label>
+              <input
+                matInput
+                #name
+                maxLength="60"
+                type="text"
+                name="name"
+                formControlName="name"
+              />
+              <!-- <mat-hint align="end">{{ name.value?.length || 0 }}/60</mat-hint> -->
+            </mat-form-field>
+          </div>
+          <p class="mat-small">
             A monitor is 'in alarm' when the following conditions are true.
           </p>
           <div id="monitor-body">
@@ -229,9 +222,10 @@
           >
             <table id="trigger-table">
               <tr>
-                <th></th>
+                <th class="trigger-id"></th>
                 <th colspan="3">Values</th>
                 <th colspan="2"># of channels</th>
+                <th class="delete"></th>
               </tr>
               <ng-container *ngFor="let trigger of triggers.controls; let i = index">
                 <ng-container
@@ -239,7 +233,7 @@
                   class="trigger"
                 >
                   <tr>
-                    <td>
+                    <td class="trigger-id">
                       Trigger
                       {{ i + 1 }}:
                     </td>
@@ -317,6 +311,20 @@
                         />
                       </mat-form-field>
                     </td>
+                    <td
+                      class="delete"
+                      rowspan="2"
+                    >
+                      <button
+                        mat-icon-button
+                        color="warn"
+                        (click)="removeTrigger(i)"
+                        aria-label="button that removes the trigger"
+                        *ngIf="i !== 0"
+                      >
+                        <mat-icon> delete </mat-icon>
+                      </button>
+                    </td>
 
                     <ng-template #default> default </ng-template>
                   </tr>
@@ -336,24 +344,13 @@
                           address</mat-error>
                       </mat-form-field>
                     </td>
-                    <td>
+                    <td colspan="2">
                       <mat-slide-toggle
                         name="alertOnOutOfAlarm"
                         formControlName="alertOnOutOfAlarm"
                       >
                         also alert on exit
                       </mat-slide-toggle>
-                    </td>
-                    <td>
-                      <button
-                        mat-button
-                        color="warn"
-                        (click)="removeTrigger(i)"
-                        aria-label="button that removes the trigger"
-                        *ngIf="i !== 0"
-                      >
-                        <mat-icon> delete </mat-icon>
-                      </button>
                     </td>
                   </tr>
                 </ng-container>
@@ -402,52 +399,49 @@
       </ng-template>
     </mat-horizontal-stepper>
   </form>
-
-  <!-- <div id="chart-container">
-    <h4>Preview</h4>
-    <monitor-chart
-      [metric]="monitorForm.value.metric"
-      [triggers]="monitorForm.value.triggers"
-      [channelGroupId]="monitorForm.value.channelGroup.id"
-      [stat]="monitorForm.value.stat"
-      [numberChannels]="monitorForm.value.numberChannels"
-      [intervalCount]="monitorForm.value.intervalCount"
-      [intervalType]="monitorForm.value.intervalType"
-      [invert]="monitorForm.value.invert"
-      ></monitor-chart>
-  </div> -->
+  <span class="warn-text mat-small">* required field</span>
 </div>
+
 
 <div
   mat-dialog-actions
+  align="end"
   class="dialog-options"
 >
-  <div class="dialog-buttons">
-    <button
-      mat-stroked-button
-      color="primary"
-      (click)="stepper.previous()"
-      [disabled]="stepper.selectedIndex === 0"
-    >
-      Back
-    </button>
-    <button
-      mat-stroked-button
-      color="primary"
-      (click)="stepper.next()"
-      [disabled]="stepper.selectedIndex === 1"
-    >
-      Next
-    </button>
-    <button
-      class="save"
-      mat-flat-button
-      color="accent"
-      (click)="save()"
-      [disabled]="!monitorForm.valid || !triggers.valid"
-    >
-      Save
-    </button>
-  </div>
-  <p class="warn-text">* required field</p>
+  <button
+    class="dialog-cancel"
+    mat-stroked-button
+    mat-dialog-close
+    (click)="cancel()"
+    type="button"
+  >
+    Cancel
+  </button>
+  <button
+    mat-stroked-button
+    color="primary"
+    (click)="stepper.previous()"
+    [disabled]="stepper.selectedIndex === 0"
+  >
+    Back
+  </button>
+  <button
+    mat-stroked-button
+    color="primary"
+    (click)="stepper.next()"
+    [disabled]="stepper.selectedIndex === 1"
+  >
+    Next
+  </button>
+  <button
+    class="dialog-save"
+    mat-flat-button
+    color="accent"
+    (click)="save()"
+    [disabled]="!monitorForm.valid || !triggers.valid"
+  >
+    Save
+  </button>
+
+
 </div>

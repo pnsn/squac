@@ -4,7 +4,7 @@ import { Dayjs } from "dayjs";
 import * as duration from "dayjs/plugin/duration";
 import * as utc from "dayjs/plugin/utc";
 import * as timezone from "dayjs/plugin/timezone";
-import { DEFAULT_LOCALE, Locale } from "@core/locale.constant";
+import { DEFAULT_LOCALE, Locale } from "@core/constants/locale.constant";
 import { TimeRange } from "@shared/components/date-select/time-range.interface";
 
 /**

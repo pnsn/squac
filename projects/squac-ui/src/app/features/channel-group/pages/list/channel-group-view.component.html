@@ -1,0 +1,28 @@
+<shared-detail-page
+  [options]="pageOptions"
+  type="ChannelGroup"
+  title="Channel Groups"
+>
+  <ng-container bodyContent>
+    <shared-table-view
+      title="Channel Groups"
+      [options]="options"
+      [rows]="rows"
+      [columns]="columns"
+      (itemSelected)="onSelect($event)"
+      (controlClicked)="onClick($event)"
+      [selectedRowId]="selectedChannelGroupId"
+      (refresh)="refresh()"
+      [controls]="controls"
+      [filters]="filters"
+      [isLoading]="loadingService.isLoading$(this) | async"
+      (filtersChanged)="refresh($event)"
+    >
+    </shared-table-view>
+  </ng-container>
+</shared-detail-page>
+<router-outlet></router-outlet>
+
+<!-- <router-outlet></router-outlet> -->
+
+<!-- <channel-group-detail *ngIf="selectedChannelGroup" [channelGroup]="selectedChannelGroup"></channel-group-detail> -->

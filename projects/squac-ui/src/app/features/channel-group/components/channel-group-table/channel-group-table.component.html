@@ -1,0 +1,143 @@
+<div class="channel-group-table-container">
+  <div class="action-row">
+    <button
+      *ngIf="removable"
+      [disabled]="selection.isEmpty()"
+      mat-stroked-button
+      (click)="removeSelected()"
+    >
+      remove
+    </button>
+  </div>
+  <div class="table-container">
+    <table
+      class="dense-table"
+      mat-table
+      matSort
+      [dataSource]="dataSource"
+    >
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+        >
+          <mat-checkbox
+            class="dense-checkbox"
+            (change)="$event ? toggleAllRows() : null"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+          >
+          </mat-checkbox>
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let row"
+        >
+          <mat-checkbox
+            class="dense-checkbox"
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)"
+            [aria-label]="selection.isSelected(row) ? 'deselect channel' : 'select channel'"
+          >
+          </mat-checkbox>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="net">
+
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          Net
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let row"
+        >
+          {{row.net}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="sta">
+
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          Sta
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let row"
+        >
+          {{row.sta}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="loc">
+
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          Loc
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let row"
+        >
+          {{row.loc}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="code">
+
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          Chan
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let row"
+        >
+          {{row.code}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="footer">
+        <td
+          mat-footer-cell
+          *matFooterCellDef
+          [attr.colspan]="channelColumns.length"
+        >{{selection.selected.length}} / {{dataSource.data.length}} channels selected</td>
+      </ng-container>
+      <tr
+        mat-header-row
+        *matHeaderRowDef="channelColumns; sticky:true"
+      ></tr>
+      <tr
+        mat-row
+        (click)="selection.toggle(row)"
+        *matRowDef="let row; columns: channelColumns;"
+      ></tr>
+      <tr
+        mat-footer-row
+        *matFooterRowDef="['footer']; sticky:true"
+      ></tr>
+      <tr
+        class="mat-row"
+        *matNoDataRow
+      >
+        <td
+          class="mat-cell"
+          [attr.colspan]="channelColumns.length"
+        >No channels found.</td>
+      </tr>
+    </table>
+  </div>
+</div>

@@ -3,8 +3,9 @@
   style="min-width: 250px"
   appearance="outline"
   class="dense-form-field"
+  subscriptSizing="dynamic"
 >
-  <span matPrefix><mat-icon>search</mat-icon></span>
+  <mat-icon matIconPrefix>search</mat-icon>
   <input
     type="text"
     matInput
@@ -14,8 +15,9 @@
   />
   <button
     *ngIf="searchString"
-    matSuffix
-    mat-button
+    mat-icon-button
+    matIconSuffix
+    class="dense-icon-button"
     aria-label="Clear"
     (click)="remove()"
   >

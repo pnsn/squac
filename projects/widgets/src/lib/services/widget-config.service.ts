@@ -7,7 +7,7 @@ import {
   WidgetProperties,
   WidgetStatType,
 } from "squacapi";
-import { PrecisionPipe } from "../shared/pipes/precision.pipe";
+import { PrecisionPipe } from "../pipes/precision.pipe";
 import colormap from "colormap";
 import { Threshold } from "squacapi";
 import {
@@ -27,7 +27,7 @@ import {
   EChartsOption,
   TooltipComponentFormatterCallbackParams,
 } from "echarts";
-import { ECHART_DEFAULTS } from "../shared/components/e-chart/chart-config";
+import { ECHART_DEFAULTS } from "../components/e-chart/chart-config";
 
 /**
  * Service to configure widgets

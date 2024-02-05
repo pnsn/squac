@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Inject, Injectable } from "@angular/core";
 import { Observable, ReplaySubject, Subject } from "rxjs";
 
 import { ArchiveStatType, ArchiveType } from "squacapi";
@@ -10,11 +10,11 @@ import {
   WidgetStatType,
 } from "squacapi";
 
-import { WidgetErrors, WidgetType } from "../enums";
+import { WidgetErrors } from "../enums";
 import { WidgetConfig, WidgetDisplayOption } from "../interfaces";
 import { WidgetDataService } from ".";
-import { WIDGET_TYPE_INFO } from "../constants";
-import { ChannelComparator } from "../shared";
+import { WidgetTypes, WIDGET_TYPES, WidgetType } from "../constants";
+import { ChannelComparator } from "../utils";
 
 /**
  * Keeps track of data shared between widget tree components
@@ -26,7 +26,10 @@ import { ChannelComparator } from "../shared";
  */
 @Injectable()
 export class WidgetManagerService {
-  constructor(private widgetDataService: WidgetDataService) {
+  constructor(
+    private widgetDataService: WidgetDataService,
+    @Inject(WIDGET_TYPES) private widgetTypes: WidgetTypes
+  ) {
     this.isLoading$ = this.widgetDataService.isLoading$?.asObservable();
   }
 
@@ -126,7 +129,7 @@ export class WidgetManagerService {
   updateWidgetType(widgetType: WidgetType): void {
     this._widgetType = widgetType;
 
-    this._widgetConfig = WIDGET_TYPE_INFO[this._widgetType].config;
+    this._widgetConfig = this.widgetTypes[this._widgetType]?.config;
 
     const displayType =
       this._widget.properties.displayType ?? this._widgetConfig.defaultDisplay;

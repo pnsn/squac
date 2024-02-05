@@ -1,5 +1,4 @@
-import { ActivatedRoute } from "@angular/router";
-import { RouterTestingModule } from "@angular/router/testing";
+import { TestBed } from "@angular/core/testing";
 import { AuthService } from "@core/services/auth.service";
 import { MockBuilder, MockInstance, MockRender, ngMocks } from "ng-mocks";
 
@@ -9,23 +8,19 @@ describe("MenuComponent", () => {
   ngMocks.faster();
   MockInstance.scope();
 
-  beforeAll(() => {
-    return MockBuilder([MenuComponent], [RouterTestingModule.withRoutes([])])
-      .mock(AuthService)
-      .mock(MenuComponent)
-      .provide({
-        provide: ActivatedRoute,
-        useValue: {
-          snapshot: {
-            data: {},
-          },
-        },
-      });
+  beforeEach(() => {
+    return MockBuilder(MenuComponent);
   });
 
   it("should create", () => {
     const fixture = MockRender(MenuComponent);
-    const component = fixture.point.componentInstance;
-    expect(component).toBeTruthy();
+    expect(fixture.point.componentInstance).toBeDefined();
+  });
+
+  it("should log user out", () => {
+    const fixture = MockRender(MenuComponent);
+    const authService = TestBed.inject(AuthService);
+    fixture.point.componentInstance.logout();
+    expect(authService.logout).toHaveBeenCalled();
   });
 });

@@ -4,20 +4,31 @@ import {
   WidgetManagerService,
   WidgetConfigService,
 } from "../../services";
-import { EChartComponent } from "../../shared/components";
+import { EChartComponent } from "../../components/e-chart/e-chart.component";
 import { ProcessedData, WidgetTypeComponent } from "../../interfaces";
 import {
   ParallelSeriesOption,
   TooltipComponentFormatterCallbackParams,
 } from "echarts";
+import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
 
 /**
  * Parallel plot widget, shows multiple metrics on parallel axes
  */
 @Component({
   selector: "widget-parallel-plot",
-  templateUrl: "../../shared/components/e-chart/e-chart.component.html",
-  styleUrls: ["../../shared/components/e-chart/e-chart.component.scss"],
+  templateUrl: "../../components/e-chart/e-chart.component.html",
+  styleUrls: ["../../components/e-chart/e-chart.component.scss"],
+  standalone: true,
+  imports: [NgxEchartsModule],
+  providers: [
+    {
+      provide: NGX_ECHARTS_CONFIG,
+      useFactory: (): unknown => ({
+        echarts: (): unknown => import("echarts"),
+      }),
+    },
+  ],
 })
 export class ParallelPlotComponent
   extends EChartComponent

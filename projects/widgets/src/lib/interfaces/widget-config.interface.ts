@@ -1,4 +1,5 @@
-import { WidgetDisplayOption } from ".";
+import { WidgetType } from "../constants";
+import { WidgetDisplayOption } from "./widget-display-option.interface";
 
 /**
  * Info that describes a widget type
@@ -7,7 +8,7 @@ export interface WidgetConfig {
   /** widget display name */
   name: string;
   /** widget type */
-  type: string;
+  type: WidgetType;
   /** description */
   description: string;
   /** display info text */

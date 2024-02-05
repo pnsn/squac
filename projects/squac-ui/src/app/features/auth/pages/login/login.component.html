@@ -1,0 +1,82 @@
+<div class="column centered">
+  <h1 class="mat-h1">Sign In</h1>
+  <span
+    *ngIf="error"
+    class="error"
+  >
+    {{ error }}
+  </span>
+  <span
+    *ngIf="message"
+    class="info"
+  >
+    {{ message }}
+  </span>
+  <form
+    class="centered-form"
+    *ngIf="loginForm"
+    [formGroup]="loginForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <mat-form-field
+      appearance="outline"
+      class="dense-form-field"
+    >
+      <mat-label> Email </mat-label>
+      <input
+        matInput
+        type="email"
+        id="email"
+        formControlName="email"
+        placeholder="Email"
+        autocomplete="email"
+        auto
+        name="email"
+        required
+      />
+    </mat-form-field>
+
+    <mat-form-field
+      appearance="outline"
+      class="dense-form-field"
+    >
+      <mat-label> Password </mat-label>
+      <input
+        matInput
+        formControlName="password"
+        autocomplete="current-password"
+        placeholder="Password"
+        [type]="hide ? 'password' : 'text'"
+        name="password"
+        required
+      />
+      <button
+        matIconSuffix
+        mat-icon-button
+        class="dense-icon-button"
+        type="button"
+        (click)="hide = !hide"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide"
+      >
+        <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <button
+      class="login-button"
+      mat-flat-button
+      color="accent"
+      type="submit"
+      [disabled]="!loginForm?.valid"
+    >
+      Sign In
+    </button>
+  </form>
+  <a
+    [routerLink]="['password-reset']"
+    id="forgot-password"
+  >
+    Forgot your password?
+  </a>
+</div>

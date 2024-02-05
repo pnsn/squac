@@ -1,3 +1,4 @@
+import { NgIf } from "@angular/common";
 import {
   Component,
   EventEmitter,
@@ -6,7 +7,10 @@ import {
   Output,
   SimpleChanges,
 } from "@angular/core";
-import { User } from "squacapi";
+import { FormsModule } from "@angular/forms";
+import { MatButtonToggleModule } from "@angular/material/button-toggle";
+import { TooltipDirective } from "@shared/directives/tooltip.directive";
+import { OrganizationPipe, User } from "squacapi";
 import { FilterText, SharedToggleFilter } from "./sharing-toggle.interface";
 
 /**
@@ -23,7 +27,14 @@ import { FilterText, SharedToggleFilter } from "./sharing-toggle.interface";
 @Component({
   selector: "shared-sharing-toggle",
   templateUrl: "./sharing-toggle.component.html",
-  styleUrls: ["./sharing-toggle.component.scss"],
+  standalone: true,
+  imports: [
+    MatButtonToggleModule,
+    TooltipDirective,
+    OrganizationPipe,
+    NgIf,
+    FormsModule,
+  ],
 })
 export class SharingToggleComponent implements OnChanges {
   /** true if object shared with organization */

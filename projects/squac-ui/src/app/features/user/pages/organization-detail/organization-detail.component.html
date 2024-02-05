@@ -1,0 +1,69 @@
+<shared-detail-page
+  *ngIf="organization"
+  [resource]="organization"
+  type="Organization"
+  title="{{ organization?.name }} Organization"
+  [options]="pageOptions"
+>
+  <ng-container headerContent>
+    <button
+      *ngIf="'update' | able: organization"
+      [routerLink]="['user/new']"
+      color="accent"
+      mat-flat-button
+      uiTooltip="Add new user"
+      aria-label="Button that activates user invite modal"
+    >
+      New User
+    </button>
+  </ng-container>
+  <ng-container bodyContent>
+    <shared-table-view
+      [options]="options"
+      [rows]="rows"
+      [columns]="columns"
+      [controls]="controls"
+      [filters]="filters"
+      (itemSelected)="onSelect($event)"
+      (controlClicked)="onClick($event)"
+      (refresh)="refresh()"
+      title="{{ organization?.name }} Organization"
+    >
+      <ng-container tableHeadFilters>
+        <p>
+          You are {{ user?.orgId === organization?.id ? "" : "not " }}part of
+          this organization.
+        </p>
+      </ng-container>
+      <ng-template
+        #booleanTemplate
+        let-value="value"
+      >
+        {{value ? "yes": "no"}}
+      </ng-template>
+
+    </shared-table-view>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Squac User Roles</mat-card-title>
+        <mat-card-subtitle>Roles are additive</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list class="dense-list">
+          <mat-list-item *ngFor="let group of groups">
+            <span matListItemTitle>{{ group.role | titlecase }}</span>
+            <span matListItemLine>{{ group.description }} </span>
+          </mat-list-item>
+
+          <mat-list-item>
+            <span matListItemTitle>Organization Admin</span>
+            <span matListItemLine> Can add users and
+              assign roles.</span>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
+</shared-detail-page>
+
+<router-outlet></router-outlet>

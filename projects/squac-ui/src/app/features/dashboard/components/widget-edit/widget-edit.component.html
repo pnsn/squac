@@ -1,20 +1,10 @@
-<div
-  mat-dialog-title
-  class="dialog-title"
->
-  <h3 *ngIf="!copyWidget">{{ editMode ? "Edit Widget" : "New Widget" }}</h3>
-  <h3 *ngIf="copyWidget">Add Widget to Dashboard</h3>
-  <button
-    mat-button
-    type="button"
-    (click)="cancel()"
-  >
-    <mat-icon>close</mat-icon>
-  </button>
-</div>
+<h2 mat-dialog-title><ng-container *ngIf="!copyWidget; else copy">{{ editMode ? "Edit Widget" : "New Widget"
+    }}</ng-container></h2>
+<ng-template #copy>Add Widget to Dashboard</ng-template>
 
 <mat-dialog-content>
   <mat-stepper
+    class="dense-stepper"
     #stepper
     [linear]="!editMode"
     color="primary"
@@ -62,12 +52,31 @@
       ></widget-edit-options>
     </mat-step>
   </mat-stepper>
+
+  <!-- <p
+    class="help-text"
+    *ngIf="!widget.isValid; else valid"
+  >
+    Click next to continue {{ editMode ? "editing" : "creating" }} your widget.
+  </p>
+  <ng-template #valid>
+    <p class="help-text"></p>
+  </ng-template> -->
+  <span class="warn-text mat-small">* required field</span>
 </mat-dialog-content>
 
 <mat-dialog-actions
   class="dialog-options"
   *ngIf="widget"
 >
+  <button
+    mat-stroked-button
+    class="dialog-cancel"
+    type="button"
+    (click)="cancel()"
+  >
+    Cancel
+  </button>
   <div>
     <button
       mat-stroked-button
@@ -98,13 +107,4 @@
       Save
     </button>
   </div>
-  <p
-    class="help-text"
-    *ngIf="!widget.isValid; else valid"
-  >
-    Click next to continue {{ editMode ? "editing" : "creating" }} your widget.
-  </p>
-  <ng-template #valid>
-    <p class="help-text"></p>
-  </ng-template>
 </mat-dialog-actions>
