@@ -3,10 +3,13 @@ import {
   HttpClientModule,
   HttpResponse,
   HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptors,
 } from "@angular/common/http";
 import {
   HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { HttpCacheService } from "@core/services/cache.service";
@@ -16,22 +19,17 @@ import {
   MockRender,
   NG_MOCKS_INTERCEPTORS,
 } from "ng-mocks";
-import { AppModule } from "../../app.module";
-import { CacheInterceptor } from "./cache-interceptor.service";
+import { CacheInterceptorFn } from "./cache-interceptor.service";
 
 describe("CacheInterceptor", () => {
-  let interceptor: CacheInterceptor;
   beforeEach(() => {
-    return MockBuilder(CacheInterceptor, AppModule)
+    return MockBuilder()
+      .provide(provideHttpClient(withInterceptors([CacheInterceptorFn])))
+      .provide(provideHttpClientTesting())
       .replace(HttpClientModule, HttpClientTestingModule)
       .exclude(NG_MOCKS_INTERCEPTORS)
       .keep(HTTP_INTERCEPTORS)
       .mock(HttpCacheService);
-  });
-
-  it("should be created", () => {
-    interceptor = TestBed.inject(CacheInterceptor);
-    expect(interceptor).toBeTruthy();
   });
 
   it("should handle request if no cached response", () => {

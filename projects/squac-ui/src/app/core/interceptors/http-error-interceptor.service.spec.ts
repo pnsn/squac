@@ -3,26 +3,26 @@ import {
   HttpClientModule,
   HttpErrorResponse,
   HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptors,
 } from "@angular/common/http";
 import {
   HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { MockBuilder, MockRender, NG_MOCKS_INTERCEPTORS } from "ng-mocks";
-import { HttpErrorInterceptor } from "./http-error-interceptor.service";
+import { HttpErrorInterceptorFn } from "./http-error-interceptor.service";
 
 describe("HttpErrorInterceptor", () => {
   beforeEach(() => {
-    return MockBuilder(HttpErrorInterceptor, AppModule)
+    return MockBuilder()
+      .provide(provideHttpClient(withInterceptors([HttpErrorInterceptorFn])))
+      .provide(provideHttpClientTesting())
       .replace(HttpClientModule, HttpClientTestingModule)
       .exclude(NG_MOCKS_INTERCEPTORS)
       .keep(HTTP_INTERCEPTORS);
-  });
-
-  it("should be created", () => {
-    const interceptor = TestBed.inject(HttpErrorInterceptor);
-    expect(interceptor).toBeTruthy();
   });
 
   it("should throw error if error response returned from api", () => {
