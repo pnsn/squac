@@ -7,6 +7,7 @@ import { TIMECHART_CONFIG } from "../widget-types/timechart";
 import { SCATTER_CONFIG } from "../widget-types/scatter-plot";
 import { TIMELINE_CONFIG } from "../widget-types/timeline";
 import { InjectionToken } from "@angular/core";
+import { BUD_CONFIG } from "../widget-types/bud";
 
 /**
  * Widget type info
@@ -26,6 +27,7 @@ export const WidgetType = [
   "parallel-plot",
   "scatter-plot",
   "calendar-plot",
+  "bud-plot",
 ] as const;
 
 export type WidgetType = typeof WidgetType[number];
@@ -48,4 +50,5 @@ export const DEFAULT_WIDGET_TYPES: Partial<WidgetTypes> = {
   ["parallel-plot"]: PARALLEL_CONFIG,
   ["scatter-plot"]: SCATTER_CONFIG,
   ["calendar-plot"]: CALENDAR_CONFIG,
+  ["bud-plot"]: BUD_CONFIG,
 };
