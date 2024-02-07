@@ -154,11 +154,6 @@ export class CalendarComponent
   buildChartData(data: MeasurementTypes[]): Promise<void> {
     return new Promise<void>((resolve) => {
       this.metricSeries = {};
-      this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
-        this.selectedMetrics,
-        this.properties,
-        2
-      );
 
       this.xAxisLabels = [];
       this.xAxisLabels2 = [];
@@ -213,31 +208,36 @@ export class CalendarComponent
             });
           });
 
-          // if (data.has(channel.id)) {
-          //   const measurements = data.get(channel.id)?.get(metric.id);
-          //   //trusts that measurements are in order of time
-          //   measurements?.forEach((measurement: Measurement) => {
-          //     const measurementStart = parseUtc(measurement.starttime);
+          const channelData: MeasurementTypes[] = data
+            .filter((m) => m.channel === channel.id && m.metric === metric.id)
+            .map((m) => {
+              m.value = m.value ?? m[this.widgetManager.dataStat];
+              return m;
+            });
 
-          //     // figure out which xAxisLabel this data should go to
-          //     let timeSegmentIndex;
-          //     if (width === "days-week") {
-          //       timeSegmentIndex = measurementStart.day();
-          //     } else if (width === "hours-day") {
-          //       timeSegmentIndex = measurementStart.hour();
-          //     } else if (width === "hours-week") {
-          //       const weekday = measurementStart.day();
-          //       const hour = measurementStart.hour();
+          channelData.forEach((measurement: Measurement) => {
+            const measurementStart = parseUtc(measurement.starttime);
+            const value =
+              measurement.value ?? measurement[this.widgetManager.dataStat];
+            // figure out which xAxisLabel this data should go to
+            let timeSegmentIndex;
+            if (width === "days-week") {
+              timeSegmentIndex = measurementStart.day();
+            } else if (width === "hours-day") {
+              timeSegmentIndex = measurementStart.hour();
+            } else if (width === "hours-week") {
+              const weekday = measurementStart.day();
+              const hour = measurementStart.hour();
 
-          //       timeSegmentIndex = hour + weekday * 24;
-          //     }
+              timeSegmentIndex = hour + weekday * 24;
+            }
 
-          //     if (values[timeSegmentIndex]) {
-          //       values[timeSegmentIndex].count++;
-          //       values[timeSegmentIndex].sum += measurement.value;
-          //     }
-          //   });
-          // }
+            if (values[timeSegmentIndex]) {
+              values[timeSegmentIndex].count++;
+              values[timeSegmentIndex].sum += value;
+            }
+            this.widgetConfigService.calculateDataRange(metric.id, value);
+          });
 
           values.forEach((value) => {
             if (value.count > 0) {
@@ -247,6 +247,13 @@ export class CalendarComponent
           });
         });
       });
+
+      this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
+        this.selectedMetrics,
+        this.properties,
+        2
+      );
+
       resolve();
     });
   }

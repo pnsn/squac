@@ -119,7 +119,6 @@ export class BudComponent
   buildChartData(data: MeasurementTypes[]): Promise<void> {
     return new Promise<void>((resolve) => {
       this.metricSeries = {};
-      const dataStat = this.widgetManager.dataStat;
 
       const defaultSeries = {
         type: "heatmap",
@@ -174,7 +173,6 @@ export class BudComponent
         type Networks = Map<string, Stations>;
         const networks: Networks = new Map();
 
-        const measurements = data.filter((m) => m.metric === metric.id);
         //group by network and station?
         this.channels.forEach((channel: Channel) => {
           if (!networks.get(channel.net)) {
@@ -187,10 +185,10 @@ export class BudComponent
               channelData: [],
             });
           }
-          const channelData: MeasurementTypes[] = measurements
-            .filter((m) => m.channel === channel.id)
+          const channelData: MeasurementTypes[] = data
+            .filter((m) => m.channel === channel.id && m.metric === metric.id)
             .map((m) => {
-              m.value = m.value ?? m[dataStat];
+              m.value = m.value ?? m[this.widgetManager.dataStat];
               return m;
             });
 
