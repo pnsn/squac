@@ -14,6 +14,7 @@ import { ProcessedData, WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../../components/e-chart/e-chart.component";
 import { TooltipComponentFormatterCallbackParams } from "echarts";
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
+import { MeasurementTypes } from "squacapi";
 
 /**
  * Scatter plot widget
@@ -137,7 +138,7 @@ export class ScatterPlotComponent
    *
    * @param data measurement data
    */
-  buildChartData(data: ProcessedData): Promise<void> {
+  buildChartData(data: MeasurementTypes[]): Promise<void> {
     return new Promise<void>((resolve) => {
       //if 3 metrics, visualMap
       const metricSeries = {

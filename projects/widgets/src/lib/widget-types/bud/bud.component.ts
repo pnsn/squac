@@ -1,6 +1,15 @@
 import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
-import { Measurement, MeasurementPipe, Channel } from "squacapi";
-import { EChartsOption, registerTransform } from "echarts";
+import {
+  Measurement,
+  MeasurementPipe,
+  Channel,
+  MeasurementTypes,
+} from "squacapi";
+import {
+  EChartsOption,
+  registerTransform,
+  TooltipComponentFormatterCallbackParams,
+} from "echarts";
 
 import {
   WidgetConnectService,
@@ -107,21 +116,18 @@ export class BudComponent
   /**
    * @override
    */
-  buildChartData(data: ProcessedData): Promise<void> {
+  buildChartData(data: MeasurementTypes[]): Promise<void> {
     return new Promise<void>((resolve) => {
       this.metricSeries = {};
-      this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
-        this.selectedMetrics,
-        this.properties,
-        2
-      );
+      const dataStat = this.widgetManager.dataStat;
+
       const defaultSeries = {
         type: "heatmap",
         large: true,
         encode: {
           x: 0,
           y: 1,
-          tooltip: 2,
+          tooltip: [2],
         },
         emphasis: {
           itemStyle: {
@@ -144,21 +150,33 @@ export class BudComponent
         // renderItem: this.renderItem,
       };
 
+      const dataSet = [
+        {
+          id: "raw",
+          source: data, //
+        },
+      ];
+      interface ChannelData {
+        chan: string;
+        value: number;
+      }
+
       const numColumns = 20;
       this.selectedMetrics.forEach((metric) => {
         if (!metric) return;
         interface StationData {
           name: string;
           network: string;
-          channelData: number[];
+          channelData: ChannelData[];
         }
 
         type Stations = Map<string, StationData>;
         type Networks = Map<string, Stations>;
         const networks: Networks = new Map();
 
+        const measurements = data.filter((m) => m.metric === metric.id);
         //group by network and station?
-        this.channels.forEach((channel: Channel, index) => {
+        this.channels.forEach((channel: Channel) => {
           if (!networks.get(channel.net)) {
             networks.set(channel.net, new Map());
           }
@@ -169,21 +187,22 @@ export class BudComponent
               channelData: [],
             });
           }
+          const channelData: MeasurementTypes[] = measurements
+            .filter((m) => m.channel === channel.id)
+            .map((m) => {
+              m.value = m.value ?? m[dataStat];
+              return m;
+            });
 
-          if (data.has(channel.id)) {
-            const measurements = data.get(channel.id)?.get(metric.id) ?? [];
-
-            const channelVal = this.measurementPipe.transform(
-              measurements,
-              this.widgetManager.stat
-            );
-            if (networks.get(channel.net)?.get(channel.sta)) {
-              networks
-                .get(channel.net)
-                ?.get(channel.sta)
-                ?.channelData.push(channelVal);
-            }
-          }
+          const value = this.measurementPipe.transform(
+            channelData,
+            this.widgetManager.stat
+          );
+          this.widgetConfigService.calculateDataRange(metric.id, value);
+          networks
+            .get(channel.net)
+            .get(channel.sta)
+            .channelData.push({ chan: channel.code, value: value });
         });
 
         const metricSeries = [];
@@ -201,11 +220,18 @@ export class BudComponent
             data: [],
           };
           networks.get(net)?.forEach((value: StationData, sta) => {
+            let dataCount = 0;
             let val: string | number =
-              value.channelData.reduce((a, b) => a + b, 0) /
-              value.channelData.length;
+              value.channelData.reduce((a, b) => {
+                if (b.value !== null) {
+                  dataCount++;
+                  return a + b.value;
+                } else {
+                  return a;
+                }
+              }, 0) / dataCount;
             let itemStyle = {};
-            if (isNaN(val)) {
+            if (isNaN(val) || dataCount === 0) {
               val = Number.MIN_SAFE_INTEGER;
               itemStyle = {
                 color: "white",
@@ -215,7 +241,7 @@ export class BudComponent
             }
             const item = {
               name: sta,
-              value: [staIndex, rowIndex, val, sta],
+              value: [staIndex, rowIndex, val, sta, value.channelData],
               itemStyle,
             };
             series.data.push(item);
@@ -240,6 +266,12 @@ export class BudComponent
             yAxis2Labels,
           };
         }
+        // FIXME: Need min and max first
+        this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
+          this.selectedMetrics,
+          this.properties,
+          2
+        );
       });
       resolve();
     });

@@ -123,7 +123,7 @@ export class TimelineComponent
   /**
    * @override
    */
-  buildChartData(data: ProcessedData): Promise<void> {
+  buildChartData(data: MeasurementTypes[]): Promise<void> {
     return new Promise<void>((resolve) => {
       this.metricSeries = {};
       this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
@@ -157,37 +157,37 @@ export class TimelineComponent
             };
           }
 
-          if (data.has(channel.id)) {
-            const measurements = data.get(channel.id).get(metric.id);
-            let series;
-            switch (this.properties.displayType) {
-              case "hour":
-                series = this.makeSeriesForFixed(
-                  nslc,
-                  measurements,
-                  index,
-                  "hour" as OpUnitType
-                );
-                break;
-              case "day":
-                series = this.makeSeriesForFixed(
-                  nslc,
-                  measurements,
-                  index,
-                  "day" as OpUnitType
-                );
-                break;
-              default:
-                series = this.makeSeriesForRaw(nslc, measurements, index);
-                break;
-            }
+          // if (data.has(channel.id)) {
+          //   const measurements = data.get(channel.id).get(metric.id);
+          //   let series;
+          //   switch (this.properties.displayType) {
+          //     case "hour":
+          //       series = this.makeSeriesForFixed(
+          //         nslc,
+          //         measurements,
+          //         index,
+          //         "hour" as OpUnitType
+          //       );
+          //       break;
+          //     case "day":
+          //       series = this.makeSeriesForFixed(
+          //         nslc,
+          //         measurements,
+          //         index,
+          //         "day" as OpUnitType
+          //       );
+          //       break;
+          //     default:
+          //       series = this.makeSeriesForRaw(nslc, measurements, index);
+          //       break;
+          //   }
 
-            const channelObj = {
-              ...defaultSeries,
-              ...series,
-            };
-            this.metricSeries[metric.id].series.push(channelObj);
-          }
+          //   const channelObj = {
+          //     ...defaultSeries,
+          //     ...series,
+          //   };
+          //   this.metricSeries[metric.id].series.push(channelObj);
+          // }
 
           this.metricSeries[metric.id].yAxisLabels.push(nslc);
         });

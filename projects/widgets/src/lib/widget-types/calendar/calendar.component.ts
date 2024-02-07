@@ -1,5 +1,5 @@
 import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
-import { Measurement } from "squacapi";
+import { Measurement, MeasurementTypes } from "squacapi";
 
 import { PrecisionPipe } from "../../pipes/precision.pipe";
 import { EChartsOption } from "echarts";
@@ -151,7 +151,7 @@ export class CalendarComponent
    *
    * @param data processed data
    */
-  buildChartData(data: ProcessedData): Promise<void> {
+  buildChartData(data: MeasurementTypes[]): Promise<void> {
     return new Promise<void>((resolve) => {
       this.metricSeries = {};
       this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
@@ -213,31 +213,31 @@ export class CalendarComponent
             });
           });
 
-          if (data.has(channel.id)) {
-            const measurements = data.get(channel.id)?.get(metric.id);
-            //trusts that measurements are in order of time
-            measurements?.forEach((measurement: Measurement) => {
-              const measurementStart = parseUtc(measurement.starttime);
+          // if (data.has(channel.id)) {
+          //   const measurements = data.get(channel.id)?.get(metric.id);
+          //   //trusts that measurements are in order of time
+          //   measurements?.forEach((measurement: Measurement) => {
+          //     const measurementStart = parseUtc(measurement.starttime);
 
-              // figure out which xAxisLabel this data should go to
-              let timeSegmentIndex;
-              if (width === "days-week") {
-                timeSegmentIndex = measurementStart.day();
-              } else if (width === "hours-day") {
-                timeSegmentIndex = measurementStart.hour();
-              } else if (width === "hours-week") {
-                const weekday = measurementStart.day();
-                const hour = measurementStart.hour();
+          //     // figure out which xAxisLabel this data should go to
+          //     let timeSegmentIndex;
+          //     if (width === "days-week") {
+          //       timeSegmentIndex = measurementStart.day();
+          //     } else if (width === "hours-day") {
+          //       timeSegmentIndex = measurementStart.hour();
+          //     } else if (width === "hours-week") {
+          //       const weekday = measurementStart.day();
+          //       const hour = measurementStart.hour();
 
-                timeSegmentIndex = hour + weekday * 24;
-              }
+          //       timeSegmentIndex = hour + weekday * 24;
+          //     }
 
-              if (values[timeSegmentIndex]) {
-                values[timeSegmentIndex].count++;
-                values[timeSegmentIndex].sum += measurement.value;
-              }
-            });
-          }
+          //     if (values[timeSegmentIndex]) {
+          //       values[timeSegmentIndex].count++;
+          //       values[timeSegmentIndex].sum += measurement.value;
+          //     }
+          //   });
+          // }
 
           values.forEach((value) => {
             if (value.count > 0) {

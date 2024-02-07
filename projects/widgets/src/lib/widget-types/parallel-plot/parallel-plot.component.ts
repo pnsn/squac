@@ -11,6 +11,7 @@ import {
   TooltipComponentFormatterCallbackParams,
 } from "echarts";
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
+import { MeasurementTypes } from "squacapi";
 
 /**
  * Parallel plot widget, shows multiple metrics on parallel axes
@@ -126,7 +127,7 @@ export class ParallelPlotComponent
    *
    * @param data processed measurements for chart
    */
-  buildChartData(data: ProcessedData): Promise<void> {
+  buildChartData(data: MeasurementTypes[]): Promise<void> {
     return new Promise<void>((resolve) => {
       const metricSeries: ParallelSeriesOption = {
         type: "parallel",

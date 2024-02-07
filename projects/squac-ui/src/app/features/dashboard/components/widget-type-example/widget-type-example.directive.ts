@@ -255,13 +255,13 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
         }
       );
     this.childComponent = this.childComponentRef.instance;
-    this.childComponent.updateData(this.data);
+    // this.childComponent.updateData(this.data);
   }
 
   /** update widget data */
   updateData(): void {
     if (this.childComponent) {
-      this.childComponent.updateData(this.data);
+      // this.childComponent.updateData(this.data);
     }
   }
 }

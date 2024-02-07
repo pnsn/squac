@@ -13,6 +13,7 @@ import {
   Alert,
   BreachingChannel,
   MeasurementPipe,
+  MeasurementTypes,
   Monitor,
   Trigger,
 } from "squacapi";
@@ -207,7 +208,7 @@ export class MonitorChannelHistoryChartComponent extends EChartComponent {
    *
    * @param _data chart data (unused)
    */
-  buildChartData(_data: ProcessedData): Promise<void> {
+  buildChartData(_data: MeasurementTypes[]): Promise<void> {
     return new Promise<void>((resolve) => {
       const channelsWithData = new Set<string>();
       this.channelsSeries = [];

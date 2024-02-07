@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import { ProcessedData, VisualMap, WidgetConfig } from "../interfaces";
 import { WidgetConnectService, WidgetManagerService } from "../services";
-import { Channel, Metric } from "squacapi";
+import { Channel, MeasurementTypes, Metric } from "squacapi";
 import { WidgetProperties } from "squacapi";
 import { Subscription } from "rxjs";
 
@@ -21,7 +21,7 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
   showKey = true; //default to key on
   loading: string;
   widgetConfig: WidgetConfig;
-  data: ProcessedData;
+  data: MeasurementTypes[];
   channels: Channel[];
   selectedMetrics: Metric[];
   properties: WidgetProperties;
@@ -64,7 +64,7 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
    * @param data - date to update chart with
    * @returns - promise
    */
-  abstract buildChartData(data: ProcessedData): Promise<void>;
+  abstract buildChartData(data: MeasurementTypes[]): Promise<void>;
 
   /**
    * Set up chart
@@ -109,7 +109,7 @@ export abstract class GenericWidgetComponent implements OnInit, OnDestroy {
    *
    * @param data - data for widget to update
    */
-  updateData(data: ProcessedData): void {
+  updateData(data: MeasurementTypes[]): void {
     this.data = data;
     this.channels = this.widgetManager.channels;
     this.selectedMetrics = this.widgetManager.selectedMetrics;

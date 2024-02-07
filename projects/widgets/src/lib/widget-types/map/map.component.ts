@@ -166,7 +166,7 @@ export class MapComponent
    *
    * @param data - data for widget to update
    */
-  override updateData(data: ProcessedData): void {
+  override updateData(data: MeasurementTypes[]): void {
     //overridden to allow check for if map exists
     this.data = data;
     this.channels = this.widgetManager.channels;
@@ -182,7 +182,7 @@ export class MapComponent
    *
    * @param data data to add to the chart
    */
-  changeData(data: ProcessedData): void {
+  changeData(data: MeasurementTypes[]): void {
     this.buildChartData(data).then(() => {
       this.changeMetrics();
       this.cdr.detectChanges();
@@ -317,7 +317,7 @@ export class MapComponent
    *
    * @param data processed data from request
    */
-  buildChartData(data: ProcessedData): Promise<void> {
+  buildChartData(data: MeasurementTypes[]): Promise<void> {
     return new Promise<void>((resolve) => {
       this.data = data;
       this.metricLayers = {};
@@ -339,15 +339,15 @@ export class MapComponent
           const nslc = channel.nslc;
           let agg = 0;
           let val: number = null;
-          if (data.get(channel.id)) {
-            const rowData: MeasurementTypes[] = data
-              .get(channel.id)
-              .get(metric.id);
-            val = this.measurementPipe.transform(
-              rowData,
-              this.widgetManager.stat
-            );
-          }
+          // if (data.get(channel.id)) {
+          //   const rowData: MeasurementTypes[] = data
+          //     .get(channel.id)
+          //     .get(metric.id);
+          //   val = this.measurementPipe.transform(
+          //     rowData,
+          //     this.widgetManager.stat
+          //   );
+          // }
 
           const visualMap = this.visualMaps[metric.id];
           const inRange = visualMap

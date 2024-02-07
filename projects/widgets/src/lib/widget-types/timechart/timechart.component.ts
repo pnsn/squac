@@ -1,6 +1,6 @@
 import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
 import * as dayjs from "dayjs";
-import { Measurement } from "squacapi";
+import { Measurement, MeasurementTypes } from "squacapi";
 
 import { EChartsOption, TooltipComponentPositionCallbackParams } from "echarts";
 import {
@@ -130,7 +130,7 @@ export class TimechartComponent
    *
    * @param data measurement data
    */
-  buildChartData(data: ProcessedData): Promise<void> {
+  buildChartData(data: MeasurementTypes[]): Promise<void> {
     return new Promise<void>((resolve) => {
       this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
         this.selectedMetrics,
@@ -180,34 +180,34 @@ export class TimechartComponent
           },
         };
         let lastEnd: dayjs.Dayjs;
-        if (data.has(channel.id)) {
-          const measurements = data.get(channel.id).get(metric.id);
-          measurements?.forEach((measurement: Measurement) => {
-            // // If time between measurements is greater than gap, don't connect
-            const start = parseUtc(measurement.starttime);
-            const end = parseUtc(measurement.endtime);
+        // if (data.has(channel.id)) {
+        //   const measurements = data.get(channel.id).get(metric.id);
+        //   measurements?.forEach((measurement: Measurement) => {
+        //     // // If time between measurements is greater than gap, don't connect
+        //     const start = parseUtc(measurement.starttime);
+        //     const end = parseUtc(measurement.endtime);
 
-            const diff = start.diff(end, "seconds");
-            if (
-              station.data.length > 0 &&
-              lastEnd &&
-              diff >= metric.sampleRate * this.maxMeasurementGap
-            ) {
-              // time since last measurement
-              station.data.push({
-                name: nslc,
-                value: [lastEnd.toDate(), start.toDate(), "-"],
-              });
-            }
+        //     const diff = start.diff(end, "seconds");
+        //     if (
+        //       station.data.length > 0 &&
+        //       lastEnd &&
+        //       diff >= metric.sampleRate * this.maxMeasurementGap
+        //     ) {
+        //       // time since last measurement
+        //       station.data.push({
+        //         name: nslc,
+        //         value: [lastEnd.toDate(), start.toDate(), "-"],
+        //       });
+        //     }
 
-            station.data.push({
-              name: nslc,
-              value: [start.toDate(), end.toDate(), measurement.value, nslc],
-            });
+        //     station.data.push({
+        //       name: nslc,
+        //       value: [start.toDate(), end.toDate(), measurement.value, nslc],
+        //     });
 
-            lastEnd = end;
-          });
-        }
+        //     lastEnd = end;
+        //   });
+        // }
         stations.push(station);
       });
       this.metricSeries.series = stations;

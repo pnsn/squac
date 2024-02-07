@@ -26,7 +26,7 @@ import {
 } from "@angular/animations";
 import { GenericWidgetComponent } from "../../components";
 import { Row } from "./types";
-import { Channel, MeasurementPipe } from "squacapi";
+import { Channel, MeasurementPipe, MeasurementTypes } from "squacapi";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { SelectionModel } from "@angular/cdk/collections";
@@ -288,7 +288,7 @@ export class TabularComponent
   /**
    * @override
    */
-  buildChartData(data: ProcessedData): Promise<void> {
+  buildChartData(data: MeasurementTypes[]): Promise<void> {
     return new Promise<void>((resolve) => {
       const rows = [];
       const stationRowsMap = new Map<string, Row>();
@@ -330,48 +330,48 @@ export class TabularComponent
           stationRow = stationRowsMap.get(stationId);
         }
 
-        this.selectedMetrics.forEach((metric) => {
-          if (!metric) return;
-          let value: number = null; //column value
+        // this.selectedMetrics.forEach((metric) => {
+        //   if (!metric) return;
+        //   let value: number = null; //column value
 
-          if (data.get(channel.id)) {
-            const rowData = data.get(channel.id).get(metric.id);
-            value = this.measurementPipe.transform(
-              rowData,
-              this.widgetManager.stat
-            );
-          }
+        //   if (data.get(channel.id)) {
+        //     const rowData = data.get(channel.id).get(metric.id);
+        //     value = this.measurementPipe.transform(
+        //       rowData,
+        //       this.widgetManager.stat
+        //     );
+        //   }
 
-          const visualMap = this.visualMaps[metric.id];
-          const inRange = visualMap
-            ? this.widgetConfigService.checkValue(value, visualMap)
-            : true;
+        //   const visualMap = this.visualMaps[metric.id];
+        //   const inRange = visualMap
+        //     ? this.widgetConfigService.checkValue(value, visualMap)
+        //     : true;
 
-          // metric is in spec if the value exists and is in Range
-          const inSpec = value !== null && visualMap && inRange;
+        //   // metric is in spec if the value exists and is in Range
+        //   const inSpec = value !== null && visualMap && inRange;
 
-          // display color for channel
-          const color = this.getStyle(value, visualMap);
+        //   // display color for channel
+        //   const color = this.getStyle(value, visualMap);
 
-          // add metric data to channel row
-          channelRow.metrics[metric.code] = {
-            value,
-            color,
-            inSpec,
-          };
-          if (!inSpec) {
-            channelRow.agg++;
-          }
-          if (this.properties.displayType === "stoplight" && visualMap) {
-            if (!stationRow.metrics) stationRow.metrics = {};
-            this.stationStoplight(
-              metric.code,
-              inSpec,
-              stationRow,
-              visualMap as StoplightVisualMapOption
-            );
-          }
-        });
+        //   // add metric data to channel row
+        //   channelRow.metrics[metric.code] = {
+        //     value,
+        //     color,
+        //     inSpec,
+        //   };
+        //   if (!inSpec) {
+        //     channelRow.agg++;
+        //   }
+        //   if (this.properties.displayType === "stoplight" && visualMap) {
+        //     if (!stationRow.metrics) stationRow.metrics = {};
+        //     this.stationStoplight(
+        //       metric.code,
+        //       inSpec,
+        //       stationRow,
+        //       visualMap as StoplightVisualMapOption
+        //     );
+        //   }
+        // });
 
         if (stationRow) {
           if (channelRow.agg > 0) {

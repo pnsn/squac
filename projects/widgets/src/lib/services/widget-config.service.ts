@@ -3,6 +3,7 @@ import {
   Channel,
   Color,
   MeasurementPipe,
+  MeasurementTypes,
   Metric,
   WidgetProperties,
   WidgetStatType,
@@ -384,7 +385,7 @@ export class WidgetConfigService {
   getSeriesForMultipleMetrics(
     metrics: Metric[],
     channels: Channel[],
-    data: ProcessedData,
+    data: MeasurementTypes[],
     series: any,
     stat: WidgetStatType
   ): { series: any; axis?: ParallelAxisOption[] } {
@@ -448,15 +449,15 @@ export class WidgetConfigService {
         value: [],
       };
 
-      metrics.forEach((metric) => {
-        if (!metric) return;
-        let val: number = null;
-        if (data.has(channel.id)) {
-          const rowData = data.get(channel.id).get(metric.id);
-          val = this.measurementPipe.transform(rowData, stat);
-        }
-        channelData.value.push(val);
-      });
+      // metrics.forEach((metric) => {
+      //   if (!metric) return;
+      //   let val: number = null;
+      //   if (data.has(channel.id)) {
+      //     const rowData = data.get(channel.id).get(metric.id);
+      //     val = this.measurementPipe.transform(rowData, stat);
+      //   }
+      //   channelData.value.push(val);
+      // });
       station.data.push(channelData);
     });
     return { series: stations, axis };
@@ -591,5 +592,25 @@ export class WidgetConfigService {
       return string;
     }
     return "";
+  }
+
+  /**
+   * Calculates the min, max, and count of data for the metric after including the given value
+   *
+   * @param metricId - id of metric
+   * @param value - measurement value to add
+   */
+  calculateDataRange(metricId: number, value: number): void {
+    const metricRange =
+      metricId in this.dataRange ? this.dataRange[metricId] : { count: 0 };
+
+    if (metricRange.min === undefined || value < metricRange.min) {
+      metricRange.min = value;
+    }
+    if (metricRange.max === undefined || value > metricRange.max) {
+      metricRange.max = value;
+    }
+    if (metricRange.count) metricRange.count++;
+    this.dataRange[metricId] = metricRange;
   }
 }

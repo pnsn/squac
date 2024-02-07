@@ -19,6 +19,7 @@ import { Subscription, tap } from "rxjs";
 import { ProcessedData, WidgetTypeComponent } from "../interfaces";
 import { WidgetTypes, WIDGET_TYPES, WidgetType } from "../constants";
 import { ErrorComponent } from "../components/error/error.component";
+import { MeasurementTypes } from "squacapi";
 
 /**
  * Directive for inserting error component or correct widget type
@@ -69,31 +70,31 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
     this.dataSub = this.widgetDataService.data$
       .pipe(
         tap({
-          next: (data: ProcessedData | WidgetErrors) => {
+          next: (data: MeasurementTypes[] | WidgetErrors) => {
             //check if data is a map and has data
-            if (data instanceof Map) {
+            if (typeof data !== "string") {
               const minMetrics = this.widgetManager.widgetConfig.minMetrics;
               const metricsWithData =
                 this.widgetDataService.measurementsWithData.length;
-              if (minMetrics > metricsWithData) {
-                //not enough metrics with Data
-                this.addError(
-                  `Only ${metricsWithData} metric(s) returned data. ${minMetrics} metrics required to display widget.`
-                );
-              } else {
-                if (
-                  this.widgetManager.widgetType !== this.currentWidgetType ||
-                  !this.childComponent
-                ) {
-                  this.addWidget(this.widgetManager.widgetType);
-                }
-
-                this.widgetConfigService.thresholds =
-                  this.widgetManager.thresholds;
-                this.widgetConfigService.dataRange =
-                  this.widgetDataService.dataRange;
-                this.childComponent.updateData(data);
+              // if (minMetrics > metricsWithData) {
+              //   //not enough metrics with Data
+              //   this.addError(
+              //     `Only ${metricsWithData} metric(s) returned data. ${minMetrics} metrics required to display widget.`
+              //   );
+              // } else {
+              if (
+                this.widgetManager.widgetType !== this.currentWidgetType ||
+                !this.childComponent
+              ) {
+                this.addWidget(this.widgetManager.widgetType);
               }
+
+              this.widgetConfigService.thresholds =
+                this.widgetManager.thresholds;
+              this.widgetConfigService.dataRange =
+                this.widgetDataService.dataRange;
+              this.childComponent.updateData(data);
+              // }
             } else {
               this.addError(data);
             }
