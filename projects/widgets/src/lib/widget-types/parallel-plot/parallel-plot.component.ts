@@ -153,7 +153,8 @@ export class ParallelPlotComponent
         this.channels,
         data,
         metricSeries,
-        this.widgetManager.stat
+        this.widgetManager.stat,
+        this.widgetManager.dataStat
       );
       resolve();
     });

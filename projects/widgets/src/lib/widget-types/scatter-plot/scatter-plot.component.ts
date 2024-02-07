@@ -164,6 +164,15 @@ export class ScatterPlotComponent
         },
       };
 
+      this.metricSeries = this.widgetConfigService.getSeriesForMultipleMetrics(
+        this.selectedMetrics,
+        this.channels,
+        data,
+        metricSeries,
+        this.widgetManager.stat,
+        this.widgetManager.dataStat
+      );
+
       this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
         this.selectedMetrics,
 
@@ -172,13 +181,6 @@ export class ScatterPlotComponent
         2
       );
 
-      this.metricSeries = this.widgetConfigService.getSeriesForMultipleMetrics(
-        this.selectedMetrics,
-        this.channels,
-        data,
-        metricSeries,
-        this.widgetManager.stat
-      );
       resolve();
     });
   }

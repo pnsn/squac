@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import {
+  ArchiveStatType,
   Channel,
   Color,
   MeasurementPipe,
@@ -380,6 +381,7 @@ export class WidgetConfigService {
    * @param data data
    * @param series initial series data
    * @param stat widget statistic to calculate
+   * @param dataStat data type statistic
    * @returns processed series config
    */
   getSeriesForMultipleMetrics(
@@ -387,7 +389,8 @@ export class WidgetConfigService {
     channels: Channel[],
     data: MeasurementTypes[],
     series: any,
-    stat: WidgetStatType
+    stat: WidgetStatType,
+    dataStat: ArchiveStatType | WidgetStatType | string
   ): { series: any; axis?: ParallelAxisOption[] } {
     const stations = [];
     const axis: ParallelAxisOption[] = [];
@@ -438,6 +441,7 @@ export class WidgetConfigService {
 
     channels.forEach((channel: Channel) => {
       const station = {
+        //is this actually station?
         ...series,
         name: channel.nslc,
         data: [],
@@ -449,15 +453,20 @@ export class WidgetConfigService {
         value: [],
       };
 
-      // metrics.forEach((metric) => {
-      //   if (!metric) return;
-      //   let val: number = null;
-      //   if (data.has(channel.id)) {
-      //     const rowData = data.get(channel.id).get(metric.id);
-      //     val = this.measurementPipe.transform(rowData, stat);
-      //   }
-      //   channelData.value.push(val);
-      // });
+      metrics.forEach((metric) => {
+        const measurements: MeasurementTypes[] = data
+          .filter((m) => m.channel === channel.id && m.metric === metric.id)
+          .map((m) => {
+            m.value = m.value ?? m[dataStat];
+            return m;
+          });
+
+        const value = this.measurementPipe.transform(measurements, stat);
+        this.calculateDataRange(metric.id, value);
+
+        channelData.value.push(value);
+      });
+
       station.data.push(channelData);
     });
     return { series: stations, axis };
