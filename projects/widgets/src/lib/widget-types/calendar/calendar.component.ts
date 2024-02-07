@@ -51,9 +51,9 @@ export class CalendarComponent
     super(widgetManager, widgetConnectService, ngZone);
   }
   /** time labes on chart x axis */
-  xAxisLabels = [];
+  xAxisLabels: string[] = [];
   /** second row of time labels on x axis */
-  xAxisLabels2 = [];
+  xAxisLabels2: string[] = [];
   /** Max allowable time between measurements to connect */
   maxMeasurementGap: number = 1 * 1000;
   /** pipe for transformation of values */
@@ -123,7 +123,7 @@ export class CalendarComponent
    * @param displayType widget display type
    */
   getAxisLabels(displayType: string): void {
-    const weekLabels = [
+    const weekLabels: string[] = [
       "Sunday",
       "Monday",
       "Tuesday",
@@ -133,7 +133,7 @@ export class CalendarComponent
       "Saturday",
     ];
 
-    const hourLabels = [];
+    const hourLabels: string[] = [];
     // const blanks = new Array(23);
     // blanks.fill("");
     for (let i = 0; i < 24; i++) {
@@ -220,7 +220,7 @@ export class CalendarComponent
           this.metricSeries[metric.id].yAxisLabels.push(nslc);
 
           // store values
-          const values = [];
+          const values: any[] = [];
 
           //associate data with created labels
           this.xAxisLabels.forEach((label) => {
@@ -232,7 +232,7 @@ export class CalendarComponent
           });
 
           if (data.has(channel.id)) {
-            const measurements = data.get(channel.id).get(metric.id);
+            const measurements = data.get(channel.id)?.get(metric.id);
             //trusts that measurements are in order of time
             measurements?.forEach((measurement: Measurement) => {
               const measurementStart = parseUtc(measurement.starttime);
@@ -292,7 +292,7 @@ export class CalendarComponent
     const displayMetric = this.selectedMetrics[0];
     const colorMetric = this.selectedMetrics[0];
     const visualMaps = this.visualMaps[colorMetric.id];
-    const axes = [];
+    const axes: any[] = [];
 
     let name = "";
     if (this.properties.displayType) {
@@ -315,7 +315,7 @@ export class CalendarComponent
     }
 
     visualMaps.show = this.showKey;
-    const options = {
+    const options: EChartsOption = {
       series: this.metricSeries[displayMetric.id].series,
       visualMap: visualMaps,
       xAxis: axes,

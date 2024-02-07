@@ -7,7 +7,7 @@ export const BUD_CONFIG: WidgetTypeInfo = {
   config: {
     name: "Bud",
     type: "bud-plot",
-    useAggregate: false,
+    useAggregate: true,
     zoomControls: true,
     toggleKey: true,
     minMetrics: 1,

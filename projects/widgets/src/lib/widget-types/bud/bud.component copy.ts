@@ -6,7 +6,6 @@ import {
   EChartsOption,
   graphic,
   TooltipComponentFormatterCallbackParams,
-  registerTransform,
 } from "echarts";
 
 import {
@@ -21,10 +20,6 @@ import { ProcessedData } from "../../interfaces";
 import { LabelFormatterParams } from "../../interfaces";
 import { OpUnitType } from "dayjs";
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
-import {
-  ExternalDataTransform,
-  aggregate,
-} from "@manufac/echarts-simple-transform";
 /**
  * Chart that plots channels as the y axis and time,
  * grouped into chunks of time on x axis
@@ -55,7 +50,6 @@ export class BudComponent
     override ngZone: NgZone
   ) {
     super(widgetManager, widgetConnector, ngZone);
-    registerTransform(aggregate as ExternalDataTransform);
   }
   override denseOptions: EChartsOption = {
     grid: {
@@ -136,7 +130,7 @@ export class BudComponent
         2
       );
       const defaultSeries = {
-        type: "heatmap",
+        type: "custom",
         large: true,
         encode: {
           x: 0,
@@ -144,20 +138,27 @@ export class BudComponent
           tooltip: 2,
         },
         emphasis: {
-          focus: "none",
           itemStyle: {
             borderWidth: 1,
           },
         },
         tooltip: {},
         yAxisIndex: 1,
+        renderItem: this.renderItem,
         label: {
           show: true,
           formatter: function (d) {
             return d.name;
           },
         },
-        // renderItem: this.renderItem,
+        labelLayout(params) {
+          return {
+            x: params.rect.x,
+            y: params.rect.y + params.rect.height / 2,
+            verticalAlign: "middle",
+            align: "left",
+          };
+        },
       };
 
       this.selectedMetrics.forEach((metric) => {
@@ -223,8 +224,6 @@ export class BudComponent
               val = "No Data";
               itemStyle = {
                 color: "white",
-                borderWidth: 1,
-                borderColor: "Black",
               };
             }
             const item = {
