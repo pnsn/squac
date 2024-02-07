@@ -117,12 +117,12 @@ export class ScatterPlotComponent
         nameLocation: "middle",
         axisLabel: {
           fontSize: 11,
-          inside: true,
+          width: 50,
           formatter: (value: number): string => {
             return value.toPrecision(4);
           },
         },
-        nameGap: 10,
+        nameGap: 50,
       },
       tooltip: {
         ...this.chartDefaultOptions.tooltip,

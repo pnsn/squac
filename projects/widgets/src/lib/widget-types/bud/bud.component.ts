@@ -1,13 +1,6 @@
 import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
 import { Measurement, MeasurementPipe, Channel } from "squacapi";
-import {
-  CustomSeriesRenderItemAPI,
-  CustomSeriesRenderItemReturn,
-  EChartsOption,
-  graphic,
-  TooltipComponentFormatterCallbackParams,
-  registerTransform,
-} from "echarts";
+import { EChartsOption, registerTransform } from "echarts";
 
 import {
   WidgetConnectService,
@@ -57,27 +50,6 @@ export class BudComponent
     super(widgetManager, widgetConnector, ngZone);
     registerTransform(aggregate as ExternalDataTransform);
   }
-  override denseOptions: EChartsOption = {
-    grid: {
-      containLabel: false,
-      top: 10,
-      right: 105,
-      left: 105,
-      bottom: 32,
-    },
-    dataZoom: [],
-  };
-
-  override fullOptions: EChartsOption = {
-    grid: {
-      containLabel: false,
-      top: 5,
-      right: 105,
-      left: 125,
-      bottom: 52,
-    },
-    dataZoom: this.chartDefaultOptions.dataZoom,
-  };
 
   // Max allowable time between measurements to connect
   maxMeasurementGap: number = 1 * 1000;
@@ -101,17 +73,12 @@ export class BudComponent
       ...this.chartDefaultOptions,
       grid,
       dataZoom,
+      textStyle: {
+        fontSize: 11,
+      },
       xAxis: {
-        data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        show: false,
         type: "category",
-        nameLocation: "middle",
-        nameGap: 14,
-        nameTextStyle: {
-          align: "center",
-        },
-        axisTick: {
-          show: true,
-        },
         axisLine: {
           show: true,
         },
@@ -119,9 +86,35 @@ export class BudComponent
       tooltip: {
         ...this.chartDefaultOptions.tooltip,
       },
-      yAxis: {},
+      yAxis: {
+        inverse: true,
+        type: "category",
+        data: [],
+        axisLabel: {
+          width: 30,
+          hideOverlap: false,
+          overflow: "truncate",
+          interval: (index: number, value: string) => !!value,
+        },
+        axisPointer: {
+          show: true,
+        },
+      },
       series: [],
     };
+  }
+
+  /**
+   * Store echart reference on chart init
+   *
+   * @param event - echart reference
+   */
+  override onChartInit(event): void {
+    this.echartsInstance = event;
+    if (this.echartsInstance && this.denseView !== undefined) {
+      this.useDenseView(this.denseView);
+    }
+    console.log(this.echartsInstance.getWidth());
   }
 
   /**
@@ -144,13 +137,17 @@ export class BudComponent
           tooltip: 2,
         },
         emphasis: {
-          focus: "none",
           itemStyle: {
             borderWidth: 1,
           },
         },
-        tooltip: {},
-        yAxisIndex: 1,
+        yAxisIndex: 0,
+        tooltip: {
+          valueFormatter: (value) =>
+            value === Number.MIN_SAFE_INTEGER
+              ? "No Data"
+              : value.toPrecision(4),
+        },
         label: {
           show: true,
           formatter: function (d) {
@@ -160,6 +157,7 @@ export class BudComponent
         // renderItem: this.renderItem,
       };
 
+      const numColumns = 20;
       this.selectedMetrics.forEach((metric) => {
         if (!metric) return;
         interface StationData {
@@ -206,21 +204,22 @@ export class BudComponent
         const yAxis2Labels: string[] = [];
         let netIndex = 0;
         let rowIndex = 0;
+
         yAxisLabels.forEach((net: string) => {
+          let staIndex = 0;
+          yAxis2Labels.push(`${net}`);
           const series = {
             ...defaultSeries,
             name: net,
             data: [],
           };
-          let staIndex = 0;
-          yAxis2Labels.push(`${net} ${rowIndex}`);
           networks.get(net)?.forEach((value: StationData, sta) => {
             let val: string | number =
               value.channelData.reduce((a, b) => a + b, 0) /
               value.channelData.length;
             let itemStyle = {};
             if (isNaN(val)) {
-              val = "No Data";
+              val = Number.MIN_SAFE_INTEGER;
               itemStyle = {
                 color: "white",
                 borderWidth: 1,
@@ -229,20 +228,21 @@ export class BudComponent
             }
             const item = {
               name: sta,
-              value: [staIndex, rowIndex, val],
+              value: [staIndex, rowIndex, val, sta],
               itemStyle,
             };
             series.data.push(item);
             // metricSeries.push(series);
-            if (staIndex === 9) {
+            if (staIndex === numColumns - 1) {
               rowIndex++;
-              yAxis2Labels.push(`${net} ${rowIndex}`);
+              yAxis2Labels.push("");
               staIndex = 0;
             } else {
               staIndex++;
             }
           });
           netIndex++;
+          rowIndex++;
           metricSeries.push(series);
         });
 
@@ -266,23 +266,11 @@ export class BudComponent
     const colorMetric = this.selectedMetrics[0];
     const visualMaps = this.visualMaps[colorMetric.id];
     visualMaps.show = this.showKey;
-    const yAxis: any[] = [];
-    const yAxis1 = {
-      type: "category",
-      offset: 0,
-      data: this.metricSeries[displayMetric.id]?.yAxisLabels,
-      // nameGap: 35, //max characters
-    };
-    const yAxis2 = {
-      inverse: true,
-      type: "category",
-      data: this.metricSeries[displayMetric.id]?.yAxis2Labels,
-      // nameGap: 35, //max characters
-    };
-    yAxis.push(yAxis1);
-    yAxis.push(yAxis2);
+    console.log("Echarts has data");
     const options: EChartsOption = {
-      yAxis,
+      yAxis: {
+        data: this.metricSeries[displayMetric.id]?.yAxis2Labels,
+      },
       series: this.metricSeries[displayMetric.id]?.series,
       visualMap: visualMaps,
     };
@@ -298,67 +286,112 @@ export class BudComponent
     }
   }
 
-  /**
-   * Render function for echart
-   *
-   * @param params - customs series params
-   * @param api - api for render
-   * @returns custom series render
-   */
-  renderItem(
-    params: any,
-    api: CustomSeriesRenderItemAPI
-  ): CustomSeriesRenderItemReturn {
-    // name: string;
-    // network: string;
-    // channelData: number[];
-    // value: number | undefined;
-    // xIndex: number | undefined;
-    const categoryIndex = api.value(1);
-    const start = api.coord([api.value(0), categoryIndex]); //converts to xy coords
-    const end = api.coord([+api.value(0) + 1, categoryIndex]); //converts to xy coords
-    const height = api.size([0, 1])[1];
-    const width = end[0] - start[0];
-    const x = start[0] - width / 2;
-    const y = start[1] - height / 2;
-    const fill = isNaN(+api.value(2)) ? "white" : api.visual("color");
-    const rectShape = graphic.clipRectByRect(
-      {
-        x,
-        y,
-        width,
-        height,
-      },
-      {
-        x: params.coordSys.x,
-        y: params.coordSys.y,
-        width: params.coordSys.width,
-        height: params.coordSys.height,
-      }
-    );
-    return (
-      rectShape && {
-        type: "rect",
-        shape: {
-          x,
-          y,
-          width,
-          height,
-        },
-        transition: ["shape"],
-        focus: "series",
-        blur: {
-          style: {
-            opacity: 0.7,
-          },
-        },
-        name: "test",
-        style: {
-          fill,
-          lineWidth: 0.5,
-          stroke: "black",
-        },
-      }
-    );
-  }
+  // /**
+  //  * Render function for echart
+  //  *
+  //  * @param params - customs series params
+  //  * @param api - api for render
+  //  * @returns custom series render
+  //  */
+  // renderItem(
+  //   params: any,
+  //   api: CustomSeriesRenderItemAPI
+  // ): CustomSeriesRenderItemReturn {
+  //   // name: string;
+  //   // network: string;
+  //   // channelData: number[];
+  //   // value: number | undefined;
+  //   // xIndex: number | undefined;
+  //   const categoryIndex = api.value(1);
+  //   const start = api.coord([api.value(0), categoryIndex]); //converts to xy coords
+  //   const end = api.coord([+api.value(0) + 1, categoryIndex]); //converts to xy coords
+  //   const height = api.size([0, 1])[1];
+  //   const width = end[0] - start[0];
+  //   const x = start[0] - width / 2;
+  //   const y = start[1] - height / 2;
+  //   const fill = isNaN(+api.value(2)) ? "white" : api.visual("color");
+  //   const rectShape = graphic.clipRectByRect(
+  //     {
+  //       x,
+  //       y,
+  //       width,
+  //       height,
+  //     },
+  //     {
+  //       x: params.coordSys.x,
+  //       y: params.coordSys.y,
+  //       width: params.coordSys.width,
+  //       height: params.coordSys.height,
+  //     }
+  //   );
+  //   const rectText = graphic.clipRectByRect(params, {
+  //     x: x,
+  //     y: y,
+  //     width,
+  //     height,
+  //   });
+  //   return {
+  //     type: "group",
+  //     children: [
+  //       {
+  //         type: "rect",
+  //         ignore: !rectShape,
+  //         shape: rectShape,
+  //         style: api.style(),
+  //       },
+  //       {
+  //         type: "rect",
+  //         ignore: !rectText,
+  //         shape: rectText,
+  //         style: api.style({
+  //           text: `${api.value(3)}`,
+  //           fill: api.visual("color"),
+  //         }),
+  //       },
+  //     ],
+  //   };
+
+  //   return (
+  //     rectShape && {
+  //       type: "rect",
+  //       shape: {
+  //         x,
+  //         y,
+  //         width,
+  //         height,
+  //       },
+  //       transition: ["shape"],
+  //       focus: "series",
+  //       blur: {
+  //         style: {
+  //           opacity: 0.7,
+  //         },
+  //       },
+  //       name: "test",
+  //       style: {
+  //         fill,
+  //         lineWidth: 0.5,
+  //         stroke: "black",
+  //       },
+  //       textContent: {
+  //         type: "text",
+  //         style: {
+  //           text: `${api.value(3)}`,
+  //           fontFamily: "Verdana",
+  //           fill: "#000",
+  //           width: width - 4,
+  //           overflow: "truncate",
+  //           ellipsis: "..",
+  //           truncateMinChar: 1,
+  //         },
+  //         emphasis: {
+  //           style: {
+  //             stroke: "#000",
+  //             lineWidth: 0.5,
+  //           },
+  //         },
+  //       },
+  //     }
+  //   );
+  // }
 }

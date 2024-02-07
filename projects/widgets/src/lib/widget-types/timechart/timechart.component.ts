@@ -102,6 +102,10 @@ export class TimechartComponent
         nameLocation: "middle",
         axisLabel: {
           fontSize: 11,
+          width: 50,
+          formatter: (value: number): string => {
+            return value.toPrecision(4);
+          },
         },
         axisLine: {
           show: true,

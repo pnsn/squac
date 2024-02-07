@@ -58,26 +58,6 @@ export class CalendarComponent
   maxMeasurementGap: number = 1 * 1000;
   /** pipe for transformation of values */
   precisionPipe = new PrecisionPipe();
-  /** chart options when dense is enabled */
-  override denseOptions: EChartsOption = {
-    grid: {
-      containLabel: false,
-      top: 10,
-      right: 10,
-      left: 105,
-    },
-    dataZoom: [],
-  };
-  /** chart options when dense is not enabled */
-  override fullOptions: EChartsOption = {
-    grid: {
-      containLabel: false,
-      top: 5,
-      right: 10,
-      left: 125,
-    },
-    dataZoom: this.chartDefaultOptions.dataZoom,
-  };
 
   /**
    * Initial chart configuration
@@ -101,6 +81,8 @@ export class CalendarComponent
         inverse: true,
         axisLabel: {
           fontSize: 11,
+          width: 110,
+          overflow: "truncate",
         },
         axisTick: {
           interval: 0,

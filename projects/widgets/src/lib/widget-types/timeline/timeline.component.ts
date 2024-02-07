@@ -51,28 +51,6 @@ export class TimelineComponent
   ) {
     super(widgetManager, widgetConnector, ngZone);
   }
-  override denseOptions: EChartsOption = {
-    grid: {
-      containLabel: false,
-      top: 10,
-      right: 10,
-      left: 105,
-      bottom: 32,
-    },
-    dataZoom: [],
-  };
-
-  override fullOptions: EChartsOption = {
-    grid: {
-      containLabel: false,
-      top: 5,
-      right: 10,
-      left: 125,
-      bottom: 52,
-    },
-    dataZoom: this.chartDefaultOptions.dataZoom,
-  };
-
   // Max allowable time between measurements to connect
   maxMeasurementGap: number = 1 * 1000;
   xAxisLabels = [];
@@ -132,6 +110,8 @@ export class TimelineComponent
         },
         axisLabel: {
           fontSize: 11,
+          width: 110,
+          overflow: "truncate",
         },
         type: "category",
         // nameGap: 35, //max characters
