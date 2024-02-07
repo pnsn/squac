@@ -105,19 +105,6 @@ export class BudComponent
   }
 
   /**
-   * Store echart reference on chart init
-   *
-   * @param event - echart reference
-   */
-  override onChartInit(event): void {
-    this.echartsInstance = event;
-    if (this.echartsInstance && this.denseView !== undefined) {
-      this.useDenseView(this.denseView);
-    }
-    console.log(this.echartsInstance.getWidth());
-  }
-
-  /**
    * @override
    */
   buildChartData(data: ProcessedData): Promise<void> {
@@ -266,7 +253,7 @@ export class BudComponent
     const colorMetric = this.selectedMetrics[0];
     const visualMaps = this.visualMaps[colorMetric.id];
     visualMaps.show = this.showKey;
-    console.log("Echarts has data");
+
     const options: EChartsOption = {
       yAxis: {
         data: this.metricSeries[displayMetric.id]?.yAxis2Labels,
