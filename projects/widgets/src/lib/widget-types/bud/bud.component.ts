@@ -196,6 +196,7 @@ export class BudComponent
             channelData,
             this.widgetManager.stat
           );
+
           this.widgetConfigService.calculateDataRange(metric.id, value);
           networks
             .get(channel.net)

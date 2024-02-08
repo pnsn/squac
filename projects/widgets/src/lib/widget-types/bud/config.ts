@@ -5,18 +5,19 @@ import { BudComponent } from "./bud.component";
 export const BUD_CONFIG: WidgetTypeInfo = {
   component: BudComponent,
   config: {
-    name: "Bud",
+    name: "Bud (BETA)",
     type: "bud-plot",
     useAggregate: true,
     zoomControls: true,
     toggleKey: true,
     minMetrics: 1,
-    description: "The Bud chart.",
-    displayInfo: "channels as dots",
-    defaultDisplay: "days-week",
+    description:
+      "Chart with stations grouped by network. Used to display a single value for many stations in a dense format.",
+    displayInfo: "Stations as squares",
+    defaultDisplay: "default",
     displayOptions: {
-      "days-week": {
-        description: "calculate average for each day of the week",
+      default: {
+        description: "Station shows the average value of the channels",
         dimensions: ["display"],
       },
     },

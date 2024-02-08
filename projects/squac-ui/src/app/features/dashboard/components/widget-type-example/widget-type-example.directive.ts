@@ -24,7 +24,7 @@ import {
   WidgetDataService,
   WidgetManagerService,
 } from "widgets";
-import { Measurement, Metric } from "squacapi";
+import { Measurement, MeasurementTypes, Metric } from "squacapi";
 import { Threshold, WidgetProperties } from "squacapi";
 import { of } from "rxjs";
 import {
@@ -59,7 +59,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
   dataRange: DataRange;
   childComponentRef: ComponentRef<WidgetTypeComponent>;
   childComponent: WidgetTypeComponent;
-  data: ProcessedData;
+  data: MeasurementTypes[];
 
   constructor(
     protected readonly elementRef: ElementRef,
@@ -80,6 +80,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
       endtime: endtime,
       channels: this.channels,
       stat: undefined,
+      dataStat: "average",
     };
 
     this._metrics =
@@ -124,9 +125,9 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
    *
    * @returns generated data
    */
-  getData(): ProcessedData {
+  getData(): MeasurementTypes[] {
     this.dataRange = {};
-    const data: ProcessedData = new Map<number, any>();
+    const data: MeasurementTypes[] = [];
     const timeInterval = "seconds";
     const start = this.dateService.parseUtc(starttime);
     const end = this.dateService.parseUtc(endtime);
@@ -140,12 +141,6 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
       };
 
       this.channels.forEach((c) => {
-        if (!data.has(c.id)) {
-          const newMap = new Map<number, any>();
-          data.set(c.id, newMap);
-        }
-        const measurements = [];
-
         let currentTime = start;
         while (currentTime < end) {
           const newEnd = currentTime.add(time, timeInterval);
@@ -168,11 +163,9 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
           });
 
           this.dataRange[m.id].count++;
-          measurements.push(measurement);
+          data.push(measurement);
           currentTime = newEnd;
         }
-
-        data.get(c.id).set(m.id, measurements);
       });
     });
     return data;
@@ -255,13 +248,13 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
         }
       );
     this.childComponent = this.childComponentRef.instance;
-    // this.childComponent.updateData(this.data);
+    this.childComponent.updateData(this.data);
   }
 
   /** update widget data */
   updateData(): void {
     if (this.childComponent) {
-      // this.childComponent.updateData(this.data);
+      this.childComponent.updateData(this.data);
     }
   }
 }
