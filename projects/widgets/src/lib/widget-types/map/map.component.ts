@@ -363,12 +363,13 @@ export class MapComponent
             this.widgetManager.stat
           );
 
+          this.widgetConfigService.calculateDataRange(metric.id, val);
+
           stationData.channelData.push({
             nslc: channel.nslc,
             value: val,
           });
 
-          this.widgetConfigService.calculateDataRange(metric.id, val);
           // check if agg if worse than current agg
         });
 

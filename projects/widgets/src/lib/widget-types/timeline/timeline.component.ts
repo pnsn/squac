@@ -126,11 +126,7 @@ export class TimelineComponent
   buildChartData(data: MeasurementTypes[]): Promise<void> {
     return new Promise<void>((resolve) => {
       this.metricSeries = {};
-      this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
-        this.selectedMetrics,
-        this.properties,
-        2
-      );
+
       const defaultSeries = {
         large: true,
         encode: {
@@ -157,41 +153,52 @@ export class TimelineComponent
             };
           }
 
-          // if (data.has(channel.id)) {
-          //   const measurements = data.get(channel.id).get(metric.id);
-          //   let series;
-          //   switch (this.properties.displayType) {
-          //     case "hour":
-          //       series = this.makeSeriesForFixed(
-          //         nslc,
-          //         measurements,
-          //         index,
-          //         "hour" as OpUnitType
-          //       );
-          //       break;
-          //     case "day":
-          //       series = this.makeSeriesForFixed(
-          //         nslc,
-          //         measurements,
-          //         index,
-          //         "day" as OpUnitType
-          //       );
-          //       break;
-          //     default:
-          //       series = this.makeSeriesForRaw(nslc, measurements, index);
-          //       break;
-          //   }
+          const measurements = data
+            .filter((m) => m.channel === channel.id && m.metric === metric.id)
+            .map((m) => {
+              m.value = m.value ?? m[this.widgetManager.dataStat];
+              this.widgetConfigService.calculateDataRange(metric.id, m.value);
+              return m;
+            });
 
-          //   const channelObj = {
-          //     ...defaultSeries,
-          //     ...series,
-          //   };
-          //   this.metricSeries[metric.id].series.push(channelObj);
-          // }
+          let series;
+          switch (this.properties.displayType) {
+            case "hour":
+              series = this.makeSeriesForFixed(
+                nslc,
+                measurements,
+                index,
+                "hour" as OpUnitType
+              );
+              break;
+            case "day":
+              series = this.makeSeriesForFixed(
+                nslc,
+                measurements,
+                index,
+                "day" as OpUnitType
+              );
+              break;
+            default:
+              series = this.makeSeriesForRaw(nslc, measurements, index);
+              break;
+          }
+
+          const channelObj = {
+            ...defaultSeries,
+            ...series,
+          };
+          this.metricSeries[metric.id].series.push(channelObj);
 
           this.metricSeries[metric.id].yAxisLabels.push(nslc);
         });
       });
+
+      this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
+        this.selectedMetrics,
+        this.properties,
+        2
+      );
       resolve();
     });
   }
