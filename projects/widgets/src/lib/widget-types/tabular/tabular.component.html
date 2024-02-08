@@ -104,7 +104,9 @@
               class="cell-icon"
               [ngStyle]="{ 'background-color': metricData.color }"
             ></span>
-            <span class="cell-value"><ng-container *ngIf="showKey">{{ metricData.value }} out </ng-container></span>
+            <span class="cell-value">
+              <ng-container *ngIf="showKey">{{ metricData.value !== null ? metricData.value + " out" : "no data"}}
+              </ng-container></span>
           </ng-container>
 
           <ng-template #notStoplight>

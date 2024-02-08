@@ -290,7 +290,7 @@ export class TabularComponent
    */
   buildChartData(data: MeasurementTypes[]): Promise<void> {
     return new Promise<void>((resolve) => {
-      const rows = [];
+      let rows: Row[] = [];
       const stationRowsMap = new Map<string, Row>();
 
       // true if group channels by station
@@ -298,103 +298,144 @@ export class TabularComponent
         this.properties.displayType === "stoplight" ||
         this.properties.displayType === "worst";
 
+      this.channels.forEach((channel: Channel) => {
+        const stationId = channel.staCode;
+        const nslc = channel.nslc;
+        let stationRow: Row;
+        const channelRow: Row = {
+          title: this.useStationView ? `${channel.loc}.${channel.code}` : nslc,
+          metrics: {},
+          agg: 0,
+        };
+        // add station row that will expand to show channels
+        if (this.useStationView) {
+          channelRow.parentId = stationId;
+          // add station row that will expand to show channels
+          if (this.useStationView) {
+            channelRow.parentId = stationId;
+            if (!stationRowsMap.has(stationId)) {
+              const stationRow: Row = {
+                title: stationId,
+                children: [],
+                metrics: {},
+                agg: 0,
+                channelAgg: null,
+              };
+              stationRowsMap.set(stationId, stationRow);
+            }
+            stationRow = stationRowsMap.get(stationId);
+          }
+        }
+
+        const channelMeasurements = data
+          .filter((m) => m.channel === channel.id)
+          .map((m) => {
+            m.value = m.value ?? m[this.widgetManager.dataStat];
+            return m;
+          });
+
+        this.selectedMetrics.forEach((metric) => {
+          if (!metric) return;
+          if (stationRow && !stationRow.metrics[metric.code]) {
+            stationRow.metrics[metric.code] = {
+              id: metric.id,
+              value: 0,
+              color: null,
+              inSpec: null,
+            };
+          }
+          let value: number = null; //column value
+
+          if (channelMeasurements.length > 0) {
+            value = this.measurementPipe.transform(
+              channelMeasurements,
+              this.widgetManager.stat
+            );
+
+            this.widgetConfigService.calculateDataRange(metric.id, value);
+          }
+
+          // add metric data to channel row
+          channelRow.metrics[metric.code] = {
+            id: metric.id,
+            value,
+            color: null,
+            inSpec: null,
+          };
+        });
+        if (stationRow) {
+          stationRow.children.push(channelRow);
+        } else {
+          rows.push(channelRow);
+        }
+      });
+
+      if (this.useStationView) {
+        rows = [...stationRowsMap.values()];
+      }
+
       this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
         this.selectedMetrics,
         this.properties,
         3
       );
 
-      this.channels.forEach((channel: Channel) => {
-        const stationId = channel.staCode;
-        const nslc = channel.nslc;
-        const channelRow: Row = {
-          title: this.useStationView ? `${channel.loc}.${channel.code}` : nslc,
-          metrics: {},
-          agg: 0,
-        };
-
-        let stationRow;
-        // add station row that will expand to show channels
-        if (this.useStationView) {
-          channelRow.parentId = stationId;
-          if (!stationRowsMap.has(stationId)) {
-            const stationRow: Row = {
-              title: stationId,
-              children: [],
-              metrics: null,
-              agg: 0,
-              channelAgg: null,
-            };
-            stationRowsMap.set(stationId, stationRow);
-          }
-          stationRow = stationRowsMap.get(stationId);
-        }
-
-        // this.selectedMetrics.forEach((metric) => {
-        //   if (!metric) return;
-        //   let value: number = null; //column value
-
-        //   if (data.get(channel.id)) {
-        //     const rowData = data.get(channel.id).get(metric.id);
-        //     value = this.measurementPipe.transform(
-        //       rowData,
-        //       this.widgetManager.stat
-        //     );
-        //   }
-
-        //   const visualMap = this.visualMaps[metric.id];
-        //   const inRange = visualMap
-        //     ? this.widgetConfigService.checkValue(value, visualMap)
-        //     : true;
-
-        //   // metric is in spec if the value exists and is in Range
-        //   const inSpec = value !== null && visualMap && inRange;
-
-        //   // display color for channel
-        //   const color = this.getStyle(value, visualMap);
-
-        //   // add metric data to channel row
-        //   channelRow.metrics[metric.code] = {
-        //     value,
-        //     color,
-        //     inSpec,
-        //   };
-        //   if (!inSpec) {
-        //     channelRow.agg++;
-        //   }
-        //   if (this.properties.displayType === "stoplight" && visualMap) {
-        //     if (!stationRow.metrics) stationRow.metrics = {};
-        //     this.stationStoplight(
-        //       metric.code,
-        //       inSpec,
-        //       stationRow,
-        //       visualMap as StoplightVisualMapOption
-        //     );
-        //   }
-        // });
-
-        if (stationRow) {
-          if (channelRow.agg > 0) {
-            stationRow.agg++;
-          }
-          if (this.properties.displayType === "worst") {
-            if (!stationRow.metrics || channelRow.agg > stationRow.channelAgg) {
-              stationRow.metrics = channelRow.metrics;
-              stationRow.channelAgg = channelRow.agg;
-            }
-          }
-          stationRow.children.push(channelRow);
+      // row is either a station w/ children or just a channel
+      rows.forEach((row: Row) => {
+        // has children
+        if (row.children?.length > 0) {
+          this.processStationRow(row);
         } else {
-          rows.push(channelRow);
+          this.processRow(row);
         }
       });
-      if (stationRowsMap.size > 0) {
-        this.rows = [...stationRowsMap.values()];
-      } else {
-        this.rows = [...rows];
-      }
+
+      this.rows = rows;
       resolve();
     });
+  }
+
+  processStationRow(row: Row): Row {
+    row.children.forEach((childRow, i) => {
+      this.processRow(childRow);
+      if (childRow.agg > 0) {
+        row.agg++;
+      }
+      if (this.properties.displayType === "worst") {
+        if (i === 0 || childRow.agg > row.channelAgg) {
+          row.metrics = childRow.metrics;
+          row.channelAgg = childRow.agg;
+        }
+      }
+    });
+    if (this.properties.displayType === "stoplight") {
+      this.stationStoplight(row);
+    }
+    return row;
+  }
+
+  processRow(row: Row): Row {
+    for (const m in row.metrics) {
+      const metric = row.metrics[m];
+      const visualMap = this.visualMaps[metric.id];
+      const inRange = visualMap
+        ? this.widgetConfigService.checkValue(metric.value, visualMap)
+        : true;
+
+      // metric is in spec if the value exists and is in Range
+      const inSpec = metric.value !== null && visualMap && inRange;
+
+      // display color for channel
+      const color = this.getStyle(metric.value, visualMap);
+
+      metric.color = color;
+      metric.inSpec = inSpec;
+
+      if (!inSpec) {
+        row.agg++;
+      }
+    }
+    return row;
   }
 
   /**
@@ -406,43 +447,40 @@ export class TabularComponent
    * @param stationRow station row for the channel
    * @param visualMap visual map for metric
    */
-  private stationStoplight(
-    code: string,
-    inSpec: boolean,
-    stationRow: Row,
-    visualMap: StoplightVisualMapOption
-  ): void {
-    if (!stationRow.metrics[code]) {
-      stationRow.metrics[code] = {
-        value: 0,
-        color: null,
-        inSpec,
-      };
-    }
+  private stationStoplight(row: Row): void {
+    for (const m in row.metrics) {
+      const metric = row.metrics[m];
+      const visualMap = this.visualMaps[metric.id] as StoplightVisualMapOption;
+      // number of out of spec channels already
+      let numOutOfSpec = 0;
+      let numChannelsWithoutData = 0;
+      row.children.forEach((childRow) => {
+        if (childRow.metrics[m].value !== null) {
+          numChannelsWithoutData++;
+        }
+        if (!childRow.metrics[m].inSpec) {
+          numOutOfSpec++;
+        }
+      });
 
-    const stationMetric = stationRow.metrics[code];
-    if (!inSpec) {
-      stationMetric.value++;
+      const totalNumChannels = row.children.length;
+      let color;
+      if (numOutOfSpec === 0) {
+        //some out of spec
+        color = visualMap.colors.in;
+      } else if (totalNumChannels === numOutOfSpec) {
+        //all out of spec
+        color = visualMap.colors.out;
+      } else if (totalNumChannels > numOutOfSpec) {
+        // all in spec
+        color = visualMap.colors.middle;
+      } else {
+        // something got messed up
+        color = "gray";
+      }
+      metric.value = numChannelsWithoutData > 0 ? numOutOfSpec : null;
+      metric.color = color;
     }
-    // number of out of spec channels already
-    const numOutOfSpec = stationMetric.value;
-    // add 1 because current channel hasn't been added yet
-    const totalNumChannels = stationRow.children.length + 1;
-    let color;
-    if (numOutOfSpec === 0) {
-      //some out of spec
-      color = visualMap.colors.in;
-    } else if (totalNumChannels === numOutOfSpec) {
-      //all out of spec
-      color = visualMap.colors.out;
-    } else if (totalNumChannels > numOutOfSpec) {
-      // all in spec
-      color = visualMap.colors.middle;
-    } else {
-      // something got messed up
-      color = "gray";
-    }
-    stationMetric.color = color;
   }
 
   /**

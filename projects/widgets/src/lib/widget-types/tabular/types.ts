@@ -8,6 +8,8 @@ export interface RowMetric {
   count?: number;
   /** is the metric in spec */
   inSpec: boolean;
+  /** metric id */
+  id?: number;
 }
 
 /** record of metric id to row metric data */
@@ -26,4 +28,6 @@ export interface Row {
   channelAgg?: number;
   /** identifier if row is nested */
   parentId?: string;
+  /** row identifier */
+  id?: string;
 }
