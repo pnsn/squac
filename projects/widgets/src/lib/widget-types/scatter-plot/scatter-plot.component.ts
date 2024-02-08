@@ -10,7 +10,7 @@ import {
   WidgetManagerService,
   WidgetConfigService,
 } from "../../services";
-import { ProcessedData, WidgetTypeComponent } from "../../interfaces";
+import { WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../../components/e-chart/e-chart.component";
 import { TooltipComponentFormatterCallbackParams } from "echarts";
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";

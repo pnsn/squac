@@ -16,7 +16,6 @@ import {
 import { isContinuous, WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../../components/e-chart/e-chart.component";
 import { parseUtc } from "../../utils";
-import { ProcessedData } from "../../interfaces";
 import { LabelFormatterParams } from "../../interfaces";
 import { OpUnitType } from "dayjs";
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";

@@ -5,7 +5,7 @@ import {
   WidgetConfigService,
 } from "../../services";
 import { EChartComponent } from "../../components/e-chart/e-chart.component";
-import { ProcessedData, WidgetTypeComponent } from "../../interfaces";
+import { WidgetTypeComponent } from "../../interfaces";
 import {
   ParallelSeriesOption,
   TooltipComponentFormatterCallbackParams,

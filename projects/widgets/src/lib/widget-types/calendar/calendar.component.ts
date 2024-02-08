@@ -8,7 +8,7 @@ import {
   WidgetManagerService,
   WidgetConfigService,
 } from "../../services";
-import { ProcessedData, WidgetTypeComponent } from "../../interfaces";
+import { WidgetTypeComponent } from "../../interfaces";
 import { parseUtc } from "../../utils";
 import {
   singleXAxisConfig,

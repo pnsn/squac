@@ -1,13 +1,9 @@
 import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
 import * as dayjs from "dayjs";
-import { Measurement, MeasurementTypes } from "squacapi";
+import { MeasurementTypes } from "squacapi";
 
 import { EChartsOption, TooltipComponentPositionCallbackParams } from "echarts";
-import {
-  LabelFormatterParams,
-  ProcessedData,
-  WidgetTypeComponent,
-} from "../../interfaces";
+import { LabelFormatterParams, WidgetTypeComponent } from "../../interfaces";
 import {
   WidgetConfigService,
   WidgetConnectService,

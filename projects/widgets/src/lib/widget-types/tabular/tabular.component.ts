@@ -12,7 +12,6 @@ import {
   WidgetConfigService,
 } from "../../services";
 import {
-  ProcessedData,
   StoplightVisualMapOption,
   VisualMapTypes,
   WidgetTypeComponent,
@@ -395,7 +394,12 @@ export class TabularComponent
     });
   }
 
-  processStationRow(row: Row): Row {
+  /**
+   * Calculated color and value for a station
+   *
+   * @param row station row
+   */
+  processStationRow(row: Row): void {
     row.children.forEach((childRow, i) => {
       this.processRow(childRow);
       if (childRow.agg > 0) {
@@ -411,10 +415,14 @@ export class TabularComponent
     if (this.properties.displayType === "stoplight") {
       this.stationStoplight(row);
     }
-    return row;
   }
 
-  processRow(row: Row): Row {
+  /**
+   *  Finds color and value for the given row
+   *
+   * @param row any row
+   */
+  processRow(row: Row): void {
     for (const m in row.metrics) {
       const metric = row.metrics[m];
       const visualMap = this.visualMaps[metric.id];
@@ -435,17 +443,13 @@ export class TabularComponent
         row.agg++;
       }
     }
-    return row;
   }
 
   /**
    * Calculates properties for the station row for a single metric
    * with the stoplight type
    *
-   * @param code metric identifying code
-   * @param inSpec is channel in spec for this metric
-   * @param stationRow station row for the channel
-   * @param visualMap visual map for metric
+   * @param row station row
    */
   private stationStoplight(row: Row): void {
     for (const m in row.metrics) {

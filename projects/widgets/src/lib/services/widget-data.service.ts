@@ -3,7 +3,6 @@ import {
   catchError,
   EMPTY,
   filter,
-  map,
   Observable,
   ReplaySubject,
   Subject,

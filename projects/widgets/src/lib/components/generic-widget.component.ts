@@ -5,7 +5,7 @@ import {
   OnDestroy,
   OnInit,
 } from "@angular/core";
-import { ProcessedData, VisualMap, WidgetConfig } from "../interfaces";
+import { VisualMap, WidgetConfig } from "../interfaces";
 import { WidgetConnectService, WidgetManagerService } from "../services";
 import { Channel, MeasurementTypes, Metric } from "squacapi";
 import { WidgetProperties } from "squacapi";

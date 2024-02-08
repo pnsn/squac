@@ -1,15 +1,6 @@
 import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
-import {
-  Measurement,
-  MeasurementPipe,
-  Channel,
-  MeasurementTypes,
-} from "squacapi";
-import {
-  EChartsOption,
-  registerTransform,
-  TooltipComponentFormatterCallbackParams,
-} from "echarts";
+import { MeasurementPipe, Channel, MeasurementTypes } from "squacapi";
+import { EChartsOption, registerTransform } from "echarts";
 
 import {
   WidgetConnectService,
@@ -18,10 +9,6 @@ import {
 } from "../../services";
 import { isContinuous, WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../../components/e-chart/e-chart.component";
-import { parseUtc } from "../../utils";
-import { ProcessedData } from "../../interfaces";
-import { LabelFormatterParams } from "../../interfaces";
-import { OpUnitType } from "dayjs";
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
 import {
   ExternalDataTransform,
@@ -142,19 +129,11 @@ export class BudComponent
         },
         label: {
           show: true,
-          formatter: function (d) {
-            return d.name;
-          },
+          formatter: (d) => d.name,
         },
         // renderItem: this.renderItem,
       };
 
-      const dataSet = [
-        {
-          id: "raw",
-          source: data, //
-        },
-      ];
       interface ChannelData {
         chan: string;
         value: number;
@@ -207,7 +186,6 @@ export class BudComponent
         const metricSeries = [];
         const yAxisLabels = Array.from(networks.keys()).sort();
         const yAxis2Labels: string[] = [];
-        let netIndex = 0;
         let rowIndex = 0;
 
         yAxisLabels.forEach((net: string) => {
@@ -253,7 +231,6 @@ export class BudComponent
               staIndex++;
             }
           });
-          netIndex++;
           rowIndex++;
           metricSeries.push(series);
         });

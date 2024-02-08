@@ -20,10 +20,9 @@ import {
   WidgetTypeComponent,
   isContinuous,
   isStoplight,
-  ProcessedData,
 } from "../../interfaces";
 import { GenericWidgetComponent } from "../../components";
-import { ChannelRow, StationChannels, StationRow } from "./types";
+import { StationRow } from "./types";
 import { Channel, MeasurementPipe, MeasurementTypes, Metric } from "squacapi";
 import {
   Control,

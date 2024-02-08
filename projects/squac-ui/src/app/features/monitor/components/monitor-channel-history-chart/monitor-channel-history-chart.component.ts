@@ -20,7 +20,6 @@ import {
 import {
   EChartComponent,
   LabelFormatterParams,
-  ProcessedData,
   WidgetConfigService,
   WidgetManagerService,
 } from "widgets";

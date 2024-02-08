@@ -13,7 +13,6 @@ import {
 import { DateService } from "@core/services/date.service";
 import {
   DataRange,
-  ProcessedData,
   WidgetConfig,
   WidgetTypeComponent,
   WidgetTypes,

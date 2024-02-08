@@ -19,7 +19,6 @@ import {
   DataRange,
   LabelFormatterParams,
   ParallelAxisOption,
-  ProcessedData,
   VisualMapTypes,
   PiecewiseVisualMapOption,
   ContinousVisualMapOption,
@@ -39,7 +38,7 @@ import { ECHART_DEFAULTS } from "../components/e-chart/chart-config";
 export class WidgetConfigService {
   readonly defaultPrecision = 4;
   thresholds: Threshold[];
-  dataRange: DataRange;
+  dataRange: DataRange = {};
   precisionPipe = new PrecisionPipe();
   measurementPipe = new MeasurementPipe();
 
