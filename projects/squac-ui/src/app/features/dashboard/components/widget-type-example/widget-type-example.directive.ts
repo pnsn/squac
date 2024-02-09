@@ -23,13 +23,13 @@ import {
   WidgetDataService,
   WidgetManagerService,
 } from "widgets";
-import { Measurement, MeasurementTypes, Metric } from "squacapi";
+import { Channel, Measurement, MeasurementTypes, Metric } from "squacapi";
 import { Threshold, WidgetProperties } from "squacapi";
 import { of } from "rxjs";
 import {
-  channels,
   endtime,
-  selectedMetrics,
+  getFakeChannels,
+  getFakeMetrics,
   starttime,
 } from "./widget-example-config";
 import { WidgetType } from "widgets";
@@ -50,8 +50,8 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
   @Input() selectedMetrics: Metric[];
   @Input() thresholds: Threshold[];
 
-  channels = channels;
-  _metrics;
+  channels: Channel[];
+  _metrics: Metric[];
   _thresholds;
   widgetConfig: WidgetConfig;
   widgetManager;
@@ -71,6 +71,8 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
 
   /** set up widget manager and metrics */
   ngOnInit(): void {
+    this.channels = getFakeChannels(3, 8, 2);
+
     this.widgetManager = {
       toggleKey$: of(),
       zoomStatus$: of(),
@@ -85,7 +87,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
     this._metrics =
       this.selectedMetrics && this.selectedMetrics.length > 0
         ? this.selectedMetrics
-        : selectedMetrics;
+        : getFakeMetrics(3);
     this.data = this.getData();
     this.widgetManager.selectedMetrics = this._metrics;
 
@@ -150,7 +152,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
           const starttime = this.dateService.format(currentTime);
           const endtime = this.dateService.format(newEnd);
 
-          const value = Math.random() * m.maxVal + m.minVal;
+          const value = Math.random() * m.maxVal * 1.5;
           const measurement = new Measurement({
             id: 1,
             user: 1,

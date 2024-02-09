@@ -6,160 +6,76 @@ export const endtime = "2022-11-03T23:53:51Z";
 /** example end */
 export const starttime = "2022-11-02T23:53:51Z";
 
-/** selected metrics */
-export const selectedMetrics = [
-  new Metric({
-    id: 1,
-    user: 1,
-    name: "Example Metric 1",
-    code: "example_metric",
-    description: "",
-    unit: "unit",
-    reference_url: "",
-    sample_rate: 3600,
-    default_minval: 0,
-    default_maxval: 340,
-  }),
-  new Metric({
-    id: 2,
-    user: 1,
-    name: "Example Metric 2",
-    code: "example_metric_2",
-    description: "",
-    unit: "unit",
-    reference_url: "",
-    sample_rate: 1800,
-    default_minval: 0,
-    default_maxval: 10000,
-  }),
-  new Metric({
-    id: 3,
-    user: 1,
-    name: "Example Metric 3",
-    code: "example_metric_3",
-    description: "",
-    unit: "unit",
-    reference_url: "",
-    sample_rate: 5400,
-    default_minval: -100,
-    default_maxval: 100,
-  }),
-];
+/**
+ * Creates fake channels using the given parameters.
+ *
+ * @param numChannels number of channels per station to create
+ * @param numStations number of stations per network to create
+ * @param numNetworks number of networks to create
+ * @returns Array of channels with the given size
+ */
+export const getFakeChannels = (
+  numChannels = 3,
+  numStations = 3,
+  numNetworks = 2
+): Channel[] => {
+  const channels = [];
 
-/** selected channels */
-export const channels = [
-  new Channel({
-    id: 1,
-    code: "code1",
-    name: "",
-    lat: 40,
-    lon: -120,
-    elev: 5,
-    loc: "loc",
-    station_code: "sta1",
-    network: "net",
-    nslc: "net.sta1.loc.code1",
-  }),
-  new Channel({
-    id: 2,
-    code: "code2",
-    name: "",
-    lat: 40,
-    lon: -120,
-    elev: 5,
-    loc: "loc",
-    station_code: "sta1",
-    network: "net",
-    nslc: "net.sta1.loc.code2",
-  }),
+  for (let n = 1; n <= numNetworks; n++) {
+    const network = "net" + n;
 
-  new Channel({
-    id: 3,
-    code: "code3",
-    name: "",
-    lat: 40,
-    lon: -120,
-    elev: 5,
-    loc: "loc",
-    station_code: "sta1",
-    network: "net",
-    nslc: "net.sta1.loc.code3",
-  }),
+    for (let s = 1; s <= numStations; s++) {
+      const station_code = "sta" + s;
+      const loc = "--";
+      const lat = 40 + Math.random() * s;
+      const lon = -120 + Math.random() * s;
+      for (let c = 1; c <= numChannels; c++) {
+        const code = "chan" + c;
 
-  new Channel({
-    id: 4,
-    code: "code1",
-    name: "",
-    lat: 41,
-    lon: -121,
-    elev: 5,
-    loc: "loc",
-    station_code: "sta2",
-    network: "net",
-    nslc: "net.sta2.loc.code1",
-  }),
+        channels.push(
+          new Channel({
+            id: +`${n}${s}${c}`,
+            code,
+            lat,
+            lon,
+            loc,
+            station_code: station_code,
+            network,
+            nslc: `${network}.${station_code}.${loc}.${code}`,
+          })
+        );
+      }
+    }
+  }
 
-  new Channel({
-    id: 5,
-    code: "code2",
-    name: "",
-    lat: 41,
-    lon: -121,
-    elev: 5,
-    loc: "loc",
-    station_code: "sta2",
-    network: "net",
-    nslc: "net.sta2.loc.code2",
-  }),
-  new Channel({
-    id: 6,
-    code: "code3",
-    name: "",
-    lat: 41,
-    lon: -121,
-    elev: 5,
-    loc: "loc",
-    station_code: "sta2",
-    network: "net",
-    nslc: "net.sta2.loc.code3",
-  }),
+  return channels;
+};
 
-  new Channel({
-    id: 7,
-    code: "code1",
-    name: "",
-    lat: 39.5,
-    lon: -122,
-    elev: 5,
-    loc: "loc",
-    station_code: "sta3",
-    network: "net",
-    nslc: "net.sta3.loc.code1",
-  }),
+/**
+ * Creates fake metrics
+ *
+ * @param numMetrics Number of desired metrics
+ * @returns Array of metrics
+ */
+export const getFakeMetrics = (numMetrics = 1): Metric[] => {
+  const metrics = [];
 
-  new Channel({
-    id: 8,
-    code: "code2",
-    name: "",
-    lat: 39.5,
-    lon: -122,
-    elev: 5,
-    loc: "loc",
-    station_code: "sta3",
-    network: "net",
-    nslc: "net.sta3.loc.code2",
-  }),
-
-  new Channel({
-    id: 9,
-    code: "code3",
-    name: "",
-    lat: 39.5,
-    lon: -122,
-    elev: 5,
-    loc: "loc",
-    station_code: "sta3",
-    network: "net",
-    nslc: "net.sta3.loc.code3",
-  }),
-];
+  for (let m = 1; m <= numMetrics; m++) {
+    const sample_rate = 3600 * m;
+    const default_minval = m;
+    const default_maxval = 10 * m;
+    metrics.push(
+      new Metric({
+        id: m,
+        user: 1,
+        name: `Example Metric ${m}`,
+        code: `example_metric_${m}`,
+        unit: "unit",
+        sample_rate,
+        default_minval,
+        default_maxval,
+      })
+    );
+  }
+  return metrics;
+};
