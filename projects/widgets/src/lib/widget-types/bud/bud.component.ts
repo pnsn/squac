@@ -10,10 +10,7 @@ import {
 import { isContinuous, WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../../components/e-chart/e-chart.component";
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
-import {
-  ExternalDataTransform,
-  aggregate,
-} from "@manufac/echarts-simple-transform";
+
 /**
  * Chart that plots channels as the y axis and time,
  * grouped into chunks of time on x axis
@@ -44,7 +41,6 @@ export class BudComponent
     override ngZone: NgZone
   ) {
     super(widgetManager, widgetConnector, ngZone);
-    registerTransform(aggregate as ExternalDataTransform);
   }
 
   // Max allowable time between measurements to connect
