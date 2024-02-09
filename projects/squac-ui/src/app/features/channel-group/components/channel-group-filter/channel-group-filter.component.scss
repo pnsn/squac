@@ -2,6 +2,10 @@
   // width: 100%;
   width: auto;
   gap: 10px;
+  margin-bottom: 20px;
+  &.denser {
+    margin-bottom: 0px;
+  }
   .dense-form-field {
     width: 90px;
     flex-grow: 1;
@@ -14,5 +18,4 @@
       display: inline-block;
     }
   }
-  margin-bottom: 20px;
 }

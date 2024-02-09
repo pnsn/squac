@@ -25,6 +25,7 @@ describe("ChannelFilterComponent", () => {
         provide: ViewService,
         useValue: {
           channelGroupId: new Subject(),
+          channelsChanged: new Subject(),
         },
       })
       .mock(WidgetConnectService);

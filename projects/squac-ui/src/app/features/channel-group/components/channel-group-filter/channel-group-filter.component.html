@@ -1,5 +1,8 @@
 <div class="row wrap space-between">
-  <div class="row filter-container">
+  <div
+    class="row filter-container"
+    [ngClass]="{'denser': useDenseView}"
+  >
     <mat-form-field
       class="dense-form-field"
       subscriptSizing="dynamic"
@@ -86,8 +89,26 @@
     </mat-form-field>
   </div>
 
+  <div
+    class="row filter-container denser"
+    *ngIf="useDenseView"
+  >
 
-  <div class="row filter-container">
+    <button
+      mat-icon-button
+      color="accent"
+      (click)="updateFilters()"
+      uiTooltip="Search for channels"
+      aria-label="Button that searches for channels matching filters"
+    >
+      <mat-icon>search</mat-icon>
+    </button>
+  </div>
+
+  <div
+    class="row filter-container"
+    *ngIf="!useDenseView"
+  >
     <button
       mat-raised-button
       color="accent"
@@ -98,7 +119,6 @@
       <mat-icon>search</mat-icon>
       search
     </button>
-
     <button
       mat-stroked-button
       (click)="removeFilters()"
@@ -113,6 +133,7 @@
       (click)="addToRegex()"
       uiTooltip="Add filters to rules"
       aria-label="Button that searches for channels matching filters"
+      *ngIf="!useDenseView"
     >
       add to rules
     </button>
@@ -120,4 +141,4 @@
 
 </div>
 
-<mat-divider></mat-divider>
+<mat-divider *ngIf="!useDenseView"></mat-divider>

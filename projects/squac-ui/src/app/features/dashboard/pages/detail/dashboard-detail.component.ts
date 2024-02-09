@@ -30,7 +30,6 @@ import { AbilityModule } from "@casl/angular";
 import { FormsModule } from "@angular/forms";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { SearchFilter } from "@channelGroup/components/channel-group-filter/interfaces";
-import { SearchFilterComponent } from "@shared/components/search-filter/search-filter.component";
 import { ChannelGroupFilterComponent } from "@channelGroup/components/channel-group-filter/channel-group-filter.component";
 
 export enum LoadingIndicator {
@@ -117,6 +116,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
           this.viewService.setDashboard(dashboard);
           this.dashboard = this.viewService.dashboard;
 
+          if (!this.dashboard) {
+            throw new Error("no dashboard!");
+          }
           this.widgetConnectService.useDenseView.next(
             this.dashboard.properties.denseView
           );
@@ -346,7 +348,9 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Update filters
+   * Updates filters and requests channels
+   *
+   * @param filters search filters used to find channels
    */
   filtersChanged(filters: SearchFilter): void {
     this.viewService.getChannels(filters).subscribe();

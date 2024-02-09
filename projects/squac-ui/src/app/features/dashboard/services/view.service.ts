@@ -262,8 +262,8 @@ export class ViewService {
   /**
    * Fetches channels with the given filters
    *
-   * @param filters
-   * @returns
+   * @param filters filters to request matching channels
+   * @returns Observable of requested channels
    */
   getChannels(filters: SearchFilter): Observable<Channel[]> {
     return this.loadingService

@@ -30,8 +30,12 @@
 
       <div id="dashboard-controls">
 
-        <ng-container *ngIf="dashboard.properties.useChannels; else useGroups">
-          <channel-group-filter (filtersChanged)="filtersChanged($event)">
+        <ng-container *ngIf="dashboard?.properties?.useChannels; else useGroups">
+          <channel-group-filter
+            [useDenseView]="true"
+            [startingFilters]="dashboard?.properties?.channelFilters"
+            (filtersChanged)="filtersChanged($event)"
+          >
           </channel-group-filter>
         </ng-container>
         <ng-template #useGroups>
