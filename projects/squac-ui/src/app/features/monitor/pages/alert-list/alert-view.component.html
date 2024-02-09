@@ -17,6 +17,7 @@
       <ng-container tableHeadFilters>
         <div class="row">
           <shared-date-select
+            [ngStyle]="{'z-index': 100}"
             [secondsAgoFromNow]="timeRange"
             [initialStartDate]="starttime"
             [initialEndDate]="endtime"

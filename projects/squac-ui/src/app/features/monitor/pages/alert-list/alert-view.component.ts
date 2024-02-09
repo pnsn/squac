@@ -26,7 +26,7 @@ import { PageOptions } from "@shared/components/detail-page/detail-page.interfac
 import { DetailPageComponent } from "@shared/components/detail-page/detail-page.component";
 import { TableViewComponent } from "@shared/components/table-view/table-view.component";
 import { LoadingDirective } from "@shared/directives/loading-directive.directive";
-import { AsyncPipe, NgIf } from "@angular/common";
+import { AsyncPipe, NgIf, NgStyle } from "@angular/common";
 import { DateSelectComponent } from "@shared/components/date-select/date-select.component";
 import { MonitorAlarmStatusComponent } from "@monitor/components/monitor-alarm-status/monitor-alarm-status.component";
 
@@ -47,6 +47,7 @@ import { MonitorAlarmStatusComponent } from "@monitor/components/monitor-alarm-s
     MonitorAlarmStatusComponent,
     RouterLink,
     NgIf,
+    NgStyle,
   ],
 })
 export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
