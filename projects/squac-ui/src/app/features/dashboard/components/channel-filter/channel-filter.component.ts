@@ -57,6 +57,7 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
   }>;
   toggledAll = true;
   channelsSub: Subscription;
+  groupsSub: Subscription;
   LoadingIndicator = LoadingIndicator;
   @Output() closeSidenav = new EventEmitter<boolean>();
 
@@ -72,12 +73,19 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
    * Subscribe to group changes
    */
   ngOnInit(): void {
-    this.channelsSub = this.viewService.channelGroupId
+    this.groupsSub = this.viewService.channelGroupId
       .pipe(distinctUntilChanged())
       .subscribe(() => {
         this.channels = this.viewService.allChannels;
         this.initForm();
       });
+
+    this.channelsSub = this.viewService.channelsChanged.subscribe(
+      (channels) => {
+        this.channels = channels;
+        this.initForm();
+      }
+    );
   }
 
   /**
@@ -85,6 +93,7 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
    */
   ngOnDestroy(): void {
     this.channelsSub.unsubscribe();
+    this.groupsSub.unsubscribe();
   }
 
   /**
@@ -154,7 +163,7 @@ export class ChannelFilterComponent implements OnInit, OnDestroy {
   toggleAll(): void {
     const checkboxes = this.form["controls"].checkboxes;
     Object.keys(checkboxes.controls).forEach((key) => {
-      checkboxes.controls[key].patchValue(!this.toggledAll);
+      checkboxes.controls[key].patchValue(this.toggledAll);
     });
     this.cdr.detectChanges();
   }
