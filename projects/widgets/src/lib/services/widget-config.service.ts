@@ -1,8 +1,10 @@
 import { Injectable } from "@angular/core";
 import {
+  ArchiveStatType,
   Channel,
   Color,
   MeasurementPipe,
+  MeasurementTypes,
   Metric,
   WidgetProperties,
   WidgetStatType,
@@ -17,7 +19,6 @@ import {
   DataRange,
   LabelFormatterParams,
   ParallelAxisOption,
-  ProcessedData,
   VisualMapTypes,
   PiecewiseVisualMapOption,
   ContinousVisualMapOption,
@@ -37,7 +38,7 @@ import { ECHART_DEFAULTS } from "../components/e-chart/chart-config";
 export class WidgetConfigService {
   readonly defaultPrecision = 4;
   thresholds: Threshold[];
-  dataRange: DataRange;
+  dataRange: DataRange = {};
   precisionPipe = new PrecisionPipe();
   measurementPipe = new MeasurementPipe();
 
@@ -379,14 +380,16 @@ export class WidgetConfigService {
    * @param data data
    * @param series initial series data
    * @param stat widget statistic to calculate
+   * @param dataStat data type statistic
    * @returns processed series config
    */
   getSeriesForMultipleMetrics(
     metrics: Metric[],
     channels: Channel[],
-    data: ProcessedData,
+    data: MeasurementTypes[],
     series: any,
-    stat: WidgetStatType
+    stat: WidgetStatType,
+    dataStat: ArchiveStatType | WidgetStatType | string
   ): { series: any; axis?: ParallelAxisOption[] } {
     const stations = [];
     const axis: ParallelAxisOption[] = [];
@@ -437,6 +440,7 @@ export class WidgetConfigService {
 
     channels.forEach((channel: Channel) => {
       const station = {
+        //is this actually station?
         ...series,
         name: channel.nslc,
         data: [],
@@ -449,14 +453,19 @@ export class WidgetConfigService {
       };
 
       metrics.forEach((metric) => {
-        if (!metric) return;
-        let val: number = null;
-        if (data.has(channel.id)) {
-          const rowData = data.get(channel.id).get(metric.id);
-          val = this.measurementPipe.transform(rowData, stat);
-        }
-        channelData.value.push(val);
+        const measurements: MeasurementTypes[] = data
+          .filter((m) => m.channel === channel.id && m.metric === metric.id)
+          .map((m) => {
+            m.value = m.value ?? m[dataStat];
+            return m;
+          });
+
+        const value = this.measurementPipe.transform(measurements, stat);
+        this.calculateDataRange(metric.id, value);
+
+        channelData.value.push(value);
       });
+
       station.data.push(channelData);
     });
     return { series: stations, axis };
@@ -591,5 +600,25 @@ export class WidgetConfigService {
       return string;
     }
     return "";
+  }
+
+  /**
+   * Calculates the min, max, and count of data for the metric after including the given value
+   *
+   * @param metricId - id of metric
+   * @param value - measurement value to add
+   */
+  calculateDataRange(metricId: number, value: number): void {
+    const metricRange =
+      metricId in this.dataRange ? this.dataRange[metricId] : { count: 0 };
+
+    if (metricRange.min === undefined || value < metricRange.min) {
+      metricRange.min = value;
+    }
+    if (metricRange.max === undefined || value > metricRange.max) {
+      metricRange.max = value;
+    }
+    if (metricRange.count) metricRange.count++;
+    this.dataRange[metricId] = metricRange;
   }
 }

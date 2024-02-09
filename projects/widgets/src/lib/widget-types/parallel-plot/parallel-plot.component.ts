@@ -5,12 +5,13 @@ import {
   WidgetConfigService,
 } from "../../services";
 import { EChartComponent } from "../../components/e-chart/e-chart.component";
-import { ProcessedData, WidgetTypeComponent } from "../../interfaces";
+import { WidgetTypeComponent } from "../../interfaces";
 import {
   ParallelSeriesOption,
   TooltipComponentFormatterCallbackParams,
 } from "echarts";
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
+import { MeasurementTypes } from "squacapi";
 
 /**
  * Parallel plot widget, shows multiple metrics on parallel axes
@@ -126,7 +127,7 @@ export class ParallelPlotComponent
    *
    * @param data processed measurements for chart
    */
-  buildChartData(data: ProcessedData): Promise<void> {
+  buildChartData(data: MeasurementTypes[]): Promise<void> {
     return new Promise<void>((resolve) => {
       const metricSeries: ParallelSeriesOption = {
         type: "parallel",
@@ -152,7 +153,8 @@ export class ParallelPlotComponent
         this.channels,
         data,
         metricSeries,
-        this.widgetManager.stat
+        this.widgetManager.stat,
+        this.widgetManager.dataStat
       );
       resolve();
     });

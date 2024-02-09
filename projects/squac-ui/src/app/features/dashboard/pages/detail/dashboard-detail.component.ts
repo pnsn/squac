@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import { Dashboard, OrganizationPipe, UserPipe } from "squacapi";
 import { ActivatedRoute, Router, RouterOutlet } from "@angular/router";
-import { Observable, Subscription, switchMap, tap } from "rxjs";
+import { Observable, of, Subscription, switchMap, tap } from "rxjs";
 import { ViewService } from "@dashboard/services/view.service";
 import { AppAbility } from "@core/utils/ability";
 import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
@@ -29,10 +29,13 @@ import { MatIconModule } from "@angular/material/icon";
 import { AbilityModule } from "@casl/angular";
 import { FormsModule } from "@angular/forms";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { SearchFilter } from "@channelGroup/components/channel-group-filter/interfaces";
+import { ChannelGroupFilterComponent } from "@channelGroup/components/channel-group-filter/channel-group-filter.component";
 
 export enum LoadingIndicator {
   MAIN,
   CHANNEL_GROUP,
+  CHANNELS,
 }
 
 /**
@@ -62,6 +65,7 @@ export enum LoadingIndicator {
     FormsModule,
     RouterOutlet,
     MatSlideToggleModule,
+    ChannelGroupFilterComponent,
   ],
 })
 export class DashboardDetailComponent implements OnInit, OnDestroy {
@@ -83,6 +87,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
   // time picker config
   datePickerTimeRanges = DATE_PICKER_TIMERANGES;
   LoadingIndicator = LoadingIndicator;
+  channelFilters: SearchFilter;
 
   constructor(
     private route: ActivatedRoute,
@@ -108,25 +113,44 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
         }),
         switchMap(() => {
           const dashboard = this.route.snapshot.data["dashboard"];
-          let groupId = dashboard.channelGroupId;
-          if (this.route.snapshot.queryParams["group"]) {
-            groupId = +this.route.snapshot.queryParams["group"];
-          }
-          this.channelGroupId = groupId;
           this.viewService.setDashboard(dashboard);
           this.dashboard = this.viewService.dashboard;
+
+          if (!this.dashboard) {
+            throw new Error("no dashboard!");
+          }
           this.widgetConnectService.useDenseView.next(
             this.dashboard.properties.denseView
           );
+
           this.archiveStat = this.viewService.archiveStat;
           this.archiveType = this.viewService.archiveType;
           this.timeRange = this.viewService.range;
           this.startTime = this.viewService.startTime;
           this.endTime = this.viewService.endTime;
-          return this.loadingService.doLoading(
-            this.viewService.getChannelGroup(groupId),
-            this
-          );
+
+          if (this.dashboard.properties.useChannels) {
+            this.channelGroupId = null;
+            this.channelFilters = this.dashboard.properties.channelFilters;
+            if (!this.channelFilters) {
+              return of([]);
+            }
+            // get channels
+            return this.loadingService.doLoading(
+              this.viewService.getChannels(this.channelFilters),
+              this
+            );
+          } else {
+            let groupId = dashboard.channelGroupId;
+            if (this.route.snapshot.queryParams["group"]) {
+              groupId = +this.route.snapshot.queryParams["group"];
+            }
+            this.channelGroupId = groupId;
+            return this.loadingService.doLoading(
+              this.viewService.getChannelGroup(groupId),
+              this
+            );
+          }
         }),
         tap(() => {
           this.viewService.updateDashboard();
@@ -188,6 +212,7 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
       this.dashboard.properties.denseView
     );
   }
+
   /**
    * Toggles channel list setting for dashboard
    */
@@ -195,6 +220,15 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
     this.widgetConnectService.toggleChannelList.next(this.channelList);
   }
 
+  /**
+   * Toggles channels setting when changed
+   */
+  toggleUseChannels(): void {
+    this.viewService.updateDashboardProperty(
+      "useChannels",
+      this.dashboard.properties.useChannels
+    );
+  }
   /**
    * Validate dates
    * if dates larger than 3 days, default to daily, larger than 1 month, monthly
@@ -311,5 +345,19 @@ export class DashboardDetailComponent implements OnInit, OnDestroy {
    */
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  /**
+   * Updates filters and requests channels
+   *
+   * @param filters search filters used to find channels
+   */
+  filtersChanged(filters: SearchFilter): void {
+    this.viewService.getChannels(filters).subscribe();
+    this.dashboard.properties.channelFilters = filters;
+    this.viewService.updateDashboardProperty(
+      "channelFilters",
+      this.dashboard.properties.channelFilters
+    );
   }
 }

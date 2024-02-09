@@ -3,7 +3,6 @@ import {
   catchError,
   EMPTY,
   filter,
-  map,
   Observable,
   ReplaySubject,
   Subject,
@@ -34,7 +33,7 @@ export class WidgetDataService implements OnDestroy {
   private subscription: Subscription = new Subscription();
 
   // Actual requests
-  private measurementReq$: Observable<ProcessedData | WidgetErrors>;
+  private measurementReq$: Observable<MeasurementTypes[] | WidgetErrors>;
   private measurementReqSub: Subscription;
 
   // Tracks request progress
@@ -45,7 +44,7 @@ export class WidgetDataService implements OnDestroy {
   private paramsObs$ = this.params$.asObservable();
 
   // actual data
-  data$ = new ReplaySubject<WidgetErrors | ProcessedData>(1);
+  data$ = new ReplaySubject<WidgetErrors | MeasurementTypes[]>(1);
   // ids of measurements that have data
   measurementsWithData: number[] = [];
 
@@ -78,18 +77,18 @@ export class WidgetDataService implements OnDestroy {
             // stop loading on error
             this.finishedLoading();
             return EMPTY;
-          }),
-          map((data) => {
-            // map data on success
-            return this.mapData(data);
           })
+          // map((data) => {
+          //   // map data on success
+          //   return this.mapData(data);
+          // })
         );
       })
     );
 
     // FIXME: destroyed after failed loading
     this.measurementReqSub = this.measurementReq$.subscribe({
-      next: (processedData: ProcessedData | WidgetErrors) => {
+      next: (processedData: MeasurementTypes[] | WidgetErrors) => {
         //process data when returned
         this.finishedLoading(processedData);
       },
@@ -156,7 +155,7 @@ export class WidgetDataService implements OnDestroy {
    *
    * @param data - processed data or error message
    */
-  private finishedLoading(data?: ProcessedData | WidgetErrors): void {
+  private finishedLoading(data?: MeasurementTypes[] | WidgetErrors): void {
     if (!data) {
       this.data$.next(WidgetErrors.SQUAC_ERROR);
       //squac error

@@ -103,6 +103,11 @@ export class WidgetManagerService {
     return this._widget.stat;
   }
 
+  /** @returns data type stat */
+  get dataStat(): ArchiveStatType | WidgetStatType | string {
+    return this.widgetDataService.stat;
+  }
+
   /**
    * Initializes widget and checks if it is valid.
    *

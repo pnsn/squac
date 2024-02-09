@@ -14,11 +14,16 @@ import {
   TooltipComponentFormatterCallbackParams,
 } from "echarts";
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
-import { Alert, MeasurementPipe, Monitor, Trigger } from "squacapi";
+import {
+  Alert,
+  MeasurementPipe,
+  MeasurementTypes,
+  Monitor,
+  Trigger,
+} from "squacapi";
 import {
   EChartComponent,
   LabelFormatterParams,
-  ProcessedData,
   WidgetConfigService,
   WidgetManagerService,
 } from "widgets";
@@ -211,7 +216,7 @@ export class MonitorHistoryChartComponent extends EChartComponent {
    *
    * @param _data unused
    */
-  buildChartData(_data: ProcessedData): Promise<void> {
+  buildChartData(_data: MeasurementTypes[]): Promise<void> {
     return new Promise<void>((resolve) => {
       this.alertsSeries = [];
 

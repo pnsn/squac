@@ -33,6 +33,7 @@
     "@asymmetrik/ngx-leaflet-draw": "^15.0.0",
     "@casl/ability": "^6.3.1",
     "@casl/angular": "^8.1.0",
+    "@manufac/echarts-simple-transform": "^2.0.10",
     "@pnsn/ngx-squacapi-client": "^2.2.0-alpha.2",
     "@types/d3": "^7.1.0",
     "angular-gridster2": "^15.0.0",

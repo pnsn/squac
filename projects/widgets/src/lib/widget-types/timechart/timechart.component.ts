@@ -1,13 +1,9 @@
 import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
 import * as dayjs from "dayjs";
-import { Measurement } from "squacapi";
+import { MeasurementTypes } from "squacapi";
 
 import { EChartsOption, TooltipComponentPositionCallbackParams } from "echarts";
-import {
-  LabelFormatterParams,
-  ProcessedData,
-  WidgetTypeComponent,
-} from "../../interfaces";
+import { LabelFormatterParams, WidgetTypeComponent } from "../../interfaces";
 import {
   WidgetConfigService,
   WidgetConnectService,
@@ -102,6 +98,10 @@ export class TimechartComponent
         nameLocation: "middle",
         axisLabel: {
           fontSize: 11,
+          width: 50,
+          formatter: (value: number): string => {
+            return value.toPrecision(4);
+          },
         },
         axisLine: {
           show: true,
@@ -126,13 +126,8 @@ export class TimechartComponent
    *
    * @param data measurement data
    */
-  buildChartData(data: ProcessedData): Promise<void> {
+  buildChartData(data: MeasurementTypes[]): Promise<void> {
     return new Promise<void>((resolve) => {
-      this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
-        this.selectedMetrics,
-        this.properties,
-        2
-      );
       const stations = [];
       this.metricSeries = {};
       const series = {
@@ -176,19 +171,19 @@ export class TimechartComponent
           },
         };
         let lastEnd: dayjs.Dayjs;
-        if (data.has(channel.id)) {
-          const measurements = data.get(channel.id).get(metric.id);
-          measurements?.forEach((measurement: Measurement) => {
+
+        data
+          .filter((m) => m.channel === channel.id && m.metric === metric.id)
+          .forEach((measurement) => {
+            const value =
+              measurement.value ?? measurement[this.widgetManager.dataStat];
+
             // // If time between measurements is greater than gap, don't connect
             const start = parseUtc(measurement.starttime);
             const end = parseUtc(measurement.endtime);
 
             const diff = start.diff(end, "seconds");
-            if (
-              station.data.length > 0 &&
-              lastEnd &&
-              diff >= metric.sampleRate * this.maxMeasurementGap
-            ) {
+            if (lastEnd && diff >= metric.sampleRate * this.maxMeasurementGap) {
               // time since last measurement
               station.data.push({
                 name: nslc,
@@ -198,15 +193,22 @@ export class TimechartComponent
 
             station.data.push({
               name: nslc,
-              value: [start.toDate(), end.toDate(), measurement.value, nslc],
+              value: [start.toDate(), end.toDate(), value, nslc],
             });
 
             lastEnd = end;
+
+            this.widgetConfigService.calculateDataRange(metric.id, value);
           });
-        }
+
         stations.push(station);
       });
       this.metricSeries.series = stations;
+      this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
+        this.selectedMetrics,
+        this.properties,
+        2
+      );
       resolve();
     });
   }

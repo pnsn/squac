@@ -6,6 +6,7 @@ import {
   FormGroup,
   FormBuilder,
   ReactiveFormsModule,
+  FormsModule,
 } from "@angular/forms";
 import { DashboardService } from "squacapi";
 import { Subscription } from "rxjs";
@@ -24,6 +25,7 @@ import { SharingToggleComponent } from "@shared/components/sharing-toggle/sharin
 import { NgIf } from "@angular/common";
 import { ChannelGroupSelectorComponent } from "@shared/components/channel-group-selector/channel-group-selector.component";
 import { MatButtonModule } from "@angular/material/button";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 
 /** dashboard edit form */
 interface DashboardForm {
@@ -46,8 +48,10 @@ interface DashboardForm {
     SharingToggleComponent,
     NgIf,
     ChannelGroupSelectorComponent,
+    FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
+    MatSlideToggleModule,
   ],
 })
 export class DashboardEditComponent implements OnInit, OnDestroy {
@@ -73,6 +77,8 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
   shareAll = false;
   /** dashboard shareORg setting */
   shareOrg = false;
+  /** use channels instead of channel group*/
+  useChannels = false;
 
   /** text options for filter select */
   filterText: FilterText = {
@@ -107,6 +113,15 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Removes channel group if useChannels is enabled
+   */
+  toggleChannels(): void {
+    if (this.useChannels) {
+      this.channelGroupId = null;
+    }
+  }
+
+  /**
    * unsubscribe
    */
   ngOnDestroy(): void {
@@ -120,6 +135,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
     if (this.editMode) {
       this.shareAll = this.dashboard.shareAll;
       this.shareOrg = this.dashboard.shareOrg;
+      this.useChannels = this.dashboard.properties.useChannels;
       this.dashboardForm.patchValue({
         name: this.dashboard.name,
         description: this.dashboard.description,
@@ -145,6 +161,10 @@ export class DashboardEditComponent implements OnInit, OnDestroy {
 
     if (id) {
       dashboard.properties = this.dashboard.properties;
+    } else {
+      dashboard.properties = {
+        useChannels: this.useChannels,
+      };
     }
 
     this.dashboardService.updateOrCreate(dashboard).subscribe({

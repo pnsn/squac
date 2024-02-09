@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Output } from "@angular/core";
+import { NgClass, NgIf } from "@angular/common";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatDividerModule } from "@angular/material/divider";
@@ -24,11 +32,15 @@ import { SearchFilter } from "./interfaces";
     MatButtonModule,
     TooltipDirective,
     MatDividerModule,
+    NgClass,
+    NgIf,
   ],
 })
-export class ChannelGroupFilterComponent {
+export class ChannelGroupFilterComponent implements OnChanges {
   @Output() filtersChanged = new EventEmitter<SearchFilter>();
   @Output() addFilterToRegex = new EventEmitter<SearchFilter>();
+  @Input() startingFilters?: SearchFilter;
+  @Input() useDenseView?: boolean = false;
   // regex strings for each param
   filters: SearchFilter = {
     netSearch: "",
@@ -42,6 +54,22 @@ export class ChannelGroupFilterComponent {
   chan: string;
   sta: string;
   loc: string;
+
+  /**
+   * Event hook for input changes
+   *
+   * @param changes angular changes
+   */
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+    if (changes["startingFilters"] && this.startingFilters) {
+      this.net = this.startingFilters.netSearch?.toUpperCase();
+      this.chan = this.startingFilters.chanSearch?.toUpperCase();
+      this.sta = this.startingFilters.staSearch?.toUpperCase();
+      this.loc = this.startingFilters.locSearch?.toUpperCase();
+    }
+  }
 
   /**
    * Add formatting to match squacapi

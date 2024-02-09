@@ -10,10 +10,11 @@ import {
   WidgetManagerService,
   WidgetConfigService,
 } from "../../services";
-import { ProcessedData, WidgetTypeComponent } from "../../interfaces";
+import { WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../../components/e-chart/e-chart.component";
 import { TooltipComponentFormatterCallbackParams } from "echarts";
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
+import { MeasurementTypes } from "squacapi";
 
 /**
  * Scatter plot widget
@@ -117,12 +118,12 @@ export class ScatterPlotComponent
         nameLocation: "middle",
         axisLabel: {
           fontSize: 11,
-          inside: true,
+          width: 50,
           formatter: (value: number): string => {
             return value.toPrecision(4);
           },
         },
-        nameGap: 10,
+        nameGap: 50,
       },
       tooltip: {
         ...this.chartDefaultOptions.tooltip,
@@ -137,7 +138,7 @@ export class ScatterPlotComponent
    *
    * @param data measurement data
    */
-  buildChartData(data: ProcessedData): Promise<void> {
+  buildChartData(data: MeasurementTypes[]): Promise<void> {
     return new Promise<void>((resolve) => {
       //if 3 metrics, visualMap
       const metricSeries = {
@@ -163,6 +164,15 @@ export class ScatterPlotComponent
         },
       };
 
+      this.metricSeries = this.widgetConfigService.getSeriesForMultipleMetrics(
+        this.selectedMetrics,
+        this.channels,
+        data,
+        metricSeries,
+        this.widgetManager.stat,
+        this.widgetManager.dataStat
+      );
+
       this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
         this.selectedMetrics,
 
@@ -171,13 +181,6 @@ export class ScatterPlotComponent
         2
       );
 
-      this.metricSeries = this.widgetConfigService.getSeriesForMultipleMetrics(
-        this.selectedMetrics,
-        this.channels,
-        data,
-        metricSeries,
-        this.widgetManager.stat
-      );
       resolve();
     });
   }

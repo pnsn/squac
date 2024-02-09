@@ -62,6 +62,18 @@
     </div>
   </form>
   <div class="custom-form-field">
+    <mat-slide-toggle
+      class="dense-checkbox"
+      [(ngModel)]="useChannels"
+      (change)="toggleChannels()"
+    >
+      use channels instead of channel groups
+    </mat-slide-toggle>
+  </div>
+  <div
+    class="custom-form-field"
+    *ngIf="!useChannels"
+  >
     <span class="label">Default Channel Group (optional)</span>
     <shared-channel-group-selector
       [(channelGroupId)]="channelGroupId"

@@ -20,6 +20,7 @@ describe("DashboardDetailComponent", () => {
       .provide({
         provide: ViewService,
         useValue: {
+          dashboard: new Dashboard(),
           status: of(),
           error: of(),
           hasUnsavedChanges: new Subject(),
