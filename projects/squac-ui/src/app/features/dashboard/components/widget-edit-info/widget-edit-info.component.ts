@@ -181,6 +181,7 @@ export class WidgetEditInfoComponent implements OnInit {
         this.displayType = null;
         this.properties.displayType = null;
       }
+      this.properties.dimensions = null;
       this.widgetForm.patchValue(
         {
           stat: this.stat,

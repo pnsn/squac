@@ -137,15 +137,15 @@ export class BudComponent
 
         type Stations = Map<string, StationData>;
         type Networks = Map<string, Stations>;
-        const networks: Networks = new Map();
+        const networkData: Networks = new Map();
 
         //group by network and station?
         this.channels.forEach((channel: Channel) => {
-          if (!networks.get(channel.net)) {
-            networks.set(channel.net, new Map());
+          if (!networkData.get(channel.net)) {
+            networkData.set(channel.net, new Map());
           }
-          if (!networks.get(channel.net)?.has(channel.sta)) {
-            networks.get(channel.net)?.set(channel.sta, {
+          if (!networkData.get(channel.net)?.has(channel.sta)) {
+            networkData.get(channel.net)?.set(channel.sta, {
               name: channel.sta,
               network: channel.net,
               channelData: [],
@@ -164,18 +164,18 @@ export class BudComponent
           );
 
           this.widgetConfigService.calculateDataRange(metric.id, value);
-          networks
+          networkData
             .get(channel.net)
             .get(channel.sta)
             .channelData.push({ chan: channel.code, value: value });
         });
 
         const metricSeries = [];
-        const yAxisLabels = Array.from(networks.keys()).sort();
+        const networks = Array.from(networkData.keys()).sort();
         const yAxis2Labels: string[] = [];
         let rowIndex = 0;
 
-        yAxisLabels.forEach((net: string) => {
+        networks.forEach((net: string) => {
           let staIndex = 0;
           yAxis2Labels.push(`${net}`);
           const series = {
@@ -183,7 +183,7 @@ export class BudComponent
             name: net,
             data: [],
           };
-          networks.get(net)?.forEach((value: StationData, sta) => {
+          networkData.get(net)?.forEach((value: StationData, sta) => {
             let dataCount = 0;
             let val: string | number =
               // find value to represent station with
@@ -226,7 +226,6 @@ export class BudComponent
         if (!this.metricSeries[metric.id]) {
           this.metricSeries[metric.id] = {
             series: metricSeries,
-            yAxisLabels, //networks
             yAxis2Labels,
           };
         }
