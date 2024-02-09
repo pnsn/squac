@@ -1,6 +1,6 @@
 import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
 import { MeasurementPipe, Channel, MeasurementTypes } from "squacapi";
-import { EChartsOption, registerTransform } from "echarts";
+import { EChartsOption } from "echarts";
 
 import {
   WidgetConnectService,
@@ -10,6 +10,7 @@ import {
 import { isContinuous, WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../../components/e-chart/e-chart.component";
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
+import { StationData } from "./types";
 
 /**
  * Chart that plots channels as the y axis and time,
@@ -130,19 +131,9 @@ export class BudComponent
         // renderItem: this.renderItem,
       };
 
-      interface ChannelData {
-        chan: string;
-        value: number;
-      }
-
       const numColumns = 20;
       this.selectedMetrics.forEach((metric) => {
         if (!metric) return;
-        interface StationData {
-          name: string;
-          network: string;
-          channelData: ChannelData[];
-        }
 
         type Stations = Map<string, StationData>;
         type Networks = Map<string, Stations>;
@@ -195,6 +186,7 @@ export class BudComponent
           networks.get(net)?.forEach((value: StationData, sta) => {
             let dataCount = 0;
             let val: string | number =
+              // find value to represent station with
               value.channelData.reduce((a, b) => {
                 if (b.value !== null) {
                   dataCount++;
@@ -238,7 +230,7 @@ export class BudComponent
             yAxis2Labels,
           };
         }
-        // FIXME: Need min and max first
+
         this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
           this.selectedMetrics,
           this.properties,
@@ -276,113 +268,4 @@ export class BudComponent
       });
     }
   }
-
-  // /**
-  //  * Render function for echart
-  //  *
-  //  * @param params - customs series params
-  //  * @param api - api for render
-  //  * @returns custom series render
-  //  */
-  // renderItem(
-  //   params: any,
-  //   api: CustomSeriesRenderItemAPI
-  // ): CustomSeriesRenderItemReturn {
-  //   // name: string;
-  //   // network: string;
-  //   // channelData: number[];
-  //   // value: number | undefined;
-  //   // xIndex: number | undefined;
-  //   const categoryIndex = api.value(1);
-  //   const start = api.coord([api.value(0), categoryIndex]); //converts to xy coords
-  //   const end = api.coord([+api.value(0) + 1, categoryIndex]); //converts to xy coords
-  //   const height = api.size([0, 1])[1];
-  //   const width = end[0] - start[0];
-  //   const x = start[0] - width / 2;
-  //   const y = start[1] - height / 2;
-  //   const fill = isNaN(+api.value(2)) ? "white" : api.visual("color");
-  //   const rectShape = graphic.clipRectByRect(
-  //     {
-  //       x,
-  //       y,
-  //       width,
-  //       height,
-  //     },
-  //     {
-  //       x: params.coordSys.x,
-  //       y: params.coordSys.y,
-  //       width: params.coordSys.width,
-  //       height: params.coordSys.height,
-  //     }
-  //   );
-  //   const rectText = graphic.clipRectByRect(params, {
-  //     x: x,
-  //     y: y,
-  //     width,
-  //     height,
-  //   });
-  //   return {
-  //     type: "group",
-  //     children: [
-  //       {
-  //         type: "rect",
-  //         ignore: !rectShape,
-  //         shape: rectShape,
-  //         style: api.style(),
-  //       },
-  //       {
-  //         type: "rect",
-  //         ignore: !rectText,
-  //         shape: rectText,
-  //         style: api.style({
-  //           text: `${api.value(3)}`,
-  //           fill: api.visual("color"),
-  //         }),
-  //       },
-  //     ],
-  //   };
-
-  //   return (
-  //     rectShape && {
-  //       type: "rect",
-  //       shape: {
-  //         x,
-  //         y,
-  //         width,
-  //         height,
-  //       },
-  //       transition: ["shape"],
-  //       focus: "series",
-  //       blur: {
-  //         style: {
-  //           opacity: 0.7,
-  //         },
-  //       },
-  //       name: "test",
-  //       style: {
-  //         fill,
-  //         lineWidth: 0.5,
-  //         stroke: "black",
-  //       },
-  //       textContent: {
-  //         type: "text",
-  //         style: {
-  //           text: `${api.value(3)}`,
-  //           fontFamily: "Verdana",
-  //           fill: "#000",
-  //           width: width - 4,
-  //           overflow: "truncate",
-  //           ellipsis: "..",
-  //           truncateMinChar: 1,
-  //         },
-  //         emphasis: {
-  //           style: {
-  //             stroke: "#000",
-  //             lineWidth: 0.5,
-  //           },
-  //         },
-  //       },
-  //     }
-  //   );
-  // }
 }
