@@ -215,6 +215,7 @@ export class BudComponent
                 color: "white",
                 borderWidth: 1,
                 borderColor: "Black",
+                opacity: 0.6,
               };
             }
             const item = {
