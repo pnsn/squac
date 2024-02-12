@@ -67,7 +67,7 @@ export class TimechartComponent
         type: "time",
         nameLocation: "middle",
         name: "Measurement Start Date",
-        nameGap: 14,
+        nameGap: 15,
         axisPointer: {
           show: true,
           triggerTooltip: false,
@@ -77,9 +77,9 @@ export class TimechartComponent
           },
         },
         axisLabel: {
+          margin: 3,
           hideOverlap: true,
           fontSize: 11,
-          margin: 3,
           formatter: (params: string) =>
             this.widgetConfigService.timeAxisTickFormatting(params),
         },

@@ -50,16 +50,7 @@ export class ScatterPlotComponent
   }
 
   /** configuration for when dense is enabled */
-  override denseOptions: {
-    grid: {
-      containLabel: true;
-      left: number;
-      bottom: number;
-      top: number;
-      right: number;
-    };
-    dataZoom: any[];
-  } = {
+  override denseOptions = {
     grid: {
       containLabel: true,
       top: 5,
@@ -94,6 +85,7 @@ export class ScatterPlotComponent
       dataZoom,
       xAxis: {
         axisLabel: {
+          margin: 3,
           hideOverlap: true,
           fontSize: 11,
           formatter: (value: number): string => {
@@ -102,7 +94,7 @@ export class ScatterPlotComponent
         },
         nameLocation: "middle",
         name: "Measurement Start Date",
-        nameGap: 20,
+        nameGap: 15,
         nameTextStyle: {
           align: "center",
         },

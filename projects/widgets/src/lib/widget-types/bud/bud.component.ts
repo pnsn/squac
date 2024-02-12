@@ -7,7 +7,7 @@ import {
   WidgetManagerService,
   WidgetConfigService,
 } from "../../services";
-import { isContinuous, WidgetTypeComponent } from "../../interfaces";
+import { WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../../components/e-chart/e-chart.component";
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
 import { StationData } from "./types";
@@ -44,13 +44,26 @@ export class BudComponent
     super(widgetManager, widgetConnector, ngZone);
   }
 
-  // Max allowable time between measurements to connect
-  maxMeasurementGap: number = 1 * 1000;
-  xAxisLabels = [];
-  isContinuous = isContinuous;
-
   /** transform measurements */
   measurementPipe = new MeasurementPipe();
+
+  /** configuration for when dense is enabled */
+  override denseOptions = {
+    grid: {
+      containLabel: true,
+      top: 0,
+      right: 10,
+      left: 10,
+      bottom: 10,
+    },
+    dataZoom: [],
+  };
+
+  /** configuration for when dense is not enabled */
+  override fullOptions = {
+    grid: { containLabel: true, top: 0, right: 10, bottom: 10, left: 30 },
+    dataZoom: this.chartDefaultOptions.dataZoom,
+  };
 
   /**
    * @override

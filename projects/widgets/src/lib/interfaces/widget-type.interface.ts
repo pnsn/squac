@@ -31,4 +31,6 @@ export interface WidgetTypeComponent {
   updateData?(data: MeasurementTypes[]): void;
   /** configure chart data */
   configureChart(): void;
+  /** config to use denser styling */
+  denseView: boolean;
 }

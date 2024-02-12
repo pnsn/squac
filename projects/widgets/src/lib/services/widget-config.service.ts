@@ -82,7 +82,7 @@ export class WidgetConfigService {
   };
 
   // defaults for echarts charts
-  chartDefaults: EChartsOption = ECHART_DEFAULTS;
+  chartDefaults: EChartsOption = { ...ECHART_DEFAULTS };
 
   //can use this.thresholds or another metric to color?
   /**

@@ -35,11 +35,11 @@ export abstract class EChartComponent
   } = {}; //It may contain devicePixelRatio, renderer, width or height properties.
   echartsInstance: EChartsType;
   metricSeries: any = {};
-  chartDefaultOptions: EChartsOption = ECHART_DEFAULTS;
+  chartDefaultOptions: EChartsOption = { ...ECHART_DEFAULTS };
 
   denseOptions = ECHART_DENSE_DEFAULTS;
   fullOptions: EChartsOption = {
-    grid: this.chartDefaultOptions.grid,
+    grid: { ...this.chartDefaultOptions.grid },
     dataZoom: this.chartDefaultOptions.dataZoom,
   };
 

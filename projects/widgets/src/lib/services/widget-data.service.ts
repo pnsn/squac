@@ -159,7 +159,7 @@ export class WidgetDataService implements OnDestroy {
     if (!data) {
       this.data$.next(WidgetErrors.SQUAC_ERROR);
       //squac error
-    } else if (data instanceof Map && data.size === 0) {
+    } else if (data.length === 0) {
       this.data$.next(WidgetErrors.NO_MEASUREMENTS);
     } else {
       this.data$.next(data);

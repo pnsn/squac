@@ -20,7 +20,7 @@ export const singleXAxisConfig: EChartsOption = {
   axisLine: {
     show: true,
   },
-
+  nameGap: 15,
   nameLocation: "middle",
   axisPointer: {
     show: true,
@@ -45,7 +45,7 @@ export const weekTimeXAxisConfig: EChartsOption = {
 /** X axis config for week axis of hour of week chart */
 export const weekXAxisConfig: EChartsOption = {
   ...singleXAxisConfig,
-  nameGap: 13,
+  nameGap: 12,
   offset: 13,
   axisLine: {
     show: false,

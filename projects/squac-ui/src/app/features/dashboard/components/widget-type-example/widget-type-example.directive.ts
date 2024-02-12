@@ -14,6 +14,7 @@ import { DateService } from "@core/services/date.service";
 import {
   DataRange,
   WidgetConfig,
+  WidgetConnectService,
   WidgetTypeComponent,
   WidgetTypes,
   WIDGET_TYPES,
@@ -206,6 +207,14 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
             provide: WidgetManagerService,
             useValue: this.widgetManager,
           },
+          {
+            provide: WidgetConnectService,
+            useValue: {
+              useDenseView: of(true),
+              emphasizedChannel$: of(),
+              deemphasizeChannel: of(),
+            },
+          },
         ],
       });
       const componentType = this.widgetTypes[widgetType].component;
@@ -223,13 +232,6 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
 
     configService.thresholds = this._thresholds;
     configService.dataRange = this.dataRange;
-    configService.chartDefaults.dataZoom = [];
-    configService.chartDefaults.grid = {
-      ...configService.chartDefaults.grid,
-      left: 10,
-      bottom: 15,
-    };
-
     return configService;
   }
 
@@ -249,6 +251,7 @@ export class WidgetTypeExampleDirective implements OnChanges, OnInit {
         }
       );
     this.childComponent = this.childComponentRef.instance;
+    this.childComponent.denseView = true;
     this.childComponent.updateData(this.data);
   }
 

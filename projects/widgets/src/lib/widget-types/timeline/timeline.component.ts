@@ -13,12 +13,13 @@ import {
   WidgetManagerService,
   WidgetConfigService,
 } from "../../services";
-import { isContinuous, WidgetTypeComponent } from "../../interfaces";
+import { WidgetTypeComponent } from "../../interfaces";
 import { EChartComponent } from "../../components/e-chart/e-chart.component";
 import { parseUtc } from "../../utils";
 import { LabelFormatterParams } from "../../interfaces";
 import { OpUnitType } from "dayjs";
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
+import { WidgetErrors } from "../../enums";
 
 /**
  * Custom echart widget
@@ -53,7 +54,6 @@ export class TimelineComponent
   // Max allowable time between measurements to connect
   maxMeasurementGap: number = 1 * 1000;
   xAxisLabels = [];
-  isContinuous = isContinuous;
 
   /**
    * @override
@@ -73,7 +73,7 @@ export class TimelineComponent
         type: "time",
         nameLocation: "middle",
         name: "Measurement Start Date",
-        nameGap: 14,
+        nameGap: 15,
         axisPointer: {
           show: true,
           label: {
@@ -308,6 +308,9 @@ export class TimelineComponent
     const displayMetric = this.selectedMetrics[0];
     const colorMetric = this.selectedMetrics[0];
     const visualMaps = this.visualMaps[colorMetric.id];
+    if (!visualMaps) {
+      this.widgetManager.errors$.next(WidgetErrors.NO_MEASUREMENTS);
+    }
     visualMaps.show = this.showKey;
     let xAxis = { ...this.options.xAxis };
     if (

@@ -63,19 +63,15 @@ export class CalendarComponent
    * Initial chart configuration
    */
   configureChart(): void {
-    this.denseOptions["grid"]["bottom"] = this.getBottomMargin(true);
-    this.fullOptions["grid"]["bottom"] = this.getBottomMargin(false);
     const dataZoom = this.denseView
       ? this.denseOptions.dataZoom
       : this.fullOptions.dataZoom;
     const grid = this.denseView
-      ? this.denseOptions.grid
-      : this.fullOptions.grid;
+      ? { ...this.denseOptions.grid }
+      : { ...this.fullOptions.grid };
     this.options = {
       ...this.chartDefaultOptions,
-      grid: {
-        ...grid,
-      },
+      grid,
       dataZoom,
       yAxis: {
         inverse: true,
@@ -256,22 +252,6 @@ export class CalendarComponent
 
       resolve();
     });
-  }
-
-  /**
-   * calculated bottom margin for chart
-   *
-   * @param dense true if no zoom is used
-   * @returns margin for bottom of chart
-   */
-  private getBottomMargin(dense: boolean): number {
-    //denseview has no zoom bar
-    let margin = dense ? 32 : 52;
-
-    if (this.properties.displayType === "hours-week") {
-      margin += 12;
-    }
-    return margin;
   }
 
   /**
