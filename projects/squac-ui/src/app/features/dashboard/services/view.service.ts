@@ -266,6 +266,8 @@ export class ViewService {
    * @returns Observable of requested channels
    */
   getChannels(filters: SearchFilter): Observable<Channel[]> {
+    const now = this.dateService.now();
+    filters.endafter = this.dateService.format(now);
     return this.loadingService
       .doLoading(
         this.channelsService.list(filters),
