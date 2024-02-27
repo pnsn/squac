@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -49,11 +107,11 @@
 
 
 <ol class="breadcrumb">
-  <li>Miscellaneous</li>
-  <li>Variables</li>
+  <li class="breadcrumb-item">Miscellaneous</li>
+  <li class="breadcrumb-item">Variables</li>
 </ol>
 
-<section>
+<section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -62,6 +120,9 @@
                     <ul class="index-list">
                         <li>
                             <a href="#ApiEndpointToClass" title="projects/squacapi/src/lib/enums/api-endpoints.enum.ts" ><b>ApiEndpointToClass</b>&nbsp;&nbsp;&nbsp;(projects/.../api-endpoints.enum.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#APP_CONFIG" title="projects/squac-ui/src/app/app.config.ts" ><b>APP_CONFIG</b>&nbsp;&nbsp;&nbsp;(projects/.../app.config.ts)</a>
                         </li>
                         <li>
                             <a href="#AppAbility" title="projects/squac-ui/src/app/core/utils/ability.ts" ><b>AppAbility</b>&nbsp;&nbsp;&nbsp;(projects/.../ability.ts)</a>
@@ -73,49 +134,37 @@
                             <a href="#ARCHIVE_TYPE_OPTIONS" title="projects/squacapi/src/lib/constants/archive-type-options.constant.ts" ><b>ARCHIVE_TYPE_OPTIONS</b>&nbsp;&nbsp;&nbsp;(projects/.../archive-type-options.constant.ts)</a>
                         </li>
                         <li>
-                            <a href="#ArchiveStatType" title="projects/squacapi/src/lib/types/archive-stat-type.ts" ><b>ArchiveStatType</b>&nbsp;&nbsp;&nbsp;(projects/.../archive-stat-type.ts)</a>
+                            <a href="#ArchiveStatType" title="projects/squacapi/src/lib/types/archive-stat-type.type.ts" ><b>ArchiveStatType</b>&nbsp;&nbsp;&nbsp;(projects/.../archive-stat-type.type.ts)</a>
                         </li>
                         <li>
-                            <a href="#ArchiveType" title="projects/squacapi/src/lib/types/archive-type.ts" ><b>ArchiveType</b>&nbsp;&nbsp;&nbsp;(projects/.../archive-type.ts)</a>
+                            <a href="#ArchiveType" title="projects/squacapi/src/lib/types/archive-type.type.ts" ><b>ArchiveType</b>&nbsp;&nbsp;&nbsp;(projects/.../archive-type.type.ts)</a>
                         </li>
                         <li>
                             <a href="#AUTH_DATA" title="projects/squac-ui/src/app/core/services/auth.service.ts" ><b>AUTH_DATA</b>&nbsp;&nbsp;&nbsp;(projects/.../auth.service.ts)</a>
                         </li>
                         <li>
-                            <a href="#CACHEABLE_ROUTE_PATTERNS" title="projects/squac-ui/src/app/core/cacheable-route-patterns.constant.ts" ><b>CACHEABLE_ROUTE_PATTERNS</b>&nbsp;&nbsp;&nbsp;(projects/.../cacheable-route-patterns.constant.ts)</a>
+                            <a href="#AuthInterceptorFn" title="projects/squac-ui/src/app/core/interceptors/auth-interceptor.service.ts" ><b>AuthInterceptorFn</b>&nbsp;&nbsp;&nbsp;(projects/.../auth-interceptor.service.ts)</a>
                         </li>
                         <li>
-                            <a href="#ChannelComparator" title="projects/widgets/src/lib/widget-types/tabular/utils.ts" ><b>ChannelComparator</b>&nbsp;&nbsp;&nbsp;(projects/.../utils.ts)</a>
+                            <a href="#BUD_CONFIG" title="projects/widgets/src/lib/widget-types/bud/config.ts" ><b>BUD_CONFIG</b>&nbsp;&nbsp;&nbsp;(projects/.../config.ts)</a>
                         </li>
                         <li>
-                            <a href="#channels" title="projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-example-config.ts" ><b>channels</b>&nbsp;&nbsp;&nbsp;(projects/.../widget-example-config.ts)</a>
+                            <a href="#CACHEABLE_ROUTE_PATTERNS" title="projects/squac-ui/src/app/core/constants/cacheable-route-patterns.constant.ts" ><b>CACHEABLE_ROUTE_PATTERNS</b>&nbsp;&nbsp;&nbsp;(projects/.../cacheable-route-patterns.constant.ts)</a>
                         </li>
                         <li>
-                            <a href="#CONFIG" title="projects/widgets/src/lib/widget-types/map/chart-config.ts" ><b>CONFIG</b>&nbsp;&nbsp;&nbsp;(projects/.../chart-config.ts)</a>
+                            <a href="#CacheInterceptorFn" title="projects/squac-ui/src/app/core/interceptors/cache-interceptor.service.ts" ><b>CacheInterceptorFn</b>&nbsp;&nbsp;&nbsp;(projects/.../cache-interceptor.service.ts)</a>
                         </li>
                         <li>
-                            <a href="#CONFIG" title="projects/widgets/src/lib/widget-types/parallel-plot/chart-config.ts" ><b>CONFIG</b>&nbsp;&nbsp;&nbsp;(projects/.../chart-config.ts)</a>
+                            <a href="#CALENDAR_CONFIG" title="projects/widgets/src/lib/widget-types/calendar/config.ts" ><b>CALENDAR_CONFIG</b>&nbsp;&nbsp;&nbsp;(projects/.../config.ts)</a>
                         </li>
                         <li>
-                            <a href="#CONFIG" title="projects/widgets/src/lib/widget-types/scatter-plot/chart-config.ts" ><b>CONFIG</b>&nbsp;&nbsp;&nbsp;(projects/.../chart-config.ts)</a>
-                        </li>
-                        <li>
-                            <a href="#CONFIG" title="projects/widgets/src/lib/widget-types/tabular/chart-config.ts" ><b>CONFIG</b>&nbsp;&nbsp;&nbsp;(projects/.../chart-config.ts)</a>
-                        </li>
-                        <li>
-                            <a href="#CONFIG" title="projects/widgets/src/lib/widget-types/timechart/chart-config.ts" ><b>CONFIG</b>&nbsp;&nbsp;&nbsp;(projects/.../chart-config.ts)</a>
-                        </li>
-                        <li>
-                            <a href="#CONFIG" title="projects/widgets/src/lib/widget-types/timeline/timeline.config.ts" ><b>CONFIG</b>&nbsp;&nbsp;&nbsp;(projects/.../timeline.config.ts)</a>
-                        </li>
-                        <li>
-                            <a href="#CONFIG" title="projects/widgets/src/lib/widget-types/calendar/calendar.config.ts" ><b>CONFIG</b>&nbsp;&nbsp;&nbsp;(projects/.../calendar.config.ts)</a>
+                            <a href="#ChannelComparator" title="projects/widgets/src/lib/utils/comparators.utils.ts" ><b>ChannelComparator</b>&nbsp;&nbsp;&nbsp;(projects/.../comparators.utils.ts)</a>
                         </li>
                         <li>
                             <a href="#DASHBOARD_PROPERTIES" title="projects/squacapi/src/lib/constants/dashboard-defaults.constant.ts" ><b>DASHBOARD_PROPERTIES</b>&nbsp;&nbsp;&nbsp;(projects/.../dashboard-defaults.constant.ts)</a>
                         </li>
                         <li>
-                            <a href="#DATE_PICKER_TIMERANGES" title="projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-time-ranges.ts" ><b>DATE_PICKER_TIMERANGES</b>&nbsp;&nbsp;&nbsp;(projects/.../dashboard-time-ranges.ts)</a>
+                            <a href="#DATE_PICKER_TIMERANGES" title="projects/squac-ui/src/app/features/dashboard/pages/detail/dashboard-time-ranges.ts" ><b>DATE_PICKER_TIMERANGES</b>&nbsp;&nbsp;&nbsp;(projects/.../dashboard-time-ranges.ts)</a>
                         </li>
                         <li>
                             <a href="#DEFAULT_CONTEXT" title="projects/squac-ui/src/app/core/services/loading.service.ts" ><b>DEFAULT_CONTEXT</b>&nbsp;&nbsp;&nbsp;(projects/.../loading.service.ts)</a>
@@ -124,10 +173,10 @@
                             <a href="#DEFAULT_LOADER_ID" title="projects/squac-ui/src/app/core/services/loading.service.ts" ><b>DEFAULT_LOADER_ID</b>&nbsp;&nbsp;&nbsp;(projects/.../loading.service.ts)</a>
                         </li>
                         <li>
-                            <a href="#DEFAULT_LOCALE" title="projects/squac-ui/src/app/core/locale.constant.ts" ><b>DEFAULT_LOCALE</b>&nbsp;&nbsp;&nbsp;(projects/.../locale.constant.ts)</a>
+                            <a href="#DEFAULT_LOCALE" title="projects/widgets/src/lib/utils/dayjs.utils.ts" ><b>DEFAULT_LOCALE</b>&nbsp;&nbsp;&nbsp;(projects/.../dayjs.utils.ts)</a>
                         </li>
                         <li>
-                            <a href="#DEFAULT_LOCALE" title="projects/widgets/src/lib/shared/utils/dayjs.utils.ts" ><b>DEFAULT_LOCALE</b>&nbsp;&nbsp;&nbsp;(projects/.../dayjs.utils.ts)</a>
+                            <a href="#DEFAULT_LOCALE" title="projects/squac-ui/src/app/core/constants/locale.constant.ts" ><b>DEFAULT_LOCALE</b>&nbsp;&nbsp;&nbsp;(projects/.../locale.constant.ts)</a>
                         </li>
                         <li>
                             <a href="#DEFAULT_MAX_LOGIN" title="projects/squac-ui/src/app/core/services/auth.service.ts" ><b>DEFAULT_MAX_LOGIN</b>&nbsp;&nbsp;&nbsp;(projects/.../auth.service.ts)</a>
@@ -136,13 +185,25 @@
                             <a href="#DEFAULT_STORAGE" title="projects/squac-ui/src/app/core/services/auth.service.ts" ><b>DEFAULT_STORAGE</b>&nbsp;&nbsp;&nbsp;(projects/.../auth.service.ts)</a>
                         </li>
                         <li>
-                            <a href="#ECHART_DEFAULTS" title="projects/widgets/src/lib/shared/components/e-chart/chart-config.ts" ><b>ECHART_DEFAULTS</b>&nbsp;&nbsp;&nbsp;(projects/.../chart-config.ts)</a>
+                            <a href="#DEFAULT_WIDGET_TYPES" title="projects/widgets/src/lib/constants/widget-type-options.constant.ts" ><b>DEFAULT_WIDGET_TYPES</b>&nbsp;&nbsp;&nbsp;(projects/.../widget-type-options.constant.ts)</a>
                         </li>
                         <li>
-                            <a href="#ECHART_DENSE_DEFAULTS" title="projects/widgets/src/lib/shared/components/e-chart/chart-config.ts" ><b>ECHART_DENSE_DEFAULTS</b>&nbsp;&nbsp;&nbsp;(projects/.../chart-config.ts)</a>
+                            <a href="#ECHART_DEFAULTS" title="projects/widgets/src/lib/components/e-chart/chart-config.ts" ><b>ECHART_DEFAULTS</b>&nbsp;&nbsp;&nbsp;(projects/.../chart-config.ts)</a>
                         </li>
                         <li>
-                            <a href="#endtime" title="projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-example-config.ts" ><b>endtime</b>&nbsp;&nbsp;&nbsp;(projects/.../widget-example-config.ts)</a>
+                            <a href="#ECHART_DENSE_DEFAULTS" title="projects/widgets/src/lib/components/e-chart/chart-config.ts" ><b>ECHART_DENSE_DEFAULTS</b>&nbsp;&nbsp;&nbsp;(projects/.../chart-config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#endtime" title="projects/squac-ui/src/app/features/dashboard/components/widget-type-example/widget-example-config.ts" ><b>endtime</b>&nbsp;&nbsp;&nbsp;(projects/.../widget-example-config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#getFakeChannels" title="projects/squac-ui/src/app/features/dashboard/components/widget-type-example/widget-example-config.ts" ><b>getFakeChannels</b>&nbsp;&nbsp;&nbsp;(projects/.../widget-example-config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#getFakeMetrics" title="projects/squac-ui/src/app/features/dashboard/components/widget-type-example/widget-example-config.ts" ><b>getFakeMetrics</b>&nbsp;&nbsp;&nbsp;(projects/.../widget-example-config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#HttpErrorInterceptorFn" title="projects/squac-ui/src/app/core/interceptors/http-error-interceptor.service.ts" ><b>HttpErrorInterceptorFn</b>&nbsp;&nbsp;&nbsp;(projects/.../http-error-interceptor.service.ts)</a>
                         </li>
                         <li>
                             <a href="#INTERVAL_TYPES" title="projects/squacapi/src/lib/constants/monitor-options.constant.ts" ><b>INTERVAL_TYPES</b>&nbsp;&nbsp;&nbsp;(projects/.../monitor-options.constant.ts)</a>
@@ -157,10 +218,16 @@
                             <a href="#isStoplight" title="projects/widgets/src/lib/interfaces/charts.interface.ts" ><b>isStoplight</b>&nbsp;&nbsp;&nbsp;(projects/.../charts.interface.ts)</a>
                         </li>
                         <li>
-                            <a href="#MetricComparator" title="projects/widgets/src/lib/widget-types/tabular/utils.ts" ><b>MetricComparator</b>&nbsp;&nbsp;&nbsp;(projects/.../utils.ts)</a>
+                            <a href="#MAP_CONFIG" title="projects/widgets/src/lib/widget-types/map/config.ts" ><b>MAP_CONFIG</b>&nbsp;&nbsp;&nbsp;(projects/.../config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#MEASUREMENT_PROVIDERS" title="projects/squac-ui/src/app/core/constants/api-service-config.constant.ts" ><b>MEASUREMENT_PROVIDERS</b>&nbsp;&nbsp;&nbsp;(projects/.../api-service-config.constant.ts)</a>
                         </li>
                         <li>
                             <a href="#MONITOR_STATS" title="projects/squacapi/src/lib/constants/monitor-options.constant.ts" ><b>MONITOR_STATS</b>&nbsp;&nbsp;&nbsp;(projects/.../monitor-options.constant.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#NslcComparator" title="projects/widgets/src/lib/utils/comparators.utils.ts" ><b>NslcComparator</b>&nbsp;&nbsp;&nbsp;(projects/.../comparators.utils.ts)</a>
                         </li>
                         <li>
                             <a href="#NUM_CHANNELS_OPERATORS" title="projects/squacapi/src/lib/constants/monitor-options.constant.ts" ><b>NUM_CHANNELS_OPERATORS</b>&nbsp;&nbsp;&nbsp;(projects/.../monitor-options.constant.ts)</a>
@@ -169,28 +236,46 @@
                             <a href="#OVERLAY_CLASS" title="projects/squac-ui/src/app/shared/directives/loading-directive.directive.ts" ><b>OVERLAY_CLASS</b>&nbsp;&nbsp;&nbsp;(projects/.../loading-directive.directive.ts)</a>
                         </li>
                         <li>
+                            <a href="#PARALLEL_CONFIG" title="projects/widgets/src/lib/widget-types/parallel-plot/config.ts" ><b>PARALLEL_CONFIG</b>&nbsp;&nbsp;&nbsp;(projects/.../config.ts)</a>
+                        </li>
+                        <li>
                             <a href="#PROJECT_NAME" title="projects/squac-ui/src/app/core/services/local-storage.service.ts" ><b>PROJECT_NAME</b>&nbsp;&nbsp;&nbsp;(projects/.../local-storage.service.ts)</a>
                         </li>
                         <li>
                             <a href="#REFRESH_REQUEST" title="projects/squacapi/src/lib/constants/refresh-request.constant.ts" ><b>REFRESH_REQUEST</b>&nbsp;&nbsp;&nbsp;(projects/.../refresh-request.constant.ts)</a>
                         </li>
                         <li>
-                            <a href="#selectedMetrics" title="projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-example-config.ts" ><b>selectedMetrics</b>&nbsp;&nbsp;&nbsp;(projects/.../widget-example-config.ts)</a>
+                            <a href="#RowMetricComparator" title="projects/widgets/src/lib/widget-types/tabular/utils.ts" ><b>RowMetricComparator</b>&nbsp;&nbsp;&nbsp;(projects/.../utils.ts)</a>
                         </li>
                         <li>
-                            <a href="#singleXAxisConfig" title="projects/widgets/src/lib/widget-types/calendar/chart-config.ts" ><b>singleXAxisConfig</b>&nbsp;&nbsp;&nbsp;(projects/.../chart-config.ts)</a>
+                            <a href="#SCATTER_CONFIG" title="projects/widgets/src/lib/widget-types/scatter-plot/config.ts" ><b>SCATTER_CONFIG</b>&nbsp;&nbsp;&nbsp;(projects/.../config.ts)</a>
                         </li>
                         <li>
-                            <a href="#starttime" title="projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-example-config.ts" ><b>starttime</b>&nbsp;&nbsp;&nbsp;(projects/.../widget-example-config.ts)</a>
+                            <a href="#singleXAxisConfig" title="projects/widgets/src/lib/widget-types/calendar/echart.config.ts" ><b>singleXAxisConfig</b>&nbsp;&nbsp;&nbsp;(projects/.../echart.config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#starttime" title="projects/squac-ui/src/app/features/dashboard/components/widget-type-example/widget-example-config.ts" ><b>starttime</b>&nbsp;&nbsp;&nbsp;(projects/.../widget-example-config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#TABULAR_CONFIG" title="projects/widgets/src/lib/widget-types/tabular/config.ts" ><b>TABULAR_CONFIG</b>&nbsp;&nbsp;&nbsp;(projects/.../config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#TIMECHART_CONFIG" title="projects/widgets/src/lib/widget-types/timechart/config.ts" ><b>TIMECHART_CONFIG</b>&nbsp;&nbsp;&nbsp;(projects/.../config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#TIMELINE_CONFIG" title="projects/widgets/src/lib/widget-types/timeline/config.ts" ><b>TIMELINE_CONFIG</b>&nbsp;&nbsp;&nbsp;(projects/.../config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#USE_FAKE_MEASUREMENTS" title="projects/squac-ui/src/app/core/constants/api-service-config.constant.ts" ><b>USE_FAKE_MEASUREMENTS</b>&nbsp;&nbsp;&nbsp;(projects/.../api-service-config.constant.ts)</a>
                         </li>
                         <li>
                             <a href="#VALUE_OPERATORS" title="projects/squacapi/src/lib/constants/monitor-options.constant.ts" ><b>VALUE_OPERATORS</b>&nbsp;&nbsp;&nbsp;(projects/.../monitor-options.constant.ts)</a>
                         </li>
                         <li>
-                            <a href="#weekTimeXAxisConfig" title="projects/widgets/src/lib/widget-types/calendar/chart-config.ts" ><b>weekTimeXAxisConfig</b>&nbsp;&nbsp;&nbsp;(projects/.../chart-config.ts)</a>
+                            <a href="#weekTimeXAxisConfig" title="projects/widgets/src/lib/widget-types/calendar/echart.config.ts" ><b>weekTimeXAxisConfig</b>&nbsp;&nbsp;&nbsp;(projects/.../echart.config.ts)</a>
                         </li>
                         <li>
-                            <a href="#weekXAxisConfig" title="projects/widgets/src/lib/widget-types/calendar/chart-config.ts" ><b>weekXAxisConfig</b>&nbsp;&nbsp;&nbsp;(projects/.../chart-config.ts)</a>
+                            <a href="#weekXAxisConfig" title="projects/widgets/src/lib/widget-types/calendar/echart.config.ts" ><b>weekXAxisConfig</b>&nbsp;&nbsp;&nbsp;(projects/.../echart.config.ts)</a>
                         </li>
                         <li>
                             <a href="#WIDGET_GRADIENT_COLORS" title="projects/widgets/src/lib/constants/widget-colors.constant.ts" ><b>WIDGET_GRADIENT_COLORS</b>&nbsp;&nbsp;&nbsp;(projects/.../widget-colors.constant.ts)</a>
@@ -208,10 +293,13 @@
                             <a href="#WIDGET_STAT_TYPE_NAMES" title="projects/widgets/src/lib/constants/widget-stat-type-names.constant.ts" ><b>WIDGET_STAT_TYPE_NAMES</b>&nbsp;&nbsp;&nbsp;(projects/.../widget-stat-type-names.constant.ts)</a>
                         </li>
                         <li>
-                            <a href="#WIDGET_TYPE_INFO" title="projects/widgets/src/lib/constants/widget-type-options.constant.ts" ><b>WIDGET_TYPE_INFO</b>&nbsp;&nbsp;&nbsp;(projects/.../widget-type-options.constant.ts)</a>
+                            <a href="#WIDGET_TYPES" title="projects/widgets/src/lib/constants/widget-type-options.constant.ts" ><b>WIDGET_TYPES</b>&nbsp;&nbsp;&nbsp;(projects/.../widget-type-options.constant.ts)</a>
                         </li>
                         <li>
                             <a href="#WidgetStatType" title="projects/squacapi/src/lib/types/widget-stat-type.ts" ><b>WidgetStatType</b>&nbsp;&nbsp;&nbsp;(projects/.../widget-stat-type.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#WidgetType" title="projects/widgets/src/lib/constants/widget-type-options.constant.ts" ><b>WidgetType</b>&nbsp;&nbsp;&nbsp;(projects/.../widget-type-options.constant.ts)</a>
                         </li>
                     </ul>
                 </td>
@@ -221,7 +309,7 @@
 </section>
 
     <h3>projects/squacapi/src/lib/enums/api-endpoints.enum.ts</h3>
-    <section>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -275,8 +363,76 @@
         </tbody>
     </table>
 </section>
+    <h3>projects/squac-ui/src/app/app.config.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="APP_CONFIG"></a>
+                    <span class="name">
+                        <span ><b>APP_CONFIG</b></span>
+                        <a href="#APP_CONFIG"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  providers: [
+    // importProvidersFrom(ApplicationModule),
+    provideHttpClient(
+      withInterceptors([
+        AuthInterceptorFn,
+        CacheInterceptorFn,
+        HttpErrorInterceptorFn,
+      ])
+    ),
+    provideAnimations(),
+    provideRouter(
+      APP_ROUTES,
+      withRouterConfig({
+        paramsInheritanceStrategy: &quot;always&quot;,
+      })
+    ),
+    importProvidersFrom(MatSnackBarModule, MatDialogModule),
+    {
+      provide: BASE_PATH,
+      useValue: environment.API_BASE_PATH,
+    },
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { showError: true },
+    },
+    {
+      provide: WIDGET_TYPES,
+      useValue: DEFAULT_WIDGET_TYPES,
+    },
+    {
+      provide: USE_FAKE_MEASUREMENTS,
+      useValue: environment.fakeMeasurements,
+    },
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+    { provide: AppAbility, useValue: new AppAbility() },
+    { provide: PureAbility, useExisting: AppAbility },
+    ...MEASUREMENT_PROVIDERS,
+  ],
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
     <h3>projects/squac-ui/src/app/core/utils/ability.ts</h3>
-    <section>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -305,7 +461,7 @@
     </table>
 </section>
     <h3>projects/squacapi/src/lib/constants/archive-stat-options.constant.ts</h3>
-    <section>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -354,7 +510,7 @@
     </table>
 </section>
     <h3>projects/squacapi/src/lib/constants/archive-type-options.constant.ts</h3>
-    <section>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -409,8 +565,8 @@
         </tbody>
     </table>
 </section>
-    <h3>projects/squacapi/src/lib/types/archive-stat-type.ts</h3>
-    <section>
+    <h3>projects/squacapi/src/lib/types/archive-stat-type.type.ts</h3>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -452,8 +608,8 @@
         </tbody>
     </table>
 </section>
-    <h3>projects/squacapi/src/lib/types/archive-type.ts</h3>
-    <section>
+    <h3>projects/squacapi/src/lib/types/archive-type.type.ts</h3>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -482,7 +638,7 @@
     </table>
 </section>
     <h3>projects/squac-ui/src/app/core/services/auth.service.ts</h3>
-    <section>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -574,8 +730,105 @@
         </tbody>
     </table>
 </section>
-    <h3>projects/squac-ui/src/app/core/cacheable-route-patterns.constant.ts</h3>
-    <section>
+    <h3>projects/squac-ui/src/app/core/interceptors/auth-interceptor.service.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AuthInterceptorFn"></a>
+                    <span class="name">
+                        <span ><b>AuthInterceptorFn</b></span>
+                        <a href="#AuthInterceptorFn"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>HttpInterceptorFn</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(req, next) &#x3D;&gt; {
+  const authService &#x3D; inject(AuthService);
+  // if user is logged in, add headers
+  if (authService.isAuthenticated()) {
+    const modifiedReq &#x3D; req.clone({
+      headers: new HttpHeaders({
+        Authorization: &#x60;Token ${authService.auth}&#x60;,
+      }),
+    });
+    return next(modifiedReq);
+  }
+
+  return next(req);
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>projects/widgets/src/lib/widget-types/bud/config.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="BUD_CONFIG"></a>
+                    <span class="name">
+                        <span ><b>BUD_CONFIG</b></span>
+                        <a href="#BUD_CONFIG"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#WidgetTypeInfo" target="_self" >WidgetTypeInfo</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  component: BudComponent,
+  config: {
+    name: &quot;Bud (BETA)&quot;,
+    type: &quot;bud-plot&quot;,
+    useAggregate: true,
+    zoomControls: true,
+    toggleKey: true,
+    minMetrics: 1,
+    description:
+      &quot;Chart with stations grouped by network. Used to display a single value for many stations in a dense format.&quot;,
+    displayInfo: &quot;Stations as squares&quot;,
+    defaultDisplay: &quot;default&quot;,
+    displayOptions: {
+      default: {
+        description: &quot;Station shows the average value of the channels&quot;,
+        dimensions: [&quot;display&quot;],
+      },
+    },
+  },
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>config for Bud component</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>projects/squac-ui/src/app/core/constants/cacheable-route-patterns.constant.ts</h3>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -617,727 +870,77 @@
         </tbody>
     </table>
 </section>
-    <h3>projects/widgets/src/lib/widget-types/tabular/utils.ts</h3>
-    <section>
+    <h3>projects/squac-ui/src/app/core/interceptors/cache-interceptor.service.ts</h3>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="ChannelComparator"></a>
+                    <a name="CacheInterceptorFn"></a>
                     <span class="name">
-                        <span ><b>ChannelComparator</b></span>
-                        <a href="#ChannelComparator"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>CacheInterceptorFn</b></span>
+                        <a href="#CacheInterceptorFn"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>(propA: string, propB: string): number &#x3D;&gt; {
-  return propA.localeCompare(propB);
-}</code>
+                        <i>Type : </i>    <code>HttpInterceptorFn</code>
+
                     </td>
                 </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Sort function for channels/station rows</p>
-</div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="MetricComparator"></a>
-                    <span class="name">
-                        <span ><b>MetricComparator</b></span>
-                        <a href="#MetricComparator"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>(
-  propA: RowMetric,
-  propB: RowMetric
-): number &#x3D;&gt; {
-  if (propA.value &#x3D;&#x3D;&#x3D; null &amp;&amp; propB.value &#x3D;&#x3D;&#x3D; null) {
-    // both are null, treat as equal
-    return 0;
-  } else if (propA.value &#x3D;&#x3D;&#x3D; null &amp;&amp; propB.value !&#x3D;&#x3D; null) {
-    // treat second value as larger
-    return -1;
-  } else if (propA.value !&#x3D;&#x3D; null &amp;&amp; propB.value &#x3D;&#x3D;&#x3D; null) {
-    // treat first as larger
-    return 1;
+                        <i>Default value : </i><code>(req, next) &#x3D;&gt; {
+  const _cache &#x3D; inject(HttpCacheService);
+  let cachedResponse: HttpResponse&lt;any&gt;;
+  if (req.method &#x3D;&#x3D;&#x3D; &quot;GET&quot;) {
+    cachedResponse &#x3D; _cache.get(req);
+  } else if (
+    req.method &#x3D;&#x3D;&#x3D; &quot;POST&quot; ||
+    req.method &#x3D;&#x3D;&#x3D; &quot;PUT&quot; ||
+    req.method &#x3D;&#x3D;&#x3D; &quot;PATCH&quot; ||
+    req.method &#x3D;&#x3D;&#x3D; &quot;DELETE&quot;
+  ) {
+    const _removedFromCache &#x3D; _cache.delete(req);
+    return next(req);
   }
-  return propA.value - propB.value;
+
+  if (cachedResponse &amp;&amp; !req.context.get(REFRESH_REQUEST) &#x3D;&#x3D;&#x3D; true) {
+    return of(cachedResponse.clone());
+  }
+  return next(req).pipe(
+    tap((httpEvent: HttpEvent&lt;any&gt;): void | HttpEvent&lt;any&gt; &#x3D;&gt; {
+      if (httpEvent instanceof HttpResponse) {
+        _cache.put(req, httpEvent);
+        return httpEvent;
+      }
+    })
+  );
 }</code>
                     </td>
                 </tr>
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Sort function for metric values</p>
-</div>
-                </td>
-            </tr>
 
         </tbody>
     </table>
 </section>
-    <h3>projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-example-config.ts</h3>
-    <section>
+    <h3>projects/widgets/src/lib/widget-types/calendar/config.ts</h3>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="channels"></a>
+                    <a name="CALENDAR_CONFIG"></a>
                     <span class="name">
-                        <span ><b>channels</b></span>
-                        <a href="#channels"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>CALENDAR_CONFIG</b></span>
+                        <a href="#CALENDAR_CONFIG"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>[]</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>[
-  new Channel({
-    id: 1,
-    code: &quot;code1&quot;,
-    name: &quot;&quot;,
-    lat: 40,
-    lon: -120,
-    elev: 5,
-    loc: &quot;loc&quot;,
-    station_code: &quot;sta1&quot;,
-    network: &quot;net&quot;,
-    nslc: &quot;net.sta1.loc.code1&quot;,
-  }),
-  new Channel({
-    id: 2,
-    code: &quot;code2&quot;,
-    name: &quot;&quot;,
-    lat: 40,
-    lon: -120,
-    elev: 5,
-    loc: &quot;loc&quot;,
-    station_code: &quot;sta1&quot;,
-    network: &quot;net&quot;,
-    nslc: &quot;net.sta1.loc.code2&quot;,
-  }),
-
-  new Channel({
-    id: 3,
-    code: &quot;code3&quot;,
-    name: &quot;&quot;,
-    lat: 40,
-    lon: -120,
-    elev: 5,
-    loc: &quot;loc&quot;,
-    station_code: &quot;sta1&quot;,
-    network: &quot;net&quot;,
-    nslc: &quot;net.sta1.loc.code3&quot;,
-  }),
-
-  new Channel({
-    id: 4,
-    code: &quot;code1&quot;,
-    name: &quot;&quot;,
-    lat: 41,
-    lon: -121,
-    elev: 5,
-    loc: &quot;loc&quot;,
-    station_code: &quot;sta2&quot;,
-    network: &quot;net&quot;,
-    nslc: &quot;net.sta2.loc.code1&quot;,
-  }),
-
-  new Channel({
-    id: 5,
-    code: &quot;code2&quot;,
-    name: &quot;&quot;,
-    lat: 41,
-    lon: -121,
-    elev: 5,
-    loc: &quot;loc&quot;,
-    station_code: &quot;sta2&quot;,
-    network: &quot;net&quot;,
-    nslc: &quot;net.sta2.loc.code2&quot;,
-  }),
-  new Channel({
-    id: 6,
-    code: &quot;code3&quot;,
-    name: &quot;&quot;,
-    lat: 41,
-    lon: -121,
-    elev: 5,
-    loc: &quot;loc&quot;,
-    station_code: &quot;sta2&quot;,
-    network: &quot;net&quot;,
-    nslc: &quot;net.sta2.loc.code3&quot;,
-  }),
-
-  new Channel({
-    id: 7,
-    code: &quot;code1&quot;,
-    name: &quot;&quot;,
-    lat: 39.5,
-    lon: -122,
-    elev: 5,
-    loc: &quot;loc&quot;,
-    station_code: &quot;sta3&quot;,
-    network: &quot;net&quot;,
-    nslc: &quot;net.sta3.loc.code1&quot;,
-  }),
-
-  new Channel({
-    id: 8,
-    code: &quot;code2&quot;,
-    name: &quot;&quot;,
-    lat: 39.5,
-    lon: -122,
-    elev: 5,
-    loc: &quot;loc&quot;,
-    station_code: &quot;sta3&quot;,
-    network: &quot;net&quot;,
-    nslc: &quot;net.sta3.loc.code2&quot;,
-  }),
-
-  new Channel({
-    id: 9,
-    code: &quot;code3&quot;,
-    name: &quot;&quot;,
-    lat: 39.5,
-    lon: -122,
-    elev: 5,
-    loc: &quot;loc&quot;,
-    station_code: &quot;sta3&quot;,
-    network: &quot;net&quot;,
-    nslc: &quot;net.sta3.loc.code3&quot;,
-  }),
-]</code>
-                    </td>
-                </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>selected channels</p>
-</div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="endtime"></a>
-                    <span class="name">
-                        <span ><b>endtime</b></span>
-                        <a href="#endtime"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>&quot;2022-11-03T23:53:51Z&quot;</code>
-                    </td>
-                </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>example start</p>
-</div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="selectedMetrics"></a>
-                    <span class="name">
-                        <span ><b>selectedMetrics</b></span>
-                        <a href="#selectedMetrics"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>[]</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>[
-  new Metric({
-    id: 1,
-    user: 1,
-    name: &quot;Example Metric 1&quot;,
-    code: &quot;example_metric&quot;,
-    description: &quot;&quot;,
-    unit: &quot;unit&quot;,
-    reference_url: &quot;&quot;,
-    sample_rate: 3600,
-    default_minval: 0,
-    default_maxval: 340,
-  }),
-  new Metric({
-    id: 2,
-    user: 1,
-    name: &quot;Example Metric 2&quot;,
-    code: &quot;example_metric_2&quot;,
-    description: &quot;&quot;,
-    unit: &quot;unit&quot;,
-    reference_url: &quot;&quot;,
-    sample_rate: 1800,
-    default_minval: 0,
-    default_maxval: 10000,
-  }),
-  new Metric({
-    id: 3,
-    user: 1,
-    name: &quot;Example Metric 3&quot;,
-    code: &quot;example_metric_3&quot;,
-    description: &quot;&quot;,
-    unit: &quot;unit&quot;,
-    reference_url: &quot;&quot;,
-    sample_rate: 5400,
-    default_minval: -100,
-    default_maxval: 100,
-  }),
-]</code>
-                    </td>
-                </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>selected metrics</p>
-</div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="starttime"></a>
-                    <span class="name">
-                        <span ><b>starttime</b></span>
-                        <a href="#starttime"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>&quot;2022-11-02T23:53:51Z&quot;</code>
-                    </td>
-                </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>example end</p>
-</div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-</section>
-    <h3>projects/widgets/src/lib/widget-types/map/chart-config.ts</h3>
-    <section>
-    <h3></h3>    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="CONFIG"></a>
-                    <span class="name">
-                        <span ><b>CONFIG</b></span>
-                        <a href="#CONFIG"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../classes/Widget.html" target="_self" >WidgetTypeInfo</a></code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>{
-  component: MapComponent,
-  config: {
-    name: &quot;map&quot;,
-    type: &quot;map&quot;,
-    useAggregate: true,
-    toggleKey: true,
-    zoomControls: false,
-    minMetrics: 1,
-    description:
-      &quot;The map displays stations as icons on a map with colors indicating channel values. Values for channels are aggregated over the time range.&quot;,
-    displayInfo: &quot;station stoplight, station worst&quot;,
-    defaultDisplay: &quot;worst&quot;,
-    displayOptions: {
-      worst: {
-        description:
-          &quot;Station icon color shows the value for the &#x27;worst&#x27; (most out of range) channel&quot;,
-        dimensions: [&quot;display&quot;],
-      },
-      stoplight: {
-        description:
-          &quot;Station icon color indicates if all, some, or no channels are in/out of range&quot;,
-        dimensions: [&quot;display&quot;],
-      },
-    },
-  },
-}</code>
-                    </td>
-                </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>config for map component</p>
-</div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-</section>
-    <h3>projects/widgets/src/lib/widget-types/parallel-plot/chart-config.ts</h3>
-    <section>
-    <h3></h3>    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="CONFIG"></a>
-                    <span class="name">
-                        <span ><b>CONFIG</b></span>
-                        <a href="#CONFIG"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../classes/Widget.html" target="_self" >WidgetTypeInfo</a></code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>{
-  component: ParallelPlotComponent,
-  config: {
-    name: &quot;parallel&quot;,
-    type: &quot;parallel-plot&quot;,
-    zoomControls: false,
-    toggleKey: false,
-    useAggregate: true,
-    minMetrics: 2,
-    displayInfo: &quot;Color options not available for parallel plot.&quot;,
-    description:
-      &quot;Chart that compares aggregated values for channels for multiple metrics on separate y-axes. Each channel is a separate line. Values are aggregates of measurements over the time range. Custom colors are currently not available.&quot;,
-  },
-}</code>
-                    </td>
-                </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Parallel plot config</p>
-</div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-</section>
-    <h3>projects/widgets/src/lib/widget-types/scatter-plot/chart-config.ts</h3>
-    <section>
-    <h3></h3>    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="CONFIG"></a>
-                    <span class="name">
-                        <span ><b>CONFIG</b></span>
-                        <a href="#CONFIG"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../classes/Widget.html" target="_self" >WidgetTypeInfo</a></code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>{
-  component: ScatterPlotComponent,
-  config: {
-    name: &quot;scatter&quot;,
-    type: &quot;scatter-plot&quot;,
-    toggleKey: true,
-    zoomControls: true,
-    useAggregate: true,
-    minMetrics: 3,
-    description:
-      &quot;Chart comparing 3 metrics measurements on x-axis, y-axis, and color. Values are aggregates of the measurements over the time range.&quot;,
-    displayInfo: &quot;channels as dots&quot;,
-    defaultDisplay: &quot;channel&quot;,
-    displayOptions: {
-      channel: {
-        description:
-          &quot;each dot represents a channel - colors show aggregate value for a 3rd metric&quot;,
-        dimensions: [&quot;x-axis&quot;, &quot;y-axis&quot;, &quot;color&quot;],
-      },
-    },
-  },
-}</code>
-                    </td>
-                </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Scatter plot config</p>
-</div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-</section>
-    <h3>projects/widgets/src/lib/widget-types/tabular/chart-config.ts</h3>
-    <section>
-    <h3></h3>    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="CONFIG"></a>
-                    <span class="name">
-                        <span ><b>CONFIG</b></span>
-                        <a href="#CONFIG"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../classes/Widget.html" target="_self" >WidgetTypeInfo</a></code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>{
-  component: TabularComponent,
-  config: {
-    name: &quot;table&quot;,
-    type: &quot;tabular&quot;,
-    useAggregate: true,
-    toggleKey: true,
-    minMetrics: 1,
-    zoomControls: false,
-    description:
-      &quot;Table with stations or channels as rows and metrics as columns. Values shown are aggregates of measurements over the time range.&quot;,
-    displayInfo: &quot;channel values, station stoplight, worst channel&quot;,
-    defaultDisplay: &quot;channel&quot;,
-    displayOptions: {
-      channel: {
-        description:
-          &quot;Value and symbol color show the aggregate value for each channel&quot;,
-        dimensions: null,
-      },
-      stoplight: {
-        description:
-          &quot;Symbol color shows if all, some, or no channels are in/out of range for each station&quot;,
-        dimensions: null,
-      },
-      worst: {
-        description:
-          &quot;Value and symbol color show the aggregate values for the &#x27;worst&#x27; channel for each station&quot;,
-        dimensions: null,
-      },
-    },
-  },
-}</code>
-                    </td>
-                </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Chart config for tabular component</p>
-</div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-</section>
-    <h3>projects/widgets/src/lib/widget-types/timechart/chart-config.ts</h3>
-    <section>
-    <h3></h3>    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="CONFIG"></a>
-                    <span class="name">
-                        <span ><b>CONFIG</b></span>
-                        <a href="#CONFIG"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../classes/Widget.html" target="_self" >WidgetTypeInfo</a></code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>{
-  component: TimechartComponent,
-  config: {
-    name: &quot;time series&quot;,
-    type: &quot;timeseries&quot;,
-    useAggregate: false,
-    toggleKey: true,
-    zoomControls: true,
-    minMetrics: 1,
-    description:
-      &quot;Chart with raw measurement values on the y-axis and time on the x-axis.&quot;,
-    displayInfo: &quot;channel values&quot;,
-    defaultDisplay: &quot;channel&quot;,
-    displayOptions: {
-      channel: {
-        description: &quot;each line is a channel - values raw measurement values&quot;,
-        dimensions: [&quot;y-axis&quot;],
-      },
-    },
-  },
-}</code>
-                    </td>
-                </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Configuration for timechart widget</p>
-</div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-</section>
-    <h3>projects/widgets/src/lib/widget-types/timeline/timeline.config.ts</h3>
-    <section>
-    <h3></h3>    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="CONFIG"></a>
-                    <span class="name">
-                        <span ><b>CONFIG</b></span>
-                        <a href="#CONFIG"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../classes/Widget.html" target="_self" >WidgetTypeInfo</a></code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>{
-  component: TimelineComponent,
-  config: {
-    name: &quot;timeline&quot;,
-    type: &quot;timeline&quot;,
-    useAggregate: false,
-    toggleKey: true,
-    zoomControls: true,
-    description: &quot;Chart with channels on y-axis and time on x-axis.&quot;,
-    displayInfo: &quot;channel values, station stoplight&quot;,
-    minMetrics: 1,
-    defaultDisplay: &quot;raw&quot;,
-    displayOptions: {
-      raw: {
-        description: &quot;Values are raw measurement values over time range&quot;,
-        dimensions: [&quot;display&quot;],
-      },
-      day: {
-        description:
-          &quot;Values are the average of measurement values for each day in time range&quot;,
-        dimensions: [&quot;display&quot;],
-      },
-      hour: {
-        description:
-          &quot;Values are the average of measurement values for each hour in the time range&quot;,
-        dimensions: [&quot;display&quot;],
-      },
-    },
-  },
-}</code>
-                    </td>
-                </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Config for timeline widget</p>
-</div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-</section>
-    <h3>projects/widgets/src/lib/widget-types/calendar/calendar.config.ts</h3>
-    <section>
-    <h3></h3>    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="CONFIG"></a>
-                    <span class="name">
-                        <span ><b>CONFIG</b></span>
-                        <a href="#CONFIG"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../classes/Widget.html" target="_self" >WidgetTypeInfo</a></code>
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#WidgetTypeInfo" target="_self" >WidgetTypeInfo</a></code>
 
                     </td>
                 </tr>
@@ -1385,8 +988,70 @@
         </tbody>
     </table>
 </section>
+    <h3>projects/widgets/src/lib/utils/comparators.utils.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ChannelComparator"></a>
+                    <span class="name">
+                        <span ><b>ChannelComparator</b></span>
+                        <a href="#ChannelComparator"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(
+  channelA: Channel,
+  channelB: Channel
+): number &#x3D;&gt; {
+  return channelA.nslc.localeCompare(channelB.nslc);
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Sort function for channels</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="NslcComparator"></a>
+                    <span class="name">
+                        <span ><b>NslcComparator</b></span>
+                        <a href="#NslcComparator"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(propA: string, propB: string): number &#x3D;&gt; {
+  return propA.localeCompare(propB);
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Sort function for channels/station rows</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
     <h3>projects/squacapi/src/lib/constants/dashboard-defaults.constant.ts</h3>
-    <section>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -1424,8 +1089,8 @@
         </tbody>
     </table>
 </section>
-    <h3>projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-time-ranges.ts</h3>
-    <section>
+    <h3>projects/squac-ui/src/app/features/dashboard/pages/detail/dashboard-time-ranges.ts</h3>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -1491,7 +1156,7 @@
     </table>
 </section>
     <h3>projects/squac-ui/src/app/core/services/loading.service.ts</h3>
-    <section>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -1557,8 +1222,8 @@
         </tbody>
     </table>
 </section>
-    <h3>projects/squac-ui/src/app/core/locale.constant.ts</h3>
-    <section>
+    <h3>projects/widgets/src/lib/utils/dayjs.utils.ts</h3>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -1588,7 +1253,7 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>default locale</p>
+                    <div class="io-description"><p>Default locale settings to use for date formats</p>
 </div>
                 </td>
             </tr>
@@ -1596,8 +1261,8 @@
         </tbody>
     </table>
 </section>
-    <h3>projects/widgets/src/lib/shared/utils/dayjs.utils.ts</h3>
-    <section>
+    <h3>projects/squac-ui/src/app/core/constants/locale.constant.ts</h3>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -1611,7 +1276,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+                        <i>Type : </i>        <code><a href="../interfaces/Locale.html" target="_self" >Locale</a></code>
 
                     </td>
                 </tr>
@@ -1627,7 +1292,7 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Default locale settings to use for date formats</p>
+                    <div class="io-description"><p>default locale</p>
 </div>
                 </td>
             </tr>
@@ -1635,8 +1300,107 @@
         </tbody>
     </table>
 </section>
-    <h3>projects/widgets/src/lib/shared/components/e-chart/chart-config.ts</h3>
-    <section>
+    <h3>projects/widgets/src/lib/constants/widget-type-options.constant.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT_WIDGET_TYPES"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT_WIDGET_TYPES</b></span>
+                        <a href="#DEFAULT_WIDGET_TYPES"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Widget.html" target="_self" >Partial&lt;WidgetTypes&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  [&quot;tabular&quot;]: TABULAR_CONFIG,
+  [&quot;timeline&quot;]: TIMELINE_CONFIG,
+  [&quot;timeseries&quot;]: TIMECHART_CONFIG,
+  [&quot;map&quot;]: MAP_CONFIG,
+  [&quot;parallel-plot&quot;]: PARALLEL_CONFIG,
+  [&quot;scatter-plot&quot;]: SCATTER_CONFIG,
+  [&quot;calendar-plot&quot;]: CALENDAR_CONFIG,
+  [&quot;bud-plot&quot;]: BUD_CONFIG,
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Associate widget types with the corresponding component</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="WIDGET_TYPES"></a>
+                    <span class="name">
+                        <span ><b>WIDGET_TYPES</b></span>
+                        <a href="#WIDGET_TYPES"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;WidgetTypes&gt;(&quot;&quot;)</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Injection token for configuring widget types</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="WidgetType"></a>
+                    <span class="name">
+                        <span ><b>WidgetType</b></span>
+                        <a href="#WidgetType"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  &quot;tabular&quot;,
+  &quot;timeline&quot;,
+  &quot;timeseries&quot;,
+  &quot;map&quot;,
+  &quot;parallel-plot&quot;,
+  &quot;scatter-plot&quot;,
+  &quot;calendar-plot&quot;,
+  &quot;bud-plot&quot;,
+] as const</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>projects/widgets/src/lib/components/e-chart/chart-config.ts</h3>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -1657,6 +1421,7 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>{
+  backgroundColor: &quot;white&quot;,
   textStyle: {
     fontSize: 11,
   },
@@ -1778,8 +1543,235 @@
         </tbody>
     </table>
 </section>
+    <h3>projects/squac-ui/src/app/features/dashboard/components/widget-type-example/widget-example-config.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="endtime"></a>
+                    <span class="name">
+                        <span ><b>endtime</b></span>
+                        <a href="#endtime"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;2022-11-03T23:53:51Z&quot;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>example start</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getFakeChannels"></a>
+                    <span class="name">
+                        <span ><b>getFakeChannels</b></span>
+                        <a href="#getFakeChannels"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(
+  numChannels &#x3D; 3,
+  numStations &#x3D; 3,
+  numNetworks &#x3D; 2
+): Channel[] &#x3D;&gt; {
+  const channels &#x3D; [];
+
+  for (let n &#x3D; 1; n &lt;&#x3D; numNetworks; n++) {
+    const network &#x3D; &quot;net&quot; + n;
+
+    for (let s &#x3D; 1; s &lt;&#x3D; numStations; s++) {
+      const station_code &#x3D; &quot;sta&quot; + s;
+      const loc &#x3D; &quot;--&quot;;
+      const lat &#x3D; 40 + Math.random() * s;
+      const lon &#x3D; -120 + Math.random() * s;
+      for (let c &#x3D; 1; c &lt;&#x3D; numChannels; c++) {
+        const code &#x3D; &quot;chan&quot; + c;
+
+        channels.push(
+          new Channel({
+            id: +&#x60;${n}${s}${c}&#x60;,
+            code,
+            lat,
+            lon,
+            loc,
+            station_code: station_code,
+            network,
+            nslc: &#x60;${network}.${station_code}.${loc}.${code}&#x60;,
+          })
+        );
+      }
+    }
+  }
+
+  return channels;
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Creates fake channels using the given parameters.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getFakeMetrics"></a>
+                    <span class="name">
+                        <span ><b>getFakeMetrics</b></span>
+                        <a href="#getFakeMetrics"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(numMetrics &#x3D; 1): Metric[] &#x3D;&gt; {
+  const metrics &#x3D; [];
+
+  for (let m &#x3D; 1; m &lt;&#x3D; numMetrics; m++) {
+    const sample_rate &#x3D; 3600 * m;
+    const default_minval &#x3D; m;
+    const default_maxval &#x3D; 10 * m;
+    metrics.push(
+      new Metric({
+        id: m,
+        user: 1,
+        name: &#x60;Example Metric ${m}&#x60;,
+        code: &#x60;example_metric_${m}&#x60;,
+        unit: &quot;unit&quot;,
+        sample_rate,
+        default_minval,
+        default_maxval,
+      })
+    );
+  }
+  return metrics;
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Creates fake metrics</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="starttime"></a>
+                    <span class="name">
+                        <span ><b>starttime</b></span>
+                        <a href="#starttime"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;2022-11-02T23:53:51Z&quot;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>example end</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>projects/squac-ui/src/app/core/interceptors/http-error-interceptor.service.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="HttpErrorInterceptorFn"></a>
+                    <span class="name">
+                        <span ><b>HttpErrorInterceptorFn</b></span>
+                        <a href="#HttpErrorInterceptorFn"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>HttpInterceptorFn</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(req, next) &#x3D;&gt; {
+  return next(req).pipe(
+    // retry(1), //TODO: enable retrys after CORS fixed
+    catchError((error: HttpErrorResponse) &#x3D;&gt; {
+      let errorMessage &#x3D; &quot;Unknown error occured.&quot;;
+      if (error.error instanceof Error) {
+        // client-side error
+        errorMessage &#x3D; error.error.message;
+      } else if (typeof error.error &#x3D;&#x3D;&#x3D; &quot;string&quot;) {
+        // server-side error
+        errorMessage &#x3D; error.error;
+      } else if (error.error instanceof Object) {
+        errorMessage &#x3D; &quot;&quot;;
+        const keys &#x3D; Object.keys(error.error);
+        if (keys) {
+          for (const errorMsg of keys) {
+            errorMessage +&#x3D; error.error[errorMsg];
+          }
+        }
+      }
+      throw new Error(errorMessage);
+    })
+  );
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
     <h3>projects/squacapi/src/lib/constants/monitor-options.constant.ts</h3>
-    <section>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -1940,7 +1932,7 @@
     </table>
 </section>
     <h3>projects/widgets/src/lib/interfaces/charts.interface.ts</h3>
-    <section>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -2041,8 +2033,205 @@
         </tbody>
     </table>
 </section>
+    <h3>projects/widgets/src/lib/widget-types/map/config.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="MAP_CONFIG"></a>
+                    <span class="name">
+                        <span ><b>MAP_CONFIG</b></span>
+                        <a href="#MAP_CONFIG"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#WidgetTypeInfo" target="_self" >WidgetTypeInfo</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  component: MapComponent,
+  config: {
+    name: &quot;map&quot;,
+    type: &quot;map&quot;,
+    useAggregate: true,
+    toggleKey: true,
+    zoomControls: false,
+    minMetrics: 1,
+    description:
+      &quot;The map displays stations as icons on a map with colors indicating channel values. Values for channels are aggregated over the time range.&quot;,
+    displayInfo: &quot;station stoplight, station worst&quot;,
+    defaultDisplay: &quot;worst&quot;,
+    displayOptions: {
+      worst: {
+        description:
+          &quot;Station icon color shows the value for the &#x27;worst&#x27; (most out of range) channel&quot;,
+        dimensions: [&quot;display&quot;],
+      },
+      stoplight: {
+        description:
+          &quot;Station icon color indicates if all, some, or no channels are in/out of range&quot;,
+        dimensions: [&quot;display&quot;],
+      },
+    },
+  },
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>config for map component</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>projects/squac-ui/src/app/core/constants/api-service-config.constant.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="MEASUREMENT_PROVIDERS"></a>
+                    <span class="name">
+                        <span ><b>MEASUREMENT_PROVIDERS</b></span>
+                        <a href="#MEASUREMENT_PROVIDERS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  {
+    provide: MeasurementService,
+    useFactory: (httpClient, basePath): MeasurementService &#x3D;&gt; {
+      const useFakeMeasurements &#x3D; inject(USE_FAKE_MEASUREMENTS);
+      let service;
+      if (useFakeMeasurements) {
+        service &#x3D; new FakeMeasurementBackend();
+      } else {
+        service &#x3D; new ApiService(httpClient, basePath, null);
+      }
+      return new MeasurementService(service);
+    },
+    deps: [HttpClient, BASE_PATH],
+  },
+  {
+    provide: AggregateService,
+    useFactory: (httpClient, basePath): AggregateService &#x3D;&gt; {
+      const useFakeMeasurements &#x3D; inject(USE_FAKE_MEASUREMENTS);
+      let service;
+      if (useFakeMeasurements) {
+        service &#x3D; new FakeMeasurementBackend();
+      } else {
+        service &#x3D; new ApiService(httpClient, basePath, null);
+      }
+      return new AggregateService(service);
+    },
+    deps: [HttpClient, BASE_PATH],
+  },
+  {
+    provide: MeasurementService,
+    useFactory: (httpClient, basePath): MeasurementService &#x3D;&gt; {
+      const useFakeMeasurements &#x3D; inject(USE_FAKE_MEASUREMENTS);
+      let service;
+      if (useFakeMeasurements) {
+        service &#x3D; new FakeMeasurementBackend();
+      } else {
+        service &#x3D; new ApiService(httpClient, basePath, null);
+      }
+      return new MeasurementService(service);
+    },
+    deps: [HttpClient, BASE_PATH],
+  },
+  {
+    provide: DayArchiveService,
+    useFactory: (httpClient, basePath): DayArchiveService &#x3D;&gt; {
+      const useFakeMeasurements &#x3D; inject(USE_FAKE_MEASUREMENTS);
+      let service;
+      if (useFakeMeasurements) {
+        service &#x3D; new FakeMeasurementBackend();
+      } else {
+        service &#x3D; new ApiService(httpClient, basePath, null);
+      }
+      return new DayArchiveService(service);
+    },
+    deps: [HttpClient, BASE_PATH],
+  },
+  {
+    provide: WeekArchiveService,
+    useFactory: (httpClient, basePath): WeekArchiveService &#x3D;&gt; {
+      const useFakeMeasurements &#x3D; inject(USE_FAKE_MEASUREMENTS);
+      let service;
+      if (useFakeMeasurements) {
+        service &#x3D; new FakeMeasurementBackend();
+      } else {
+        service &#x3D; new ApiService(httpClient, basePath, null);
+      }
+      return new WeekArchiveService(service);
+    },
+    deps: [HttpClient, BASE_PATH],
+  },
+  {
+    provide: MonthArchiveService,
+    useFactory: (httpClient, basePath): MonthArchiveService &#x3D;&gt; {
+      const useFakeMeasurements &#x3D; inject(USE_FAKE_MEASUREMENTS);
+      let service;
+      if (useFakeMeasurements) {
+        service &#x3D; new FakeMeasurementBackend();
+      } else {
+        service &#x3D; new ApiService(httpClient, basePath, null);
+      }
+      return new MonthArchiveService(service);
+    },
+    deps: [HttpClient, BASE_PATH],
+  },
+]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="USE_FAKE_MEASUREMENTS"></a>
+                    <span class="name">
+                        <span ><b>USE_FAKE_MEASUREMENTS</b></span>
+                        <a href="#USE_FAKE_MEASUREMENTS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;boolean&gt;(
+  &quot;Enables fake backend for measurement services&quot;
+)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
     <h3>projects/squac-ui/src/app/shared/directives/loading-directive.directive.ts</h3>
-    <section>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -2076,8 +2265,56 @@
         </tbody>
     </table>
 </section>
+    <h3>projects/widgets/src/lib/widget-types/parallel-plot/config.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="PARALLEL_CONFIG"></a>
+                    <span class="name">
+                        <span ><b>PARALLEL_CONFIG</b></span>
+                        <a href="#PARALLEL_CONFIG"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#WidgetTypeInfo" target="_self" >WidgetTypeInfo</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  component: ParallelPlotComponent,
+  config: {
+    name: &quot;parallel&quot;,
+    type: &quot;parallel-plot&quot;,
+    zoomControls: false,
+    toggleKey: false,
+    useAggregate: true,
+    minMetrics: 2,
+    displayInfo: &quot;Color options not available for parallel plot.&quot;,
+    description:
+      &quot;Chart that compares aggregated values for channels for multiple metrics on separate y-axes. Each channel is a separate line. Values are aggregates of measurements over the time range. Custom colors are currently not available.&quot;,
+  },
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Parallel plot config</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
     <h3>projects/squac-ui/src/app/core/services/local-storage.service.ts</h3>
-    <section>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -2112,7 +2349,7 @@
     </table>
 </section>
     <h3>projects/squacapi/src/lib/constants/refresh-request.constant.ts</h3>
-    <section>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -2140,8 +2377,108 @@
         </tbody>
     </table>
 </section>
-    <h3>projects/widgets/src/lib/widget-types/calendar/chart-config.ts</h3>
-    <section>
+    <h3>projects/widgets/src/lib/widget-types/tabular/utils.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="RowMetricComparator"></a>
+                    <span class="name">
+                        <span ><b>RowMetricComparator</b></span>
+                        <a href="#RowMetricComparator"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(
+  propA: RowMetric,
+  propB: RowMetric
+): number &#x3D;&gt; {
+  if (propA.value &#x3D;&#x3D;&#x3D; null &amp;&amp; propB.value &#x3D;&#x3D;&#x3D; null) {
+    // both are null, treat as equal
+    return 0;
+  } else if (propA.value &#x3D;&#x3D;&#x3D; null &amp;&amp; propB.value !&#x3D;&#x3D; null) {
+    // treat second value as larger
+    return -1;
+  } else if (propA.value !&#x3D;&#x3D; null &amp;&amp; propB.value &#x3D;&#x3D;&#x3D; null) {
+    // treat first as larger
+    return 1;
+  }
+  return propA.value - propB.value;
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Sort function for metric values</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>projects/widgets/src/lib/widget-types/scatter-plot/config.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="SCATTER_CONFIG"></a>
+                    <span class="name">
+                        <span ><b>SCATTER_CONFIG</b></span>
+                        <a href="#SCATTER_CONFIG"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#WidgetTypeInfo" target="_self" >WidgetTypeInfo</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  component: ScatterPlotComponent,
+  config: {
+    name: &quot;scatter&quot;,
+    type: &quot;scatter-plot&quot;,
+    toggleKey: true,
+    zoomControls: true,
+    useAggregate: true,
+    minMetrics: 3,
+    description:
+      &quot;Chart comparing 3 metrics measurements on x-axis, y-axis, and color. Values are aggregates of the measurements over the time range.&quot;,
+    displayInfo: &quot;channels as dots&quot;,
+    defaultDisplay: &quot;channel&quot;,
+    displayOptions: {
+      channel: {
+        description:
+          &quot;each dot represents a channel - colors show aggregate value for a 3rd metric&quot;,
+        dimensions: [&quot;x-axis&quot;, &quot;y-axis&quot;, &quot;color&quot;],
+      },
+    },
+  },
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Scatter plot config</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>projects/widgets/src/lib/widget-types/calendar/echart.config.ts</h3>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -2175,7 +2512,7 @@
   axisLine: {
     show: true,
   },
-
+  nameGap: 15,
   nameLocation: &quot;middle&quot;,
   axisPointer: {
     show: true,
@@ -2186,7 +2523,7 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>default x axis config</p>
+                    <div class="io-description"><p>Helper functions for calendar chart</p>
 </div>
                 </td>
             </tr>
@@ -2258,7 +2595,7 @@
                     <td class="col-md-4">
                         <i>Default value : </i><code>{
   ...singleXAxisConfig,
-  nameGap: 13,
+  nameGap: 12,
   offset: 13,
   axisLine: {
     show: false,
@@ -2301,8 +2638,193 @@
         </tbody>
     </table>
 </section>
+    <h3>projects/widgets/src/lib/widget-types/tabular/config.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="TABULAR_CONFIG"></a>
+                    <span class="name">
+                        <span ><b>TABULAR_CONFIG</b></span>
+                        <a href="#TABULAR_CONFIG"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#WidgetTypeInfo" target="_self" >WidgetTypeInfo</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  component: TabularComponent,
+  config: {
+    name: &quot;table&quot;,
+    type: &quot;tabular&quot;,
+    useAggregate: true,
+    toggleKey: true,
+    minMetrics: 1,
+    zoomControls: false,
+    description:
+      &quot;Table with stations or channels as rows and metrics as columns. Values shown are aggregates of measurements over the time range.&quot;,
+    displayInfo: &quot;channel values, station stoplight, worst channel&quot;,
+    defaultDisplay: &quot;channel&quot;,
+    displayOptions: {
+      channel: {
+        description:
+          &quot;Value and symbol color show the aggregate value for each channel&quot;,
+        dimensions: null,
+      },
+      stoplight: {
+        description:
+          &quot;Symbol color shows if all, some, or no channels are in/out of range for each station&quot;,
+        dimensions: null,
+      },
+      worst: {
+        description:
+          &quot;Value and symbol color show the aggregate values for the &#x27;worst&#x27; channel for each station&quot;,
+        dimensions: null,
+      },
+    },
+  },
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Chart config for tabular component</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>projects/widgets/src/lib/widget-types/timechart/config.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="TIMECHART_CONFIG"></a>
+                    <span class="name">
+                        <span ><b>TIMECHART_CONFIG</b></span>
+                        <a href="#TIMECHART_CONFIG"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#WidgetTypeInfo" target="_self" >WidgetTypeInfo</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  component: TimechartComponent,
+  config: {
+    name: &quot;time series&quot;,
+    type: &quot;timeseries&quot;,
+    useAggregate: false,
+    toggleKey: true,
+    zoomControls: true,
+    minMetrics: 1,
+    description:
+      &quot;Chart with raw measurement values on the y-axis and time on the x-axis.&quot;,
+    displayInfo: &quot;channel values&quot;,
+    defaultDisplay: &quot;channel&quot;,
+    displayOptions: {
+      channel: {
+        description: &quot;each line is a channel - values raw measurement values&quot;,
+        dimensions: [&quot;y-axis&quot;],
+      },
+    },
+  },
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Configuration for timechart widget</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>projects/widgets/src/lib/widget-types/timeline/config.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="TIMELINE_CONFIG"></a>
+                    <span class="name">
+                        <span ><b>TIMELINE_CONFIG</b></span>
+                        <a href="#TIMELINE_CONFIG"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#WidgetTypeInfo" target="_self" >WidgetTypeInfo</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  component: TimelineComponent,
+  config: {
+    name: &quot;timeline&quot;,
+    type: &quot;timeline&quot;,
+    useAggregate: false,
+    toggleKey: true,
+    zoomControls: true,
+    description: &quot;Chart with channels on y-axis and time on x-axis.&quot;,
+    displayInfo: &quot;channel values, station stoplight&quot;,
+    minMetrics: 1,
+    defaultDisplay: &quot;raw&quot;,
+    displayOptions: {
+      raw: {
+        description: &quot;Values are raw measurement values over time range&quot;,
+        dimensions: [&quot;display&quot;],
+      },
+      day: {
+        description:
+          &quot;Values are the average of measurement values for each day in time range&quot;,
+        dimensions: [&quot;display&quot;],
+      },
+      hour: {
+        description:
+          &quot;Values are the average of measurement values for each hour in the time range&quot;,
+        dimensions: [&quot;display&quot;],
+      },
+    },
+  },
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Config for timeline widget</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
     <h3>projects/widgets/src/lib/constants/widget-colors.constant.ts</h3>
-    <section>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -2447,7 +2969,7 @@
     </table>
 </section>
     <h3>projects/squacapi/src/lib/constants/widget-defaults.constant.ts</h3>
-    <section>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -2517,7 +3039,7 @@
     </table>
 </section>
     <h3>projects/widgets/src/lib/constants/widget-stat-type-names.constant.ts</h3>
-    <section>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -2556,50 +3078,7 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Names of widget stat types</p>
-</div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-</section>
-    <h3>projects/widgets/src/lib/constants/widget-type-options.constant.ts</h3>
-    <section>
-    <h3></h3>    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="WIDGET_TYPE_INFO"></a>
-                    <span class="name">
-                        <span ><b>WIDGET_TYPE_INFO</b></span>
-                        <a href="#WIDGET_TYPE_INFO"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../classes/Widget.html" target="_self" >WidgetTypeInfo</a></code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>{
-  [WidgetType.TABULAR]: Tabular.CONFIG,
-  [WidgetType.TIMELINE]: Timeline.CONFIG,
-  [WidgetType.TIMESERIES]: Timechart.CONFIG,
-  [WidgetType.MAP]: Map.CONFIG,
-  [WidgetType.PARALLEL]: Parallel.CONFIG,
-  [WidgetType.SCATTER]: Scatter.CONFIG,
-  [WidgetType.CALENDAR]: Calendar.CONFIG,
-}</code>
-                    </td>
-                </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Associate widget types with the corresponding component</p>
+                    <div class="io-description"><p>Display names of widget stat types</p>
 </div>
                 </td>
             </tr>
@@ -2608,7 +3087,7 @@
     </table>
 </section>
     <h3>projects/squacapi/src/lib/types/widget-stat-type.ts</h3>
-    <section>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>

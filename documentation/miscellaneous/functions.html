@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -49,11 +107,11 @@
 
 
 <ol class="breadcrumb">
-  <li>Miscellaneous</li>
-  <li>Functions</li>
+  <li class="breadcrumb-item">Miscellaneous</li>
+  <li class="breadcrumb-item">Functions</li>
 </ol>
 
-<section>
+<section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -64,9 +122,6 @@
                             <a href="#absvalue" title="projects/squacapi/src/lib/utils/measurement-values.utils.ts" ><b>absvalue</b>&nbsp;&nbsp;&nbsp;(projects/.../measurement-values.utils.ts)</a>
                         </li>
                         <li>
-                            <a href="#AggregateFactory" title="projects/widgets/src/lib/services/measurementFactories.ts" ><b>AggregateFactory</b>&nbsp;&nbsp;&nbsp;(projects/.../measurementFactories.ts)</a>
-                        </li>
-                        <li>
                             <a href="#atLeastOneValidator" title="projects/squac-ui/src/app/core/utils/validators.ts" ><b>atLeastOneValidator</b>&nbsp;&nbsp;&nbsp;(projects/.../validators.ts)</a>
                         </li>
                         <li>
@@ -74,9 +129,6 @@
                         </li>
                         <li>
                             <a href="#camelCase" title="projects/squacapi/src/lib/utils/utils.ts" ><b>camelCase</b>&nbsp;&nbsp;&nbsp;(projects/.../utils.ts)</a>
-                        </li>
-                        <li>
-                            <a href="#DayArchiveFactory" title="projects/widgets/src/lib/services/measurementFactories.ts" ><b>DayArchiveFactory</b>&nbsp;&nbsp;&nbsp;(projects/.../measurementFactories.ts)</a>
                         </li>
                         <li>
                             <a href="#defineAbilitiesFor" title="projects/squac-ui/src/app/core/utils/ability.ts" ><b>defineAbilitiesFor</b>&nbsp;&nbsp;&nbsp;(projects/.../ability.ts)</a>
@@ -91,19 +143,16 @@
                             <a href="#fakeAsyncResponse" title="projects/squac-ui/src/app/core/utils/utils.ts" ><b>fakeAsyncResponse</b>&nbsp;&nbsp;&nbsp;(projects/.../utils.ts)</a>
                         </li>
                         <li>
-                            <a href="#format" title="projects/widgets/src/lib/shared/utils/dayjs.utils.ts" ><b>format</b>&nbsp;&nbsp;&nbsp;(projects/.../dayjs.utils.ts)</a>
+                            <a href="#format" title="projects/widgets/src/lib/utils/dayjs.utils.ts" ><b>format</b>&nbsp;&nbsp;&nbsp;(projects/.../dayjs.utils.ts)</a>
                         </li>
                         <li>
                             <a href="#getKlass" title="projects/squacapi/src/lib/enums/api-endpoints.enum.ts" ><b>getKlass</b>&nbsp;&nbsp;&nbsp;(projects/.../api-endpoints.enum.ts)</a>
                         </li>
                         <li>
-                            <a href="#HourArchiveFactory" title="projects/widgets/src/lib/services/measurementFactories.ts" ><b>HourArchiveFactory</b>&nbsp;&nbsp;&nbsp;(projects/.../measurementFactories.ts)</a>
+                            <a href="#getRandom" title="projects/widgets/src/lib/services/generate_local_measurements.ts" ><b>getRandom</b>&nbsp;&nbsp;&nbsp;(projects/.../generate_local_measurements.ts)</a>
                         </li>
                         <li>
                             <a href="#max" title="projects/squacapi/src/lib/utils/measurement-values.utils.ts" ><b>max</b>&nbsp;&nbsp;&nbsp;(projects/.../measurement-values.utils.ts)</a>
-                        </li>
-                        <li>
-                            <a href="#MeasurementFactory" title="projects/widgets/src/lib/services/measurementFactories.ts" ><b>MeasurementFactory</b>&nbsp;&nbsp;&nbsp;(projects/.../measurementFactories.ts)</a>
                         </li>
                         <li>
                             <a href="#median" title="projects/squacapi/src/lib/utils/measurement-values.utils.ts" ><b>median</b>&nbsp;&nbsp;&nbsp;(projects/.../measurement-values.utils.ts)</a>
@@ -115,13 +164,13 @@
                             <a href="#modelConstructor" title="projects/squacapi/src/lib/interfaces/squac-object.interface.ts" ><b>modelConstructor</b>&nbsp;&nbsp;&nbsp;(projects/.../squac-object.interface.ts)</a>
                         </li>
                         <li>
-                            <a href="#MonthArchiveFactory" title="projects/widgets/src/lib/services/measurementFactories.ts" ><b>MonthArchiveFactory</b>&nbsp;&nbsp;&nbsp;(projects/.../measurementFactories.ts)</a>
-                        </li>
-                        <li>
                             <a href="#mostRecent" title="projects/squacapi/src/lib/utils/measurement-values.utils.ts" ><b>mostRecent</b>&nbsp;&nbsp;&nbsp;(projects/.../measurement-values.utils.ts)</a>
                         </li>
                         <li>
-                            <a href="#parseUtc" title="projects/widgets/src/lib/shared/utils/dayjs.utils.ts" ><b>parseUtc</b>&nbsp;&nbsp;&nbsp;(projects/.../dayjs.utils.ts)</a>
+                            <a href="#nestedPropertyDataAccessor" title="projects/squac-ui/src/app/core/utils/utils.ts" ><b>nestedPropertyDataAccessor</b>&nbsp;&nbsp;&nbsp;(projects/.../utils.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#parseUtc" title="projects/widgets/src/lib/utils/dayjs.utils.ts" ><b>parseUtc</b>&nbsp;&nbsp;&nbsp;(projects/.../dayjs.utils.ts)</a>
                         </li>
                         <li>
                             <a href="#percentile" title="projects/squacapi/src/lib/utils/measurement-values.utils.ts" ><b>percentile</b>&nbsp;&nbsp;&nbsp;(projects/.../measurement-values.utils.ts)</a>
@@ -139,10 +188,7 @@
                             <a href="#sum" title="projects/squacapi/src/lib/utils/measurement-values.utils.ts" ><b>sum</b>&nbsp;&nbsp;&nbsp;(projects/.../measurement-values.utils.ts)</a>
                         </li>
                         <li>
-                            <a href="#tooltipFormatter" title="projects/widgets/src/lib/widget-types/calendar/chart-config.ts" ><b>tooltipFormatter</b>&nbsp;&nbsp;&nbsp;(projects/.../chart-config.ts)</a>
-                        </li>
-                        <li>
-                            <a href="#WeekArchiveFactory" title="projects/widgets/src/lib/services/measurementFactories.ts" ><b>WeekArchiveFactory</b>&nbsp;&nbsp;&nbsp;(projects/.../measurementFactories.ts)</a>
+                            <a href="#tooltipFormatter" title="projects/widgets/src/lib/widget-types/calendar/echart.config.ts" ><b>tooltipFormatter</b>&nbsp;&nbsp;&nbsp;(projects/.../echart.config.ts)</a>
                         </li>
                     </ul>
                 </td>
@@ -152,7 +198,7 @@
 </section>
 
     <h3>projects/squacapi/src/lib/utils/measurement-values.utils.ts</h3>
-    <section>
+    <section data-compodoc="block-methods">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -175,60 +221,58 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns the max or min of the absolute value of the min and max</p>
+                        <div class="io-description"><p>Returns the max or min of the absolute value of the min and max</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>values</td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>values</td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>measurement values to calculate</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>type</td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>min or max value to calculate</p>
+                                            <td>
+                                                    <p>measurement values to calculate</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>type</td>
 
-                    </div>
-                    <div class="io-description">
-                        <p>most extreme value of the data</p>
+                                            <td>
+                                                    No
+                                            </td>
 
-                    </div>
+
+                                            <td>
+                                                    <p>min or max value to calculate</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>most extreme value of the data</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -255,47 +299,45 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Calculates average value for the measurements</p>
+                        <div class="io-description"><p>Calculates average value for the measurements</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>values</td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>values</td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>measurements</p>
+                                            <td>
+                                                    <p>measurements</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>average of the values</p>
+                        </div>
+                            <div class="io-description">
+                                <p>average of the values</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -322,47 +364,45 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Finds the largest value of the measurements</p>
+                        <div class="io-description"><p>Finds the largest value of the measurements</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>values</td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>values</td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>measurement values</p>
+                                            <td>
+                                                    <p>measurement values</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>maximum value</p>
+                        </div>
+                            <div class="io-description">
+                                <p>maximum value</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -389,47 +429,45 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Finds the median measurement or midpoint between middle two measurements</p>
+                        <div class="io-description"><p>Finds the median measurement or midpoint between middle two measurements</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>values</td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>values</td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>measurement values</p>
+                                            <td>
+                                                    <p>measurement values</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>median measurement</p>
+                        </div>
+                            <div class="io-description">
+                                <p>median measurement</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -456,47 +494,45 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Finds the lowest value of the measurements</p>
+                        <div class="io-description"><p>Finds the lowest value of the measurements</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>values</td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>values</td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>measurement values</p>
+                                            <td>
+                                                    <p>measurement values</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>minimum value of the measurements</p>
+                        </div>
+                            <div class="io-description">
+                                <p>minimum value of the measurements</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -523,47 +559,45 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Finds the most recent measurement</p>
+                        <div class="io-description"><p>Finds the most recent measurement</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>values</td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>values</td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>measurements</p>
+                                            <td>
+                                                    <p>measurements</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>Most recent of the measurements</p>
+                        </div>
+                            <div class="io-description">
+                                <p>Most recent of the measurements</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -590,66 +624,64 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns value at given percentile</p>
+                        <div class="io-description"><p>Returns value at given percentile</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>values</td>
-                                    <td>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>values</td>
+                                            <td>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>measurement values</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>percent</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>percentile value</p>
+                                            <td>
+                                                    <p>measurement values</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>percent</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        <p>value at percentile</p>
+                                            <td>
+                                                    No
+                                            </td>
 
-                    </div>
+
+                                            <td>
+                                                    <p>percentile value</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>value at percentile</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -676,47 +708,45 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Sorts measurements by value, lowest to highest</p>
+                        <div class="io-description"><p>Sorts measurements by value, lowest to highest</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>values</td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>values</td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>unsorted measurements</p>
+                                            <td>
+                                                    <p>unsorted measurements</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#MeasurementTypes" target="_self" >MeasurementTypes[]</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#MeasurementTypes" target="_self" >MeasurementTypes[]</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>sorted measurements</p>
+                        </div>
+                            <div class="io-description">
+                                <p>sorted measurements</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -743,673 +773,51 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns sum of measurements</p>
+                        <div class="io-description"><p>Returns sum of measurements</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>values</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>measurements</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>sum of measurement values</p>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</section>    <h3>projects/widgets/src/lib/services/measurementFactories.ts</h3>
-    <section>
-    <h3></h3>    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="AggregateFactory"></a>
-                    <span class="name">
-                        <span ><b>AggregateFactory</b></span>
-                        <a href="#AggregateFactory"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>AggregateFactory(path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, service: ApiService, fakeService)</code>
-                </td>
-            </tr>
-
-
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Returns new aggregate service using the real api unless
-using localhost</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>path</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>url path</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>service</td>
-                                    <td>
-                                            <code>ApiService</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>api service</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>fakeService</td>
-                                    <td>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>fake api service</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../injectables/AggregateService.html" target="_self" >AggregateService</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>aggregate service</p>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="DayArchiveFactory"></a>
-                    <span class="name">
-                        <span ><b>DayArchiveFactory</b></span>
-                        <a href="#DayArchiveFactory"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>DayArchiveFactory(path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, service: ApiService, fakeService)</code>
-                </td>
-            </tr>
-
-
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Returns new day archive service using the real api unless
-using localhost</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>path</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>url path</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>service</td>
-                                    <td>
-                                            <code>ApiService</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>api service</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>fakeService</td>
-                                    <td>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>fake api service</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../injectables/DayArchiveService.html" target="_self" >DayArchiveService</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>day archive service</p>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="HourArchiveFactory"></a>
-                    <span class="name">
-                        <span ><b>HourArchiveFactory</b></span>
-                        <a href="#HourArchiveFactory"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>HourArchiveFactory(path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, service: ApiService, fakeService)</code>
-                </td>
-            </tr>
-
-
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Returns new hour archive service using the real api unless
-using localhost</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>path</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>url path</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>service</td>
-                                    <td>
-                                            <code>ApiService</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>api service</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>fakeService</td>
-                                    <td>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>fake api service</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../injectables/HourArchiveService.html" target="_self" >HourArchiveService</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>hour archive service</p>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="MeasurementFactory"></a>
-                    <span class="name">
-                        <span ><b>MeasurementFactory</b></span>
-                        <a href="#MeasurementFactory"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>MeasurementFactory(path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, service: ApiService, fakeService)</code>
-                </td>
-            </tr>
-
-
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Returns new measurement service using the real api unless
-using localhost</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>path</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>url path</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>service</td>
-                                    <td>
-                                            <code>ApiService</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>api service</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>fakeService</td>
-                                    <td>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>fake api service</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../injectables/MeasurementService.html" target="_self" >MeasurementService</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>measurement service</p>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="MonthArchiveFactory"></a>
-                    <span class="name">
-                        <span ><b>MonthArchiveFactory</b></span>
-                        <a href="#MonthArchiveFactory"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>MonthArchiveFactory(path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, service: ApiService, fakeService)</code>
-                </td>
-            </tr>
-
-
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Returns new month archive service using the real api unless
-using localhost</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>path</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>url path</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>service</td>
-                                    <td>
-                                            <code>ApiService</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>api service</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>fakeService</td>
-                                    <td>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>fake api service</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../injectables/MonthArchiveService.html" target="_self" >MonthArchiveService</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>month archive service</p>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="WeekArchiveFactory"></a>
-                    <span class="name">
-                        <span ><b>WeekArchiveFactory</b></span>
-                        <a href="#WeekArchiveFactory"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>WeekArchiveFactory(path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, service: ApiService, fakeService)</code>
-                </td>
-            </tr>
-
-
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Returns new week archive service using the real api unless
-using localhost</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>path</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>url path</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>service</td>
-                                    <td>
-                                            <code>ApiService</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>api service</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>fakeService</td>
-                                    <td>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>fake api service</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../injectables/WeekArchiveService.html" target="_self" >WeekArchiveService</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>week archive service</p>
-
-                    </div>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>values</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>measurements</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>sum of measurement values</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </section>    <h3>projects/squac-ui/src/app/core/utils/validators.ts</h3>
-    <section>
+    <section data-compodoc="block-methods">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -1432,47 +840,45 @@ using localhost</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Checks that at least one of the form fields has a value</p>
+                        <div class="io-description"><p>Checks that at least one of the form fields has a value</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>fields</td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>fields</td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>array of form field names</p>
+                                            <td>
+                                                    <p>array of form field names</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://angular.io/api/forms/ValidatorFn" target="_blank" >ValidatorFn</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>ValidatorFn</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>function that resolves to true if at least one field is populated</p>
+                        </div>
+                            <div class="io-description">
+                                <p>function that resolves to true if at least one field is populated</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1499,19 +905,17 @@ using localhost</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Checks that at all emails in a comma separated string are valid</p>
+                        <div class="io-description"><p>Checks that at all emails in a comma separated string are valid</p>
 </div>
 
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://angular.io/api/forms/ValidatorFn" target="_blank" >ValidatorFn</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>ValidatorFn</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>function that resolves to true if all emails are valid</p>
+                        </div>
+                            <div class="io-description">
+                                <p>function that resolves to true if all emails are valid</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1538,25 +942,23 @@ using localhost</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Checks that the form control has valid regex</p>
+                        <div class="io-description"><p>Checks that the form control has valid regex</p>
 </div>
 
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://angular.io/api/forms/ValidatorFn" target="_blank" >ValidatorFn</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>ValidatorFn</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>validator function</p>
+                        </div>
+                            <div class="io-description">
+                                <p>validator function</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </section>    <h3>projects/squacapi/src/lib/utils/utils.ts</h3>
-    <section>
+    <section data-compodoc="block-methods">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -1579,57 +981,55 @@ using localhost</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Replace underscore and return camelcased string</p>
+                        <div class="io-description"><p>Replace underscore and return camelcased string</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>str</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>str</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>string to camel case</p>
+                                            <td>
+                                                    <p>string to camel case</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>camelcased string</p>
+                        </div>
+                            <div class="io-description">
+                                <p>camelcased string</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </section>    <h3>projects/squac-ui/src/app/core/utils/ability.ts</h3>
-    <section>
+    <section data-compodoc="block-methods">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -1652,57 +1052,55 @@ using localhost</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Defines ability for a given user</p>
+                        <div class="io-description"><p>Defines ability for a given user</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>user</td>
-                                    <td>
-                                            <code>User</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>user</td>
+                                            <td>
+                                                        <code>User</code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>current user</p>
+                                            <td>
+                                                    <p>current user</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>permissions</p>
+                        </div>
+                            <div class="io-description">
+                                <p>permissions</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </section>    <h3>projects/squac-ui/src/app/core/utils/utils.ts</h3>
-    <section>
+    <section data-compodoc="block-methods">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -1725,91 +1123,81 @@ using localhost</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Pipeable operator that executes a function if the observable has not finished
+                        <div class="io-description"><p>Pipeable operator that executes a function if the observable has not finished
 by the delay time</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>fn</td>
-                                    <td>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>fn</td>
+                                            <td>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>function to execute</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>delay</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>amount of ms to wait</p>
+                                            <td>
+                                                    <p>function to execute</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>_thisArg</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>delay</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>?</p>
+                                            <td>
+                                                    <p>amount of ms to wait</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                        <b>Example :</b>
-                        <div>
-                            <pre class="line-numbers"><code class="language-html">obs$.pipe(
- executeDelayed(() =&amp;gt; {
-    this.startLoading(context, loaderId);
-   }, 1000),
-)</code></pre>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>_thisArg</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>?</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>OperatorFunction&lt;T, T&gt;</code>
+
                         </div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>OperatorFunction&lt;T, T&gt;</code>
+                            <div class="io-description">
+                                <p>Given observable</p>
 
-                    </div>
-                    <div class="io-description">
-                        <p>Given observable</p>
-
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1836,51 +1224,134 @@ by the delay time</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Helps when testing responses to observables</p>
+                        <div class="io-description"><p>Helps when testing responses to observables</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>data</td>
-                                    <td>
-                                            <code>T</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                        <code>T</code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>test data</p>
+                                            <td>
+                                                    <p>test data</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;T&gt;</code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;T&gt;</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>observable of test data</p>
+                        </div>
+                            <div class="io-description">
+                                <p>observable of test data</p>
 
-                    </div>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="nestedPropertyDataAccessor"></a>
+                    <span class="name">
+                        <span ><b>nestedPropertyDataAccessor</b></span>
+                        <a href="#nestedPropertyDataAccessor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>nestedPropertyDataAccessor(item: T, property: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Custom data accessor for MatSort directive for nested properties</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>item</td>
+                                            <td>
+                                                        <code>T</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>data item to sort, usually a row in the table</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>property</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>name of property to access, with dot notation for nested</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>string | number</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>property of the data</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1907,73 +1378,71 @@ by the delay time</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Sort timestamps</p>
+                        <div class="io-description"><p>Sort timestamps</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>valueA</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>valueA</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>string</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>valueB</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>string</p>
+                                            <td>
+                                                    <p>string</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>valueB</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        <p>1 if valueA &gt; valueB, 0 if equal -1 if valueB &gt; valueA</p>
+                                            <td>
+                                                    No
+                                            </td>
 
-                    </div>
+
+                                            <td>
+                                                    <p>string</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>1 if valueA &gt; valueB, 0 if equal -1 if valueB &gt; valueA</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
     </table>
-</section>    <h3>projects/widgets/src/lib/shared/utils/dayjs.utils.ts</h3>
-    <section>
+</section>    <h3>projects/widgets/src/lib/utils/dayjs.utils.ts</h3>
+    <section data-compodoc="block-methods">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -1996,54 +1465,52 @@ by the delay time</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Formats date object and returns formatted date string
+                        <div class="io-description"><p>Formats date object and returns formatted date string
 format set with <a href="../miscellaneous/variables.html#DEFAULT_LOCALE">DEFAULT_LOCALE</a></p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>date</td>
-                                    <td>
-                                            <code>Dayjs</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>date</td>
+                                            <td>
+                                                        <code>Dayjs</code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>Dayjs date</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>string formatted date</p>
+                        </div>
+                            <div class="io-description">
+                                <p>string formatted date</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -2070,59 +1537,57 @@ format set with <a href="../miscellaneous/variables.html#DEFAULT_LOCALE">DEFAULT
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Parse date string and return utc dayjs object</p>
+                        <div class="io-description"><p>Parse date string and return utc dayjs object</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>date</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>date</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>string in date format</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Dayjs</code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Dayjs</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>Dayjs date object from date</p>
+                        </div>
+                            <div class="io-description">
+                                <p>Dayjs date object from date</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </section>    <h3>projects/squacapi/src/lib/enums/api-endpoints.enum.ts</h3>
-    <section>
+    <section data-compodoc="block-methods">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -2145,57 +1610,130 @@ format set with <a href="../miscellaneous/variables.html#DEFAULT_LOCALE">DEFAULT
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns class from given endpoint</p>
+                        <div class="io-description"><p>Returns class from given endpoint</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>endpoint</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/enumerations.html#ApiEndpoint" target="_self" >ApiEndpoint</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>endpoint</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/enumerations.html#ApiEndpoint" target="_self" >ApiEndpoint</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>api endpoint to search for</p>
+                                            <td>
+                                                    <p>api endpoint to search for</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>T</code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>T</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>object class</p>
+                        </div>
+                            <div class="io-description">
+                                <p>object class</p>
 
-                    </div>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>projects/widgets/src/lib/services/generate_local_measurements.ts</h3>
+    <section data-compodoc="block-methods">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getRandom"></a>
+                    <span class="name">
+                        <span ><b>getRandom</b></span>
+                        <a href="#getRandom"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getRandom(maxValue: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Returns random number between 0 and maxValue</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>maxValue</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>100</code>
+                                            </td>
+
+                                            <td>
+                                                    <p>max value to generate</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>random number</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </section>    <h3>projects/squacapi/src/lib/interfaces/squac-object.interface.ts</h3>
-    <section>
+    <section data-compodoc="block-methods">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -2218,72 +1756,70 @@ format set with <a href="../miscellaneous/variables.html#DEFAULT_LOCALE">DEFAULT
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Constructs object of type</p>
+                        <div class="io-description"><p>Constructs object of type</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>type</td>
-                                    <td>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>type</td>
+                                            <td>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>type of class to construct</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>apiData</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>data to populate object with</p>
+                                            <td>
+                                                    <p>type of class to construct</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>T</code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>apiData</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        <p>created object</p>
+                                            <td>
+                                                    No
+                                            </td>
 
-                    </div>
+
+                                            <td>
+                                                    <p>data to populate object with</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>T</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>created object</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
     </table>
-</section>    <h3>projects/widgets/src/lib/widget-types/calendar/chart-config.ts</h3>
-    <section>
+</section>    <h3>projects/widgets/src/lib/widget-types/calendar/echart.config.ts</h3>
+    <section data-compodoc="block-methods">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -2306,51 +1842,49 @@ format set with <a href="../miscellaneous/variables.html#DEFAULT_LOCALE">DEFAULT
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Format tooltip</p>
+                        <div class="io-description"><p>Format tooltip</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>params</td>
-                                    <td>
-                                                <code><a href="../components/TooltipComponent.html" target="_self" >TooltipComponentFormatterCallbackParams</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>params</td>
+                                            <td>
+                                                            <code><a href="../components/TooltipComponent.html" target="_self" >TooltipComponentFormatterCallbackParams</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>item information</p>
+                                            <td>
+                                                    <p>item information</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>tooltip string</p>
+                        </div>
+                            <div class="io-description">
+                                <p>tooltip string</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>

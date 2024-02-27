@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -44,28 +102,34 @@
 
 
 <ol class="breadcrumb">
-  <li>Interfaces</li>
-  <li
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
   >
   WidgetGridsterItem</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info">
+    <div class="tab-pane fade active in" id="info">
         <p class="comment">
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/squac-ui/src/app/features/dashboard/components/widget-main/widget-main.component.ts</code>
+            <code>projects/squac-ui/src/app/features/dashboard/pages/widget-main/widget-main.component.ts</code>
         </p>
 
 
@@ -81,10 +145,10 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                    <code>GridsterItem</code>
+                        <code>GridsterItem</code>
             </p>
 
-        <section>
+        <section data-compodoc="block-index">
             <h3 id="index">Index</h3>
             <table class="table table-sm table-bordered index-table">
                 <tbody>
@@ -111,7 +175,7 @@
 
 
 
-            <section>
+            <section data-compodoc="block-properties">
                 <h3 id="inputs">Properties</h3>
                     <table class="table table-sm table-bordered">
                         <tbody>
@@ -150,7 +214,7 @@
     </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
+    <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -160,11 +224,21 @@
 } from &quot;@angular/core&quot;;
 import { ViewService } from &quot;@dashboard/services/view.service&quot;;
 import { Widget, WidgetConnectService } from &quot;widgets&quot;;
-import { GridsterConfig, GridsterItem } from &quot;angular-gridster2&quot;;
+import {
+  GridsterConfig,
+  GridsterItem,
+  GridsterModule,
+} from &quot;angular-gridster2&quot;;
 import { Subscription } from &quot;rxjs&quot;;
-import { ActivatedRoute, Router } from &quot;@angular/router&quot;;
+import { ActivatedRoute, Router, RouterOutlet } from &quot;@angular/router&quot;;
 import { Dashboard } from &quot;squacapi&quot;;
 import { AppAbility } from &quot;@core/utils/ability&quot;;
+import { WidgetDetailComponent } from &quot;@dashboard/components/detail/widget-detail.component&quot;;
+import { MatSidenavModule } from &quot;@angular/material/sidenav&quot;;
+import { ChannelFilterComponent } from &quot;@dashboard/components/channel-filter/channel-filter.component&quot;;
+import { LoadingComponent } from &quot;@shared/components/loading/loading.component&quot;;
+import { NgFor, NgIf } from &quot;@angular/common&quot;;
+import { MatButtonModule } from &quot;@angular/material/button&quot;;
 
 /** Gridster item with widget */
 interface WidgetGridsterItem extends GridsterItem {
@@ -178,6 +252,18 @@ interface WidgetGridsterItem extends GridsterItem {
   templateUrl: &quot;./widget-main.component.html&quot;,
   styleUrls: [&quot;./widget-main.component.scss&quot;],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    WidgetDetailComponent,
+    GridsterModule,
+    MatSidenavModule,
+    ChannelFilterComponent,
+    LoadingComponent,
+    RouterOutlet,
+    NgIf,
+    MatButtonModule,
+    NgFor,
+  ],
 })
 export class WidgetMainComponent implements OnInit, OnDestroy {
   subscription: Subscription &#x3D; new Subscription();
@@ -257,6 +343,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
       this.widgetConnectService.toggleChannelList.subscribe(
         (toggleChannelList: boolean) &#x3D;&gt; {
           this.sideNavOpened &#x3D; toggleChannelList;
+          this.cdr.detectChanges();
         }
       );
 

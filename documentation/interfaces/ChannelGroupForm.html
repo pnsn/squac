@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -44,28 +102,34 @@
 
 
 <ol class="breadcrumb">
-  <li>Interfaces</li>
-  <li
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
   >
   ChannelGroupForm</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info">
+    <div class="tab-pane fade active in" id="info">
         <p class="comment">
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts</code>
+            <code>projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts</code>
         </p>
 
 
@@ -78,7 +142,7 @@
             </p>
 
 
-        <section>
+        <section data-compodoc="block-index">
             <h3 id="index">Index</h3>
             <table class="table table-sm table-bordered index-table">
                 <tbody>
@@ -111,7 +175,7 @@
 
 
 
-            <section>
+            <section data-compodoc="block-properties">
                 <h3 id="inputs">Properties</h3>
                     <table class="table table-sm table-bordered">
                         <tbody>
@@ -195,25 +259,22 @@
     </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
+    <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, OnDestroy, ViewChild } from &quot;@angular/core&quot;;
 import { Router, ActivatedRoute } from &quot;@angular/router&quot;;
-import { ChannelGroup } from &quot;squacapi&quot;;
+import { ChannelGroup, OrganizationPipe, UserPipe } from &quot;squacapi&quot;;
 import { ChannelGroupService } from &quot;squacapi&quot;;
 import {
   Validators,
   FormControl,
   FormGroup,
   FormBuilder,
+  ReactiveFormsModule,
+  FormsModule,
 } from &quot;@angular/forms&quot;;
 import { ChannelService } from &quot;squacapi&quot;;
 import { Channel } from &quot;squacapi&quot;;
 import { Subscription, switchMap, tap, merge, of } from &quot;rxjs&quot;;
-import {
-  ColumnMode,
-  SelectionType,
-  SortType,
-} from &quot;@boring.devs/ngx-datatable&quot;;
 import { UserService } from &quot;@user/services/user.service&quot;;
 import { ConfirmDialogService } from &quot;@core/services/confirm-dialog.service&quot;;
 import { MessageService } from &quot;@core/services/message.service&quot;;
@@ -221,13 +282,29 @@ import { MatchingRuleService } from &quot;squacapi&quot;;
 import { MatchingRule } from &quot;squacapi&quot;;
 import { DateService } from &quot;@core/services/date.service&quot;;
 import { LoadingService } from &quot;@core/services/loading.service&quot;;
-import { MapBounds } from &quot;../channel-group-map/interfaces&quot;;
-import { SearchFilter } from &quot;./interfaces&quot;;
+
 import {
   ButtonEvent,
   PageOptions,
 } from &quot;@shared/components/detail-page/detail-page.interface&quot;;
 import { FilterText } from &quot;@shared/components/sharing-toggle/sharing-toggle.interface&quot;;
+import { SearchFilter } from &quot;@channelGroup/components/channel-group-filter/interfaces&quot;;
+import { MapBounds } from &quot;@channelGroup/components/channel-group-map/interfaces&quot;;
+import { DetailPageComponent } from &quot;@shared/components/detail-page/detail-page.component&quot;;
+import { LoadingDirective } from &quot;@shared/directives/loading-directive.directive&quot;;
+import { AsyncPipe, NgIf } from &quot;@angular/common&quot;;
+import { MatButtonModule } from &quot;@angular/material/button&quot;;
+import { MatSlideToggleModule } from &quot;@angular/material/slide-toggle&quot;;
+import { CsvUploadComponent } from &quot;@channelGroup/components/csv-upload/csv-upload.component&quot;;
+import { ChannelGroupFilterComponent } from &quot;@channelGroup/components/channel-group-filter/channel-group-filter.component&quot;;
+import { ChannelGroupTableComponent } from &quot;@channelGroup/components/channel-group-table/channel-group-table.component&quot;;
+import { ChannelGroupMapComponent } from &quot;@channelGroup/components/channel-group-map/channel-group-map.component&quot;;
+import { MatExpansionModule } from &quot;@angular/material/expansion&quot;;
+import { MatFormFieldModule } from &quot;@angular/material/form-field&quot;;
+import { MatInputModule } from &quot;@angular/material/input&quot;;
+import { SharingToggleComponent } from &quot;@shared/components/sharing-toggle/sharing-toggle.component&quot;;
+import { MatchingRuleEditComponent } from &quot;@channelGroup/components/matching-rule-edit/matching-rule-edit.component&quot;;
+import { AbilityModule } from &quot;@casl/angular&quot;;
 
 /** Loading indicator areas */
 enum LoadingIndicator {
@@ -249,6 +326,30 @@ interface ChannelGroupForm {
   selector: &quot;channel-group-edit&quot;,
   templateUrl: &quot;./channel-group-edit.component.html&quot;,
   styleUrls: [&quot;./channel-group-edit.component.scss&quot;],
+  standalone: true,
+  imports: [
+    DetailPageComponent,
+    LoadingDirective,
+    NgIf,
+    MatButtonModule,
+    MatSlideToggleModule,
+    CsvUploadComponent,
+    ChannelGroupFilterComponent,
+    ChannelGroupTableComponent,
+    ChannelGroupMapComponent,
+    MatExpansionModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    SharingToggleComponent,
+    MatchingRuleEditComponent,
+    AsyncPipe,
+    MatSlideToggleModule,
+    FormsModule,
+    AbilityModule,
+    OrganizationPipe,
+    UserPipe,
+  ],
 })
 // TODO: this is getting massive - consider restructuring
 export class ChannelGroupEditComponent implements OnInit, OnDestroy {
@@ -276,9 +377,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   bounds: MapBounds; // Latlng bounds to either filter by or make a new request with
 
   // table config
-  SelectionType &#x3D; SelectionType;
-  ColumnMode &#x3D; ColumnMode;
-  SortType &#x3D; SortType;
   columns: any &#x3D; [];
   rows: Channel[] &#x3D; [];
   deleteMatchingRulesIds &#x3D; [];
@@ -351,52 +449,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
 
     // get orgId
     this.orgId &#x3D; this.userService.userOrg;
-
-    // table columns
-    this.columns &#x3D; [
-      {
-        width: 30,
-        canAutoResize: false,
-        sortable: false,
-        draggable: false,
-        resizeable: false,
-        headerCheckboxable: true,
-        checkboxable: true,
-      },
-
-      {
-        name: &quot;Network&quot;,
-        prop: &quot;net&quot;,
-        draggable: false,
-        sortable: true,
-        resizeable: false,
-        flexGrow: 1,
-      },
-      {
-        name: &quot;Station&quot;,
-        prop: &quot;net&quot;,
-        draggable: false,
-        sortable: true,
-        resizeable: false,
-        flexGrow: 1,
-      },
-      {
-        name: &quot;Location&quot;,
-        prop: &quot;loc&quot;,
-        draggable: false,
-        sortable: true,
-        resizeable: false,
-        flexGrow: 1,
-      },
-      {
-        name: &quot;Channel&quot;,
-        prop: &quot;code&quot;,
-        draggable: false,
-        sortable: true,
-        resizeable: false,
-        flexGrow: 1,
-      },
-    ];
   }
 
   /**
@@ -444,14 +496,13 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     //get all channels that aren&#x27;t already in add channels
     const addChannels &#x3D; this.findChannelsInGroup(this.autoIncludeChannels);
 
-    // add channels
+    // remove channels from the autoExcludeChannels list
     this.autoExcludeChannels &#x3D; this.autoExcludeChannels.filter((channel) &#x3D;&gt; {
       const index &#x3D; addChannels.findIndex((c) &#x3D;&gt; c.id &#x3D;&#x3D;&#x3D; channel.id);
       return index &#x3D;&#x3D;&#x3D; -1;
     });
 
     this.autoIncludeChannels &#x3D; [...this.autoIncludeChannels, ...addChannels];
-    //remove from excluded
     this.selectedChannels &#x3D; [];
   }
 
@@ -460,15 +511,17 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
    */
   excludeChannels(): void {
     this.updateState();
+
+    //find channels that need to be added
     const addChannels &#x3D; this.findChannelsInGroup(this.autoExcludeChannels);
 
+    //remove channels from the include
     this.autoIncludeChannels &#x3D; this.autoIncludeChannels.filter((channel) &#x3D;&gt; {
       const index &#x3D; addChannels.findIndex((c) &#x3D;&gt; c.id &#x3D;&#x3D;&#x3D; channel.id);
       return index &#x3D;&#x3D;&#x3D; -1;
     });
 
     this.autoExcludeChannels &#x3D; [...this.autoExcludeChannels, ...addChannels];
-    //remove from included
     this.selectedChannels &#x3D; [];
   }
 

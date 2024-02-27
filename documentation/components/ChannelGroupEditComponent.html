@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -35,36 +93,41 @@
 
 
 <ol class="breadcrumb">
-  <li>Components</li>
-  <li
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
   >
   ChannelGroupEditComponent</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
-        <li >
-            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
         </li>
-        <li >
-            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
         </li>
-        <li >
-            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
     <h3>File</h3>
 </p>
 <p class="comment">
-    <code>projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts</code>
+    <code>projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts</code>
 </p>
 
 
@@ -81,12 +144,12 @@
         <h3>Implements</h3>
     </p>
     <p class="comment">
-                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
-                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+                <code>OnInit</code>
+                <code>OnDestroy</code>
     </p>
 
 
-<section>
+<section data-compodoc="block-metadata">
     <h3>Metadata</h3>
     <table class="table table-sm table-hover metadata">
         <tbody>
@@ -101,9 +164,42 @@
 
 
 
+
             <tr>
                 <td class="col-md-3">selector</td>
                 <td class="col-md-9"><code>channel-group-edit</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">Standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="../components/DetailPageComponent.html" target="_self" >DetailPageComponent</a></code>
+                                <code><a href="../directives/LoadingDirective.html" target="_self" >LoadingDirective</a></code>
+                            <code>NgIf</code>
+                            <code>MatButtonModule</code>
+                            <code>MatSlideToggleModule</code>
+                                <code><a href="../components/CsvUploadComponent.html" target="_self" >CsvUploadComponent</a></code>
+                                <code><a href="../components/ChannelGroupFilterComponent.html" target="_self" >ChannelGroupFilterComponent</a></code>
+                                <code><a href="../components/ChannelGroupTableComponent.html" target="_self" >ChannelGroupTableComponent</a></code>
+                                <code><a href="../components/ChannelGroupMapComponent.html" target="_self" >ChannelGroupMapComponent</a></code>
+                            <code>MatExpansionModule</code>
+                            <code>ReactiveFormsModule</code>
+                            <code>MatFormFieldModule</code>
+                            <code>MatInputModule</code>
+                                <code><a href="../components/SharingToggleComponent.html" target="_self" >SharingToggleComponent</a></code>
+                                <code><a href="../components/MatchingRuleEditComponent.html" target="_self" >MatchingRuleEditComponent</a></code>
+                            <code>AsyncPipe</code>
+                            <code>MatSlideToggleModule</code>
+                            <code>FormsModule</code>
+                            <code>AbilityModule</code>
+                            <code>OrganizationPipe</code>
+                            <code>UserPipe</code>
+                </td>
             </tr>
 
             <tr>
@@ -129,7 +225,7 @@
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -148,6 +244,7 @@
                                 <a href="#autoIncludeChannels" >autoIncludeChannels</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#availableTable" >availableTable</a>
                             </li>
                             <li>
@@ -164,9 +261,6 @@
                             </li>
                             <li>
                                 <a href="#channelsInGroup" >channelsInGroup</a>
-                            </li>
-                            <li>
-                                <a href="#ColumnMode" >ColumnMode</a>
                             </li>
                             <li>
                                 <a href="#columns" >columns</a>
@@ -221,10 +315,8 @@
                                 <a href="#selectedInGroupChannels" >selectedInGroupChannels</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#selectedTable" >selectedTable</a>
-                            </li>
-                            <li>
-                                <a href="#SelectionType" >SelectionType</a>
                             </li>
                             <li>
                                 <a href="#shareAll" >shareAll</a>
@@ -240,9 +332,6 @@
                             </li>
                             <li>
                                 <a href="#showOnlyCurrent" >showOnlyCurrent</a>
-                            </li>
-                            <li>
-                                <a href="#SortType" >SortType</a>
                             </li>
                             <li>
                                 <a href="#subscriptions" >subscriptions</a>
@@ -346,18 +435,18 @@
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-constructor">
     <h3 id="constructor">Constructor</h3>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, route: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, channelGroupService: <a href="../injectables/ChannelGroupService.html" target="_self">ChannelGroupService</a>, channelService: <a href="../injectables/ChannelService.html" target="_self">ChannelService</a>, formBuilder: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>, userService: <a href="../injectables/UserService.html" target="_self">UserService</a>, confirmDialog: <a href="../injectables/ConfirmDialogService.html" target="_self">ConfirmDialogService</a>, messageService: <a href="../injectables/MessageService.html" target="_self">MessageService</a>, matchingRuleService: <a href="../injectables/MatchingRuleService.html" target="_self">MatchingRuleService</a>, dateService: <a href="../injectables/DateService.html" target="_self">DateService</a>, loadingService: <a href="../injectables/LoadingService.html" target="_self">LoadingService</a>)</code>
+<code>constructor(router: Router, route: ActivatedRoute, channelGroupService: <a href="../injectables/ChannelGroupService.html" target="_self">ChannelGroupService</a>, channelService: <a href="../injectables/ChannelService.html" target="_self">ChannelService</a>, formBuilder: FormBuilder, userService: <a href="../injectables/UserService.html" target="_self">UserService</a>, confirmDialog: <a href="../injectables/ConfirmDialogService.html" target="_self">ConfirmDialogService</a>, messageService: <a href="../injectables/MessageService.html" target="_self">MessageService</a>, matchingRuleService: <a href="../injectables/MatchingRuleService.html" target="_self">MatchingRuleService</a>, dateService: <a href="../injectables/DateService.html" target="_self">DateService</a>, loadingService: <a href="../injectables/LoadingService.html" target="_self">LoadingService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="111" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:111</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="145" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:145</a></div>
                             </td>
                         </tr>
 
@@ -378,7 +467,7 @@
                                                         <td>router</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                                    <code>Router</code>
                                                         </td>
                                                   
                                                     <td>
@@ -390,7 +479,7 @@
                                                         <td>route</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                                    <code>ActivatedRoute</code>
                                                         </td>
                                                   
                                                     <td>
@@ -426,7 +515,7 @@
                                                         <td>formBuilder</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+                                                                    <code>FormBuilder</code>
                                                         </td>
                                                   
                                                     <td>
@@ -519,7 +608,7 @@
 
 
 
-    <section>
+    <section data-compodoc="block-methods">
     
     <h3 id="methods">
         Methods
@@ -542,60 +631,58 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="320"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:320</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="309"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:309</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Add channels to groups from csv</p>
+                        <div class="io-description"><p>Add channels to groups from csv</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>channels</td>
-                                    <td>
-                                            <code>Channel[]</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>channels</td>
+                                            <td>
+                                                        <code>Channel[]</code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>new channels to add</p>
+                                            <td>
+                                                    <p>new channels to add</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -618,60 +705,58 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="575"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:575</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="564"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:564</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Adds users searched params to the channel request</p>
+                        <div class="io-description"><p>Adds users searched params to the channel request</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>filter</td>
-                                    <td>
-                                                <code><a href="../interfaces/SearchFilter.html" target="_self" >SearchFilter</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>filter</td>
+                                            <td>
+                                                            <code><a href="../interfaces/SearchFilter.html" target="_self" >SearchFilter</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>search filter</p>
+                                            <td>
+                                                    <p>search filter</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -694,60 +779,58 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="539"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:539</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="528"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:528</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Cancels and exits edit page</p>
+                        <div class="io-description"><p>Cancels and exits edit page</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>id</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    Yes
+                                            </td>
 
 
-                                    <td>
-                                        <p>group id</p>
+                                            <td>
+                                                    <p>group id</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -758,7 +841,7 @@
                 <td class="col-md-4">
                     <a name="checkRules"></a>
                     <span class="name">
-                        <span class="modifier">Private</span>
+                            <span class="modifier">Private</span>
                         <span ><b>checkRules</b></span>
                         <a href="#checkRules"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -766,83 +849,81 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>checkRules(channel: Channel, rules: MatchingRule[])</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="397"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:397</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="386"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:386</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Checks if channel should be included according to the given rules</p>
+                        <div class="io-description"><p>Checks if channel should be included according to the given rules</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>channel</td>
-                                    <td>
-                                            <code>Channel</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>channel</td>
+                                            <td>
+                                                        <code>Channel</code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>channel to check</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>rules</td>
-                                    <td>
-                                            <code>MatchingRule[]</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>rules to check</p>
+                                            <td>
+                                                    <p>channel to check</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>rules</td>
+                                            <td>
+                                                        <code>MatchingRule[]</code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        <p>true if channel should be excluded</p>
+                                            <td>
+                                                    No
+                                            </td>
 
-                    </div>
+
+                                            <td>
+                                                    <p>rules to check</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>true if channel should be excluded</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -865,60 +946,58 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="230"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:230</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="218"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:218</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Control clicked on header</p>
+                        <div class="io-description"><p>Control clicked on header</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>type</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#ButtonEvent" target="_self" >ButtonEvent</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>type</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#ButtonEvent" target="_self" >ButtonEvent</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>type of button click</p>
+                                            <td>
+                                                    <p>type of button click</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -941,23 +1020,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="522"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:522</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="511"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:511</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Deletes channel group</p>
+                        <div class="io-description"><p>Deletes channel group</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -980,60 +1059,58 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="627"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:627</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="616"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:616</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Delete matching rules with given ids</p>
+                        <div class="io-description"><p>Delete matching rules with given ids</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>ids</td>
-                                    <td>
-                                            <code>number[]</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>ids</td>
+                                            <td>
+                                                        <code>number[]</code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>ids of rules to delete</p>
+                                            <td>
+                                                    <p>ids of rules to delete</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1056,23 +1133,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="263"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:263</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="250"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:250</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>add auto excluded channels</p>
+                        <div class="io-description"><p>add auto excluded channels</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1095,23 +1172,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="610"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:610</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="599"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:599</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Filter searched channels using the map bounds</p>
+                        <div class="io-description"><p>Filter searched channels using the map bounds</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1134,60 +1211,58 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="340"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:340</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="329"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:329</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Filters changed in the filter component</p>
+                        <div class="io-description"><p>Filters changed in the filter component</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>searchFilters</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>searchFilters</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>selected filters</p>
+                                            <td>
+                                                    <p>selected filters</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1198,7 +1273,7 @@
                 <td class="col-md-4">
                     <a name="findChannelsInGroup"></a>
                     <span class="name">
-                        <span class="modifier">Private</span>
+                            <span class="modifier">Private</span>
                         <span ><b>findChannelsInGroup</b></span>
                         <a href="#findChannelsInGroup"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1206,63 +1281,61 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>findChannelsInGroup(group)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="283"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:283</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="272"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:272</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns channels that are not already in the given group</p>
+                        <div class="io-description"><p>Returns channels that are not already in the given group</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>group</td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>group</td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>group of channels</p>
+                                            <td>
+                                                    <p>group of channels</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Channel[]</code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Channel[]</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>all selected channels not in group</p>
+                        </div>
+                            <div class="io-description">
+                                <p>all selected channels not in group</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1285,23 +1358,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="550"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:550</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="539"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:539</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Checks if form has unsaved fields to prevent accidental navigation</p>
+                        <div class="io-description"><p>Checks if form has unsaved fields to prevent accidental navigation</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1324,23 +1397,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="430"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:430</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="419"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:419</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Get channels with fitlers and/or bounds</p>
+                        <div class="io-description"><p>Get channels with fitlers and/or bounds</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1363,23 +1436,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="243"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:243</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="231"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:231</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Add auto included channels</p>
+                        <div class="io-description"><p>Add auto included channels</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1390,7 +1463,7 @@
                 <td class="col-md-4">
                     <a name="initForm"></a>
                     <span class="name">
-                        <span class="modifier">Private</span>
+                            <span class="modifier">Private</span>
                         <span ><b>initForm</b></span>
                         <a href="#initForm"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1398,29 +1471,29 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>initForm()</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="207"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:207</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="195"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:195</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Inits group edit form</p>
+                        <div class="io-description"><p>Inits group edit form</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1443,23 +1516,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="648"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:648</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="637"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:637</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>unsubscribe</p>
+                        <div class="io-description"><p>unsubscribe</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1482,23 +1555,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="130"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:130</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="164"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:164</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Subscribe to route params</p>
+                        <div class="io-description"><p>Subscribe to route params</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1521,23 +1594,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="589"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:589</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="578"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:578</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Delete channel group after confirming with user</p>
+                        <div class="io-description"><p>Delete channel group after confirming with user</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1560,60 +1633,58 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="357"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:357</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="346"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:346</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Request channels using the matching rules</p>
+                        <div class="io-description"><p>Request channels using the matching rules</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>rules</td>
-                                    <td>
-                                            <code>MatchingRule[]</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>rules</td>
+                                            <td>
+                                                        <code>MatchingRule[]</code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>matching rules to search with</p>
+                                            <td>
+                                                    <p>matching rules to search with</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1636,23 +1707,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="460"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:460</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="449"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:449</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Saves channel group information</p>
+                        <div class="io-description"><p>Saves channel group information</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1675,60 +1746,58 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="330"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:330</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="319"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:319</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Row selected on table</p>
+                        <div class="io-description"><p>Row selected on table</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>selectedChannels</td>
-                                    <td>
-                                            <code>Channel[]</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>selectedChannels</td>
+                                            <td>
+                                                        <code>Channel[]</code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>all selected rows</p>
+                                            <td>
+                                                    <p>all selected rows</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1751,23 +1820,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="293"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:293</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="282"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:282</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Undo changes by restoring last version</p>
+                        <div class="io-description"><p>Undo changes by restoring last version</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1790,60 +1859,58 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="636"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:636</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="625"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:625</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Update bounds for filtering channels with map</p>
+                        <div class="io-description"><p>Update bounds for filtering channels with map</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>newBounds</td>
-                                    <td>
-                                                <code><a href="../interfaces/MapBounds.html" target="_self" >MapBounds</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>newBounds</td>
+                                            <td>
+                                                            <code><a href="../interfaces/MapBounds.html" target="_self" >MapBounds</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>new bounds from map</p>
+                                            <td>
+                                                    <p>new bounds from map</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1866,29 +1933,29 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="305"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:305</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="294"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:294</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Update last saved state of channels</p>
+                        <div class="io-description"><p>Update last saved state of channels</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </section>
-    <section>
+    <section data-compodoc="block-properties">
     
     <h3 id="inputs">
         Properties
@@ -1917,7 +1984,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:95</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="129" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:129</a></div>
                         </td>
                     </tr>
 
@@ -1948,7 +2015,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:94</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="128" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:128</a></div>
                         </td>
                     </tr>
 
@@ -1961,6 +2028,7 @@
                 <td class="col-md-4">
                     <a name="availableTable"></a>
                     <span class="name">
+                            <span class="modifier"></span>
                         <span ><b>availableTable</b></span>
                         <a href="#availableTable"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1983,7 +2051,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:96</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="130" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:130</a></div>
                         </td>
                     </tr>
 
@@ -2009,7 +2077,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:78</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="115" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:115</a></div>
                         </td>
                     </tr>
 
@@ -2034,7 +2102,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:63</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="100" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:100</a></div>
                         </td>
                     </tr>
 
@@ -2060,7 +2128,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:60</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:97</a></div>
                         </td>
                     </tr>
 
@@ -2086,7 +2154,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:67</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="104" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:104</a></div>
                         </td>
                     </tr>
 
@@ -2117,32 +2185,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:69</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="ColumnMode"></a>
-                    <span class="name">
-                        <span ><b>ColumnMode</b></span>
-                        <a href="#ColumnMode"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>ColumnMode</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:82</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:106</a></div>
                         </td>
                     </tr>
 
@@ -2173,7 +2216,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:84</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="118" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:118</a></div>
                         </td>
                     </tr>
 
@@ -2199,7 +2242,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:68</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="105" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:105</a></div>
                         </td>
                     </tr>
 
@@ -2230,7 +2273,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:86</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="120" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:120</a></div>
                         </td>
                     </tr>
 
@@ -2256,7 +2299,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:61</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:98</a></div>
                         </td>
                     </tr>
 
@@ -2287,7 +2330,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:62</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="99" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:99</a></div>
                         </td>
                     </tr>
 
@@ -2313,7 +2356,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:59</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:96</a></div>
                         </td>
                     </tr>
 
@@ -2339,7 +2382,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:88</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="122" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:122</a></div>
                         </td>
                     </tr>
 
@@ -2364,7 +2407,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:58</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:95</a></div>
                         </td>
                     </tr>
 
@@ -2391,7 +2434,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="124" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:124</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="158" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:158</a></div>
                         </td>
                     </tr>
 
@@ -2422,7 +2465,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:93</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="127" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:127</a></div>
                         </td>
                     </tr>
 
@@ -2448,7 +2491,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:64</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="101" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:101</a></div>
                         </td>
                     </tr>
 
@@ -2485,7 +2528,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="100" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:100</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="134" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:134</a></div>
                         </td>
                     </tr>
 
@@ -2517,7 +2560,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:72</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="109" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:109</a></div>
                         </td>
                     </tr>
 
@@ -2548,7 +2591,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:85</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="119" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:119</a></div>
                         </td>
                     </tr>
 
@@ -2574,7 +2617,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:66</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="103" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:103</a></div>
                         </td>
                     </tr>
 
@@ -2605,7 +2648,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:70</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="107" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:107</a></div>
                         </td>
                     </tr>
 
@@ -2636,7 +2679,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:71</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="108" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:108</a></div>
                         </td>
                     </tr>
 
@@ -2649,6 +2692,7 @@
                 <td class="col-md-4">
                     <a name="selectedTable"></a>
                     <span class="name">
+                            <span class="modifier"></span>
                         <span ><b>selectedTable</b></span>
                         <a href="#selectedTable"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -2671,32 +2715,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:97</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="SelectionType"></a>
-                    <span class="name">
-                        <span ><b>SelectionType</b></span>
-                        <a href="#SelectionType"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>SelectionType</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:81</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="131" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:131</a></div>
                         </td>
                     </tr>
 
@@ -2721,7 +2740,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:75</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="112" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:112</a></div>
                         </td>
                     </tr>
 
@@ -2755,7 +2774,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="108" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:108</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="142" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:142</a></div>
                         </td>
                     </tr>
 
@@ -2780,7 +2799,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:74</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="111" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:111</a></div>
                         </td>
                     </tr>
 
@@ -2806,7 +2825,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:77</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="114" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:114</a></div>
                         </td>
                     </tr>
 
@@ -2831,32 +2850,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:65</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="SortType"></a>
-                    <span class="name">
-                        <span ><b>SortType</b></span>
-                        <a href="#SortType"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>SortType</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:83</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:102</a></div>
                         </td>
                     </tr>
 
@@ -2887,7 +2881,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts:57</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts:94</a></div>
                         </td>
                     </tr>
 
@@ -2899,25 +2893,22 @@
 </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
+    <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, OnDestroy, ViewChild } from &quot;@angular/core&quot;;
 import { Router, ActivatedRoute } from &quot;@angular/router&quot;;
-import { ChannelGroup } from &quot;squacapi&quot;;
+import { ChannelGroup, OrganizationPipe, UserPipe } from &quot;squacapi&quot;;
 import { ChannelGroupService } from &quot;squacapi&quot;;
 import {
   Validators,
   FormControl,
   FormGroup,
   FormBuilder,
+  ReactiveFormsModule,
+  FormsModule,
 } from &quot;@angular/forms&quot;;
 import { ChannelService } from &quot;squacapi&quot;;
 import { Channel } from &quot;squacapi&quot;;
 import { Subscription, switchMap, tap, merge, of } from &quot;rxjs&quot;;
-import {
-  ColumnMode,
-  SelectionType,
-  SortType,
-} from &quot;@boring.devs/ngx-datatable&quot;;
 import { UserService } from &quot;@user/services/user.service&quot;;
 import { ConfirmDialogService } from &quot;@core/services/confirm-dialog.service&quot;;
 import { MessageService } from &quot;@core/services/message.service&quot;;
@@ -2925,13 +2916,29 @@ import { MatchingRuleService } from &quot;squacapi&quot;;
 import { MatchingRule } from &quot;squacapi&quot;;
 import { DateService } from &quot;@core/services/date.service&quot;;
 import { LoadingService } from &quot;@core/services/loading.service&quot;;
-import { MapBounds } from &quot;../channel-group-map/interfaces&quot;;
-import { SearchFilter } from &quot;./interfaces&quot;;
+
 import {
   ButtonEvent,
   PageOptions,
 } from &quot;@shared/components/detail-page/detail-page.interface&quot;;
 import { FilterText } from &quot;@shared/components/sharing-toggle/sharing-toggle.interface&quot;;
+import { SearchFilter } from &quot;@channelGroup/components/channel-group-filter/interfaces&quot;;
+import { MapBounds } from &quot;@channelGroup/components/channel-group-map/interfaces&quot;;
+import { DetailPageComponent } from &quot;@shared/components/detail-page/detail-page.component&quot;;
+import { LoadingDirective } from &quot;@shared/directives/loading-directive.directive&quot;;
+import { AsyncPipe, NgIf } from &quot;@angular/common&quot;;
+import { MatButtonModule } from &quot;@angular/material/button&quot;;
+import { MatSlideToggleModule } from &quot;@angular/material/slide-toggle&quot;;
+import { CsvUploadComponent } from &quot;@channelGroup/components/csv-upload/csv-upload.component&quot;;
+import { ChannelGroupFilterComponent } from &quot;@channelGroup/components/channel-group-filter/channel-group-filter.component&quot;;
+import { ChannelGroupTableComponent } from &quot;@channelGroup/components/channel-group-table/channel-group-table.component&quot;;
+import { ChannelGroupMapComponent } from &quot;@channelGroup/components/channel-group-map/channel-group-map.component&quot;;
+import { MatExpansionModule } from &quot;@angular/material/expansion&quot;;
+import { MatFormFieldModule } from &quot;@angular/material/form-field&quot;;
+import { MatInputModule } from &quot;@angular/material/input&quot;;
+import { SharingToggleComponent } from &quot;@shared/components/sharing-toggle/sharing-toggle.component&quot;;
+import { MatchingRuleEditComponent } from &quot;@channelGroup/components/matching-rule-edit/matching-rule-edit.component&quot;;
+import { AbilityModule } from &quot;@casl/angular&quot;;
 
 /** Loading indicator areas */
 enum LoadingIndicator {
@@ -2953,6 +2960,30 @@ interface ChannelGroupForm {
   selector: &quot;channel-group-edit&quot;,
   templateUrl: &quot;./channel-group-edit.component.html&quot;,
   styleUrls: [&quot;./channel-group-edit.component.scss&quot;],
+  standalone: true,
+  imports: [
+    DetailPageComponent,
+    LoadingDirective,
+    NgIf,
+    MatButtonModule,
+    MatSlideToggleModule,
+    CsvUploadComponent,
+    ChannelGroupFilterComponent,
+    ChannelGroupTableComponent,
+    ChannelGroupMapComponent,
+    MatExpansionModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    SharingToggleComponent,
+    MatchingRuleEditComponent,
+    AsyncPipe,
+    MatSlideToggleModule,
+    FormsModule,
+    AbilityModule,
+    OrganizationPipe,
+    UserPipe,
+  ],
 })
 // TODO: this is getting massive - consider restructuring
 export class ChannelGroupEditComponent implements OnInit, OnDestroy {
@@ -2980,9 +3011,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
   bounds: MapBounds; // Latlng bounds to either filter by or make a new request with
 
   // table config
-  SelectionType &#x3D; SelectionType;
-  ColumnMode &#x3D; ColumnMode;
-  SortType &#x3D; SortType;
   columns: any &#x3D; [];
   rows: Channel[] &#x3D; [];
   deleteMatchingRulesIds &#x3D; [];
@@ -3055,52 +3083,6 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
 
     // get orgId
     this.orgId &#x3D; this.userService.userOrg;
-
-    // table columns
-    this.columns &#x3D; [
-      {
-        width: 30,
-        canAutoResize: false,
-        sortable: false,
-        draggable: false,
-        resizeable: false,
-        headerCheckboxable: true,
-        checkboxable: true,
-      },
-
-      {
-        name: &quot;Network&quot;,
-        prop: &quot;net&quot;,
-        draggable: false,
-        sortable: true,
-        resizeable: false,
-        flexGrow: 1,
-      },
-      {
-        name: &quot;Station&quot;,
-        prop: &quot;net&quot;,
-        draggable: false,
-        sortable: true,
-        resizeable: false,
-        flexGrow: 1,
-      },
-      {
-        name: &quot;Location&quot;,
-        prop: &quot;loc&quot;,
-        draggable: false,
-        sortable: true,
-        resizeable: false,
-        flexGrow: 1,
-      },
-      {
-        name: &quot;Channel&quot;,
-        prop: &quot;code&quot;,
-        draggable: false,
-        sortable: true,
-        resizeable: false,
-        flexGrow: 1,
-      },
-    ];
   }
 
   /**
@@ -3148,14 +3130,13 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     //get all channels that aren&#x27;t already in add channels
     const addChannels &#x3D; this.findChannelsInGroup(this.autoIncludeChannels);
 
-    // add channels
+    // remove channels from the autoExcludeChannels list
     this.autoExcludeChannels &#x3D; this.autoExcludeChannels.filter((channel) &#x3D;&gt; {
       const index &#x3D; addChannels.findIndex((c) &#x3D;&gt; c.id &#x3D;&#x3D;&#x3D; channel.id);
       return index &#x3D;&#x3D;&#x3D; -1;
     });
 
     this.autoIncludeChannels &#x3D; [...this.autoIncludeChannels, ...addChannels];
-    //remove from excluded
     this.selectedChannels &#x3D; [];
   }
 
@@ -3164,15 +3145,17 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
    */
   excludeChannels(): void {
     this.updateState();
+
+    //find channels that need to be added
     const addChannels &#x3D; this.findChannelsInGroup(this.autoExcludeChannels);
 
+    //remove channels from the include
     this.autoIncludeChannels &#x3D; this.autoIncludeChannels.filter((channel) &#x3D;&gt; {
       const index &#x3D; addChannels.findIndex((c) &#x3D;&gt; c.id &#x3D;&#x3D;&#x3D; channel.id);
       return index &#x3D;&#x3D;&#x3D; -1;
     });
 
     this.autoExcludeChannels &#x3D; [...this.autoExcludeChannels, ...addChannels];
-    //remove from included
     this.selectedChannels &#x3D; [];
   }
 
@@ -3554,7 +3537,7 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
 </code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-templateData">
+    <div class="tab-pane fade " id="templateData">
         <pre class="line-numbers"><code class="language-html">&lt;shared-detail-page
   [appIsLoading]&#x3D;&quot;
     loadingService.isLoading$(this, LoadingIndicator.MAIN) | async
@@ -3603,28 +3586,33 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
     &lt;/ng-template&gt;
   &lt;/ng-container&gt;
   &lt;ng-container bodyContent&gt;
-    &lt;div class&#x3D;&quot;edit-body gray-border white-background&quot;&gt;
-      &lt;div id&#x3D;&quot;left-side&quot;&gt;
-        &lt;div
-          id&#x3D;&quot;add-channel-header&quot;
-          class&#x3D;&quot;row wrap space-between&quot;
-        &gt;
-          &lt;h3&gt;Add Channels to Group&lt;/h3&gt;
-          &lt;mat-slide-toggle [(ngModel)]&#x3D;&quot;showOnlyCurrent&quot;&gt;
-            &lt;span class&#x3D;&quot;help-text&quot;&gt;Only Show Current Channels&lt;/span&gt;
-          &lt;/mat-slide-toggle&gt;
-          &lt;channel-group-csv-upload
-            [(channels)]&#x3D;&quot;selectedChannels&quot;
-            (channelsChange)&#x3D;&quot;addChannelsFromCSV($event)&quot;
-            [(error)]&#x3D;&quot;error&quot;
-            [showOnlyCurrent]&#x3D;&quot;showOnlyCurrent&quot;
-            [context]&#x3D;&quot;this&quot;
-            [loadingIndicator]&#x3D;&quot;LoadingIndicator.RESULTS&quot;
-          &gt;
-          &lt;/channel-group-csv-upload&gt;
-        &lt;/div&gt;
+    &lt;div
+      id&#x3D;&quot;edit-container&quot;
+      class&#x3D;&quot;gray-border white-background&quot;
+    &gt;
 
-        &lt;p class&#x3D;&quot;help-text&quot;&gt;
+
+      &lt;mat-slide-toggle
+        [style.grid-area]&#x3D;&quot;&#x27;controls&#x27;&quot;
+        [(ngModel)]&#x3D;&quot;showOnlyCurrent&quot;
+        [aria-label]&#x3D;&quot;showOnlyCurrent ? &#x27;only return results for current channels&#x27; : &#x27;return all channels&#x27;&quot;
+      &gt;
+        Only Show Current Channels
+      &lt;/mat-slide-toggle&gt;
+      &lt;channel-group-csv-upload
+        [style.grid-area]&#x3D;&quot;&#x27;csv&#x27;&quot;
+        [(channels)]&#x3D;&quot;selectedChannels&quot;
+        (channelsChange)&#x3D;&quot;addChannelsFromCSV($event)&quot;
+        [(error)]&#x3D;&quot;error&quot;
+        [showOnlyCurrent]&#x3D;&quot;showOnlyCurrent&quot;
+        [context]&#x3D;&quot;this&quot;
+        [loadingIndicator]&#x3D;&quot;LoadingIndicator.RESULTS&quot;
+      &gt;
+      &lt;/channel-group-csv-upload&gt;
+
+      &lt;div [style.grid-area]&#x3D;&quot;&#x27;info&#x27;&quot;&gt;
+        &lt;h3 class&#x3D;&quot;mat-h3&quot;&gt;Add Channels to Group&lt;/h3&gt;
+        &lt;p class&#x3D;&quot;mat-body&quot;&gt;
           Channel groups can have a fixed set of channels or can be
           automatically updated with channels that match a set of regular
           expressions. Add regular expressions on the right under &#x27;Regex&#x27; or
@@ -3633,46 +3621,49 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
         &lt;/p&gt;
         &lt;p
           *ngIf&#x3D;&quot;error&quot;
-          class&#x3D;&quot;warn-text&quot;
+          class&#x3D;&quot;mat-body error&quot;
         &gt;
           {{ error }}
         &lt;/p&gt;
+      &lt;/div&gt;
 
-        &lt;channel-group-filter
-          (filtersChanged)&#x3D;&quot;filtersChanged($event)&quot;
-          (addFilterToRegex)&#x3D;&quot;addFilterToRegex($event)&quot;
-        &gt;
-        &lt;/channel-group-filter&gt;
 
-        &lt;div
-          class&#x3D;&quot;row channels-row&quot;
-          [appIsLoading]&#x3D;&quot;
+      &lt;channel-group-filter
+        (filtersChanged)&#x3D;&quot;filtersChanged($event)&quot;
+        (addFilterToRegex)&#x3D;&quot;addFilterToRegex($event)&quot;
+        [style.grid-area]&#x3D;&quot;&#x27;search&#x27;&quot;
+      &gt;
+      &lt;/channel-group-filter&gt;
+
+      &lt;div
+        [style.display]&#x3D;&quot;&#x27;contents&#x27;&quot;
+        [appIsLoading]&#x3D;&quot;
             loadingService.isLoading$(this, LoadingIndicator.RESULTS) | async
           &quot;
-        &gt;
-          &lt;div class&#x3D;&quot;search-results-container&quot;&gt;
-            &lt;div class&#x3D;&quot;row space-between select-channels-controls wrap&quot;&gt;
-              &lt;h4&gt;Results ({{ rows.length }})&lt;/h4&gt;
+      &gt;
+        &lt;div [style.grid-area]&#x3D;&quot;&#x27;results&#x27;&quot;&gt;
 
-              &lt;div class&#x3D;&quot;row space-between wrap&quot;&gt;
-                &lt;p class&#x3D;&quot;help-text&quot;&gt;add selected to:&lt;/p&gt;
-                &lt;button
-                  mat-stroked-button
-                  color&#x3D;&quot;accent&quot;
-                  (click)&#x3D;&quot;includeChannels()&quot;
-                &gt;
-                  included
-                &lt;/button&gt;
-                &lt;button
-                  mat-stroked-button
-                  color&#x3D;&quot;accent&quot;
-                  (click)&#x3D;&quot;excludeChannels()&quot;
-                &gt;
-                  excluded
-                &lt;/button&gt;
-              &lt;/div&gt;
+          &lt;h3 class&#x3D;&quot;mat-h3&quot;&gt;Results ({{ rows.length }})&lt;/h3&gt;
 
-              &lt;!-- &lt;button
+          &lt;div class&#x3D;&quot;row wrap align-end&quot;&gt;
+            &lt;p class&#x3D;&quot;mat-small&quot;&gt;add selected to:&lt;/p&gt;
+            &lt;button
+              mat-stroked-button
+              color&#x3D;&quot;accent&quot;
+              (click)&#x3D;&quot;includeChannels()&quot;
+            &gt;
+              included
+            &lt;/button&gt;
+            &lt;button
+              mat-stroked-button
+              color&#x3D;&quot;accent&quot;
+              (click)&#x3D;&quot;excludeChannels()&quot;
+            &gt;
+              excluded
+            &lt;/button&gt;
+          &lt;/div&gt;
+
+          &lt;!-- &lt;button
                 mat-button
                 color&#x3D;&quot;accent&quot;
                 (click)&#x3D;&quot;undoSelectRemove()&quot;
@@ -3681,248 +3672,195 @@ export class ChannelGroupEditComponent implements OnInit, OnDestroy {
               &gt;
                 &lt;mat-icon&gt;undo&lt;/mat-icon&gt;
               &lt;/button&gt; --&gt;
-            &lt;/div&gt;
-            &lt;div class&#x3D;&quot;searched-channels-container&quot;&gt;
-              &lt;channel-group-edit-table
-                [rows]&#x3D;&quot;rows&quot;
-                [removable]&#x3D;&quot;false&quot;
-                [selected]&#x3D;&quot;selectedChannels&quot;
-                (selectedChange)&#x3D;&quot;selectRow($event)&quot;
-                [selectable]&#x3D;&quot;true&quot;
-              &gt;
-              &lt;/channel-group-edit-table&gt;
-            &lt;/div&gt;
-          &lt;/div&gt;
-
-          &lt;channel-group-map
-            [autoIncludeChannels]&#x3D;&quot;autoIncludeChannels&quot;
-            [autoExcludeChannels]&#x3D;&quot;autoExcludeChannels&quot;
-            [searchedChannels]&#x3D;&quot;rows&quot;
-            [selectedChannels]&#x3D;&quot;selectedChannels&quot;
-            [showChannel]&#x3D;&quot;showChannel&quot;
-            [editPage]&#x3D;&quot;true&quot;
-            (boundsChange)&#x3D;&quot;updateBounds($event)&quot;
-          &gt;&lt;/channel-group-map&gt;
         &lt;/div&gt;
-      &lt;/div&gt;
-      &lt;div&gt;
-        &lt;mat-accordion
-          displayMode&#x3D;&quot;flat&quot;
-          multi
+        &lt;div
+          class&#x3D;&quot;searched-channels-container&quot;
+          [style.grid-area]&#x3D;&quot;&#x27;table&#x27;&quot;
         &gt;
-          &lt;mat-expansion-panel expanded&#x3D;&quot;true&quot;&gt;
-            &lt;mat-expansion-panel-header&gt;
-              &lt;mat-panel-title&gt;
-                &lt;h4&gt;Group Information&lt;/h4&gt;
-              &lt;/mat-panel-title&gt;
-              &lt;mat-panel-description&gt;(required)&lt;/mat-panel-description&gt;
-            &lt;/mat-expansion-panel-header&gt;
+          &lt;channel-group-edit-table
+            [rows]&#x3D;&quot;rows&quot;
+            [removable]&#x3D;&quot;false&quot;
+            [selected]&#x3D;&quot;selectedChannels&quot;
+            (selectedChange)&#x3D;&quot;selectRow($event)&quot;
+            [selectable]&#x3D;&quot;true&quot;
+          &gt;
+          &lt;/channel-group-edit-table&gt;
+        &lt;/div&gt;
 
-            &lt;form
-              [formGroup]&#x3D;&quot;channelGroupForm&quot;
-              class&#x3D;&quot;column&quot;
-            &gt;
-              &lt;mat-form-field
-                class&#x3D;&quot;channel-group-input&quot;
-                class&#x3D;&quot;medium&quot;
-              &gt;
-                &lt;input
-                  matInput
-                  placeholder&#x3D;&quot;Name&quot;
-                  formControlName&#x3D;&quot;name&quot;
-                  required
-                /&gt;
-              &lt;/mat-form-field&gt;
 
-              &lt;mat-form-field id&#x3D;&quot;description&quot;&gt;
-                &lt;textarea
-                  matInput
-                  placeholder&#x3D;&quot;Description&quot;
-                  formControlName&#x3D;&quot;description&quot;
-                  required
-                &gt;&lt;/textarea&gt;
-              &lt;/mat-form-field&gt;
-              &lt;shared-sharing-toggle
-                [orgId]&#x3D;&quot;orgId&quot;
-                [filterText]&#x3D;&quot;sharedToggleConfig&quot;
-                [(shareOrg)]&#x3D;&quot;shareOrg&quot;
-                [(shareAll)]&#x3D;&quot;shareAll&quot;
-                [isFormInput]&#x3D;&quot;true&quot;
-              &gt;
-              &lt;/shared-sharing-toggle&gt;
-            &lt;/form&gt;
-          &lt;/mat-expansion-panel&gt;
-
-          &lt;mat-expansion-panel expanded&#x3D;&quot;false&quot;&gt;
-            &lt;mat-expansion-panel-header&gt;
-              &lt;mat-panel-title&gt;
-                &lt;h4&gt;RegEx Rules ({{ matchingRules?.length }})&lt;/h4&gt;
-              &lt;/mat-panel-title&gt;
-              &lt;mat-panel-description&gt; (optional) &lt;/mat-panel-description&gt;
-            &lt;/mat-expansion-panel-header&gt;
-            &lt;p class&#x3D;&quot;help-text&quot;&gt;
-              Channel groups can be defined by sets of regular expressions.
-              Groups will be updated daily with any channels that match the
-              rules.
-            &lt;/p&gt;
-            &lt;channel-group-matching-rule-edit
-              [(matchingRules)]&#x3D;&quot;matchingRules&quot;
-              (matchingRuleDeleteIds)&#x3D;&quot;deleteMatchingRules($event)&quot;
-              (previewRules)&#x3D;&quot;previewRules($event)&quot;
-              [channelGroupId]&#x3D;&quot;channelGroup?.id&quot;
-            &gt;
-            &lt;/channel-group-matching-rule-edit&gt;
-          &lt;/mat-expansion-panel&gt;
-
-          &lt;mat-expansion-panel expanded&#x3D;&quot;true&quot;&gt;
-            &lt;mat-expansion-panel-header&gt;
-              &lt;mat-panel-title&gt;
-                &lt;h4&gt;Included ({{ autoIncludeChannels.length }})&lt;/h4&gt;
-              &lt;/mat-panel-title&gt;
-              &lt;mat-panel-description&gt;Channels always in group.&lt;/mat-panel-description&gt;
-            &lt;/mat-expansion-panel-header&gt;
-
-            &lt;channel-group-edit-table
-              (rowsChange)&#x3D;&quot;updateState()&quot;
-              [(rows)]&#x3D;&quot;autoIncludeChannels&quot;
-              title&#x3D;&quot;Included Channels&quot;
-              [removable]&#x3D;&quot;true&quot;
-              [selectable]&#x3D;&quot;true&quot;
-            &gt;
-            &lt;/channel-group-edit-table&gt;
-          &lt;/mat-expansion-panel&gt;
-
-          &lt;mat-expansion-panel expanded&#x3D;&quot;false&quot;&gt;
-            &lt;mat-expansion-panel-header&gt;
-              &lt;mat-panel-title&gt;
-                &lt;h4&gt;Excluded ({{ autoExcludeChannels.length }})&lt;/h4&gt;
-              &lt;/mat-panel-title&gt;
-              &lt;mat-panel-description&gt;Channels never in group.&lt;/mat-panel-description&gt;
-            &lt;/mat-expansion-panel-header&gt;
-            &lt;channel-group-edit-table
-              (rowsChange)&#x3D;&quot;updateState()&quot;
-              [(rows)]&#x3D;&quot;autoExcludeChannels&quot;
-              title&#x3D;&quot;Excluded Channels&quot;
-              [removable]&#x3D;&quot;true&quot;
-              [selectable]&#x3D;&quot;true&quot;
-            &gt;
-            &lt;/channel-group-edit-table&gt;
-          &lt;/mat-expansion-panel&gt;
-        &lt;/mat-accordion&gt;
+        &lt;channel-group-map
+          [autoIncludeChannels]&#x3D;&quot;autoIncludeChannels&quot;
+          [autoExcludeChannels]&#x3D;&quot;autoExcludeChannels&quot;
+          [searchedChannels]&#x3D;&quot;rows&quot;
+          [selectedChannels]&#x3D;&quot;selectedChannels&quot;
+          [showChannel]&#x3D;&quot;showChannel&quot;
+          [editPage]&#x3D;&quot;true&quot;
+          (boundsChange)&#x3D;&quot;updateBounds($event)&quot;
+          [style.grid-area]&#x3D;&quot;&#x27;map&#x27;&quot;
+        &gt;&lt;/channel-group-map&gt;
       &lt;/div&gt;
+
+
+      &lt;mat-accordion
+        displayMode&#x3D;&quot;flat&quot;
+        multi
+        [style.grid-area]&#x3D;&quot;&#x27;group&#x27;&quot;
+      &gt;
+        &lt;mat-expansion-panel
+          expanded&#x3D;&quot;true&quot;
+          class&#x3D;&quot;dense-expansion-panel&quot;
+        &gt;
+          &lt;mat-expansion-panel-header&gt;
+            &lt;mat-panel-title&gt;
+              Group Information
+            &lt;/mat-panel-title&gt;
+          &lt;/mat-expansion-panel-header&gt;
+
+          &lt;form
+            [formGroup]&#x3D;&quot;channelGroupForm&quot;
+            class&#x3D;&quot;column gap-m&quot;
+          &gt;
+            &lt;mat-form-field
+              class&#x3D;&quot;channel-group-inpu dense-form-field&quot;
+              class&#x3D;&quot;medium&quot;
+              subscriptSizing&#x3D;&quot;dynamic&quot;
+            &gt;
+              &lt;mat-label&gt; Group Name &lt;/mat-label&gt;
+              &lt;input
+                matInput
+                placeholder&#x3D;&quot;Name&quot;
+                formControlName&#x3D;&quot;name&quot;
+                required
+              /&gt;
+            &lt;/mat-form-field&gt;
+
+            &lt;mat-form-field
+              id&#x3D;&quot;description&quot;
+              subscriptSizing&#x3D;&quot;dynamic&quot;
+            &gt;
+              &lt;mat-label&gt; Group Description &lt;/mat-label&gt;
+              &lt;textarea
+                matInput
+                placeholder&#x3D;&quot;Description&quot;
+                formControlName&#x3D;&quot;description&quot;
+                required
+              &gt;&lt;/textarea&gt;
+            &lt;/mat-form-field&gt;
+            &lt;shared-sharing-toggle
+              [orgId]&#x3D;&quot;orgId&quot;
+              [filterText]&#x3D;&quot;sharedToggleConfig&quot;
+              [(shareOrg)]&#x3D;&quot;shareOrg&quot;
+              [(shareAll)]&#x3D;&quot;shareAll&quot;
+              [isFormInput]&#x3D;&quot;true&quot;
+            &gt;
+            &lt;/shared-sharing-toggle&gt;
+          &lt;/form&gt;
+        &lt;/mat-expansion-panel&gt;
+
+        &lt;mat-expansion-panel
+          expanded&#x3D;&quot;false&quot;
+          class&#x3D;&quot;dense-expansion-panel&quot;
+        &gt;
+          &lt;mat-expansion-panel-header&gt;
+            &lt;mat-panel-title&gt;
+              RegEx Rules ({{ matchingRules?.length }})
+            &lt;/mat-panel-title&gt;
+
+          &lt;/mat-expansion-panel-header&gt;
+          &lt;p class&#x3D;&quot;mat-body&quot;&gt;
+            Channel groups can be defined by sets of regular expressions.
+            Groups will be updated daily with any channels that match the
+            rules.
+          &lt;/p&gt;
+          &lt;channel-group-matching-rule-edit
+            [(matchingRules)]&#x3D;&quot;matchingRules&quot;
+            (matchingRuleDeleteIds)&#x3D;&quot;deleteMatchingRules($event)&quot;
+            (previewRules)&#x3D;&quot;previewRules($event)&quot;
+            [channelGroupId]&#x3D;&quot;channelGroup?.id&quot;
+          &gt;
+          &lt;/channel-group-matching-rule-edit&gt;
+        &lt;/mat-expansion-panel&gt;
+
+        &lt;mat-expansion-panel
+          expanded&#x3D;&quot;true&quot;
+          class&#x3D;&quot;dense-expansion-panel&quot;
+        &gt;
+          &lt;mat-expansion-panel-header&gt;
+            &lt;mat-panel-title&gt;
+              Included Channels ({{ autoIncludeChannels.length }})
+            &lt;/mat-panel-title&gt;
+          &lt;/mat-expansion-panel-header&gt;
+
+          &lt;channel-group-edit-table
+            (rowsChange)&#x3D;&quot;updateState()&quot;
+            [(rows)]&#x3D;&quot;autoIncludeChannels&quot;
+            title&#x3D;&quot;Included Channels&quot;
+            [removable]&#x3D;&quot;true&quot;
+            [selectable]&#x3D;&quot;true&quot;
+          &gt;
+          &lt;/channel-group-edit-table&gt;
+        &lt;/mat-expansion-panel&gt;
+
+        &lt;mat-expansion-panel
+          expanded&#x3D;&quot;false&quot;
+          class&#x3D;&quot;dense-expansion-panel&quot;
+        &gt;
+          &lt;mat-expansion-panel-header&gt;
+            &lt;mat-panel-title&gt;
+              Excluded Channels ({{ autoExcludeChannels.length }})
+            &lt;/mat-panel-title&gt;
+          &lt;/mat-expansion-panel-header&gt;
+          &lt;channel-group-edit-table
+            (rowsChange)&#x3D;&quot;updateState()&quot;
+            [(rows)]&#x3D;&quot;autoExcludeChannels&quot;
+            title&#x3D;&quot;Excluded Channels&quot;
+            [removable]&#x3D;&quot;true&quot;
+            [selectable]&#x3D;&quot;true&quot;
+          &gt;
+          &lt;/channel-group-edit-table&gt;
+        &lt;/mat-expansion-panel&gt;
+      &lt;/mat-accordion&gt;
+
+
+
     &lt;/div&gt;
   &lt;/ng-container&gt;
-&lt;/shared-detail-page&gt;
-</code></pre>
+&lt;/shared-detail-page&gt;</code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-styleData">
+    <div class="tab-pane fade " id="styleData">
                 <p class="comment">
                     <code>./channel-group-edit.component.scss</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss">@import &quot;variables&quot;;
-@import &quot;mixins&quot;;
+                <pre class="line-numbers"><code class="language-scss">#edit-container {
+  .mat-h2 {
+    margin: 0px;
+  }
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-rows: 40px auto;
+  padding: 10px;
+  column-gap: 20px;
+  row-gap: 10px;
+  p {
+    margin: 0;
+  }
+  justify-content: center;
+  grid-template-areas:
+    &quot;info info group&quot;
+    &quot;info info group&quot;
+    &quot;csv controls group&quot;
+    &quot;search search group&quot;
+    &quot;results map group&quot;
+    &quot;table map group&quot;;
 
-.auto-margin {
-  margin-inline-end: auto;
-}
-.edit-body {
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  width: 100%;
-  flex-wrap: wrap-reverse;
-  &amp; &gt; div {
-    gap: 3px;
+  .row {
+    gap: 10px;
   }
-  &amp; &gt; :first-child {
-    flex: 2;
-  }
-  &amp; &gt; :last-child {
-    flex: 1;
-    min-width: 300px;
-  }
-}
-#add-channel-header {
-  gap: 5px;
-}
-#button-container {
-  gap: 10px;
-}
-.select-channels-controls {
-  gap: 3px;
-  align-items: center;
-  &amp; &gt; div {
-    gap: 2px;
-  }
-}
-
-#left-side {
-  padding-left: 10px;
-}
-
-.search-results-container {
-  padding: 0px 3px;
-}
-#edit-container,
-.edit-body {
-  gap: 10px;
-}
-#filter-container,
-.select-channels-controls {
-  width: 100%;
-}
-
-.channels-row {
-  gap: 10px;
-  max-height: 60vh;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  align-content: stretch;
-  justify-content: stretch;
-  min-width: 0;
-  &amp; &gt; :first-child {
-    flex: 1 0 200px;
-    min-width: 0;
-  }
-  &amp; &gt; :last-child {
-    align-self: stretch;
-    flex: 1;
-  }
-}
-:host ::ng-deep .mat-expansion-panel-body {
-  padding: 0px 5px !important;
-}
-:host ::ng-deep .mat-expansion-indicator {
-  margin-top: -3px;
 }
 
 channel-group-edit-table {
   height: 100%;
-}
-
-mat-accordion {
-  mat-expansion-panel {
-    mat-expansion-panel-header {
-      min-height: 35px;
-      padding: 0px 12px;
-      max-height: 50px;
-    }
-
-    border-radius: 0 !important;
-    border: $light-border;
-    border-top: none;
-    border-right: none;
-    box-shadow: none !important;
-  }
-}
-#sharing-radio-group {
-  margin: 3px 0;
-  align-items: flex-start;
-  mat-radio-button {
-    margin-bottom: 5px;
-  }
 }
 
 .searched-channels-container {
@@ -3931,7 +3869,7 @@ mat-accordion {
 </code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-tree">
+    <div class="tab-pane fade " id="tree">
         <div id="tree-container"></div>
         <div class="tree-legend">
             <div class="title">
@@ -3956,8 +3894,8 @@ mat-accordion {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><shared-detail-page  [appIsLoading]="    loadingService.isLoading$(this, LoadingIndicator.MAIN) | async  "  [options]="pageOptions"  type="Channel Group"  [resource]="channelGroup"  title="{{ editMode ? \'Edit \' + channelGroup.name : \'Create Channel Group\' }}"  subtext="by {{ channelGroup?.owner | user }} ({{    channelGroup?.orgId ?? orgId | organization  }})"  (controlClicked)="controlClicked($event)">  <ng-container headerContent>    <ng-container *ngIf="editMode; else notEditMode">      <button        *ngIf="\'update\' | able: channelGroup"        mat-flat-button        color="accent"        (click)="save()"        [disabled]="          !channelGroupForm.valid ||          (matchingRules?.length === 0 && autoIncludeChannels.length === 0)        "        uiTooltip="Save channel group"        aria-label="Button that saves the changes to the channel group"      >        Save      </button>    </ng-container>    <ng-template #notEditMode>      <button        *ngIf="\'create\' | able: \'ChannelGroup\'"        mat-flat-button        color="accent"        (click)="save()"        [disabled]="          !channelGroupForm.valid ||          (matchingRules?.length === 0 && autoIncludeChannels.length === 0)        "        uiTooltip="Create channel group"        aria-label="Button that creates the channel group"      >        Create      </button>    </ng-template>  </ng-container>  <ng-container bodyContent>    <div class="edit-body gray-border white-background">      <div id="left-side">        <div          id="add-channel-header"          class="row wrap space-between"        >          <h3>Add Channels to Group</h3>          <mat-slide-toggle [(ngModel)]="showOnlyCurrent">            <span class="help-text">Only Show Current Channels</span>          </mat-slide-toggle>          <channel-group-csv-upload            [(channels)]="selectedChannels"            (channelsChange)="addChannelsFromCSV($event)"            [(error)]="error"            [showOnlyCurrent]="showOnlyCurrent"            [context]="this"            [loadingIndicator]="LoadingIndicator.RESULTS"          >          </channel-group-csv-upload>        </div>        <p class="help-text">          Channel groups can have a fixed set of channels or can be          automatically updated with channels that match a set of regular          expressions. Add regular expressions on the right under \'Regex\' or          below using the filters. Add channels by uploading a CSV, searching          with the filters, or using the map to search within a region.        </p>        <p          *ngIf="error"          class="warn-text"        >          {{ error }}        </p>        <channel-group-filter          (filtersChanged)="filtersChanged($event)"          (addFilterToRegex)="addFilterToRegex($event)"        >        </channel-group-filter>        <div          class="row channels-row"          [appIsLoading]="            loadingService.isLoading$(this, LoadingIndicator.RESULTS) | async          "        >          <div class="search-results-container">            <div class="row space-between select-channels-controls wrap">              <h4>Results ({{ rows.length }})</h4>              <div class="row space-between wrap">                <p class="help-text">add selected to:</p>                <button                  mat-stroked-button                  color="accent"                  (click)="includeChannels()"                >                  included                </button>                <button                  mat-stroked-button                  color="accent"                  (click)="excludeChannels()"                >                  excluded                </button>              </div>              <!-- <button                mat-button                color="accent"                (click)="undoSelectRemove()"                [disabled]="!this.changeMade"                uiTooltip="undo last change"              >                <mat-icon>undo</mat-icon>              </button> -->            </div>            <div class="searched-channels-container">              <channel-group-edit-table                [rows]="rows"                [removable]="false"                [selected]="selectedChannels"                (selectedChange)="selectRow($event)"                [selectable]="true"              >              </channel-group-edit-table>            </div>          </div>          <channel-group-map            [autoIncludeChannels]="autoIncludeChannels"            [autoExcludeChannels]="autoExcludeChannels"            [searchedChannels]="rows"            [selectedChannels]="selectedChannels"            [showChannel]="showChannel"            [editPage]="true"            (boundsChange)="updateBounds($event)"          ></channel-group-map>        </div>      </div>      <div>        <mat-accordion          displayMode="flat"          multi        >          <mat-expansion-panel expanded="true">            <mat-expansion-panel-header>              <mat-panel-title>                <h4>Group Information</h4>              </mat-panel-title>              <mat-panel-description>(required)</mat-panel-description>            </mat-expansion-panel-header>            <form              [formGroup]="channelGroupForm"              class="column"            >              <mat-form-field                class="channel-group-input"                class="medium"              >                <input                  matInput                  placeholder="Name"                  formControlName="name"                  required                />              </mat-form-field>              <mat-form-field id="description">                <textarea                  matInput                  placeholder="Description"                  formControlName="description"                  required                ></textarea>              </mat-form-field>              <shared-sharing-toggle                [orgId]="orgId"                [filterText]="sharedToggleConfig"                [(shareOrg)]="shareOrg"                [(shareAll)]="shareAll"                [isFormInput]="true"              >              </shared-sharing-toggle>            </form>          </mat-expansion-panel>          <mat-expansion-panel expanded="false">            <mat-expansion-panel-header>              <mat-panel-title>                <h4>RegEx Rules ({{ matchingRules?.length }})</h4>              </mat-panel-title>              <mat-panel-description> (optional) </mat-panel-description>            </mat-expansion-panel-header>            <p class="help-text">              Channel groups can be defined by sets of regular expressions.              Groups will be updated daily with any channels that match the              rules.            </p>            <channel-group-matching-rule-edit              [(matchingRules)]="matchingRules"              (matchingRuleDeleteIds)="deleteMatchingRules($event)"              (previewRules)="previewRules($event)"              [channelGroupId]="channelGroup?.id"            >            </channel-group-matching-rule-edit>          </mat-expansion-panel>          <mat-expansion-panel expanded="true">            <mat-expansion-panel-header>              <mat-panel-title>                <h4>Included ({{ autoIncludeChannels.length }})</h4>              </mat-panel-title>              <mat-panel-description>Channels always in group.</mat-panel-description>            </mat-expansion-panel-header>            <channel-group-edit-table              (rowsChange)="updateState()"              [(rows)]="autoIncludeChannels"              title="Included Channels"              [removable]="true"              [selectable]="true"            >            </channel-group-edit-table>          </mat-expansion-panel>          <mat-expansion-panel expanded="false">            <mat-expansion-panel-header>              <mat-panel-title>                <h4>Excluded ({{ autoExcludeChannels.length }})</h4>              </mat-panel-title>              <mat-panel-description>Channels never in group.</mat-panel-description>            </mat-expansion-panel-header>            <channel-group-edit-table              (rowsChange)="updateState()"              [(rows)]="autoExcludeChannels"              title="Excluded Channels"              [removable]="true"              [selectable]="true"            >            </channel-group-edit-table>          </mat-expansion-panel>        </mat-accordion>      </div>    </div>  </ng-container></shared-detail-page></div>'
-    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'SnackbarComponent', 'selector': 'shared-snackbar'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
+        var COMPONENT_TEMPLATE = '<div><shared-detail-page  [appIsLoading]="    loadingService.isLoading$(this, LoadingIndicator.MAIN) | async  "  [options]="pageOptions"  type="Channel Group"  [resource]="channelGroup"  title="{{ editMode ? \'Edit \' + channelGroup.name : \'Create Channel Group\' }}"  subtext="by {{ channelGroup?.owner | user }} ({{    channelGroup?.orgId ?? orgId | organization  }})"  (controlClicked)="controlClicked($event)">  <ng-container headerContent>    <ng-container *ngIf="editMode; else notEditMode">      <button        *ngIf="\'update\' | able: channelGroup"        mat-flat-button        color="accent"        (click)="save()"        [disabled]="          !channelGroupForm.valid ||          (matchingRules?.length === 0 && autoIncludeChannels.length === 0)        "        uiTooltip="Save channel group"        aria-label="Button that saves the changes to the channel group"      >        Save      </button>    </ng-container>    <ng-template #notEditMode>      <button        *ngIf="\'create\' | able: \'ChannelGroup\'"        mat-flat-button        color="accent"        (click)="save()"        [disabled]="          !channelGroupForm.valid ||          (matchingRules?.length === 0 && autoIncludeChannels.length === 0)        "        uiTooltip="Create channel group"        aria-label="Button that creates the channel group"      >        Create      </button>    </ng-template>  </ng-container>  <ng-container bodyContent>    <div      id="edit-container"      class="gray-border white-background"    >      <mat-slide-toggle        [style.grid-area]="\'controls\'"        [(ngModel)]="showOnlyCurrent"        [aria-label]="showOnlyCurrent ? \'only return results for current channels\' : \'return all channels\'"      >        Only Show Current Channels      </mat-slide-toggle>      <channel-group-csv-upload        [style.grid-area]="\'csv\'"        [(channels)]="selectedChannels"        (channelsChange)="addChannelsFromCSV($event)"        [(error)]="error"        [showOnlyCurrent]="showOnlyCurrent"        [context]="this"        [loadingIndicator]="LoadingIndicator.RESULTS"      >      </channel-group-csv-upload>      <div [style.grid-area]="\'info\'">        <h3 class="mat-h3">Add Channels to Group</h3>        <p class="mat-body">          Channel groups can have a fixed set of channels or can be          automatically updated with channels that match a set of regular          expressions. Add regular expressions on the right under \'Regex\' or          below using the filters. Add channels by uploading a CSV, searching          with the filters, or using the map to search within a region.        </p>        <p          *ngIf="error"          class="mat-body error"        >          {{ error }}        </p>      </div>      <channel-group-filter        (filtersChanged)="filtersChanged($event)"        (addFilterToRegex)="addFilterToRegex($event)"        [style.grid-area]="\'search\'"      >      </channel-group-filter>      <div        [style.display]="\'contents\'"        [appIsLoading]="            loadingService.isLoading$(this, LoadingIndicator.RESULTS) | async          "      >        <div [style.grid-area]="\'results\'">          <h3 class="mat-h3">Results ({{ rows.length }})</h3>          <div class="row wrap align-end">            <p class="mat-small">add selected to:</p>            <button              mat-stroked-button              color="accent"              (click)="includeChannels()"            >              included            </button>            <button              mat-stroked-button              color="accent"              (click)="excludeChannels()"            >              excluded            </button>          </div>          <!-- <button                mat-button                color="accent"                (click)="undoSelectRemove()"                [disabled]="!this.changeMade"                uiTooltip="undo last change"              >                <mat-icon>undo</mat-icon>              </button> -->        </div>        <div          class="searched-channels-container"          [style.grid-area]="\'table\'"        >          <channel-group-edit-table            [rows]="rows"            [removable]="false"            [selected]="selectedChannels"            (selectedChange)="selectRow($event)"            [selectable]="true"          >          </channel-group-edit-table>        </div>        <channel-group-map          [autoIncludeChannels]="autoIncludeChannels"          [autoExcludeChannels]="autoExcludeChannels"          [searchedChannels]="rows"          [selectedChannels]="selectedChannels"          [showChannel]="showChannel"          [editPage]="true"          (boundsChange)="updateBounds($event)"          [style.grid-area]="\'map\'"        ></channel-group-map>      </div>      <mat-accordion        displayMode="flat"        multi        [style.grid-area]="\'group\'"      >        <mat-expansion-panel          expanded="true"          class="dense-expansion-panel"        >          <mat-expansion-panel-header>            <mat-panel-title>              Group Information            </mat-panel-title>          </mat-expansion-panel-header>          <form            [formGroup]="channelGroupForm"            class="column gap-m"          >            <mat-form-field              class="channel-group-inpu dense-form-field"              class="medium"              subscriptSizing="dynamic"            >              <mat-label> Group Name </mat-label>              <input                matInput                placeholder="Name"                formControlName="name"                required              />            </mat-form-field>            <mat-form-field              id="description"              subscriptSizing="dynamic"            >              <mat-label> Group Description </mat-label>              <textarea                matInput                placeholder="Description"                formControlName="description"                required              ></textarea>            </mat-form-field>            <shared-sharing-toggle              [orgId]="orgId"              [filterText]="sharedToggleConfig"              [(shareOrg)]="shareOrg"              [(shareAll)]="shareAll"              [isFormInput]="true"            >            </shared-sharing-toggle>          </form>        </mat-expansion-panel>        <mat-expansion-panel          expanded="false"          class="dense-expansion-panel"        >          <mat-expansion-panel-header>            <mat-panel-title>              RegEx Rules ({{ matchingRules?.length }})            </mat-panel-title>          </mat-expansion-panel-header>          <p class="mat-body">            Channel groups can be defined by sets of regular expressions.            Groups will be updated daily with any channels that match the            rules.          </p>          <channel-group-matching-rule-edit            [(matchingRules)]="matchingRules"            (matchingRuleDeleteIds)="deleteMatchingRules($event)"            (previewRules)="previewRules($event)"            [channelGroupId]="channelGroup?.id"          >          </channel-group-matching-rule-edit>        </mat-expansion-panel>        <mat-expansion-panel          expanded="true"          class="dense-expansion-panel"        >          <mat-expansion-panel-header>            <mat-panel-title>              Included Channels ({{ autoIncludeChannels.length }})            </mat-panel-title>          </mat-expansion-panel-header>          <channel-group-edit-table            (rowsChange)="updateState()"            [(rows)]="autoIncludeChannels"            title="Included Channels"            [removable]="true"            [selectable]="true"          >          </channel-group-edit-table>        </mat-expansion-panel>        <mat-expansion-panel          expanded="false"          class="dense-expansion-panel"        >          <mat-expansion-panel-header>            <mat-panel-title>              Excluded Channels ({{ autoExcludeChannels.length }})            </mat-panel-title>          </mat-expansion-panel-header>          <channel-group-edit-table            (rowsChange)="updateState()"            [(rows)]="autoExcludeChannels"            title="Excluded Channels"            [removable]="true"            [selectable]="true"          >          </channel-group-edit-table>        </mat-expansion-panel>      </mat-accordion>    </div>  </ng-container></shared-detail-page></div>'
+    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'BudComponent', 'selector': 'widget-calendar-plot'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
     var DIRECTIVES = [{'name': 'LoadingDirective', 'selector': '[appIsLoading]'},{'name': 'TooltipDirective', 'selector': '[uiTooltip]'},{'name': 'WidgetTypeDirective', 'selector': '[widgetContainer]'},{'name': 'WidgetTypeExampleDirective', 'selector': '[appWidgetTypeExample]'}];
     var ACTUAL_COMPONENT = {'name': 'ChannelGroupEditComponent'};
 </script>

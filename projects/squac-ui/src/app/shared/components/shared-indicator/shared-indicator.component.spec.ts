@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatIconModule } from "@angular/material/icon";
-import { SharedModule } from "@shared/shared.module";
 import { MockModule } from "ng-mocks";
 import { SharedIndicatorComponent } from "./shared-indicator.component";
 
@@ -10,7 +9,7 @@ describe("SharedIndicatorComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MockModule(MatIconModule), MockModule(SharedModule)],
+      imports: [MockModule(MatIconModule)],
       declarations: [SharedIndicatorComponent],
     }).compileComponents();
   });

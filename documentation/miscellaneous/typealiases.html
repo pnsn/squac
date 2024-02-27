@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -49,11 +107,11 @@
 
 
 <ol class="breadcrumb">
-  <li>Miscellaneous</li>
-  <li>Type aliases</li>
+  <li class="breadcrumb-item">Miscellaneous</li>
+  <li class="breadcrumb-item">Type aliases</li>
 </ol>
 
-<section>
+<section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -64,22 +122,22 @@
                             <a href="#Actions" title="projects/squac-ui/src/app/core/utils/ability.ts" ><b>Actions</b>&nbsp;&nbsp;&nbsp;(projects/.../ability.ts)</a>
                         </li>
                         <li>
-                            <a href="#ApiToken" title="projects/squacapi/src/lib/interfaces/squacapi.types.ts" ><b>ApiToken</b>&nbsp;&nbsp;&nbsp;(projects/.../squacapi.types.ts)</a>
+                            <a href="#ApiToken" title="projects/squacapi/src/lib/types/squac-objects.type.ts" ><b>ApiToken</b>&nbsp;&nbsp;&nbsp;(projects/.../squac-objects.type.ts)</a>
                         </li>
                         <li>
                             <a href="#AppAbility" title="projects/squac-ui/src/app/core/utils/ability.ts" ><b>AppAbility</b>&nbsp;&nbsp;&nbsp;(projects/.../ability.ts)</a>
                         </li>
                         <li>
-                            <a href="#ArchiveStatType" title="projects/squacapi/src/lib/types/archive-stat-type.ts" ><b>ArchiveStatType</b>&nbsp;&nbsp;&nbsp;(projects/.../archive-stat-type.ts)</a>
+                            <a href="#ArchiveStatType" title="projects/squacapi/src/lib/types/archive-stat-type.type.ts" ><b>ArchiveStatType</b>&nbsp;&nbsp;&nbsp;(projects/.../archive-stat-type.type.ts)</a>
                         </li>
                         <li>
-                            <a href="#ArchiveType" title="projects/squacapi/src/lib/types/archive-type.ts" ><b>ArchiveType</b>&nbsp;&nbsp;&nbsp;(projects/.../archive-type.ts)</a>
+                            <a href="#ArchiveType" title="projects/squacapi/src/lib/types/archive-type.type.ts" ><b>ArchiveType</b>&nbsp;&nbsp;&nbsp;(projects/.../archive-type.type.ts)</a>
                         </li>
                         <li>
                             <a href="#ButtonEvent" title="projects/squac-ui/src/app/shared/components/detail-page/detail-page.interface.ts" ><b>ButtonEvent</b>&nbsp;&nbsp;&nbsp;(projects/.../detail-page.interface.ts)</a>
                         </li>
                         <li>
-                            <a href="#CheckboxForm" title="projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/channel-filter/channel-filter.component.ts" ><b>CheckboxForm</b>&nbsp;&nbsp;&nbsp;(projects/.../channel-filter.component.ts)</a>
+                            <a href="#CheckboxForm" title="projects/squac-ui/src/app/features/dashboard/components/channel-filter/channel-filter.component.ts" ><b>CheckboxForm</b>&nbsp;&nbsp;&nbsp;(projects/.../channel-filter.component.ts)</a>
                         </li>
                         <li>
                             <a href="#DataRange" title="projects/widgets/src/lib/interfaces/data.interface.ts" ><b>DataRange</b>&nbsp;&nbsp;&nbsp;(projects/.../data.interface.ts)</a>
@@ -100,7 +158,7 @@
                             <a href="#LoadingContext" title="projects/squac-ui/src/app/core/services/loading.service.ts" ><b>LoadingContext</b>&nbsp;&nbsp;&nbsp;(projects/.../loading.service.ts)</a>
                         </li>
                         <li>
-                            <a href="#MeasurementParams" title="projects/squacapi/src/lib/interfaces/squacapi.types.ts" ><b>MeasurementParams</b>&nbsp;&nbsp;&nbsp;(projects/.../squacapi.types.ts)</a>
+                            <a href="#MeasurementParams" title="projects/squacapi/src/lib/types/squac-objects.type.ts" ><b>MeasurementParams</b>&nbsp;&nbsp;&nbsp;(projects/.../squac-objects.type.ts)</a>
                         </li>
                         <li>
                             <a href="#MeasurementTransformTypes" title="projects/squacapi/src/lib/pipes/measurement.pipe.ts" ><b>MeasurementTransformTypes</b>&nbsp;&nbsp;&nbsp;(projects/.../measurement.pipe.ts)</a>
@@ -148,7 +206,7 @@
                             <a href="#TimeInterval" title="projects/widgets/src/lib/services/generate_local_measurements.ts" ><b>TimeInterval</b>&nbsp;&nbsp;&nbsp;(projects/.../generate_local_measurements.ts)</a>
                         </li>
                         <li>
-                            <a href="#TypeGuard" title="projects/widgets/src/lib/shared/pipes/guard-type.pipe.ts" ><b>TypeGuard</b>&nbsp;&nbsp;&nbsp;(projects/.../guard-type.pipe.ts)</a>
+                            <a href="#TypeGuard" title="projects/widgets/src/lib/pipes/guard-type.pipe.ts" ><b>TypeGuard</b>&nbsp;&nbsp;&nbsp;(projects/.../guard-type.pipe.ts)</a>
                         </li>
                         <li>
                             <a href="#ValueOperator" title="projects/squacapi/src/lib/types/trigger-types.type.ts" ><b>ValueOperator</b>&nbsp;&nbsp;&nbsp;(projects/.../trigger-types.type.ts)</a>
@@ -163,7 +221,13 @@
                             <a href="#WidgetStatType" title="projects/squacapi/src/lib/types/widget-stat-type.ts" ><b>WidgetStatType</b>&nbsp;&nbsp;&nbsp;(projects/.../widget-stat-type.ts)</a>
                         </li>
                         <li>
+                            <a href="#WidgetType" title="projects/widgets/src/lib/constants/widget-type-options.constant.ts" ><b>WidgetType</b>&nbsp;&nbsp;&nbsp;(projects/.../widget-type-options.constant.ts)</a>
+                        </li>
+                        <li>
                             <a href="#WidgetTypeInfo" title="projects/widgets/src/lib/constants/widget-type-options.constant.ts" ><b>WidgetTypeInfo</b>&nbsp;&nbsp;&nbsp;(projects/.../widget-type-options.constant.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#WidgetTypes" title="projects/widgets/src/lib/constants/widget-type-options.constant.ts" ><b>WidgetTypes</b>&nbsp;&nbsp;&nbsp;(projects/.../widget-type-options.constant.ts)</a>
                         </li>
                     </ul>
                 </td>
@@ -173,7 +237,7 @@
 </section>
 
     <h3>projects/squac-ui/src/app/core/utils/ability.ts</h3>
-    <section>
+    <section data-compodoc="block-typealias">
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -228,8 +292,8 @@
             </tr>
         </tbody>
     </table>
-</section>    <h3>projects/squacapi/src/lib/interfaces/squacapi.types.ts</h3>
-    <section>
+</section>    <h3>projects/squacapi/src/lib/types/squac-objects.type.ts</h3>
+    <section data-compodoc="block-typealias">
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -262,8 +326,52 @@
             </tr>
         </tbody>
     </table>
-</section>    <h3>projects/squacapi/src/lib/types/archive-stat-type.ts</h3>
-    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="MeasurementTypes"></a>
+                    <span class="name "><b>MeasurementTypes</b><a href="#MeasurementTypes"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Measurement data types</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>Measurement | Aggregate | Archive</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="SquacObject"></a>
+                    <span class="name "><b>SquacObject</b><a href="#SquacObject"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>SQUAC models (not measurement types)</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../interfaces/Group.html" target="_self" >ChannelGroup | Dashboard | MatchingRule | Metric | Monitor | Organization | Trigger | User | Widget</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>projects/squacapi/src/lib/types/archive-stat-type.type.ts</h3>
+    <section data-compodoc="block-typealias">
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -280,8 +388,8 @@
             </tr>
         </tbody>
     </table>
-</section>    <h3>projects/squacapi/src/lib/types/archive-type.ts</h3>
-    <section>
+</section>    <h3>projects/squacapi/src/lib/types/archive-type.type.ts</h3>
+    <section data-compodoc="block-typealias">
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -299,7 +407,7 @@
         </tbody>
     </table>
 </section>    <h3>projects/squac-ui/src/app/shared/components/detail-page/detail-page.interface.ts</h3>
-    <section>
+    <section data-compodoc="block-typealias">
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -322,8 +430,8 @@
             </tr>
         </tbody>
     </table>
-</section>    <h3>projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/channel-filter/channel-filter.component.ts</h3>
-    <section>
+</section>    <h3>projects/squac-ui/src/app/features/dashboard/components/channel-filter/channel-filter.component.ts</h3>
+    <section data-compodoc="block-typealias">
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -341,7 +449,7 @@
         </tbody>
     </table>
 </section>    <h3>projects/widgets/src/lib/interfaces/data.interface.ts</h3>
-    <section>
+    <section data-compodoc="block-typealias">
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -375,7 +483,7 @@
         </tbody>
     </table>
 </section>    <h3>projects/widgets/src/lib/interfaces/colors.interface.ts</h3>
-    <section>
+    <section data-compodoc="block-typealias">
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -399,7 +507,7 @@
         </tbody>
     </table>
 </section>    <h3>projects/squacapi/src/lib/types/monitor-types.type.ts</h3>
-    <section>
+    <section data-compodoc="block-typealias">
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -433,7 +541,7 @@
         </tbody>
     </table>
 </section>    <h3>projects/widgets/src/lib/interfaces/charts.interface.ts</h3>
-    <section>
+    <section data-compodoc="block-typealias">
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -499,7 +607,7 @@
         </tbody>
     </table>
 </section>    <h3>projects/squac-ui/src/app/core/services/loading.service.ts</h3>
-    <section>
+    <section data-compodoc="block-typealias">
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -533,7 +641,7 @@
         </tbody>
     </table>
 </section>    <h3>projects/squacapi/src/lib/pipes/measurement.pipe.ts</h3>
-    <section>
+    <section data-compodoc="block-typealias">
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -550,54 +658,8 @@
             </tr>
         </tbody>
     </table>
-</section>    <h3>projects/squacapi/src/lib/types/squac-objects.type.ts</h3>
-    <section>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="MeasurementTypes"></a>
-                    <span class="name "><b>MeasurementTypes</b><a href="#MeasurementTypes"><span class="icon ion-ios-link"></span></a></span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Measurement data types</p>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <code>    <code>Measurement | Aggregate | Archive</code>
-</code>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="SquacObject"></a>
-                    <span class="name "><b>SquacObject</b><a href="#SquacObject"><span class="icon ion-ios-link"></span></a></span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>SQUAC models (not measurement types)</p>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <code>        <code><a href="../interfaces/Group.html" target="_self" >ChannelGroup | Dashboard | MatchingRule | Metric | Monitor | Organization | Trigger | User | Widget</a></code>
-</code>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 </section>    <h3>projects/squac-ui/src/app/shared/components/table-view/interfaces.ts</h3>
-    <section>
+    <section data-compodoc="block-typealias">
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -631,7 +693,7 @@
         </tbody>
     </table>
 </section>    <h3>projects/squacapi/src/lib/types/trigger-types.type.ts</h3>
-    <section>
+    <section data-compodoc="block-typealias">
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -665,7 +727,7 @@
         </tbody>
     </table>
 </section>    <h3>projects/squacapi/src/lib/interfaces/api-service-params.interface.ts</h3>
-    <section>
+    <section data-compodoc="block-typealias">
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -689,7 +751,7 @@
         </tbody>
     </table>
 </section>    <h3>projects/widgets/src/lib/widget-types/tabular/types.ts</h3>
-    <section>
+    <section data-compodoc="block-typealias">
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -706,14 +768,14 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <code>        <code><a href="../interfaces/RowMetric.html" target="_self" >Record&lt;number | RowMetric&gt;</a></code>
+                    <code>    <code>Record&lt;string | RowMetric&gt;</code>
 </code>
                 </td>
             </tr>
         </tbody>
     </table>
 </section>    <h3>projects/squac-ui/src/app/shared/components/search-filter/interfaces.ts</h3>
-    <section>
+    <section data-compodoc="block-typealias">
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -731,7 +793,7 @@
         </tbody>
     </table>
 </section>    <h3>projects/widgets/src/lib/widget-types/map/types.ts</h3>
-    <section>
+    <section data-compodoc="block-typealias">
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -749,7 +811,7 @@
         </tbody>
     </table>
 </section>    <h3>projects/widgets/src/lib/services/generate_local_measurements.ts</h3>
-    <section>
+    <section data-compodoc="block-typealias">
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -766,14 +828,20 @@
             </tr>
         </tbody>
     </table>
-</section>    <h3>projects/widgets/src/lib/shared/pipes/guard-type.pipe.ts</h3>
-    <section>
+</section>    <h3>projects/widgets/src/lib/pipes/guard-type.pipe.ts</h3>
+    <section data-compodoc="block-typealias">
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
                 <td class="col-md-4">
                     <a name="TypeGuard"></a>
                     <span class="name "><b>TypeGuard</b><a href="#TypeGuard"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns if a is of a type that extends B based on a condition</p>
+</div>
                 </td>
             </tr>
             <tr>
@@ -785,7 +853,7 @@
         </tbody>
     </table>
 </section>    <h3>projects/squacapi/src/lib/types/widget-stat-type.ts</h3>
-    <section>
+    <section data-compodoc="block-typealias">
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -803,7 +871,23 @@
         </tbody>
     </table>
 </section>    <h3>projects/widgets/src/lib/constants/widget-type-options.constant.ts</h3>
-    <section>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="WidgetType"></a>
+                    <span class="name "><b>WidgetType</b><a href="#WidgetType"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -821,6 +905,22 @@
             <tr>
                 <td class="col-md-4">
                     <code>    <code>literal type</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="WidgetTypes"></a>
+                    <span class="name "><b>WidgetTypes</b><a href="#WidgetTypes"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../classes/Widget.html" target="_self" >Record&lt;WidgetType | WidgetTypeInfo&gt;</a></code>
 </code>
                 </td>
             </tr>

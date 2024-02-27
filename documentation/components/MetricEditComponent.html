@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -35,32 +93,33 @@
 
 
 <ol class="breadcrumb">
-  <li>Components</li>
-  <li
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
   >
   MetricEditComponent</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
-        <li >
-            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
         </li>
-        <li >
-            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
-        </li>
-        <li >
-            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
     <h3>File</h3>
 </p>
 <p class="comment">
@@ -81,15 +140,16 @@
         <h3>Implements</h3>
     </p>
     <p class="comment">
-                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
-                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+                <code>OnInit</code>
+                <code>OnDestroy</code>
     </p>
 
 
-<section>
+<section data-compodoc="block-metadata">
     <h3>Metadata</h3>
     <table class="table table-sm table-hover metadata">
         <tbody>
+
 
 
 
@@ -107,9 +167,22 @@
             </tr>
 
             <tr>
-                <td class="col-md-3">styleUrls</td>
-                <td class="col-md-9"><code>./metric-edit.component.scss</code></td>
+                <td class="col-md-3">Standalone</td>
+                <td class="col-md-9"><code>true</code></td>
             </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>ReactiveFormsModule</code>
+                            <code>MatIconModule</code>
+                            <code>MatFormFieldModule</code>
+                            <code>MatInputModule</code>
+                            <code>MatDialogModule</code>
+                            <code>MatButtonModule</code>
+                </td>
+            </tr>
+
 
 
 
@@ -129,7 +202,7 @@
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -142,6 +215,7 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier"></span>
                                     <span class="modifier">Public</span>
                                 <a href="#data" >data</a>
                             </li>
@@ -203,18 +277,18 @@
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-constructor">
     <h3 id="constructor">Constructor</h3>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(metricService: <a href="../injectables/MetricService.html" target="_self">MetricService</a>, formBuilder: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>, dialogRef: <a href="../components/MetricEditComponent.html" target="_self">MatDialogRef&lt;MetricEditComponent&gt;</a>, data: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+<code>constructor(metricService: <a href="../injectables/MetricService.html" target="_self">MetricService</a>, formBuilder: FormBuilder, dialogRef: <a href="../components/MetricEditComponent.html" target="_self">MatDialogRef&lt;MetricEditComponent&gt;</a>, data: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit.component.ts:55</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit.component.ts:72</a></div>
                             </td>
                         </tr>
 
@@ -247,7 +321,7 @@
                                                         <td>formBuilder</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+                                                                    <code>FormBuilder</code>
                                                         </td>
                                                   
                                                     <td>
@@ -292,7 +366,7 @@
 
 
 
-    <section>
+    <section data-compodoc="block-methods">
     
     <h3 id="methods">
         Methods
@@ -315,60 +389,58 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="113"
-                            class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit.component.ts:113</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="130"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit.component.ts:130</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Cancels editing without saving</p>
+                        <div class="io-description"><p>Cancels editing without saving</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>metricId</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>metricId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    Yes
+                                            </td>
 
 
-                                    <td>
-                                        <p>metric id</p>
+                                            <td>
+                                                    <p>metric id</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -391,23 +463,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="72"
-                            class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit.component.ts:72</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="89"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit.component.ts:89</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>populate form</p>
+                        <div class="io-description"><p>populate form</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -430,23 +502,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="118"
-                            class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit.component.ts:118</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="135"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit.component.ts:135</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>unsubscribe</p>
+                        <div class="io-description"><p>unsubscribe</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -469,23 +541,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="65"
-                            class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit.component.ts:65</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="82"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit.component.ts:82</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Set initial info</p>
+                        <div class="io-description"><p>Set initial info</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -508,29 +580,29 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="88"
-                            class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit.component.ts:88</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="105"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit.component.ts:105</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Saves metric information</p>
+                        <div class="io-description"><p>Saves metric information</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </section>
-    <section>
+    <section data-compodoc="block-properties">
     
     <h3 id="inputs">
         Properties
@@ -541,6 +613,7 @@
                 <td class="col-md-4">
                     <a name="data"></a>
                     <span class="name">
+                            <span class="modifier"></span>
                             <span class="modifier">Public</span>
                         <span ><b>data</b></span>
                         <a href="#data"><span class="icon ion-ios-link"></span></a>
@@ -564,7 +637,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit.component.ts:61</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit.component.ts:78</a></div>
                         </td>
                     </tr>
 
@@ -591,7 +664,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit.component.ts:60</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit.component.ts:77</a></div>
                         </td>
                     </tr>
 
@@ -617,7 +690,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit.component.ts:44</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit.component.ts:61</a></div>
                         </td>
                     </tr>
 
@@ -643,7 +716,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit.component.ts:42</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit.component.ts:59</a></div>
                         </td>
                     </tr>
 
@@ -669,7 +742,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit.component.ts:43</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit.component.ts:60</a></div>
                         </td>
                     </tr>
 
@@ -709,7 +782,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit.component.ts:46</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit.component.ts:63</a></div>
                         </td>
                     </tr>
 
@@ -740,7 +813,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit.component.ts:41</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit.component.ts:58</a></div>
                         </td>
                     </tr>
 
@@ -752,7 +825,7 @@
 </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
+    <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, OnDestroy, Inject } from &quot;@angular/core&quot;;
 import { Metric } from &quot;squacapi&quot;;
 import {
@@ -760,10 +833,19 @@ import {
   FormControl,
   FormGroup,
   FormBuilder,
+  ReactiveFormsModule,
 } from &quot;@angular/forms&quot;;
 import { MetricService } from &quot;squacapi&quot;;
 import { Subscription } from &quot;rxjs&quot;;
-import { MatDialogRef, MAT_DIALOG_DATA } from &quot;@angular/material/dialog&quot;;
+import {
+  MatDialogModule,
+  MatDialogRef,
+  MAT_DIALOG_DATA as MAT_DIALOG_DATA,
+} from &quot;@angular/material/dialog&quot;;
+import { MatIconModule } from &quot;@angular/material/icon&quot;;
+import { MatFormFieldModule } from &quot;@angular/material/form-field&quot;;
+import { MatInputModule } from &quot;@angular/material/input&quot;;
+import { MatButtonModule } from &quot;@angular/material/button&quot;;
 
 /** Metric edit form contrils */
 interface MetricForm {
@@ -790,7 +872,15 @@ interface MetricForm {
 @Component({
   selector: &quot;widget-edit-metrics&quot;,
   templateUrl: &quot;./metric-edit.component.html&quot;,
-  styleUrls: [&quot;./metric-edit.component.scss&quot;],
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDialogModule,
+    MatButtonModule,
+  ],
 })
 export class MetricEditComponent implements OnInit, OnDestroy {
   subscriptions: Subscription &#x3D; new Subscription();
@@ -877,20 +967,8 @@ export class MetricEditComponent implements OnInit, OnDestroy {
 </code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;div
-  mat-dialog-title
-  class&#x3D;&quot;dialog-title&quot;
-&gt;
-  &lt;h3&gt;{{ editMode ? &quot;Edit Metric&quot; : &quot;New Metric&quot; }}&lt;/h3&gt;
-  &lt;button
-    mat-button
-    (click)&#x3D;&quot;cancel()&quot;
-    type&#x3D;&quot;button&quot;
-  &gt;
-    &lt;mat-icon&gt;close&lt;/mat-icon&gt;
-  &lt;/button&gt;
-&lt;/div&gt;
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;h2 mat-dialog-title&gt;{{ editMode ? &quot;Edit Metric&quot; : &quot;New Metric&quot; }}&lt;/h2&gt;
 &lt;div mat-dialog-content&gt;
   &lt;form
     class&#x3D;&quot;form&quot;
@@ -980,31 +1058,33 @@ export class MetricEditComponent implements OnInit, OnDestroy {
 
 &lt;div
   mat-dialog-actions
+  align&#x3D;&quot;end&quot;
   class&#x3D;&quot;dialog-options&quot;
 &gt;
-  &lt;div&gt;
-    &lt;button
-      class&#x3D;&quot;save&quot;
-      mat-flat-button
-      color&#x3D;&quot;accent&quot;
-      (click)&#x3D;&quot;save()&quot;
-      [disabled]&#x3D;&quot;!metricForm.valid&quot;
-    &gt;
-      Save
-    &lt;/button&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
+  &lt;button
+    class&#x3D;&quot;dialog-cancel&quot;
+    mat-stroked-button
+    mat-dialog-close
+    (click)&#x3D;&quot;cancel()&quot;
+    type&#x3D;&quot;button&quot;
+  &gt;
+    Cancel
+  &lt;/button&gt;
+  &lt;button
+    class&#x3D;&quot;save&quot;
+    mat-flat-button
+    color&#x3D;&quot;accent&quot;
+    (click)&#x3D;&quot;save()&quot;
+    [disabled]&#x3D;&quot;!metricForm?.valid&quot;
+  &gt;
+    Save
+  &lt;/button&gt;
+
+&lt;/div&gt;</code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-styleData">
-                <p class="comment">
-                    <code>./metric-edit.component.scss</code>
-                </p>
-                <pre class="line-numbers"><code class="language-scss"></code></pre>
-    </div>
 
-    <div class="tab-pane fade " id="c-tree">
+    <div class="tab-pane fade " id="tree">
         <div id="tree-container"></div>
         <div class="tree-legend">
             <div class="title">
@@ -1029,8 +1109,8 @@ export class MetricEditComponent implements OnInit, OnDestroy {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div  mat-dialog-title  class="dialog-title">  <h3>{{ editMode ? "Edit Metric" : "New Metric" }}</h3>  <button    mat-button    (click)="cancel()"    type="button"  >    <mat-icon>close</mat-icon>  </button></div><div mat-dialog-content>  <form    class="form"    action=""    [formGroup]="metricForm"  >    <mat-form-field class="large">      <input        matInput        type="text"        id="name"        formControlName="name"        placeholder="Display Name"      />    </mat-form-field>    <mat-form-field class="large">      <input        matInput        type="text"        id="code"        formControlName="code"        placeholder="Code (must be unique, no spaces)"      />    </mat-form-field>    <mat-form-field class="large">      <textarea        matInput        id="description"        placeholder="Description"        formControlName="description"        class="form-control"      >      </textarea>      <!-- <mat-error *ngIf="description.invalid">Please enter a description for your dashboard</mat-error> -->    </mat-form-field>    <mat-form-field>      <input        matInput        type="text"        id="referenceUrl"        formControlName="referenceUrl"        placeholder="Reference URL"      />    </mat-form-field>    <mat-form-field class="medium">      <input        matInput        type="text"        id="unit"        formControlName="unit"        placeholder="Unit"      />    </mat-form-field>    <mat-form-field class="medium">      <input        matInput        type="number"        id="sampleRate"        formControlName="sampleRate"        placeholder="Sample Rate"      />    </mat-form-field>    <div id="value-container">      <!-- defaultmin and max -->      <mat-form-field class="small">        <input          matInput          type="number"          formControlName="minVal"          placeholder="Default Min Value"        />      </mat-form-field>      <mat-form-field class="small">        <input          matInput          type="number"          formControlName="maxVal"          placeholder="Default Max Value"        />      </mat-form-field>    </div>  </form></div><div  mat-dialog-actions  class="dialog-options">  <div>    <button      class="save"      mat-flat-button      color="accent"      (click)="save()"      [disabled]="!metricForm.valid"    >      Save    </button>  </div></div></div>'
-    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'SnackbarComponent', 'selector': 'shared-snackbar'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
+        var COMPONENT_TEMPLATE = '<div><h2 mat-dialog-title>{{ editMode ? "Edit Metric" : "New Metric" }}</h2><div mat-dialog-content>  <form    class="form"    action=""    [formGroup]="metricForm"  >    <mat-form-field class="large">      <input        matInput        type="text"        id="name"        formControlName="name"        placeholder="Display Name"      />    </mat-form-field>    <mat-form-field class="large">      <input        matInput        type="text"        id="code"        formControlName="code"        placeholder="Code (must be unique, no spaces)"      />    </mat-form-field>    <mat-form-field class="large">      <textarea        matInput        id="description"        placeholder="Description"        formControlName="description"        class="form-control"      >      </textarea>      <!-- <mat-error *ngIf="description.invalid">Please enter a description for your dashboard</mat-error> -->    </mat-form-field>    <mat-form-field>      <input        matInput        type="text"        id="referenceUrl"        formControlName="referenceUrl"        placeholder="Reference URL"      />    </mat-form-field>    <mat-form-field class="medium">      <input        matInput        type="text"        id="unit"        formControlName="unit"        placeholder="Unit"      />    </mat-form-field>    <mat-form-field class="medium">      <input        matInput        type="number"        id="sampleRate"        formControlName="sampleRate"        placeholder="Sample Rate"      />    </mat-form-field>    <div id="value-container">      <!-- defaultmin and max -->      <mat-form-field class="small">        <input          matInput          type="number"          formControlName="minVal"          placeholder="Default Min Value"        />      </mat-form-field>      <mat-form-field class="small">        <input          matInput          type="number"          formControlName="maxVal"          placeholder="Default Max Value"        />      </mat-form-field>    </div>  </form></div><div  mat-dialog-actions  align="end"  class="dialog-options">  <button    class="dialog-cancel"    mat-stroked-button    mat-dialog-close    (click)="cancel()"    type="button"  >    Cancel  </button>  <button    class="save"    mat-flat-button    color="accent"    (click)="save()"    [disabled]="!metricForm?.valid"  >    Save  </button></div></div>'
+    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'BudComponent', 'selector': 'widget-calendar-plot'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
     var DIRECTIVES = [{'name': 'LoadingDirective', 'selector': '[appIsLoading]'},{'name': 'TooltipDirective', 'selector': '[uiTooltip]'},{'name': 'WidgetTypeDirective', 'selector': '[widgetContainer]'},{'name': 'WidgetTypeExampleDirective', 'selector': '[appWidgetTypeExample]'}];
     var ACTUAL_COMPONENT = {'name': 'MetricEditComponent'};
 </script>

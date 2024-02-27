@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -35,36 +93,41 @@
 
 
 <ol class="breadcrumb">
-  <li>Components</li>
-  <li
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
   >
   WidgetMainComponent</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
-        <li >
-            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
         </li>
-        <li >
-            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
         </li>
-        <li >
-            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
     <h3>File</h3>
 </p>
 <p class="comment">
-    <code>projects/squac-ui/src/app/features/dashboard/components/widget-main/widget-main.component.ts</code>
+    <code>projects/squac-ui/src/app/features/dashboard/pages/widget-main/widget-main.component.ts</code>
 </p>
 
 
@@ -81,12 +144,12 @@
         <h3>Implements</h3>
     </p>
     <p class="comment">
-                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
-                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+                <code>OnInit</code>
+                <code>OnDestroy</code>
     </p>
 
 
-<section>
+<section data-compodoc="block-metadata">
     <h3>Metadata</h3>
     <table class="table table-sm table-hover metadata">
         <tbody>
@@ -105,9 +168,30 @@
 
 
 
+
             <tr>
                 <td class="col-md-3">selector</td>
                 <td class="col-md-9"><code>widget-main</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">Standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="../components/WidgetDetailComponent.html" target="_self" >WidgetDetailComponent</a></code>
+                            <code>GridsterModule</code>
+                            <code>MatSidenavModule</code>
+                                <code><a href="../components/ChannelFilterComponent.html" target="_self" >ChannelFilterComponent</a></code>
+                                <code><a href="../components/LoadingComponent.html" target="_self" >LoadingComponent</a></code>
+                            <code>RouterOutlet</code>
+                            <code>NgIf</code>
+                            <code>MatButtonModule</code>
+                            <code>NgFor</code>
+                </td>
             </tr>
 
             <tr>
@@ -133,7 +217,7 @@
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -225,18 +309,18 @@
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-constructor">
     <h3 id="constructor">Constructor</h3>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(viewService: <a href="../injectables/ViewService.html" target="_self">ViewService</a>, route: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, ability: <a href="../s/AppAbility.html" target="_self">AppAbility</a>, widgetConnectService: <a href="../injectables/WidgetConnectService.html" target="_self">WidgetConnectService</a>, cdr: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>)</code>
+<code>constructor(viewService: <a href="../injectables/ViewService.html" target="_self">ViewService</a>, route: ActivatedRoute, router: Router, ability: <a href="../s/AppAbility.html" target="_self">AppAbility</a>, widgetConnectService: <a href="../injectables/WidgetConnectService.html" target="_self">WidgetConnectService</a>, cdr: ChangeDetectorRef)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-main/widget-main.component.ts:83</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="105" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/pages/widget-main/widget-main.component.ts:105</a></div>
                             </td>
                         </tr>
 
@@ -269,7 +353,7 @@
                                                         <td>route</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                                    <code>ActivatedRoute</code>
                                                         </td>
                                                   
                                                     <td>
@@ -281,7 +365,7 @@
                                                         <td>router</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                                    <code>Router</code>
                                                         </td>
                                                   
                                                     <td>
@@ -317,7 +401,7 @@
                                                         <td>cdr</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+                                                                    <code>ChangeDetectorRef</code>
                                                         </td>
                                                   
                                                     <td>
@@ -338,7 +422,7 @@
 
 
 
-    <section>
+    <section data-compodoc="block-methods">
     
     <h3 id="methods">
         Methods
@@ -361,23 +445,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="156"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-main/widget-main.component.ts:156</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="179"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/dashboard/pages/widget-main/widget-main.component.ts:179</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Navigate to add widget</p>
+                        <div class="io-description"><p>Navigate to add widget</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -388,7 +472,7 @@
                 <td class="col-md-4">
                     <a name="addWidgetsToView"></a>
                     <span class="name">
-                        <span class="modifier">Private</span>
+                            <span class="modifier">Private</span>
                         <span ><b>addWidgetsToView</b></span>
                         <a href="#addWidgetsToView"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -396,66 +480,64 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>addWidgetsToView(widgets: <a href="../classes/Widget.html" target="_self">Widget[]</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="183"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-main/widget-main.component.ts:183</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="206"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/dashboard/pages/widget-main/widget-main.component.ts:206</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Adds widgets to view</p>
+                        <div class="io-description"><p>Adds widgets to view</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>widgets</td>
-                                    <td>
-                                                <code><a href="../classes/Widget.html" target="_self" >Widget[]</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>widgets</td>
+                                            <td>
+                                                            <code><a href="../classes/Widget.html" target="_self" >Widget[]</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>widget array to add</p>
+                                            <td>
+                                                    <p>widget array to add</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -478,76 +560,74 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="200"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-main/widget-main.component.ts:200</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="223"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/dashboard/pages/widget-main/widget-main.component.ts:223</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Adds individual widget to grid</p>
+                        <div class="io-description"><p>Adds individual widget to grid</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>widget</td>
-                                    <td>
-                                                <code><a href="../classes/Widget.html" target="_self" >Widget</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>widget</td>
+                                            <td>
+                                                            <code><a href="../classes/Widget.html" target="_self" >Widget</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>widget to add</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>rePosition</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>true if widget position needs to be reset</p>
+                                            <td>
+                                                    <p>widget to add</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>rePosition</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>true if widget position needs to be reset</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -570,61 +650,59 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="145"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-main/widget-main.component.ts:145</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="168"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/dashboard/pages/widget-main/widget-main.component.ts:168</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Save widgets after resize or move,
+                        <div class="io-description"><p>Save widgets after resize or move,
 if able to</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>item</td>
-                                    <td>
-                                                <code><a href="../interfaces/WidgetGridsterItem.html" target="_self" >WidgetGridsterItem</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>item</td>
+                                            <td>
+                                                            <code><a href="../interfaces/WidgetGridsterItem.html" target="_self" >WidgetGridsterItem</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>changed grid item</p>
+                                            <td>
+                                                    <p>changed grid item</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -647,23 +725,23 @@ if able to</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="237"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-main/widget-main.component.ts:237</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="260"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/dashboard/pages/widget-main/widget-main.component.ts:260</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>unsubscribe</p>
+                        <div class="io-description"><p>unsubscribe</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -686,23 +764,23 @@ if able to</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="95"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-main/widget-main.component.ts:95</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="117"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/dashboard/pages/widget-main/widget-main.component.ts:117</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>subscrive to router and changes</p>
+                        <div class="io-description"><p>subscrive to router and changes</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -725,23 +803,23 @@ if able to</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="172"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-main/widget-main.component.ts:172</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="195"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/dashboard/pages/widget-main/widget-main.component.ts:195</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Toggles dashboard sidenav</p>
+                        <div class="io-description"><p>Toggles dashboard sidenav</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -764,77 +842,75 @@ if able to</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="167"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-main/widget-main.component.ts:167</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="190"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/dashboard/pages/widget-main/widget-main.component.ts:190</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Trackby function for html</p>
+                        <div class="io-description"><p>Trackby function for html</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>_index</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>_index</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>item index</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>item</td>
-                                    <td>
-                                                <code><a href="../interfaces/WidgetGridsterItem.html" target="_self" >WidgetGridsterItem</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>item</p>
+                                            <td>
+                                                    <p>item index</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>item</td>
+                                            <td>
+                                                            <code><a href="../interfaces/WidgetGridsterItem.html" target="_self" >WidgetGridsterItem</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        <p>id</p>
+                                            <td>
+                                                    No
+                                            </td>
 
-                    </div>
+
+                                            <td>
+                                                    <p>item</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>id</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -845,7 +921,7 @@ if able to</p>
                 <td class="col-md-4">
                     <a name="updateWidget"></a>
                     <span class="name">
-                        <span class="modifier">Private</span>
+                            <span class="modifier">Private</span>
                         <span ><b>updateWidget</b></span>
                         <a href="#updateWidget"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -853,88 +929,86 @@ if able to</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>updateWidget(widgetId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, widget?: <a href="../classes/Widget.html" target="_self">Widget</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="218"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-main/widget-main.component.ts:218</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="241"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/dashboard/pages/widget-main/widget-main.component.ts:241</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Updates or removes widget, widget will be removed if only id is passed</p>
+                        <div class="io-description"><p>Updates or removes widget, widget will be removed if only id is passed</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>widgetId</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>widgetId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>id of widget to change</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>widget</td>
-                                    <td>
-                                                <code><a href="../classes/Widget.html" target="_self" >Widget</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>widget to update or add</p>
+                                            <td>
+                                                    <p>id of widget to change</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>widget</td>
+                                            <td>
+                                                            <code><a href="../classes/Widget.html" target="_self" >Widget</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>widget to update or add</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </section>
-    <section>
+    <section data-compodoc="block-properties">
     
     <h3 id="inputs">
         Properties
@@ -958,7 +1032,7 @@ if able to</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-main/widget-main.component.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/pages/widget-main/widget-main.component.ts:58</a></div>
                         </td>
                     </tr>
 
@@ -984,7 +1058,7 @@ if able to</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-main/widget-main.component.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/pages/widget-main/widget-main.component.ts:55</a></div>
                         </td>
                     </tr>
 
@@ -1010,7 +1084,7 @@ if able to</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-main/widget-main.component.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/pages/widget-main/widget-main.component.ts:57</a></div>
                         </td>
                     </tr>
 
@@ -1041,7 +1115,7 @@ if able to</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-main/widget-main.component.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/pages/widget-main/widget-main.component.ts:54</a></div>
                         </td>
                     </tr>
 
@@ -1066,7 +1140,7 @@ if able to</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-main/widget-main.component.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/pages/widget-main/widget-main.component.ts:53</a></div>
                         </td>
                     </tr>
 
@@ -1140,7 +1214,7 @@ if able to</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-main/widget-main.component.ts:38</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/pages/widget-main/widget-main.component.ts:60</a></div>
                         </td>
                     </tr>
 
@@ -1165,7 +1239,7 @@ if able to</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-main/widget-main.component.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/pages/widget-main/widget-main.component.ts:56</a></div>
                         </td>
                     </tr>
 
@@ -1196,7 +1270,7 @@ if able to</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-main/widget-main.component.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/pages/widget-main/widget-main.component.ts:52</a></div>
                         </td>
                     </tr>
 
@@ -1227,7 +1301,7 @@ if able to</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-main/widget-main.component.ts:83</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="105" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/pages/widget-main/widget-main.component.ts:105</a></div>
                         </td>
                     </tr>
 
@@ -1239,7 +1313,7 @@ if able to</p>
 </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
+    <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -1249,11 +1323,21 @@ if able to</p>
 } from &quot;@angular/core&quot;;
 import { ViewService } from &quot;@dashboard/services/view.service&quot;;
 import { Widget, WidgetConnectService } from &quot;widgets&quot;;
-import { GridsterConfig, GridsterItem } from &quot;angular-gridster2&quot;;
+import {
+  GridsterConfig,
+  GridsterItem,
+  GridsterModule,
+} from &quot;angular-gridster2&quot;;
 import { Subscription } from &quot;rxjs&quot;;
-import { ActivatedRoute, Router } from &quot;@angular/router&quot;;
+import { ActivatedRoute, Router, RouterOutlet } from &quot;@angular/router&quot;;
 import { Dashboard } from &quot;squacapi&quot;;
 import { AppAbility } from &quot;@core/utils/ability&quot;;
+import { WidgetDetailComponent } from &quot;@dashboard/components/detail/widget-detail.component&quot;;
+import { MatSidenavModule } from &quot;@angular/material/sidenav&quot;;
+import { ChannelFilterComponent } from &quot;@dashboard/components/channel-filter/channel-filter.component&quot;;
+import { LoadingComponent } from &quot;@shared/components/loading/loading.component&quot;;
+import { NgFor, NgIf } from &quot;@angular/common&quot;;
+import { MatButtonModule } from &quot;@angular/material/button&quot;;
 
 /** Gridster item with widget */
 interface WidgetGridsterItem extends GridsterItem {
@@ -1267,6 +1351,18 @@ interface WidgetGridsterItem extends GridsterItem {
   templateUrl: &quot;./widget-main.component.html&quot;,
   styleUrls: [&quot;./widget-main.component.scss&quot;],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    WidgetDetailComponent,
+    GridsterModule,
+    MatSidenavModule,
+    ChannelFilterComponent,
+    LoadingComponent,
+    RouterOutlet,
+    NgIf,
+    MatButtonModule,
+    NgFor,
+  ],
 })
 export class WidgetMainComponent implements OnInit, OnDestroy {
   subscription: Subscription &#x3D; new Subscription();
@@ -1346,6 +1442,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
       this.widgetConnectService.toggleChannelList.subscribe(
         (toggleChannelList: boolean) &#x3D;&gt; {
           this.sideNavOpened &#x3D; toggleChannelList;
+          this.cdr.detectChanges();
         }
       );
 
@@ -1483,30 +1580,59 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
 </code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;mat-drawer-container autosize&gt;
-  &lt;mat-drawer #drawer id&#x3D;&quot;dashboard-sidenav-content&quot; class&#x3D;&quot;sidenav&quot; [(opened)]&#x3D;&quot;sideNavOpened&quot;
-    (opened)&#x3D;&quot;toggleSidenav()&quot; (closed)&#x3D;&quot;toggleSidenav()&quot; mode&#x3D;&quot;side&quot;&gt;
-    &lt;h4 class&#x3D;&quot;header&quot;&gt;Channels&lt;/h4&gt;
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;mat-drawer-container
+  autosize
+  id&#x3D;&quot;dashboard-sidenav&quot;
+  class&#x3D;&quot;dense-sidenav&quot;
+&gt;
+  &lt;mat-drawer
+    #drawer
+    class&#x3D;&quot;sidenav&quot;
+    [(opened)]&#x3D;&quot;sideNavOpened&quot;
+    (opened)&#x3D;&quot;toggleSidenav()&quot;
+    (closed)&#x3D;&quot;toggleSidenav()&quot;
+    mode&#x3D;&quot;side&quot;
+  &gt;
+    &lt;h4 class&#x3D;&quot;mat-h4&quot;&gt;Channels&lt;/h4&gt;
 
     &lt;dashboard-channel-filter (closeSidenav)&#x3D;&quot;drawer.toggle()&quot;&gt;&lt;/dashboard-channel-filter&gt;
   &lt;/mat-drawer&gt;
 
   &lt;div class&#x3D;&quot;sidenav-content&quot;&gt;
     &lt;ng-container *ngIf&#x3D;&quot;widgetItems.length &gt; 0; else noWidgets&quot;&gt;
-      &lt;gridster id&#x3D;&quot;dashboard-content&quot; [options]&#x3D;&quot;options&quot;&gt;
-        &lt;gridster-item [item]&#x3D;&quot;item&quot; *ngFor&#x3D;&quot;let item of widgetItems; trackBy: trackBy&quot;&gt;
+      &lt;gridster
+        id&#x3D;&quot;dashboard-content&quot;
+        [options]&#x3D;&quot;options&quot;
+      &gt;
+        &lt;gridster-item
+          [item]&#x3D;&quot;item&quot;
+          *ngFor&#x3D;&quot;let item of widgetItems; trackBy: trackBy&quot;
+        &gt;
           &lt;div class&#x3D;&quot;drag-handler&quot;&gt;&lt;/div&gt;
-          &lt;widget-detail class&#x3D;&quot;widget-detail&quot; [widget]&#x3D;&quot;item[&#x27;widget&#x27;]&quot; [dashboards]&#x3D;&quot;dashboards&quot;
-            [canUpdate]&#x3D;&quot;canUpdate&quot;&gt;&lt;/widget-detail&gt;
+          &lt;widget-detail
+            class&#x3D;&quot;widget-detail&quot;
+            [widget]&#x3D;&quot;item[&#x27;widget&#x27;]&quot;
+            [dashboards]&#x3D;&quot;dashboards&quot;
+            [canUpdate]&#x3D;&quot;canUpdate&quot;
+          &gt;&lt;/widget-detail&gt;
         &lt;/gridster-item&gt;
       &lt;/gridster&gt;
     &lt;/ng-container&gt;
     &lt;shared-loading *ngIf&#x3D;&quot;loading&quot;&gt;&lt;/shared-loading&gt;
     &lt;ng-template #noWidgets&gt;
-      &lt;div id&#x3D;&quot;add-widget&quot; *ngIf&#x3D;&quot;!loading &amp;&amp; !error&quot;&gt;
-        &lt;p&gt;There are currently no widgets for this dashboard.&lt;/p&gt;
-        &lt;button mat-flat-button *ngIf&#x3D;&quot;canUpdate&quot; color&#x3D;&quot;accent&quot; aria-label&#x3D;&quot;Add widget&quot; (click)&#x3D;&quot;addWidget()&quot;&gt;
+      &lt;div
+        *ngIf&#x3D;&quot;!loading &amp;&amp; !error&quot;
+        class&#x3D;&quot;column centered&quot;
+      &gt;
+        &lt;p class&#x3D;&quot;mat-body&quot;&gt;There are currently no widgets for this dashboard.&lt;/p&gt;
+        &lt;button
+          mat-flat-button
+          *ngIf&#x3D;&quot;canUpdate&quot;
+          color&#x3D;&quot;accent&quot;
+          aria-label&#x3D;&quot;Add widget&quot;
+          (click)&#x3D;&quot;addWidget()&quot;
+        &gt;
           Add Widget
         &lt;/button&gt;
       &lt;/div&gt;
@@ -1522,7 +1648,7 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
 &lt;/mat-drawer-container&gt;</code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-styleData">
+    <div class="tab-pane fade " id="styleData">
                 <p class="comment">
                     <code>./widget-main.component.scss</code>
                 </p>
@@ -1533,7 +1659,13 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
     background-color: transparent;
   }
 }
-
+#dashboard-sidenav {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
 .drag-handler {
   height: 25px;
   width: 90%;
@@ -1546,52 +1678,21 @@ export class WidgetMainComponent implements OnInit, OnDestroy {
   }
 }
 
-#add-widget {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  button {
-    margin-top: 20px;
-  }
-}
-h4.header {
-  margin: 3px 0;
-  padding-left: 7px;
-}
-
-.sidenav-toggle-container {
-  margin-top: 10px;
-  margin-left: -20px;
-  position: absolute;
-  z-index: 800 !important;
-  visibility: visible !important;
-  button {
-    color: white;
-  }
-}
-
-mat-drawer-container {
-  z-index: 0;
-  height: 100%;
-  width: 100%;
-}
-
 .sidenav-content {
   height: 100%;
 }
 
 .sidenav {
-  padding: 20px;
-}
-
-.mat-drawer {
-  width: 140px;
-  padding: 0px;
+  padding: 4px;
+  .mat-h4 {
+    margin-bottom: 3px;
+    margin-left: 3px;
+  }
 }
 </code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-tree">
+    <div class="tab-pane fade " id="tree">
         <div id="tree-container"></div>
         <div class="tree-legend">
             <div class="title">
@@ -1616,8 +1717,8 @@ mat-drawer-container {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><mat-drawer-container autosize>  <mat-drawer #drawer id="dashboard-sidenav-content" class="sidenav" [(opened)]="sideNavOpened"    (opened)="toggleSidenav()" (closed)="toggleSidenav()" mode="side">    <h4 class="header">Channels</h4>    <dashboard-channel-filter (closeSidenav)="drawer.toggle()"></dashboard-channel-filter>  </mat-drawer>  <div class="sidenav-content">    <ng-container *ngIf="widgetItems.length > 0; else noWidgets">      <gridster id="dashboard-content" [options]="options">        <gridster-item [item]="item" *ngFor="let item of widgetItems; trackBy: trackBy">          <div class="drag-handler"></div>          <widget-detail class="widget-detail" [widget]="item[\'widget\']" [dashboards]="dashboards"            [canUpdate]="canUpdate"></widget-detail>        </gridster-item>      </gridster>    </ng-container>    <shared-loading *ngIf="loading"></shared-loading>    <ng-template #noWidgets>      <div id="add-widget" *ngIf="!loading && !error">        <p>There are currently no widgets for this dashboard.</p>        <button mat-flat-button *ngIf="canUpdate" color="accent" aria-label="Add widget" (click)="addWidget()">          Add Widget        </button>      </div>      <div *ngIf="error">        <p>          {{ error }}        </p>      </div>    </ng-template>  </div>  <router-outlet></router-outlet></mat-drawer-container></div>'
-    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'SnackbarComponent', 'selector': 'shared-snackbar'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
+        var COMPONENT_TEMPLATE = '<div><mat-drawer-container  autosize  id="dashboard-sidenav"  class="dense-sidenav">  <mat-drawer    #drawer    class="sidenav"    [(opened)]="sideNavOpened"    (opened)="toggleSidenav()"    (closed)="toggleSidenav()"    mode="side"  >    <h4 class="mat-h4">Channels</h4>    <dashboard-channel-filter (closeSidenav)="drawer.toggle()"></dashboard-channel-filter>  </mat-drawer>  <div class="sidenav-content">    <ng-container *ngIf="widgetItems.length > 0; else noWidgets">      <gridster        id="dashboard-content"        [options]="options"      >        <gridster-item          [item]="item"          *ngFor="let item of widgetItems; trackBy: trackBy"        >          <div class="drag-handler"></div>          <widget-detail            class="widget-detail"            [widget]="item[\'widget\']"            [dashboards]="dashboards"            [canUpdate]="canUpdate"          ></widget-detail>        </gridster-item>      </gridster>    </ng-container>    <shared-loading *ngIf="loading"></shared-loading>    <ng-template #noWidgets>      <div        *ngIf="!loading && !error"        class="column centered"      >        <p class="mat-body">There are currently no widgets for this dashboard.</p>        <button          mat-flat-button          *ngIf="canUpdate"          color="accent"          aria-label="Add widget"          (click)="addWidget()"        >          Add Widget        </button>      </div>      <div *ngIf="error">        <p>          {{ error }}        </p>      </div>    </ng-template>  </div>  <router-outlet></router-outlet></mat-drawer-container></div>'
+    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'BudComponent', 'selector': 'widget-calendar-plot'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
     var DIRECTIVES = [{'name': 'LoadingDirective', 'selector': '[appIsLoading]'},{'name': 'TooltipDirective', 'selector': '[uiTooltip]'},{'name': 'WidgetTypeDirective', 'selector': '[widgetContainer]'},{'name': 'WidgetTypeExampleDirective', 'selector': '[appWidgetTypeExample]'}];
     var ACTUAL_COMPONENT = {'name': 'WidgetMainComponent'};
 </script>

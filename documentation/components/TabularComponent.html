@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -35,32 +93,37 @@
 
 
 <ol class="breadcrumb">
-  <li>Components</li>
-  <li
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
   >
   TabularComponent</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
-        <li >
-            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
         </li>
-        <li >
-            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
         </li>
-        <li >
-            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
     <h3>File</h3>
 </p>
 <p class="comment">
@@ -80,20 +143,20 @@
         <h3>Extends</h3>
     </p>
     <p class="comment">
-                <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                    <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
     </p>
 
     <p class="comment">
         <h3>Implements</h3>
     </p>
     <p class="comment">
-                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
-                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+                <code>OnInit</code>
+                <code>OnDestroy</code>
                     <code><a href="../interfaces/WidgetTypeComponent.html" target="_self" >WidgetTypeComponent</a></code>
     </p>
 
 
-<section>
+<section data-compodoc="block-metadata">
     <h3>Metadata</h3>
     <table class="table table-sm table-hover metadata">
         <tbody>
@@ -108,9 +171,31 @@
 
 
 
+
             <tr>
                 <td class="col-md-3">selector</td>
                 <td class="col-md-9"><code>widget-tabular</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">Standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>MatTableModule</code>
+                            <code>MatSortModule</code>
+                            <code>MatIconModule</code>
+                            <code>MatButtonModule</code>
+                            <code>MatTooltipModule</code>
+                            <code>PrecisionPipe</code>
+                            <code>NgStyle</code>
+                            <code>NgTemplateOutlet</code>
+                            <code>NgForOf</code>
+                            <code>NgIf</code>
+                </td>
             </tr>
 
             <tr>
@@ -136,7 +221,7 @@
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -149,13 +234,10 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#cellTemplate" >cellTemplate</a>
-                            </li>
-                            <li>
-                                <a href="#ColumnMode" >ColumnMode</a>
-                            </li>
-                            <li>
                                 <a href="#columns" >columns</a>
+                            </li>
+                            <li>
+                                <a href="#dataSource" >dataSource</a>
                             </li>
                             <li>
                                 <a href="#deemphasizedChannel" >deemphasizedChannel</a>
@@ -164,13 +246,13 @@
                                 <a href="#emphasizedChannel" >emphasizedChannel</a>
                             </li>
                             <li>
-                                <a href="#headerTemplate" >headerTemplate</a>
+                                <a href="#expandedElement" >expandedElement</a>
                             </li>
                             <li>
                                 <a href="#measurementPipe" >measurementPipe</a>
                             </li>
                             <li>
-                                <a href="#messages" >messages</a>
+                                <a href="#metricColumns" >metricColumns</a>
                             </li>
                             <li>
                                 <a href="#rows" >rows</a>
@@ -179,16 +261,47 @@
                                 <a href="#selectedRow" >selectedRow</a>
                             </li>
                             <li>
-                                <a href="#SelectionType" >SelectionType</a>
+                                <a href="#selection" >selection</a>
                             </li>
                             <li>
-                                <a href="#sorts" >sorts</a>
+                                    <span class="modifier"></span>
+                                <a href="#sort" >sort</a>
                             </li>
                             <li>
-                                <a href="#SortType" >SortType</a>
+                                <a href="#useStationView" >useStationView</a>
                             </li>
                             <li>
-                                <a href="#table" >table</a>
+                                <a href="#channels" >channels</a>
+                            </li>
+                            <li>
+                                <a href="#data" >data</a>
+                            </li>
+                            <li>
+                                <a href="#denseView" >denseView</a>
+                            </li>
+                            <li>
+                                <a href="#loading" >loading</a>
+                            </li>
+                            <li>
+                                <a href="#properties" >properties</a>
+                            </li>
+                            <li>
+                                <a href="#selectedMetrics" >selectedMetrics</a>
+                            </li>
+                            <li>
+                                <a href="#showKey" >showKey</a>
+                            </li>
+                            <li>
+                                <a href="#subscription" >subscription</a>
+                            </li>
+                            <li>
+                                <a href="#visualMaps" >visualMaps</a>
+                            </li>
+                            <li>
+                                <a href="#widgetConfig" >widgetConfig</a>
+                            </li>
+                            <li>
+                                <a href="#zooming" >zooming</a>
                             </li>
                         </ul>
                     </td>
@@ -218,12 +331,11 @@
                                 <a href="#emphasizeChannel" >emphasizeChannel</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#findRowIndex" >findRowIndex</a>
+                                <a href="#expandRow" >expandRow</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#findWorstChannel" >findWorstChannel</a>
+                                <a href="#findRowIndex" >findRowIndex</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -234,10 +346,10 @@
                                 <a href="#ngOnInit" >ngOnInit</a>
                             </li>
                             <li>
-                                <a href="#onSelect" >onSelect</a>
+                                <a href="#processRow" >processRow</a>
                             </li>
                             <li>
-                                <a href="#onTreeAction" >onTreeAction</a>
+                                <a href="#processStationRow" >processStationRow</a>
                             </li>
                             <li>
                                 <a href="#resize" >resize</a>
@@ -246,11 +358,27 @@
                                 <a href="#startZoom" >startZoom</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#stationStoplight" >stationStoplight</a>
+                            </li>
+                            <li>
                                 <a href="#toggleKey" >toggleKey</a>
                             </li>
                             <li>
                                     <span class="modifier"></span>
                                 <a href="#useDenseView" >useDenseView</a>
+                            </li>
+                            <li>
+                                <a href="#initToggleKey" >initToggleKey</a>
+                            </li>
+                            <li>
+                                <a href="#initZoom" >initZoom</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#updateData" >updateData</a>
                             </li>
                         </ul>
                     </td>
@@ -264,18 +392,18 @@
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-constructor">
     <h3 id="constructor">Constructor</h3>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(widgetConfigService: <a href="../injectables/WidgetConfigService.html" target="_self">WidgetConfigService</a>, widgetConnectService: <a href="../injectables/WidgetConnectService.html" target="_self">WidgetConnectService</a>, widgetManager: <a href="../injectables/WidgetManagerService.html" target="_self">WidgetManagerService</a>, ngZone: <a href="https://angular.io/api/core/NgZone" target="_blank">NgZone</a>)</code>
+<code>constructor(widgetConfigService: <a href="../injectables/WidgetConfigService.html" target="_self">WidgetConfigService</a>, widgetConnectService: <a href="../injectables/WidgetConnectService.html" target="_self">WidgetConnectService</a>, widgetManager: <a href="../injectables/WidgetManagerService.html" target="_self">WidgetManagerService</a>, ngZone: NgZone, cdr: ChangeDetectorRef)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:85</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:98</a></div>
                             </td>
                         </tr>
 
@@ -332,7 +460,19 @@
                                                         <td>ngZone</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/core/NgZone" target="_blank" >NgZone</a></code>
+                                                                    <code>NgZone</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>cdr</td>
+                                                  
+                                                        <td>
+                                                                    <code>ChangeDetectorRef</code>
                                                         </td>
                                                   
                                                     <td>
@@ -353,7 +493,7 @@
 
 
 
-    <section>
+    <section data-compodoc="block-methods">
     
     <h3 id="methods">
         Methods
@@ -371,58 +511,62 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>buildChartData(data: <a href="../undefineds/ProcessedData.html" target="_self">ProcessedData</a>)</code>
+<code>buildChartData(data: <a href="../undefineds/MeasurementTypes.html" target="_self">MeasurementTypes[]</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="239"
-                            class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:239</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:290</a></code>
+</div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>data</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#ProcessedData" target="_self" >ProcessedData</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#MeasurementTypes" target="_self" >MeasurementTypes[]</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -445,21 +589,27 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="130"
-                            class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:130</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:200</a></code>
+</div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -482,23 +632,29 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="211"
-                            class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:211</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:233</a></code>
+</div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>disabled</p>
+                        <div class="io-description"><p>disabled</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -521,53 +677,57 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="192"
-                            class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:192</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:214</a></code>
+</div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>channel</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>channel</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -590,53 +750,131 @@
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:221</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="199"
-                            class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:199</a></div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>channel</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="expandRow"></a>
+                    <span class="name">
+                        <span ><b>expandRow</b></span>
+                        <a href="#expandRow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>expandRow(row: <a href="../interfaces/Row.html" target="_self">Row</a>)</code>
                 </td>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="263"
+                                    class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:263</a></div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Inserts child rows into a table if the row has children</p>
+</div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>channel</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>row</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Row.html" target="_self" >Row</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            <td>
+                                                    <p>row to expand</p>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -647,7 +885,7 @@
                 <td class="col-md-4">
                     <a name="findRowIndex"></a>
                     <span class="name">
-                        <span class="modifier">Private</span>
+                            <span class="modifier">Private</span>
                         <span ><b>findRowIndex</b></span>
                         <a href="#findRowIndex"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -655,186 +893,67 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>findRowIndex(nslc: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="230"
-                            class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:230</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="252"
+                                    class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:252</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Finds index of row that has matching nslc</p>
+                        <div class="io-description"><p>Finds index of row that has matching nslc</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>nslc</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>nslc</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>channel nslc to find</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>index of row</p>
+                        </div>
+                            <div class="io-description">
+                                <p>index of row</p>
 
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="findWorstChannel"></a>
-                    <span class="name">
-                        <span class="modifier">Private</span>
-                        <span ><b>findWorstChannel</b></span>
-                        <a href="#findWorstChannel"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>findWorstChannel(channel: <a href="../interfaces/ChannelRow.html" target="_self">ChannelRow</a>, station: <a href="../interfaces/StationRow.html" target="_self">StationRow</a>, stationRowMetrics: <a href="../interfaces/RowMetric.html" target="_self">RowMetrics</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="351"
-                            class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:351</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Finds worst channel value to represent station</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>channel</td>
-                                    <td>
-                                                <code><a href="../interfaces/ChannelRow.html" target="_self" >ChannelRow</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <ul>
-<li>channel to compare against station</li>
-</ul>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>station</td>
-                                    <td>
-                                                <code><a href="../interfaces/StationRow.html" target="_self" >StationRow</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <ul>
-<li>station to compare</li>
-</ul>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>stationRowMetrics</td>
-                                    <td>
-                                                <code><a href="../interfaces/RowMetric.html" target="_self" >RowMetrics</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <ul>
-<li>metrics for station</li>
-</ul>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/StationRow.html" target="_self" >StationRow</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>updated station row</p>
-
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -845,7 +964,7 @@
                 <td class="col-md-4">
                     <a name="getStyle"></a>
                     <span class="name">
-                        <span class="modifier">Private</span>
+                            <span class="modifier">Private</span>
                         <span ><b>getStyle</b></span>
                         <a href="#getStyle"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -853,87 +972,85 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getStyle(value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, visualMap: <a href="../undefineds/VisualMapTypes.html" target="_self">VisualMapTypes</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="427"
-                            class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:427</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="497"
+                                    class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:497</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Finds color for value from visualmap</p>
+                        <div class="io-description"><p>Finds color for value from visualmap</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>value</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>value to check</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>visualMap</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#VisualMapTypes" target="_self" >VisualMapTypes</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>visualMap</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#VisualMapTypes" target="_self" >VisualMapTypes</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>visual map</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>color string</p>
+                        </div>
+                            <div class="io-description">
+                                <p>color string</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -944,7 +1061,7 @@
                 <td class="col-md-4">
                     <a name="ngOnInit"></a>
                     <span class="name">
-                        <span class="modifier"></span>
+                            <span class="modifier"></span>
                         <span ><b>ngOnInit</b></span>
                         <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -952,29 +1069,35 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>ngOnInit()</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="98"
-                            class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:98</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:113</a></code>
+</div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Init</p>
+                        <div class="io-description"><p>Init</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -983,76 +1106,72 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="onSelect"></a>
+                    <a name="processRow"></a>
                     <span class="name">
-                        <span ><b>onSelect</b></span>
-                        <a href="#onSelect"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>processRow</b></span>
+                        <a href="#processRow"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>onSelect(event: literal type)</code>
+<code>processRow(row: <a href="../interfaces/Row.html" target="_self">Row</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="416"
-                            class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:416</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="425"
+                                    class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:425</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>On select event, triggers tree action</p>
+                        <div class="io-description"><p> Finds color and value for the given row</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>event</td>
-                                    <td>
-                                            <code>literal type</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>row</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Row.html" target="_self" >Row</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
-<li>table event</li>
-</ul>
+                                            <td>
+                                                    <p>any row</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1061,76 +1180,72 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="onTreeAction"></a>
+                    <a name="processStationRow"></a>
                     <span class="name">
-                        <span ><b>onTreeAction</b></span>
-                        <a href="#onTreeAction"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>processStationRow</b></span>
+                        <a href="#processStationRow"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>onTreeAction(event: literal type)</code>
+<code>processStationRow(row: <a href="../interfaces/Row.html" target="_self">Row</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="398"
-                            class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:398</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="402"
+                                    class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:402</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Table tree action, shows or collapses selected row</p>
+                        <div class="io-description"><p>Calculated color and value for a station</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>event</td>
-                                    <td>
-                                            <code>literal type</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>row</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Row.html" target="_self" >Row</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
-<li>table event</li>
-</ul>
+                                            <td>
+                                                    <p>station row</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1153,23 +1268,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="218"
-                            class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:218</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="240"
+                                    class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:240</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>redraw table on resize</p>
+                        <div class="io-description"><p>redraw table on resize</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1192,23 +1307,106 @@
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:186</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="116"
-                            class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:116</a></div>
+                        <div class="io-description"><p>Disabled zoom</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stationStoplight"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>stationStoplight</b></span>
+                        <a href="#stationStoplight"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>stationStoplight(row: <a href="../interfaces/Row.html" target="_self">Row</a>)</code>
                 </td>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="454"
+                                    class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:454</a></div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Disabled zoom</p>
+                        <div class="io-description"><p>Calculates properties for the station row for a single metric
+with the stoplight type</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>row</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Row.html" target="_self" >Row</a></code>
+                                            </td>
 
-                    </div>
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>station row</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1231,23 +1429,29 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="123"
-                            class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:123</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:193</a></code>
+</div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Disabled toggle key</p>
+                        <div class="io-description"><p>Disabled toggle key</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1258,7 +1462,7 @@
                 <td class="col-md-4">
                     <a name="useDenseView"></a>
                     <span class="name">
-                        <span class="modifier"></span>
+                            <span class="modifier"></span>
                         <span ><b>useDenseView</b></span>
                         <a href="#useDenseView"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1266,148 +1470,297 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>useDenseView(_useDenseView: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:179</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="109"
-                            class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:109</a></div>
+                        <div class="io-description"><p>override to disable</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>_useDenseView</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>unused</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initToggleKey"></a>
+                    <span class="name">
+                        <span ><b>initToggleKey</b></span>
+                        <a href="#initToggleKey"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initToggleKey()</code>
                 </td>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:86</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>override to disable</p>
+                        <div class="io-description"><p>Initializes toggle key subscription and functionality</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>_useDenseView</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-                                    </td>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                                    <td>
-                                        No
-                                    </td>
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initZoom"></a>
+                    <span class="name">
+                        <span ><b>initZoom</b></span>
+                        <a href="#initZoom"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initZoom()</code>
+                </td>
+            </tr>
 
 
-                                    <td>
-                                        <p>unused</p>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:97</a></code>
+</div>
+                        </td>
+                    </tr>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Intializes zoom subscription and functionality</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:158</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Unsubscribe on destroy</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateData"></a>
+                    <span class="name">
+                        <span ><b>updateData</b></span>
+                        <a href="#updateData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateData(data: <a href="../undefineds/MeasurementTypes.html" target="_self">MeasurementTypes[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:112</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Update widget data</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#MeasurementTypes" target="_self" >MeasurementTypes[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>data for widget to update</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </section>
-    <section>
+    <section data-compodoc="block-properties">
     
     <h3 id="inputs">
         Properties
     </h3>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="cellTemplate"></a>
-                    <span class="name">
-                        <span ><b>cellTemplate</b></span>
-                        <a href="#cellTemplate"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>TemplateRef&lt;DataTableColumnCellDirective&gt;</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <b>Decorators : </b>
-                        <br />
-                        <code>
-                            @ViewChild(&#x27;cellTemplate&#x27;)<br />
-                        </code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:48</a></div>
-                        </td>
-                    </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>cell template for data table</p>
-</div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="ColumnMode"></a>
-                    <span class="name">
-                        <span ><b>ColumnMode</b></span>
-                        <a href="#ColumnMode"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>ColumnMode</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:59</a></div>
-                        </td>
-                    </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>ngxdatatable column options</p>
-</div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -1432,13 +1785,50 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:67</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:80</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>table columns</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dataSource"></a>
+                    <span class="name">
+                        <span ><b>dataSource</b></span>
+                        <a href="#dataSource"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Row.html" target="_self" >MatTableDataSource&lt;Row&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new MatTableDataSource([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:91</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>alert table data source</p>
 </div>
                 </td>
             </tr>
@@ -1464,7 +1854,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:56</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:76</a></div>
                         </td>
                     </tr>
 
@@ -1496,7 +1886,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:54</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:74</a></div>
                         </td>
                     </tr>
 
@@ -1513,40 +1903,25 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="headerTemplate"></a>
+                    <a name="expandedElement"></a>
                     <span class="name">
-                        <span ><b>headerTemplate</b></span>
-                        <a href="#headerTemplate"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>expandedElement</b></span>
+                        <a href="#expandedElement"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>TemplateRef&lt;DataTableColumnHeaderDirective&gt;</code>
+                        <i>Type : </i>        <code><a href="../interfaces/Row.html" target="_self" >Row | null</a></code>
 
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <b>Decorators : </b>
-                        <br />
-                        <code>
-                            @ViewChild(&#x27;headerTemplate&#x27;)<br />
-                        </code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:51</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:95</a></div>
                         </td>
                     </tr>
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>header template for table</p>
-</div>
-                </td>
-            </tr>
 
         </tbody>
     </table>
@@ -1568,7 +1943,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:71</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:84</a></div>
                         </td>
                     </tr>
 
@@ -1585,43 +1960,33 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="messages"></a>
+                    <a name="metricColumns"></a>
                     <span class="name">
-                        <span ><b>messages</b></span>
-                        <a href="#messages"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>metricColumns</b></span>
+                        <a href="#metricColumns"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+                        <i>Type : </i>    <code>string[]</code>
 
                     </td>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>{
-    // Message to show when array is presented
-    // but contains no values
-    emptyMessage: &quot;Loading data.&quot;,
-
-    // Footer total message
-    totalMessage: &quot;total&quot;,
-
-    // Footer selected message
-    selectedMessage: &quot;selected&quot;,
-  }</code>
+                        <i>Default value : </i><code>[&quot;title&quot;, &quot;agg&quot;]</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:74</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:89</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>table messages</p>
+                    <div class="io-description"><p>columns shown in table</p>
 </div>
                 </td>
             </tr>
@@ -1652,7 +2017,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:65</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:78</a></div>
                         </td>
                     </tr>
 
@@ -1689,7 +2054,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:69</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:82</a></div>
                         </td>
                     </tr>
 
@@ -1706,27 +2071,33 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="SelectionType"></a>
+                    <a name="selection"></a>
                     <span class="name">
-                        <span ><b>SelectionType</b></span>
-                        <a href="#SelectionType"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>selection</b></span>
+                        <a href="#selection"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>SelectionType</code>
+                        <i>Type : </i>        <code><a href="../interfaces/Row.html" target="_self" >SelectionModel&lt;Row&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new SelectionModel(true, [])</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:63</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:93</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>ngxdatatable selection options</p>
+                    <div class="io-description"><p>selection on alert table</p>
 </div>
                 </td>
             </tr>
@@ -1737,78 +2108,17 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="sorts"></a>
+                    <a name="sort"></a>
                     <span class="name">
-                        <span ><b>sorts</b></span>
-                        <a href="#sorts"><span class="icon ion-ios-link"></span></a>
+                            <span class="modifier"></span>
+                        <span ><b>sort</b></span>
+                        <a href="#sort"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>[]</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>[{ prop: &quot;title&quot;, dir: &quot;asc&quot; }]</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:85</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="SortType"></a>
-                    <span class="name">
-                        <span ><b>SortType</b></span>
-                        <a href="#SortType"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>SortType</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:61</a></div>
-                        </td>
-                    </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>ngxdatatable sort options</p>
-</div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="table"></a>
-                    <span class="name">
-                        <span ><b>table</b></span>
-                        <a href="#table"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>DatatableComponent</code>
+                        <i>Type : </i>    <code>MatSort</code>
 
                     </td>
                 </tr>
@@ -1817,22 +2127,419 @@
                         <b>Decorators : </b>
                         <br />
                         <code>
-                            @ViewChild(&#x27;dataTable&#x27;)<br />
+                            @ViewChild(MatSort)<br />
                         </code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:45</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:87</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>ngx datatable component</p>
+                    <div class="io-description"><p>Mat sort directive, used to enable sorting on</p>
 </div>
                 </td>
             </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="useStationView"></a>
+                    <span class="name">
+                        <span ><b>useStationView</b></span>
+                        <a href="#useStationView"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts:98</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>true if table should use nested rows for stations and channels</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="channels"></a>
+                    <span class="name">
+                        <span ><b>channels</b></span>
+                        <a href="#channels"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Channel[]</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:25</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="data"></a>
+                    <span class="name">
+                        <span ><b>data</b></span>
+                        <a href="#data"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#MeasurementTypes" target="_self" >MeasurementTypes[]</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:24</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="denseView"></a>
+                    <span class="name">
+                        <span ><b>denseView</b></span>
+                        <a href="#denseView"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:29</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loading"></a>
+                    <span class="name">
+                        <span ><b>loading</b></span>
+                        <a href="#loading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:22</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="properties"></a>
+                    <span class="name">
+                        <span ><b>properties</b></span>
+                        <a href="#properties"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/WidgetProperties.html" target="_self" >WidgetProperties</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:27</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedMetrics"></a>
+                    <span class="name">
+                        <span ><b>selectedMetrics</b></span>
+                        <a href="#selectedMetrics"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Metric[]</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:26</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showKey"></a>
+                    <span class="name">
+                        <span ><b>showKey</b></span>
+                        <a href="#showKey"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:21</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscription"></a>
+                    <span class="name">
+                        <span ><b>subscription</b></span>
+                        <a href="#subscription"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subscription()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:19</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="visualMaps"></a>
+                    <span class="name">
+                        <span ><b>visualMaps</b></span>
+                        <a href="#visualMaps"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#VisualMap" target="_self" >VisualMap</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{}</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:28</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="widgetConfig"></a>
+                    <span class="name">
+                        <span ><b>widgetConfig</b></span>
+                        <a href="#widgetConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/WidgetConfig.html" target="_self" >WidgetConfig</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:23</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="zooming"></a>
+                    <span class="name">
+                        <span ><b>zooming</b></span>
+                        <a href="#zooming"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:20</a></code>
+</div>
+                        </td>
+                    </tr>
+
 
         </tbody>
     </table>
@@ -1841,37 +2548,43 @@
 </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
+    <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   Component,
   ViewChild,
   OnDestroy,
-  TemplateRef,
   OnInit,
   NgZone,
+  ChangeDetectorRef,
 } from &quot;@angular/core&quot;;
-import {
-  ColumnMode,
-  DataTableColumnCellDirective,
-  DataTableColumnHeaderDirective,
-  DatatableComponent,
-  SelectionType,
-  SortType,
-} from &quot;@boring.devs/ngx-datatable&quot;;
 import {
   WidgetConnectService,
   WidgetManagerService,
   WidgetConfigService,
 } from &quot;../../services&quot;;
 import {
-  ProcessedData,
+  StoplightVisualMapOption,
   VisualMapTypes,
   WidgetTypeComponent,
 } from &quot;../../interfaces&quot;;
-import { GenericWidgetComponent } from &quot;../../shared/components&quot;;
-import { ChannelRow, RowMetrics, StationRow } from &quot;./types&quot;;
-import { ChannelComparator, MetricComparator } from &quot;./utils&quot;;
-import { MeasurementPipe } from &quot;squacapi&quot;;
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from &quot;@angular/animations&quot;;
+import { GenericWidgetComponent } from &quot;../../components&quot;;
+import { Row } from &quot;./types&quot;;
+import { Channel, MeasurementPipe, MeasurementTypes } from &quot;squacapi&quot;;
+import { MatSort, MatSortModule } from &quot;@angular/material/sort&quot;;
+import { MatTableDataSource, MatTableModule } from &quot;@angular/material/table&quot;;
+import { SelectionModel } from &quot;@angular/cdk/collections&quot;;
+import { MatIconModule } from &quot;@angular/material/icon&quot;;
+import { MatButtonModule } from &quot;@angular/material/button&quot;;
+import { MatTooltipModule } from &quot;@angular/material/tooltip&quot;;
+import { PrecisionPipe } from &quot;../../pipes/precision.pipe&quot;;
+import { NgForOf, NgIf, NgStyle, NgTemplateOutlet } from &quot;@angular/common&quot;;
 
 /**
  * Table based widget
@@ -1880,31 +2593,38 @@ import { MeasurementPipe } from &quot;squacapi&quot;;
   selector: &quot;widget-tabular&quot;,
   templateUrl: &quot;./tabular.component.html&quot;,
   styleUrls: [&quot;./tabular.component.scss&quot;],
+  animations: [
+    trigger(&quot;detailExpand&quot;, [
+      state(&quot;collapsed&quot;, style({ height: &quot;0px&quot;, minHeight: &quot;0&quot; })),
+      state(&quot;expanded&quot;, style({ height: &quot;*&quot; })),
+      transition(
+        &quot;expanded &lt;&#x3D;&gt; collapsed&quot;,
+        animate(&quot;225ms cubic-bezier(0.4, 0.0, 0.2, 1)&quot;)
+      ),
+    ]),
+  ],
+  standalone: true,
+  imports: [
+    MatTableModule,
+    MatSortModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTooltipModule,
+    PrecisionPipe,
+    NgStyle,
+    NgTemplateOutlet,
+    NgForOf,
+    NgIf,
+  ],
 })
 export class TabularComponent
   extends GenericWidgetComponent
   implements OnInit, OnDestroy, WidgetTypeComponent
 {
-  /** ngx datatable component */
-  @ViewChild(&quot;dataTable&quot;) table: DatatableComponent;
-  /** cell template for data table  */
-  @ViewChild(&quot;cellTemplate&quot;)
-  cellTemplate: TemplateRef&lt;DataTableColumnCellDirective&gt;;
-  /** header template for table */
-  @ViewChild(&quot;headerTemplate&quot;)
-  headerTemplate: TemplateRef&lt;DataTableColumnHeaderDirective&gt;;
-
   /** nslc of currently emphasized channel */
   emphasizedChannel: string;
   /** nslc of channel to deemphasize */
   deemphasizedChannel: string;
-
-  /** ngxdatatable column options */
-  ColumnMode &#x3D; ColumnMode;
-  /** ngxdatatable sort options */
-  SortType &#x3D; SortType;
-  /** ngxdatatable selection options */
-  SelectionType &#x3D; SelectionType;
   /** table rows */
   rows &#x3D; [];
   /** table columns */
@@ -1914,24 +2634,26 @@ export class TabularComponent
   /** pipe for transforming measurements */
   measurementPipe &#x3D; new MeasurementPipe();
 
-  /** table messages */
-  messages &#x3D; {
-    // Message to show when array is presented
-    // but contains no values
-    emptyMessage: &quot;Loading data.&quot;,
+  /** Mat sort directive, used to enable sorting on */
+  @ViewChild(MatSort) sort: MatSort;
+  /** columns shown in table */
+  metricColumns: string[] &#x3D; [&quot;title&quot;, &quot;agg&quot;];
+  /** alert table data source */
+  dataSource: MatTableDataSource&lt;Row&gt; &#x3D; new MatTableDataSource([]);
+  /** selection on alert table */
+  selection: SelectionModel&lt;Row&gt; &#x3D; new SelectionModel(true, []);
 
-    // Footer total message
-    totalMessage: &quot;total&quot;,
+  expandedElement: Row | null;
 
-    // Footer selected message
-    selectedMessage: &quot;selected&quot;,
-  };
-  sorts &#x3D; [{ prop: &quot;title&quot;, dir: &quot;asc&quot; }];
+  /** true if table should use nested rows for stations and channels */
+  useStationView &#x3D; false;
+
   constructor(
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
     override widgetManager: WidgetManagerService,
-    override ngZone: NgZone
+    override ngZone: NgZone,
+    override cdr: ChangeDetectorRef
   ) {
     super(widgetManager, widgetConnectService, ngZone);
   }
@@ -1940,6 +2662,60 @@ export class TabularComponent
    * Init
    */
   override ngOnInit(): void {
+    this.dataSource.sort &#x3D; this.sort;
+    this.dataSource.sortingDataAccessor &#x3D; (
+      data: Row,
+      sortHeaderId: string
+    ): string | number &#x3D;&gt; {
+      const dataItem &#x3D; data[sortHeaderId];
+      if (dataItem) {
+        return dataItem;
+      } else {
+        return data.metrics[sortHeaderId]?.value;
+      }
+    };
+
+    //override sort to allow child rows to stay with parent
+    this.dataSource.sortData &#x3D; (data: Row[], sort: MatSort): Row[] &#x3D;&gt; {
+      if (!sort.active || sort.direction &#x3D;&#x3D;&#x3D; &quot;&quot;) {
+        return data;
+      }
+
+      // actively sorted column
+      const active &#x3D; sort.active;
+      // sort direction
+      const direction &#x3D; sort.direction;
+
+      // keep children grouped to parent
+
+      // less than 0 if A is first, more than 0 if B is first
+      return data.sort((a: Row, b: Row) &#x3D;&gt; {
+        let comparatorResult &#x3D; 0;
+
+        // b is directly behind parent
+        if (b.parentId &amp;&amp; !a.parentId) {
+          return a.title.localeCompare(b.parentId);
+        } else if (a.parentId &amp;&amp; !b.parentId) {
+          return b.title.localeCompare(a.parentId);
+        }
+        switch (sort.active) {
+          case &quot;title&quot;:
+            comparatorResult &#x3D; a.title.localeCompare(b.title);
+            break;
+          case &quot;agg&quot;:
+            comparatorResult &#x3D; a.agg - b.agg;
+            break;
+          default:
+            //keep no data values at the bottom
+            if (a.metrics[active].value &#x3D;&#x3D;&#x3D; null) return 1;
+            if (b.metrics[active].value &#x3D;&#x3D;&#x3D; null) return -1;
+            comparatorResult &#x3D;
+              a.metrics[active].value - b.metrics[active].value;
+            break;
+        }
+        return comparatorResult * (direction &#x3D;&#x3D; &quot;asc&quot; ? 1 : -1);
+      });
+    };
     this.subscription.add(
       this.widgetManager.resize$.subscribe(this.resize.bind(this))
     );
@@ -1948,6 +2724,7 @@ export class TabularComponent
 
   /**
    * override to disable
+   *
    * @param _useDenseView unused
    */
   override useDenseView(_useDenseView: boolean): void {
@@ -1972,62 +2749,14 @@ export class TabularComponent
    * @override
    */
   changeMetrics(): void {
-    let name;
-    let isTreeColumn;
-    switch (this.properties.displayType) {
-      case &quot;channel&quot;:
-        name &#x3D; &quot;Channel&quot;;
-        isTreeColumn &#x3D; false;
-        break;
-      case &quot;stoplight&quot;:
-        name &#x3D; &quot;Station&quot;;
-        isTreeColumn &#x3D; true;
-        break;
-      default:
-        name &#x3D; &quot;Station&quot;;
-        isTreeColumn &#x3D; true;
-        break;
+    this.dataSource.data &#x3D; this.rows;
+    if (this.useStationView &amp;&amp; !this.metricColumns.includes(&quot;expand&quot;)) {
+      this.metricColumns.unshift(&quot;expand&quot;);
     }
-
     this.columns &#x3D; [
-      {
-        name,
-        prop: &quot;title&quot;,
-        isTreeColumn,
-        width: 100,
-        canAutoResize: false,
-        frozenLeft: true,
-        resizeable: true,
-        comparator: ChannelComparator,
-      },
+      ...this.metricColumns,
+      ...this.selectedMetrics.map((metric) &#x3D;&gt; metric.code), //has to be string
     ];
-
-    this.columns.push({
-      name: &quot;# out&quot;,
-      prop: &quot;agg&quot;,
-      width: 45,
-      canAutoResize: false,
-      frozenLeft: true,
-      resizeable: false,
-    });
-
-    // Using set timeout because sometimes fails in onchanges binding
-    setTimeout(() &#x3D;&gt; {
-      this.selectedMetrics.forEach((metric) &#x3D;&gt; {
-        if (!metric) return;
-        this.columns.push({
-          name: metric.name,
-          prop: metric.id,
-          comparator: MetricComparator,
-          width: 65,
-          canAutoResize: true,
-          sortable: true,
-          cellTemplate: this.cellTemplate,
-          headerTemplate: this.headerTemplate,
-        });
-      });
-      this.columns &#x3D; [...this.columns];
-    }, 0);
   }
 
   /**
@@ -2045,8 +2774,8 @@ export class TabularComponent
     const row &#x3D; this.rows[index];
     this.emphasizedChannel &#x3D; channel;
     this.selectedRow &#x3D; [row];
-    this.table.element.querySelector(&quot;.datatable-body&quot;).scrollTop &#x3D;
-      index * (this.table.rowHeight as number);
+    // this.table.element.querySelector(&quot;.datatable-body&quot;).scrollTop &#x3D;
+    //   index * (this.table.rowHeight as number);
   }
 
   /**
@@ -2060,9 +2789,9 @@ export class TabularComponent
    * redraw table on resize
    */
   resize(): void {
-    if (this.table) {
-      this.table.recalculate();
-    }
+    // if (this.table) {
+    //   this.table.recalculate();
+    // }
   }
 
   /**
@@ -2078,13 +2807,122 @@ export class TabularComponent
   }
 
   /**
+   * Inserts child rows into a table if the row has children
+   *
+   * @param row row to expand
+   */
+  expandRow(row: Row): void {
+    const data &#x3D; [...this.rows];
+    //if this row is already expanded, close it
+    // if no children, ignore row and close others
+    if (row &#x3D;&#x3D;&#x3D; this.expandedElement || !row.children) {
+      this.dataSource.data &#x3D; this.rows;
+      this.expandedElement &#x3D; null;
+      return;
+    }
+
+    const rowIndex &#x3D; data.findIndex((item) &#x3D;&gt; row.title &#x3D;&#x3D;&#x3D; item.title);
+    //splice children into data
+    if (rowIndex &gt; -1 &amp;&amp; row.children) {
+      data.splice(rowIndex + 1, 0, ...row.children);
+    }
+
+    this.dataSource.data &#x3D; data;
+    this.expandedElement &#x3D; row;
+
+    // if this row is not currentl expanded, insert child rows )
+
+    // expandedElement &#x3D; expandedElement &#x3D;&#x3D;&#x3D; row ? null : row
+  }
+
+  /**
    * @override
    */
-  buildChartData(data: ProcessedData): Promise&lt;void&gt; {
+  buildChartData(data: MeasurementTypes[]): Promise&lt;void&gt; {
     return new Promise&lt;void&gt;((resolve) &#x3D;&gt; {
-      const rows &#x3D; [];
-      const stations &#x3D; [];
-      const stationRows &#x3D; [];
+      let rows: Row[] &#x3D; [];
+      const stationRowsMap &#x3D; new Map&lt;string, Row&gt;();
+
+      // true if group channels by station
+      this.useStationView &#x3D;
+        this.properties.displayType &#x3D;&#x3D;&#x3D; &quot;stoplight&quot; ||
+        this.properties.displayType &#x3D;&#x3D;&#x3D; &quot;worst&quot;;
+
+      this.channels.forEach((channel: Channel) &#x3D;&gt; {
+        const stationId &#x3D; channel.staCode;
+        const nslc &#x3D; channel.nslc;
+        let stationRow: Row;
+        const channelRow: Row &#x3D; {
+          title: this.useStationView ? &#x60;${channel.loc}.${channel.code}&#x60; : nslc,
+          metrics: {},
+          agg: 0,
+        };
+        // add station row that will expand to show channels
+        if (this.useStationView) {
+          channelRow.parentId &#x3D; stationId;
+          // add station row that will expand to show channels
+          if (this.useStationView) {
+            channelRow.parentId &#x3D; stationId;
+            if (!stationRowsMap.has(stationId)) {
+              const stationRow: Row &#x3D; {
+                title: stationId,
+                children: [],
+                metrics: {},
+                agg: 0,
+                channelAgg: null,
+              };
+              stationRowsMap.set(stationId, stationRow);
+            }
+            stationRow &#x3D; stationRowsMap.get(stationId);
+          }
+        }
+
+        const channelMeasurements &#x3D; data
+          .filter((m) &#x3D;&gt; m.channel &#x3D;&#x3D;&#x3D; channel.id)
+          .map((m) &#x3D;&gt; {
+            m.value &#x3D; m.value ?? m[this.widgetManager.dataStat];
+            return m;
+          });
+
+        this.selectedMetrics.forEach((metric) &#x3D;&gt; {
+          if (!metric) return;
+          if (stationRow &amp;&amp; !stationRow.metrics[metric.code]) {
+            stationRow.metrics[metric.code] &#x3D; {
+              id: metric.id,
+              value: 0,
+              color: null,
+              inSpec: null,
+            };
+          }
+          let value: number &#x3D; null; //column value
+
+          if (channelMeasurements.length &gt; 0) {
+            value &#x3D; this.measurementPipe.transform(
+              channelMeasurements,
+              this.widgetManager.stat
+            );
+
+            this.widgetConfigService.calculateDataRange(metric.id, value);
+          }
+
+          // add metric data to channel row
+          channelRow.metrics[metric.code] &#x3D; {
+            id: metric.id,
+            value,
+            color: null,
+            inSpec: null,
+          };
+        });
+        if (stationRow) {
+          stationRow.children.push(channelRow);
+        } else {
+          rows.push(channelRow);
+        }
+      });
+
+      if (this.useStationView) {
+        rows &#x3D; [...stationRowsMap.values()];
+      }
 
       this.visualMaps &#x3D; this.widgetConfigService.getVisualMapFromThresholds(
         this.selectedMetrics,
@@ -2092,173 +2930,112 @@ export class TabularComponent
         3
       );
 
-      this.channels.forEach((channel) &#x3D;&gt; {
-        const identifier &#x3D; channel.staCode;
-        const nslc &#x3D; channel.nslc;
-        let agg &#x3D; 0;
-        const rowMetrics: RowMetrics &#x3D; {};
-        const stationRowMetrics: RowMetrics &#x3D; {};
-        this.selectedMetrics.forEach((metric) &#x3D;&gt; {
-          if (!metric) return;
-          let val: number &#x3D; null;
-          let count: number;
-
-          if (data.get(channel.id)) {
-            const rowData &#x3D; data.get(channel.id).get(metric.id);
-            val &#x3D; this.measurementPipe.transform(
-              rowData,
-              this.widgetManager.stat
-            );
-          }
-
-          const visualMap &#x3D; this.visualMaps[metric.id];
-          const inRange &#x3D; visualMap
-            ? this.widgetConfigService.checkValue(val, visualMap)
-            : true;
-          if (val &#x3D;&#x3D;&#x3D; null || (visualMap &amp;&amp; !inRange)) {
-            agg++;
-            count &#x3D; 0;
-          } else {
-            count &#x3D; 1;
-          }
-
-          rowMetrics[metric.id] &#x3D; {
-            value: val,
-            color: this.getStyle(val, visualMap),
-            count: 0,
-          };
-          stationRowMetrics[metric.id] &#x3D; {
-            value: val,
-            color: this.getStyle(val, visualMap),
-            count, //channel in range for this metric
-          };
-        });
-        let title: string;
-        if (this.properties.displayType &#x3D;&#x3D;&#x3D; &quot;channel&quot;) {
-          title &#x3D; nslc;
+      // row is either a station w/ children or just a channel
+      rows.forEach((row: Row) &#x3D;&gt; {
+        // has children
+        if (row.children?.length &gt; 0) {
+          this.processStationRow(row);
         } else {
-          title &#x3D; channel.loc + &quot;.&quot; + channel.code;
-        }
-
-        let row: ChannelRow &#x3D; {
-          title,
-          id: channel.id,
-          nslc: nslc,
-          parentId: identifier,
-          treeStatus: &quot;disabled&quot;,
-          agg,
-        };
-        row &#x3D; { ...row, ...rowMetrics };
-        rows.push(row);
-
-        if (this.properties.displayType !&#x3D;&#x3D; &quot;channel&quot;) {
-          let staIndex &#x3D; stations.indexOf(identifier);
-          if (staIndex &lt; 0) {
-            staIndex &#x3D; stations.length;
-            stations.push(identifier);
-            const station: StationRow &#x3D; {
-              ...{
-                title: identifier,
-                id: identifier,
-                treeStatus: &quot;collapsed&quot;,
-                count: 0, //number of channels the station has
-                agg, //number of channels/metrics out of spec
-                type: this.properties.displayType,
-              },
-            };
-
-            stationRows.push(station);
-          }
-          stationRows[staIndex] &#x3D; this.findWorstChannel(
-            row,
-            stationRows[staIndex],
-            stationRowMetrics
-          );
-          // check if agg if worse than current agg
+          this.processRow(row);
         }
       });
-      this.rows &#x3D; [...stationRows, ...rows];
+
+      this.rows &#x3D; rows;
       resolve();
     });
   }
 
-  //FIXME: this needs to be cleaned up - can this use widget properties instead of station
-  // properties
   /**
-   * Finds worst channel value to represent station
+   * Calculated color and value for a station
    *
-   * @param channel - channel to compare against station
-   * @param station - station to compare
-   * @param stationRowMetrics - metrics for station
-   * @returns updated station row
+   * @param row station row
    */
-  private findWorstChannel(
-    channel: ChannelRow,
-    station: StationRow,
-    stationRowMetrics: RowMetrics
-  ): StationRow {
-    station.count++;
-    if (station.type &#x3D;&#x3D;&#x3D; &quot;worst&quot;) {
-      if (channel.agg &gt;&#x3D; station.agg) {
-        const newStation &#x3D; { ...station, ...stationRowMetrics };
-        newStation.treeStatus &#x3D; station.treeStatus;
-        newStation.id &#x3D; station.id;
-        newStation.parentId &#x3D; null;
-        return newStation;
+  processStationRow(row: Row): void {
+    row.children.forEach((childRow, i) &#x3D;&gt; {
+      this.processRow(childRow);
+      if (childRow.agg &gt; 0) {
+        row.agg++;
       }
-    } else if (station.type &#x3D;&#x3D;&#x3D; &quot;stoplight&quot;) {
-      Object.keys(stationRowMetrics).forEach((key) &#x3D;&gt; {
-        if (!station[key]) {
-          station[key] &#x3D; { ...stationRowMetrics[key] };
-        } else {
-          station[key].count +&#x3D; stationRowMetrics[key].count;
+      if (this.properties.displayType &#x3D;&#x3D;&#x3D; &quot;worst&quot;) {
+        if (i &#x3D;&#x3D;&#x3D; 0 || childRow.agg &gt; row.channelAgg) {
+          row.metrics &#x3D; childRow.metrics;
+          row.channelAgg &#x3D; childRow.agg;
         }
+      }
+    });
+    if (this.properties.displayType &#x3D;&#x3D;&#x3D; &quot;stoplight&quot;) {
+      this.stationStoplight(row);
+    }
+  }
 
-        if (station[key].count &#x3D;&#x3D;&#x3D; station.count) {
-          //all in
-          station[key].color &#x3D; this.visualMaps[key]?.colors.in;
-        } else if (station[key].count &gt; 0) {
-          //some out
-          station[key].color &#x3D; this.visualMaps[key]?.colors.middle;
-        } else if (station[key].count &#x3D;&#x3D;&#x3D; 0) {
-          // all out
-          station[key].color &#x3D; this.visualMaps[key]?.colors.out;
+  /**
+   *  Finds color and value for the given row
+   *
+   * @param row any row
+   */
+  processRow(row: Row): void {
+    for (const m in row.metrics) {
+      const metric &#x3D; row.metrics[m];
+      const visualMap &#x3D; this.visualMaps[metric.id];
+      const inRange &#x3D; visualMap
+        ? this.widgetConfigService.checkValue(metric.value, visualMap)
+        : true;
+
+      // metric is in spec if the value exists and is in Range
+      const inSpec &#x3D; metric.value !&#x3D;&#x3D; null &amp;&amp; visualMap &amp;&amp; inRange;
+
+      // display color for channel
+      const color &#x3D; this.getStyle(metric.value, visualMap);
+
+      metric.color &#x3D; color;
+      metric.inSpec &#x3D; inSpec;
+
+      if (!inSpec) {
+        row.agg++;
+      }
+    }
+  }
+
+  /**
+   * Calculates properties for the station row for a single metric
+   * with the stoplight type
+   *
+   * @param row station row
+   */
+  private stationStoplight(row: Row): void {
+    for (const m in row.metrics) {
+      const metric &#x3D; row.metrics[m];
+      const visualMap &#x3D; this.visualMaps[metric.id] as StoplightVisualMapOption;
+      // number of out of spec channels already
+      let numOutOfSpec &#x3D; 0;
+      let numChannelsWithoutData &#x3D; 0;
+      row.children.forEach((childRow) &#x3D;&gt; {
+        if (childRow.metrics[m].value !&#x3D;&#x3D; null) {
+          numChannelsWithoutData++;
         }
-
-        if (!station[key].color) {
-          station[key].color &#x3D; &quot;gray&quot;;
+        if (!childRow.metrics[m].inSpec) {
+          numOutOfSpec++;
         }
       });
-    }
-    return station;
-  }
 
-  /**
-   * Table tree action, shows or collapses selected row
-   *
-   * @param event - table event
-   * @param event.row - selected row
-   */
-  onTreeAction(event: { row: StationRow }): void {
-    const row &#x3D; event.row;
-    if (row.treeStatus &#x3D;&#x3D;&#x3D; &quot;collapsed&quot;) {
-      row.treeStatus &#x3D; &quot;loading&quot;;
-      row.treeStatus &#x3D; &quot;expanded&quot;;
-      this.rows &#x3D; [...this.rows];
-    } else {
-      row.treeStatus &#x3D; &quot;collapsed&quot;;
-      this.rows &#x3D; [...this.rows];
+      const totalNumChannels &#x3D; row.children.length;
+      let color;
+      if (numOutOfSpec &#x3D;&#x3D;&#x3D; 0) {
+        //some out of spec
+        color &#x3D; visualMap.colors.in;
+      } else if (totalNumChannels &#x3D;&#x3D;&#x3D; numOutOfSpec) {
+        //all out of spec
+        color &#x3D; visualMap.colors.out;
+      } else if (totalNumChannels &gt; numOutOfSpec) {
+        // all in spec
+        color &#x3D; visualMap.colors.middle;
+      } else {
+        // something got messed up
+        color &#x3D; &quot;gray&quot;;
+      }
+      metric.value &#x3D; numChannelsWithoutData &gt; 0 ? numOutOfSpec : null;
+      metric.color &#x3D; color;
     }
-  }
-
-  /**
-   * On select event, triggers tree action
-   *
-   * @param event - table event
-   * @param event.selected - selected row
-   */
-  onSelect(event: { selected: StationRow }): void {
-    this.onTreeAction({ row: event.selected[0] });
   }
 
   /**
@@ -2275,228 +3052,266 @@ export class TabularComponent
 </code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;!-- *ngIF causes chaos avoid in ngx-datatable --&gt;
-&lt;ngx-datatable
-  #dataTable
-  class&#x3D;&quot;material expandable tabular-table&quot;
-  [rows]&#x3D;&quot;rows&quot;
-  [columns]&#x3D;&quot;columns&quot;
-  [headerHeight]&#x3D;&quot;25&quot;
-  [sortType]&#x3D;&quot;SortType.single&quot;
-  [columnMode]&#x3D;&quot;ColumnMode.force&quot;
-  [selectionType]&#x3D;&quot;SelectionType.single&quot;
-  [footerHeight]&#x3D;&quot;0&quot;
-  [rowHeight]&#x3D;&quot;20&quot;
-  [scrollbarH]&#x3D;&quot;true&quot;
-  [scrollbarV]&#x3D;&quot;true&quot;
-  [messages]&#x3D;&quot;messages&quot;
-  [treeFromRelation]&#x3D;&quot;&#x27;parentId&#x27;&quot;
-  [treeToRelation]&#x3D;&quot;&#x27;id&#x27;&quot;
-  (treeAction)&#x3D;&quot;onTreeAction($event)&quot;
-  [selected]&#x3D;&quot;selectedRow&quot;
-  [sorts]&#x3D;&quot;sorts&quot;
-&gt;
-&lt;/ngx-datatable&gt;
-&lt;ng-template
-  #headerTemplate
-  let-column&#x3D;&quot;column&quot;
-  let-sort&#x3D;&quot;sortFn&quot;
-  ngx-datatable-header-template
-&gt;
-  &lt;div class&#x3D;&quot;header-cell datatable-header-cell-wrapper&quot; (click)&#x3D;&quot;sort()&quot;&gt;
-    &lt;span&gt;{{ column.name }}&lt;/span&gt;
-  &lt;/div&gt;
-&lt;/ng-template&gt;
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;table-container&quot;&gt;
+  &lt;table
+    class&#x3D;&quot;widget-table&quot;
+    mat-table
+    matSort
+    [dataSource]&#x3D;&quot;dataSource&quot;
+    multiTemplateDataRows
+  &gt;
+    &lt;ng-container
+      matColumnDef&#x3D;&quot;expand&quot;
+      sticky
+    &gt;
+      &lt;th
+        mat-header-cell
+        *matHeaderCellDef
+        aria-label&#x3D;&quot;row actions&quot;
+      &gt;&amp;nbsp;&lt;/th&gt;
+      &lt;td
+        mat-cell
+        *matCellDef&#x3D;&quot;let row&quot;
+      &gt;
+        &lt;button
+          *ngIf&#x3D;&quot;!row.parentId&quot;
+          mat-icon-button
+          class&#x3D;&quot;dense-icon-button&quot;
+          aria-label&#x3D;&quot;expand row&quot;
+          (click)&#x3D;&quot;(row.children ? expandRow(row) : expandedElement &#x3D; null); $event.stopPropagation()&quot;
+        &gt;
+          &lt;mat-icon&gt;{{expandedElement !&#x3D;&#x3D; row ? &#x27;expand_less&#x27; : &#x27;expand_more&#x27;}}&lt;/mat-icon&gt;
+        &lt;/button&gt;
+      &lt;/td&gt;
+    &lt;/ng-container&gt;
 
-&lt;ng-template #cellTemplate let-value&#x3D;&quot;value&quot; let-row&#x3D;&quot;row&quot;&gt;
-  &lt;ng-container *ngIf&#x3D;&quot;row.type &#x3D;&#x3D;&#x3D; &#x27;stoplight&#x27;; else notStoplight&quot;&gt;
+    &lt;ng-container
+      matColumnDef&#x3D;&quot;title&quot;
+      sticky
+    &gt;
+
+      &lt;th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        [class]&#x3D;&quot;useStationView ? &#x27;station-column&#x27; : &#x27;channel-column&#x27;&quot;
+      &gt;
+        {{useStationView ? &quot;Station&quot;: &quot;Channel&quot;}}
+      &lt;/th&gt;
+      &lt;td
+        mat-cell
+        *matCellDef&#x3D;&quot;let row&quot;
+        [class]&#x3D;&quot;useStationView ? &#x27;station-column&#x27; : &#x27;channel-column&#x27;&quot;
+      &gt;
+        {{row.title}}
+      &lt;/td&gt;
+
+    &lt;/ng-container&gt;
+    &lt;ng-container matColumnDef&#x3D;&quot;agg&quot;&gt;
+
+      &lt;th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        [matTooltip]&#x3D;&quot;properties.displayType &#x3D;&#x3D;&#x3D; &#x27;stoplight&#x27; ? &#x27;# of channels out of spec&#x27; : &#x27;# of metrics out of spec&#x27;&quot;
+      &gt;
+        #
+      &lt;/th&gt;
+      &lt;td
+        mat-cell
+        *matCellDef&#x3D;&quot;let row&quot;
+      &gt;
+        {{row.channelAgg ?? row.agg}}
+
+      &lt;/td&gt;
+    &lt;/ng-container&gt;
+    &lt;ng-container
+      *ngFor&#x3D;&quot;let metric of selectedMetrics&quot;
+      [matColumnDef]&#x3D;&quot;metric.code&quot;
+    &gt;
+      &lt;th
+        mat-header-cell
+        *matHeaderCellDef
+        [matTooltip]&#x3D;&quot;metric.name&quot;
+        mat-sort-header
+        class&#x3D;&quot;metric-column&quot;
+      &gt;
+        &lt;span class&#x3D;&quot;metric-name&quot;&gt;
+          {{metric.name}}
+        &lt;/span&gt;
+        &lt;!-- {{metric.name.length &gt; 12 ? metric.name.slice(0, 12) + &quot;...&quot;: metric.name}} --&gt;
+      &lt;/th&gt;
+      &lt;td
+        mat-cell
+        *matCellDef&#x3D;&quot;let row&quot;
+        class&#x3D;&quot;metric-column&quot;
+      &gt;
+        &lt;div
+          *ngIf&#x3D;&quot;row.metrics[metric.code] as metricData; else noValue&quot;
+          class&#x3D;&quot;metric-column-value-container&quot;
+          [class.show-key]&#x3D;&quot;showKey&quot;
+          [style.background-color]&#x3D;&quot;!showKey ? metricData.color : &#x27;white&#x27;&quot;
+        &gt;
+          &lt;ng-container *ngIf&#x3D;&quot;properties.displayType &#x3D;&#x3D;&#x3D; &#x27;stoplight&#x27; &amp;&amp; row.children; else notStoplight&quot;&gt;
+            &lt;span
+              *ngIf&#x3D;&quot;showKey&quot;
+              class&#x3D;&quot;cell-icon&quot;
+              [ngStyle]&#x3D;&quot;{ &#x27;background-color&#x27;: metricData.color }&quot;
+            &gt;&lt;/span&gt;
+            &lt;span class&#x3D;&quot;cell-value&quot;&gt;
+              &lt;ng-container *ngIf&#x3D;&quot;showKey&quot;&gt;{{ metricData.value !&#x3D;&#x3D; null ? metricData.value + &quot; out&quot; : &quot;no data&quot;}}
+              &lt;/ng-container&gt;&lt;/span&gt;
+          &lt;/ng-container&gt;
+
+          &lt;ng-template #notStoplight&gt;
+            &lt;ng-container
+              *ngIf&#x3D;&quot;metricData.value !&#x3D;&#x3D; null; else noValue&quot;
+              [ngTemplateOutlet]&#x3D;&quot;cell&quot;
+              [ngTemplateOutletContext]&#x3D;&quot;metricData&quot;
+            &gt;
+            &lt;/ng-container&gt;
+          &lt;/ng-template&gt;
+
+        &lt;/div&gt;
+      &lt;/td&gt;
+    &lt;/ng-container&gt;
+    &lt;tr
+      mat-header-row
+      *matHeaderRowDef&#x3D;&quot;columns; sticky:true&quot;
+    &gt;&lt;/tr&gt;
+    &lt;tr
+      mat-row
+      *matRowDef&#x3D;&quot;let row; columns: columns;&quot;
+      [class.example-expanded-row]&#x3D;&quot;expandedElement &#x3D;&#x3D;&#x3D; row&quot;
+      class&#x3D;&quot;table-row&quot;
+      (click)&#x3D;&quot;row.children ? expandRow(row) : expandedElement &#x3D; null&quot;
+    &gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+
+&lt;ng-template
+  #cell
+  let-value&#x3D;&quot;value&quot;
+  let-color&#x3D;&quot;color&quot;
+&gt;
+  &lt;ng-container&gt;
     &lt;span
-      class&#x3D;&quot;cell-full&quot;
-      [ngClass]&#x3D;&quot;{ border: value.color &#x3D;&#x3D;&#x3D; &#x27;white&#x27; }&quot;
-      [ngStyle]&#x3D;&quot;{ &#x27;background-color&#x27;: value.color }&quot;
+      *ngIf&#x3D;&quot;showKey&quot;
+      class&#x3D;&quot;cell-icon&quot;
+      [ngStyle]&#x3D;&quot;{ &#x27;background-color&#x27;: color }&quot;
     &gt;&lt;/span&gt;
+    &lt;span class&#x3D;&quot;cell-value&quot;&gt;{{ value | precision }}&lt;/span&gt;
   &lt;/ng-container&gt;
 
-  &lt;ng-template #notStoplight&gt;
-    &lt;ng-container *ngIf&#x3D;&quot;value.value !&#x3D;&#x3D; null; else noValue&quot;&gt;
-      &lt;div
-        *ngIf&#x3D;&quot;showKey&quot;
-        class&#x3D;&quot;cell-icon&quot;
-        [ngClass]&#x3D;&quot;{ border: value.color &#x3D;&#x3D;&#x3D; &#x27;white&#x27; }&quot;
-        [ngStyle]&#x3D;&quot;{ &#x27;background-color&#x27;: value.color }&quot;
-      &gt;&lt;/div&gt;
-      &lt;span *ngIf&#x3D;&quot;showKey&quot;&gt;{{ value.value | precision }}&lt;/span&gt;
-      &lt;div
-        *ngIf&#x3D;&quot;!showKey&quot;
-        class&#x3D;&quot;cell-full&quot;
-        [ngClass]&#x3D;&quot;{
-          border: value.color &#x3D;&#x3D;&#x3D; &#x27;gray&#x27; || value.color &#x3D;&#x3D;&#x3D; &#x27;#808080&#x27;
-        }&quot;
-        [ngStyle]&#x3D;&quot;{ &#x27;background-color&#x27;: value.color, color: value.color }&quot;
-      &gt;
-        &lt;span&gt;
-          {{ value.value | precision }}
-        &lt;/span&gt;
-      &lt;/div&gt;
-    &lt;/ng-container&gt;
-  &lt;/ng-template&gt;
 
-  &lt;ng-template #noValue&gt;
-    &lt;span&gt;no data&lt;/span&gt;
-  &lt;/ng-template&gt;
 &lt;/ng-template&gt;
-</code></pre>
+
+
+&lt;ng-template #noValue&gt;
+  &lt;span&gt;no data&lt;/span&gt;
+&lt;/ng-template&gt;</code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-styleData">
+    <div class="tab-pane fade " id="styleData">
                 <p class="comment">
                     <code>./tabular.component.scss</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss">// table {
-//   height: auto;
-//   width: auto;
-//   overflow: scroll;
-//   border-collapse: collapse;
-//   &amp;, th, td {
-//     border: 1px solid black;
-//   }
-
-//   th, td {
-//     padding: 2px;
-//     overflow-wrap: break-word;
-//   }
-// }
-$font-size: 9pt !important;
-:host ::ng-deep .tabular-table.ngx-datatable {
-  width: 100% !important;
+                <pre class="line-numbers"><code class="language-scss">$row-height: 20px;
+$icon-size: 18px;
+$space: calc(($row-height - $icon-size) / 2);
+$font-size: 11px;
+.table-container {
   height: 100%;
-  // position: absolute;
-  // top: 30px;
-  // left: 5px;
-  // right: 5px;
-  // bottom: -15px;
-  // height: auto;
-
-  .datatable-header {
-    height: auto !important;
-    font-size: $font-size;
-  }
-  .datatable-tree-button:disabled {
-    display: none;
-  }
-
-  .datatable-header-cell {
-    padding: 1px !important;
-    white-space: normal !important;
-    &amp;:hover {
-      z-index: 1000;
-      overflow: visible !important;
-    }
-  }
-
-  .datatable-body-cell,
-  .datatable-body-row {
-    padding: 0px 0px !important;
-    line-height: 1.25 !important;
-    &amp;.emphasized {
-    }
-    &amp;.deemphasized {
-      opacity: 0.3;
-    }
-  }
-
-  .datatable-tree-button {
-    border: none;
-    background-color: transparent;
-    margin-right: 2px;
-  }
-  .datatable-header-cell-template-wrap {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .resize-handle {
-    width: 2px !important;
-    padding: 0px 1px !important;
-  }
-  .datatable-header-cell-label {
-    text-overflow: ellipsis;
-    font-size: $font-size;
-  }
-
-  .datatable-row-wrapper {
-    &amp;:hover {
-      font-weight: bold;
-    }
-  }
-  .header-cell {
+  width: 100%;
+  overflow: auto;
+  table.widget-table.mat-mdc-table {
     width: 100%;
-    overflow: hidden;
-    max-height: 50px;
-    font-size: $font-size;
-    span {
-      font-size: inherit;
+    tr.mat-mdc-header-row {
+      height: 25px;
     }
-    &amp;:hover {
-      z-index: 1000;
-      overflow: auto;
-      overflow-wrap: break-word;
-      span {
-        display: inline-block;
-        word-break: break-word;
-        background-color: white;
-        font-weight: bold;
+    .table-row.mdc-data-table__row {
+      height: $row-height !important;
+      .metric-column-value-container {
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
       }
     }
-  }
-  .datatable-body-cell-label {
-    font-size: $font-size;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 1px;
-    padding-left: 1px;
-    .cell-icon,
-    .cell-full {
-      height: 19px;
-      display: inline-block;
+    .mdc-data-table__cell,
+    .mdc-data-table__header-cell {
+      font-size: 12px;
+
+      .dense-icon-button.mat-mdc-icon-button.mat-mdc-button-base {
+        height: calc($row-height - 1px);
+        width: calc($row-height - 1px);
+        display: none;
+        &amp; &gt; *[role&#x3D;&quot;img&quot;] {
+          width: $icon-size;
+          height: $icon-size;
+          font-size: $icon-size;
+
+          svg {
+            width: $icon-size;
+            height: $icon-size;
+          }
+        }
+
+        .mat-mdc-button-touch-target {
+          width: calc($row-height - 1px) !important;
+          height: calc($row-height - 1px) !important;
+        }
+      }
     }
     .cell-icon {
-      width: 19px;
-      margin-right: 2px;
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      margin-right: 3px;
     }
-    .cell-full {
-      width: 100%;
-      padding-left: 2px;
-      span {
-        color: black;
+
+    .cell-value {
+      margin-left: 3px;
+      height: 18px;
+    }
+    .metric-column {
+      padding-left: 3px;
+      padding-right: 3px;
+      .metric-name {
+        max-width: 100px;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
+      // min-width: 40px;
+      // max-width: 50px;
     }
-    span {
-      font-size: $font-size;
+
+    th.mat-column-expand,
+    th.mat-column-agg,
+    td.mat-column-agg,
+    td.mat-column-expand {
+      width: 25px;
+      padding-left: 2px;
+      padding-right: 2px;
     }
-  }
-  .datatable-body-cell {
-    white-space: normal;
-  }
-  .datatable-row-left {
-    background-color: white;
-    font-size: 10pt !important;
-    .datatable-body-cell-label {
-      padding-left: 4px;
+
+    th.mat-column-title,
+    td.mat-column-title {
+      &amp;.channel-column {
+        min-width: 100px;
+      }
+      padding-left: 2px;
+      padding-right: 2px;
+      min-width: 40px;
     }
   }
 }
-
-// :host ::ng-deep datatable-header-cell-template-wrap {
-//   white-space: normal;
-// }
 </code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-tree">
+    <div class="tab-pane fade " id="tree">
         <div id="tree-container"></div>
         <div class="tree-legend">
             <div class="title">
@@ -2521,8 +3336,8 @@ $font-size: 9pt !important;
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><!-- *ngIF causes chaos avoid in ngx-datatable --><ngx-datatable  #dataTable  class="material expandable tabular-table"  [rows]="rows"  [columns]="columns"  [headerHeight]="25"  [sortType]="SortType.single"  [columnMode]="ColumnMode.force"  [selectionType]="SelectionType.single"  [footerHeight]="0"  [rowHeight]="20"  [scrollbarH]="true"  [scrollbarV]="true"  [messages]="messages"  [treeFromRelation]="\'parentId\'"  [treeToRelation]="\'id\'"  (treeAction)="onTreeAction($event)"  [selected]="selectedRow"  [sorts]="sorts"></ngx-datatable><ng-template  #headerTemplate  let-column="column"  let-sort="sortFn"  ngx-datatable-header-template>  <div class="header-cell datatable-header-cell-wrapper" (click)="sort()">    <span>{{ column.name }}</span>  </div></ng-template><ng-template #cellTemplate let-value="value" let-row="row">  <ng-container *ngIf="row.type === \'stoplight\'; else notStoplight">    <span      class="cell-full"      [ngClass]="{ border: value.color === \'white\' }"      [ngStyle]="{ \'background-color\': value.color }"    ></span>  </ng-container>  <ng-template #notStoplight>    <ng-container *ngIf="value.value !== null; else noValue">      <div        *ngIf="showKey"        class="cell-icon"        [ngClass]="{ border: value.color === \'white\' }"        [ngStyle]="{ \'background-color\': value.color }"      ></div>      <span *ngIf="showKey">{{ value.value | precision }}</span>      <div        *ngIf="!showKey"        class="cell-full"        [ngClass]="{          border: value.color === \'gray\' || value.color === \'#808080\'        }"        [ngStyle]="{ \'background-color\': value.color, color: value.color }"      >        <span>          {{ value.value | precision }}        </span>      </div>    </ng-container>  </ng-template>  <ng-template #noValue>    <span>no data</span>  </ng-template></ng-template></div>'
-    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'SnackbarComponent', 'selector': 'shared-snackbar'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
+        var COMPONENT_TEMPLATE = '<div><div class="table-container">  <table    class="widget-table"    mat-table    matSort    [dataSource]="dataSource"    multiTemplateDataRows  >    <ng-container      matColumnDef="expand"      sticky    >      <th        mat-header-cell        *matHeaderCellDef        aria-label="row actions"      >&nbsp;</th>      <td        mat-cell        *matCellDef="let row"      >        <button          *ngIf="!row.parentId"          mat-icon-button          class="dense-icon-button"          aria-label="expand row"          (click)="(row.children ? expandRow(row) : expandedElement = null); $event.stopPropagation()"        >          <mat-icon>{{expandedElement !== row ? \'expand_less\' : \'expand_more\'}}</mat-icon>        </button>      </td>    </ng-container>    <ng-container      matColumnDef="title"      sticky    >      <th        mat-header-cell        *matHeaderCellDef        mat-sort-header        [class]="useStationView ? \'station-column\' : \'channel-column\'"      >        {{useStationView ? "Station": "Channel"}}      </th>      <td        mat-cell        *matCellDef="let row"        [class]="useStationView ? \'station-column\' : \'channel-column\'"      >        {{row.title}}      </td>    </ng-container>    <ng-container matColumnDef="agg">      <th        mat-header-cell        *matHeaderCellDef        mat-sort-header        [matTooltip]="properties.displayType === \'stoplight\' ? \'# of channels out of spec\' : \'# of metrics out of spec\'"      >        #      </th>      <td        mat-cell        *matCellDef="let row"      >        {{row.channelAgg ?? row.agg}}      </td>    </ng-container>    <ng-container      *ngFor="let metric of selectedMetrics"      [matColumnDef]="metric.code"    >      <th        mat-header-cell        *matHeaderCellDef        [matTooltip]="metric.name"        mat-sort-header        class="metric-column"      >        <span class="metric-name">          {{metric.name}}        </span>        <!-- {{metric.name.length > 12 ? metric.name.slice(0, 12) + "...": metric.name}} -->      </th>      <td        mat-cell        *matCellDef="let row"        class="metric-column"      >        <div          *ngIf="row.metrics[metric.code] as metricData; else noValue"          class="metric-column-value-container"          [class.show-key]="showKey"          [style.background-color]="!showKey ? metricData.color : \'white\'"        >          <ng-container *ngIf="properties.displayType === \'stoplight\' && row.children; else notStoplight">            <span              *ngIf="showKey"              class="cell-icon"              [ngStyle]="{ \'background-color\': metricData.color }"            ></span>            <span class="cell-value">              <ng-container *ngIf="showKey">{{ metricData.value !== null ? metricData.value + " out" : "no data"}}              </ng-container></span>          </ng-container>          <ng-template #notStoplight>            <ng-container              *ngIf="metricData.value !== null; else noValue"              [ngTemplateOutlet]="cell"              [ngTemplateOutletContext]="metricData"            >            </ng-container>          </ng-template>        </div>      </td>    </ng-container>    <tr      mat-header-row      *matHeaderRowDef="columns; sticky:true"    ></tr>    <tr      mat-row      *matRowDef="let row; columns: columns;"      [class.example-expanded-row]="expandedElement === row"      class="table-row"      (click)="row.children ? expandRow(row) : expandedElement = null"    >    </tr>  </table></div><ng-template  #cell  let-value="value"  let-color="color">  <ng-container>    <span      *ngIf="showKey"      class="cell-icon"      [ngStyle]="{ \'background-color\': color }"    ></span>    <span class="cell-value">{{ value | precision }}</span>  </ng-container></ng-template><ng-template #noValue>  <span>no data</span></ng-template></div>'
+    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'BudComponent', 'selector': 'widget-calendar-plot'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
     var DIRECTIVES = [{'name': 'LoadingDirective', 'selector': '[appIsLoading]'},{'name': 'TooltipDirective', 'selector': '[uiTooltip]'},{'name': 'WidgetTypeDirective', 'selector': '[widgetContainer]'},{'name': 'WidgetTypeExampleDirective', 'selector': '[appWidgetTypeExample]'}];
     var ACTUAL_COMPONENT = {'name': 'TabularComponent'};
 </script>

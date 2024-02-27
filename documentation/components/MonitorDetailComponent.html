@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -35,36 +93,41 @@
 
 
 <ol class="breadcrumb">
-  <li>Components</li>
-  <li
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
   >
   MonitorDetailComponent</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
-        <li >
-            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
         </li>
-        <li >
-            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
         </li>
-        <li >
-            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
     <h3>File</h3>
 </p>
 <p class="comment">
-    <code>projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts</code>
+    <code>projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts</code>
 </p>
 
 
@@ -81,14 +144,16 @@
         <h3>Implements</h3>
     </p>
     <p class="comment">
-                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                <code>OnInit</code>
+                <code>AfterViewInit</code>
     </p>
 
 
-<section>
+<section data-compodoc="block-metadata">
     <h3>Metadata</h3>
     <table class="table table-sm table-hover metadata">
         <tbody>
+
 
 
 
@@ -114,6 +179,33 @@
             </tr>
 
             <tr>
+                <td class="col-md-3">Standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>MatButtonModule</code>
+                                <code><a href="../components/DetailPageComponent.html" target="_self" >DetailPageComponent</a></code>
+                            <code>MatTableModule</code>
+                            <code>MatSortModule</code>
+                            <code>UserPipe</code>
+                            <code>OrganizationPipe</code>
+                                <code><a href="../directives/LoadingDirective.html" target="_self" >LoadingDirective</a></code>
+                            <code>MatCheckboxModule</code>
+                            <code>AsyncPipe</code>
+                            <code>RouterLink</code>
+                                <code><a href="../components/DateSelectComponent.html" target="_self" >DateSelectComponent</a></code>
+                                <code><a href="../components/MonitorAlarmStatusComponent.html" target="_self" >MonitorAlarmStatusComponent</a></code>
+                                <code><a href="../components/MonitorHistoryChartComponent.html" target="_self" >MonitorHistoryChartComponent</a></code>
+                                <code><a href="../components/MonitorChannelHistoryChartComponent.html" target="_self" >MonitorChannelHistoryChartComponent</a></code>
+                            <code>RouterOutlet</code>
+                            <code>NgIf</code>
+                </td>
+            </tr>
+
+            <tr>
                 <td class="col-md-3">styleUrls</td>
                 <td class="col-md-9"><code>./monitor-detail.component.scss</code></td>
             </tr>
@@ -136,7 +228,7 @@
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -149,22 +241,37 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#alertColumns" >alertColumns</a>
+                            </li>
+                            <li>
+                                <a href="#alertDataSource" >alertDataSource</a>
+                            </li>
+                            <li>
                                 <a href="#alerts" >alerts</a>
                             </li>
                             <li>
+                                <a href="#alertSelection" >alertSelection</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#alertSort" >alertSort</a>
+                            </li>
+                            <li>
+                                <a href="#breachingChannelColumns" >breachingChannelColumns</a>
+                            </li>
+                            <li>
+                                <a href="#breachingChannelsDataSource" >breachingChannelsDataSource</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
                                 <a href="#channelChart" >channelChart</a>
                             </li>
                             <li>
                                 <a href="#channelGroup" >channelGroup</a>
                             </li>
                             <li>
-                                <a href="#ColumnMode" >ColumnMode</a>
-                            </li>
-                            <li>
-                                <a href="#columns" >columns</a>
-                            </li>
-                            <li>
-                                <a href="#controls" >controls</a>
+                                    <span class="modifier"></span>
+                                <a href="#channelSort" >channelSort</a>
                             </li>
                             <li>
                                 <a href="#datePickerTimeRanges" >datePickerTimeRanges</a>
@@ -186,19 +293,14 @@
                                 <a href="#monitor" >monitor</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#monitorChart" >monitorChart</a>
-                            </li>
-                            <li>
-                                <a href="#options" >options</a>
                             </li>
                             <li>
                                 <a href="#pageOptions" >pageOptions</a>
                             </li>
                             <li>
                                 <a href="#selectedAlert" >selectedAlert</a>
-                            </li>
-                            <li>
-                                <a href="#SelectionType" >SelectionType</a>
                             </li>
                             <li>
                                 <a href="#starttime" >starttime</a>
@@ -208,6 +310,16 @@
                             </li>
                             <li>
                                 <a href="#timeRange" >timeRange</a>
+                            </li>
+                            <li>
+                                <a href="#triggerColumns" >triggerColumns</a>
+                            </li>
+                            <li>
+                                <a href="#triggerDataSource" >triggerDataSource</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#triggerSort" >triggerSort</a>
                             </li>
                             <li>
                                 <a href="#unsavedChanges" >unsavedChanges</a>
@@ -246,9 +358,6 @@
                                 <a href="#ngOnInit" >ngOnInit</a>
                             </li>
                             <li>
-                                <a href="#selectAlert" >selectAlert</a>
-                            </li>
-                            <li>
                                 <a href="#update" >update</a>
                             </li>
                         </ul>
@@ -263,18 +372,18 @@
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-constructor">
     <h3 id="constructor">Constructor</h3>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(route: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, alertService: <a href="../injectables/AlertService.html" target="_self">AlertService</a>, monitorService: <a href="../injectables/MonitorService.html" target="_self">MonitorService</a>, loadingService: <a href="../injectables/LoadingService.html" target="_self">LoadingService</a>, dateService: <a href="../injectables/DateService.html" target="_self">DateService</a>, widgetManager: <a href="../injectables/WidgetManagerService.html" target="_self">WidgetManagerService</a>, channelGroupService: <a href="../injectables/ChannelGroupService.html" target="_self">ChannelGroupService</a>, metricService: <a href="../injectables/MetricService.html" target="_self">MetricService</a>, changeDetector: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>, messageService: <a href="../injectables/MessageService.html" target="_self">MessageService</a>)</code>
+<code>constructor(route: ActivatedRoute, router: Router, alertService: <a href="../injectables/AlertService.html" target="_self">AlertService</a>, monitorService: <a href="../injectables/MonitorService.html" target="_self">MonitorService</a>, loadingService: <a href="../injectables/LoadingService.html" target="_self">LoadingService</a>, dateService: <a href="../injectables/DateService.html" target="_self">DateService</a>, widgetManager: <a href="../injectables/WidgetManagerService.html" target="_self">WidgetManagerService</a>, channelGroupService: <a href="../injectables/ChannelGroupService.html" target="_self">ChannelGroupService</a>, metricService: <a href="../injectables/MetricService.html" target="_self">MetricService</a>, changeDetector: ChangeDetectorRef, messageService: <a href="../injectables/MessageService.html" target="_self">MessageService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="120" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:120</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="174" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:174</a></div>
                             </td>
                         </tr>
 
@@ -295,7 +404,7 @@
                                                         <td>route</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                                    <code>ActivatedRoute</code>
                                                         </td>
                                                   
                                                     <td>
@@ -307,7 +416,7 @@
                                                         <td>router</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                                    <code>Router</code>
                                                         </td>
                                                   
                                                     <td>
@@ -403,7 +512,7 @@
                                                         <td>changeDetector</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+                                                                    <code>ChangeDetectorRef</code>
                                                         </td>
                                                   
                                                     <td>
@@ -436,7 +545,7 @@
 
 
 
-    <section>
+    <section data-compodoc="block-methods">
     
     <h3 id="methods">
         Methods
@@ -459,23 +568,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="268"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:268</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="318"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:318</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Close container and route to parent</p>
+                        <div class="io-description"><p>Close container and route to parent</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -498,57 +607,55 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="282"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:282</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="332"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:332</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Dates emitted when user changes time ranges, updates
+                        <div class="io-description"><p>Dates emitted when user changes time ranges, updates
 dates in widget manager</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>[object Object]</td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>[object Object]</td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>time range start date</p>
+                                            <td>
+                                                    <p>time range start date</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -571,23 +678,23 @@ dates in widget manager</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="242"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:242</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="303"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:303</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Delete monitor</p>
+                        <div class="io-description"><p>Delete monitor</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -610,29 +717,27 @@ dates in widget manager</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="204"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:204</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="264"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:264</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Requests alerts iwthin time range</p>
+                        <div class="io-description"><p>Requests alerts iwthin time range</p>
 </div>
 
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;Alert[]&gt;</code>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;Alert[]&gt;</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>alerts</p>
+                        </div>
+                            <div class="io-description">
+                                <p>alerts</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -655,95 +760,23 @@ dates in widget manager</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="138"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:138</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="199"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:199</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>subscribes to route params</p>
+                        <div class="io-description"><p>subscribes to route params</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="selectAlert"></a>
-                    <span class="name">
-                        <span ><b>selectAlert</b></span>
-                        <a href="#selectAlert"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>selectAlert(event)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="259"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:259</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Select alert on table and store t selectedAlert</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>event</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>selection event</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -766,33 +799,113 @@ dates in widget manager</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="215"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:215</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="275"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:275</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Requests new data</p>
+                        <div class="io-description"><p>Requests new data</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </section>
-    <section>
+    <section data-compodoc="block-properties">
     
     <h3 id="inputs">
         Properties
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="alertColumns"></a>
+                    <span class="name">
+                        <span ><b>alertColumns</b></span>
+                        <a href="#alertColumns"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+    &quot;select&quot;,
+    &quot;inAlarm&quot;,
+    &quot;timestamp&quot;,
+    &quot;triggerId&quot;,
+    &quot;breachingChannels.length&quot;,
+  ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="148" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:148</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>columns shown in alert table</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="alertDataSource"></a>
+                    <span class="name">
+                        <span ><b>alertDataSource</b></span>
+                        <a href="#alertDataSource"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MatTableDataSource&lt;Alert&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new MatTableDataSource([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="156" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:156</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>alert table data source</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -812,7 +925,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:60</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="104" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:104</a></div>
                         </td>
                     </tr>
 
@@ -829,8 +942,156 @@ dates in widget manager</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="alertSelection"></a>
+                    <span class="name">
+                        <span ><b>alertSelection</b></span>
+                        <a href="#alertSelection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new SelectionModel&lt;Alert&gt;(false, [])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="158" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:158</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>selection on alert table</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="alertSort"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>alertSort</b></span>
+                        <a href="#alertSort"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MatSort</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;alertTable&#x27;, {read: MatSort})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:94</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Mat sort directive, used to enable sorting on</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="breachingChannelColumns"></a>
+                    <span class="name">
+                        <span ><b>breachingChannelColumns</b></span>
+                        <a href="#breachingChannelColumns"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="171" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:171</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>breaching channel table columns, set in OnInit</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="breachingChannelsDataSource"></a>
+                    <span class="name">
+                        <span ><b>breachingChannelsDataSource</b></span>
+                        <a href="#breachingChannelsDataSource"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/BreachingChannel.html" target="_self" >MatTableDataSource&lt;BreachingChannel&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new MatTableDataSource([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="173" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:173</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>breaching channels table data source</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="channelChart"></a>
                     <span class="name">
+                            <span class="modifier"></span>
                         <span ><b>channelChart</b></span>
                         <a href="#channelChart"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -847,7 +1108,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:52</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:92</a></div>
                         </td>
                     </tr>
 
@@ -879,7 +1140,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:77</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="121" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:121</a></div>
                         </td>
                     </tr>
 
@@ -896,109 +1157,38 @@ dates in widget manager</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="ColumnMode"></a>
+                    <a name="channelSort"></a>
                     <span class="name">
-                        <span ><b>ColumnMode</b></span>
-                        <a href="#ColumnMode"><span class="icon ion-ios-link"></span></a>
+                            <span class="modifier"></span>
+                        <span ><b>channelSort</b></span>
+                        <a href="#channelSort"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>ColumnMode</code>
+                        <i>Type : </i>    <code>MatSort</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;channelTable&#x27;, {read: MatSort})<br />
+                        </code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:54</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="100" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:100</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>ngxdatatable column config</p>
-</div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="columns"></a>
-                    <span class="name">
-                        <span ><b>columns</b></span>
-                        <a href="#columns"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>[]</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>[]</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="118" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:118</a></div>
-                        </td>
-                    </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>table columns</p>
-</div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="controls"></a>
-                    <span class="name">
-                        <span ><b>controls</b></span>
-                        <a href="#controls"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../interfaces/TableControls.html" target="_self" >TableControls</a></code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>{
-    listenToRouter: true,
-    resource: &quot;Monitor&quot;,
-    add: {
-      text: &quot;Add Monitor&quot;,
-      path: &quot;/monitors&quot;,
-    },
-    links: [{ text: &quot;View All Monitors&quot;, path: &quot;/monitors&quot; }],
-  }</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="100" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:100</a></div>
-                        </td>
-                    </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>controls for table config</p>
+                    <div class="io-description"><p>Mat sort directive, used to enable sorting on</p>
 </div>
                 </td>
             </tr>
@@ -1023,7 +1213,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:79</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="123" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:123</a></div>
                         </td>
                     </tr>
 
@@ -1055,7 +1245,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:83</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="127" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:127</a></div>
                         </td>
                     </tr>
 
@@ -1087,7 +1277,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:58</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:102</a></div>
                         </td>
                     </tr>
 
@@ -1118,7 +1308,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:89</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="133" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:133</a></div>
                         </td>
                     </tr>
 
@@ -1151,7 +1341,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="126" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:126</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="181" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:181</a></div>
                         </td>
                     </tr>
 
@@ -1177,7 +1367,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:62</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:106</a></div>
                         </td>
                     </tr>
 
@@ -1196,6 +1386,7 @@ dates in widget manager</p>
                 <td class="col-md-4">
                     <a name="monitorChart"></a>
                     <span class="name">
+                            <span class="modifier"></span>
                         <span ><b>monitorChart</b></span>
                         <a href="#monitorChart"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1212,55 +1403,13 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:50</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:90</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>monitor chart instance</p>
-</div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="options"></a>
-                    <span class="name">
-                        <span ><b>options</b></span>
-                        <a href="#options"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../interfaces/TableOptions.html" target="_self" >TableOptions</a></code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>{
-    messages: {
-      emptyMessage: &quot;No alerts found.&quot;,
-    },
-    footerLabel: &quot;Alerts&quot;,
-  }</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="111" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:111</a></div>
-                        </td>
-                    </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>table options config</p>
 </div>
                 </td>
             </tr>
@@ -1298,7 +1447,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:91</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="135" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:135</a></div>
                         </td>
                     </tr>
 
@@ -1330,44 +1479,13 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:73</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="117" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:117</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>currently selected alert</p>
-</div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="SelectionType"></a>
-                    <span class="name">
-                        <span ><b>SelectionType</b></span>
-                        <a href="#SelectionType"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>SelectionType</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:56</a></div>
-                        </td>
-                    </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>ngxdatatable selection config</p>
 </div>
                 </td>
             </tr>
@@ -1393,7 +1511,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:81</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="125" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:125</a></div>
                         </td>
                     </tr>
 
@@ -1424,7 +1542,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:85</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="129" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:129</a></div>
                         </td>
                     </tr>
 
@@ -1461,13 +1579,135 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:75</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="119" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:119</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>default time range for data requests</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="triggerColumns"></a>
+                    <span class="name">
+                        <span ><b>triggerColumns</b></span>
+                        <a href="#triggerColumns"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+    &quot;fullString&quot;,
+    &quot;inAlarm&quot;,
+    &quot;lastUpdate&quot;,
+    &quot;alertOnOutOfAlarm&quot;,
+    &quot;emails&quot;,
+  ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="161" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:161</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>columns for trigger table</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="triggerDataSource"></a>
+                    <span class="name">
+                        <span ><b>triggerDataSource</b></span>
+                        <a href="#triggerDataSource"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MatTableDataSource&lt;Trigger&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new MatTableDataSource([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="169" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:169</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>trigger table datasource</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="triggerSort"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>triggerSort</b></span>
+                        <a href="#triggerSort"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MatSort</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;triggerTable&#x27;, {read: MatSort})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:97</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Mat sort directive, used to enable sorting on</p>
 </div>
                 </td>
             </tr>
@@ -1492,7 +1732,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:87</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="131" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:131</a></div>
                         </td>
                     </tr>
 
@@ -1523,7 +1763,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="120" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:120</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="145" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:145</a></div>
                         </td>
                     </tr>
 
@@ -1561,13 +1801,13 @@ dates in widget manager</p>
     dashboard: 1,
     metrics: [],
     properties: {},
-    type: WidgetType.TIMESERIES,
+    type: &quot;timeseries&quot;,
   })</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts:64</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="108" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts:108</a></div>
                         </td>
                     </tr>
 
@@ -1585,21 +1825,40 @@ dates in widget manager</p>
 </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ChangeDetectorRef, Component, OnInit, ViewChild } from &quot;@angular/core&quot;;
-import { ActivatedRoute, Router } from &quot;@angular/router&quot;;
-import { ColumnMode, SelectionType } from &quot;@boring.devs/ngx-datatable&quot;;
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { SelectionChange, SelectionModel } from &quot;@angular/cdk/collections&quot;;
+import { AsyncPipe, NgIf } from &quot;@angular/common&quot;;
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  ViewChild,
+} from &quot;@angular/core&quot;;
+import { MatButtonModule } from &quot;@angular/material/button&quot;;
+import { MatCheckboxModule } from &quot;@angular/material/checkbox&quot;;
+import { MatSort, MatSortModule } from &quot;@angular/material/sort&quot;;
+import { MatTableDataSource, MatTableModule } from &quot;@angular/material/table&quot;;
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterOutlet,
+} from &quot;@angular/router&quot;;
 import { DateService } from &quot;@core/services/date.service&quot;;
 import { LoadingService } from &quot;@core/services/loading.service&quot;;
 import { MessageService } from &quot;@core/services/message.service&quot;;
-import { DATE_PICKER_TIMERANGES } from &quot;@dashboard/components/dashboard-detail/dashboard-time-ranges&quot;;
+import { nestedPropertyDataAccessor } from &quot;@core/utils/utils&quot;;
+import { DATE_PICKER_TIMERANGES } from &quot;@dashboard/pages/detail/dashboard-time-ranges&quot;;
+import { MonitorAlarmStatusComponent } from &quot;@monitor/components/monitor-alarm-status/monitor-alarm-status.component&quot;;
+import { MonitorChannelHistoryChartComponent } from &quot;@monitor/components/monitor-channel-history-chart/monitor-channel-history-chart.component&quot;;
+import { MonitorHistoryChartComponent } from &quot;@monitor/components/monitor-history-chart/monitor-history-chart.component&quot;;
+import { DateSelectComponent } from &quot;@shared/components/date-select/date-select.component&quot;;
+import { DetailPageComponent } from &quot;@shared/components/detail-page/detail-page.component&quot;;
 import { PageOptions } from &quot;@shared/components/detail-page/detail-page.interface&quot;;
-import {
-  TableControls,
-  TableOptions,
-} from &quot;@shared/components/table-view/interfaces&quot;;
+import { LoadingDirective } from &quot;@shared/directives/loading-directive.directive&quot;;
 import { connect } from &quot;echarts&quot;;
-import { forkJoin, Observable, Subscription, switchMap, tap } from &quot;rxjs&quot;;
+import { forkJoin, map, Observable, Subscription, switchMap, tap } from &quot;rxjs&quot;;
 import {
   Alert,
   AlertService,
@@ -1610,13 +1869,15 @@ import {
   MetricService,
   Monitor,
   MonitorService,
+  OrganizationPipe,
+  Trigger,
+  UserPipe,
   Widget,
 } from &quot;squacapi&quot;;
 import {
   WidgetConfigService,
   WidgetDataService,
   WidgetManagerService,
-  WidgetType,
 } from &quot;widgets&quot;;
 
 /** loading indicator areas */
@@ -1632,16 +1893,39 @@ enum LoadingIndicator {
   templateUrl: &quot;./monitor-detail.component.html&quot;,
   styleUrls: [&quot;./monitor-detail.component.scss&quot;],
   providers: [WidgetConfigService, WidgetManagerService, WidgetDataService],
+  standalone: true,
+  imports: [
+    MatButtonModule,
+    DetailPageComponent,
+    MatTableModule,
+    MatSortModule,
+    UserPipe,
+    OrganizationPipe,
+    LoadingDirective,
+    MatCheckboxModule,
+    AsyncPipe,
+    RouterLink,
+    DateSelectComponent,
+    MonitorAlarmStatusComponent,
+    MonitorHistoryChartComponent,
+    MonitorChannelHistoryChartComponent,
+    RouterOutlet,
+    NgIf,
+  ],
 })
-export class MonitorDetailComponent implements OnInit {
+export class MonitorDetailComponent implements OnInit, AfterViewInit {
   /** monitor chart instance */
   @ViewChild(&quot;monitorChart&quot;) monitorChart;
   /** channel chart instance */
   @ViewChild(&quot;channelChart&quot;) channelChart;
-  /** ngxdatatable column config */
-  ColumnMode &#x3D; ColumnMode;
-  /** ngxdatatable selection config */
-  SelectionType &#x3D; SelectionType;
+  /** Mat sort directive, used to enable sorting on */
+  @ViewChild(&quot;alertTable&quot;, { read: MatSort }) alertSort: MatSort;
+  /** Mat sort directive, used to enable sorting on */
+  @ViewChild(&quot;triggerTable&quot;, { read: MatSort })
+  triggerSort: MatSort;
+  /** Mat sort directive, used to enable sorting on */
+  @ViewChild(&quot;channelTable&quot;, { read: MatSort })
+  channelSort: MatSort;
   /** true if page has an error */
   error: boolean;
   /** alerts for monitor */
@@ -1655,7 +1939,7 @@ export class MonitorDetailComponent implements OnInit {
     dashboard: 1,
     metrics: [],
     properties: {},
-    type: WidgetType.TIMESERIES,
+    type: &quot;timeseries&quot;,
   });
   /** currently selected alert */
   selectedAlert: Alert;
@@ -1684,28 +1968,39 @@ export class MonitorDetailComponent implements OnInit {
     },
     path: &quot;/monitors&quot;,
   };
-  /** controls for table config */
-  controls: TableControls &#x3D; {
-    listenToRouter: true,
-    resource: &quot;Monitor&quot;,
-    add: {
-      text: &quot;Add Monitor&quot;,
-      path: &quot;/monitors&quot;,
-    },
-    links: [{ text: &quot;View All Monitors&quot;, path: &quot;/monitors&quot; }],
-  };
 
-  /** table options config */
-  options: TableOptions &#x3D; {
-    messages: {
-      emptyMessage: &quot;No alerts found.&quot;,
-    },
-    footerLabel: &quot;Alerts&quot;,
-  };
-  /** table columns */
-  columns &#x3D; [];
   /** true if trigger section should be shown */
   viewTriggers &#x3D; true;
+
+  /** columns shown in alert table */
+  alertColumns: string[] &#x3D; [
+    &quot;select&quot;,
+    &quot;inAlarm&quot;,
+    &quot;timestamp&quot;,
+    &quot;triggerId&quot;,
+    &quot;breachingChannels.length&quot;,
+  ];
+  /** alert table data source */
+  alertDataSource: MatTableDataSource&lt;Alert&gt; &#x3D; new MatTableDataSource([]);
+  /** selection on alert table */
+  alertSelection &#x3D; new SelectionModel&lt;Alert&gt;(false, []);
+
+  /** columns for trigger table */
+  triggerColumns: string[] &#x3D; [
+    &quot;fullString&quot;,
+    &quot;inAlarm&quot;,
+    &quot;lastUpdate&quot;,
+    &quot;alertOnOutOfAlarm&quot;,
+    &quot;emails&quot;,
+  ];
+  /** trigger table datasource */
+  triggerDataSource: MatTableDataSource&lt;Trigger&gt; &#x3D; new MatTableDataSource([]);
+  /** breaching channel table columns, set in OnInit */
+  breachingChannelColumns: string[] &#x3D; [];
+  /** breaching channels table data source */
+  breachingChannelsDataSource: MatTableDataSource&lt;BreachingChannel&gt; &#x3D;
+    new MatTableDataSource([]);
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -1720,25 +2015,27 @@ export class MonitorDetailComponent implements OnInit {
     private messageService: MessageService
   ) {}
 
+  /** @ignore */
+  ngAfterViewInit(): void {
+    this.alertDataSource.sort &#x3D; this.alertSort;
+    this.triggerDataSource.sort &#x3D; this.triggerSort;
+    this.breachingChannelsDataSource.sort &#x3D; this.channelSort;
+  }
   /**
    * subscribes to route params
    */
   ngOnInit(): void {
-    this.columns &#x3D; [
-      { name: &quot;Channel&quot;, prop: &quot;channel&quot; },
-      {
-        name: &quot;Value&quot;,
-        prop: &quot;&quot;,
-        pipe: {
-          transform: (row: BreachingChannel): number &#x3D;&gt; {
-            return row[this.monitor.stat];
-          },
-        },
-        comparator: (a: BreachingChannel, b: BreachingChannel): number &#x3D;&gt; {
-          return a[this.monitor.stat] - b[this.monitor.stat];
-        },
-      },
-    ];
+    this.alertDataSource.sortingDataAccessor &#x3D; nestedPropertyDataAccessor;
+
+    this.alertSelection.changed
+      .pipe(
+        map((s: SelectionChange&lt;Alert&gt;) &#x3D;&gt; s.added[0]),
+        tap((a: Alert) &#x3D;&gt; {
+          this.selectedAlert &#x3D; a;
+          this.breachingChannelsDataSource.data &#x3D; a ? a.breachingChannels : [];
+        })
+      )
+      .subscribe();
 
     const chanSub &#x3D; this.route.data
       .pipe(
@@ -1747,6 +2044,9 @@ export class MonitorDetailComponent implements OnInit {
         }),
         switchMap((data) &#x3D;&gt; {
           this.monitor &#x3D; data[&quot;monitor&quot;];
+
+          this.breachingChannelColumns &#x3D; [&quot;channel&quot;, this.monitor.stat];
+          this.triggerDataSource.data &#x3D; this.monitor.triggers;
           return this.loadingService.doLoading(
             forkJoin({
               channelGroup: this.channelGroupService.read(
@@ -1777,7 +2077,7 @@ export class MonitorDetailComponent implements OnInit {
             results.channelGroup.channels as Channel[]
           );
 
-          this.widgetManager.updateWidgetType(WidgetType.TIMESERIES);
+          this.widgetManager.updateWidgetType(&quot;timeseries&quot;);
           this.update();
         },
       });
@@ -1807,6 +2107,7 @@ export class MonitorDetailComponent implements OnInit {
         next: (alerts: Alert[]) &#x3D;&gt; {
           this.unsavedChanges &#x3D; false;
           this.alerts &#x3D; alerts;
+          this.alertDataSource.data &#x3D; alerts;
           this.changeDetector.detectChanges();
           this.channelChart?.updateData();
           this.monitorChart?.updateData();
@@ -1840,17 +2141,6 @@ export class MonitorDetailComponent implements OnInit {
   }
 
   /**
-   * Select alert on table and store t selectedAlert
-   *
-   * @param event selection event
-   */
-  selectAlert(event): void {
-    if (event.selected) {
-      this.selectedAlert &#x3D; event.selected[0];
-    }
-  }
-
-  /**
    * Close container and route to parent
    */
   closeMonitor(): void {
@@ -1879,7 +2169,7 @@ export class MonitorDetailComponent implements OnInit {
 </code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-templateData">
+    <div class="tab-pane fade " id="templateData">
         <pre class="line-numbers"><code class="language-html">&lt;shared-detail-page
   *ngIf&#x3D;&quot;monitor&quot;
   type&#x3D;&quot;Monitor&quot;
@@ -1896,188 +2186,350 @@ export class MonitorDetailComponent implements OnInit {
         loadingService.isLoading$(this, LoadingIndicator.MAIN) | async
       &quot;
     &gt;
+
+
       &lt;div
-        id&#x3D;&quot;monitor-container&quot;
-        class&#x3D;&quot;column&quot;
+        class&#x3D;&quot;mat-body-2&quot;
+        [style.grid-area]&#x3D;&quot;&#x27;info&#x27;&quot;
       &gt;
-        &lt;div class&#x3D;&quot;row&quot;&gt;
-          &lt;div&gt;
-            &lt;h3&gt;Monitor Information&lt;/h3&gt;
-            &lt;div&gt;
-              &lt;strong&gt;Metric: &lt;/strong&gt; {{ monitor.stat }} of
-              {{ monitor.metricName }}
-            &lt;/div&gt;
-            &lt;div&gt;
-              &lt;strong&gt; Channel Group: &lt;/strong&gt;&lt;a [routerLink]&#x3D;&quot;[&#x27;/channel-groups&#x27;, monitor.channelGroupId]&quot;&gt;
-                {{ monitor.channelGroupName }}&lt;/a&gt;
-              ({{ channelGroup?.channels.length }} channels)
-            &lt;/div&gt;
-            &lt;div&gt;
-              &lt;strong&gt;Interval: &lt;/strong&gt; {{ monitor.intervalCount }}
-              {{ monitor.intervalType }}
-            &lt;/div&gt;
-
-            &lt;div&gt;
-              &lt;strong&gt;Daily Digest: &lt;/strong&gt;
-              {{ monitor.doDailyDigest ? &quot;Yes&quot; : &quot;No&quot; }}
-            &lt;/div&gt;
-          &lt;/div&gt;
-
-          &lt;div class&#x3D;&quot;date-select-row&quot;&gt;
-            &lt;shared-date-select
-              [secondsAgoFromNow]&#x3D;&quot;timeRange&quot;
-              [initialStartDate]&#x3D;&quot;starttime&quot;
-              [initialEndDate]&#x3D;&quot;endtime&quot;
-              [timeRanges]&#x3D;&quot;datePickerTimeRanges&quot;
-              (datesChanged)&#x3D;&quot;datesChanged($event)&quot;
-            &gt;
-            &lt;/shared-date-select&gt;
-            &lt;button
-              mat-raised-button
-              color&#x3D;&quot;accent&quot;
-              (click)&#x3D;&quot;update()&quot;
-              [disabled]&#x3D;&quot;!this.unsavedChanges&quot;
-            &gt;
-              Update
-            &lt;/button&gt;
-          &lt;/div&gt;
+        &lt;h2 class&#x3D;&quot;mat-h2&quot;&gt;Monitor Information&lt;/h2&gt;
+        &lt;div&gt;
+          &lt;strong&gt;Metric: &lt;/strong&gt; {{ monitor.stat }} of
+          {{ monitor.metricName }}
         &lt;/div&gt;
-      &lt;/div&gt;
-      &lt;div
-        class&#x3D;&quot;chart-container&quot;
-        *ngIf&#x3D;&quot;viewTriggers&quot;
-      &gt;
-        &lt;h3&gt;Triggers&lt;/h3&gt;
-        &lt;p class&#x3D;&quot;help-text&quot;&gt;
+        &lt;div&gt;
+          &lt;strong&gt; Channel Group: &lt;/strong&gt;&lt;a [routerLink]&#x3D;&quot;[&#x27;/channel-groups&#x27;, monitor.channelGroupId]&quot;&gt;
+            {{ monitor.channelGroupName }}&lt;/a&gt;
+          ({{ channelGroup?.channels.length }} channels)
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;strong&gt;Interval: &lt;/strong&gt; {{ monitor.intervalCount }}
+          {{ monitor.intervalType }}
+        &lt;/div&gt;
+
+        &lt;div&gt;
+          &lt;strong&gt;Daily Digest: &lt;/strong&gt;
+          {{ monitor.doDailyDigest ? &quot;Yes&quot; : &quot;No&quot; }}
+        &lt;/div&gt;
+        &lt;p class&#x3D;&quot;mat-small&quot;&gt;
           If &#x27;Daily Digest&#x27; is enabled, alerts for individual triggers will not
           be sent.
         &lt;/p&gt;
-        &lt;table id&#x3D;&quot;trigger-table&quot;&gt;
-          &lt;thead&gt;
-            &lt;th&gt;Alert when:&lt;/th&gt;
-            &lt;th&gt;In Alarm:&lt;/th&gt;
-            &lt;th&gt;Last State Change:&lt;/th&gt;
-            &lt;th&gt;Also alert on exit:&lt;/th&gt;
-            &lt;th&gt;Recipients&lt;/th&gt;
-          &lt;/thead&gt;
-          &lt;tbody&gt;
-            &lt;tr *ngFor&#x3D;&quot;let trigger of monitor.triggers&quot;&gt;
-              &lt;td&gt;{{ trigger.fullString }}&lt;/td&gt;
-              &lt;td&gt;{{ trigger.inAlarm ? &quot;Yes&quot; : &quot;No&quot; }}&lt;/td&gt;
-              &lt;td&gt;{{ trigger.lastUpdate }}&lt;/td&gt;
-              &lt;td&gt;{{ trigger.alertOnOutOfAlarm ? &quot;Yes&quot; : &quot;No&quot; }}&lt;/td&gt;
-              &lt;td&gt;{{ trigger.emails }}&lt;/td&gt;
-            &lt;/tr&gt;
-          &lt;/tbody&gt;
+      &lt;/div&gt;
+
+      &lt;div
+        class&#x3D;&quot;row&quot;
+        [style.justify-content]&#x3D;&quot;&#x27;flex-end&#x27;&quot;
+        [style.grid-area]&#x3D;&quot;&#x27;date&#x27;&quot;
+      &gt;
+        &lt;shared-date-select
+          [style.z-index]&#x3D;&quot;110&quot;
+          [secondsAgoFromNow]&#x3D;&quot;timeRange&quot;
+          [initialStartDate]&#x3D;&quot;starttime&quot;
+          [initialEndDate]&#x3D;&quot;endtime&quot;
+          [timeRanges]&#x3D;&quot;datePickerTimeRanges&quot;
+          (datesChanged)&#x3D;&quot;datesChanged($event)&quot;
+        &gt;
+        &lt;/shared-date-select&gt;
+        &lt;button
+          mat-raised-button
+          color&#x3D;&quot;accent&quot;
+          (click)&#x3D;&quot;update()&quot;
+          [disabled]&#x3D;&quot;!this.unsavedChanges&quot;
+        &gt;
+          Update
+        &lt;/button&gt;
+      &lt;/div&gt;
+
+
+      &lt;div
+        [style.grid-area]&#x3D;&quot;&#x27;triggers&#x27;&quot;
+        *ngIf&#x3D;&quot;viewTriggers&quot;
+      &gt;
+        &lt;h2 class&#x3D;&quot;mat-h2&quot;&gt;Triggers&lt;/h2&gt;
+
+        &lt;table
+          mat-table
+          #triggerTable
+          matSort
+          matSortActive&#x3D;&quot;lastUpdate&quot;
+          matSortDirection&#x3D;&quot;desc&quot;
+          [dataSource]&#x3D;&quot;triggerDataSource&quot;
+          class&#x3D;&quot;dense-table&quot;
+          id&#x3D;&quot;trigger-table&quot;
+        &gt;
+          &lt;ng-container matColumnDef&#x3D;&quot;fullString&quot;&gt;
+            &lt;th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription&#x3D;&quot;sort by trigger conditions&quot;
+            &gt;Conditions&lt;/th&gt;
+            &lt;td
+              mat-cell
+              *matCellDef&#x3D;&quot;let element&quot;
+            &gt;
+              {{element.fullString}}
+            &lt;/td&gt;
+
+          &lt;/ng-container&gt;
+
+          &lt;ng-container matColumnDef&#x3D;&quot;inAlarm&quot;&gt;
+            &lt;th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription&#x3D;&quot;sort by status&quot;
+            &gt;Status&lt;/th&gt;
+            &lt;td
+              mat-cell
+              *matCellDef&#x3D;&quot;let element&quot;
+            &gt;
+              &lt;monitor-alarm-status [inAlarm]&#x3D;&quot;element.inAlarm&quot;&gt;&lt;/monitor-alarm-status&gt;
+            &lt;/td&gt;
+
+          &lt;/ng-container&gt;
+
+          &lt;ng-container matColumnDef&#x3D;&quot;lastUpdate&quot;&gt;
+            &lt;th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription&#x3D;&quot;sort by status&quot;
+            &gt;Last State Change&lt;/th&gt;
+            &lt;td
+              mat-cell
+              *matCellDef&#x3D;&quot;let element&quot;
+            &gt;
+              {{element.lastUpdate}}
+            &lt;/td&gt;
+          &lt;/ng-container&gt;
+
+          &lt;ng-container matColumnDef&#x3D;&quot;alertOnOutOfAlarm&quot;&gt;
+            &lt;th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription&#x3D;&quot;sort by alert on out of alarm setting&quot;
+            &gt;
+              Also alert on exit
+            &lt;/th&gt;
+            &lt;td
+              mat-cell
+              *matCellDef&#x3D;&quot;let element&quot;
+            &gt;
+              {{ element.alertOnOutOfAlarm ? &quot;Yes&quot; : &quot;No&quot; }}
+            &lt;/td&gt;
+          &lt;/ng-container&gt;
+
+          &lt;ng-container matColumnDef&#x3D;&quot;emails&quot;&gt;
+            &lt;th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription&#x3D;&quot;sort by email list&quot;
+            &gt;
+              Email List
+            &lt;/th&gt;
+            &lt;td
+              mat-cell
+              *matCellDef&#x3D;&quot;let element&quot;
+            &gt;
+              {{ element.emails }}
+            &lt;/td&gt;
+          &lt;/ng-container&gt;
+
+          &lt;tr
+            mat-header-row
+            *matHeaderRowDef&#x3D;&quot;triggerColumns; sticky:true&quot;
+          &gt;&lt;/tr&gt;
+          &lt;tr
+            mat-row
+            *matRowDef&#x3D;&quot;let row; columns: triggerColumns;&quot;
+          &gt;&lt;/tr&gt;
         &lt;/table&gt;
       &lt;/div&gt;
-      &lt;div id&#x3D;&quot;alert-list&quot;&gt;
-        &lt;h3&gt;Alerts&lt;/h3&gt;
-        &lt;p class&#x3D;&quot;help-text&quot;&gt;
+      &lt;div [style.grid-area]&#x3D;&quot;&#x27;alerts&#x27;&quot;&gt;
+        &lt;h2 class&#x3D;&quot;mat-h2&quot;&gt;Alerts&lt;/h2&gt;
+        &lt;p class&#x3D;&quot;mat-small&quot;&gt;
           Select an alert to view more information.
         &lt;/p&gt;
-        &lt;div class&#x3D;&quot;alert-table-container&quot;&gt;
-          &lt;div&gt;
-            &lt;ngx-datatable
-              [rows]&#x3D;&quot;alerts&quot;
-              id&#x3D;&quot;alert-table&quot;
-              class&#x3D;&quot;material channel-table&quot;
-              [columnMode]&#x3D;&quot;ColumnMode.force&quot;
-              [selectionType]&#x3D;&quot;SelectionType.single&quot;
-              [selected]&#x3D;&quot;[selectedAlert]&quot;
-              [limit]&#x3D;&quot;10&quot;
-              [rowHeight]&#x3D;&quot;25&quot;
-              [scrollbarV]&#x3D;&quot;true&quot;
-              (select)&#x3D;&quot;selectAlert($event)&quot;
+        &lt;div id&#x3D;&quot;alert-tables-container&quot;&gt;
+          &lt;div class&#x3D;&quot;alert-table-container&quot;&gt;
+
+            &lt;table
+              mat-table
+              matSort
+              #alertTable
+              class&#x3D;&quot;dense-table&quot;
+              matSortActive&#x3D;&quot;timestamp&quot;
+              matSortDirection&#x3D;&quot;desc&quot;
+              [dataSource]&#x3D;&quot;alertDataSource&quot;
             &gt;
-              &lt;ngx-datatable-column
-                name&#x3D;&quot;State&quot;
-                prop&#x3D;&quot;inAlarm&quot;
-                [draggable]&#x3D;&quot;false&quot;
-                [width]&#x3D;&quot;70&quot;
-                [canAutoResize]&#x3D;&quot;false&quot;
-              &gt;
-                &lt;ng-template
-                  let-value&#x3D;&quot;value&quot;
-                  ngx-datatable-cell-template
+              &lt;!-- Checkbox Column --&gt;
+              &lt;ng-container matColumnDef&#x3D;&quot;select&quot;&gt;
+                &lt;th
+                  mat-header-cell
+                  *matHeaderCellDef
                 &gt;
-                  &lt;monitor-alarm-status [inAlarm]&#x3D;&quot;value&quot;&gt;&lt;/monitor-alarm-status&gt;
-                &lt;/ng-template&gt;
-              &lt;/ngx-datatable-column&gt;
-              &lt;ngx-datatable-column
-                name&#x3D;&quot;Time&quot;
-                prop&#x3D;&quot;timestamp&quot;
-                [draggable]&#x3D;&quot;false&quot;
-                [width]&#x3D;&quot;160&quot;
-                [canAutoResize]&#x3D;&quot;false&quot;
-              &gt;
-
-              &lt;/ngx-datatable-column&gt;
-              &lt;ngx-datatable-column
-                name&#x3D;&quot;Trigger&quot;
-                [width]&#x3D;&quot;200&quot;
-                [canAutoResize]&#x3D;&quot;true&quot;
-              &gt;
-
-                &lt;ng-template
-                  #triggerTemplate
-                  let-value&#x3D;&quot;value&quot;
-                  let-row&#x3D;&quot;row&quot;
-                  ngx-datatable-cell-template
+                &lt;/th&gt;
+                &lt;td
+                  mat-cell
+                  *matCellDef&#x3D;&quot;let row&quot;
                 &gt;
-                  values for
-                  &lt;span *ngIf&#x3D;&quot;row.numChannelsOperator !&#x3D;&#x3D; &#x27;&#x3D;&#x3D;&#x27;&quot;&gt;
-                    {{ row.numChannelsOperator }}
+                  &lt;mat-checkbox
+                    class&#x3D;&quot;dense-checkbox&quot;
+                    (click)&#x3D;&quot;$event.stopPropagation()&quot;
+                    (change)&#x3D;&quot;$event ? alertSelection.toggle(row) : null&quot;
+                    [checked]&#x3D;&quot;alertSelection.isSelected(row)&quot;
+                    [aria-label]&#x3D;&quot;alertSelection.isSelected(row) ? &#x27;deselect alert&#x27; : &#x27;select alert&#x27;&quot;
+                  &gt;
+                  &lt;/mat-checkbox&gt;
+                &lt;/td&gt;
+              &lt;/ng-container&gt;
+              &lt;!-- Position Column --&gt;
+              &lt;ng-container matColumnDef&#x3D;&quot;inAlarm&quot;&gt;
+                &lt;th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  sortActionDescription&#x3D;&quot;Sort by status&quot;
+                &gt;Status&lt;/th&gt;
+                &lt;td
+                  mat-cell
+                  *matCellDef&#x3D;&quot;let element&quot;
+                &gt;
+                  &lt;monitor-alarm-status [inAlarm]&#x3D;&quot;element.inAlarm&quot;&gt;&lt;/monitor-alarm-status&gt;
+                &lt;/td&gt;
+
+              &lt;/ng-container&gt;
+
+              &lt;!-- Name Column --&gt;
+              &lt;ng-container matColumnDef&#x3D;&quot;timestamp&quot;&gt;
+                &lt;th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  sortActionDescription&#x3D;&quot;Sort by time&quot;
+                &gt;Time&lt;/th&gt;
+                &lt;td
+                  mat-cell
+                  *matCellDef&#x3D;&quot;let element&quot;
+                &gt;{{element.timestamp}}
+                &lt;/td&gt;
+              &lt;/ng-container&gt;
+
+              &lt;!-- Weight Column --&gt;
+              &lt;ng-container matColumnDef&#x3D;&quot;triggerId&quot;&gt;
+                &lt;th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  sortActionDescription&#x3D;&quot;Sort by trigger id&quot;
+                &gt;Trigger&lt;/th&gt;
+                &lt;td
+                  mat-cell
+                  *matCellDef&#x3D;&quot;let element&quot;
+                &gt;values for
+                  &lt;span *ngIf&#x3D;&quot;element.numChannelsOperator !&#x3D;&#x3D; &#x27;&#x3D;&#x3D;&#x27;&quot;&gt;
+                    {{ element.numChannelsOperator }}
                   &lt;/span&gt;
-                  {{ row.numChannels }} channel(s) in are {{ row.valueOperator }}
-                  {{ row.val1 }}
-                  &lt;span *ngIf&#x3D;&quot;row.val2 !&#x3D;&#x3D; null &amp;&amp; row.val2 !&#x3D;&#x3D; undefined&quot;&gt;
-                    and {{ row.val2 }}
+                  {{ element.numChannels }} channel(s) in are {{ element.valueOperator }}
+                  {{ element.val1 }}
+                  &lt;span *ngIf&#x3D;&quot;element.val2 !&#x3D;&#x3D; null &amp;&amp; element.val2 !&#x3D;&#x3D; undefined&quot;&gt;
+                    and {{ element.val2 }}
                   &lt;/span&gt;
-                &lt;/ng-template&gt;
-              &lt;/ngx-datatable-column&gt;
-              &lt;ngx-datatable-column
-                name&#x3D;&quot;Breaching Channels&quot;
-                prop&#x3D;&quot;breachingChannels&quot;
-                [width]&#x3D;&quot;150&quot;
-                [canAutoResize]&#x3D;&quot;false&quot;
-              &gt;
-                &lt;ng-template
-                  let-value&#x3D;&quot;value&quot;
-                  ngx-datatable-cell-template
-                &gt;
-                  {{ value.length }}
-                &lt;/ng-template&gt;
+                &lt;/td&gt;
+              &lt;/ng-container&gt;
 
-              &lt;/ngx-datatable-column&gt;
-            &lt;/ngx-datatable&gt;
+              &lt;!-- Symbol Column --&gt;
+              &lt;ng-container matColumnDef&#x3D;&quot;breachingChannels.length&quot;&gt;
+                &lt;th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  sortActionDescription&#x3D;&quot;Sort by number of breaching channels&quot;
+                &gt;Breaching Channels&lt;/th&gt;
+                &lt;td
+                  mat-cell
+                  *matCellDef&#x3D;&quot;let element&quot;
+                &gt;{{element. breachingChannels.length}}&lt;/td&gt;
+              &lt;/ng-container&gt;
+
+              &lt;tr
+                mat-header-row
+                *matHeaderRowDef&#x3D;&quot;alertColumns; sticky:true&quot;
+              &gt;&lt;/tr&gt;
+              &lt;tr
+                mat-row
+                (click)&#x3D;&quot;alertSelection.toggle(row)&quot;
+                *matRowDef&#x3D;&quot;let row; columns: alertColumns;&quot;
+              &gt;&lt;/tr&gt;
+            &lt;/table&gt;
           &lt;/div&gt;
-          &lt;div&gt;
-            &lt;ngx-datatable
-              id&#x3D;&quot;channel-table&quot;
-              *ngIf&#x3D;&quot;selectedAlert as alert&quot;
-              class&#x3D;&quot;channel-table&quot;
-              [scrollbarV]&#x3D;&quot;true&quot;
-              [columns]&#x3D;&quot;columns&quot;
-              [rows]&#x3D;&quot;alert.breachingChannels&quot;
-              [rowHeight]&#x3D;&quot;25&quot;
-              [scrollbarV]&#x3D;&quot;true&quot;
+          &lt;div
+            *ngIf&#x3D;&quot;selectedAlert&quot;
+            class&#x3D;&quot;alert-table-container&quot;
+            id&#x3D;&quot;breaching-channels-table&quot;
+          &gt;
+            &lt;table
+              mat-table
+              class&#x3D;&quot;dense-table&quot;
+              #channelTable
+              matSort
+              matSortActive&#x3D;&quot;channel&quot;
+              matSortDirection&#x3D;&quot;asc&quot;
+              [dataSource]&#x3D;&quot;breachingChannelsDataSource&quot;
             &gt;
-            &lt;/ngx-datatable&gt;
-          &lt;/div&gt;
+              &lt;!-- Symbol Column --&gt;
+              &lt;ng-container matColumnDef&#x3D;&quot;channel&quot;&gt;
+                &lt;th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  sortActionDescription&#x3D;&quot;sort by channel scnl&quot;
+                &gt;Channel&lt;/th&gt;
+                &lt;td
+                  mat-cell
+                  *matCellDef&#x3D;&quot;let element&quot;
+                &gt;{{element.channel}}&lt;/td&gt;
+              &lt;/ng-container&gt;
+              &lt;!-- Symbol Column --&gt;
+              &lt;ng-container [matColumnDef]&#x3D;&quot;monitor.stat&quot;&gt;
+                &lt;th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  sortActionDescription&#x3D;&quot;sort by channel value&quot;
+                &gt;Value ({{monitor.stat}})&lt;/th&gt;
+                &lt;td
+                  mat-cell
+                  *matCellDef&#x3D;&quot;let element&quot;
+                &gt;{{element[monitor.stat]}}&lt;/td&gt;
+              &lt;/ng-container&gt;
 
+              &lt;tr
+                mat-header-row
+                *matHeaderRowDef&#x3D;&quot;breachingChannelColumns; sticky:true&quot;
+              &gt;&lt;/tr&gt;
+              &lt;tr
+                mat-row
+                *matRowDef&#x3D;&quot;let row; columns: breachingChannelColumns;&quot;
+              &gt;&lt;/tr&gt;
+            &lt;/table&gt;
+          &lt;/div&gt;
         &lt;/div&gt;
 
 
       &lt;/div&gt;
-      &lt;div class&#x3D;&quot;chart-container&quot;&gt;
-        &lt;h3&gt;Alert History&lt;/h3&gt;
-        &lt;p class&#x3D;&quot;help-text&quot;&gt;
+      &lt;div [style.grid-area]&#x3D;&quot;&#x27;history&#x27;&quot;&gt;
+        &lt;h2 class&#x3D;&quot;mat-h2&quot;&gt;Alert History&lt;/h2&gt;
+        &lt;p class&#x3D;&quot;mat-body-2&quot;&gt;
           An alert will be generated when a trigger is &#x27;In Alarm&#x27; and when the
           trigger exits the alarm state. Once the trigger is no longer &#x27;In
           Alarm&#x27;, no alerts will be generated until it is &#x27;In Alarm&#x27; again;
         &lt;/p&gt;
-        &lt;p class&#x3D;&quot;help-text&quot;&gt;click on an alert to view details&lt;/p&gt;
+        &lt;p class&#x3D;&quot;mat-small&quot;&gt;click on an alert to view details&lt;/p&gt;
         &lt;div
           [appIsLoading]&#x3D;&quot;
             loadingService.isLoading$(this, LoadingIndicator.RESULTS) | async
@@ -2094,9 +2546,9 @@ export class MonitorDetailComponent implements OnInit {
           &gt;&lt;/monitor-history-chart&gt;
         &lt;/div&gt;
       &lt;/div&gt;
-      &lt;div class&#x3D;&quot;chart-container&quot;&gt;
-        &lt;h3&gt;Breaching Channel History&lt;/h3&gt;
-        &lt;p class&#x3D;&quot;help-text&quot;&gt;
+      &lt;div [style.grid-area]&#x3D;&quot;&#x27;channels&#x27;&quot;&gt;
+        &lt;h2 class&#x3D;&quot;mat-h2&quot;&gt;Breaching Channel History&lt;/h2&gt;
+        &lt;p class&#x3D;&quot;mat-body&quot;&gt;
           Channels shown are only those that are considered &quot;breaching&quot;. Values
           shown are the calculated values used to evaluate if a monitor is in
           alarm, not raw measurements at that time.
@@ -2118,10 +2570,13 @@ export class MonitorDetailComponent implements OnInit {
       &lt;/div&gt;
 
       &lt;ng-template #noAlerts&gt;
-        &lt;div *ngIf&#x3D;&quot;
+        &lt;div
+          *ngIf&#x3D;&quot;
             (loadingService.isLoading$(this, LoadingIndicator.RESULTS)
               | async) &#x3D;&#x3D;&#x3D; false
-          &quot;&gt;
+          &quot;
+          class&#x3D;&quot;mat-body&quot;
+        &gt;
           No alerts found in this time range.
         &lt;/div&gt;
       &lt;/ng-template&gt;
@@ -2132,7 +2587,7 @@ export class MonitorDetailComponent implements OnInit {
 &lt;router-outlet&gt;&lt;/router-outlet&gt;</code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-styleData">
+    <div class="tab-pane fade " id="styleData">
                 <p class="comment">
                     <code>./monitor-detail.component.scss</code>
                 </p>
@@ -2140,27 +2595,30 @@ export class MonitorDetailComponent implements OnInit {
 
 .box {
   padding: 0px 10px 10px;
-}
-
-#monitor-container {
-  overflow: hidden;
-  .row {
-    align-items: flex-end;
-    justify-content: space-between;
+  .mat-h2 {
+    margin: 0px;
   }
-  .date-select-row {
-    display: flex;
-    flex-direction: row;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-rows: auto;
+  padding: 10px;
+  column-gap: 10px;
+  row-gap: 10px;
+  p {
+    margin: 0;
   }
+  justify-content: center;
+  grid-template-areas:
+    &quot;info .&quot;
+    &quot;info date&quot;
+    &quot;triggers triggers&quot;
+    &quot;alerts alerts &quot;
+    &quot;history history &quot;
+    &quot;channels channels &quot;;
 }
 
 .chart-container {
   z-index: 10;
-}
-
-#breaching-channels-detail {
-  display: flex;
-  flex-direction: row;
 }
 
 #trigger-table {
@@ -2168,27 +2626,28 @@ export class MonitorDetailComponent implements OnInit {
   text-align: left;
 }
 
-.alert-table-container {
-  width: 100%;
-  height: 300px;
+#alert-tables-container {
   display: flex;
   flex-direction: row;
-  justify-content: stretch;
-  div {
-    flex: content;
+  gap: 10px;
+  .alert-table-container {
+    height: 300px;
+    overflow: auto;
+    flex: 1 1 275px;
+    display: inline-block;
   }
-  ngx-datatable {
-    height: 100%;
-    width: 100%;
+  #breaching-channels-table {
+    flex: 0 0 275px;
   }
-  #channel-table {
-    max-width: 270px;
-  }
+}
+
+.mat-column-inAlarm {
+  width: 30px;
 }
 </code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-tree">
+    <div class="tab-pane fade " id="tree">
         <div id="tree-container"></div>
         <div class="tree-legend">
             <div class="title">
@@ -2213,8 +2672,8 @@ export class MonitorDetailComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><shared-detail-page  *ngIf="monitor"  type="Monitor"  [resource]="monitor"  [title]="monitor?.name"  [subtext]="\'by \' + (monitor?.owner | user)"  [options]="pageOptions"  (deleteResource)="delete()">  <ng-container bodyContent>    <div      class="box"      [appIsLoading]="        loadingService.isLoading$(this, LoadingIndicator.MAIN) | async      "    >      <div        id="monitor-container"        class="column"      >        <div class="row">          <div>            <h3>Monitor Information</h3>            <div>              <strong>Metric: </strong> {{ monitor.stat }} of              {{ monitor.metricName }}            </div>            <div>              <strong> Channel Group: </strong><a [routerLink]="[\'/channel-groups\', monitor.channelGroupId]">                {{ monitor.channelGroupName }}</a>              ({{ channelGroup?.channels.length }} channels)            </div>            <div>              <strong>Interval: </strong> {{ monitor.intervalCount }}              {{ monitor.intervalType }}            </div>            <div>              <strong>Daily Digest: </strong>              {{ monitor.doDailyDigest ? "Yes" : "No" }}            </div>          </div>          <div class="date-select-row">            <shared-date-select              [secondsAgoFromNow]="timeRange"              [initialStartDate]="starttime"              [initialEndDate]="endtime"              [timeRanges]="datePickerTimeRanges"              (datesChanged)="datesChanged($event)"            >            </shared-date-select>            <button              mat-raised-button              color="accent"              (click)="update()"              [disabled]="!this.unsavedChanges"            >              Update            </button>          </div>        </div>      </div>      <div        class="chart-container"        *ngIf="viewTriggers"      >        <h3>Triggers</h3>        <p class="help-text">          If \'Daily Digest\' is enabled, alerts for individual triggers will not          be sent.        </p>        <table id="trigger-table">          <thead>            <th>Alert when:</th>            <th>In Alarm:</th>            <th>Last State Change:</th>            <th>Also alert on exit:</th>            <th>Recipients</th>          </thead>          <tbody>            <tr *ngFor="let trigger of monitor.triggers">              <td>{{ trigger.fullString }}</td>              <td>{{ trigger.inAlarm ? "Yes" : "No" }}</td>              <td>{{ trigger.lastUpdate }}</td>              <td>{{ trigger.alertOnOutOfAlarm ? "Yes" : "No" }}</td>              <td>{{ trigger.emails }}</td>            </tr>          </tbody>        </table>      </div>      <div id="alert-list">        <h3>Alerts</h3>        <p class="help-text">          Select an alert to view more information.        </p>        <div class="alert-table-container">          <div>            <ngx-datatable              [rows]="alerts"              id="alert-table"              class="material channel-table"              [columnMode]="ColumnMode.force"              [selectionType]="SelectionType.single"              [selected]="[selectedAlert]"              [limit]="10"              [rowHeight]="25"              [scrollbarV]="true"              (select)="selectAlert($event)"            >              <ngx-datatable-column                name="State"                prop="inAlarm"                [draggable]="false"                [width]="70"                [canAutoResize]="false"              >                <ng-template                  let-value="value"                  ngx-datatable-cell-template                >                  <monitor-alarm-status [inAlarm]="value"></monitor-alarm-status>                </ng-template>              </ngx-datatable-column>              <ngx-datatable-column                name="Time"                prop="timestamp"                [draggable]="false"                [width]="160"                [canAutoResize]="false"              >              </ngx-datatable-column>              <ngx-datatable-column                name="Trigger"                [width]="200"                [canAutoResize]="true"              >                <ng-template                  #triggerTemplate                  let-value="value"                  let-row="row"                  ngx-datatable-cell-template                >                  values for                  <span *ngIf="row.numChannelsOperator !== \'==\'">                    {{ row.numChannelsOperator }}                  </span>                  {{ row.numChannels }} channel(s) in are {{ row.valueOperator }}                  {{ row.val1 }}                  <span *ngIf="row.val2 !== null && row.val2 !== undefined">                    and {{ row.val2 }}                  </span>                </ng-template>              </ngx-datatable-column>              <ngx-datatable-column                name="Breaching Channels"                prop="breachingChannels"                [width]="150"                [canAutoResize]="false"              >                <ng-template                  let-value="value"                  ngx-datatable-cell-template                >                  {{ value.length }}                </ng-template>              </ngx-datatable-column>            </ngx-datatable>          </div>          <div>            <ngx-datatable              id="channel-table"              *ngIf="selectedAlert as alert"              class="channel-table"              [scrollbarV]="true"              [columns]="columns"              [rows]="alert.breachingChannels"              [rowHeight]="25"              [scrollbarV]="true"            >            </ngx-datatable>          </div>        </div>      </div>      <div class="chart-container">        <h3>Alert History</h3>        <p class="help-text">          An alert will be generated when a trigger is \'In Alarm\' and when the          trigger exits the alarm state. Once the trigger is no longer \'In          Alarm\', no alerts will be generated until it is \'In Alarm\' again;        </p>        <p class="help-text">click on an alert to view details</p>        <div          [appIsLoading]="            loadingService.isLoading$(this, LoadingIndicator.RESULTS) | async          "          spinnerType="buffer"          id="monitor-history-chart-container"        >          <monitor-history-chart            *ngIf="alerts && alerts.length > 0; else noAlerts"            #monitorChart            [monitor]="monitor"            [alerts]="alerts"            [(selectedAlert)]="selectedAlert"          ></monitor-history-chart>        </div>      </div>      <div class="chart-container">        <h3>Breaching Channel History</h3>        <p class="help-text">          Channels shown are only those that are considered "breaching". Values          shown are the calculated values used to evaluate if a monitor is in          alarm, not raw measurements at that time.        </p>        <div          [appIsLoading]="            loadingService.isLoading$(this, LoadingIndicator.RESULTS) | async          "          spinnerType="buffer"        >          <monitor-channel-history-chart            *ngIf="alerts && alerts.length > 0; else noAlerts"            #channelChart            [monitor]="monitor"            [alerts]="alerts"            [(selectedAlert)]="selectedAlert"          ></monitor-channel-history-chart>        </div>      </div>      <ng-template #noAlerts>        <div *ngIf="            (loadingService.isLoading$(this, LoadingIndicator.RESULTS)              | async) === false          ">          No alerts found in this time range.        </div>      </ng-template>    </div>  </ng-container></shared-detail-page><router-outlet></router-outlet></div>'
-    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'SnackbarComponent', 'selector': 'shared-snackbar'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
+        var COMPONENT_TEMPLATE = '<div><shared-detail-page  *ngIf="monitor"  type="Monitor"  [resource]="monitor"  [title]="monitor?.name"  [subtext]="\'by \' + (monitor?.owner | user)"  [options]="pageOptions"  (deleteResource)="delete()">  <ng-container bodyContent>    <div      class="box"      [appIsLoading]="        loadingService.isLoading$(this, LoadingIndicator.MAIN) | async      "    >      <div        class="mat-body-2"        [style.grid-area]="\'info\'"      >        <h2 class="mat-h2">Monitor Information</h2>        <div>          <strong>Metric: </strong> {{ monitor.stat }} of          {{ monitor.metricName }}        </div>        <div>          <strong> Channel Group: </strong><a [routerLink]="[\'/channel-groups\', monitor.channelGroupId]">            {{ monitor.channelGroupName }}</a>          ({{ channelGroup?.channels.length }} channels)        </div>        <div>          <strong>Interval: </strong> {{ monitor.intervalCount }}          {{ monitor.intervalType }}        </div>        <div>          <strong>Daily Digest: </strong>          {{ monitor.doDailyDigest ? "Yes" : "No" }}        </div>        <p class="mat-small">          If \'Daily Digest\' is enabled, alerts for individual triggers will not          be sent.        </p>      </div>      <div        class="row"        [style.justify-content]="\'flex-end\'"        [style.grid-area]="\'date\'"      >        <shared-date-select          [style.z-index]="110"          [secondsAgoFromNow]="timeRange"          [initialStartDate]="starttime"          [initialEndDate]="endtime"          [timeRanges]="datePickerTimeRanges"          (datesChanged)="datesChanged($event)"        >        </shared-date-select>        <button          mat-raised-button          color="accent"          (click)="update()"          [disabled]="!this.unsavedChanges"        >          Update        </button>      </div>      <div        [style.grid-area]="\'triggers\'"        *ngIf="viewTriggers"      >        <h2 class="mat-h2">Triggers</h2>        <table          mat-table          #triggerTable          matSort          matSortActive="lastUpdate"          matSortDirection="desc"          [dataSource]="triggerDataSource"          class="dense-table"          id="trigger-table"        >          <ng-container matColumnDef="fullString">            <th              mat-header-cell              *matHeaderCellDef              mat-sort-header              sortActionDescription="sort by trigger conditions"            >Conditions</th>            <td              mat-cell              *matCellDef="let element"            >              {{element.fullString}}            </td>          </ng-container>          <ng-container matColumnDef="inAlarm">            <th              mat-header-cell              *matHeaderCellDef              mat-sort-header              sortActionDescription="sort by status"            >Status</th>            <td              mat-cell              *matCellDef="let element"            >              <monitor-alarm-status [inAlarm]="element.inAlarm"></monitor-alarm-status>            </td>          </ng-container>          <ng-container matColumnDef="lastUpdate">            <th              mat-header-cell              *matHeaderCellDef              mat-sort-header              sortActionDescription="sort by status"            >Last State Change</th>            <td              mat-cell              *matCellDef="let element"            >              {{element.lastUpdate}}            </td>          </ng-container>          <ng-container matColumnDef="alertOnOutOfAlarm">            <th              mat-header-cell              *matHeaderCellDef              mat-sort-header              sortActionDescription="sort by alert on out of alarm setting"            >              Also alert on exit            </th>            <td              mat-cell              *matCellDef="let element"            >              {{ element.alertOnOutOfAlarm ? "Yes" : "No" }}            </td>          </ng-container>          <ng-container matColumnDef="emails">            <th              mat-header-cell              *matHeaderCellDef              mat-sort-header              sortActionDescription="sort by email list"            >              Email List            </th>            <td              mat-cell              *matCellDef="let element"            >              {{ element.emails }}            </td>          </ng-container>          <tr            mat-header-row            *matHeaderRowDef="triggerColumns; sticky:true"          ></tr>          <tr            mat-row            *matRowDef="let row; columns: triggerColumns;"          ></tr>        </table>      </div>      <div [style.grid-area]="\'alerts\'">        <h2 class="mat-h2">Alerts</h2>        <p class="mat-small">          Select an alert to view more information.        </p>        <div id="alert-tables-container">          <div class="alert-table-container">            <table              mat-table              matSort              #alertTable              class="dense-table"              matSortActive="timestamp"              matSortDirection="desc"              [dataSource]="alertDataSource"            >              <!-- Checkbox Column -->              <ng-container matColumnDef="select">                <th                  mat-header-cell                  *matHeaderCellDef                >                </th>                <td                  mat-cell                  *matCellDef="let row"                >                  <mat-checkbox                    class="dense-checkbox"                    (click)="$event.stopPropagation()"                    (change)="$event ? alertSelection.toggle(row) : null"                    [checked]="alertSelection.isSelected(row)"                    [aria-label]="alertSelection.isSelected(row) ? \'deselect alert\' : \'select alert\'"                  >                  </mat-checkbox>                </td>              </ng-container>              <!-- Position Column -->              <ng-container matColumnDef="inAlarm">                <th                  mat-header-cell                  *matHeaderCellDef                  mat-sort-header                  sortActionDescription="Sort by status"                >Status</th>                <td                  mat-cell                  *matCellDef="let element"                >                  <monitor-alarm-status [inAlarm]="element.inAlarm"></monitor-alarm-status>                </td>              </ng-container>              <!-- Name Column -->              <ng-container matColumnDef="timestamp">                <th                  mat-header-cell                  *matHeaderCellDef                  mat-sort-header                  sortActionDescription="Sort by time"                >Time</th>                <td                  mat-cell                  *matCellDef="let element"                >{{element.timestamp}}                </td>              </ng-container>              <!-- Weight Column -->              <ng-container matColumnDef="triggerId">                <th                  mat-header-cell                  *matHeaderCellDef                  mat-sort-header                  sortActionDescription="Sort by trigger id"                >Trigger</th>                <td                  mat-cell                  *matCellDef="let element"                >values for                  <span *ngIf="element.numChannelsOperator !== \'==\'">                    {{ element.numChannelsOperator }}                  </span>                  {{ element.numChannels }} channel(s) in are {{ element.valueOperator }}                  {{ element.val1 }}                  <span *ngIf="element.val2 !== null && element.val2 !== undefined">                    and {{ element.val2 }}                  </span>                </td>              </ng-container>              <!-- Symbol Column -->              <ng-container matColumnDef="breachingChannels.length">                <th                  mat-header-cell                  *matHeaderCellDef                  mat-sort-header                  sortActionDescription="Sort by number of breaching channels"                >Breaching Channels</th>                <td                  mat-cell                  *matCellDef="let element"                >{{element. breachingChannels.length}}</td>              </ng-container>              <tr                mat-header-row                *matHeaderRowDef="alertColumns; sticky:true"              ></tr>              <tr                mat-row                (click)="alertSelection.toggle(row)"                *matRowDef="let row; columns: alertColumns;"              ></tr>            </table>          </div>          <div            *ngIf="selectedAlert"            class="alert-table-container"            id="breaching-channels-table"          >            <table              mat-table              class="dense-table"              #channelTable              matSort              matSortActive="channel"              matSortDirection="asc"              [dataSource]="breachingChannelsDataSource"            >              <!-- Symbol Column -->              <ng-container matColumnDef="channel">                <th                  mat-header-cell                  *matHeaderCellDef                  mat-sort-header                  sortActionDescription="sort by channel scnl"                >Channel</th>                <td                  mat-cell                  *matCellDef="let element"                >{{element.channel}}</td>              </ng-container>              <!-- Symbol Column -->              <ng-container [matColumnDef]="monitor.stat">                <th                  mat-header-cell                  *matHeaderCellDef                  mat-sort-header                  sortActionDescription="sort by channel value"                >Value ({{monitor.stat}})</th>                <td                  mat-cell                  *matCellDef="let element"                >{{element[monitor.stat]}}</td>              </ng-container>              <tr                mat-header-row                *matHeaderRowDef="breachingChannelColumns; sticky:true"              ></tr>              <tr                mat-row                *matRowDef="let row; columns: breachingChannelColumns;"              ></tr>            </table>          </div>        </div>      </div>      <div [style.grid-area]="\'history\'">        <h2 class="mat-h2">Alert History</h2>        <p class="mat-body-2">          An alert will be generated when a trigger is \'In Alarm\' and when the          trigger exits the alarm state. Once the trigger is no longer \'In          Alarm\', no alerts will be generated until it is \'In Alarm\' again;        </p>        <p class="mat-small">click on an alert to view details</p>        <div          [appIsLoading]="            loadingService.isLoading$(this, LoadingIndicator.RESULTS) | async          "          spinnerType="buffer"          id="monitor-history-chart-container"        >          <monitor-history-chart            *ngIf="alerts && alerts.length > 0; else noAlerts"            #monitorChart            [monitor]="monitor"            [alerts]="alerts"            [(selectedAlert)]="selectedAlert"          ></monitor-history-chart>        </div>      </div>      <div [style.grid-area]="\'channels\'">        <h2 class="mat-h2">Breaching Channel History</h2>        <p class="mat-body">          Channels shown are only those that are considered "breaching". Values          shown are the calculated values used to evaluate if a monitor is in          alarm, not raw measurements at that time.        </p>        <div          [appIsLoading]="            loadingService.isLoading$(this, LoadingIndicator.RESULTS) | async          "          spinnerType="buffer"        >          <monitor-channel-history-chart            *ngIf="alerts && alerts.length > 0; else noAlerts"            #channelChart            [monitor]="monitor"            [alerts]="alerts"            [(selectedAlert)]="selectedAlert"          ></monitor-channel-history-chart>        </div>      </div>      <ng-template #noAlerts>        <div          *ngIf="            (loadingService.isLoading$(this, LoadingIndicator.RESULTS)              | async) === false          "          class="mat-body"        >          No alerts found in this time range.        </div>      </ng-template>    </div>  </ng-container></shared-detail-page><router-outlet></router-outlet></div>'
+    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'BudComponent', 'selector': 'widget-calendar-plot'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
     var DIRECTIVES = [{'name': 'LoadingDirective', 'selector': '[appIsLoading]'},{'name': 'TooltipDirective', 'selector': '[uiTooltip]'},{'name': 'WidgetTypeDirective', 'selector': '[widgetContainer]'},{'name': 'WidgetTypeExampleDirective', 'selector': '[appWidgetTypeExample]'}];
     var ACTUAL_COMPONENT = {'name': 'MonitorDetailComponent'};
 </script>

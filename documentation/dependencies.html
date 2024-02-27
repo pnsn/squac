@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="./styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="./" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -46,45 +104,45 @@
 
 
     <ol class="breadcrumb">
-        <li>Dependencies</li>
+        <li class="breadcrumb-item">Dependencies</li>
     </ol>
     <ul class="dependencies-list">
         <li>
-            <b>@angular/animations</b> : ^14.2.6</li>
+            <b>@angular/animations</b> : ^15.2.9</li>
         <li>
-            <b>@angular/cdk</b> : ^14.2.5</li>
+            <b>@angular/cdk</b> : ^15.2.9</li>
         <li>
-            <b>@angular/common</b> : ^14.2.6</li>
+            <b>@angular/common</b> : ^15.2.9</li>
         <li>
-            <b>@angular/compiler</b> : ^14.2.6</li>
+            <b>@angular/compiler</b> : ^15.2.9</li>
         <li>
-            <b>@angular/core</b> : ^14.2.6</li>
+            <b>@angular/core</b> : ^15.2.9</li>
         <li>
-            <b>@angular/forms</b> : ^14.2.6</li>
+            <b>@angular/forms</b> : ^15.2.9</li>
         <li>
-            <b>@angular/material</b> : ^14.2.5</li>
+            <b>@angular/material</b> : ^15.2.9</li>
         <li>
-            <b>@angular/platform-browser</b> : ^14.2.6</li>
+            <b>@angular/platform-browser</b> : ^15.2.9</li>
         <li>
-            <b>@angular/platform-browser-dynamic</b> : ^14.2.6</li>
+            <b>@angular/platform-browser-dynamic</b> : ^15.2.9</li>
         <li>
-            <b>@angular/router</b> : ^14.2.6</li>
+            <b>@angular/router</b> : ^15.2.9</li>
         <li>
-            <b>@asymmetrik/ngx-leaflet</b> : ^14.0.1</li>
+            <b>@asymmetrik/ngx-leaflet</b> : ^15.0.0</li>
         <li>
-            <b>@asymmetrik/ngx-leaflet-draw</b> : ^14.0.1</li>
-        <li>
-            <b>@boring.devs/ngx-datatable</b> : ^20.0.0</li>
+            <b>@asymmetrik/ngx-leaflet-draw</b> : ^15.0.0</li>
         <li>
             <b>@casl/ability</b> : ^6.3.1</li>
         <li>
             <b>@casl/angular</b> : ^8.1.0</li>
         <li>
-            <b>@pnsn/ngx-squacapi-client</b> : ~2.1.12-alpha.5</li>
+            <b>@manufac/echarts-simple-transform</b> : ^2.0.10</li>
+        <li>
+            <b>@pnsn/ngx-squacapi-client</b> : ^2.2.0-alpha.2</li>
         <li>
             <b>@types/d3</b> : ^7.1.0</li>
         <li>
-            <b>angular-gridster2</b> : ^14.1.2</li>
+            <b>angular-gridster2</b> : ^15.0.0</li>
         <li>
             <b>colormap</b> : ^2.3.2</li>
         <li>
@@ -98,11 +156,11 @@
         <li>
             <b>ng-mocks</b> : ^14.3.0</li>
         <li>
-            <b>ngx-csv-parser</b> : ^1.1.1</li>
+            <b>ngx-csv-parser</b> : ~1.2.2</li>
         <li>
             <b>ngx-daterangepicker-material</b> : ^6.0.4</li>
         <li>
-            <b>ngx-echarts</b> : ^14.0.0</li>
+            <b>ngx-echarts</b> : ^15.0.0</li>
         <li>
             <b>route-parser</b> : ^0.0.5</li>
         <li>

@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -39,21 +97,27 @@
 
 
 <ol class="breadcrumb">
-  <li>Injectables</li>
-  <li >WidgetConfigService</li>
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >WidgetConfigService</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info">
+    <div class="tab-pane fade active in" id="info">
         <p class="comment">
             <h3>File</h3>
         </p>
@@ -73,7 +137,7 @@ Consider refactoring</p>
 
 
 
-            <section>
+            <section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -123,6 +187,9 @@ Consider refactoring</p>
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#calculateDataRange" >calculateDataRange</a>
+                            </li>
+                            <li>
                                 <a href="#checkValue" >checkValue</a>
                             </li>
                             <li>
@@ -163,11 +230,105 @@ Consider refactoring</p>
 </section>
 
 
-            <section>
+            <section data-compodoc="block-methods">
     
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="calculateDataRange"></a>
+                    <span class="name">
+                        <span ><b>calculateDataRange</b></span>
+                        <a href="#calculateDataRange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>calculateDataRange(metricId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="611"
+                                    class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:611</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Calculates the min, max, and count of data for the metric after including the given value</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>metricId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>id of metric</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>measurement value to add</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -186,77 +347,75 @@ Consider refactoring</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="294"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:294</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="295"
+                                    class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:295</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Checks if value is inside of range for visual map</p>
+                        <div class="io-description"><p>Checks if value is inside of range for visual map</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>value</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>number to check</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>visualMap</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#VisualMapTypes" target="_self" >VisualMapTypes</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>visual map to check</p>
+                                            <td>
+                                                    <p>number to check</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>visualMap</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#VisualMapTypes" target="_self" >VisualMapTypes</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        <p>true if value is in range</p>
+                                            <td>
+                                                    No
+                                            </td>
 
-                    </div>
+
+                                            <td>
+                                                    <p>visual map to check</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>true if value is in range</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -279,109 +438,107 @@ Consider refactoring</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="319"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:319</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="320"
+                                    class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:320</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Find color that corresponds to the correct value</p>
+                        <div class="io-description"><p>Find color that corresponds to the correct value</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>value</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>value to check</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>visualMap</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#VisualMapTypes" target="_self" >VisualMapTypes</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>visual map to use</p>
+                                            <td>
+                                                    <p>value to check</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>_dataMin</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>visualMap</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#VisualMapTypes" target="_self" >VisualMapTypes</a></code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                    <td>
-                                        <p>min value of the data</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>_dataMax</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>max value of the data</p>
+                                            <td>
+                                                    <p>visual map to use</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>_dataMin</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        <p>color string</p>
+                                            <td>
+                                                    Yes
+                                            </td>
 
-                    </div>
+
+                                            <td>
+                                                    <p>min value of the data</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>_dataMax</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>max value of the data</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>color string</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -392,7 +549,7 @@ Consider refactoring</p>
                 <td class="col-md-4">
                     <a name="getPieces"></a>
                     <span class="name">
-                        <span class="modifier">Private</span>
+                            <span class="modifier">Private</span>
                         <span ><b>getPieces</b></span>
                         <a href="#getPieces"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -400,141 +557,139 @@ Consider refactoring</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getPieces(min: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, max: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, numSplits: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, inColors: <a href="../interfaces/Color.html" target="_self">Color[]</a>, outColor: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="218"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:218</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="219"
+                                    class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:219</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Creates visual map pieces</p>
+                        <div class="io-description"><p>Creates visual map pieces</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>min</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>min</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>min value for map</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>max</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>max</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>max value for map</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>numSplits</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>numSplits</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>number of pieces</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>inColors</td>
-                                    <td>
-                                                <code><a href="../interfaces/Color.html" target="_self" >Color[]</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>inColors</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Color.html" target="_self" >Color[]</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>colors for in</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>outColor</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>outColor</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>colors for out</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/VisualPiece.html" target="_self" >VisualPiece[]</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/VisualPiece.html" target="_self" >VisualPiece[]</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>array of pieces for visual map</p>
+                        </div>
+                            <div class="io-description">
+                                <p>array of pieces for visual map</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -552,130 +707,144 @@ Consider refactoring</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getSeriesForMultipleMetrics(metrics: Metric[], channels: Channel[], data: <a href="../undefineds/ProcessedData.html" target="_self">ProcessedData</a>, series: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, stat: <a href="../classes/Widget.html" target="_self">WidgetStatType</a>)</code>
+<code>getSeriesForMultipleMetrics(metrics: Metric[], channels: Channel[], data: <a href="../undefineds/MeasurementTypes.html" target="_self">MeasurementTypes[]</a>, series: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, stat: <a href="../s/WidgetStatType.html" target="_self">WidgetStatType</a>, dataStat: <a href="../classes/Widget.html" target="_self">ArchiveStatType | WidgetStatType | string</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="384"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:384</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="386"
+                                    class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:386</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Creates echarts series for parallel and scatter charts</p>
+                        <div class="io-description"><p>Creates echarts series for parallel and scatter charts</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>metrics</td>
-                                    <td>
-                                            <code>Metric[]</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>metrics</td>
+                                            <td>
+                                                        <code>Metric[]</code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>metrics to use</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>channels</td>
-                                    <td>
-                                            <code>Channel[]</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>channels to use</p>
+                                            <td>
+                                                    <p>metrics to use</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>data</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#ProcessedData" target="_self" >ProcessedData</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>channels</td>
+                                            <td>
+                                                        <code>Channel[]</code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>data</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>series</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>initial series data</p>
+                                            <td>
+                                                    <p>channels to use</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>stat</td>
-                                    <td>
-                                                <code><a href="../classes/Widget.html" target="_self" >WidgetStatType</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#MeasurementTypes" target="_self" >MeasurementTypes[]</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>widget statistic to calculate</p>
+                                            <td>
+                                                    <p>data</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>literal type</code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>series</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        <p>processed series config</p>
+                                            <td>
+                                                    No
+                                            </td>
 
-                    </div>
+
+                                            <td>
+                                                    <p>initial series data</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>stat</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/variables.html#WidgetStatType" target="_self" >WidgetStatType</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>widget statistic to calculate</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>dataStat</td>
+                                            <td>
+                                                            <code><a href="../classes/Widget.html" target="_self" >ArchiveStatType | WidgetStatType | string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>data type statistic</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>literal type</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>processed series config</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -698,101 +867,99 @@ Consider refactoring</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="95"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:95</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="96"
+                                    class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:96</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Creates visual maps for each metric using the widget properties</p>
+                        <div class="io-description"><p>Creates visual maps for each metric using the widget properties</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>metrics</td>
-                                    <td>
-                                            <code>Metric[]</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>metrics</td>
+                                            <td>
+                                                        <code>Metric[]</code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>metrics</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>properties</td>
-                                    <td>
-                                                <code><a href="../interfaces/WidgetProperties.html" target="_self" >WidgetProperties</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>properties</td>
+                                            <td>
+                                                            <code><a href="../interfaces/WidgetProperties.html" target="_self" >WidgetProperties</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>widget properties</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>dimension</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>dimension</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>series dimension</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#VisualMap" target="_self" >VisualMap</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#VisualMap" target="_self" >VisualMap</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <ul>
+                        </div>
+                            <div class="io-description">
+                                <ul>
 <li>visual maps</li>
 </ul>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -815,61 +982,59 @@ Consider refactoring</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="473"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:473</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="482"
+                                    class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:482</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Formats tooltips for multiple metric charts</p>
+                        <div class="io-description"><p>Formats tooltips for multiple metric charts</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>params</td>
-                                    <td>
-                                                <code><a href="../components/TooltipComponent.html" target="_self" >TooltipComponentFormatterCallbackParams</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>params</td>
+                                            <td>
+                                                            <code><a href="../components/TooltipComponent.html" target="_self" >TooltipComponentFormatterCallbackParams</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>toolip component callback params</p>
+                                            <td>
+                                                    <p>toolip component callback params</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>html string for tooltip</p>
+                        </div>
+                            <div class="io-description">
+                                <p>html string for tooltip</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -892,61 +1057,59 @@ Consider refactoring</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="505"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:505</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="514"
+                                    class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:514</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Tooltip formatter for chart with time x axis</p>
+                        <div class="io-description"><p>Tooltip formatter for chart with time x axis</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>params</td>
-                                    <td>
-                                                <code><a href="../components/TooltipComponent.html" target="_self" >Partial&lt;TooltipComponentFormatterCallbackParams&gt;</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>params</td>
+                                            <td>
+                                                            <code><a href="../components/TooltipComponent.html" target="_self" >Partial&lt;TooltipComponentFormatterCallbackParams&gt;</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>tooltip formatter params</p>
+                                            <td>
+                                                    <p>tooltip formatter params</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>html string for tooltip</p>
+                        </div>
+                            <div class="io-description">
+                                <p>html string for tooltip</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -969,63 +1132,61 @@ Consider refactoring</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="575"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:575</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="584"
+                                    class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:584</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Hover pointer for time axis</p>
+                        <div class="io-description"><p>Hover pointer for time axis</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>val</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#LabelFormatterParams" target="_self" >LabelFormatterParams</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>val</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#LabelFormatterParams" target="_self" >LabelFormatterParams</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>params for label</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>formatted label string</p>
+                        </div>
+                            <div class="io-description">
+                                <p>formatted label string</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1048,67 +1209,65 @@ Consider refactoring</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="538"
-                            class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:538</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="547"
+                                    class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:547</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Label formatting for x axis</p>
+                        <div class="io-description"><p>Label formatting for x axis</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>val</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>val</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>unformatted string date</p>
+                                            <td>
+                                                    <p>unformatted string date</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>formatted date string</p>
+                        </div>
+                            <div class="io-description">
+                                <p>formatted date string</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </section>
-            <section>
+            <section data-compodoc="block-properties">
     
     <h3 id="inputs">
         Properties
@@ -1132,12 +1291,12 @@ Consider refactoring</p>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>ECHART_DEFAULTS</code>
+                        <i>Default value : </i><code>{ ...ECHART_DEFAULTS }</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:84</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:85</a></div>
                         </td>
                     </tr>
 
@@ -1183,7 +1342,7 @@ Consider refactoring</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:66</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:67</a></div>
                         </td>
                     </tr>
 
@@ -1207,9 +1366,14 @@ Consider refactoring</p>
 
                     </td>
                 </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{}</code>
+                    </td>
+                </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:40</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:41</a></div>
                         </td>
                     </tr>
 
@@ -1241,7 +1405,7 @@ Consider refactoring</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:38</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:39</a></div>
                         </td>
                     </tr>
 
@@ -1266,7 +1430,7 @@ Consider refactoring</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:42</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:43</a></div>
                         </td>
                     </tr>
 
@@ -1315,7 +1479,7 @@ Consider refactoring</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:45</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:46</a></div>
                         </td>
                     </tr>
 
@@ -1340,7 +1504,7 @@ Consider refactoring</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:41</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:42</a></div>
                         </td>
                     </tr>
 
@@ -1366,7 +1530,7 @@ Consider refactoring</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/widgets/src/lib/services/widget-config.service.ts:40</a></div>
                         </td>
                     </tr>
 
@@ -1378,17 +1542,19 @@ Consider refactoring</p>
     </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
+    <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import {
+  ArchiveStatType,
   Channel,
   Color,
   MeasurementPipe,
+  MeasurementTypes,
   Metric,
   WidgetProperties,
   WidgetStatType,
 } from &quot;squacapi&quot;;
-import { PrecisionPipe } from &quot;../shared/pipes/precision.pipe&quot;;
+import { PrecisionPipe } from &quot;../pipes/precision.pipe&quot;;
 import colormap from &quot;colormap&quot;;
 import { Threshold } from &quot;squacapi&quot;;
 import {
@@ -1398,7 +1564,6 @@ import {
   DataRange,
   LabelFormatterParams,
   ParallelAxisOption,
-  ProcessedData,
   VisualMapTypes,
   PiecewiseVisualMapOption,
   ContinousVisualMapOption,
@@ -1408,7 +1573,7 @@ import {
   EChartsOption,
   TooltipComponentFormatterCallbackParams,
 } from &quot;echarts&quot;;
-import { ECHART_DEFAULTS } from &quot;../shared/components/e-chart/chart-config&quot;;
+import { ECHART_DEFAULTS } from &quot;../components/e-chart/chart-config&quot;;
 
 /**
  * Service to configure widgets
@@ -1418,7 +1583,7 @@ import { ECHART_DEFAULTS } from &quot;../shared/components/e-chart/chart-config&
 export class WidgetConfigService {
   readonly defaultPrecision &#x3D; 4;
   thresholds: Threshold[];
-  dataRange: DataRange;
+  dataRange: DataRange &#x3D; {};
   precisionPipe &#x3D; new PrecisionPipe();
   measurementPipe &#x3D; new MeasurementPipe();
 
@@ -1462,7 +1627,7 @@ export class WidgetConfigService {
   };
 
   // defaults for echarts charts
-  chartDefaults: EChartsOption &#x3D; ECHART_DEFAULTS;
+  chartDefaults: EChartsOption &#x3D; { ...ECHART_DEFAULTS };
 
   //can use this.thresholds or another metric to color?
   /**
@@ -1760,14 +1925,16 @@ export class WidgetConfigService {
    * @param data data
    * @param series initial series data
    * @param stat widget statistic to calculate
+   * @param dataStat data type statistic
    * @returns processed series config
    */
   getSeriesForMultipleMetrics(
     metrics: Metric[],
     channels: Channel[],
-    data: ProcessedData,
+    data: MeasurementTypes[],
     series: any,
-    stat: WidgetStatType
+    stat: WidgetStatType,
+    dataStat: ArchiveStatType | WidgetStatType | string
   ): { series: any; axis?: ParallelAxisOption[] } {
     const stations &#x3D; [];
     const axis: ParallelAxisOption[] &#x3D; [];
@@ -1818,6 +1985,7 @@ export class WidgetConfigService {
 
     channels.forEach((channel: Channel) &#x3D;&gt; {
       const station &#x3D; {
+        //is this actually station?
         ...series,
         name: channel.nslc,
         data: [],
@@ -1830,14 +1998,19 @@ export class WidgetConfigService {
       };
 
       metrics.forEach((metric) &#x3D;&gt; {
-        if (!metric) return;
-        let val: number &#x3D; null;
-        if (data.has(channel.id)) {
-          const rowData &#x3D; data.get(channel.id).get(metric.id);
-          val &#x3D; this.measurementPipe.transform(rowData, stat);
-        }
-        channelData.value.push(val);
+        const measurements: MeasurementTypes[] &#x3D; data
+          .filter((m) &#x3D;&gt; m.channel &#x3D;&#x3D;&#x3D; channel.id &amp;&amp; m.metric &#x3D;&#x3D;&#x3D; metric.id)
+          .map((m) &#x3D;&gt; {
+            m.value &#x3D; m.value ?? m[dataStat];
+            return m;
+          });
+
+        const value &#x3D; this.measurementPipe.transform(measurements, stat);
+        this.calculateDataRange(metric.id, value);
+
+        channelData.value.push(value);
       });
+
       station.data.push(channelData);
     });
     return { series: stations, axis };
@@ -1972,6 +2145,26 @@ export class WidgetConfigService {
       return string;
     }
     return &quot;&quot;;
+  }
+
+  /**
+   * Calculates the min, max, and count of data for the metric after including the given value
+   *
+   * @param metricId - id of metric
+   * @param value - measurement value to add
+   */
+  calculateDataRange(metricId: number, value: number): void {
+    const metricRange &#x3D;
+      metricId in this.dataRange ? this.dataRange[metricId] : { count: 0 };
+
+    if (metricRange.min &#x3D;&#x3D;&#x3D; undefined || value &lt; metricRange.min) {
+      metricRange.min &#x3D; value;
+    }
+    if (metricRange.max &#x3D;&#x3D;&#x3D; undefined || value &gt; metricRange.max) {
+      metricRange.max &#x3D; value;
+    }
+    if (metricRange.count) metricRange.count++;
+    this.dataRange[metricId] &#x3D; metricRange;
   }
 }
 </code></pre>

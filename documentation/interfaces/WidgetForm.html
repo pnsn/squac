@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -44,28 +102,34 @@
 
 
 <ol class="breadcrumb">
-  <li>Interfaces</li>
-  <li
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
   >
   WidgetForm</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info">
+    <div class="tab-pane fade active in" id="info">
         <p class="comment">
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-edit-info.component.ts</code>
+            <code>projects/squac-ui/src/app/features/dashboard/components/widget-edit-info/widget-edit-info.component.ts</code>
         </p>
 
 
@@ -78,7 +142,7 @@
             </p>
 
 
-        <section>
+        <section data-compodoc="block-index">
             <h3 id="index">Index</h3>
             <table class="table table-sm table-bordered index-table">
                 <tbody>
@@ -123,7 +187,7 @@
 
 
 
-            <section>
+            <section data-compodoc="block-properties">
                 <h3 id="inputs">Properties</h3>
                     <table class="table table-sm table-bordered">
                         <tbody>
@@ -285,13 +349,33 @@
     </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, EventEmitter, Input, OnInit, Output } from &quot;@angular/core&quot;;
-import { FormControl, FormGroup, Validators } from &quot;@angular/forms&quot;;
-import { WIDGET_TYPE_INFO, WIDGET_STAT_TYPE_NAMES } from &quot;widgets&quot;;
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  OnInit,
+  Output,
+} from &quot;@angular/core&quot;;
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from &quot;@angular/forms&quot;;
+import { WIDGET_STAT_TYPE_NAMES, WIDGET_TYPES, WidgetTypes } from &quot;widgets&quot;;
 import { WidgetConfig } from &quot;widgets&quot;;
 import { WidgetType } from &quot;widgets&quot;;
 import { WidgetProperties, WidgetStatType } from &quot;squacapi&quot;;
+import { MatFormFieldModule } from &quot;@angular/material/form-field&quot;;
+import { MatInputModule } from &quot;@angular/material/input&quot;;
+import { MatIconModule } from &quot;@angular/material/icon&quot;;
+import { KeyValuePipe, NgForOf, NgIf, TitleCasePipe } from &quot;@angular/common&quot;;
+import { MatSelectModule } from &quot;@angular/material/select&quot;;
+import { MatRadioModule } from &quot;@angular/material/radio&quot;;
+import { WidgetTypeExampleDirective } from &quot;../widget-type-example/widget-type-example.directive&quot;;
+import { MatButtonToggleModule } from &quot;@angular/material/button-toggle&quot;;
 
 /** Widget information edit form */
 interface WidgetForm {
@@ -311,6 +395,21 @@ interface WidgetForm {
   selector: &quot;widget-edit-info&quot;,
   templateUrl: &quot;./widget-edit-info.component.html&quot;,
   styleUrls: [&quot;./widget-edit-info.component.scss&quot;],
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatSelectModule,
+    MatRadioModule,
+    KeyValuePipe,
+    NgIf,
+    NgForOf,
+    WidgetTypeExampleDirective,
+    TitleCasePipe,
+    MatButtonToggleModule,
+  ],
 })
 export class WidgetEditInfoComponent implements OnInit {
   /** widget name */
@@ -331,7 +430,6 @@ export class WidgetEditInfoComponent implements OnInit {
 
   previewType: WidgetType;
   WidgetType &#x3D; WidgetType;
-  WidgetTypeInfo &#x3D; WIDGET_TYPE_INFO;
   WidgetStatType &#x3D; WidgetStatType;
   WIDGET_STAT_TYPE_NAMES &#x3D; WIDGET_STAT_TYPE_NAMES;
   widgetConfig: WidgetConfig;
@@ -347,7 +445,7 @@ export class WidgetEditInfoComponent implements OnInit {
     stat: new FormControl&lt;WidgetStatType&gt;(&quot;latest&quot;, Validators.required), // default is raw data
     displayType: new FormControl&lt;string&gt;(&quot;&quot;),
   });
-
+  constructor(@Inject(WIDGET_TYPES) protected widgetTypes: WidgetTypes) {}
   /** init widget form change subscriptions */
   ngOnInit(): void {
     this.widgetForm.get(&quot;displayType&quot;).valueChanges.subscribe((displayType) &#x3D;&gt; {
@@ -413,7 +511,7 @@ export class WidgetEditInfoComponent implements OnInit {
    */
   changeTypes(): void {
     if (this.type) {
-      this.widgetConfig &#x3D; this.WidgetTypeInfo[this.type].config;
+      this.widgetConfig &#x3D; this.widgetTypes[this.type].config;
       // default to &#x27;mean&#x27;
       if (!this.stat) {
         this.stat &#x3D; &quot;mean&quot;;
@@ -435,6 +533,7 @@ export class WidgetEditInfoComponent implements OnInit {
         this.displayType &#x3D; null;
         this.properties.displayType &#x3D; null;
       }
+      this.properties.dimensions &#x3D; null;
       this.widgetForm.patchValue(
         {
           stat: this.stat,

@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ChannelGroupService } from "squacapi";
-import { SharedModule } from "@shared/shared.module";
 import { MockBuilder } from "ng-mocks";
 import { of } from "rxjs";
 
@@ -13,7 +12,6 @@ describe("ChannelGroupSelectorComponent", () => {
 
   beforeEach(() => {
     return MockBuilder(ChannelGroupSelectorComponent)
-      .mock(SharedModule)
       .provide({
         provide: ChannelGroupService,
         useValue: {

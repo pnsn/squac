@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule } from "@angular/forms";
 import { OrganizationService } from "squacapi";
 import { UserService } from "@user/services/user.service";
-import { SharedModule } from "@shared/shared.module";
 import { MockBuilder } from "ng-mocks";
 
 import { SearchFilterComponent } from "./search-filter.component";
@@ -13,7 +12,6 @@ describe("SearchFilterComponent", () => {
 
   beforeEach(() => {
     return MockBuilder(SearchFilterComponent)
-      .mock(SharedModule)
       .keep(FormsModule)
       .mock(OrganizationService)
       .mock(UserService);

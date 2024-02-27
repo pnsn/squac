@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -38,21 +96,27 @@
 
 
 <ol class="breadcrumb">
-  <li>Directives</li>
-  <li >WidgetTypeDirective</li>
+  <li class="breadcrumb-item">Directives</li>
+  <li class="breadcrumb-item" >WidgetTypeDirective</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info">
+    <div class="tab-pane fade active in" id="info">
         <p class="comment">
             <h3>File</h3>
         </p>
@@ -74,12 +138,12 @@
                 <h3>Implements</h3>
             </p>
             <p class="comment">
-                            <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
-                            <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+                        <code>OnInit</code>
+                        <code>OnDestroy</code>
             </p>
 
 
-        <section>
+        <section data-compodoc="block-metadata">
             <h3>Metadata</h3>
             <table class="table table-sm table-hover metadata">
                 <tbody>
@@ -97,11 +161,18 @@
                         <td class="col-md-9"><code>[widgetContainer]</code></td>
                     </tr>
 
+                    <tr>
+                        <td class="col-md-3">Standalone</td>
+                        <td class="col-md-9"><code>true</code></td>
+                    </tr>
+
+
+
                 </tbody>
             </table>
         </section>
 
-            <section>
+            <section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -184,18 +255,18 @@
     </table>
 </section>
 
-            <section>
+            <section data-compodoc="block-constructor">
     <h3 id="constructor">Constructor</h3>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(elementRef: <a href="https://angular.io/api/core/ElementRef" target="_blank">ElementRef</a>, renderer: <a href="https://angular.io/api/core/Renderer2" target="_blank">Renderer2</a>, changeDetectorRef: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>, viewContainerRef: <a href="https://angular.io/api/core/ViewContainerRef" target="_blank">ViewContainerRef</a>, widgetDataService: <a href="../injectables/WidgetDataService.html" target="_self">WidgetDataService</a>, widgetConfigService: <a href="../injectables/WidgetConfigService.html" target="_self">WidgetConfigService</a>, widgetManager: <a href="../injectables/WidgetManagerService.html" target="_self">WidgetManagerService</a>)</code>
+<code>constructor(elementRef: ElementRef, renderer: Renderer2, changeDetectorRef: ChangeDetectorRef, viewContainerRef: ViewContainerRef, widgetDataService: <a href="../injectables/WidgetDataService.html" target="_self">WidgetDataService</a>, widgetConfigService: <a href="../injectables/WidgetConfigService.html" target="_self">WidgetConfigService</a>, widgetManager: <a href="../injectables/WidgetManagerService.html" target="_self">WidgetManagerService</a>, widgetTypes: <a href="../undefineds/WidgetTypes.html" target="_self">WidgetTypes</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:42</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:44</a></div>
                             </td>
                         </tr>
 
@@ -216,7 +287,7 @@
                                                         <td>elementRef</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
+                                                                    <code>ElementRef</code>
                                                         </td>
                                                   
                                                     <td>
@@ -228,7 +299,7 @@
                                                         <td>renderer</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/core/Renderer2" target="_blank" >Renderer2</a></code>
+                                                                    <code>Renderer2</code>
                                                         </td>
                                                   
                                                     <td>
@@ -240,7 +311,7 @@
                                                         <td>changeDetectorRef</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+                                                                    <code>ChangeDetectorRef</code>
                                                         </td>
                                                   
                                                     <td>
@@ -252,7 +323,7 @@
                                                         <td>viewContainerRef</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/core/ViewContainerRef" target="_blank" >ViewContainerRef</a></code>
+                                                                    <code>ViewContainerRef</code>
                                                         </td>
                                                   
                                                     <td>
@@ -296,6 +367,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>widgetTypes</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../miscellaneous/typealiases.html#WidgetTypes" target="_self" >WidgetTypes</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -309,7 +392,7 @@
 
 
 
-            <section>
+            <section data-compodoc="block-methods">
     
     <h3 id="methods">
         Methods
@@ -332,62 +415,60 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="151"
-                            class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:151</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="143"
+                                    class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:143</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Add error component</p>
+                        <div class="io-description"><p>Add error component</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>error</td>
-                                    <td>
-                                                <code><a href="../classes/Widget.html" target="_self" >WidgetErrors | string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>error</td>
+                                            <td>
+                                                            <code><a href="../classes/Widget.html" target="_self" >WidgetErrors | string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>error message</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -405,67 +486,65 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>addWidget(widgetType: <a href="../classes/Widget.html" target="_self">WidgetType</a>)</code>
+<code>addWidget(widgetType: <a href="../s/WidgetType.html" target="_self">WidgetType</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="119"
-                            class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:119</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="111"
+                                    class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:111</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Add widget of given type</p>
+                        <div class="io-description"><p>Add widget of given type</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>widgetType</td>
-                                    <td>
-                                                <code><a href="../classes/Widget.html" target="_self" >WidgetType</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>widgetType</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/variables.html#WidgetType" target="_self" >WidgetType</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>type of widget</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -476,7 +555,7 @@
                 <td class="col-md-4">
                     <a name="clearChildComponents"></a>
                     <span class="name">
-                        <span class="modifier">Private</span>
+                            <span class="modifier">Private</span>
                         <span ><b>clearChildComponents</b></span>
                         <a href="#clearChildComponents"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -484,29 +563,29 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>clearChildComponents()</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="110"
-                            class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:110</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="102"
+                                    class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:102</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>clear existing components</p>
+                        <div class="io-description"><p>clear existing components</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -529,23 +608,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="166"
-                            class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:166</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="158"
+                                    class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:158</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Destroy components and unsubscribe</p>
+                        <div class="io-description"><p>Destroy components and unsubscribe</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -568,29 +647,29 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:59</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="62"
+                                    class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:62</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Set up subscriptions</p>
+                        <div class="io-description"><p>Set up subscriptions</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </section>
-            <section>
+            <section data-compodoc="block-properties">
     
     <h3 id="inputs">
         Properties
@@ -614,7 +693,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:40</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:42</a></div>
                         </td>
                     </tr>
 
@@ -640,7 +719,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:41</a></div>
                         </td>
                     </tr>
 
@@ -660,7 +739,7 @@
             </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:33</a></div>
                         </td>
                     </tr>
 
@@ -680,7 +759,7 @@
             </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:37</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:39</a></div>
                         </td>
                     </tr>
 
@@ -700,7 +779,7 @@
             </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:35</a></div>
                         </td>
                     </tr>
 
@@ -727,7 +806,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:42</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:44</a></div>
                         </td>
                     </tr>
 
@@ -747,7 +826,7 @@
             </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:36</a></div>
                         </td>
                     </tr>
 
@@ -772,7 +851,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:38</a></div>
                         </td>
                     </tr>
 
@@ -798,7 +877,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:34</a></div>
                         </td>
                     </tr>
 
@@ -818,7 +897,7 @@
             </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/widgets/src/lib/directives/widget-type.directive.ts:37</a></div>
                         </td>
                     </tr>
 
@@ -831,12 +910,13 @@
     </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
+    <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   ChangeDetectorRef,
   ComponentRef,
   Directive,
   ElementRef,
+  Inject,
   Injector,
   OnDestroy,
   OnInit,
@@ -844,15 +924,15 @@
   ViewContainerRef,
 } from &quot;@angular/core&quot;;
 import { WidgetDataService } from &quot;../services/widget-data.service&quot;;
-import { WidgetErrors, WidgetType } from &quot;../enums&quot;;
+import { WidgetErrors } from &quot;../enums&quot;;
 import { WidgetManagerService } from &quot;../services/widget-manager.service&quot;;
 import { WidgetConfigService } from &quot;../services/widget-config.service&quot;;
-// import { ErrorComponent } from &quot;@shared/components/error/error.component&quot;;
 import { Widget } from &quot;../models&quot;;
 import { Subscription, tap } from &quot;rxjs&quot;;
-import { ProcessedData, WidgetTypeComponent } from &quot;../interfaces&quot;;
-import { WIDGET_TYPE_INFO } from &quot;../constants&quot;;
-import { ErrorComponent } from &quot;../shared/components/error/error.component&quot;;
+import { WidgetTypeComponent } from &quot;../interfaces&quot;;
+import { WidgetTypes, WIDGET_TYPES, WidgetType } from &quot;../constants&quot;;
+import { ErrorComponent } from &quot;../components/error/error.component&quot;;
+import { MeasurementTypes } from &quot;squacapi&quot;;
 
 /**
  * Directive for inserting error component or correct widget type
@@ -860,6 +940,7 @@ import { ErrorComponent } from &quot;../shared/components/error/error.component&
 @Directive({
   selector: &quot;[widgetContainer]&quot;,
   providers: [WidgetConfigService],
+  standalone: true,
 })
 export class WidgetTypeDirective implements OnInit, OnDestroy {
   currentWidgetType;
@@ -882,7 +963,8 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
     protected readonly viewContainerRef: ViewContainerRef,
     private widgetDataService: WidgetDataService,
     private widgetConfigService: WidgetConfigService,
-    private widgetManager: WidgetManagerService
+    private widgetManager: WidgetManagerService,
+    @Inject(WIDGET_TYPES) private widgetTypes: WidgetTypes
   ) {
     this.hostElement &#x3D; this.elementRef.nativeElement;
   }
@@ -901,31 +983,20 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
     this.dataSub &#x3D; this.widgetDataService.data$
       .pipe(
         tap({
-          next: (data: ProcessedData | WidgetErrors) &#x3D;&gt; {
+          next: (data: MeasurementTypes[] | WidgetErrors) &#x3D;&gt; {
             //check if data is a map and has data
-            if (data instanceof Map) {
-              const minMetrics &#x3D; this.widgetManager.widgetConfig.minMetrics;
-              const metricsWithData &#x3D;
-                this.widgetDataService.measurementsWithData.length;
-              if (minMetrics &gt; metricsWithData) {
-                //not enough metrics with Data
-                this.addError(
-                  &#x60;Only ${metricsWithData} metric(s) returned data. ${minMetrics} metrics required to display widget.&#x60;
-                );
-              } else {
-                if (
-                  this.widgetManager.widgetType !&#x3D;&#x3D; this.currentWidgetType ||
-                  !this.childComponent
-                ) {
-                  this.addWidget(this.widgetManager.widgetType);
-                }
-
-                this.widgetConfigService.thresholds &#x3D;
-                  this.widgetManager.thresholds;
-                this.widgetConfigService.dataRange &#x3D;
-                  this.widgetDataService.dataRange;
-                this.childComponent.updateData(data);
+            if (typeof data !&#x3D;&#x3D; &quot;string&quot;) {
+              if (
+                this.widgetManager.widgetType !&#x3D;&#x3D; this.currentWidgetType ||
+                !this.childComponent
+              ) {
+                this.addWidget(this.widgetManager.widgetType);
               }
+
+              this.widgetConfigService.thresholds &#x3D;
+                this.widgetManager.thresholds;
+              this.childComponent.updateData(data);
+              // }
             } else {
               this.addError(data);
             }
@@ -965,7 +1036,7 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
       ],
     });
     this.clearChildComponents();
-    const componentType &#x3D; WIDGET_TYPE_INFO[widgetType].component;
+    const componentType &#x3D; this.widgetTypes[widgetType].component;
     this.childComponentRef &#x3D;
       this.viewContainerRef.createComponent&lt;WidgetTypeComponent&gt;(
         componentType,

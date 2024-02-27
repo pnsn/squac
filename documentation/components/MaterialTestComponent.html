@@ -1,0 +1,479 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>squac documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
+            <a href="../" class="navbar-brand">squac documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  MaterialTestComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>projects/squac-ui/src/app/ui/example-module/material-test/test.component.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-material-test</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./test.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./test.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component } from &quot;@angular/core&quot;;
+
+/**
+ *
+ */
+@Component({
+  selector: &quot;app-material-test&quot;,
+  templateUrl: &quot;./test.component.html&quot;,
+  styleUrls: [&quot;./test.component.scss&quot;],
+})
+export class MaterialTestComponent {}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;h1&gt;Material Test&lt;/h1&gt;
+&lt;div class&#x3D;&quot;white-background&quot;&gt;
+  &lt;h2&gt;Buttons&lt;/h2&gt;
+  &lt;div&gt;
+    &lt;div
+      class&#x3D;&quot;row space-between&quot;
+      *ngFor&#x3D;&quot;let color of [&#x27;&#x27;, &#x27;primary&#x27;, &#x27;accent&#x27;, &#x27;warn&#x27;]&quot;
+    &gt;
+      &lt;button
+        mat-button
+        class&#x3D;&quot;medium&quot;
+        [color]&#x3D;&quot;color&quot;
+      &gt;mat-button {{color}}&lt;/button&gt;
+      &lt;button
+        mat-flat-button
+        [color]&#x3D;&quot;color&quot;
+      &gt;mat-flat-button {{color}}&lt;/button&gt;
+      &lt;button
+        mat-stroked-button
+        [color]&#x3D;&quot;color&quot;
+      &gt;mat-stroked-button {{color}}&lt;/button&gt;
+      &lt;button
+        mat-raised-button
+        [color]&#x3D;&quot;color&quot;
+      &gt;mat-raised-button {{color}}&lt;/button&gt;
+      &lt;button
+        mat-icon-button
+        [color]&#x3D;&quot;color&quot;
+      &gt;
+        &lt;mat-icon&gt;home&lt;/mat-icon&gt;
+      &lt;/button&gt;
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+  &lt;div class&#x3D;&quot;row space-between&quot;&gt;
+    &lt;button
+      mat-flat-button
+      color&#x3D;&quot;primary&quot;
+    &gt;&lt;mat-icon&gt;home&lt;/mat-icon&gt; button with icon&lt;/button&gt;
+    &lt;div&gt;
+      &lt;button mat-fab&gt;
+        &lt;mat-icon&gt;home&lt;/mat-icon&gt;
+      &lt;/button&gt;
+      &lt;button mat-mini-fab&gt;
+        &lt;mat-icon&gt;home&lt;/mat-icon&gt;
+      &lt;/button&gt;
+      &lt;button mat-icon-button&gt;
+        &lt;mat-icon&gt;home&lt;/mat-icon&gt;
+      &lt;/button&gt;
+      &lt;button mat-icon-button&gt;
+        &lt;mat-icon&gt;home&lt;/mat-icon&gt;
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;mat-button-toggle-group&gt;
+  &lt;mat-button-toggle&gt;Option A&lt;/mat-button-toggle&gt;
+  &lt;mat-button-toggle&gt;
+    Option B
+  &lt;/mat-button-toggle&gt;
+  &lt;mat-button-toggle&gt;Option c&lt;/mat-button-toggle&gt;
+&lt;/mat-button-toggle-group&gt;
+
+&lt;div class&#x3D;&quot;white-background&quot;&gt;
+  &lt;h2&gt;Icons&lt;/h2&gt;
+  &lt;div&gt;
+    &lt;div&gt;
+      normal
+      &lt;mat-icon&gt;home&lt;/mat-icon&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      normal icon button
+      &lt;button mat-icon-button&gt;&lt;mat-icon&gt;home&lt;/mat-icon&gt;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      icon-button
+      &lt;mat-icon class&#x3D;&quot;icon-button&quot;&gt;home&lt;/mat-icon&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      icon button in button
+      &lt;button
+        mat-icon-button
+        class&#x3D;&quot;icon-button&quot;
+      &gt;&lt;mat-icon&gt;home&lt;/mat-icon&gt;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      icon in normal button
+      &lt;button
+        mat-button
+        class&#x3D;&quot;icon-button&quot;
+      &gt;
+        &lt;mat-icon&gt;home&lt;/mat-icon&gt;
+      &lt;/button&gt;
+
+    &lt;/div&gt;
+    &lt;div&gt;
+      icon-button in normal button
+      &lt;button
+        mat-button
+        class&#x3D;&quot;icon-button&quot;
+      &gt;&lt;mat-icon&gt;home&lt;/mat-icon&gt;&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;div&gt;
+      Sizing
+      &lt;mat-icon class&#x3D;&quot;small&quot;&gt;home&lt;/mat-icon&gt;
+      &lt;mat-icon class&#x3D;&quot;&quot;&gt;home&lt;/mat-icon&gt;
+      &lt;button
+        mat-button
+        class&#x3D;&quot;icon-button small&quot;
+      &gt;&lt;mat-icon&gt;home&lt;/mat-icon&gt;&lt;/button&gt;
+      &lt;button
+        mat-button
+        class&#x3D;&quot;icon-button&quot;
+      &gt;&lt;mat-icon&gt;home&lt;/mat-icon&gt;&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class&#x3D;&quot;white-background&quot;&gt;
+  &lt;h2&gt;Forms&lt;/h2&gt;
+  &lt;form
+    action&#x3D;&quot;&quot;
+    class&#x3D;&quot;form&quot;
+  &gt;
+
+
+    &lt;mat-checkbox&gt;checkbox&lt;/mat-checkbox&gt;
+
+    &lt;button
+      mat-button
+      [matMenuTriggerFor]&#x3D;&quot;menu&quot;
+    &gt;menu trigger&lt;/button&gt;
+    &lt;mat-menu
+      #menu&#x3D;&quot;matMenu&quot;
+      class&#x3D;&quot;dense-menu&quot;
+    &gt;
+      &lt;button mat-menu-item&gt;Item 1&lt;/button&gt;
+      &lt;button mat-menu-item&gt;Item 2&lt;/button&gt;
+    &lt;/mat-menu&gt;
+
+  &lt;/form&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./test.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">div {
+  overflow: wrap;
+}
+.box-container {
+  div {
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><h1>Material Test</h1><div class="white-background">  <h2>Buttons</h2>  <div>    <div      class="row space-between"      *ngFor="let color of [\'\', \'primary\', \'accent\', \'warn\']"    >      <button        mat-button        class="medium"        [color]="color"      >mat-button {{color}}</button>      <button        mat-flat-button        [color]="color"      >mat-flat-button {{color}}</button>      <button        mat-stroked-button        [color]="color"      >mat-stroked-button {{color}}</button>      <button        mat-raised-button        [color]="color"      >mat-raised-button {{color}}</button>      <button        mat-icon-button        [color]="color"      >        <mat-icon>home</mat-icon>      </button>    </div>  </div>  <div class="row space-between">    <button      mat-flat-button      color="primary"    ><mat-icon>home</mat-icon> button with icon</button>    <div>      <button mat-fab>        <mat-icon>home</mat-icon>      </button>      <button mat-mini-fab>        <mat-icon>home</mat-icon>      </button>      <button mat-icon-button>        <mat-icon>home</mat-icon>      </button>      <button mat-icon-button>        <mat-icon>home</mat-icon>      </button>    </div>  </div></div><mat-button-toggle-group>  <mat-button-toggle>Option A</mat-button-toggle>  <mat-button-toggle>    Option B  </mat-button-toggle>  <mat-button-toggle>Option c</mat-button-toggle></mat-button-toggle-group><div class="white-background">  <h2>Icons</h2>  <div>    <div>      normal      <mat-icon>home</mat-icon>    </div>    <div>      normal icon button      <button mat-icon-button><mat-icon>home</mat-icon></button>    </div>    <div>      icon-button      <mat-icon class="icon-button">home</mat-icon>    </div>    <div>      icon button in button      <button        mat-icon-button        class="icon-button"      ><mat-icon>home</mat-icon></button>    </div>    <div>      icon in normal button      <button        mat-button        class="icon-button"      >        <mat-icon>home</mat-icon>      </button>    </div>    <div>      icon-button in normal button      <button        mat-button        class="icon-button"      ><mat-icon>home</mat-icon></button>    </div>    <div>      Sizing      <mat-icon class="small">home</mat-icon>      <mat-icon class="">home</mat-icon>      <button        mat-button        class="icon-button small"      ><mat-icon>home</mat-icon></button>      <button        mat-button        class="icon-button"      ><mat-icon>home</mat-icon></button>    </div>  </div></div><div class="white-background">  <h2>Forms</h2>  <form    action=""    class="form"  >    <mat-checkbox>checkbox</mat-checkbox>    <button      mat-button      [matMenuTriggerFor]="menu"    >menu trigger</button>    <mat-menu      #menu="matMenu"      class="dense-menu"    >      <button mat-menu-item>Item 1</button>      <button mat-menu-item>Item 2</button>    </mat-menu>  </form></div></div>'
+    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'BudComponent', 'selector': 'widget-calendar-plot'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
+    var DIRECTIVES = [{'name': 'LoadingDirective', 'selector': '[appIsLoading]'},{'name': 'TooltipDirective', 'selector': '[uiTooltip]'},{'name': 'WidgetTypeDirective', 'selector': '[widgetContainer]'},{'name': 'WidgetTypeExampleDirective', 'selector': '[appWidgetTypeExample]'}];
+    var ACTUAL_COMPONENT = {'name': 'MaterialTestComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'MaterialTestComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

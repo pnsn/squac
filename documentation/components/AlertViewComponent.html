@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -35,33 +93,37 @@
 
 
 <ol class="breadcrumb">
-  <li>Components</li>
-  <li
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
   >
   AlertViewComponent</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
-        <li >
-            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
         </li>
-        <li >
-            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
     <h3>File</h3>
 </p>
 <p class="comment">
-    <code>projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts</code>
+    <code>projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts</code>
 </p>
 
 
@@ -78,13 +140,13 @@
         <h3>Implements</h3>
     </p>
     <p class="comment">
-                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
-                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
-                    <code><a href="https://angular.io/api/core/AfterViewInit" target="_blank" >AfterViewInit</a></code>
+                <code>OnInit</code>
+                <code>OnDestroy</code>
+                <code>AfterViewInit</code>
     </p>
 
 
-<section>
+<section data-compodoc="block-metadata">
     <h3>Metadata</h3>
     <table class="table table-sm table-hover metadata">
         <tbody>
@@ -99,9 +161,31 @@
 
 
 
+
             <tr>
                 <td class="col-md-3">selector</td>
                 <td class="col-md-9"><code>monitor-alert-view</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">Standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="../components/DetailPageComponent.html" target="_self" >DetailPageComponent</a></code>
+                                <code><a href="../components/TableViewComponent.html" target="_self" >TableViewComponent</a></code>
+                                <code><a href="../directives/LoadingDirective.html" target="_self" >LoadingDirective</a></code>
+                            <code>AsyncPipe</code>
+                                <code><a href="../components/DateSelectComponent.html" target="_self" >DateSelectComponent</a></code>
+                            <code>RouterOutlet</code>
+                                <code><a href="../components/MonitorAlarmStatusComponent.html" target="_self" >MonitorAlarmStatusComponent</a></code>
+                            <code>RouterLink</code>
+                            <code>NgIf</code>
+                            <code>NgStyle</code>
+                </td>
             </tr>
 
 
@@ -123,7 +207,7 @@
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -139,6 +223,7 @@
                                 <a href="#alerts" >alerts</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#channelsTemplate" >channelsTemplate</a>
                             </li>
                             <li>
@@ -164,6 +249,7 @@
                                 <a href="#monitors" >monitors</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#monitorTemplate" >monitorTemplate</a>
                             </li>
                             <li>
@@ -182,6 +268,7 @@
                                 <a href="#starttime" >starttime</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#stateTemplate" >stateTemplate</a>
                             </li>
                             <li>
@@ -191,6 +278,7 @@
                                 <a href="#timeRange" >timeRange</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#triggerTemplate" >triggerTemplate</a>
                             </li>
                             <li>
@@ -241,18 +329,18 @@
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-constructor">
     <h3 id="constructor">Constructor</h3>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(alertService: <a href="../injectables/AlertService.html" target="_self">AlertService</a>, route: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, dateService: <a href="../injectables/DateService.html" target="_self">DateService</a>, loadingService: <a href="../injectables/LoadingService.html" target="_self">LoadingService</a>, cdr: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>)</code>
+<code>constructor(alertService: <a href="../injectables/AlertService.html" target="_self">AlertService</a>, route: ActivatedRoute, dateService: <a href="../injectables/DateService.html" target="_self">DateService</a>, loadingService: <a href="../injectables/LoadingService.html" target="_self">LoadingService</a>, cdr: ChangeDetectorRef)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:106</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="126" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:126</a></div>
                             </td>
                         </tr>
 
@@ -285,7 +373,7 @@
                                                         <td>route</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                                    <code>ActivatedRoute</code>
                                                         </td>
                                                   
                                                     <td>
@@ -321,7 +409,7 @@
                                                         <td>cdr</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+                                                                    <code>ChangeDetectorRef</code>
                                                         </td>
                                                   
                                                     <td>
@@ -342,7 +430,7 @@
 
 
 
-    <section>
+    <section data-compodoc="block-methods">
     
     <h3 id="methods">
         Methods
@@ -365,57 +453,55 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="179"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:179</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="193"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:193</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Dates emitted when user changes time ranges, updates
+                        <div class="io-description"><p>Dates emitted when user changes time ranges, updates
 dates in widget manager</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>[object Object]</td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>[object Object]</td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>time range start date</p>
+                                            <td>
+                                                    <p>time range start date</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -438,61 +524,59 @@ dates in widget manager</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="205"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:205</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="219"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:219</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Get fresh alerts and monitors</p>
+                        <div class="io-description"><p>Get fresh alerts and monitors</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>refresh</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>refresh</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    Yes
+                                            </td>
 
 
-                                    <td>
-                                        <p>true if cache should not be used</p>
+                                            <td>
+                                                    <p>true if cache should not be used</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>Obsercable of monitors and alerts</p>
+                        </div>
+                            <div class="io-description">
+                                <p>Obsercable of monitors and alerts</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -515,23 +599,21 @@ dates in widget manager</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="129"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:129</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="138"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:138</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Set up columns</p>
-</div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -554,23 +636,23 @@ dates in widget manager</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="233"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:233</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="247"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:247</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>unsubscribe</p>
+                        <div class="io-description"><p>unsubscribe</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -593,23 +675,23 @@ dates in widget manager</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="116"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:116</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="171"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:171</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>subscribe to route events</p>
+                        <div class="io-description"><p>subscribe to route events</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -632,23 +714,23 @@ dates in widget manager</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="228"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:228</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="242"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:242</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Get fresh data</p>
+                        <div class="io-description"><p>Get fresh data</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -671,29 +753,29 @@ dates in widget manager</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="196"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:196</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="210"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:210</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Initiates data fetch</p>
+                        <div class="io-description"><p>Initiates data fetch</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </section>
-    <section>
+    <section data-compodoc="block-properties">
     
     <h3 id="inputs">
         Properties
@@ -717,7 +799,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:38</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:57</a></div>
                         </td>
                     </tr>
 
@@ -736,6 +818,7 @@ dates in widget manager</p>
                 <td class="col-md-4">
                     <a name="channelsTemplate"></a>
                     <span class="name">
+                            <span class="modifier"></span>
                         <span ><b>channelsTemplate</b></span>
                         <a href="#channelsTemplate"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -758,7 +841,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="104" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:104</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="124" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:124</a></div>
                         </td>
                     </tr>
 
@@ -784,7 +867,7 @@ dates in widget manager</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>[]</code>
+                        <i>Type : </i>        <code><a href="../interfaces/TableColumn.html" target="_self" >TableColumn[]</a></code>
 
                     </td>
                 </tr>
@@ -795,7 +878,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:55</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:74</a></div>
                         </td>
                     </tr>
 
@@ -841,7 +924,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:68</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:87</a></div>
                         </td>
                     </tr>
 
@@ -872,7 +955,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:46</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:65</a></div>
                         </td>
                     </tr>
 
@@ -898,7 +981,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:50</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:69</a></div>
                         </td>
                     </tr>
 
@@ -944,7 +1027,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:80</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="99" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:99</a></div>
                         </td>
                     </tr>
 
@@ -977,7 +1060,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="111" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:111</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="131" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:131</a></div>
                         </td>
                     </tr>
 
@@ -1003,7 +1086,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:40</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:59</a></div>
                         </td>
                     </tr>
 
@@ -1022,6 +1105,7 @@ dates in widget manager</p>
                 <td class="col-md-4">
                     <a name="monitorTemplate"></a>
                     <span class="name">
+                            <span class="modifier"></span>
                         <span ><b>monitorTemplate</b></span>
                         <a href="#monitorTemplate"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1044,7 +1128,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:106</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="126" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:126</a></div>
                         </td>
                     </tr>
 
@@ -1077,6 +1161,7 @@ dates in widget manager</p>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>{
+    autoRouteToDetail: false,
     messages: {
       emptyMessage: &quot;No alerts found.&quot;,
     },
@@ -1086,7 +1171,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:92</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="111" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:111</a></div>
                         </td>
                     </tr>
 
@@ -1125,7 +1210,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:63</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:82</a></div>
                         </td>
                     </tr>
 
@@ -1157,7 +1242,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:57</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:76</a></div>
                         </td>
                     </tr>
 
@@ -1194,7 +1279,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:53</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:72</a></div>
                         </td>
                     </tr>
 
@@ -1226,7 +1311,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:48</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:67</a></div>
                         </td>
                     </tr>
 
@@ -1245,6 +1330,7 @@ dates in widget manager</p>
                 <td class="col-md-4">
                     <a name="stateTemplate"></a>
                     <span class="name">
+                            <span class="modifier"></span>
                         <span ><b>stateTemplate</b></span>
                         <a href="#stateTemplate"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1267,7 +1353,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="100" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:100</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="120" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:120</a></div>
                         </td>
                     </tr>
 
@@ -1298,7 +1384,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:55</a></div>
                         </td>
                     </tr>
 
@@ -1335,7 +1421,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:44</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:63</a></div>
                         </td>
                     </tr>
 
@@ -1354,6 +1440,7 @@ dates in widget manager</p>
                 <td class="col-md-4">
                     <a name="triggerTemplate"></a>
                     <span class="name">
+                            <span class="modifier"></span>
                         <span ><b>triggerTemplate</b></span>
                         <a href="#triggerTemplate"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1376,7 +1463,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:102</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="122" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:122</a></div>
                         </td>
                     </tr>
 
@@ -1407,7 +1494,7 @@ dates in widget manager</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts:42</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts:61</a></div>
                         </td>
                     </tr>
 
@@ -1425,7 +1512,7 @@ dates in widget manager</p>
 </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
+    <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -1435,7 +1522,7 @@ dates in widget manager</p>
   TemplateRef,
   ViewChild,
 } from &quot;@angular/core&quot;;
-import { ActivatedRoute } from &quot;@angular/router&quot;;
+import { ActivatedRoute, RouterLink, RouterOutlet } from &quot;@angular/router&quot;;
 import { DateService } from &quot;@core/services/date.service&quot;;
 import { LoadingService } from &quot;@core/services/loading.service&quot;;
 import { Alert } from &quot;squacapi&quot;;
@@ -1444,13 +1531,19 @@ import { AlertService } from &quot;squacapi&quot;;
 import { catchError, EMPTY, Subscription, switchMap, tap } from &quot;rxjs&quot;;
 import { Observable } from &quot;rxjs&quot;;
 import {
+  TableColumn,
   TableControls,
   TableFilters,
   TableOptions,
 } from &quot;@shared/components/table-view/interfaces&quot;;
-import { DATE_PICKER_TIMERANGES } from &quot;@dashboard/components/dashboard-detail/dashboard-time-ranges&quot;;
-import { sortTimestamps } from &quot;@core/utils/utils&quot;;
+import { DATE_PICKER_TIMERANGES } from &quot;@dashboard/pages/detail/dashboard-time-ranges&quot;;
 import { PageOptions } from &quot;@shared/components/detail-page/detail-page.interface&quot;;
+import { DetailPageComponent } from &quot;@shared/components/detail-page/detail-page.component&quot;;
+import { TableViewComponent } from &quot;@shared/components/table-view/table-view.component&quot;;
+import { LoadingDirective } from &quot;@shared/directives/loading-directive.directive&quot;;
+import { AsyncPipe, NgIf, NgStyle } from &quot;@angular/common&quot;;
+import { DateSelectComponent } from &quot;@shared/components/date-select/date-select.component&quot;;
+import { MonitorAlarmStatusComponent } from &quot;@monitor/components/monitor-alarm-status/monitor-alarm-status.component&quot;;
 
 /**
  * Component for viewing list of alerts
@@ -1458,6 +1551,19 @@ import { PageOptions } from &quot;@shared/components/detail-page/detail-page.int
 @Component({
   selector: &quot;monitor-alert-view&quot;,
   templateUrl: &quot;./alert-view.component.html&quot;,
+  standalone: true,
+  imports: [
+    DetailPageComponent,
+    TableViewComponent,
+    LoadingDirective,
+    AsyncPipe,
+    DateSelectComponent,
+    RouterOutlet,
+    MonitorAlarmStatusComponent,
+    RouterLink,
+    NgIf,
+    NgStyle,
+  ],
 })
 export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
   /** rxjs subscriptions */
@@ -1480,7 +1586,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
   /** table rows */
   rows &#x3D; [];
   /** table columns */
-  columns &#x3D; [];
+  columns: TableColumn[] &#x3D; [];
   /** search params */
   params: {
     timestampGte: string;
@@ -1518,6 +1624,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /** config for table */
   options: TableOptions &#x3D; {
+    autoRouteToDetail: false,
     messages: {
       emptyMessage: &quot;No alerts found.&quot;,
     },
@@ -1540,6 +1647,41 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
     private cdr: ChangeDetectorRef
   ) {}
 
+  /**
+   *
+   */
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component&#x27;s view has been initialized. Applies to components only.
+    //Add &#x27;implements AfterViewInit&#x27; to the class.
+
+    this.columns &#x3D; [
+      {
+        name: &quot;State&quot;,
+        columnDef: &quot;inAlarm&quot;,
+        cellTemplate: this.stateTemplate,
+      },
+      {
+        name: &quot;Time&quot;,
+        columnDef: &quot;timestamp&quot;,
+      },
+      {
+        name: &quot;Monitor&quot;,
+        columnDef: &quot;monitorName&quot;,
+        cellTemplate: this.monitorTemplate,
+      },
+      {
+        name: &quot;Trigger&quot;,
+        columnDef: &quot;trigger&quot;,
+        cellTemplate: this.triggerTemplate,
+      },
+      {
+        name: &quot;Breaching Channels&quot;,
+        columnDef: &quot;breachingChannels&quot;,
+        cellTemplate: this.channelsTemplate,
+      },
+    ];
+    this.cdr.detectChanges();
+  }
   /** subscribe to route events */
   ngOnInit(): void {
     const monitorsSub &#x3D; this.route.params
@@ -1551,47 +1693,6 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe();
 
     this.subscription.add(monitorsSub);
-  }
-
-  /** Set up columns */
-  ngAfterViewInit(): void {
-    this.columns &#x3D; [
-      {
-        name: &quot;State&quot;,
-        prop: &quot;inAlarm&quot;,
-        width: 70,
-        minWidth: 70,
-        canAutoResize: false,
-        cellTemplate: this.stateTemplate,
-      },
-      {
-        name: &quot;Time&quot;,
-        prop: &quot;timestamp&quot;,
-        width: 160,
-        canAutoResize: false,
-        comparator: sortTimestamps,
-      },
-      {
-        name: &quot;Monitor&quot;,
-        prop: &quot;monitorName&quot;,
-        width: 150,
-        cellTemplate: this.monitorTemplate,
-      },
-      {
-        name: &quot;Trigger&quot;,
-        width: 200,
-        cellTemplate: this.triggerTemplate,
-        sortable: false,
-      },
-      {
-        name: &quot;Breaching Channels&quot;,
-        prop: &quot;breachingChannels&quot;,
-        width: 150,
-        canAutoResize: false,
-        cellTemplate: this.channelsTemplate,
-      },
-    ];
-    this.cdr.detectChanges();
   }
 
   /**
@@ -1665,7 +1766,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
 </code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-templateData">
+    <div class="tab-pane fade " id="templateData">
         <pre class="line-numbers"><code class="language-html">&lt;shared-detail-page
   [options]&#x3D;&quot;pageOptions&quot;
   type&#x3D;&quot;Alert&quot;
@@ -1685,6 +1786,7 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
       &lt;ng-container tableHeadFilters&gt;
         &lt;div class&#x3D;&quot;row&quot;&gt;
           &lt;shared-date-select
+            [ngStyle]&#x3D;&quot;{&#x27;z-index&#x27;: 100}&quot;
             [secondsAgoFromNow]&#x3D;&quot;timeRange&quot;
             [initialStartDate]&#x3D;&quot;starttime&quot;
             [initialEndDate]&#x3D;&quot;endtime&quot;
@@ -1707,21 +1809,19 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
 &lt;/shared-detail-page&gt;
 &lt;router-outlet&gt;&lt;/router-outlet&gt;
 &lt;ng-template
-  let-value&#x3D;&quot;value&quot;
+  let-row&#x3D;&quot;row&quot;
   #stateTemplate
 &gt;
-  &lt;monitor-alarm-status [inAlarm]&#x3D;&quot;value&quot;&gt;&lt;/monitor-alarm-status&gt;
+  &lt;monitor-alarm-status [inAlarm]&#x3D;&quot;row.inAlarm&quot;&gt;&lt;/monitor-alarm-status&gt;
 &lt;/ng-template&gt;
 &lt;ng-template
   #monitorTemplate
   let-row&#x3D;&quot;row&quot;
-  let-value&#x3D;&quot;value&quot;
 &gt;
-  &lt;a [routerLink]&#x3D;&quot;[&#x27;/monitors&#x27;, row.monitorId]&quot;&gt;{{ value }}&lt;/a&gt;
+  &lt;a [routerLink]&#x3D;&quot;[&#x27;/monitors&#x27;, row.monitorId]&quot;&gt;{{ row.monitorName }}&lt;/a&gt;
 &lt;/ng-template&gt;
 &lt;ng-template
   #triggerTemplate
-  let-value&#x3D;&quot;value&quot;
   let-row&#x3D;&quot;row&quot;
 &gt;
   values for
@@ -1735,15 +1835,15 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
   &lt;/span&gt;
 &lt;/ng-template&gt;
 &lt;ng-template
-  let-value&#x3D;&quot;value&quot;
+  let-row&#x3D;&quot;row&quot;
   #channelsTemplate
 &gt;
-  {{ value.length }}
+  {{ row.breachingChannels.length }}
 &lt;/ng-template&gt;</code></pre>
     </div>
 
 
-    <div class="tab-pane fade " id="c-tree">
+    <div class="tab-pane fade " id="tree">
         <div id="tree-container"></div>
         <div class="tree-legend">
             <div class="title">
@@ -1768,8 +1868,8 @@ export class AlertViewComponent implements OnInit, OnDestroy, AfterViewInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><shared-detail-page  [options]="pageOptions"  type="Alert"  title="Alerts">  <ng-container bodyContent>    <shared-table-view      title="Alerts"      [isLoading]="loadingService.isLoading$(this) | async"      [options]="options"      [rows]="rows"      [columns]="columns"      [controls]="controls"      [filters]="filters"      (refresh)="refresh()"    >      <ng-container tableHeadFilters>        <div class="row">          <shared-date-select            [secondsAgoFromNow]="timeRange"            [initialStartDate]="starttime"            [initialEndDate]="endtime"            [timeRanges]="datePickerTimeRanges"            (datesChanged)="datesChanged($event)"          >          </shared-date-select>          <button            mat-raised-button            color="accent"            (click)="update()"            [disabled]="!this.unsavedChanges"          >            Update          </button>        </div>      </ng-container>    </shared-table-view>  </ng-container></shared-detail-page><router-outlet></router-outlet><ng-template  let-value="value"  #stateTemplate>  <monitor-alarm-status [inAlarm]="value"></monitor-alarm-status></ng-template><ng-template  #monitorTemplate  let-row="row"  let-value="value">  <a [routerLink]="[\'/monitors\', row.monitorId]">{{ value }}</a></ng-template><ng-template  #triggerTemplate  let-value="value"  let-row="row">  values for  <span *ngIf="row.numChannelsOperator !== \'==\'">    {{ row.numChannelsOperator }}  </span>  {{ row.numChannels }} channel(s) in are {{ row.valueOperator }}  {{ row.val1 }}  <span *ngIf="row.val2 !== null && row.val2 !== undefined">    and {{ row.val2 }}  </span></ng-template><ng-template  let-value="value"  #channelsTemplate>  {{ value.length }}</ng-template></div>'
-    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'SnackbarComponent', 'selector': 'shared-snackbar'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
+        var COMPONENT_TEMPLATE = '<div><shared-detail-page  [options]="pageOptions"  type="Alert"  title="Alerts">  <ng-container bodyContent>    <shared-table-view      title="Alerts"      [isLoading]="loadingService.isLoading$(this) | async"      [options]="options"      [rows]="rows"      [columns]="columns"      [controls]="controls"      [filters]="filters"      (refresh)="refresh()"    >      <ng-container tableHeadFilters>        <div class="row">          <shared-date-select            [ngStyle]="{\'z-index\': 100}"            [secondsAgoFromNow]="timeRange"            [initialStartDate]="starttime"            [initialEndDate]="endtime"            [timeRanges]="datePickerTimeRanges"            (datesChanged)="datesChanged($event)"          >          </shared-date-select>          <button            mat-raised-button            color="accent"            (click)="update()"            [disabled]="!this.unsavedChanges"          >            Update          </button>        </div>      </ng-container>    </shared-table-view>  </ng-container></shared-detail-page><router-outlet></router-outlet><ng-template  let-row="row"  #stateTemplate>  <monitor-alarm-status [inAlarm]="row.inAlarm"></monitor-alarm-status></ng-template><ng-template  #monitorTemplate  let-row="row">  <a [routerLink]="[\'/monitors\', row.monitorId]">{{ row.monitorName }}</a></ng-template><ng-template  #triggerTemplate  let-row="row">  values for  <span *ngIf="row.numChannelsOperator !== \'==\'">    {{ row.numChannelsOperator }}  </span>  {{ row.numChannels }} channel(s) in are {{ row.valueOperator }}  {{ row.val1 }}  <span *ngIf="row.val2 !== null && row.val2 !== undefined">    and {{ row.val2 }}  </span></ng-template><ng-template  let-row="row"  #channelsTemplate>  {{ row.breachingChannels.length }}</ng-template></div>'
+    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'BudComponent', 'selector': 'widget-calendar-plot'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
     var DIRECTIVES = [{'name': 'LoadingDirective', 'selector': '[appIsLoading]'},{'name': 'TooltipDirective', 'selector': '[uiTooltip]'},{'name': 'WidgetTypeDirective', 'selector': '[widgetContainer]'},{'name': 'WidgetTypeExampleDirective', 'selector': '[appWidgetTypeExample]'}];
     var ACTUAL_COMPONENT = {'name': 'AlertViewComponent'};
 </script>

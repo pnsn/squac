@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -35,36 +93,41 @@
 
 
 <ol class="breadcrumb">
-  <li>Components</li>
-  <li
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
   >
   MonitorViewComponent</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
-        <li >
-            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
         </li>
-        <li >
-            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
         </li>
-        <li >
-            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
     <h3>File</h3>
 </p>
 <p class="comment">
-    <code>projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts</code>
+    <code>projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts</code>
 </p>
 
 
@@ -81,13 +144,13 @@
         <h3>Implements</h3>
     </p>
     <p class="comment">
-                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
-                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
-                    <code><a href="https://angular.io/api/core/AfterViewInit" target="_blank" >AfterViewInit</a></code>
+                <code>OnInit</code>
+                <code>OnDestroy</code>
+                <code>AfterViewInit</code>
     </p>
 
 
-<section>
+<section data-compodoc="block-metadata">
     <h3>Metadata</h3>
     <table class="table table-sm table-hover metadata">
         <tbody>
@@ -102,9 +165,27 @@
 
 
 
+
             <tr>
                 <td class="col-md-3">selector</td>
                 <td class="col-md-9"><code>monitor-view</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">Standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="../components/DetailPageComponent.html" target="_self" >DetailPageComponent</a></code>
+                                <code><a href="../components/TableViewComponent.html" target="_self" >TableViewComponent</a></code>
+                            <code>AsyncPipe</code>
+                                <code><a href="../components/MonitorAlarmStatusComponent.html" target="_self" >MonitorAlarmStatusComponent</a></code>
+                            <code>RouterOutlet</code>
+                            <code>NgIf</code>
+                </td>
             </tr>
 
             <tr>
@@ -130,7 +211,7 @@
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -180,15 +261,14 @@
                                 <a href="#selectedMonitorId" >selectedMonitorId</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#stateTemplate" >stateTemplate</a>
                             </li>
                             <li>
                                 <a href="#subscription" >subscription</a>
                             </li>
                             <li>
-                                <a href="#table" >table</a>
-                            </li>
-                            <li>
+                                    <span class="modifier"></span>
                                 <a href="#updateTemplate" >updateTemplate</a>
                             </li>
                         </ul>
@@ -251,18 +331,18 @@
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-constructor">
     <h3 id="constructor">Constructor</h3>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(route: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, monitorService: <a href="../injectables/MonitorService.html" target="_self">MonitorService</a>, loadingService: <a href="../injectables/LoadingService.html" target="_self">LoadingService</a>, cdr: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>)</code>
+<code>constructor(route: ActivatedRoute, router: Router, monitorService: <a href="../injectables/MonitorService.html" target="_self">MonitorService</a>, loadingService: <a href="../injectables/LoadingService.html" target="_self">LoadingService</a>, cdr: ChangeDetectorRef)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="103" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:103</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="114" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:114</a></div>
                             </td>
                         </tr>
 
@@ -283,7 +363,7 @@
                                                         <td>route</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                                    <code>ActivatedRoute</code>
                                                         </td>
                                                   
                                                     <td>
@@ -295,7 +375,7 @@
                                                         <td>router</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                                    <code>Router</code>
                                                         </td>
                                                   
                                                     <td>
@@ -331,7 +411,7 @@
                                                         <td>cdr</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+                                                                    <code>ChangeDetectorRef</code>
                                                         </td>
                                                   
                                                     <td>
@@ -352,7 +432,7 @@
 
 
 
-    <section>
+    <section data-compodoc="block-methods">
     
     <h3 id="methods">
         Methods
@@ -375,60 +455,58 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="253"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:253</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="250"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:250</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Navigates to edit monitor page</p>
+                        <div class="io-description"><p>Navigates to edit monitor page</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>id</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>monitor edit id</p>
+                                            <td>
+                                                    <p>monitor edit id</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -451,61 +529,59 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="219"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:219</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="216"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:216</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Fetch new monitors</p>
+                        <div class="io-description"><p>Fetch new monitors</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>refresh</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>refresh</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    Yes
+                                            </td>
 
 
-                                    <td>
-                                        <p>true if cache should not be used</p>
+                                            <td>
+                                                    <p>true if cache should not be used</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>obsercable of monitors and alerts</p>
+                        </div>
+                            <div class="io-description">
+                                <p>obsercable of monitors and alerts</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -528,61 +604,59 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="244"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:244</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="241"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:241</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Get all alerts with given monitor id</p>
+                        <div class="io-description"><p>Get all alerts with given monitor id</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>monitorId</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>monitorId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>id to match</p>
+                                            <td>
+                                                    <p>id to match</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Alert[]</code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Alert[]</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>array of matching alerts</p>
+                        </div>
+                            <div class="io-description">
+                                <p>array of matching alerts</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -605,23 +679,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="200"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:200</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="197"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:197</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Populate rows in table</p>
+                        <div class="io-description"><p>Populate rows in table</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -644,23 +718,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="131"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:131</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="142"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:142</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Set up columns</p>
+                        <div class="io-description"><p>Set up columns</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -683,23 +757,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="270"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:270</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="267"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:267</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>unsubscribes</p>
+                        <div class="io-description"><p>unsubscribes</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -722,23 +796,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="114"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:114</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="125"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:125</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Init subscriptions</p>
+                        <div class="io-description"><p>Init subscriptions</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -761,60 +835,58 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="182"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:182</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="179"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:179</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Click event from table</p>
+                        <div class="io-description"><p>Click event from table</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>event</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#MenuAction" target="_self" >MenuAction</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#MenuAction" target="_self" >MenuAction</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>click action</p>
+                                            <td>
+                                                    <p>click action</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -837,23 +909,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="189"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:189</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="186"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:186</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Delete selected monitor</p>
+                        <div class="io-description"><p>Delete selected monitor</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -876,60 +948,58 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="209"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:209</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="206"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:206</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>select event from table</p>
+                        <div class="io-description"><p>select event from table</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>monitor</td>
-                                    <td>
-                                            <code>Monitor</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>monitor</td>
+                                            <td>
+                                                        <code>Monitor</code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    Yes
+                                            </td>
 
 
-                                    <td>
-                                        <p>selected monitor</p>
+                                            <td>
+                                                    <p>selected monitor</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -952,23 +1022,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="234"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:234</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="231"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:231</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Get fresh monitors</p>
+                        <div class="io-description"><p>Get fresh monitors</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -991,66 +1061,64 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="262"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:262</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="259"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:259</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Navigates to monitor detail page</p>
+                        <div class="io-description"><p>Navigates to monitor detail page</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>id</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    Yes
+                                            </td>
 
 
-                                    <td>
-                                        <p>monitor id</p>
+                                            <td>
+                                                    <p>monitor id</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </section>
-    <section>
+    <section data-compodoc="block-properties">
     
     <h3 id="inputs">
         Properties
@@ -1079,7 +1147,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:38</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:49</a></div>
                         </td>
                     </tr>
 
@@ -1099,7 +1167,7 @@
             </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:43</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:54</a></div>
                         </td>
                     </tr>
 
@@ -1159,7 +1227,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:54</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:65</a></div>
                         </td>
                     </tr>
 
@@ -1185,7 +1253,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:37</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:48</a></div>
                         </td>
                     </tr>
 
@@ -1221,7 +1289,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:85</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:96</a></div>
                         </td>
                     </tr>
 
@@ -1248,7 +1316,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="109" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:109</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="120" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:120</a></div>
                         </td>
                     </tr>
 
@@ -1279,7 +1347,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:46</a></div>
                         </td>
                     </tr>
 
@@ -1306,17 +1374,18 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>{
-    selectionType: SelectionType.single,
     messages: {
       emptyMessage: &quot;No monitors found.&quot;,
     },
     footerLabel: &quot;Monitors&quot;,
+    defaultSort: &quot;lastUpdate&quot;,
+    defaultSortDir: &quot;desc&quot;,
   }</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:92</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="103" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:103</a></div>
                         </td>
                     </tr>
 
@@ -1353,7 +1422,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:46</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:57</a></div>
                         </td>
                     </tr>
 
@@ -1384,7 +1453,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:50</a></div>
                         </td>
                     </tr>
 
@@ -1415,7 +1484,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:42</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:53</a></div>
                         </td>
                     </tr>
 
@@ -1441,7 +1510,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:47</a></div>
                         </td>
                     </tr>
 
@@ -1454,6 +1523,7 @@
                 <td class="col-md-4">
                     <a name="stateTemplate"></a>
                     <span class="name">
+                            <span class="modifier"></span>
                         <span ><b>stateTemplate</b></span>
                         <a href="#stateTemplate"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1476,7 +1546,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:102</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="113" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:113</a></div>
                         </td>
                     </tr>
 
@@ -1501,42 +1571,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:34</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="table"></a>
-                    <span class="name">
-                        <span ><b>table</b></span>
-                        <a href="#table"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <b>Decorators : </b>
-                        <br />
-                        <code>
-                            @ViewChild(&#x27;monitorTable&#x27;)<br />
-                        </code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="101" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:101</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:45</a></div>
                         </td>
                     </tr>
 
@@ -1549,6 +1584,7 @@
                 <td class="col-md-4">
                     <a name="updateTemplate"></a>
                     <span class="name">
+                            <span class="modifier"></span>
                         <span ><b>updateTemplate</b></span>
                         <a href="#updateTemplate"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1571,7 +1607,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="103" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts:103</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="114" class="link-to-prism">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts:114</a></div>
                         </td>
                     </tr>
 
@@ -1583,7 +1619,7 @@
 </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
+    <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -1592,7 +1628,7 @@
   OnInit,
   ViewChild,
 } from &quot;@angular/core&quot;;
-import { ActivatedRoute, Router } from &quot;@angular/router&quot;;
+import { ActivatedRoute, Router, RouterOutlet } from &quot;@angular/router&quot;;
 import { LoadingService } from &quot;@core/services/loading.service&quot;;
 import { Alert } from &quot;squacapi&quot;;
 import { Monitor } from &quot;squacapi&quot;;
@@ -1604,9 +1640,11 @@ import {
   TableFilters,
   TableOptions,
 } from &quot;@shared/components/table-view/interfaces&quot;;
-import { SelectionType } from &quot;@boring.devs/ngx-datatable&quot;;
-import { sortTimestamps } from &quot;@core/utils/utils&quot;;
 import { PageOptions } from &quot;@shared/components/detail-page/detail-page.interface&quot;;
+import { DetailPageComponent } from &quot;@shared/components/detail-page/detail-page.component&quot;;
+import { TableViewComponent } from &quot;@shared/components/table-view/table-view.component&quot;;
+import { AsyncPipe, NgIf } from &quot;@angular/common&quot;;
+import { MonitorAlarmStatusComponent } from &quot;@monitor/components/monitor-alarm-status/monitor-alarm-status.component&quot;;
 
 /**
  * Component for displaying list of monitors
@@ -1615,6 +1653,15 @@ import { PageOptions } from &quot;@shared/components/detail-page/detail-page.int
   selector: &quot;monitor-view&quot;,
   templateUrl: &quot;./monitor-view.component.html&quot;,
   styleUrls: [&quot;./monitor-view.component.scss&quot;],
+  standalone: true,
+  imports: [
+    DetailPageComponent,
+    TableViewComponent,
+    AsyncPipe,
+    MonitorAlarmStatusComponent,
+    RouterOutlet,
+    NgIf,
+  ],
 })
 export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
   subscription &#x3D; new Subscription();
@@ -1676,15 +1723,15 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
   };
 
   options: TableOptions &#x3D; {
-    selectionType: SelectionType.single,
     messages: {
       emptyMessage: &quot;No monitors found.&quot;,
     },
     footerLabel: &quot;Monitors&quot;,
+    defaultSort: &quot;lastUpdate&quot;,
+    defaultSortDir: &quot;desc&quot;,
   };
 
   // table templates
-  @ViewChild(&quot;monitorTable&quot;) table: any;
   @ViewChild(&quot;stateTemplate&quot;) stateTemplate: any;
   @ViewChild(&quot;updateTemplate&quot;) updateTemplate: any;
 
@@ -1718,43 +1765,29 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.columns &#x3D; [
       {
         name: &quot;State&quot;,
-        prop: &quot;inAlarm&quot;,
-        draggable: false,
-        width: 70,
-        minWidth: 70,
-        canAutoResize: false,
+        columnDef: &quot;inAlarm&quot;,
         cellTemplate: this.stateTemplate,
       },
       {
         name: &quot;Name&quot;,
-        draggable: false,
-        sortable: true,
+        columnDef: &quot;name&quot;,
       },
       {
         name: &quot;Last State Change&quot;,
-        prop: &quot;lastUpdate&quot;,
-        draggable: false,
-        canAutoResize: false,
-        sortable: true,
-        width: 160,
-        minWidth: 160,
+        columnDef: &quot;lastUpdate&quot;,
         cellTemplate: this.updateTemplate,
-        comparator: sortTimestamps,
       },
       {
         name: &quot;Channel Group&quot;,
-        prop: &quot;channelGroupName&quot;,
+        columnDef: &quot;channelGroupName&quot;,
       },
       {
         name: &quot;Metric&quot;,
-        prop: &quot;metricName&quot;,
+        columnDef: &quot;metricName&quot;,
       },
       {
         name: &quot;Owner&quot;,
-        prop: &quot;owner&quot;,
-        draggable: false,
-        sortable: true,
-        width: 120,
+        columnDef: &quot;owner&quot;,
       },
     ];
     this.cdr.detectChanges();
@@ -1860,7 +1893,7 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
 </code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-templateData">
+    <div class="tab-pane fade " id="templateData">
         <pre class="line-numbers"><code class="language-html">&lt;shared-detail-page
   [options]&#x3D;&quot;pageOptions&quot;
   *ngIf&#x3D;&quot;monitors&quot;
@@ -1881,51 +1914,34 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
       (refresh)&#x3D;&quot;refresh()&quot;
     &gt;
     &lt;/shared-table-view&gt;
-    &lt;ng-template let-value&#x3D;&quot;value&quot; #stateTemplate&gt;
-      &lt;monitor-alarm-status [inAlarm]&#x3D;&quot;value&quot;&gt;&lt;/monitor-alarm-status&gt;
+    &lt;ng-template
+      let-row&#x3D;&quot;row&quot;
+      #stateTemplate
+    &gt;
+      &lt;monitor-alarm-status [inAlarm]&#x3D;&quot;row.inAlarm&quot;&gt;&lt;/monitor-alarm-status&gt;
     &lt;/ng-template&gt;
-    &lt;ng-template let-value&#x3D;&quot;value&quot; #updateTemplate&gt;
-      &lt;ng-container *ngIf&#x3D;&quot;value; else noAlert&quot;&gt;
-        {{ value }}
+    &lt;ng-template
+      let-row&#x3D;&quot;row&quot;
+      #updateTemplate
+    &gt;
+      &lt;ng-container *ngIf&#x3D;&quot;row.lastUpdate; else noAlert&quot;&gt;
+        {{ row.lastUpdate }}
       &lt;/ng-container&gt;
       &lt;ng-template #noAlert&gt;no alerts&lt;/ng-template&gt;
     &lt;/ng-template&gt;
   &lt;/ng-container&gt;
 &lt;/shared-detail-page&gt;
-&lt;router-outlet&gt;&lt;/router-outlet&gt;
-</code></pre>
+&lt;router-outlet&gt;&lt;/router-outlet&gt;</code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-styleData">
+    <div class="tab-pane fade " id="styleData">
                 <p class="comment">
                     <code>./monitor-view.component.scss</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss">.monitor-container {
-  height: 40px;
-  padding: 3px;
-  .monitor-status {
-    align-items: center;
-    .alarm-status {
-      margin: 0px 3px;
-      width: 30px;
-      white-space: pre-wrap;
-      overflow: hidden;
-      text-align: left;
-    }
-    .monitor-name {
-      width: 400px;
-      font-size: 1.1rem;
-      text-align: start;
-    }
-    .time-span {
-      max-width: 150px;
-    }
-  }
-}
-</code></pre>
+                <pre class="line-numbers"><code class="language-scss"></code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-tree">
+    <div class="tab-pane fade " id="tree">
         <div id="tree-container"></div>
         <div class="tree-legend">
             <div class="title">
@@ -1950,8 +1966,8 @@ export class MonitorViewComponent implements OnInit, OnDestroy, AfterViewInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><shared-detail-page  [options]="pageOptions"  *ngIf="monitors"  type="Monitor"  title="Monitors">  <ng-container bodyContent>    <shared-table-view      [isLoading]="loadingService.isLoading$(this) | async"      title="Monitors"      [options]="options"      [rows]="rows"      [columns]="columns"      (itemSelected)="onSelect($event)"      (controlClicked)="onClick($event)"      [controls]="controls"      [filters]="filters"      (refresh)="refresh()"    >    </shared-table-view>    <ng-template let-value="value" #stateTemplate>      <monitor-alarm-status [inAlarm]="value"></monitor-alarm-status>    </ng-template>    <ng-template let-value="value" #updateTemplate>      <ng-container *ngIf="value; else noAlert">        {{ value }}      </ng-container>      <ng-template #noAlert>no alerts</ng-template>    </ng-template>  </ng-container></shared-detail-page><router-outlet></router-outlet></div>'
-    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'SnackbarComponent', 'selector': 'shared-snackbar'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
+        var COMPONENT_TEMPLATE = '<div><shared-detail-page  [options]="pageOptions"  *ngIf="monitors"  type="Monitor"  title="Monitors">  <ng-container bodyContent>    <shared-table-view      [isLoading]="loadingService.isLoading$(this) | async"      title="Monitors"      [options]="options"      [rows]="rows"      [columns]="columns"      (itemSelected)="onSelect($event)"      (controlClicked)="onClick($event)"      [controls]="controls"      [filters]="filters"      (refresh)="refresh()"    >    </shared-table-view>    <ng-template      let-row="row"      #stateTemplate    >      <monitor-alarm-status [inAlarm]="row.inAlarm"></monitor-alarm-status>    </ng-template>    <ng-template      let-row="row"      #updateTemplate    >      <ng-container *ngIf="row.lastUpdate; else noAlert">        {{ row.lastUpdate }}      </ng-container>      <ng-template #noAlert>no alerts</ng-template>    </ng-template>  </ng-container></shared-detail-page><router-outlet></router-outlet></div>'
+    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'BudComponent', 'selector': 'widget-calendar-plot'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
     var DIRECTIVES = [{'name': 'LoadingDirective', 'selector': '[appIsLoading]'},{'name': 'TooltipDirective', 'selector': '[uiTooltip]'},{'name': 'WidgetTypeDirective', 'selector': '[widgetContainer]'},{'name': 'WidgetTypeExampleDirective', 'selector': '[appWidgetTypeExample]'}];
     var ACTUAL_COMPONENT = {'name': 'MonitorViewComponent'};
 </script>
