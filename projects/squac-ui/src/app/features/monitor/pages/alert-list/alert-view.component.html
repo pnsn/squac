@@ -1,0 +1,73 @@
+<shared-detail-page
+  [options]="pageOptions"
+  type="Alert"
+  title="Alerts"
+>
+  <ng-container bodyContent>
+    <shared-table-view
+      title="Alerts"
+      [isLoading]="loadingService.isLoading$(this) | async"
+      [options]="options"
+      [rows]="rows"
+      [columns]="columns"
+      [controls]="controls"
+      [filters]="filters"
+      (refresh)="refresh()"
+    >
+      <ng-container tableHeadFilters>
+        <div class="row">
+          <shared-date-select
+            [ngStyle]="{'z-index': 100}"
+            [secondsAgoFromNow]="timeRange"
+            [initialStartDate]="starttime"
+            [initialEndDate]="endtime"
+            [timeRanges]="datePickerTimeRanges"
+            (datesChanged)="datesChanged($event)"
+          >
+          </shared-date-select>
+          <button
+            mat-raised-button
+            color="accent"
+            (click)="update()"
+            [disabled]="!this.unsavedChanges"
+          >
+            Update
+          </button>
+        </div>
+      </ng-container>
+    </shared-table-view>
+  </ng-container>
+</shared-detail-page>
+<router-outlet></router-outlet>
+<ng-template
+  let-row="row"
+  #stateTemplate
+>
+  <monitor-alarm-status [inAlarm]="row.inAlarm"></monitor-alarm-status>
+</ng-template>
+<ng-template
+  #monitorTemplate
+  let-row="row"
+>
+  <a [routerLink]="['/monitors', row.monitorId]">{{ row.monitorName }}</a>
+</ng-template>
+<ng-template
+  #triggerTemplate
+  let-row="row"
+>
+  values for
+  <span *ngIf="row.numChannelsOperator !== '=='">
+    {{ row.numChannelsOperator }}
+  </span>
+  {{ row.numChannels }} channel(s) in are {{ row.valueOperator }}
+  {{ row.val1 }}
+  <span *ngIf="row.val2 !== null && row.val2 !== undefined">
+    and {{ row.val2 }}
+  </span>
+</ng-template>
+<ng-template
+  let-row="row"
+  #channelsTemplate
+>
+  {{ row.breachingChannels.length }}
+</ng-template>

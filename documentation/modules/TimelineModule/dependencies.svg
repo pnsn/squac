@@ -18,13 +18,13 @@
 <title>cluster_TimelineModule_imports</title>
 <polygon fill="none" stroke="black" points="172,-40.8 172,-92.8 286,-92.8 286,-40.8 172,-40.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_TimelineModule_exports</title>
-<polygon fill="none" stroke="black" points="75,-170.8 75,-222.8 227,-222.8 227,-170.8 75,-170.8"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_TimelineModule_declarations</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 164,-92.8 164,-40.8 16,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_TimelineModule_exports</title>
+<polygon fill="none" stroke="black" points="75,-170.8 75,-222.8 227,-222.8 227,-170.8 75,-170.8"/>
 </g>
 <!-- TimelineComponent -->
 <g id="node1" class="node">

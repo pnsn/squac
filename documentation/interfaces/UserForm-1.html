@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -44,28 +102,34 @@
 
 
 <ol class="breadcrumb">
-  <li>Interfaces</li>
-  <li
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
   >
   UserForm</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info">
+    <div class="tab-pane fade active in" id="info">
         <p class="comment">
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/squac-ui/src/app/features/user/components/user-edit/user-edit.component.ts</code>
+            <code>projects/squac-ui/src/app/features/user/components/organization-edit/organization-edit.component.ts</code>
         </p>
 
 
@@ -73,12 +137,12 @@
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>User edit form fields</p>
+                <p>Form for adding user to organization</p>
 
             </p>
 
 
-        <section>
+        <section data-compodoc="block-index">
             <h3 id="index">Index</h3>
             <table class="table table-sm table-bordered index-table">
                 <tbody>
@@ -91,21 +155,33 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
+                                        <a href="#email" 
+>
+                                            email
+                                        </a>
+                                </li>
+                                <li>
                                         <a href="#firstname" 
 >
                                             firstname
                                         </a>
                                 </li>
                                 <li>
-                                        <a href="#lastname" 
+                                        <a href="#groups" 
 >
-                                            lastname
+                                            groups
                                         </a>
                                 </li>
                                 <li>
-                                        <a href="#passwords" 
+                                        <a href="#isAdmin" 
 >
-                                            passwords
+                                            isAdmin
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#lastname" 
+>
+                                            lastname
                                         </a>
                                 </li>
                             </ul>
@@ -117,8 +193,47 @@
 
 
 
-            <section>
+            <section data-compodoc="block-properties">
                 <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="email"></a>
+                                        <span class="name "><b>email</b>
+                                            <a href="#email">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>email:     <code>FormControl&lt;string&gt;</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>FormControl&lt;string&gt;</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>user&#39;s email</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                     <table class="table table-sm table-bordered">
                         <tbody>
                                 <tr>
@@ -150,6 +265,90 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>user&#39;s first name</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="groups"></a>
+                                        <span class="name "><b>groups</b>
+                                            <a href="#groups">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>groups:     <code>FormControl&lt;Array&lt;string&gt;&gt;</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>FormControl&lt;Array&lt;string&gt;&gt;</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>user permission groups</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="isAdmin"></a>
+                                        <span class="name "><b>isAdmin</b>
+                                            <a href="#isAdmin">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>isAdmin:     <code>FormControl&lt;boolean&gt;</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>FormControl&lt;boolean&gt;</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>is user an admin for organization</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -183,151 +382,214 @@
 
 
 
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="passwords"></a>
-                                        <span class="name "><b>passwords</b>
-                                            <a href="#passwords">
-                                                <span class="icon ion-ios-link"></span>
-                                            </a>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>passwords:     <code>FormGroup&lt;PasswordsForm&gt;</code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>    <code>FormGroup&lt;PasswordsForm&gt;</code>
-
-                                        </td>
-                                    </tr>
-
-
-
-
-
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>user&#39;s last name</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
             </section>
     </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &quot;@angular/core&quot;;
-import { ActivatedRoute, Router } from &quot;@angular/router&quot;;
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Inject, OnDestroy, OnInit } from &quot;@angular/core&quot;;
 import {
-  Validators,
-  ValidationErrors,
+  FormBuilder,
   FormControl,
   FormGroup,
+  ReactiveFormsModule,
+  Validators,
 } from &quot;@angular/forms&quot;;
+import { User } from &quot;squacapi&quot;;
+import { Subscription } from &quot;rxjs&quot;;
+import {
+  MatDialogModule,
+  MatDialogRef,
+  MAT_DIALOG_DATA as MAT_DIALOG_DATA,
+} from &quot;@angular/material/dialog&quot;;
+import { MessageService } from &quot;@core/services/message.service&quot;;
 import { InviteService } from &quot;squacapi&quot;;
+import { OrganizationUserService } from &quot;squacapi&quot;;
+import { MatIconModule } from &quot;@angular/material/icon&quot;;
+import { MatFormFieldModule } from &quot;@angular/material/form-field&quot;;
+import { MatInputModule } from &quot;@angular/material/input&quot;;
+import { MatOptionModule } from &quot;@angular/material/core&quot;;
+import { NgFor, NgIf } from &quot;@angular/common&quot;;
+import { MatSelectModule } from &quot;@angular/material/select&quot;;
+import { MatButtonModule } from &quot;@angular/material/button&quot;;
+import { MatCheckboxModule } from &quot;@angular/material/checkbox&quot;;
 
-/** Password form fields */
-interface PasswordsForm {
-  password: FormControl&lt;string&gt;;
-  confirm: FormControl&lt;string&gt;;
-}
-
-/** User edit form fields */
+/** Form for adding user to organization */
 interface UserForm {
+  /** user&#x27;s email */
+  email: FormControl&lt;string&gt;;
+  /** user&#x27;s first name */
   firstname: FormControl&lt;string&gt;;
+  /** user&#x27;s last name */
   lastname: FormControl&lt;string&gt;;
-  passwords: FormGroup&lt;PasswordsForm&gt;;
+  /** is user an admin for organization */
+  isAdmin: FormControl&lt;boolean&gt;;
+  /** user permission groups */
+  groups: FormControl&lt;Array&lt;string&gt;&gt;;
 }
 /**
- * User edit component after creation
+ * Edit or add users to organizations
  */
 @Component({
-  selector: &quot;user-edit&quot;,
-  templateUrl: &quot;./user-edit.component.html&quot;,
-  styleUrls: [&quot;./user-edit.component.scss&quot;],
+  selector: &quot;user-organization-edit&quot;,
+  templateUrl: &quot;./organization-edit.component.html&quot;,
+  standalone: true,
+  imports: [
+    MatIconModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatOptionModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatCheckboxModule,
+    NgIf,
+    NgFor,
+  ],
 })
-export class UserEditComponent implements OnInit {
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private inviteService: InviteService
-  ) {}
-  tokenValidated &#x3D; false; // has token been validated
-  error: string; // error message
-  hide &#x3D; true; // show/hide password
-  attempts &#x3D; 0; // soft block for too many
-  token: string; // the token
+export class OrganizationEditComponent implements OnInit, OnDestroy {
+  subscriptions: Subscription &#x3D; new Subscription();
+  user: User;
+  editMode: boolean;
+  orgId: number;
   userForm: FormGroup&lt;UserForm&gt;;
 
-  /** init form */
+  userIsActive &#x3D; false;
+  groupTypes &#x3D; [
+    {
+      id: 1,
+      role: &quot;viewer&quot;,
+      description: &quot;can see all resources.&quot;,
+    },
+    {
+      id: 2,
+      role: &quot;reporter&quot;,
+      description: &quot;can create dashboards, channel groups, and monitors.&quot;,
+    },
+    {
+      id: 3,
+      role: &quot;contributor&quot;,
+      description: &quot;can add metrics and measurements.&quot;,
+    },
+  ];
+  constructor(
+    private formBuilder: FormBuilder,
+    public dialogRef: MatDialogRef&lt;OrganizationEditComponent&gt;,
+    private orgUserService: OrganizationUserService,
+    private messageService: MessageService,
+    private inviteService: InviteService,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
+
+  /**
+   * init data
+   */
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) &#x3D;&gt; {
-      this.token &#x3D; params[&quot;token&quot;];
-    });
+    this.user &#x3D; this.data[&quot;user&quot;];
+    this.orgId &#x3D; this.data[&quot;orgId&quot;];
 
-    this.userForm &#x3D; new FormGroup({
-      firstname: new FormControl(&quot;&quot;, [Validators.required]),
-      lastname: new FormControl(&quot;&quot;, [Validators.required]),
-      passwords: new FormGroup(
-        {
-          password: new FormControl(&quot;&quot;, [
-            Validators.minLength(8),
-            Validators.required,
-          ]),
-          confirm: new FormControl(&quot;&quot;, [
-            Validators.minLength(8),
-            Validators.required,
-          ]),
-        },
-        [this.passwordValidator]
+    this.editMode &#x3D; !!this.user;
+    this.userForm &#x3D; this.formBuilder.group({
+      email: new FormControl(
+        { value: &quot;&quot;, disabled: this.editMode },
+        this.editMode ? [] : [Validators.required, Validators.email]
       ),
+      firstname: new FormControl(&quot;&quot;, Validators.required),
+      lastname: new FormControl(&quot;&quot;, Validators.required),
+      isAdmin: new FormControl(false),
+      groups: new FormControl(null, Validators.required),
+    });
+
+    this.initForm();
+  }
+
+  /** unsubscribe */
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
+  /** Set up form values */
+  private initForm(): void {
+    if (this.editMode) {
+      this.userForm.patchValue({
+        email: this.user.email,
+        firstname: this.user.firstname,
+        lastname: this.user.lastname,
+        isAdmin: this.user.isAdmin,
+        groups: this.user.groups,
+      });
+      this.userIsActive &#x3D; this.user.isActive;
+    }
+  }
+
+  /** deactivates user */
+  deactivate(): void {
+    this.userIsActive &#x3D; false;
+  }
+
+  /** saves new user */
+  save(): void {
+    const values &#x3D; this.userForm.value;
+    const user &#x3D; new User({
+      id: this.user ? this.user.id : null,
+      email: values.email ?? this.user.email,
+      firstname: values.firstname,
+      lastname: values.lastname,
+      organization: this.orgId,
+      isOrgAdmin: values.isAdmin,
+      groups: values.groups,
+      isActive: this.userIsActive,
+    });
+
+    this.orgUserService.updateOrCreate(user).subscribe({
+      next: (userId: number) &#x3D;&gt; {
+        if (!user.isActive) {
+          this.sendInvite(userId, user.email);
+        }
+
+        this.messageService.message(&#x60;Updated user ${user.email}.&#x60;);
+        this.cancel(userId);
+      },
+      error: () &#x3D;&gt; {
+        this.messageService.error(&#x60;Could not add user.&#x60;);
+      },
     });
   }
 
   /**
-   * Check passwords match
+   * sends invite to new user
    *
-   * @param group form group
-   * @returns validator function
+   * @param id user id
+   * @param email user email
    */
-  passwordValidator(group: FormGroup&lt;PasswordsForm&gt;): ValidationErrors | null {
-    return group.value.password &amp;&amp;
-      group.value.confirm &amp;&amp;
-      group.value.password &#x3D;&#x3D;&#x3D; group.value.confirm
-      ? null
-      : { mismatch: true };
+  sendInvite(id: number, email: string): void {
+    this.inviteService.sendInviteToUser(id).subscribe({
+      next: () &#x3D;&gt; {
+        this.messageService.message(&#x60;Invitation email sent to ${email}.&#x60;);
+      },
+      error: (error) &#x3D;&gt; {
+        this.messageService.error(error);
+      },
+    });
   }
 
   /**
-   * Send password and user information to squacapi
+   * cancels without saving changes
+   *
+   * @param userId number
    */
-  sendPassword(): void {
-    const values &#x3D; this.userForm.value;
-    const password1 &#x3D; values.passwords.password;
-    const password2 &#x3D; values.passwords.confirm;
-
-    if (password1 !&#x3D;&#x3D; password2) {
-      return;
-    }
-    this.inviteService
-      .registerUser(values.firstname, values.lastname, this.token, password1)
-      .subscribe({
-        next: (response) &#x3D;&gt; {
-          // go to next step
-          this.router.navigate([&quot;/login&quot;]);
-          this.tokenValidated &#x3D; !!response;
-        },
-        error: (error) &#x3D;&gt; {
-          this.error &#x3D; error;
-        },
-      });
+  cancel(userId?): void {
+    this.dialogRef.close(userId);
+    // route out of edit
   }
 }
 </code></pre>

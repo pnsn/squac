@@ -1,13 +1,15 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormBuilder } from "@angular/forms";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA as MAT_DIALOG_DATA,
+} from "@angular/material/dialog";
 import { ActivatedRoute } from "@angular/router";
 import { UserService } from "@user/services/user.service";
 import { of } from "rxjs";
 
 import { MonitorEditComponent } from "./monitor-edit.component";
 import { MockBuilder } from "ng-mocks";
-import { MonitorModule } from "@monitor/monitor.module";
 import { RouterTestingModule } from "@angular/router/testing";
 
 describe("MonitorEditComponent", () => {
@@ -19,7 +21,6 @@ describe("MonitorEditComponent", () => {
 
   beforeEach(() => {
     return MockBuilder(MonitorEditComponent)
-      .mock(MonitorModule)
       .mock(RouterTestingModule.withRoutes([]))
       .mock(UserService)
       .keep(FormBuilder)

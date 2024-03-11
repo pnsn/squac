@@ -7,25 +7,46 @@ import {
   Output,
   SimpleChanges,
 } from "@angular/core";
-import { Location } from "@angular/common";
+import { Location, NgClass, NgFor, NgIf } from "@angular/common";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ChannelGroup } from "squacapi";
 import { ChannelGroupService } from "squacapi";
-import { MatFormFieldAppearance } from "@angular/material/form-field";
+import {
+  MatFormFieldAppearance,
+  MatFormFieldModule,
+} from "@angular/material/form-field";
+import { FormsModule } from "@angular/forms";
+import { MatOptionModule } from "@angular/material/core";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatInputModule } from "@angular/material/input";
 
 /** Grouping of Channel Groups with a name and form value */
 interface Group {
+  /** name of group to show as label */
   name: string;
+  /** value for form option */
   value: string;
+  /** list of ChannelGroups to display */
   groups: ChannelGroup[];
 }
+
 /**
  * Dropdown select for channel groups
  */
 @Component({
   selector: "shared-channel-group-selector",
   templateUrl: "./channel-group-selector.component.html",
-  styleUrls: ["./channel-group-selector.component.scss"],
+  standalone: true,
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    NgIf,
+    NgFor,
+    NgClass,
+    MatOptionModule,
+    MatAutocompleteModule,
+  ],
 })
 export class ChannelGroupSelectorComponent implements OnInit, OnChanges {
   /** channel group id */
@@ -35,7 +56,7 @@ export class ChannelGroupSelectorComponent implements OnInit, OnChanges {
   /** true if field required */
   @Input() required = false;
   /** form appearance */
-  @Input() appearance: MatFormFieldAppearance = "standard";
+  @Input() appearance: MatFormFieldAppearance = "fill";
   /** true if use dense style */
   @Input() dense = false;
   /** channel groups available for select */

@@ -1,0 +1,32 @@
+@import "mixins";
+
+mat-toolbar {
+  height: 47px;
+}
+.menu-items {
+  display: none;
+}
+@include sm {
+  .menu-items {
+    display: flex;
+  }
+  .menu-button {
+    display: none;
+  }
+}
+#logo {
+  height: 40px;
+  width: auto;
+  img {
+    height: 100%;
+    width: auto;
+  }
+}
+
+.main-sidenav-container {
+  position: absolute;
+  top: 47px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}

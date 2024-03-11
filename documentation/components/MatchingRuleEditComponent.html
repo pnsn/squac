@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -35,36 +93,41 @@
 
 
 <ol class="breadcrumb">
-  <li>Components</li>
-  <li
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
   >
   MatchingRuleEditComponent</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
-        <li >
-            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
         </li>
-        <li >
-            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
         </li>
-        <li >
-            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
     <h3>File</h3>
 </p>
 <p class="comment">
-    <code>projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts</code>
+    <code>projects/squac-ui/src/app/features/channel-group/components/matching-rule-edit/matching-rule-edit.component.ts</code>
 </p>
 
 
@@ -81,13 +144,13 @@
         <h3>Implements</h3>
     </p>
     <p class="comment">
-                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
-                    <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
-                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+                <code>OnInit</code>
+                <code>OnChanges</code>
+                <code>OnDestroy</code>
     </p>
 
 
-<section>
+<section data-compodoc="block-metadata">
     <h3>Metadata</h3>
     <table class="table table-sm table-hover metadata">
         <tbody>
@@ -102,9 +165,29 @@
 
 
 
+
             <tr>
                 <td class="col-md-3">selector</td>
                 <td class="col-md-9"><code>channel-group-matching-rule-edit</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">Standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>MatButtonModule</code>
+                                <code><a href="../directives/TooltipDirective.html" target="_self" >TooltipDirective</a></code>
+                            <code>MatIconModule</code>
+                            <code>ReactiveFormsModule</code>
+                            <code>CommonModule</code>
+                            <code>MatFormFieldModule</code>
+                            <code>MatInputModule</code>
+                            <code>MatCheckboxModule</code>
+                </td>
             </tr>
 
             <tr>
@@ -130,7 +213,7 @@
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -259,18 +342,18 @@
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-constructor">
     <h3 id="constructor">Constructor</h3>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(formBuilder: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>)</code>
+<code>constructor(formBuilder: FormBuilder)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:56</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/matching-rule-edit/matching-rule-edit.component.ts:80</a></div>
                             </td>
                         </tr>
 
@@ -291,7 +374,7 @@
                                                         <td>formBuilder</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+                                                                    <code>FormBuilder</code>
                                                         </td>
                                                   
                                                     <td>
@@ -308,7 +391,7 @@
         </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-inputs">
     <h3 id="inputs">Inputs</h3>
         <table class="table table-sm table-bordered">
             <tbody>
@@ -326,7 +409,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:51</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/matching-rule-edit/matching-rule-edit.component.ts:75</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -347,13 +430,13 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:50</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/matching-rule-edit/matching-rule-edit.component.ts:74</a></div>
                             </td>
                         </tr>
             </tbody>
         </table>
 </section>
-    <section>
+    <section data-compodoc="block-outputs">
     <h3 id="outputs">Outputs</h3>
         <table class="table table-sm table-bordered">
             <tbody>
@@ -365,13 +448,13 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+                        <i>Type : </i>    <code>EventEmitter</code>
 
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:54</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/matching-rule-edit/matching-rule-edit.component.ts:78</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -386,13 +469,13 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+                        <i>Type : </i>    <code>EventEmitter</code>
 
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:52</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/matching-rule-edit/matching-rule-edit.component.ts:76</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -407,13 +490,13 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+                        <i>Type : </i>    <code>EventEmitter</code>
 
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:53</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/matching-rule-edit/matching-rule-edit.component.ts:77</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -421,7 +504,7 @@
 </section>
 
 
-    <section>
+    <section data-compodoc="block-methods">
     
     <h3 id="methods">
         Methods
@@ -444,60 +527,58 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="176"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:176</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="200"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/matching-rule-edit/matching-rule-edit.component.ts:200</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Add new matching rule</p>
+                        <div class="io-description"><p>Add new matching rule</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>rule</td>
-                                    <td>
-                                            <code>MatchingRule</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>rule</td>
+                                            <td>
+                                                        <code>MatchingRule</code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    Yes
+                                            </td>
 
 
-                                    <td>
-                                        <p>rule to add</p>
+                                            <td>
+                                                    <p>rule to add</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -520,23 +601,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="184"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:184</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="208"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/matching-rule-edit/matching-rule-edit.component.ts:208</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Set up rule form</p>
+                        <div class="io-description"><p>Set up rule form</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -559,61 +640,59 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="108"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:108</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="132"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/matching-rule-edit/matching-rule-edit.component.ts:132</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>make form for matching rule</p>
+                        <div class="io-description"><p>make form for matching rule</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>rule</td>
-                                    <td>
-                                            <code>MatchingRule</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>rule</td>
+                                            <td>
+                                                        <code>MatchingRule</code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    Yes
+                                            </td>
 
 
-                                    <td>
-                                        <p>new matching rule to add</p>
+                                            <td>
+                                                    <p>new matching rule to add</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>FormGroup&lt;MatchingRuleForm&gt;</code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>FormGroup&lt;MatchingRuleForm&gt;</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>created form group</p>
+                        </div>
+                            <div class="io-description">
+                                <p>created form group</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -631,65 +710,63 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>ngOnChanges(changes: <a href="https://angular.io/api/core/SimpleChanges" target="_blank">SimpleChanges</a>)</code>
+<code>ngOnChanges(changes: SimpleChanges)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="88"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:88</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="112"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/matching-rule-edit/matching-rule-edit.component.ts:112</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Listen to input changes</p>
+                        <div class="io-description"><p>Listen to input changes</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>changes</td>
-                                    <td>
-                                                <code><a href="https://angular.io/api/core/SimpleChanges" target="_blank" >SimpleChanges</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>changes</td>
+                                            <td>
+                                                        <code>SimpleChanges</code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>input changes</p>
+                                            <td>
+                                                    <p>input changes</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -712,23 +789,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="98"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:98</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="122"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/matching-rule-edit/matching-rule-edit.component.ts:122</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>unsubscribe</p>
+                        <div class="io-description"><p>unsubscribe</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -751,23 +828,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="66"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:66</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="90"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/matching-rule-edit/matching-rule-edit.component.ts:90</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Subscrive to value changes on form</p>
+                        <div class="io-description"><p>Subscrive to value changes on form</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -790,23 +867,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="210"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:210</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="234"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/matching-rule-edit/matching-rule-edit.component.ts:234</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Emit matching rules</p>
+                        <div class="io-description"><p>Emit matching rules</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -829,60 +906,58 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="161"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:161</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="185"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/matching-rule-edit/matching-rule-edit.component.ts:185</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Removes rule at given index and emit results</p>
+                        <div class="io-description"><p>Removes rule at given index and emit results</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>index</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>index</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>rule index</p>
+                                            <td>
+                                                    <p>rule index</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -905,23 +980,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="152"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:152</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="176"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/matching-rule-edit/matching-rule-edit.component.ts:176</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Emit updated rules</p>
+                        <div class="io-description"><p>Emit updated rules</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -944,98 +1019,96 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="201"
-                            class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:201</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="225"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/matching-rule-edit/matching-rule-edit.component.ts:225</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Ensure form is uppercased</p>
+                        <div class="io-description"><p>Ensure form is uppercased</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>eventTarget</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>eventTarget</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>form field</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>source</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>form control</p>
+                                            <td>
+                                                    <p>form field</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>index</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>source</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>form index</p>
+                                            <td>
+                                                    <p>form control</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>index</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>form index</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </section>
-    <section>
+    <section data-compodoc="block-properties">
     
     <h3 id="inputs">
         Properties
@@ -1059,7 +1132,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:49</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/matching-rule-edit/matching-rule-edit.component.ts:73</a></div>
                         </td>
                     </tr>
 
@@ -1092,7 +1165,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:59</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/matching-rule-edit/matching-rule-edit.component.ts:83</a></div>
                         </td>
                     </tr>
 
@@ -1123,7 +1196,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:56</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/matching-rule-edit/matching-rule-edit.component.ts:80</a></div>
                         </td>
                     </tr>
 
@@ -1148,7 +1221,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:55</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/matching-rule-edit/matching-rule-edit.component.ts:79</a></div>
                         </td>
                     </tr>
 
@@ -1157,7 +1230,7 @@
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-accessors">
     <h3 id="accessors">
         Accessors
     </h3>
@@ -1177,7 +1250,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="143" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts:143</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="167" class="link-to-prism">projects/squac-ui/src/app/features/channel-group/components/matching-rule-edit/matching-rule-edit.component.ts:167</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1198,7 +1271,7 @@
 </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
+    <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   Component,
   EventEmitter,
@@ -1209,10 +1282,23 @@
   Output,
   SimpleChanges,
 } from &quot;@angular/core&quot;;
-import { FormArray, FormBuilder, FormControl, FormGroup } from &quot;@angular/forms&quot;;
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from &quot;@angular/forms&quot;;
 import { atLeastOneValidator, regexValidator } from &quot;@core/utils/validators&quot;;
 import { MatchingRule } from &quot;squacapi&quot;;
 import { Subscription } from &quot;rxjs&quot;;
+import { MatButtonModule } from &quot;@angular/material/button&quot;;
+import { MatIconModule } from &quot;@angular/material/icon&quot;;
+import { CommonModule } from &quot;@angular/common&quot;;
+import { MatFormFieldModule } from &quot;@angular/material/form-field&quot;;
+import { MatInputModule } from &quot;@angular/material/input&quot;;
+import { MatCheckboxModule } from &quot;@angular/material/checkbox&quot;;
+import { TooltipDirective } from &quot;@shared/directives/tooltip.directive&quot;;
 
 /** Matching rule edit form fields */
 interface MatchingRuleForm {
@@ -1245,6 +1331,17 @@ interface MatchingRulesForm {
   selector: &quot;channel-group-matching-rule-edit&quot;,
   templateUrl: &quot;./matching-rule-edit.component.html&quot;,
   styleUrls: [&quot;./matching-rule-edit.component.scss&quot;],
+  standalone: true,
+  imports: [
+    MatButtonModule,
+    TooltipDirective,
+    MatIconModule,
+    ReactiveFormsModule,
+    CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+  ],
 })
 export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
   _matchingRules: MatchingRule[];
@@ -1415,7 +1512,7 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
 </code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-templateData">
+    <div class="tab-pane fade " id="templateData">
         <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;row space-between&quot;&gt;
   &lt;button
     mat-button
@@ -1450,11 +1547,11 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
       class&#x3D;&quot;header-row&quot;
       *ngIf&#x3D;&quot;rules.controls.length &gt; 0&quot;
     &gt;
-      &lt;div class&#x3D;&quot;medium&quot;&gt;&lt;span&gt;include?&lt;/span&gt;&lt;/div&gt;
-      &lt;div class&#x3D;&quot;field-column&quot;&gt;&lt;span&gt;network&lt;/span&gt;&lt;/div&gt;
-      &lt;div class&#x3D;&quot;field-column&quot;&gt;&lt;span&gt;station&lt;/span&gt;&lt;/div&gt;
-      &lt;div class&#x3D;&quot;field-column&quot;&gt;&lt;span&gt;location&lt;/span&gt;&lt;/div&gt;
-      &lt;div class&#x3D;&quot;field-column&quot;&gt;&lt;span&gt;channel&lt;/span&gt;&lt;/div&gt;
+      &lt;div class&#x3D;&quot;medium&quot;&gt;&lt;span&gt;incl.?&lt;/span&gt;&lt;/div&gt;
+      &lt;div class&#x3D;&quot;field-column&quot;&gt;&lt;span&gt;net&lt;/span&gt;&lt;/div&gt;
+      &lt;div class&#x3D;&quot;field-column&quot;&gt;&lt;span&gt;sta&lt;/span&gt;&lt;/div&gt;
+      &lt;div class&#x3D;&quot;field-column&quot;&gt;&lt;span&gt;loc&lt;/span&gt;&lt;/div&gt;
+      &lt;div class&#x3D;&quot;field-column&quot;&gt;&lt;span&gt;chan&lt;/span&gt;&lt;/div&gt;
       &lt;div class&#x3D;&quot;narrow&quot;&gt;&lt;/div&gt;
     &lt;/div&gt;
     &lt;ng-container *ngIf&#x3D;&quot;rules.controls.length &#x3D;&#x3D;&#x3D; 0&quot;&gt;
@@ -1467,6 +1564,7 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
       &gt;
         &lt;div class&#x3D;&quot;medium&quot;&gt;
           &lt;mat-checkbox
+            class&#x3D;&quot;dense-checkbox&quot;
             #isInclude
             formControlName&#x3D;&quot;isInclude&quot;
             (change)&#x3D;&quot;updateRules()&quot;
@@ -1475,7 +1573,10 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
         &lt;/div&gt;
 
         &lt;div class&#x3D;&quot;field-column&quot;&gt;
-          &lt;mat-form-field&gt;
+          &lt;mat-form-field
+            class&#x3D;&quot;dense-form-field&quot;
+            subscriptSizing&#x3D;&quot;dynamic&quot;
+          &gt;
             &lt;input
               #networkRegex
               matInput
@@ -1487,7 +1588,10 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
         &lt;/div&gt;
 
         &lt;div class&#x3D;&quot;field-column&quot;&gt;
-          &lt;mat-form-field&gt;
+          &lt;mat-form-field
+            class&#x3D;&quot;dense-form-field&quot;
+            subscriptSizing&#x3D;&quot;dynamic&quot;
+          &gt;
             &lt;input
               #stationRegex
               matInput
@@ -1499,7 +1603,10 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
         &lt;/div&gt;
 
         &lt;div class&#x3D;&quot;field-column&quot;&gt;
-          &lt;mat-form-field&gt;
+          &lt;mat-form-field
+            class&#x3D;&quot;dense-form-field&quot;
+            subscriptSizing&#x3D;&quot;dynamic&quot;
+          &gt;
             &lt;input
               #locationRegex
               matInput
@@ -1510,8 +1617,14 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
           &lt;/mat-form-field&gt;
         &lt;/div&gt;
 
-        &lt;div class&#x3D;&quot;field-column&quot;&gt;
-          &lt;mat-form-field&gt;
+        &lt;div
+          class&#x3D;&quot;field-column&quot;
+          subscriptSizing&#x3D;&quot;dynamic&quot;
+        &gt;
+          &lt;mat-form-field
+            class&#x3D;&quot;dense-form-field&quot;
+            subscriptSizing&#x3D;&quot;dynamic&quot;
+          &gt;
             &lt;input
               #channelRegex
               matInput
@@ -1525,6 +1638,7 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
         &lt;div class&#x3D;&quot;narrow&quot;&gt;
           &lt;button
             mat-icon-button
+            class&#x3D;&quot;dense-icon-button&quot;
             type&#x3D;&quot;button&quot;
             (click)&#x3D;&quot;removeRule(i)&quot;
           &gt;
@@ -1549,7 +1663,7 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
 &lt;/form&gt;</code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-styleData">
+    <div class="tab-pane fade " id="styleData">
                 <p class="comment">
                     <code>./matching-rule-edit.component.scss</code>
                 </p>
@@ -1567,12 +1681,13 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
     width: calc(25% - 25px);
     overflow: hidden;
     text-overflow: ellipsis;
+    margin: 0px 2px;
     span {
       text-overflow: ellipsis;
     }
-    mat-form-field {
-      width: calc(95%);
-    }
+    // mat-form-field {
+    //   width: calc(95%);
+    // }
   }
 }
 
@@ -1586,7 +1701,7 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
 </code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-tree">
+    <div class="tab-pane fade " id="tree">
         <div id="tree-container"></div>
         <div class="tree-legend">
             <div class="title">
@@ -1611,8 +1726,8 @@ export class MatchingRuleEditComponent implements OnInit, OnChanges, OnDestroy {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="row space-between">  <button    mat-button    color="primary"    (click)="previewChannels()"    uiTooltip="Test regular expressions"    aria-label="Button that searches for channels"    [disabled]="!_matchingRules || _matchingRules?.length === 0 || !rules.valid"  >    test regex  </button>  <button    mat-button    (click)="addRule()"    uiTooltip="Add new regular expressions"  >    <mat-icon>add</mat-icon>    add regex  </button></div><form  #rulesForm  [formGroup]="matchingRulesForm">  <div    formArrayName="rules"    id="rules-container"  >    <div      class="header-row"      *ngIf="rules.controls.length > 0"    >      <div class="medium"><span>include?</span></div>      <div class="field-column"><span>network</span></div>      <div class="field-column"><span>station</span></div>      <div class="field-column"><span>location</span></div>      <div class="field-column"><span>channel</span></div>      <div class="narrow"></div>    </div>    <ng-container *ngIf="rules.controls.length === 0">      <span>No rules.</span>    </ng-container>    <ng-container *ngFor="let rule of rules.controls; let i = index">      <div        [formGroupName]="i"        class="rule-row"      >        <div class="medium">          <mat-checkbox            #isInclude            formControlName="isInclude"            (change)="updateRules()"          >          </mat-checkbox>        </div>        <div class="field-column">          <mat-form-field>            <input              #networkRegex              matInput              formControlName="networkRegex"              (keyup)="uppercase($event.target, \'networkRegex\', i)"              (focusout)="updateRules()"            />          </mat-form-field>        </div>        <div class="field-column">          <mat-form-field>            <input              #stationRegex              matInput              formControlName="stationRegex"              (keyup)="uppercase($event.target, \'stationRegex\', i)"              (focusout)="updateRules()"            />          </mat-form-field>        </div>        <div class="field-column">          <mat-form-field>            <input              #locationRegex              matInput              formControlName="locationRegex"              (keyup)="uppercase($event.target, \'locationRegex\', i)"              (focusout)="updateRules()"            />          </mat-form-field>        </div>        <div class="field-column">          <mat-form-field>            <input              #channelRegex              matInput              formControlName="channelRegex"              (keyup)="uppercase($event.target, \'channelRegex\', i)"              (focusout)="updateRules()"            />          </mat-form-field>        </div>        <div class="narrow">          <button            mat-icon-button            type="button"            (click)="removeRule(i)"          >            <mat-icon>close</mat-icon>          </button>        </div>      </div>      <div *ngIf="rules.controls[i].errors as errors">        <span class="warn-text">          {{ errors["atLeastOne"].message }}        </span>      </div>      <ng-container *ngFor="let field of [\'network\', \'station\', \'location\', \'channel\']">        <div *ngIf="rules.controls[i].get(field + \'Regex\').errors as errors">          <span class="warn-text">            {{ errors["invalidRegex"].message }} for {{ field }}          </span>        </div>      </ng-container>    </ng-container>  </div></form></div>'
-    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'SnackbarComponent', 'selector': 'shared-snackbar'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
+        var COMPONENT_TEMPLATE = '<div><div class="row space-between">  <button    mat-button    color="primary"    (click)="previewChannels()"    uiTooltip="Test regular expressions"    aria-label="Button that searches for channels"    [disabled]="!_matchingRules || _matchingRules?.length === 0 || !rules.valid"  >    test regex  </button>  <button    mat-button    (click)="addRule()"    uiTooltip="Add new regular expressions"  >    <mat-icon>add</mat-icon>    add regex  </button></div><form  #rulesForm  [formGroup]="matchingRulesForm">  <div    formArrayName="rules"    id="rules-container"  >    <div      class="header-row"      *ngIf="rules.controls.length > 0"    >      <div class="medium"><span>incl.?</span></div>      <div class="field-column"><span>net</span></div>      <div class="field-column"><span>sta</span></div>      <div class="field-column"><span>loc</span></div>      <div class="field-column"><span>chan</span></div>      <div class="narrow"></div>    </div>    <ng-container *ngIf="rules.controls.length === 0">      <span>No rules.</span>    </ng-container>    <ng-container *ngFor="let rule of rules.controls; let i = index">      <div        [formGroupName]="i"        class="rule-row"      >        <div class="medium">          <mat-checkbox            class="dense-checkbox"            #isInclude            formControlName="isInclude"            (change)="updateRules()"          >          </mat-checkbox>        </div>        <div class="field-column">          <mat-form-field            class="dense-form-field"            subscriptSizing="dynamic"          >            <input              #networkRegex              matInput              formControlName="networkRegex"              (keyup)="uppercase($event.target, \'networkRegex\', i)"              (focusout)="updateRules()"            />          </mat-form-field>        </div>        <div class="field-column">          <mat-form-field            class="dense-form-field"            subscriptSizing="dynamic"          >            <input              #stationRegex              matInput              formControlName="stationRegex"              (keyup)="uppercase($event.target, \'stationRegex\', i)"              (focusout)="updateRules()"            />          </mat-form-field>        </div>        <div class="field-column">          <mat-form-field            class="dense-form-field"            subscriptSizing="dynamic"          >            <input              #locationRegex              matInput              formControlName="locationRegex"              (keyup)="uppercase($event.target, \'locationRegex\', i)"              (focusout)="updateRules()"            />          </mat-form-field>        </div>        <div          class="field-column"          subscriptSizing="dynamic"        >          <mat-form-field            class="dense-form-field"            subscriptSizing="dynamic"          >            <input              #channelRegex              matInput              formControlName="channelRegex"              (keyup)="uppercase($event.target, \'channelRegex\', i)"              (focusout)="updateRules()"            />          </mat-form-field>        </div>        <div class="narrow">          <button            mat-icon-button            class="dense-icon-button"            type="button"            (click)="removeRule(i)"          >            <mat-icon>close</mat-icon>          </button>        </div>      </div>      <div *ngIf="rules.controls[i].errors as errors">        <span class="warn-text">          {{ errors["atLeastOne"].message }}        </span>      </div>      <ng-container *ngFor="let field of [\'network\', \'station\', \'location\', \'channel\']">        <div *ngIf="rules.controls[i].get(field + \'Regex\').errors as errors">          <span class="warn-text">            {{ errors["invalidRegex"].message }} for {{ field }}          </span>        </div>      </ng-container>    </ng-container>  </div></form></div>'
+    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'BudComponent', 'selector': 'widget-calendar-plot'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
     var DIRECTIVES = [{'name': 'LoadingDirective', 'selector': '[appIsLoading]'},{'name': 'TooltipDirective', 'selector': '[uiTooltip]'},{'name': 'WidgetTypeDirective', 'selector': '[widgetContainer]'},{'name': 'WidgetTypeExampleDirective', 'selector': '[appWidgetTypeExample]'}];
     var ACTUAL_COMPONENT = {'name': 'MatchingRuleEditComponent'};
 </script>

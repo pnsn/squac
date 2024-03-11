@@ -1,0 +1,21 @@
+.filter-container {
+  // width: 100%;
+  width: auto;
+  gap: 10px;
+  margin-bottom: 20px;
+  &.denser {
+    margin-bottom: 0px;
+  }
+  .dense-form-field {
+    width: 90px;
+    flex-grow: 1;
+    max-width: 90px;
+    .no-input {
+      display: none;
+    }
+
+    .has-input {
+      display: inline-block;
+    }
+  }
+}

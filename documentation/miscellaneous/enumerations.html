@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -49,11 +107,11 @@
 
 
 <ol class="breadcrumb">
-  <li>Miscellaneous</li>
-  <li>Enumerations</li>
+  <li class="breadcrumb-item">Miscellaneous</li>
+  <li class="breadcrumb-item">Enumerations</li>
 </ol>
 
-<section>
+<section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -73,28 +131,25 @@
                             <a href="#InviteApiEndpoint" title="projects/squacapi/src/lib/enums/api-endpoints.enum.ts" ><b>InviteApiEndpoint</b>&nbsp;&nbsp;&nbsp;(projects/.../api-endpoints.enum.ts)</a>
                         </li>
                         <li>
-                            <a href="#LoadingIndicator" title="projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts" ><b>LoadingIndicator</b>&nbsp;&nbsp;&nbsp;(projects/.../dashboard-detail.component.ts)</a>
+                            <a href="#LoadingIndicator" title="projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts" ><b>LoadingIndicator</b>&nbsp;&nbsp;&nbsp;(projects/.../channel-group-edit.component.ts)</a>
                         </li>
                         <li>
-                            <a href="#LoadingIndicator" title="projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts" ><b>LoadingIndicator</b>&nbsp;&nbsp;&nbsp;(projects/.../channel-group-edit.component.ts)</a>
+                            <a href="#LoadingIndicator" title="projects/squac-ui/src/app/features/dashboard/pages/detail/dashboard-detail.component.ts" ><b>LoadingIndicator</b>&nbsp;&nbsp;&nbsp;(projects/.../dashboard-detail.component.ts)</a>
                         </li>
                         <li>
-                            <a href="#LoadingIndicator" title="projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts" ><b>LoadingIndicator</b>&nbsp;&nbsp;&nbsp;(projects/.../monitor-detail.component.ts)</a>
+                            <a href="#LoadingIndicator" title="projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts" ><b>LoadingIndicator</b>&nbsp;&nbsp;&nbsp;(projects/.../monitor-detail.component.ts)</a>
                         </li>
                         <li>
                             <a href="#LocalStorageTypes" title="projects/squac-ui/src/app/core/services/local-storage.service.ts" ><b>LocalStorageTypes</b>&nbsp;&nbsp;&nbsp;(projects/.../local-storage.service.ts)</a>
                         </li>
                         <li>
-                            <a href="#TooltipPosition" title="projects/squac-ui/src/app/ui/tooltip/tooltip.enums.ts" ><b>TooltipPosition</b>&nbsp;&nbsp;&nbsp;(projects/.../tooltip.enums.ts)</a>
+                            <a href="#TooltipPosition" title="projects/squac-ui/src/app/shared/directives/tooltip.enums.ts" ><b>TooltipPosition</b>&nbsp;&nbsp;&nbsp;(projects/.../tooltip.enums.ts)</a>
                         </li>
                         <li>
-                            <a href="#TooltipTheme" title="projects/squac-ui/src/app/ui/tooltip/tooltip.enums.ts" ><b>TooltipTheme</b>&nbsp;&nbsp;&nbsp;(projects/.../tooltip.enums.ts)</a>
+                            <a href="#TooltipTheme" title="projects/squac-ui/src/app/shared/directives/tooltip.enums.ts" ><b>TooltipTheme</b>&nbsp;&nbsp;&nbsp;(projects/.../tooltip.enums.ts)</a>
                         </li>
                         <li>
                             <a href="#WidgetErrors" title="projects/widgets/src/lib/enums/widget-errors.enum.ts" ><b>WidgetErrors</b>&nbsp;&nbsp;&nbsp;(projects/.../widget-errors.enum.ts)</a>
-                        </li>
-                        <li>
-                            <a href="#WidgetType" title="projects/widgets/src/lib/enums/widget-type.enum.ts" ><b>WidgetType</b>&nbsp;&nbsp;&nbsp;(projects/.../widget-type.enum.ts)</a>
                         </li>
                     </ul>
                 </td>
@@ -104,7 +159,7 @@
 </section>
 
     <h3>projects/squacapi/src/lib/enums/api-endpoints.enum.ts</h3>
-    <section>
+    <section data-compodoc="block-enums">
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
@@ -359,7 +414,7 @@
         </table>
 </section>
     <h3>projects/squacapi/src/lib/enums/api-method.enum.ts</h3>
-    <section>
+    <section data-compodoc="block-enums">
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
@@ -432,7 +487,7 @@
         </table>
 </section>
     <h3>projects/squac-ui/src/app/features/dashboard/interfaces/errors.ts</h3>
-    <section>
+    <section data-compodoc="block-enums">
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
@@ -454,31 +509,8 @@
             </tbody>
         </table>
 </section>
-    <h3>projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts</h3>
-    <section>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="LoadingIndicator"></a>
-                        <span class="name "><b>LoadingIndicator</b><a href="#LoadingIndicator"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;MAIN
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;CHANNEL_GROUP
-                            </td>
-                        </tr>
-            </tbody>
-        </table>
-</section>
-    <h3>projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts</h3>
-    <section>
+    <h3>projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts</h3>
+    <section data-compodoc="block-enums">
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
@@ -506,8 +538,8 @@
             </tbody>
         </table>
 </section>
-    <h3>projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts</h3>
-    <section>
+    <h3>projects/squac-ui/src/app/features/dashboard/pages/detail/dashboard-detail.component.ts</h3>
+    <section data-compodoc="block-enums">
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
@@ -516,6 +548,40 @@
                         <span class="name "><b>LoadingIndicator</b><a href="#LoadingIndicator"><span class="icon ion-ios-link"></span></a></span>
                     </td>
                 </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;MAIN
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;CHANNEL_GROUP
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;CHANNELS
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <h3>projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts</h3>
+    <section data-compodoc="block-enums">
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="LoadingIndicator"></a>
+                        <span class="name "><b>LoadingIndicator</b><a href="#LoadingIndicator"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-description"><p>loading indicator areas</p>
+</div>
+                        </td>
+                    </tr>
                         <tr>
                             <td class="col-md-4">
                                 &nbsp;RESULTS
@@ -530,7 +596,7 @@
         </table>
 </section>
     <h3>projects/squac-ui/src/app/core/services/local-storage.service.ts</h3>
-    <section>
+    <section data-compodoc="block-enums">
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
@@ -568,8 +634,8 @@
             </tbody>
         </table>
 </section>
-    <h3>projects/squac-ui/src/app/ui/tooltip/tooltip.enums.ts</h3>
-    <section>
+    <h3>projects/squac-ui/src/app/shared/directives/tooltip.enums.ts</h3>
+    <section data-compodoc="block-enums">
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
@@ -694,7 +760,7 @@
         </table>
 </section>
     <h3>projects/widgets/src/lib/enums/widget-errors.enum.ts</h3>
-    <section>
+    <section data-compodoc="block-enums">
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
@@ -740,7 +806,7 @@
                         </tr>
                         <tr>
                             <td class="col-md-4">
-                                <i>Value : </i><code>No measurements found.</code>
+                                <i>Value : </i><code>No measurements found for selected metric.</code>
                             </td>
                         </tr>
                         <tr>
@@ -761,89 +827,6 @@
                         <tr>
                             <td class="col-md-4">
                                 <i>Value : </i><code>Could not get data from SQUAC.</code>
-                            </td>
-                        </tr>
-            </tbody>
-        </table>
-</section>
-    <h3>projects/widgets/src/lib/enums/widget-type.enum.ts</h3>
-    <section>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="WidgetType"></a>
-                        <span class="name "><b>WidgetType</b><a href="#WidgetType"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;TABULAR
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>tabular</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;TIMELINE
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>timeline</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;TIMESERIES
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>timeseries</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;MAP
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>map</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;PARALLEL
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>parallel-plot</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;SCATTER
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>scatter-plot</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;CALENDAR
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>calendar-plot</code>
                             </td>
                         </tr>
             </tbody>

@@ -14,10 +14,6 @@
 <title>cluster_TabularModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 286,-230.8 286,-32.8 8,-32.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_TabularModule_exports</title>
-<polygon fill="none" stroke="black" points="75,-170.8 75,-222.8 219,-222.8 219,-170.8 75,-170.8"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_TabularModule_imports</title>
 <polygon fill="none" stroke="black" points="164,-40.8 164,-92.8 278,-92.8 278,-40.8 164,-40.8"/>
@@ -25,6 +21,10 @@
 <g id="clust2" class="cluster">
 <title>cluster_TabularModule_declarations</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 156,-92.8 156,-40.8 16,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_TabularModule_exports</title>
+<polygon fill="none" stroke="black" points="75,-170.8 75,-222.8 219,-222.8 219,-170.8 75,-170.8"/>
 </g>
 <!-- TabularComponent -->
 <g id="node1" class="node">

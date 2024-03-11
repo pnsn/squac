@@ -1,4 +1,10 @@
+import { NgIf } from "@angular/common";
 import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
 import { OrganizationService } from "squacapi";
 import { OrganizationPipe } from "squacapi";
 import { UserPipe } from "squacapi";
@@ -10,7 +16,17 @@ import { SearchFilterConfig, SearchProps } from "./interfaces";
 @Component({
   selector: "shared-search-filter",
   templateUrl: "./search-filter.component.html",
-  styleUrls: ["./search-filter.component.scss"],
+  standalone: true,
+  imports: [
+    UserPipe,
+    OrganizationPipe,
+    MatFormFieldModule,
+    MatIconModule,
+    MatButtonModule,
+    MatInputModule,
+    NgIf,
+    FormsModule,
+  ],
 })
 export class SearchFilterComponent {
   userPipe: UserPipe;

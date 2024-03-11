@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   Input,
@@ -7,24 +8,38 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-  TemplateRef,
   ViewChild,
 } from "@angular/core";
-import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
-import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
-import { User } from "squacapi";
-import { OrganizationService } from "squacapi";
-import { UserService } from "@user/services/user.service";
-import { OrganizationPipe } from "squacapi";
-import { UserPipe } from "squacapi";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import {
-  ColumnMode,
-  SelectionType,
-  SortType,
-} from "@boring.devs/ngx-datatable";
-import { Subscription, tap, filter } from "rxjs";
-import { TableControls, TableFilters, TableOptions } from "./interfaces";
-import { SharedToggleFilter } from "../sharing-toggle/sharing-toggle.interface";
+  User,
+  OrganizationPipe,
+  OrganizationService,
+  UserPipe,
+} from "squacapi";
+import { UserService } from "@user/services/user.service";
+import { Subscription } from "rxjs";
+import {
+  TableColumn,
+  TableControls,
+  TableFilters,
+  TableOptions,
+} from "./interfaces";
+import { SharedToggleFilter } from "@shared/components/sharing-toggle/sharing-toggle.interface";
+import { MatSort, MatSortModule } from "@angular/material/sort";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { SelectionModel } from "@angular/cdk/collections";
+import { ConfirmDialogService } from "@core/services/confirm-dialog.service";
+import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
+import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
+import { CommonModule } from "@angular/common";
+import { MatMenuModule } from "@angular/material/menu";
+import { AbilityModule } from "@casl/angular";
+import { SharingToggleComponent } from "../sharing-toggle/sharing-toggle.component";
+import { SharedIndicatorComponent } from "../shared-indicator/shared-indicator.component";
+import { LoadingDirective } from "@shared/directives/loading-directive.directive";
+import { SearchFilterComponent } from "../search-filter/search-filter.component";
 
 /**
  * Reusable table view component
@@ -33,68 +48,72 @@ import { SharedToggleFilter } from "../sharing-toggle/sharing-toggle.interface";
   selector: "shared-table-view",
   templateUrl: "./table-view.component.html",
   styleUrls: ["./table-view.component.scss"],
+  standalone: true,
+  imports: [
+    CommonModule,
+    AbilityModule,
+    OrganizationPipe,
+    UserPipe,
+    MatButtonModule,
+    MatIconModule,
+    RouterModule,
+    MatTableModule,
+    MatSortModule,
+    MatMenuModule,
+    MatPaginatorModule,
+    SharingToggleComponent,
+    SharedIndicatorComponent,
+    LoadingDirective,
+    SearchFilterComponent,
+  ],
 })
-export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
+export class TableViewComponent
+  implements OnInit, OnDestroy, OnChanges, AfterViewInit
+{
   subscription = new Subscription();
   @Input() title: string;
   @Input() options: TableOptions;
   @Input() rows: any[];
-  @Input() columns: any[];
+  @Input() columns: TableColumn[];
   @Input() controls: TableControls;
   @Input() filters: TableFilters;
   @Input() selectedRowId: number;
-  @Input() resize: boolean;
-  @Input() groupHeaderTemplate: TemplateRef<any>;
-  @Input() tableFooterTemplate: TemplateRef<any>;
-  @Input() rowDetailTemplate: TemplateRef<any>;
   @Input() isLoading: boolean;
-  @Input() dataService: any;
+
   @Output() itemSelected = new EventEmitter<any>();
   @Output() controlClicked = new EventEmitter<any>();
   @Output() refresh = new EventEmitter<any>();
   @Output() filtersChanged = new EventEmitter<any>();
-  @ViewChild("table") table;
-  @ViewChild("nameTemplate") nameTemplate: TemplateRef<any>;
-  @ViewChild("checkboxTemplate") checkboxTemplate: TemplateRef<any>;
+
   userPipe: UserPipe;
   orgPipe: OrganizationPipe;
-  tableRows: any[];
-  tableColumns: any[];
   searchString: string;
   hideShared: boolean;
-
-  selected = [];
-  selectedRow;
   user: User;
-  clickCount = 0;
-  selectedGroupKey;
   shareFilter = "org";
 
   //defaultOptions
   tableOptions: TableOptions = {
-    columnMode: ColumnMode.force,
-    selectionType: SelectionType.single,
-    headerHeight: 30,
-    footerHeight: 30,
-    rowHeight: "auto",
-    limit: undefined,
-    reorderable: false,
-    scrollbarH: false,
-    scrollbarV: true,
-    sortType: SortType.single,
-    sorts: [],
-    groupRowsBy: undefined,
-    groupExpansionDefault: false,
-    groupParentType: undefined,
     autoRouteToDetail: true,
-    selectAllRowsOnPage: false,
-    displayCheck: false,
     messages: {
-      emptyMessage: "No data",
-      totalMessage: "total",
+      emptyMessage: "No results found",
     },
-    virtualization: false,
+    defaultSort: "name",
+    defaultSortDir: "asc",
   };
+
+  /** Mat sort directive, used to enable sorting on */
+  @ViewChild(MatSort) sort: MatSort;
+  /** columns shown in table */
+  tableColumns: string[] = [];
+  /** alert table data source */
+  dataSource: MatTableDataSource<any> = new MatTableDataSource([]);
+  /** selection on alert table */
+  selection: SelectionModel<any> = new SelectionModel(false, []);
+  /** table pagination */
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  /** currently selected row */
+  selectedRow: any;
 
   constructor(
     private userService: UserService,
@@ -106,12 +125,37 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     this.userPipe = new UserPipe(orgService);
     this.orgPipe = new OrganizationPipe(orgService);
   }
-  //doubleclick on row to view detail?
 
+  /**
+   *
+   */
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+  //doubleclick on row to view detail?
   /**
    * Init
    */
   ngOnInit(): void {
+    this.dataSource.sortingDataAccessor = (
+      row: any,
+      sortHeaderId: string
+    ): string => {
+      switch (sortHeaderId) {
+        case "owner":
+          return this.userPipe.transform(row.owner);
+
+        case "organization":
+          return this.orgPipe.transform(row.orgId);
+
+        case "privacy":
+          return row.orgId;
+
+        default:
+          return row[sortHeaderId];
+      }
+    };
     Object.keys(this.options).forEach((key) => {
       this.tableOptions[key] = this.options[key];
     });
@@ -123,25 +167,7 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
         }
       },
     });
-
     this.subscription.add(userServ);
-    if (this.controls.listenToRouter) {
-      const currentPath =
-        this.controls.basePath || this.router.routerState.snapshot.url;
-      const routerEvents = this.router.events
-        .pipe(
-          filter((e) => e instanceof NavigationEnd),
-          tap((e: NavigationEnd) => {
-            if (e.urlAfterRedirects.toString() === currentPath) {
-              // this.refreshResource();
-              this.selectResource(null);
-            }
-          })
-        )
-        .subscribe();
-
-      this.subscription.add(routerEvents);
-    }
   }
 
   /**
@@ -153,113 +179,63 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
     if (changes["columns"] && changes["columns"].currentValue) {
-      this.processColumns();
+      this.tableColumns = this.columns.map((column) => column.columnDef);
     }
     if (changes["rows"] && changes["rows"].currentValue) {
       this.processRows();
     }
     if (changes["selectedRowId"] && !changes["selectedRowId"].firstChange) {
-      this.selectResource(this.selectedRowId);
+      this.selectResourceById(this.selectedRowId);
     }
-
-    if (changes["resize"]) {
-      if (this.table) {
-        this.table.recalculate();
-      }
-    }
-  }
-
-  /**
-   * Build table columns
-   */
-  private processColumns(): void {
-    this.columns.forEach((col) => {
-      if (col.prop === "owner" || col.name === "Owner") {
-        col.pipe = this.userPipe;
-        col.comparator = this.userComparator.bind(this);
-      }
-      if (col.prop === "orgId" || col.name === "Organization") {
-        col.pipe = this.orgPipe;
-        col.comparator = this.orgComparator.bind(this);
-      }
-      if (
-        this.tableOptions.autoRouteToDetail &&
-        (col.prop === "name" || col.name === "Name")
-      ) {
-        col.cellTemplate = this.nameTemplate;
-      }
-    });
-    this.tableColumns = [...this.columns];
   }
 
   /**
    * Set up table rows and select default row
    */
   private processRows(): void {
-    this.tableRows = [...this.rows];
-    if (this.selectedRowId && this.tableRows.length > 0) {
-      this.selectResource(this.selectedRowId);
-    }
+    this.dataSource.data = this.rows.slice();
+    // if (this.selectedRowId && this.tableRows.length > 0) {
+    //   this.selectResource(this.selectedRowId);
+    // }
   }
 
   /**
    * Respond to select row event and emit row id
    *
-   * @param event click event
+   * @param row selected table row
    */
-  onSelect(event): void {
-    if (event.selected && event.selected[0]) {
-      if (this.selectedRow && this.selectedRow.id === event.selected[0].id) {
-        this.clickCount++;
-      } else {
-        this.clickCount = 0;
-      }
-
-      this.selectResource(event.selected[0].id);
+  selectRow(row: any): void {
+    //already selected
+    if (this.selection.isSelected(row)) {
       //view resource if doubleclicked
-      if (this.clickCount === 2 && this.tableOptions.autoRouteToDetail) {
-        this.clickCount = 0;
+      if (this.tableOptions.autoRouteToDetail) {
         this.viewResource();
       }
-    }
-    if (!event.selected[0]) {
-      //unselect
       this.selectResource(null);
-      this.clickCount = 0;
-    }
-  }
-
-  /**
-   * When group header option is enabled, will respond to selects
-   * on group header
-   *
-   * @param group id of group
-   */
-  selectGroupHeader(group): void {
-    if (this.tableOptions.groupParentType) {
-      this.selectedGroupKey = group.key;
-      const groupParent = group.value[0][this.tableOptions.groupParentType];
-
-      this.selectedRow = groupParent;
-      this.itemSelected.next(this.selectedRow);
     } else {
-      this.selectedGroupKey = null;
-      this.selectedRow = null;
+      this.selectResource(row);
     }
+    this.selection.toggle(row);
   }
 
   /**
    * Select resource in table by id
    *
-   * @param id id of resource
+   * @param row selected row
    */
-  private selectResource(id: number): void {
-    this.selected = [];
-    this.selected = this.tableRows.filter((row) => {
-      return row.id === id;
-    });
-    this.selectedRow = this.selected[0];
+  private selectResource(row: any): void {
+    this.selectedRow = row;
     this.itemSelected.next(this.selectedRow);
+  }
+
+  /**
+   * Select resource in table by id
+   *
+   * @param rowId id of resource
+   */
+  private selectResourceById(rowId: number): void {
+    this.selectedRow = this.rows.find((row) => row.id === rowId);
+    this.selection.select(this.selectedRow);
   }
 
   // FIXME: make into types
@@ -369,7 +345,10 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
    */
   searchFieldChanged(rows: any[]): void {
     this.hideShared = false;
-    this.tableRows = [...rows];
+    this.dataSource.data = [...rows];
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   /**
@@ -389,63 +368,12 @@ export class TableViewComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   /**
-   * Toggle expand or collapse group
-   *
-   * @param group group id
-   * @returns if should toggle
-   */
-  toggleExpandGroup(group): boolean {
-    this.table.groupHeader.toggleExpandGroup(group);
-    return false;
-  }
-
-  /**
    * Change sharing settings and filter table to match
    *
    * @param params sharing filter params
    */
   toggleSharing(params: SharedToggleFilter): void {
     this.filtersChanged.emit(params);
-  }
-
-  /**
-   * Sort users by name
-   *
-   * @param userIdA first user
-   * @param userIdB second user
-   * @returns sort number
-   */
-  private userComparator(userIdA, userIdB): number {
-    const userNameA = this.userPipe.transform(userIdA).toLowerCase();
-    const userNameB = this.userPipe.transform(userIdB).toLowerCase();
-
-    if (userNameA < userNameB) {
-      return -1;
-    }
-    if (userNameA > userNameB) {
-      return 1;
-    }
-    return 0;
-  }
-
-  /**
-   * Sort organization by name
-   *
-   * @param orgIdA first org
-   * @param orgIdB second org
-   * @returns sort numbera
-   */
-  private orgComparator(orgIdA, orgIdB): number {
-    const orgNameA = this.orgPipe.transform(orgIdA).toLowerCase();
-    const orgNameB = this.orgPipe.transform(orgIdB).toLowerCase();
-
-    if (orgNameA < orgNameB) {
-      return -1;
-    }
-    if (orgNameA > orgNameB) {
-      return 1;
-    }
-    return 0;
   }
 
   /**

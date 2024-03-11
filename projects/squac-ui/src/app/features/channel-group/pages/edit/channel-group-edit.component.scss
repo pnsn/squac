@@ -1,0 +1,34 @@
+#edit-container {
+  .mat-h2 {
+    margin: 0px;
+  }
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-rows: 40px auto;
+  padding: 10px;
+  column-gap: 20px;
+  row-gap: 10px;
+  p {
+    margin: 0;
+  }
+  justify-content: center;
+  grid-template-areas:
+    "info info group"
+    "info info group"
+    "csv controls group"
+    "search search group"
+    "results map group"
+    "table map group";
+
+  .row {
+    gap: 10px;
+  }
+}
+
+channel-group-edit-table {
+  height: 100%;
+}
+
+.searched-channels-container {
+  min-height: 300px;
+}

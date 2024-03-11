@@ -53,12 +53,15 @@ export class LoadingService {
     delay?: number
   ): Observable<V> {
     context = context || DEFAULT_CONTEXT;
+
     return source$.pipe(
       executeDelayed(() => {
         this.startLoading(context, loaderId);
       }, delay ?? 0),
       observeOn(asyncScheduler),
-      finalize(() => this.endLoading(context, loaderId))
+      finalize(() => {
+        this.endLoading(context, loaderId);
+      })
     );
   }
 

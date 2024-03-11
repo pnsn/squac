@@ -1,44 +1,56 @@
-import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  NgZone,
+  OnDestroy,
+  OnInit,
+} from "@angular/core";
 import {
   WidgetConnectService,
   WidgetManagerService,
   WidgetConfigService,
 } from "../../services";
-import { ProcessedData, WidgetTypeComponent } from "../../interfaces";
-import { EChartComponent } from "../../shared/components";
+import { WidgetTypeComponent } from "../../interfaces";
+import { EChartComponent } from "../../components/e-chart/e-chart.component";
 import { TooltipComponentFormatterCallbackParams } from "echarts";
+import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
+import { MeasurementTypes } from "squacapi";
 
 /**
  * Scatter plot widget
  */
 @Component({
   selector: "widget-scatter-plot",
-  templateUrl: "../../shared/components/e-chart/e-chart.component.html",
-  styleUrls: ["../../shared/components/e-chart/e-chart.component.scss"],
+  templateUrl: "../../components/e-chart/e-chart.component.html",
+  styleUrls: ["../../components/e-chart/e-chart.component.scss"],
+  standalone: true,
+  imports: [NgxEchartsModule],
+  providers: [
+    {
+      provide: NGX_ECHARTS_CONFIG,
+      useFactory: (): unknown => ({
+        echarts: (): unknown => import("echarts"),
+      }),
+    },
+  ],
 })
 export class ScatterPlotComponent
   extends EChartComponent
   implements OnInit, WidgetTypeComponent, OnDestroy
 {
+  /** @ignore */
   constructor(
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
     override widgetManager: WidgetManagerService,
-    override ngZone: NgZone
+    override ngZone: NgZone,
+    override cdr: ChangeDetectorRef
   ) {
     super(widgetManager, widgetConnectService, ngZone);
   }
 
-  override denseOptions: {
-    grid: {
-      containLabel: true;
-      left: number;
-      bottom: number;
-      top: number;
-      right: number;
-    };
-    dataZoom: any[];
-  } = {
+  /** configuration for when dense is enabled */
+  override denseOptions = {
     grid: {
       containLabel: true,
       top: 5,
@@ -49,13 +61,14 @@ export class ScatterPlotComponent
     dataZoom: [],
   };
 
+  /** configuration for when dense is not enabled */
   override fullOptions = {
     grid: { containLabel: true, top: 5, right: 10, bottom: 38, left: 50 },
     dataZoom: this.chartDefaultOptions.dataZoom,
   };
 
   /**
-   * @override
+   * sets up initial chart configuration
    */
   configureChart(): void {
     const dataZoom = this.denseView
@@ -72,6 +85,7 @@ export class ScatterPlotComponent
       dataZoom,
       xAxis: {
         axisLabel: {
+          margin: 3,
           hideOverlap: true,
           fontSize: 11,
           formatter: (value: number): string => {
@@ -80,7 +94,7 @@ export class ScatterPlotComponent
         },
         nameLocation: "middle",
         name: "Measurement Start Date",
-        nameGap: 20,
+        nameGap: 15,
         nameTextStyle: {
           align: "center",
         },
@@ -96,12 +110,12 @@ export class ScatterPlotComponent
         nameLocation: "middle",
         axisLabel: {
           fontSize: 11,
-          inside: true,
+          width: 50,
           formatter: (value: number): string => {
             return value.toPrecision(4);
           },
         },
-        nameGap: 10,
+        nameGap: 50,
       },
       tooltip: {
         ...this.chartDefaultOptions.tooltip,
@@ -112,9 +126,11 @@ export class ScatterPlotComponent
   }
 
   /**
-   * @override
+   * Creates chart data from measurement data
+   *
+   * @param data measurement data
    */
-  buildChartData(data: ProcessedData): Promise<void> {
+  buildChartData(data: MeasurementTypes[]): Promise<void> {
     return new Promise<void>((resolve) => {
       //if 3 metrics, visualMap
       const metricSeries = {
@@ -140,6 +156,15 @@ export class ScatterPlotComponent
         },
       };
 
+      this.metricSeries = this.widgetConfigService.getSeriesForMultipleMetrics(
+        this.selectedMetrics,
+        this.channels,
+        data,
+        metricSeries,
+        this.widgetManager.stat,
+        this.widgetManager.dataStat
+      );
+
       this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
         this.selectedMetrics,
 
@@ -148,19 +173,12 @@ export class ScatterPlotComponent
         2
       );
 
-      this.metricSeries = this.widgetConfigService.getSeriesForMultipleMetrics(
-        this.selectedMetrics,
-        this.channels,
-        data,
-        metricSeries,
-        this.widgetManager.stat
-      );
       resolve();
     });
   }
 
   /**
-   * @override
+   * Changes shown metrics on chart
    */
   changeMetrics(): void {
     const xMetric = this.selectedMetrics[0];
@@ -168,7 +186,7 @@ export class ScatterPlotComponent
     const colorMetric = this.selectedMetrics[2];
     const visualMaps = this.visualMaps[colorMetric.id];
     visualMaps.show = this.showKey;
-    this.updateOptions = {
+    const options = {
       series: this.metricSeries.series,
       xAxis: {
         name: `${xMetric.name} (${xMetric.unit})`,
@@ -178,5 +196,15 @@ export class ScatterPlotComponent
         name: `${yMetric.name} (${yMetric.unit})`,
       },
     };
+
+    // using update options only prevented series from removing series
+    // using the combo sets both the inital series and later updates
+    if (!this.echartsInstance) {
+      this.updateOptions = options;
+    } else {
+      this.echartsInstance.setOption(options, {
+        replaceMerge: "series",
+      });
+    }
   }
 }

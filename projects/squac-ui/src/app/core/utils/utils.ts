@@ -74,3 +74,19 @@ export function executeDelayed<T>(
     );
   };
 }
+
+/**
+ * Custom data accessor for MatSort directive for nested properties
+ *
+ * @param item data item to sort, usually a row in the table
+ * @param property name of property to access, with dot notation for nested
+ * @returns property of the data
+ */
+export function nestedPropertyDataAccessor<T>(
+  item: T,
+  property: string
+): string | number {
+  if (property.includes("."))
+    return property.split(".").reduce((o, i) => o[i], item);
+  return item[property];
+}

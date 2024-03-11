@@ -1,17 +1,11 @@
 @import "./styles/mixins.scss";
-
-@import "~@boring.devs/ngx-datatable/index.css";
-@import "~@boring.devs/ngx-datatable/assets/icons.css";
-// @import "~@boring.devs/ngx-datatable/themes/material.scss";
 @import "~leaflet/dist/leaflet.css";
 @import "~leaflet-draw/dist/leaflet.draw.css";
-@import "./styles/variables.scss";
 
 /* You can add global styles to this file, and also import other style files */
 // @include date-range-picker-theme($squac-ui-theme);
 * {
   box-sizing: border-box;
-  font-size: 11pt;
   font-family: "Source Sans Pro", sans-serif;
 }
 
@@ -22,35 +16,32 @@ body {
   padding: 0;
 }
 
-body {
-  margin: 0;
-  background-color: darken($sq-lt-gray, 5);
-}
+@import "./styles/variables.scss";
+
 .body-content-container {
   width: 100%;
   height: calc(100% - 60px);
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
   @include md {
-    margin: 0 2% 0;
     width: 96%;
   }
   @include lg {
-    margin: 0 4% 0;
     width: 92%;
   }
 }
 
 #dashboard-container {
-  // margin: -10px -1% 0;
-  // @include md {
-  //   margin: -10px -2% 0;
-  // }
-  // @include lg {
-  //   margin: -10px -4.25% 0;
-  // }
   width: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
   height: 100%;
+}
+
+p {
+  margin-block-end: 0.5em;
+  margin-block-start: 0.5em;
 }
 
 /* Background color */
@@ -83,7 +74,8 @@ body {
 .info {
   color: $sq-dk-gray;
 }
-.dk-blue {
+.dk-blue,
+.emphasis {
   color: $sq-dk-blue;
 }
 .warn,
@@ -103,39 +95,6 @@ body {
   border: $light-border;
 }
 
-/* Text styles */
-
-h1 {
-  font-size: 1.3rem;
-  font-weight: 600;
-}
-
-h2 {
-  font-size: 1.2rem;
-  font-weight: 600;
-}
-
-h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-block-start: 0.8em;
-  margin-block-end: 0.8em;
-}
-
-h4 {
-  font-size: 1rem;
-  font-weight: 600;
-  margin-block-start: 0.8em;
-  margin-block-end: 0.8em;
-}
-
-p {
-  margin-top: 10px;
-  font-size: 1rem;
-  font-weight: 400;
-}
-
-//shared flex styling
 .row-reverse {
   display: flex;
   flex-direction: row-reverse;
@@ -145,6 +104,9 @@ p {
 .column {
   display: flex;
   flex-direction: column;
+}
+.gap-m {
+  gap: 10px;
 }
 .centered {
   align-items: center;
@@ -157,21 +119,22 @@ p {
 .row {
   display: flex;
   flex-direction: row;
+  gap: 5px;
+}
+.align-end {
+  align-items: center;
+  justify-content: flex-end;
 }
 .wrap {
   flex-wrap: wrap;
 }
 //text styling
 .help-text {
-  font-weight: 300;
-  margin-top: 3px;
-  margin-bottom: 3px;
   overflow-wrap: break-word;
   hyphens: manual;
 }
 .warn-text {
   @extend .help-text;
-  font-weight: 300;
   color: $sq-warn;
 }
 .emphasis-text {
@@ -220,23 +183,19 @@ a {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  gap: 5px;
+  h1 {
+    margin-block-start: 0.6em;
+    margin-block-end: 0.6em;
+  }
   h2 {
     display: inline-block;
   }
   h3 {
     display: inline-block;
   }
-  &.mat-dialog-title {
-    margin: 0px !important;
-    h3 {
-      margin-block-end: 10px;
-      margin-block-start: 10px;
-    }
-  }
 }
-.dialog-title {
-  @extend .title;
-}
+
 .header-title {
   @extend .title;
   @extend .lt-gray-background;
@@ -248,9 +207,10 @@ a {
 }
 
 .dialog-options {
-  @extend .row-reverse;
-  @extend .space-between;
-  .save {
+  .dialog-cancel {
+    margin-right: auto;
+  }
+  .dialog-save {
     margin-left: 20px;
   }
 }
@@ -329,6 +289,9 @@ a {
   @include sm {
     width: auto;
   }
+  .dialog-stepper {
+    width: 100%;
+  }
 }
 
 @media only screen and (max-width: 760px) {
@@ -344,4 +307,24 @@ a {
 }
 .leaflet-control-attribution a {
   font-size: 10pt;
+}
+
+.centered-form {
+  @extend .form;
+
+  width: 100%;
+  align-items: stretch;
+  button {
+    align-self: center;
+    margin-bottom: 5px;
+  }
+  margin-bottom: 5px;
+}
+
+.custom-form-field {
+  .label {
+    color: rgba(0, 0, 0, 0.84);
+    display: block;
+    font-weight: normal;
+  }
 }

@@ -3,6 +3,7 @@ import {
   ComponentRef,
   Directive,
   ElementRef,
+  Inject,
   Injector,
   OnDestroy,
   OnInit,
@@ -10,15 +11,15 @@ import {
   ViewContainerRef,
 } from "@angular/core";
 import { WidgetDataService } from "../services/widget-data.service";
-import { WidgetErrors, WidgetType } from "../enums";
+import { WidgetErrors } from "../enums";
 import { WidgetManagerService } from "../services/widget-manager.service";
 import { WidgetConfigService } from "../services/widget-config.service";
-// import { ErrorComponent } from "@shared/components/error/error.component";
 import { Widget } from "../models";
 import { Subscription, tap } from "rxjs";
-import { ProcessedData, WidgetTypeComponent } from "../interfaces";
-import { WIDGET_TYPE_INFO } from "../constants";
-import { ErrorComponent } from "../shared/components/error/error.component";
+import { WidgetTypeComponent } from "../interfaces";
+import { WidgetTypes, WIDGET_TYPES, WidgetType } from "../constants";
+import { ErrorComponent } from "../components/error/error.component";
+import { MeasurementTypes } from "squacapi";
 
 /**
  * Directive for inserting error component or correct widget type
@@ -26,6 +27,7 @@ import { ErrorComponent } from "../shared/components/error/error.component";
 @Directive({
   selector: "[widgetContainer]",
   providers: [WidgetConfigService],
+  standalone: true,
 })
 export class WidgetTypeDirective implements OnInit, OnDestroy {
   currentWidgetType;
@@ -48,7 +50,8 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
     protected readonly viewContainerRef: ViewContainerRef,
     private widgetDataService: WidgetDataService,
     private widgetConfigService: WidgetConfigService,
-    private widgetManager: WidgetManagerService
+    private widgetManager: WidgetManagerService,
+    @Inject(WIDGET_TYPES) private widgetTypes: WidgetTypes
   ) {
     this.hostElement = this.elementRef.nativeElement;
   }
@@ -67,31 +70,20 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
     this.dataSub = this.widgetDataService.data$
       .pipe(
         tap({
-          next: (data: ProcessedData | WidgetErrors) => {
+          next: (data: MeasurementTypes[] | WidgetErrors) => {
             //check if data is a map and has data
-            if (data instanceof Map) {
-              const minMetrics = this.widgetManager.widgetConfig.minMetrics;
-              const metricsWithData =
-                this.widgetDataService.measurementsWithData.length;
-              if (minMetrics > metricsWithData) {
-                //not enough metrics with Data
-                this.addError(
-                  `Only ${metricsWithData} metric(s) returned data. ${minMetrics} metrics required to display widget.`
-                );
-              } else {
-                if (
-                  this.widgetManager.widgetType !== this.currentWidgetType ||
-                  !this.childComponent
-                ) {
-                  this.addWidget(this.widgetManager.widgetType);
-                }
-
-                this.widgetConfigService.thresholds =
-                  this.widgetManager.thresholds;
-                this.widgetConfigService.dataRange =
-                  this.widgetDataService.dataRange;
-                this.childComponent.updateData(data);
+            if (typeof data !== "string") {
+              if (
+                this.widgetManager.widgetType !== this.currentWidgetType ||
+                !this.childComponent
+              ) {
+                this.addWidget(this.widgetManager.widgetType);
               }
+
+              this.widgetConfigService.thresholds =
+                this.widgetManager.thresholds;
+              this.childComponent.updateData(data);
+              // }
             } else {
               this.addError(data);
             }
@@ -131,7 +123,7 @@ export class WidgetTypeDirective implements OnInit, OnDestroy {
       ],
     });
     this.clearChildComponents();
-    const componentType = WIDGET_TYPE_INFO[widgetType].component;
+    const componentType = this.widgetTypes[widgetType].component;
     this.childComponentRef =
       this.viewContainerRef.createComponent<WidgetTypeComponent>(
         componentType,

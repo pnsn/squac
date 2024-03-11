@@ -1,0 +1,38 @@
+<div
+  [appIsLoading]="loadingService.isLoading$(null, LoadingIndicator.CHANNEL_GROUP) | async"
+  spinnerType="buffer"
+  class="channel-checkbox-container"
+>
+  <div *ngIf="channels.length === 0; else hasChannels">
+    Select a channel group above.
+  </div>
+
+  <ng-template #hasChannels>
+    <mat-checkbox
+      class="dense-checkbox"
+      [style.margin-bottom]="'5px'"
+      type="checkbox"
+      [(ngModel)]="toggledAll"
+      (click)="toggleAll()"
+    >
+      Toggle All ({{this.channels.length}})
+    </mat-checkbox>
+
+    <form [formGroup]="form">
+      <div formGroupName="checkboxes">
+        <div *ngFor="let item of form['controls'].checkboxes.value | keyvalue">
+          <mat-checkbox
+            class="dense-checkbox"
+            type="checkbox"
+            [formControlName]="item.key"
+            [disableRipple]="true"
+          >
+            <div (mouseenter)="mouseenter(item.key)">
+              {{ item.key }}
+            </div>
+          </mat-checkbox>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+</div>

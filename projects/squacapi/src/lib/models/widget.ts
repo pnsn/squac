@@ -56,18 +56,22 @@ export class Widget extends ResourceModel<
    * @returns widget thresholds as array
    */
   public get thresholds(): Threshold[] {
-    return this._thresholds.slice();
+    return this._thresholds?.slice() || undefined;
   }
 
   /**
    * Stores widget properties
    */
   public set properties(properties: string | Partial<WidgetProperties>) {
-    let props: Partial<WidgetProperties> = {};
+    let props: Partial<WidgetProperties>;
     if (!properties) {
       props = WIDGET_PROPERTIES;
     } else if (properties && typeof properties === "string") {
-      props = { ...(JSON.parse(properties) as WidgetProperties) };
+      try {
+        props = { ...(JSON.parse(properties) as WidgetProperties) };
+      } catch {
+        props = WIDGET_PROPERTIES;
+      }
     } else if (typeof properties !== "string") {
       props = { ...properties };
     }
@@ -85,15 +89,18 @@ export class Widget extends ResourceModel<
    * stores widget layout
    */
   public set layout(layout: string | Partial<WidgetLayout> | undefined) {
-    let props: Partial<WidgetLayout> = {};
+    let props: Partial<WidgetLayout>;
     if (!layout) {
       props = WIDGET_LAYOUT;
     } else if (layout && typeof layout === "string") {
-      props = { ...(JSON.parse(layout) as WidgetLayout) };
+      try {
+        props = { ...(JSON.parse(layout) as WidgetLayout) };
+      } catch {
+        props = WIDGET_LAYOUT;
+      }
     } else if (typeof layout !== "string") {
       props = { ...layout };
     }
-
     this._layout = { ...this._layout, ...props };
   }
 

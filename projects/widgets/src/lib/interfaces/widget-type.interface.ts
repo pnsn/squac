@@ -1,11 +1,10 @@
-import { Channel, Metric, WidgetProperties } from "squacapi";
+import { Channel, MeasurementTypes, Metric, WidgetProperties } from "squacapi";
 import { VisualMap } from "./charts.interface";
-import { ProcessedData } from "./data.interface";
 
 /** Describes a widget component */
 export interface WidgetTypeComponent {
   /** widget data */
-  data: ProcessedData;
+  data: MeasurementTypes[];
   /** channels used on widget */
   channels: Channel[];
   /** metrics used on widget */
@@ -29,7 +28,9 @@ export interface WidgetTypeComponent {
   /** resize function */
   resize?(): void;
   /** update data function */
-  updateData?(data: ProcessedData): void;
+  updateData?(data: MeasurementTypes[]): void;
   /** configure chart data */
   configureChart(): void;
+  /** config to use denser styling */
+  denseView: boolean;
 }

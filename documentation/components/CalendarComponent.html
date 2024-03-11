@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -35,32 +93,37 @@
 
 
 <ol class="breadcrumb">
-  <li>Components</li>
-  <li
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
   >
   CalendarComponent</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
-        <li >
-            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
         </li>
-        <li >
-            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
         </li>
-        <li >
-            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
     <h3>File</h3>
 </p>
 <p class="comment">
@@ -81,20 +144,20 @@ grouped into chunks of time on x axis</p>
         <h3>Extends</h3>
     </p>
     <p class="comment">
-                <code><a href="../components/EChartComponent.html" target="_self" >EChartComponent</a></code>
+                    <code><a href="../components/EChartComponent.html" target="_self" >EChartComponent</a></code>
     </p>
 
     <p class="comment">
         <h3>Implements</h3>
     </p>
     <p class="comment">
-                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                <code>OnInit</code>
                     <code><a href="../interfaces/WidgetTypeComponent.html" target="_self" >WidgetTypeComponent</a></code>
-                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+                <code>OnDestroy</code>
     </p>
 
 
-<section>
+<section data-compodoc="block-metadata">
     <h3>Metadata</h3>
     <table class="table table-sm table-hover metadata">
         <tbody>
@@ -108,6 +171,17 @@ grouped into chunks of time on x axis</p>
 
 
 
+            <tr>
+                <td class="col-md-3">providers</td>
+                <td class="col-md-9">
+                            <code>{
+    provide: NGX_ECHARTS_CONFIG, useFactory: (): unknown &#x3D;&gt; ({
+        echarts: (): unknown &#x3D;&gt; import(),
+    }),
+}</code>
+                </td>
+            </tr>
+
 
             <tr>
                 <td class="col-md-3">selector</td>
@@ -115,15 +189,27 @@ grouped into chunks of time on x axis</p>
             </tr>
 
             <tr>
+                <td class="col-md-3">Standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>NgxEchartsModule</code>
+                </td>
+            </tr>
+
+            <tr>
                 <td class="col-md-3">styleUrls</td>
-                <td class="col-md-9"><code>../../shared/components/e-chart/e-chart.component.scss</code></td>
+                <td class="col-md-9"><code>../../components/e-chart/e-chart.component.scss</code></td>
             </tr>
 
 
 
             <tr>
                 <td class="col-md-3">templateUrl</td>
-                <td class="col-md-9"><code>../../shared/components/e-chart/e-chart.component.html</code></td>
+                <td class="col-md-9"><code>../../components/e-chart/e-chart.component.html</code></td>
             </tr>
 
 
@@ -137,7 +223,7 @@ grouped into chunks of time on x axis</p>
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -150,24 +236,10 @@ grouped into chunks of time on x axis</p>
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#axisPointer" >axisPointer</a>
-                            </li>
-                            <li>
-                                    <span class="modifier"></span>
-                                <a href="#denseOptions" >denseOptions</a>
-                            </li>
-                            <li>
-                                    <span class="modifier"></span>
-                                <a href="#fullOptions" >fullOptions</a>
-                            </li>
-                            <li>
                                 <a href="#maxMeasurementGap" >maxMeasurementGap</a>
                             </li>
                             <li>
                                 <a href="#precisionPipe" >precisionPipe</a>
-                            </li>
-                            <li>
-                                <a href="#xAxisConfig" >xAxisConfig</a>
                             </li>
                             <li>
                                 <a href="#xAxisLabels" >xAxisLabels</a>
@@ -182,10 +254,16 @@ grouped into chunks of time on x axis</p>
                                 <a href="#deemphasizedChannel" >deemphasizedChannel</a>
                             </li>
                             <li>
+                                <a href="#denseOptions" >denseOptions</a>
+                            </li>
+                            <li>
                                 <a href="#echartsInstance" >echartsInstance</a>
                             </li>
                             <li>
                                 <a href="#emphasizedChannel" >emphasizedChannel</a>
+                            </li>
+                            <li>
+                                <a href="#fullOptions" >fullOptions</a>
                             </li>
                             <li>
                                 <a href="#initOptions" >initOptions</a>
@@ -254,8 +332,7 @@ grouped into chunks of time on x axis</p>
                                 <a href="#configureChart" >configureChart</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#getBottomMargin" >getBottomMargin</a>
+                                <a href="#getAxisLabels" >getAxisLabels</a>
                             </li>
                             <li>
                                 <a href="#deemphasizeChannel" >deemphasizeChannel</a>
@@ -316,18 +393,18 @@ grouped into chunks of time on x axis</p>
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-constructor">
     <h3 id="constructor">Constructor</h3>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(widgetConfigService: <a href="../injectables/WidgetConfigService.html" target="_self">WidgetConfigService</a>, widgetConnectService: <a href="../injectables/WidgetConnectService.html" target="_self">WidgetConnectService</a>, widgetManager: <a href="../injectables/WidgetManagerService.html" target="_self">WidgetManagerService</a>, ngZone: <a href="https://angular.io/api/core/NgZone" target="_blank">NgZone</a>)</code>
+<code>constructor(widgetConfigService: <a href="../injectables/WidgetConfigService.html" target="_self">WidgetConfigService</a>, widgetConnectService: <a href="../injectables/WidgetConnectService.html" target="_self">WidgetConnectService</a>, widgetManager: <a href="../injectables/WidgetManagerService.html" target="_self">WidgetManagerService</a>, ngZone: NgZone)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/widgets/src/lib/widget-types/calendar/calendar.component.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/widgets/src/lib/widget-types/calendar/calendar.component.ts:44</a></div>
                             </td>
                         </tr>
 
@@ -384,7 +461,7 @@ grouped into chunks of time on x axis</p>
                                                         <td>ngZone</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/core/NgZone" target="_blank" >NgZone</a></code>
+                                                                    <code>NgZone</code>
                                                         </td>
                                                   
                                                     <td>
@@ -405,7 +482,7 @@ grouped into chunks of time on x axis</p>
 
 
 
-    <section>
+    <section data-compodoc="block-methods">
     
     <h3 id="methods">
         Methods
@@ -423,60 +500,69 @@ grouped into chunks of time on x axis</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>buildChartData(data)</code>
+<code>buildChartData(data: <a href="../undefineds/MeasurementTypes.html" target="_self">MeasurementTypes[]</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:166</a></code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:150</a></code>
 </div>
-                </td>
-            </tr>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Creates chart data from measuremetns</p>
+</div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>data</td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#MeasurementTypes" target="_self" >MeasurementTypes[]</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+                                            <td>
+                                                    <p>processed data</p>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -499,27 +585,29 @@ grouped into chunks of time on x axis</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:323</a></code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:260</a></code>
 </div>
-                </td>
-            </tr>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Changes displayed metrics on the chart</p>
+</div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -542,27 +630,29 @@ grouped into chunks of time on x axis</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:113</a></code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:65</a></code>
 </div>
-                </td>
-            </tr>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Initial chart configuration</p>
+</div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -571,77 +661,72 @@ grouped into chunks of time on x axis</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getBottomMargin"></a>
+                    <a name="getAxisLabels"></a>
                     <span class="name">
-                        <span class="modifier">Private</span>
-                        <span ><b>getBottomMargin</b></span>
-                        <a href="#getBottomMargin"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>getAxisLabels</b></span>
+                        <a href="#getAxisLabels"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getBottomMargin(dense: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+<code>getAxisLabels(displayType: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="310"
-                            class="link-to-prism">projects/widgets/src/lib/widget-types/calendar/calendar.component.ts:310</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="103"
+                                    class="link-to-prism">projects/widgets/src/lib/widget-types/calendar/calendar.component.ts:103</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>calculated bottom margin for chart</p>
+                        <div class="io-description"><p>figures out correct labels for axis</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>dense</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>displayType</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>true if no zoom is used</p>
+                                            <td>
+                                                    <p>widget display type</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>margin for bottom of chart</p>
-
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -664,55 +749,53 @@ grouped into chunks of time on x axis</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:126</a></code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:126</a></code>
 </div>
-                </td>
-            </tr>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>channel</td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>channel</td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -735,55 +818,53 @@ grouped into chunks of time on x axis</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:114</a></code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:114</a></code>
 </div>
-                </td>
-            </tr>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>channel</td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>channel</td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -794,7 +875,7 @@ grouped into chunks of time on x axis</p>
                 <td class="col-md-4">
                     <a name="ngOnDestroy"></a>
                     <span class="name">
-                        <span class="modifier"></span>
+                            <span class="modifier"></span>
                         <span ><b>ngOnDestroy</b></span>
                         <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -802,33 +883,33 @@ grouped into chunks of time on x axis</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>ngOnDestroy()</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:73</a></code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:73</a></code>
 </div>
-                </td>
-            </tr>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -851,79 +932,77 @@ grouped into chunks of time on x axis</p>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/EChartComponent.html" target="_self" >EChartComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:84</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../components/EChartComponent.html" target="_self" >EChartComponent</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:84</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Listener for e-chart events, see echart docs</p>
+                        <div class="io-description"><p>Listener for e-chart events, see echart docs</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>_event</td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>_event</td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>event</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>_type</td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>_type</td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>type</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -946,64 +1025,62 @@ grouped into chunks of time on x axis</p>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/EChartComponent.html" target="_self" >EChartComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:104</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../components/EChartComponent.html" target="_self" >EChartComponent</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:104</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Store echart reference on chart init</p>
+                        <div class="io-description"><p>Store echart reference on chart init</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>event</td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>echart reference</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1026,29 +1103,29 @@ grouped into chunks of time on x axis</p>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/EChartComponent.html" target="_self" >EChartComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:164</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../components/EChartComponent.html" target="_self" >EChartComponent</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:164</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Reset chart zoom to start</p>
+                        <div class="io-description"><p>Reset chart zoom to start</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1071,29 +1148,29 @@ grouped into chunks of time on x axis</p>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/EChartComponent.html" target="_self" >EChartComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:187</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../components/EChartComponent.html" target="_self" >EChartComponent</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:187</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Trigger resize of chart</p>
+                        <div class="io-description"><p>Trigger resize of chart</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1116,29 +1193,29 @@ grouped into chunks of time on x axis</p>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:138</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:138</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Start chart zooming</p>
+                        <div class="io-description"><p>Start chart zooming</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1161,29 +1238,29 @@ grouped into chunks of time on x axis</p>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:91</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:91</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Toggle visual map component</p>
+                        <div class="io-description"><p>Toggle visual map component</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1194,7 +1271,7 @@ grouped into chunks of time on x axis</p>
                 <td class="col-md-4">
                     <a name="useDenseView"></a>
                     <span class="name">
-                        <span class="modifier"></span>
+                            <span class="modifier"></span>
                         <span ><b>useDenseView</b></span>
                         <a href="#useDenseView"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1202,72 +1279,70 @@ grouped into chunks of time on x axis</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>useDenseView(useDenseView: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:51</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:51</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Toggles zoom controls and grid view to make widgets more dense</p>
+                        <div class="io-description"><p>Toggles zoom controls and grid view to make widgets more dense</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>useDenseView</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>useDenseView</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>true if widget should use dense view</p>
+                                            <td>
+                                                    <p>true if widget should use dense view</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1290,68 +1365,66 @@ grouped into chunks of time on x axis</p>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/EChartComponent.html" target="_self" >EChartComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:178</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../components/EChartComponent.html" target="_self" >EChartComponent</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:178</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Respond to zoom stop event</p>
+                        <div class="io-description"><p>Respond to zoom stop event</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>event</td>
-                                    <td>
-                                            <code>literal type</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>echart event</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1374,29 +1447,29 @@ grouped into chunks of time on x axis</p>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:86</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:79</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Initializes toggle key subscription and functionality</p>
+                        <div class="io-description"><p>Initializes toggle key subscription and functionality</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1419,29 +1492,29 @@ grouped into chunks of time on x axis</p>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:97</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:90</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Intializes zoom subscription and functionality</p>
+                        <div class="io-description"><p>Intializes zoom subscription and functionality</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1464,29 +1537,29 @@ grouped into chunks of time on x axis</p>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:127</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:119</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Set up initial subscriptions</p>
+                        <div class="io-description"><p>Set up initial subscriptions</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1504,234 +1577,81 @@ grouped into chunks of time on x axis</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>updateData(data: <a href="../undefineds/ProcessedData.html" target="_self">ProcessedData</a>)</code>
+<code>updateData(data: <a href="../undefineds/MeasurementTypes.html" target="_self">MeasurementTypes[]</a>)</code>
                 </td>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:112</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:105</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Update widget data</p>
+                        <div class="io-description"><p>Update widget data</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>data</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#ProcessedData" target="_self" >ProcessedData</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#MeasurementTypes" target="_self" >MeasurementTypes[]</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>data for widget to update</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </section>
-    <section>
+    <section data-compodoc="block-properties">
     
     <h3 id="inputs">
         Properties
     </h3>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="axisPointer"></a>
-                    <span class="name">
-                        <span ><b>axisPointer</b></span>
-                        <a href="#axisPointer"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>{
-    show: true,
-    label: {
-      formatter: (params: LabelFormatterParams): string &#x3D;&gt; {
-        const pa &#x3D; (params.value as string).split(&quot;-&quot;);
-        const labels &#x3D; [
-          &quot;Sunday&quot;,
-          &quot;Monday&quot;,
-          &quot;Tuesday&quot;,
-          &quot;Wednesday&quot;,
-          &quot;Thursday&quot;,
-          &quot;Friday&quot;,
-          &quot;Saturday&quot;,
-        ];
-        if (pa.length &gt; 1) {
-          const week &#x3D; pa[0];
-          const time &#x3D; pa[1];
-          return &#x60;${labels[+week]} ${time}:00&#x60;;
-        } else {
-          if (+pa[0]) {
-            return &#x60;${pa[0]}:00&#x60;;
-          }
-          return &#x60;${pa[0]}&#x60;;
-        }
-      },
-    },
-  }</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">projects/widgets/src/lib/widget-types/calendar/calendar.component.ts:82</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="denseOptions"></a>
-                    <span class="name">
-                            <span class="modifier"></span>
-                        <span ><b>denseOptions</b></span>
-                        <a href="#denseOptions"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>EChartsOption</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>{
-    grid: {
-      containLabel: false,
-      top: 10,
-      right: 10,
-      left: 105,
-    },
-    dataZoom: [],
-  }</code>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../components/EChartComponent.html" target="_self" >EChartComponent</a></code>
-</div>
-                            </td>
-                        </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:46</a></code>
-</div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="fullOptions"></a>
-                    <span class="name">
-                            <span class="modifier"></span>
-                        <span ><b>fullOptions</b></span>
-                        <a href="#fullOptions"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>EChartsOption</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>{
-    grid: {
-      containLabel: false,
-      top: 5,
-      right: 10,
-      left: 125,
-    },
-    dataZoom: this.chartDefaultOptions.dataZoom,
-  }</code>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../components/EChartComponent.html" target="_self" >EChartComponent</a></code>
-</div>
-                            </td>
-                        </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:55</a></code>
-</div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -1756,10 +1676,16 @@ grouped into chunks of time on x axis</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/widgets/src/lib/widget-types/calendar/calendar.component.ts:44</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">projects/widgets/src/lib/widget-types/calendar/calendar.component.ts:58</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Max allowable time between measurements to connect</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -1781,56 +1707,16 @@ grouped into chunks of time on x axis</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/widgets/src/lib/widget-types/calendar/calendar.component.ts:45</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">projects/widgets/src/lib/widget-types/calendar/calendar.component.ts:60</a></div>
                         </td>
                     </tr>
 
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="xAxisConfig"></a>
-                    <span class="name">
-                        <span ><b>xAxisConfig</b></span>
-                        <a href="#xAxisConfig"><span class="icon ion-ios-link"></span></a>
-                    </span>
+                    <div class="io-description"><p>pipe for transformation of values</p>
+</div>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>XAXisComponentOption</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>{
-    type: &quot;category&quot;,
-    axisLabel: {
-      fontSize: 11,
-      margin: 3,
-      hideOverlap: true,
-    },
-    position: &quot;bottom&quot;,
-    axisTick: {
-      show: true,
-    },
-    axisLine: {
-      show: true,
-    },
-    nameLocation: &quot;middle&quot;,
-  }</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">projects/widgets/src/lib/widget-types/calendar/calendar.component.ts:65</a></div>
-                        </td>
-                    </tr>
-
 
         </tbody>
     </table>
@@ -1847,7 +1733,7 @@ grouped into chunks of time on x axis</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>[]</code>
+                        <i>Type : </i>    <code>string[]</code>
 
                     </td>
                 </tr>
@@ -1858,10 +1744,16 @@ grouped into chunks of time on x axis</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/widgets/src/lib/widget-types/calendar/calendar.component.ts:41</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">projects/widgets/src/lib/widget-types/calendar/calendar.component.ts:54</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>time labes on chart x axis</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -1878,7 +1770,7 @@ grouped into chunks of time on x axis</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>[]</code>
+                        <i>Type : </i>    <code>string[]</code>
 
                     </td>
                 </tr>
@@ -1889,10 +1781,16 @@ grouped into chunks of time on x axis</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/widgets/src/lib/widget-types/calendar/calendar.component.ts:42</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">projects/widgets/src/lib/widget-types/calendar/calendar.component.ts:56</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>second row of time labels on x axis</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -1915,7 +1813,7 @@ grouped into chunks of time on x axis</p>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>ECHART_DEFAULTS</code>
+                        <i>Default value : </i><code>{ ...ECHART_DEFAULTS }</code>
                     </td>
                 </tr>
                         <tr>
@@ -1960,6 +1858,38 @@ grouped into chunks of time on x axis</p>
                     <tr>
                         <td class="col-md-4">
                                 <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:27</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="denseOptions"></a>
+                    <span class="name">
+                        <span ><b>denseOptions</b></span>
+                        <a href="#denseOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>ECHART_DENSE_DEFAULTS</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/EChartComponent.html" target="_self" >EChartComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:40</a></code>
 </div>
                         </td>
                     </tr>
@@ -2026,6 +1956,47 @@ grouped into chunks of time on x axis</p>
                     <tr>
                         <td class="col-md-4">
                                 <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:26</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fullOptions"></a>
+                    <span class="name">
+                        <span ><b>fullOptions</b></span>
+                        <a href="#fullOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EChartsOption</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    grid: { ...this.chartDefaultOptions.grid },
+    dataZoom: this.chartDefaultOptions.dataZoom,
+  }</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/EChartComponent.html" target="_self" >EChartComponent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/EChartComponent.html#source" target="_self" >EChartComponent:41</a></code>
 </div>
                         </td>
                     </tr>
@@ -2204,13 +2175,13 @@ grouped into chunks of time on x axis</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:19</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:25</a></code>
 </div>
                         </td>
                     </tr>
@@ -2231,19 +2202,19 @@ grouped into chunks of time on x axis</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#ProcessedData" target="_self" >ProcessedData</a></code>
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#MeasurementTypes" target="_self" >MeasurementTypes[]</a></code>
 
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:18</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:24</a></code>
 </div>
                         </td>
                     </tr>
@@ -2270,13 +2241,13 @@ grouped into chunks of time on x axis</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:23</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:29</a></code>
 </div>
                         </td>
                     </tr>
@@ -2303,13 +2274,13 @@ grouped into chunks of time on x axis</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:16</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:22</a></code>
 </div>
                         </td>
                     </tr>
@@ -2336,13 +2307,13 @@ grouped into chunks of time on x axis</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:21</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:27</a></code>
 </div>
                         </td>
                     </tr>
@@ -2369,13 +2340,13 @@ grouped into chunks of time on x axis</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:20</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:26</a></code>
 </div>
                         </td>
                     </tr>
@@ -2401,13 +2372,13 @@ grouped into chunks of time on x axis</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:15</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:21</a></code>
 </div>
                         </td>
                     </tr>
@@ -2433,13 +2404,13 @@ grouped into chunks of time on x axis</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:13</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:19</a></code>
 </div>
                         </td>
                     </tr>
@@ -2471,13 +2442,13 @@ grouped into chunks of time on x axis</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:22</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:28</a></code>
 </div>
                         </td>
                     </tr>
@@ -2504,13 +2475,13 @@ grouped into chunks of time on x axis</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:17</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:23</a></code>
 </div>
                         </td>
                     </tr>
@@ -2537,13 +2508,13 @@ grouped into chunks of time on x axis</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:14</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:20</a></code>
 </div>
                         </td>
                     </tr>
@@ -2556,24 +2527,27 @@ grouped into chunks of time on x axis</p>
 </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
+    <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, NgZone, OnDestroy, OnInit } from &quot;@angular/core&quot;;
-import { Measurement } from &quot;squacapi&quot;;
+import { Measurement, MeasurementTypes } from &quot;squacapi&quot;;
 
-import { PrecisionPipe } from &quot;../../shared/pipes/precision.pipe&quot;;
-import {
-  EChartsOption,
-  TooltipComponentFormatterCallbackParams,
-  XAXisComponentOption,
-} from &quot;echarts&quot;;
+import { PrecisionPipe } from &quot;../../pipes/precision.pipe&quot;;
+import { EChartsOption } from &quot;echarts&quot;;
 import {
   WidgetConnectService,
   WidgetManagerService,
   WidgetConfigService,
 } from &quot;../../services&quot;;
-import { LabelFormatterParams, WidgetTypeComponent } from &quot;../../interfaces&quot;;
-import { EChartComponent } from &quot;../../shared/components&quot;;
-import { parseUtc } from &quot;../../shared/utils&quot;;
+import { WidgetTypeComponent } from &quot;../../interfaces&quot;;
+import { parseUtc } from &quot;../../utils&quot;;
+import {
+  singleXAxisConfig,
+  tooltipFormatter,
+  weekTimeXAxisConfig,
+  weekXAxisConfig,
+} from &quot;./echart.config&quot;;
+import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from &quot;ngx-echarts&quot;;
+import { EChartComponent } from &quot;../../components/e-chart/e-chart.component&quot;;
 
 /**
  * Chart that plots channels as the y axis and time,
@@ -2581,8 +2555,18 @@ import { parseUtc } from &quot;../../shared/utils&quot;;
  */
 @Component({
   selector: &quot;widget-calendar-plot&quot;,
-  templateUrl: &quot;../../shared/components/e-chart/e-chart.component.html&quot;,
-  styleUrls: [&quot;../../shared/components/e-chart/e-chart.component.scss&quot;],
+  templateUrl: &quot;../../components/e-chart/e-chart.component.html&quot;,
+  styleUrls: [&quot;../../components/e-chart/e-chart.component.scss&quot;],
+  standalone: true,
+  imports: [NgxEchartsModule],
+  providers: [
+    {
+      provide: NGX_ECHARTS_CONFIG,
+      useFactory: (): unknown &#x3D;&gt; ({
+        echarts: (): unknown &#x3D;&gt; import(&quot;echarts&quot;),
+      }),
+    },
+  ],
 })
 export class CalendarComponent
   extends EChartComponent
@@ -2596,98 +2580,35 @@ export class CalendarComponent
   ) {
     super(widgetManager, widgetConnectService, ngZone);
   }
-
-  xAxisLabels &#x3D; [];
-  xAxisLabels2 &#x3D; []; //second row
-  // Max allowable time between measurements to connect
+  /** time labes on chart x axis */
+  xAxisLabels: string[] &#x3D; [];
+  /** second row of time labels on x axis */
+  xAxisLabels2: string[] &#x3D; [];
+  /** Max allowable time between measurements to connect */
   maxMeasurementGap: number &#x3D; 1 * 1000;
+  /** pipe for transformation of values */
   precisionPipe &#x3D; new PrecisionPipe();
-  override denseOptions: EChartsOption &#x3D; {
-    grid: {
-      containLabel: false,
-      top: 10,
-      right: 10,
-      left: 105,
-    },
-    dataZoom: [],
-  };
-  override fullOptions: EChartsOption &#x3D; {
-    grid: {
-      containLabel: false,
-      top: 5,
-      right: 10,
-      left: 125,
-    },
-    dataZoom: this.chartDefaultOptions.dataZoom,
-  };
-
-  xAxisConfig: XAXisComponentOption &#x3D; {
-    type: &quot;category&quot;,
-    axisLabel: {
-      fontSize: 11,
-      margin: 3,
-      hideOverlap: true,
-    },
-    position: &quot;bottom&quot;,
-    axisTick: {
-      show: true,
-    },
-    axisLine: {
-      show: true,
-    },
-    nameLocation: &quot;middle&quot;,
-  };
-
-  axisPointer &#x3D; {
-    show: true,
-    label: {
-      formatter: (params: LabelFormatterParams): string &#x3D;&gt; {
-        const pa &#x3D; (params.value as string).split(&quot;-&quot;);
-        const labels &#x3D; [
-          &quot;Sunday&quot;,
-          &quot;Monday&quot;,
-          &quot;Tuesday&quot;,
-          &quot;Wednesday&quot;,
-          &quot;Thursday&quot;,
-          &quot;Friday&quot;,
-          &quot;Saturday&quot;,
-        ];
-        if (pa.length &gt; 1) {
-          const week &#x3D; pa[0];
-          const time &#x3D; pa[1];
-          return &#x60;${labels[+week]} ${time}:00&#x60;;
-        } else {
-          if (+pa[0]) {
-            return &#x60;${pa[0]}:00&#x60;;
-          }
-          return &#x60;${pa[0]}&#x60;;
-        }
-      },
-    },
-  };
 
   /**
-   * @override
+   * Initial chart configuration
    */
   configureChart(): void {
-    this.denseOptions[&quot;grid&quot;][&quot;bottom&quot;] &#x3D; this.getBottomMargin(true);
-    this.fullOptions[&quot;grid&quot;][&quot;bottom&quot;] &#x3D; this.getBottomMargin(false);
     const dataZoom &#x3D; this.denseView
       ? this.denseOptions.dataZoom
       : this.fullOptions.dataZoom;
     const grid &#x3D; this.denseView
-      ? this.denseOptions.grid
-      : this.fullOptions.grid;
+      ? { ...this.denseOptions.grid }
+      : { ...this.fullOptions.grid };
     this.options &#x3D; {
       ...this.chartDefaultOptions,
-      grid: {
-        ...grid,
-      },
+      grid,
       dataZoom,
       yAxis: {
         inverse: true,
         axisLabel: {
           fontSize: 11,
+          width: 110,
+          overflow: &quot;truncate&quot;,
         },
         axisTick: {
           interval: 0,
@@ -2695,111 +2616,90 @@ export class CalendarComponent
         type: &quot;category&quot;,
         // nameGap: 35, //max characters
       },
-      xAxis: { ...this.xAxisConfig }, //have default xaxis config or error occurs
+      xAxis: {}, //have default xaxis config or error occurs
       tooltip: {
         ...this.chartDefaultOptions.tooltip,
-        formatter: (
-          params: TooltipComponentFormatterCallbackParams
-        ): string &#x3D;&gt; {
-          let str &#x3D; &quot;&quot;;
-          if (!Array.isArray(params)) {
-            str +&#x3D; &#x60;&lt;div class&#x3D;&#x27;tooltip-name&#x27;&gt;${params.marker} ${params.seriesName} &lt;/div&gt;&#x60;;
-            if (params.value) {
-              str +&#x3D; &#x60;&lt;table class&#x3D;&#x27;tooltip-table&#x27;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;${
-                params.value[0]
-              }(average):&lt;/td&gt;&lt;td&gt;${
-                params.value[2]?.toPrecision(4) ?? &quot;No Data&quot;
-              }&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&#x60;;
-            }
-          }
-          return str;
-        },
+        formatter: tooltipFormatter,
       },
       series: [],
     };
   }
 
   /**
-   * @override
+   * figures out correct labels for axis
+   *
+   * @param displayType widget display type
    */
-  buildChartData(data): Promise&lt;void&gt; {
-    return new Promise&lt;void&gt;((resolve) &#x3D;&gt; {
-      this.metricSeries &#x3D; {};
-      this.visualMaps &#x3D; this.widgetConfigService.getVisualMapFromThresholds(
-        this.selectedMetrics,
-        this.properties,
-        2
-      );
+  getAxisLabels(displayType: string): void {
+    const weekLabels: string[] &#x3D; [
+      &quot;Sunday&quot;,
+      &quot;Monday&quot;,
+      &quot;Tuesday&quot;,
+      &quot;Wednesday&quot;,
+      &quot;Thursday&quot;,
+      &quot;Friday&quot;,
+      &quot;Saturday&quot;,
+    ];
 
-      this.xAxisLabels &#x3D; [];
-      this.xAxisLabels2 &#x3D; [];
-      let width;
+    const hourLabels: string[] &#x3D; [];
+    // const blanks &#x3D; new Array(23);
+    // blanks.fill(&quot;&quot;);
+    for (let i &#x3D; 0; i &lt; 24; i++) {
+      const label &#x3D; i &lt; 10 ? &#x60;0${i}&#x60; : &#x60;${i}&#x60;;
+      hourLabels.push(label + &quot;:00&quot;);
+    }
 
-      const weekLabels &#x3D; [
-        &quot;Sunday&quot;,
-        &quot;Monday&quot;,
-        &quot;Tuesday&quot;,
-        &quot;Wednesday&quot;,
-        &quot;Thursday&quot;,
-        &quot;Friday&quot;,
-        &quot;Saturday&quot;,
-      ];
+    switch (displayType) {
+      case &quot;hours-day&quot;:
+        this.xAxisLabels &#x3D; [...hourLabels];
+        break;
 
-      const hourLabels &#x3D; [];
-      const blanks &#x3D; new Array(23);
-      blanks.fill(&quot;&quot;);
-      for (let i &#x3D; 0; i &lt; 24; i++) {
-        const label &#x3D; i &lt; 10 ? &#x60;0${i}&#x60; : &#x60;${i}&#x60;;
-        hourLabels.push(label);
-      }
+      case &quot;hours-week&quot;:
+        this.xAxisLabels &#x3D; [];
+        weekLabels.forEach((weekLabel) &#x3D;&gt; {
+          this.xAxisLabels2.push(weekLabel);
 
-      switch (this.properties.displayType) {
-        case &quot;hours-day&quot;:
-          this.xAxisLabels &#x3D; [...hourLabels];
-          width &#x3D; &quot;hours-day&quot;;
-          break;
-
-        case &quot;hours-week&quot;:
-          width &#x3D; &quot;hours-week&quot;;
-          this.xAxisLabels &#x3D; [];
-          weekLabels.forEach((weekLabel, j) &#x3D;&gt; {
-            this.xAxisLabels2.push(weekLabel, ...blanks);
-
-            hourLabels.forEach((label) &#x3D;&gt; {
-              this.xAxisLabels.push(&#x60;${j}-${label}&#x60;);
-            });
-          });
-
-          break;
-
-        default:
-          width &#x3D; &quot;days-week&quot;;
-          this.xAxisLabels &#x3D; [...weekLabels];
-          break;
-      }
-
-      // this.channels.sort((chanA, chanB) &#x3D;&gt; {
-      //   return chanA.nslc.localeCompare(chanB.nslc);
-      // });
-      this.channels.forEach((channel, index) &#x3D;&gt; {
-        // store values
-        const values &#x3D; [];
-
-        //associate data with created labels
-        this.xAxisLabels.forEach((label) &#x3D;&gt; {
-          values.push({
-            label,
-            sum: 0,
-            count: 0,
+          hourLabels.forEach((label) &#x3D;&gt; {
+            this.xAxisLabels.push(&#x60;${weekLabel} ${label}&#x60;);
           });
         });
 
-        const nslc &#x3D; channel.nslc;
-        this.selectedMetrics.forEach((metric) &#x3D;&gt; {
-          if (!metric) return;
-          const channelObj &#x3D; {
+        break;
+
+      default:
+        this.xAxisLabels &#x3D; [...weekLabels];
+        break;
+    }
+  }
+
+  /**
+   * Creates chart data from measuremetns
+   *
+   * @param data processed data
+   */
+  buildChartData(data: MeasurementTypes[]): Promise&lt;void&gt; {
+    return new Promise&lt;void&gt;((resolve) &#x3D;&gt; {
+      this.metricSeries &#x3D; {};
+
+      this.xAxisLabels &#x3D; [];
+      this.xAxisLabels2 &#x3D; [];
+      this.getAxisLabels(this.properties.displayType);
+
+      const width &#x3D; this.properties.displayType;
+
+      // currently only 1 metric
+      this.selectedMetrics.forEach((metric) &#x3D;&gt; {
+        if (!metric) return;
+        let series;
+
+        // set up metric series
+        if (!this.metricSeries[metric.id]) {
+          this.metricSeries[metric.id] &#x3D; {
+            series: [],
+            yAxisLabels: [],
+          };
+          series &#x3D; {
             type: &quot;heatmap&quot;,
-            name: nslc,
             data: [],
             large: true,
             emphasis: { focus: &quot;series&quot; },
@@ -2812,147 +2712,109 @@ export class CalendarComponent
               tooltip: [0, 1, 3],
             },
           };
-          if (!this.metricSeries[metric.id]) {
-            this.metricSeries[metric.id] &#x3D; {
-              series: [],
-              yAxisLabels: [],
-            };
-          }
+          this.metricSeries[metric.id].series.push(series);
+        } else {
+          series &#x3D; this.metricSeries[metric.id].series[0];
+        }
 
-          if (data.has(channel.id)) {
-            const measurements &#x3D; data.get(channel.id).get(metric.id);
-            //trusts that measurements are in order of time
-            measurements?.forEach((measurement: Measurement) &#x3D;&gt; {
-              const measurementStart &#x3D; parseUtc(measurement.starttime);
+        // get data for every channel
+        this.channels.forEach((channel) &#x3D;&gt; {
+          const nslc &#x3D; channel.nslc;
+          this.metricSeries[metric.id].yAxisLabels.push(nslc);
 
-              let timeSegment;
-              if (width &#x3D;&#x3D;&#x3D; &quot;days-week&quot;) {
-                timeSegment &#x3D; measurementStart.day();
-              } else if (width &#x3D;&#x3D;&#x3D; &quot;hours-day&quot;) {
-                timeSegment &#x3D; measurementStart.hour();
-              } else if (width &#x3D;&#x3D;&#x3D; &quot;hours-week&quot;) {
-                const weekday &#x3D; measurementStart.day();
-                const hour &#x3D; measurementStart.hour();
+          // store values
+          const values: any[] &#x3D; [];
 
-                timeSegment &#x3D; hour + weekday * 24;
-              }
-
-              if (values[timeSegment]) {
-                values[timeSegment].count++;
-                values[timeSegment].sum +&#x3D; measurement.value;
-              }
-            });
-          }
-
-          values.forEach((value) &#x3D;&gt; {
-            const avg &#x3D; value.count &gt; 0 ? value.sum / value.count : null;
-            channelObj.data.push({
-              name: nslc,
-              value: [value.label, value.count, avg, index],
+          //associate data with created labels
+          this.xAxisLabels.forEach((label) &#x3D;&gt; {
+            values.push({
+              label,
+              sum: 0,
+              count: 0,
             });
           });
 
-          this.metricSeries[metric.id].series.push(channelObj);
-          this.metricSeries[metric.id].yAxisLabels.push(nslc);
+          const channelData: MeasurementTypes[] &#x3D; data
+            .filter((m) &#x3D;&gt; m.channel &#x3D;&#x3D;&#x3D; channel.id &amp;&amp; m.metric &#x3D;&#x3D;&#x3D; metric.id)
+            .map((m) &#x3D;&gt; {
+              m.value &#x3D; m.value ?? m[this.widgetManager.dataStat];
+              return m;
+            });
+
+          channelData.forEach((measurement: Measurement) &#x3D;&gt; {
+            const measurementStart &#x3D; parseUtc(measurement.starttime);
+            const value &#x3D;
+              measurement.value ?? measurement[this.widgetManager.dataStat];
+            // figure out which xAxisLabel this data should go to
+            let timeSegmentIndex;
+            if (width &#x3D;&#x3D;&#x3D; &quot;days-week&quot;) {
+              timeSegmentIndex &#x3D; measurementStart.day();
+            } else if (width &#x3D;&#x3D;&#x3D; &quot;hours-day&quot;) {
+              timeSegmentIndex &#x3D; measurementStart.hour();
+            } else if (width &#x3D;&#x3D;&#x3D; &quot;hours-week&quot;) {
+              const weekday &#x3D; measurementStart.day();
+              const hour &#x3D; measurementStart.hour();
+
+              timeSegmentIndex &#x3D; hour + weekday * 24;
+            }
+
+            if (values[timeSegmentIndex]) {
+              values[timeSegmentIndex].count++;
+              values[timeSegmentIndex].sum +&#x3D; value;
+            }
+            this.widgetConfigService.calculateDataRange(metric.id, value);
+          });
+
+          values.forEach((value) &#x3D;&gt; {
+            if (value.count &gt; 0) {
+              const avg &#x3D; value.count &gt; 0 ? value.sum / value.count : null;
+              series.data.push([value.label, value.count, avg, nslc]);
+            }
+          });
         });
       });
+
+      this.visualMaps &#x3D; this.widgetConfigService.getVisualMapFromThresholds(
+        this.selectedMetrics,
+        this.properties,
+        2
+      );
+
       resolve();
     });
   }
 
   /**
-   * calculated bottom margin for chart
-   *
-   * @param dense true if no zoom is used
-   * @returns margin for bottom of chart
-   */
-  private getBottomMargin(dense: boolean): number {
-    //denseview has no zoom bar
-    let margin &#x3D; dense ? 32 : 52;
-
-    if (this.properties.displayType &#x3D;&#x3D;&#x3D; &quot;hours-week&quot;) {
-      margin +&#x3D; 12;
-    }
-    return margin;
-  }
-
-  /**
-   * @override
+   * Changes displayed metrics on the chart
    */
   changeMetrics(): void {
     const displayMetric &#x3D; this.selectedMetrics[0];
     const colorMetric &#x3D; this.selectedMetrics[0];
     const visualMaps &#x3D; this.visualMaps[colorMetric.id];
-    const axes &#x3D; [];
+    const axes: any[] &#x3D; [];
 
-    let xAxis1: EChartsOption &#x3D; {
-      ...this.xAxisConfig,
-    };
     let name &#x3D; &quot;&quot;;
     if (this.properties.displayType) {
       name &#x3D; this.properties.displayType.replace(&quot;-&quot;, &quot; of &quot;);
     }
     if (this.xAxisLabels2.length &gt; 0) {
-      xAxis1 &#x3D; {
-        ...xAxis1,
-        axisTick: {
-          show: true,
-          alignWithLabel: false,
-          length: 16,
-          inside: false,
-          interval: (_index: number, value: string): boolean &#x3D;&gt; {
-            return value ? true : false;
-          },
-        },
-        axisLabel: {
-          margin: 14,
-          hideOverlap: true,
-          fontSize: 11,
-          align: &quot;left&quot;,
-          interval: (_index: number, value: string): boolean &#x3D;&gt; {
-            return value ? true : false;
-          },
-        },
-        axisPointer: {
-          show: false,
-        },
-        splitLine: {
-          show: true,
-          interval: (_index: number, value: string): boolean &#x3D;&gt; {
-            return value ? true : false;
-          },
-        },
-      };
-
-      const xAxis2 &#x3D; {
-        ...this.xAxisConfig,
-        data: this.xAxisLabels,
-        nameGap: 26,
-        name,
-        axisLabel: {
-          hideOverlap: true,
-          fontSize: 11,
-          formatter: (value: string): string &#x3D;&gt; {
-            const val &#x3D; value.split(&quot;-&quot;)[1];
-            return val &#x3D;&#x3D;&#x3D; &quot;00&quot; ? &quot;&quot; : val;
-          },
-        },
-        axisPointer: this.axisPointer,
-      };
-      xAxis1[&quot;data&quot;] &#x3D; this.xAxisLabels2;
-
-      axes.push(xAxis2);
-      axes.push(xAxis1);
+      const weekXAxis &#x3D; weekXAxisConfig;
+      const timeXAxis &#x3D; weekTimeXAxisConfig;
+      weekXAxis[&quot;data&quot;] &#x3D; this.xAxisLabels2;
+      timeXAxis[&quot;data&quot;] &#x3D; this.xAxisLabels;
+      weekXAxis[&quot;name&quot;] &#x3D; name;
+      axes.push(timeXAxis);
+      axes.push(weekXAxis);
     } else {
+      const xAxis1 &#x3D; singleXAxisConfig;
       //just one axis
       xAxis1[&quot;data&quot;] &#x3D; this.xAxisLabels;
-      xAxis1[&quot;axisPointer&quot;] &#x3D; this.axisPointer;
       xAxis1[&quot;name&quot;] &#x3D; name;
       axes.push(xAxis1);
     }
 
     visualMaps.show &#x3D; this.showKey;
-    this.updateOptions &#x3D; {
+    const options: EChartsOption &#x3D; {
       series: this.metricSeries[displayMetric.id].series,
       visualMap: visualMaps,
       xAxis: axes,
@@ -2960,12 +2822,22 @@ export class CalendarComponent
         data: this.metricSeries[displayMetric.id].yAxisLabels,
       },
     };
+
+    // using update options only prevented series from removing series
+    // using the combo sets both the inital series and later updates
+    if (!this.echartsInstance) {
+      this.updateOptions &#x3D; options;
+    } else {
+      this.echartsInstance.setOption(options, {
+        replaceMerge: [&quot;series&quot;, &quot;xAxis&quot;],
+      });
+    }
   }
 }
 </code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-templateData">
+    <div class="tab-pane fade " id="templateData">
         <pre class="line-numbers"><code class="language-html">&lt;div
   echarts
   [initOpts]&#x3D;&quot;initOptions&quot;
@@ -2980,9 +2852,9 @@ export class CalendarComponent
 </code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-styleData">
+    <div class="tab-pane fade " id="styleData">
                 <p class="comment">
-                    <code>../../shared/components/e-chart/e-chart.component.scss</code>
+                    <code>../../components/e-chart/e-chart.component.scss</code>
                 </p>
                 <pre class="line-numbers"><code class="language-scss">.chart {
   width: 100%;
@@ -3011,7 +2883,7 @@ export class CalendarComponent
 </code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-tree">
+    <div class="tab-pane fade " id="tree">
         <div id="tree-container"></div>
         <div class="tree-legend">
             <div class="title">
@@ -3037,7 +2909,7 @@ export class CalendarComponent
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
         var COMPONENT_TEMPLATE = '<div><div  echarts  [initOpts]="initOptions"  [options]="options"  [autoResize]="true"  [merge]="updateOptions"  class="chart"  (chartClick)="onChartEvent($event, \'chartClick\')"  (chartInit)="onChartInit($event)"  (chartDataZoom)="zoomStopped($event)"></div></div>'
-    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'SnackbarComponent', 'selector': 'shared-snackbar'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
+    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'BudComponent', 'selector': 'widget-calendar-plot'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
     var DIRECTIVES = [{'name': 'LoadingDirective', 'selector': '[appIsLoading]'},{'name': 'TooltipDirective', 'selector': '[uiTooltip]'},{'name': 'WidgetTypeDirective', 'selector': '[widgetContainer]'},{'name': 'WidgetTypeExampleDirective', 'selector': '[appWidgetTypeExample]'}];
     var ACTUAL_COMPONENT = {'name': 'CalendarComponent'};
 </script>

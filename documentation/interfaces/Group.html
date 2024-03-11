@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -44,23 +102,29 @@
 
 
 <ol class="breadcrumb">
-  <li>Interfaces</li>
-  <li
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
   >
   Group</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info">
+    <div class="tab-pane fade active in" id="info">
         <p class="comment">
             <h3>File</h3>
         </p>
@@ -78,7 +142,7 @@
             </p>
 
 
-        <section>
+        <section data-compodoc="block-index">
             <h3 id="index">Index</h3>
             <table class="table table-sm table-bordered index-table">
                 <tbody>
@@ -117,7 +181,7 @@
 
 
 
-            <section>
+            <section data-compodoc="block-properties">
                 <h3 id="inputs">Properties</h3>
                     <table class="table table-sm table-bordered">
                         <tbody>
@@ -150,6 +214,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>list of ChannelGroups to display</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -183,6 +253,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>name of group to show as label</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -216,13 +292,19 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>value for form option</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
             </section>
     </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
+    <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   Component,
   EventEmitter,
@@ -232,25 +314,46 @@
   Output,
   SimpleChanges,
 } from &quot;@angular/core&quot;;
-import { Location } from &quot;@angular/common&quot;;
+import { Location, NgClass, NgFor, NgIf } from &quot;@angular/common&quot;;
 import { ActivatedRoute, Router } from &quot;@angular/router&quot;;
 import { ChannelGroup } from &quot;squacapi&quot;;
 import { ChannelGroupService } from &quot;squacapi&quot;;
-import { MatFormFieldAppearance } from &quot;@angular/material/form-field&quot;;
+import {
+  MatFormFieldAppearance,
+  MatFormFieldModule,
+} from &quot;@angular/material/form-field&quot;;
+import { FormsModule } from &quot;@angular/forms&quot;;
+import { MatOptionModule } from &quot;@angular/material/core&quot;;
+import { MatAutocompleteModule } from &quot;@angular/material/autocomplete&quot;;
+import { MatInputModule } from &quot;@angular/material/input&quot;;
 
 /** Grouping of Channel Groups with a name and form value */
 interface Group {
+  /** name of group to show as label */
   name: string;
+  /** value for form option */
   value: string;
+  /** list of ChannelGroups to display */
   groups: ChannelGroup[];
 }
+
 /**
  * Dropdown select for channel groups
  */
 @Component({
   selector: &quot;shared-channel-group-selector&quot;,
   templateUrl: &quot;./channel-group-selector.component.html&quot;,
-  styleUrls: [&quot;./channel-group-selector.component.scss&quot;],
+  standalone: true,
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    NgIf,
+    NgFor,
+    NgClass,
+    MatOptionModule,
+    MatAutocompleteModule,
+  ],
 })
 export class ChannelGroupSelectorComponent implements OnInit, OnChanges {
   /** channel group id */
@@ -260,7 +363,7 @@ export class ChannelGroupSelectorComponent implements OnInit, OnChanges {
   /** true if field required */
   @Input() required &#x3D; false;
   /** form appearance */
-  @Input() appearance: MatFormFieldAppearance &#x3D; &quot;standard&quot;;
+  @Input() appearance: MatFormFieldAppearance &#x3D; &quot;fill&quot;;
   /** true if use dense style */
   @Input() dense &#x3D; false;
   /** channel groups available for select */

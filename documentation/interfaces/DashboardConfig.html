@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -44,23 +102,29 @@
 
 
 <ol class="breadcrumb">
-  <li>Interfaces</li>
-  <li
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
   >
   DashboardConfig</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info">
+    <div class="tab-pane fade active in" id="info">
         <p class="comment">
             <h3>File</h3>
         </p>
@@ -78,7 +142,7 @@
             </p>
 
 
-        <section>
+        <section data-compodoc="block-index">
             <h3 id="index">Index</h3>
             <table class="table table-sm table-bordered index-table">
                 <tbody>
@@ -134,7 +198,7 @@
 
 
 
-            <section>
+            <section data-compodoc="block-properties">
                 <h3 id="inputs">Properties</h3>
                     <table class="table table-sm table-bordered">
                         <tbody>
@@ -360,7 +424,7 @@
     </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
+    <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import { AppAbility } from &quot;@core/utils/ability&quot;;
 import { DateService } from &quot;@core/services/date.service&quot;;
@@ -381,15 +445,17 @@ import {
   Channel,
   ChannelGroup,
   ChannelGroupService,
+  ChannelService,
   Dashboard,
   DashboardService,
   WidgetService,
 } from &quot;squacapi&quot;;
 import { Widget } from &quot;widgets&quot;;
 import { TimeRange } from &quot;@shared/components/date-select/time-range.interface&quot;;
-import { DATE_PICKER_TIMERANGES } from &quot;@dashboard/components/dashboard-detail/dashboard-time-ranges&quot;;
-import { LoadingIndicator } from &quot;@dashboard/components/dashboard-detail/dashboard-detail.component&quot;;
+import { DATE_PICKER_TIMERANGES } from &quot;@dashboard/pages/detail/dashboard-time-ranges&quot;;
+import { LoadingIndicator } from &quot;@dashboard/pages/detail/dashboard-detail.component&quot;;
 import { LoadingService } from &quot;@core/services/loading.service&quot;;
+import { SearchFilter } from &quot;@channelGroup/components/channel-group-filter/interfaces&quot;;
 
 /** Current state of the dashboard configuration */
 export interface DashboardConfig {
@@ -416,6 +482,7 @@ export interface DashboardConfig {
 export class ViewService {
   datePickerTimeRanges &#x3D; DATE_PICKER_TIMERANGES;
   channels &#x3D; new BehaviorSubject&lt;Channel[]&gt;([]); //actual channels used
+  channelsChanged &#x3D; new BehaviorSubject&lt;Channel[]&gt;([]);
   private _channelsList: Record&lt;string, boolean&gt;; //{ &#x27;SCNL&#x27;: boolean }
   private _channels: Channel[] &#x3D; []; //all available channels
   private _channelGroupId: number;
@@ -445,6 +512,7 @@ export class ViewService {
     private dateService: DateService,
     private messageService: MessageService,
     private channelGroupService: ChannelGroupService,
+    private channelsService: ChannelService,
     private loadingService: LoadingService
   ) {}
 
@@ -581,6 +649,10 @@ export class ViewService {
    */
   updateDashboard(): void {
     // Get new channel group if there is a different id
+    if (this.dashboard.properties.useChannels) {
+      this._channelGroupId &#x3D; null;
+      this.dashboard.channelGroupId &#x3D; null;
+    }
     if (
       this._channelGroupId &amp;&amp;
       this._channelGroupId !&#x3D;&#x3D; this.dashboard.channelGroupId
@@ -613,12 +685,41 @@ export class ViewService {
   }
 
   /**
+   * Fetches channels with the given filters
+   *
+   * @param filters filters to request matching channels
+   * @returns Observable of requested channels
+   */
+  getChannels(filters: SearchFilter): Observable&lt;Channel[]&gt; {
+    const now &#x3D; this.dateService.now();
+    filters.endafter &#x3D; this.dateService.format(now);
+    return this.loadingService
+      .doLoading(
+        this.channelsService.list(filters),
+        this,
+        LoadingIndicator.CHANNELS
+      )
+      .pipe(
+        tap((channels) &#x3D;&gt; {
+          this._channels &#x3D; channels as Channel[];
+          this.channelsChanged.next(this._channels);
+        })
+      );
+  }
+
+  /**
    * Emits new channels and group id, tells widgets to
    * fetch new data
    */
   private sendUpdate(): void {
-    this.channelGroupId.next(this._channelGroupId);
-    const channels &#x3D; this.filterChannels();
+    let channels;
+    if (this.dashboard.properties.useChannels) {
+      channels &#x3D; this._channels;
+      this.channelGroupId.next(null);
+    } else {
+      this.channelGroupId.next(this._channelGroupId);
+      channels &#x3D; this.filterChannels();
+    }
     this.channels.next(channels);
     this.updateData.next({ dashboard: this.dashboard.id });
     this.updateDashboardConfig();
@@ -667,6 +768,11 @@ export class ViewService {
       // use default dates
       autoRefresh &#x3D; true;
       range &#x3D; this.defaultTimeRange;
+    }
+
+    if (this.dashboard.properties.useChannels) {
+      this.dashboard.channelGroup &#x3D; null;
+      this.dashboard.channelGroupId &#x3D; null;
     }
 
     // update dates
@@ -737,7 +843,6 @@ export class ViewService {
     this.resize.next(widgetId);
   }
 
-  // sends resize with no id
   /** Emits resize event with no id */
   resizeAll(): void {
     this.resize.next(null);
@@ -807,12 +912,9 @@ export class ViewService {
         next: (newWidget: Widget) &#x3D;&gt; {
           if (index &gt; -1) {
             this._widgets[index] &#x3D; newWidget;
-            this.messageService.message(&quot;Widget updated.&quot;);
           } else {
             this._widgets.push(newWidget);
-            this.messageService.message(&quot;Widget added.&quot;);
           }
-
           this.widgetChanged(newWidget.id);
         },
         error: () &#x3D;&gt; {

@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -44,23 +102,29 @@
 
 
 <ol class="breadcrumb">
-  <li>Interfaces</li>
-  <li
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
   >
   TableLink</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info">
+    <div class="tab-pane fade active in" id="info">
         <p class="comment">
             <h3>File</h3>
         </p>
@@ -81,10 +145,10 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../interfaces/ResourceLink.html" target="_self" >ResourceLink</a></code>
+                            <code><a href="../interfaces/ResourceLink.html" target="_self" >ResourceLink</a></code>
             </p>
 
-        <section>
+        <section data-compodoc="block-index">
             <h3 id="index">Index</h3>
             <table class="table table-sm table-bordered index-table">
                 <tbody>
@@ -111,7 +175,7 @@
 
 
 
-            <section>
+            <section data-compodoc="block-properties">
                 <h3 id="inputs">Properties</h3>
                     <table class="table table-sm table-bordered">
                         <tbody>
@@ -150,13 +214,9 @@
     </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-  ColumnMode,
-  SelectionType,
-  SortPropDir,
-  SortType,
-} from &quot;@boring.devs/ngx-datatable&quot;;
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { TemplateRef } from &quot;@angular/core&quot;;
+import { SortDirection } from &quot;@angular/material/sort&quot;;
 import { SearchFilterConfig } from &quot;../search-filter/interfaces&quot;;
 
 export type MenuAction &#x3D; &quot;edit&quot; | &quot;add&quot; | &quot;view&quot; | &quot;delete&quot; | string;
@@ -172,48 +232,36 @@ export interface TableMessages {
   selectedMessage?: string;
 }
 
-/** Table configuration options, see ngx-datatable */
+/** columns to display on table */
+export interface TableColumn {
+  /** display name for column */
+  name: string;
+  /**
+   * column identifier string if different than lower cased name,
+   * will define the sorting property
+   */
+  columnDef?: string;
+  cellTemplate?: TemplateRef&lt;any&gt;;
+}
+
+/** Table configuration options */
 export interface TableOptions {
-  /** column type */
-  columnMode?: ColumnMode;
-  /** selection type */
-  selectionType?: SelectionType;
-  /** height of header */
-  headerHeight?: number;
-  /** height of footer */
-  footerHeight?: number;
-  /** height of rows */
-  rowHeight?: number | &quot;auto&quot;;
   /** limit number of rows to show */
-  limit?: number;
+  // limit?: number;
   /** can reorder columns? */
-  reorderable?: boolean;
-  /** show horizontal scrollbar */
-  scrollbarH?: boolean;
-  /** show vertical scrollbar */
-  scrollbarV?: boolean;
-  /** sort options */
-  sortType?: SortType;
-  /** sort properties */
-  sorts?: SortPropDir[];
-  /** row grouping property */
-  groupRowsBy?: string;
-  /** true if rows should be grouped by default */
-  groupExpansionDefault?: boolean;
-  /** group parent model type */
-  groupParentType?: string;
+  // reorderable?: boolean;
   /** true if tabel should route to detail page */
   autoRouteToDetail?: boolean;
   /** true if should show option to select all rows on page */
-  selectAllRowsOnPage?: boolean;
-  /** true if checkboxes should be available for rows */
-  displayCheck?: boolean;
+  // selectAllRowsOnPage?: boolean;
   /** table messages */
   messages?: TableMessages;
-  /** true if use virtualization */
-  virtualization?: false;
   /** Footer label text */
   footerLabel?: string;
+  /** Default sort column */
+  defaultSort?: string;
+  /** Default diretion for sorting */
+  defaultSortDir?: SortDirection;
 }
 
 /** Table control configuration */

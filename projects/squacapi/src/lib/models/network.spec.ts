@@ -3,6 +3,7 @@ import { Network } from "./network";
 describe("Network", () => {
   it("should create an instance", () => {
     expect(new Network()).toBeTruthy();
+    expect(Network.modelName).toBe("Network");
   });
 
   it("should adapt api json to Network", () => {

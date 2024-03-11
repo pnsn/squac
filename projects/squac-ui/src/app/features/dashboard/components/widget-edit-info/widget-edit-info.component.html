@@ -1,0 +1,123 @@
+<form
+  action=""
+  [formGroup]="widgetForm"
+  (change)="checkValid()"
+  class="column form-content"
+>
+  <div>
+    <div class="label">Title:</div>
+    <mat-form-field class="large dense-form-field">
+      <input
+        matInput
+        type="text"
+        id="name"
+        formControlName="name"
+        placeholder="Widget title"
+        required
+      />
+      <mat-error *ngIf="widgetForm.get('name').hasError('required')">Please add a title.</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="label">Widget type: <span
+      class="error mat-small"
+      *ngIf="widgetForm.touched && widgetForm.get('type').hasError('required')"
+    >Please select a widget
+      type.</span></div>
+
+  <div id="widget-type-container">
+    <div id="mat-button-toggle-container">
+      <mat-button-toggle-group formControlName="type">
+        <mat-button-toggle
+          *ngFor="let widgetType of WidgetType"
+          [value]="widgetType"
+        >
+          <div class="type-label">
+            {{ widgetTypes[widgetType].config.name | titlecase }}
+          </div>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+
+
+    <ng-container *ngIf="previewType; else selectWidget">
+      <ng-container *ngIf="widgetTypes[previewType].config as config">
+        <div
+          class="type-detail-container"
+          (click)="updateType()"
+        >
+          <div class="label">
+            {{ widgetTypes[previewType].config.name | titlecase }} Widget:
+          </div>
+
+          <!-- <div class="label">Description:</div> -->
+          <p class="help-text body-2">
+            {{ config.description }}
+          </p>
+
+
+          <div
+            id="stat-type-container"
+            *ngIf="config.useAggregate"
+          >
+            <div class="label">Measurement aggregation:</div>
+            <mat-form-field
+              class="dense-form-field"
+              subscriptSizing="dynamic"
+            >
+              <mat-select
+                formControlName="stat"
+                required
+                class="dense-select"
+              >
+                <mat-option
+                  *ngFor="let statType of WidgetStatType"
+                  [value]="statType"
+                  class="dense-option"
+                >
+                  {{ WIDGET_STAT_TYPE_NAMES[statType] }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div
+            id="display-container"
+            class="column"
+            *ngIf="config.displayOptions"
+          >
+            <div class="label">Display type:</div>
+            <mat-radio-group
+              formControlName="displayType"
+              class="dense-radio-button-group"
+            >
+              <mat-radio-button
+                *ngFor="let option of config.displayOptions | keyvalue"
+                [value]="option.key"
+                class="radio-button-dense"
+              >
+                <div class="option-container">
+                  <span>{{ option.value.description }}</span>
+                </div>
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <div class="label">Example Chart:</div>
+          <div id="chart-container">
+            <div
+              appWidgetTypeExample
+              [type]="previewType"
+              [displayType]="displayType"
+              [properties]="properties"
+              [stat]="stat"
+            ></div>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <ng-template #selectWidget>
+      <div class="type-detail-container">Select a widget type to view preview.</div>
+    </ng-template>
+  </div>
+</form>

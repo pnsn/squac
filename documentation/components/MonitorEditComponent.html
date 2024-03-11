@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -35,32 +93,37 @@
 
 
 <ol class="breadcrumb">
-  <li>Components</li>
-  <li
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
   >
   MonitorEditComponent</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
-        <li >
-            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
         </li>
-        <li >
-            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
         </li>
-        <li >
-            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
     <h3>File</h3>
 </p>
 <p class="comment">
@@ -81,15 +144,16 @@
         <h3>Implements</h3>
     </p>
     <p class="comment">
-                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
-                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+                <code>OnInit</code>
+                <code>OnDestroy</code>
     </p>
 
 
-<section>
+<section data-compodoc="block-metadata">
     <h3>Metadata</h3>
     <table class="table table-sm table-hover metadata">
         <tbody>
+
 
 
 
@@ -115,6 +179,31 @@
             </tr>
 
             <tr>
+                <td class="col-md-3">Standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>ReactiveFormsModule</code>
+                            <code>MatStepperModule</code>
+                            <code>MatFormFieldModule</code>
+                            <code>MatInputModule</code>
+                            <code>MatCheckboxModule</code>
+                            <code>MatOptionModule</code>
+                            <code>MatIconModule</code>
+                            <code>MatDialogModule</code>
+                            <code>MatButtonModule</code>
+                            <code>MatSelectModule</code>
+                            <code>MatSlideToggleModule</code>
+                            <code>NgIf</code>
+                            <code>NgFor</code>
+                            <code>KeyValuePipe</code>
+                </td>
+            </tr>
+
+            <tr>
                 <td class="col-md-3">styleUrls</td>
                 <td class="col-md-9"><code>./monitor-edit.component.scss</code></td>
             </tr>
@@ -137,7 +226,7 @@
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -153,6 +242,7 @@
                                 <a href="#channelGroups" >channelGroups</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                     <span class="modifier">Public</span>
                                 <a href="#data" >data</a>
                             </li>
@@ -277,18 +367,18 @@
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-constructor">
     <h3 id="constructor">Constructor</h3>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(formBuilder: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>, monitorService: <a href="../injectables/MonitorService.html" target="_self">MonitorService</a>, dialogRef: <a href="../components/MonitorEditComponent.html" target="_self">MatDialogRef&lt;MonitorEditComponent&gt;</a>, triggerService: <a href="../injectables/TriggerService.html" target="_self">TriggerService</a>, messageService: <a href="../injectables/MessageService.html" target="_self">MessageService</a>, data: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+<code>constructor(formBuilder: FormBuilder, monitorService: <a href="../injectables/MonitorService.html" target="_self">MonitorService</a>, dialogRef: <a href="../components/MonitorEditComponent.html" target="_self">MatDialogRef&lt;MonitorEditComponent&gt;</a>, triggerService: <a href="../injectables/TriggerService.html" target="_self">TriggerService</a>, messageService: <a href="../injectables/MessageService.html" target="_self">MessageService</a>, data: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="119" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:119</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="151" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:151</a></div>
                             </td>
                         </tr>
 
@@ -309,7 +399,7 @@
                                                         <td>formBuilder</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+                                                                    <code>FormBuilder</code>
                                                         </td>
                                                   
                                                     <td>
@@ -390,7 +480,7 @@
 
 
 
-    <section>
+    <section data-compodoc="block-methods">
     
     <h3 id="methods">
         Methods
@@ -413,60 +503,58 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="185"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:185</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="217"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:217</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Add new trigger and subscribe to changes</p>
+                        <div class="io-description"><p>Add new trigger and subscribe to changes</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>trigger</td>
-                                    <td>
-                                            <code>Trigger</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>trigger</td>
+                                            <td>
+                                                        <code>Trigger</code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    Yes
+                                            </td>
 
 
-                                    <td>
-                                        <p>trigger to add</p>
+                                            <td>
+                                                    <p>trigger to add</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -489,60 +577,58 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="292"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:292</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="323"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:323</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Cancel without saving changes</p>
+                        <div class="io-description"><p>Cancel without saving changes</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>monitor</td>
-                                    <td>
-                                            <code>Monitor</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>monitor</td>
+                                            <td>
+                                                        <code>Monitor</code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    Yes
+                                            </td>
 
 
-                                    <td>
-                                        <p>monitor if editing</p>
+                                            <td>
+                                                    <p>monitor if editing</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -553,7 +639,7 @@
                 <td class="col-md-4">
                     <a name="initForm"></a>
                     <span class="name">
-                        <span class="modifier">Private</span>
+                            <span class="modifier">Private</span>
                         <span ><b>initForm</b></span>
                         <a href="#initForm"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -561,29 +647,29 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>initForm()</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="299"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:299</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="330"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:330</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Populate monitor info in form</p>
+                        <div class="io-description"><p>Populate monitor info in form</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -606,61 +692,59 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="151"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:151</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="183"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:183</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Add a new trigger to the form</p>
+                        <div class="io-description"><p>Add a new trigger to the form</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>trigger</td>
-                                    <td>
-                                            <code>Trigger</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>trigger</td>
+                                            <td>
+                                                        <code>Trigger</code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    Yes
+                                            </td>
 
 
-                                    <td>
-                                        <p>trigger to add, empty if blank form</p>
+                                            <td>
+                                                    <p>trigger to add, empty if blank form</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>FormGroup&lt;TriggerForm&gt;</code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>FormGroup&lt;TriggerForm&gt;</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>trigger form group</p>
+                        </div>
+                            <div class="io-description">
+                                <p>trigger form group</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -683,23 +767,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="327"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:327</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="358"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:358</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>unsubscribe</p>
+                        <div class="io-description"><p>unsubscribe</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -722,23 +806,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="131"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:131</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="163"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:163</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Get initial data</p>
+                        <div class="io-description"><p>Get initial data</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -761,60 +845,58 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="238"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:238</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="269"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:269</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Removes trigger at index</p>
+                        <div class="io-description"><p>Removes trigger at index</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>index</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>index</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>index in form array</p>
+                                            <td>
+                                                    <p>index in form array</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -837,23 +919,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="247"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:247</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="278"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:278</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Saves monitor to squacapi</p>
+                        <div class="io-description"><p>Saves monitor to squacapi</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -876,76 +958,74 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="202"
-                            class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:202</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="234"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:234</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Enable and disables trigger from controls depending
+                        <div class="io-description"><p>Enable and disables trigger from controls depending
 on which values are set</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>values</td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>values</td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>form values</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>triggerFormGroup</td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>changed form group</p>
+                                            <td>
+                                                    <p>form values</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>triggerFormGroup</td>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>changed form group</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </section>
-    <section>
+    <section data-compodoc="block-properties">
     
     <h3 id="inputs">
         Properties
@@ -969,7 +1049,7 @@ on which values are set</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:93</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="125" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:125</a></div>
                         </td>
                     </tr>
 
@@ -982,6 +1062,7 @@ on which values are set</p>
                 <td class="col-md-4">
                     <a name="data"></a>
                     <span class="name">
+                            <span class="modifier"></span>
                             <span class="modifier">Public</span>
                         <span ><b>data</b></span>
                         <a href="#data"><span class="icon ion-ios-link"></span></a>
@@ -1005,7 +1086,7 @@ on which values are set</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="127" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:127</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="159" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:159</a></div>
                         </td>
                     </tr>
 
@@ -1032,7 +1113,7 @@ on which values are set</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="124" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:124</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="156" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:156</a></div>
                         </td>
                     </tr>
 
@@ -1058,7 +1139,7 @@ on which values are set</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:90</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="122" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:122</a></div>
                         </td>
                     </tr>
 
@@ -1089,7 +1170,7 @@ on which values are set</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:96</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="128" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:128</a></div>
                         </td>
                     </tr>
 
@@ -1115,7 +1196,7 @@ on which values are set</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:106</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="138" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:138</a></div>
                         </td>
                     </tr>
 
@@ -1140,7 +1221,7 @@ on which values are set</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:95</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="127" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:127</a></div>
                         </td>
                     </tr>
 
@@ -1166,7 +1247,7 @@ on which values are set</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:89</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="121" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:121</a></div>
                         </td>
                     </tr>
 
@@ -1191,7 +1272,7 @@ on which values are set</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="99" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:99</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="131" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:131</a></div>
                         </td>
                     </tr>
 
@@ -1217,7 +1298,7 @@ on which values are set</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:94</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="126" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:126</a></div>
                         </td>
                     </tr>
 
@@ -1243,7 +1324,7 @@ on which values are set</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:92</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="124" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:124</a></div>
                         </td>
                     </tr>
 
@@ -1268,7 +1349,7 @@ on which values are set</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="100" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:100</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="132" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:132</a></div>
                         </td>
                     </tr>
 
@@ -1305,13 +1386,13 @@ on which values are set</p>
     metric: new FormControl(null, Validators.required),
     channelGroup: new FormControl(null, Validators.required),
     triggers: this.formBuilder.array&lt;FormGroup&lt;TriggerForm&gt;&gt;([]),
-    doDailyDigest: new FormControl(null, Validators.required),
+    doDailyDigest: new FormControl(false),
   })</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="107" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:107</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="139" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:139</a></div>
                         </td>
                     </tr>
 
@@ -1336,7 +1417,7 @@ on which values are set</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:102</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="134" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:134</a></div>
                         </td>
                     </tr>
 
@@ -1362,7 +1443,7 @@ on which values are set</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:91</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="123" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:123</a></div>
                         </td>
                     </tr>
 
@@ -1393,7 +1474,7 @@ on which values are set</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:97</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="129" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:129</a></div>
                         </td>
                     </tr>
 
@@ -1419,7 +1500,7 @@ on which values are set</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="104" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:104</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="136" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:136</a></div>
                         </td>
                     </tr>
 
@@ -1445,7 +1526,7 @@ on which values are set</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="105" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:105</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="137" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:137</a></div>
                         </td>
                     </tr>
 
@@ -1476,7 +1557,7 @@ on which values are set</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:88</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="120" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:120</a></div>
                         </td>
                     </tr>
 
@@ -1501,7 +1582,7 @@ on which values are set</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="101" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:101</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="133" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:133</a></div>
                         </td>
                     </tr>
 
@@ -1510,7 +1591,7 @@ on which values are set</p>
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-accessors">
     <h3 id="accessors">
         Accessors
     </h3>
@@ -1530,7 +1611,7 @@ on which values are set</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="139" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:139</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="171" class="link-to-prism">projects/squac-ui/src/app/features/monitor/components/monitor-edit/monitor-edit.component.ts:171</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1551,7 +1632,7 @@ on which values are set</p>
 </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
+    <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { STEPPER_GLOBAL_OPTIONS } from &quot;@angular/cdk/stepper&quot;;
 import { Component, Inject, OnDestroy, OnInit } from &quot;@angular/core&quot;;
 import {
@@ -1559,9 +1640,14 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
+  ReactiveFormsModule,
   Validators,
 } from &quot;@angular/forms&quot;;
-import { MatDialogRef, MAT_DIALOG_DATA } from &quot;@angular/material/dialog&quot;;
+import {
+  MatDialogModule,
+  MatDialogRef,
+  MAT_DIALOG_DATA as MAT_DIALOG_DATA,
+} from &quot;@angular/material/dialog&quot;;
 import {
   ChannelGroup,
   INTERVAL_TYPES,
@@ -1582,6 +1668,16 @@ import { MessageService } from &quot;@core/services/message.service&quot;;
 import { merge, Subscription } from &quot;rxjs&quot;;
 import { switchMap } from &quot;rxjs/operators&quot;;
 import { emailListStringValidator } from &quot;@core/utils/validators&quot;;
+import { MatStepperModule } from &quot;@angular/material/stepper&quot;;
+import { MatFormFieldModule } from &quot;@angular/material/form-field&quot;;
+import { MatInputModule } from &quot;@angular/material/input&quot;;
+import { MatCheckboxModule } from &quot;@angular/material/checkbox&quot;;
+import { MatOptionModule } from &quot;@angular/material/core&quot;;
+import { MatIconModule } from &quot;@angular/material/icon&quot;;
+import { KeyValuePipe, NgFor, NgIf } from &quot;@angular/common&quot;;
+import { MatButtonModule } from &quot;@angular/material/button&quot;;
+import { MatSelectModule } from &quot;@angular/material/select&quot;;
+import { MatSlideToggleModule } from &quot;@angular/material/slide-toggle&quot;;
 
 /**
  * Trigger form fields
@@ -1631,6 +1727,23 @@ interface MonitorForm {
   selector: &quot;monitor-edit&quot;,
   templateUrl: &quot;./monitor-edit.component.html&quot;,
   styleUrls: [&quot;./monitor-edit.component.scss&quot;],
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    MatStepperModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatOptionModule,
+    MatIconModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    NgIf,
+    NgFor,
+    KeyValuePipe,
+  ],
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,
@@ -1669,7 +1782,7 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
     metric: new FormControl(null, Validators.required),
     channelGroup: new FormControl(null, Validators.required),
     triggers: this.formBuilder.array&lt;FormGroup&lt;TriggerForm&gt;&gt;([]),
-    doDailyDigest: new FormControl(null, Validators.required),
+    doDailyDigest: new FormControl(false),
   });
 
   constructor(
@@ -1756,7 +1869,6 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
   validateTrigger(values, triggerFormGroup): void {
     const val2 &#x3D; triggerFormGroup.get(&quot;val2&quot;);
     const numChannels &#x3D; triggerFormGroup.get(&quot;numChannels&quot;);
-
     // if not outside of or within, val2 not required
     if (
       values.valueOperator !&#x3D;&#x3D; &quot;outsideof&quot; &amp;&amp;
@@ -1885,25 +1997,44 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
 </code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;div mat-dialog-title class&#x3D;&quot;dialog-title&quot;&gt;
-  &lt;h3&gt;{{ editMode ? &quot;Edit Monitor&quot; : &quot;New Monitor&quot; }}&lt;/h3&gt;
-  &lt;button mat-icon-button (click)&#x3D;&quot;cancel()&quot; type&#x3D;&quot;button&quot;&gt;
-    &lt;mat-icon&gt;close&lt;/mat-icon&gt;
-  &lt;/button&gt;
-&lt;/div&gt;
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;h2 mat-dialog-title&gt;{{ editMode ? &quot;Edit Monitor&quot; : &quot;New Monitor&quot; }}&lt;/h2&gt;
+
 &lt;div mat-dialog-content&gt;
-  &lt;form #monitorEditForm [formGroup]&#x3D;&quot;monitorForm&quot; class&#x3D;&quot;form&quot;&gt;
-    &lt;mat-horizontal-stepper #stepper color&#x3D;&quot;primary&quot;&gt;
-      &lt;mat-step label&#x3D;&quot;Monitor Configuration&quot; #infoStep [completed]&#x3D;&quot;monitorForm.valid&quot; state&#x3D;&quot;monitor&quot;&gt;
+  &lt;form
+    #monitorEditForm
+    [formGroup]&#x3D;&quot;monitorForm&quot;
+    class&#x3D;&quot;form&quot;
+  &gt;
+    &lt;mat-horizontal-stepper
+      class&#x3D;&quot;dialog-stepper dense-stepper&quot;
+      #stepper
+      color&#x3D;&quot;primary&quot;
+    &gt;
+      &lt;mat-step
+        label&#x3D;&quot;Monitor Configuration&quot;
+        #infoStep
+        [completed]&#x3D;&quot;monitorForm.valid&quot;
+        state&#x3D;&quot;monitor&quot;
+      &gt;
         &lt;div id&#x3D;&quot;monitor-edit-container&quot;&gt;
-          &lt;mat-form-field class&#x3D;&quot;large&quot;&gt;
-            &lt;!-- hintLabel&#x3D;&quot;Max 60 characters&quot; --&gt;
-            &lt;mat-label for&#x3D;&quot;name&quot;&gt;Monitor Name&lt;/mat-label&gt;
-            &lt;input matInput #name maxLength&#x3D;&quot;60&quot; type&#x3D;&quot;text&quot; name&#x3D;&quot;name&quot; formControlName&#x3D;&quot;name&quot; /&gt;
-            &lt;!-- &lt;mat-hint align&#x3D;&quot;end&quot;&gt;{{ name.value?.length || 0 }}/60&lt;/mat-hint&gt; --&gt;
-          &lt;/mat-form-field&gt;
-          &lt;p class&#x3D;&quot;help-text&quot;&gt;
+          &lt;div&gt;
+            &lt;div class&#x3D;&quot;label&quot;&gt;Name:&lt;/div&gt;
+            &lt;mat-form-field class&#x3D;&quot;large&quot;&gt;
+              &lt;!-- hintLabel&#x3D;&quot;Max 60 characters&quot; --&gt;
+              &lt;mat-label for&#x3D;&quot;name&quot;&gt;Monitor Name&lt;/mat-label&gt;
+              &lt;input
+                matInput
+                #name
+                maxLength&#x3D;&quot;60&quot;
+                type&#x3D;&quot;text&quot;
+                name&#x3D;&quot;name&quot;
+                formControlName&#x3D;&quot;name&quot;
+              /&gt;
+              &lt;!-- &lt;mat-hint align&#x3D;&quot;end&quot;&gt;{{ name.value?.length || 0 }}/60&lt;/mat-hint&gt; --&gt;
+            &lt;/mat-form-field&gt;
+          &lt;/div&gt;
+          &lt;p class&#x3D;&quot;mat-small&quot;&gt;
             A monitor is &#x27;in alarm&#x27; when the following conditions are true.
           &lt;/p&gt;
           &lt;div id&#x3D;&quot;monitor-body&quot;&gt;
@@ -1911,8 +2042,14 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
               &lt;span&gt;The&lt;/span&gt;
               &lt;mat-form-field class&#x3D;&quot;xsmall&quot;&gt;
                 &lt;mat-label&gt;statistic&lt;/mat-label&gt;
-                &lt;mat-select formControlName&#x3D;&quot;stat&quot; name&#x3D;&quot;stat&quot;&gt;
-                  &lt;mat-option *ngFor&#x3D;&quot;let stat of MONITOR_STATS | keyvalue&quot; [value]&#x3D;&quot;stat.key&quot;&gt;
+                &lt;mat-select
+                  formControlName&#x3D;&quot;stat&quot;
+                  name&#x3D;&quot;stat&quot;
+                &gt;
+                  &lt;mat-option
+                    *ngFor&#x3D;&quot;let stat of MONITOR_STATS | keyvalue&quot;
+                    [value]&#x3D;&quot;stat.key&quot;
+                  &gt;
                     {{ stat.value }}
                   &lt;/mat-option&gt;
                 &lt;/mat-select&gt;
@@ -1921,8 +2058,15 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
               &lt;span&gt;of&lt;/span&gt;
               &lt;mat-form-field class&#x3D;&quot;medium&quot;&gt;
                 &lt;mat-label&gt;Metric&lt;/mat-label&gt;
-                &lt;mat-select formControlName&#x3D;&quot;metric&quot; name&#x3D;&quot;metric&quot; placeholder&#x3D;&quot;metric&quot;&gt;
-                  &lt;mat-option *ngFor&#x3D;&quot;let m of metrics&quot; [value]&#x3D;&quot;m&quot;&gt;{{ m.name }}
+                &lt;mat-select
+                  formControlName&#x3D;&quot;metric&quot;
+                  name&#x3D;&quot;metric&quot;
+                  placeholder&#x3D;&quot;metric&quot;
+                &gt;
+                  &lt;mat-option
+                    *ngFor&#x3D;&quot;let m of metrics&quot;
+                    [value]&#x3D;&quot;m&quot;
+                  &gt;{{ m.name }}
                   &lt;/mat-option&gt;
                 &lt;/mat-select&gt;
               &lt;/mat-form-field&gt;
@@ -1935,36 +2079,63 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
                   &lt;span&gt;is&lt;/span&gt;
                   &lt;mat-form-field class&#x3D;&quot;xsmall&quot;&gt;
                     &lt;mat-label for&#x3D;&quot;valueOperator&quot;&gt;operator&lt;/mat-label&gt;
-                    &lt;mat-select formControlName&#x3D;&quot;valueOperator&quot; name&#x3D;&quot;valueOperator&quot;&gt;
-                      &lt;mat-option *ngFor&#x3D;&quot;let o of VALUE_OPERATORS | keyvalue&quot; [value]&#x3D;&quot;o.key&quot;&gt;
+                    &lt;mat-select
+                      formControlName&#x3D;&quot;valueOperator&quot;
+                      name&#x3D;&quot;valueOperator&quot;
+                    &gt;
+                      &lt;mat-option
+                        *ngFor&#x3D;&quot;let o of VALUE_OPERATORS | keyvalue&quot;
+                        [value]&#x3D;&quot;o.key&quot;
+                      &gt;
                         {{ o.value }}
                       &lt;/mat-option&gt;
                     &lt;/mat-select&gt;
                   &lt;/mat-form-field&gt;
                   &lt;mat-form-field class&#x3D;&quot;xsmall&quot;&gt;
                     &lt;mat-label for&#x3D;&quot;val1&quot;&gt;value&lt;/mat-label&gt;
-                    &lt;input matInput name&#x3D;&quot;val1&quot; formControlName&#x3D;&quot;val1&quot; type&#x3D;&quot;number&quot; /&gt;
+                    &lt;input
+                      matInput
+                      name&#x3D;&quot;val1&quot;
+                      formControlName&#x3D;&quot;val1&quot;
+                      type&#x3D;&quot;number&quot;
+                    /&gt;
                   &lt;/mat-form-field&gt;
                   &lt;ng-container&gt; &lt;/ng-container&gt;
                   &lt;span&gt; and &lt;/span&gt;
                   &lt;mat-form-field class&#x3D;&quot;xsmall&quot;&gt;
                     &lt;mat-label for&#x3D;&quot;val2&quot;&gt;value 2&lt;/mat-label&gt;
-                    &lt;input matInput type&#x3D;&quot;number&quot; name&#x3D;&quot;val2&quot; formControlName&#x3D;&quot;val2&quot; /&gt;
+                    &lt;input
+                      matInput
+                      type&#x3D;&quot;number&quot;
+                      name&#x3D;&quot;val2&quot;
+                      formControlName&#x3D;&quot;val2&quot;
+                    /&gt;
                   &lt;/mat-form-field&gt;
                 &lt;/div&gt;
                 &lt;div id&#x3D;&quot;trigger-channels&quot;&gt;
                   &lt;span&gt;for&lt;/span&gt;
                   &lt;mat-form-field class&#x3D;&quot;xsmall&quot;&gt;
                     &lt;mat-label for&#x3D;&quot;numChannelsOperator&quot;&gt;operator&lt;/mat-label&gt;
-                    &lt;mat-select formControlName&#x3D;&quot;numChannelsOperator&quot; name&#x3D;&quot;numChannelsOperator&quot;&gt;
-                      &lt;mat-option *ngFor&#x3D;&quot;let n of NUM_CHANNELS_OPERATORS | keyvalue&quot; [value]&#x3D;&quot;n.key&quot;&gt;
+                    &lt;mat-select
+                      formControlName&#x3D;&quot;numChannelsOperator&quot;
+                      name&#x3D;&quot;numChannelsOperator&quot;
+                    &gt;
+                      &lt;mat-option
+                        *ngFor&#x3D;&quot;let n of NUM_CHANNELS_OPERATORS | keyvalue&quot;
+                        [value]&#x3D;&quot;n.key&quot;
+                      &gt;
                         {{ n.value }}
                       &lt;/mat-option&gt;
                     &lt;/mat-select&gt;
                   &lt;/mat-form-field&gt;
                   &lt;mat-form-field class&#x3D;&quot;xsmall&quot;&gt;
                     &lt;mat-label for&#x3D;&quot;numChannels&quot;&gt;# of channels&lt;/mat-label&gt;
-                    &lt;input matInput type&#x3D;&quot;number&quot; name&#x3D;&quot;numChannels&quot; formControlName&#x3D;&quot;numChannels&quot; /&gt;
+                    &lt;input
+                      matInput
+                      type&#x3D;&quot;number&quot;
+                      name&#x3D;&quot;numChannels&quot;
+                      formControlName&#x3D;&quot;numChannels&quot;
+                    /&gt;
                   &lt;/mat-form-field&gt;
                 &lt;/div&gt;
               &lt;/ng-container&gt;
@@ -1973,9 +2144,18 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
               &lt;span&gt;in&lt;/span&gt;
               &lt;mat-form-field class&#x3D;&quot;medium&quot;&gt;
                 &lt;mat-label&gt; Channel Group &lt;/mat-label&gt;
-                &lt;mat-select formControlName&#x3D;&quot;channelGroup&quot; name&#x3D;&quot;channelGroup&quot;&gt;
-                  &lt;mat-optgroup *ngFor&#x3D;&quot;let group of channelGroups&quot; [label]&#x3D;&quot;group.name&quot;&gt;
-                    &lt;mat-option *ngFor&#x3D;&quot;let channelGroup of group.groups&quot; [value]&#x3D;&quot;channelGroup.id&quot;&gt;{{ channelGroup.name
+                &lt;mat-select
+                  formControlName&#x3D;&quot;channelGroup&quot;
+                  name&#x3D;&quot;channelGroup&quot;
+                &gt;
+                  &lt;mat-optgroup
+                    *ngFor&#x3D;&quot;let group of channelGroups&quot;
+                    [label]&#x3D;&quot;group.name&quot;
+                  &gt;
+                    &lt;mat-option
+                      *ngFor&#x3D;&quot;let channelGroup of group.groups&quot;
+                      [value]&#x3D;&quot;channelGroup.id&quot;
+                    &gt;{{ channelGroup.name
                       }} ({{
                       channelGroup.channelsCount
                       }})&lt;/mat-option&gt;
@@ -1988,12 +2168,23 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
 
               &lt;mat-form-field class&#x3D;&quot;xsmall&quot;&gt;
                 &lt;mat-label for&#x3D;&quot;intervalCount&quot;&gt;# of intervals&lt;/mat-label&gt;
-                &lt;input matInput name&#x3D;&quot;intervalCount&quot; formControlName&#x3D;&quot;intervalCount&quot; type&#x3D;&quot;number&quot; /&gt;
+                &lt;input
+                  matInput
+                  name&#x3D;&quot;intervalCount&quot;
+                  formControlName&#x3D;&quot;intervalCount&quot;
+                  type&#x3D;&quot;number&quot;
+                /&gt;
               &lt;/mat-form-field&gt;
               &lt;mat-form-field class&#x3D;&quot;xsmall&quot;&gt;
                 &lt;mat-label for&#x3D;&quot;IntervalType&quot;&gt;interval&lt;/mat-label&gt;
-                &lt;mat-select formControlName&#x3D;&quot;intervalType&quot; name&#x3D;&quot;intervalType&quot;&gt;
-                  &lt;mat-option *ngFor&#x3D;&quot;let type of INTERVAL_TYPES | keyvalue&quot; [value]&#x3D;&quot;type.key&quot;&gt;
+                &lt;mat-select
+                  formControlName&#x3D;&quot;intervalType&quot;
+                  name&#x3D;&quot;intervalType&quot;
+                &gt;
+                  &lt;mat-option
+                    *ngFor&#x3D;&quot;let type of INTERVAL_TYPES | keyvalue&quot;
+                    [value]&#x3D;&quot;type.key&quot;
+                  &gt;
                     {{ type.value
                     }}{{ monitorForm.value.intervalCount &gt; 1 ? &quot;s&quot; : &quot;&quot; }}
                   &lt;/mat-option&gt;
@@ -2004,8 +2195,12 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/mat-step&gt;
-      &lt;mat-step label&#x3D;&quot;Notification Settings&quot; #triggerStep [completed]&#x3D;&quot;triggers.valid &amp;&amp; triggers.controls.length &gt; 0&quot;
-        state&#x3D;&quot;trigger&quot;&gt;
+      &lt;mat-step
+        label&#x3D;&quot;Notification Settings&quot;
+        #triggerStep
+        [completed]&#x3D;&quot;triggers.valid &amp;&amp; triggers.controls.length &gt; 0&quot;
+        state&#x3D;&quot;trigger&quot;
+      &gt;
         &lt;div id&#x3D;&quot;trigger-container&quot;&gt;
           &lt;p class&#x3D;&quot;help-text&quot;&gt;
             An alert will be sent when the monitor enters the &#x27;in alarm&#x27; state.
@@ -2021,25 +2216,38 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
           &lt;mat-slide-toggle formControlName&#x3D;&quot;doDailyDigest&quot;&gt;
             Send daily digest instead of alerts
           &lt;/mat-slide-toggle&gt;
-          &lt;div id&#x3D;&quot;table-container&quot; formArrayName&#x3D;&quot;triggers&quot;&gt;
+          &lt;div
+            id&#x3D;&quot;table-container&quot;
+            formArrayName&#x3D;&quot;triggers&quot;
+          &gt;
             &lt;table id&#x3D;&quot;trigger-table&quot;&gt;
               &lt;tr&gt;
-                &lt;th&gt;&lt;/th&gt;
+                &lt;th class&#x3D;&quot;trigger-id&quot;&gt;&lt;/th&gt;
                 &lt;th colspan&#x3D;&quot;3&quot;&gt;Values&lt;/th&gt;
                 &lt;th colspan&#x3D;&quot;2&quot;&gt;# of channels&lt;/th&gt;
+                &lt;th class&#x3D;&quot;delete&quot;&gt;&lt;/th&gt;
               &lt;/tr&gt;
               &lt;ng-container *ngFor&#x3D;&quot;let trigger of triggers.controls; let i &#x3D; index&quot;&gt;
-                &lt;ng-container [formGroupName]&#x3D;&quot;i&quot; class&#x3D;&quot;trigger&quot;&gt;
+                &lt;ng-container
+                  [formGroupName]&#x3D;&quot;i&quot;
+                  class&#x3D;&quot;trigger&quot;
+                &gt;
                   &lt;tr&gt;
-                    &lt;td&gt;
+                    &lt;td class&#x3D;&quot;trigger-id&quot;&gt;
                       Trigger
                       {{ i + 1 }}:
                     &lt;/td&gt;
                     &lt;td&gt;
                       &lt;mat-form-field class&#x3D;&quot;xsmall&quot;&gt;
                         &lt;mat-label for&#x3D;&quot;valueOperator&quot;&gt;operator&lt;/mat-label&gt;
-                        &lt;mat-select formControlName&#x3D;&quot;valueOperator&quot; name&#x3D;&quot;valueOperator&quot;&gt;
-                          &lt;mat-option *ngFor&#x3D;&quot;let o of VALUE_OPERATORS | keyvalue&quot; [value]&#x3D;&quot;o.key&quot;&gt;
+                        &lt;mat-select
+                          formControlName&#x3D;&quot;valueOperator&quot;
+                          name&#x3D;&quot;valueOperator&quot;
+                        &gt;
+                          &lt;mat-option
+                            *ngFor&#x3D;&quot;let o of VALUE_OPERATORS | keyvalue&quot;
+                            [value]&#x3D;&quot;o.key&quot;
+                          &gt;
                             {{ o.value }}
                           &lt;/mat-option&gt;
                         &lt;/mat-select&gt;
@@ -2051,21 +2259,37 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
                     &lt;td&gt;
                       &lt;mat-form-field class&#x3D;&quot;xsmall&quot;&gt;
                         &lt;mat-label for&#x3D;&quot;val1&quot;&gt;value&lt;/mat-label&gt;
-                        &lt;input matInput type&#x3D;&quot;number&quot; name&#x3D;&quot;val1&quot; formControlName&#x3D;&quot;val1&quot; /&gt;
+                        &lt;input
+                          matInput
+                          type&#x3D;&quot;number&quot;
+                          name&#x3D;&quot;val1&quot;
+                          formControlName&#x3D;&quot;val1&quot;
+                        /&gt;
                         &lt;mat-error *ngIf&#x3D;&quot;trigger.get(&#x27;val1&#x27;).hasError(&#x27;required&#x27;)&quot;&gt;* required field&lt;/mat-error&gt;
                       &lt;/mat-form-field&gt;
                     &lt;/td&gt;
                     &lt;td&gt;
                       &lt;mat-form-field class&#x3D;&quot;xsmall&quot;&gt;
                         &lt;mat-label for&#x3D;&quot;val2&quot;&gt;value 2&lt;/mat-label&gt;
-                        &lt;input matInput type&#x3D;&quot;number&quot; name&#x3D;&quot;val2&quot; formControlName&#x3D;&quot;val2&quot; /&gt;
+                        &lt;input
+                          matInput
+                          type&#x3D;&quot;number&quot;
+                          name&#x3D;&quot;val2&quot;
+                          formControlName&#x3D;&quot;val2&quot;
+                        /&gt;
                       &lt;/mat-form-field&gt;
                     &lt;/td&gt;
                     &lt;td&gt;
                       &lt;mat-form-field class&#x3D;&quot;xsmall&quot;&gt;
                         &lt;mat-label for&#x3D;&quot;numChannelsOperator&quot;&gt;operator&lt;/mat-label&gt;
-                        &lt;mat-select formControlName&#x3D;&quot;numChannelsOperator&quot; name&#x3D;&quot;numChannelsOperator&quot;&gt;
-                          &lt;mat-option *ngFor&#x3D;&quot;let n of NUM_CHANNELS_OPERATORS | keyvalue&quot; [value]&#x3D;&quot;n.key&quot;&gt;
+                        &lt;mat-select
+                          formControlName&#x3D;&quot;numChannelsOperator&quot;
+                          name&#x3D;&quot;numChannelsOperator&quot;
+                        &gt;
+                          &lt;mat-option
+                            *ngFor&#x3D;&quot;let n of NUM_CHANNELS_OPERATORS | keyvalue&quot;
+                            [value]&#x3D;&quot;n.key&quot;
+                          &gt;
                             {{ n.value }}
                           &lt;/mat-option&gt;
                         &lt;/mat-select&gt;
@@ -2079,8 +2303,27 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
                     &lt;td&gt;
                       &lt;mat-form-field class&#x3D;&quot;xsmall&quot;&gt;
                         &lt;mat-label for&#x3D;&quot;numChannels&quot;&gt;# of channels&lt;/mat-label&gt;
-                        &lt;input matInput type&#x3D;&quot;number&quot; name&#x3D;&quot;numChannels&quot; formControlName&#x3D;&quot;numChannels&quot; /&gt;
+                        &lt;input
+                          matInput
+                          type&#x3D;&quot;number&quot;
+                          name&#x3D;&quot;numChannels&quot;
+                          formControlName&#x3D;&quot;numChannels&quot;
+                        /&gt;
                       &lt;/mat-form-field&gt;
+                    &lt;/td&gt;
+                    &lt;td
+                      class&#x3D;&quot;delete&quot;
+                      rowspan&#x3D;&quot;2&quot;
+                    &gt;
+                      &lt;button
+                        mat-icon-button
+                        color&#x3D;&quot;warn&quot;
+                        (click)&#x3D;&quot;removeTrigger(i)&quot;
+                        aria-label&#x3D;&quot;button that removes the trigger&quot;
+                        *ngIf&#x3D;&quot;i !&#x3D;&#x3D; 0&quot;
+                      &gt;
+                        &lt;mat-icon&gt; delete &lt;/mat-icon&gt;
+                      &lt;/button&gt;
                     &lt;/td&gt;
 
                     &lt;ng-template #default&gt; default &lt;/ng-template&gt;
@@ -2092,21 +2335,22 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
                       Send notification to:
                       &lt;mat-form-field&gt;
                         &lt;mat-label for&#x3D;&quot;emails&quot;&gt;email:&lt;/mat-label&gt;
-                        &lt;textarea matInput name&#x3D;&quot;emails&quot; formControlName&#x3D;&quot;emails&quot;&gt;&lt;/textarea&gt;
+                        &lt;textarea
+                          matInput
+                          name&#x3D;&quot;emails&quot;
+                          formControlName&#x3D;&quot;emails&quot;
+                        &gt;&lt;/textarea&gt;
                         &lt;mat-error *ngIf&#x3D;&quot;trigger.get(&#x27;emails&#x27;).hasError(&#x27;email&#x27;)&quot;&gt;Enter a valid email
                           address&lt;/mat-error&gt;
                       &lt;/mat-form-field&gt;
                     &lt;/td&gt;
-                    &lt;td&gt;
-                      &lt;mat-slide-toggle name&#x3D;&quot;alertOnOutOfAlarm&quot; formControlName&#x3D;&quot;alertOnOutOfAlarm&quot;&gt;
+                    &lt;td colspan&#x3D;&quot;2&quot;&gt;
+                      &lt;mat-slide-toggle
+                        name&#x3D;&quot;alertOnOutOfAlarm&quot;
+                        formControlName&#x3D;&quot;alertOnOutOfAlarm&quot;
+                      &gt;
                         also alert on exit
                       &lt;/mat-slide-toggle&gt;
-                    &lt;/td&gt;
-                    &lt;td&gt;
-                      &lt;button mat-icon-button color&#x3D;&quot;warn&quot; (click)&#x3D;&quot;removeTrigger(i)&quot;
-                        aria-label&#x3D;&quot;button that removes the trigger&quot; *ngIf&#x3D;&quot;i !&#x3D;&#x3D; 0&quot;&gt;
-                        &lt;mat-icon&gt; delete &lt;/mat-icon&gt;
-                      &lt;/button&gt;
                     &lt;/td&gt;
                   &lt;/tr&gt;
                 &lt;/ng-container&gt;
@@ -2138,7 +2382,11 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
               &lt;/span&gt;
             &lt;/div&gt; --&gt;
           &lt;/div&gt;
-          &lt;button mat-button (click)&#x3D;&quot;addTrigger()&quot; aria-label&#x3D;&quot;button that adds a new trigger&quot;&gt;
+          &lt;button
+            mat-button
+            (click)&#x3D;&quot;addTrigger()&quot;
+            aria-label&#x3D;&quot;button that adds a new trigger&quot;
+          &gt;
             &lt;mat-icon&gt; notification_add &lt;/mat-icon&gt; add notification
           &lt;/button&gt;
         &lt;/div&gt;
@@ -2151,46 +2399,69 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
       &lt;/ng-template&gt;
     &lt;/mat-horizontal-stepper&gt;
   &lt;/form&gt;
-
-  &lt;!-- &lt;div id&#x3D;&quot;chart-container&quot;&gt;
-    &lt;h4&gt;Preview&lt;/h4&gt;
-    &lt;monitor-chart
-      [metric]&#x3D;&quot;monitorForm.value.metric&quot;
-      [triggers]&#x3D;&quot;monitorForm.value.triggers&quot;
-      [channelGroupId]&#x3D;&quot;monitorForm.value.channelGroup.id&quot;
-      [stat]&#x3D;&quot;monitorForm.value.stat&quot;
-      [numberChannels]&#x3D;&quot;monitorForm.value.numberChannels&quot;
-      [intervalCount]&#x3D;&quot;monitorForm.value.intervalCount&quot;
-      [intervalType]&#x3D;&quot;monitorForm.value.intervalType&quot;
-      [invert]&#x3D;&quot;monitorForm.value.invert&quot;
-      &gt;&lt;/monitor-chart&gt;
-  &lt;/div&gt; --&gt;
+  &lt;span class&#x3D;&quot;warn-text mat-small&quot;&gt;* required field&lt;/span&gt;
 &lt;/div&gt;
 
-&lt;div mat-dialog-actions class&#x3D;&quot;dialog-options&quot;&gt;
-  &lt;div class&#x3D;&quot;dialog-buttons&quot;&gt;
-    &lt;button mat-stroked-button color&#x3D;&quot;primary&quot; (click)&#x3D;&quot;stepper.previous()&quot; [disabled]&#x3D;&quot;stepper.selectedIndex &#x3D;&#x3D;&#x3D; 0&quot;&gt;
-      Back
-    &lt;/button&gt;
-    &lt;button mat-stroked-button color&#x3D;&quot;primary&quot; (click)&#x3D;&quot;stepper.next()&quot; [disabled]&#x3D;&quot;stepper.selectedIndex &#x3D;&#x3D;&#x3D; 1&quot;&gt;
-      Next
-    &lt;/button&gt;
-    &lt;button class&#x3D;&quot;save&quot; mat-flat-button color&#x3D;&quot;accent&quot; (click)&#x3D;&quot;save()&quot;
-      [disabled]&#x3D;&quot;!monitorForm.valid || !triggers.valid&quot;&gt;
-      Save
-    &lt;/button&gt;
-  &lt;/div&gt;
-  &lt;p class&#x3D;&quot;warn-text&quot;&gt;* required field&lt;/p&gt;
+
+&lt;div
+  mat-dialog-actions
+  align&#x3D;&quot;end&quot;
+  class&#x3D;&quot;dialog-options&quot;
+&gt;
+  &lt;button
+    class&#x3D;&quot;dialog-cancel&quot;
+    mat-stroked-button
+    mat-dialog-close
+    (click)&#x3D;&quot;cancel()&quot;
+    type&#x3D;&quot;button&quot;
+  &gt;
+    Cancel
+  &lt;/button&gt;
+  &lt;button
+    mat-stroked-button
+    color&#x3D;&quot;primary&quot;
+    (click)&#x3D;&quot;stepper.previous()&quot;
+    [disabled]&#x3D;&quot;stepper.selectedIndex &#x3D;&#x3D;&#x3D; 0&quot;
+  &gt;
+    Back
+  &lt;/button&gt;
+  &lt;button
+    mat-stroked-button
+    color&#x3D;&quot;primary&quot;
+    (click)&#x3D;&quot;stepper.next()&quot;
+    [disabled]&#x3D;&quot;stepper.selectedIndex &#x3D;&#x3D;&#x3D; 1&quot;
+  &gt;
+    Next
+  &lt;/button&gt;
+  &lt;button
+    class&#x3D;&quot;dialog-save&quot;
+    mat-flat-button
+    color&#x3D;&quot;accent&quot;
+    (click)&#x3D;&quot;save()&quot;
+    [disabled]&#x3D;&quot;!monitorForm.valid || !triggers.valid&quot;
+  &gt;
+    Save
+  &lt;/button&gt;
+
+
 &lt;/div&gt;</code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-styleData">
+    <div class="tab-pane fade " id="styleData">
                 <p class="comment">
                     <code>./monitor-edit.component.scss</code>
                 </p>
                 <pre class="line-numbers"><code class="language-scss">#monitor-body {
   mat-form-field {
-    margin: 0px 10px;
+    margin: 0px 5px;
+    &amp;.xsmall {
+    }
+    &amp;.small {
+    }
+    &amp;.medium {
+    }
+    &amp;.large {
+    }
   }
   div {
     display: inline-block;
@@ -2202,20 +2473,30 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
 }
 #trigger-table {
   width: 100%;
+  table-layout: fixed;
+  th,
+  td {
+    &amp;.trigger-id {
+      width: 80px;
+    }
+    &amp;.delete {
+      width: 30px;
+    }
+  }
   th {
     text-align: left;
   }
-}
-
-.dialog-buttons {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  td {
+    // width: 16%;
+    mat-form-field {
+      width: 100%;
+    }
+  }
 }
 </code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-tree">
+    <div class="tab-pane fade " id="tree">
         <div id="tree-container"></div>
         <div class="tree-legend">
             <div class="title">
@@ -2240,8 +2521,8 @@ export class MonitorEditComponent implements OnInit, OnDestroy {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div mat-dialog-title class="dialog-title">  <h3>{{ editMode ? "Edit Monitor" : "New Monitor" }}</h3>  <button mat-icon-button (click)="cancel()" type="button">    <mat-icon>close</mat-icon>  </button></div><div mat-dialog-content>  <form #monitorEditForm [formGroup]="monitorForm" class="form">    <mat-horizontal-stepper #stepper color="primary">      <mat-step label="Monitor Configuration" #infoStep [completed]="monitorForm.valid" state="monitor">        <div id="monitor-edit-container">          <mat-form-field class="large">            <!-- hintLabel="Max 60 characters" -->            <mat-label for="name">Monitor Name</mat-label>            <input matInput #name maxLength="60" type="text" name="name" formControlName="name" />            <!-- <mat-hint align="end">{{ name.value?.length || 0 }}/60</mat-hint> -->          </mat-form-field>          <p class="help-text">            A monitor is \'in alarm\' when the following conditions are true.          </p>          <div id="monitor-body">            <div>              <span>The</span>              <mat-form-field class="xsmall">                <mat-label>statistic</mat-label>                <mat-select formControlName="stat" name="stat">                  <mat-option *ngFor="let stat of MONITOR_STATS | keyvalue" [value]="stat.key">                    {{ stat.value }}                  </mat-option>                </mat-select>              </mat-form-field>              <span>of</span>              <mat-form-field class="medium">                <mat-label>Metric</mat-label>                <mat-select formControlName="metric" name="metric" placeholder="metric">                  <mat-option *ngFor="let m of metrics" [value]="m">{{ m.name }}                  </mat-option>                </mat-select>              </mat-form-field>              <span>measurements </span>            </div>            <ng-container formArrayName="triggers">              <ng-container formGroupName="0">                <div>                  <span>is</span>                  <mat-form-field class="xsmall">                    <mat-label for="valueOperator">operator</mat-label>                    <mat-select formControlName="valueOperator" name="valueOperator">                      <mat-option *ngFor="let o of VALUE_OPERATORS | keyvalue" [value]="o.key">                        {{ o.value }}                      </mat-option>                    </mat-select>                  </mat-form-field>                  <mat-form-field class="xsmall">                    <mat-label for="val1">value</mat-label>                    <input matInput name="val1" formControlName="val1" type="number" />                  </mat-form-field>                  <ng-container> </ng-container>                  <span> and </span>                  <mat-form-field class="xsmall">                    <mat-label for="val2">value 2</mat-label>                    <input matInput type="number" name="val2" formControlName="val2" />                  </mat-form-field>                </div>                <div id="trigger-channels">                  <span>for</span>                  <mat-form-field class="xsmall">                    <mat-label for="numChannelsOperator">operator</mat-label>                    <mat-select formControlName="numChannelsOperator" name="numChannelsOperator">                      <mat-option *ngFor="let n of NUM_CHANNELS_OPERATORS | keyvalue" [value]="n.key">                        {{ n.value }}                      </mat-option>                    </mat-select>                  </mat-form-field>                  <mat-form-field class="xsmall">                    <mat-label for="numChannels"># of channels</mat-label>                    <input matInput type="number" name="numChannels" formControlName="numChannels" />                  </mat-form-field>                </div>              </ng-container>            </ng-container>            <div id="monitor-channels">              <span>in</span>              <mat-form-field class="medium">                <mat-label> Channel Group </mat-label>                <mat-select formControlName="channelGroup" name="channelGroup">                  <mat-optgroup *ngFor="let group of channelGroups" [label]="group.name">                    <mat-option *ngFor="let channelGroup of group.groups" [value]="channelGroup.id">{{ channelGroup.name                      }} ({{                      channelGroup.channelsCount                      }})</mat-option>                  </mat-optgroup>                </mat-select>              </mat-form-field>            </div>            <div>              <span>over the last</span>              <mat-form-field class="xsmall">                <mat-label for="intervalCount"># of intervals</mat-label>                <input matInput name="intervalCount" formControlName="intervalCount" type="number" />              </mat-form-field>              <mat-form-field class="xsmall">                <mat-label for="IntervalType">interval</mat-label>                <mat-select formControlName="intervalType" name="intervalType">                  <mat-option *ngFor="let type of INTERVAL_TYPES | keyvalue" [value]="type.key">                    {{ type.value                    }}{{ monitorForm.value.intervalCount > 1 ? "s" : "" }}                  </mat-option>                </mat-select>              </mat-form-field>              <span>.</span>            </div>          </div>        </div>      </mat-step>      <mat-step label="Notification Settings" #triggerStep [completed]="triggers.valid && triggers.controls.length > 0"        state="trigger">        <div id="trigger-container">          <p class="help-text">            An alert will be sent when the monitor enters the \'in alarm\' state.            If \'Alert on Exit\' is true, it will also alert when the monitor is            no longer \'in alarm\'.          </p>          <p class="help-text">            The daily digest is a summary of monitor activity over the last day.            The daily digest will be sent to any email listed in a trigger that            was in alarm in the 24 hours before the digest was evaluated,            instead of sending notifications for every alert.          </p>          <mat-slide-toggle formControlName="doDailyDigest">            Send daily digest instead of alerts          </mat-slide-toggle>          <div id="table-container" formArrayName="triggers">            <table id="trigger-table">              <tr>                <th></th>                <th colspan="3">Values</th>                <th colspan="2"># of channels</th>              </tr>              <ng-container *ngFor="let trigger of triggers.controls; let i = index">                <ng-container [formGroupName]="i" class="trigger">                  <tr>                    <td>                      Trigger                      {{ i + 1 }}:                    </td>                    <td>                      <mat-form-field class="xsmall">                        <mat-label for="valueOperator">operator</mat-label>                        <mat-select formControlName="valueOperator" name="valueOperator">                          <mat-option *ngFor="let o of VALUE_OPERATORS | keyvalue" [value]="o.key">                            {{ o.value }}                          </mat-option>                        </mat-select>                        <mat-error *ngIf="                            trigger.get(\'valueOperator\').hasError(\'required\')                          ">* required field</mat-error>                      </mat-form-field>                    </td>                    <td>                      <mat-form-field class="xsmall">                        <mat-label for="val1">value</mat-label>                        <input matInput type="number" name="val1" formControlName="val1" />                        <mat-error *ngIf="trigger.get(\'val1\').hasError(\'required\')">* required field</mat-error>                      </mat-form-field>                    </td>                    <td>                      <mat-form-field class="xsmall">                        <mat-label for="val2">value 2</mat-label>                        <input matInput type="number" name="val2" formControlName="val2" />                      </mat-form-field>                    </td>                    <td>                      <mat-form-field class="xsmall">                        <mat-label for="numChannelsOperator">operator</mat-label>                        <mat-select formControlName="numChannelsOperator" name="numChannelsOperator">                          <mat-option *ngFor="let n of NUM_CHANNELS_OPERATORS | keyvalue" [value]="n.key">                            {{ n.value }}                          </mat-option>                        </mat-select>                        <mat-error *ngIf="                            trigger                              .get(\'numChannelsOperator\')                              .hasError(\'required\')                          ">* required field</mat-error>                      </mat-form-field>                    </td>                    <td>                      <mat-form-field class="xsmall">                        <mat-label for="numChannels"># of channels</mat-label>                        <input matInput type="number" name="numChannels" formControlName="numChannels" />                      </mat-form-field>                    </td>                    <ng-template #default> default </ng-template>                  </tr>                  <tr>                    <td></td>                    <td colspan="3">                      Send notification to:                      <mat-form-field>                        <mat-label for="emails">email:</mat-label>                        <textarea matInput name="emails" formControlName="emails"></textarea>                        <mat-error *ngIf="trigger.get(\'emails\').hasError(\'email\')">Enter a valid email                          address</mat-error>                      </mat-form-field>                    </td>                    <td>                      <mat-slide-toggle name="alertOnOutOfAlarm" formControlName="alertOnOutOfAlarm">                        also alert on exit                      </mat-slide-toggle>                    </td>                    <td>                      <button mat-icon-button color="warn" (click)="removeTrigger(i)"                        aria-label="button that removes the trigger" *ngIf="i !== 0">                        <mat-icon> delete </mat-icon>                      </button>                    </td>                  </tr>                </ng-container>              </ng-container>            </table>            <!-- <div class="trigger-help">              <span                *ngIf="trigger.value.min !== null || trigger.value.max !== null"              >                Will be in alarm when              </span>              <span                *ngIf="trigger.value.min !== null && trigger.value.max !== null"              >                value                {{ trigger.value.inclusive ? "between" : "not between" }}                {{ trigger.value.min }} and                {{ trigger.value.max }}              </span>              <span                *ngIf="trigger.value.min !== null && trigger.value.max === null"              >                values < {{ trigger.value.min }}              </span>              <span                *ngIf="trigger.value.max !== null && trigger.value.min === null"              >                values > {{ trigger.value.max }}              </span>            </div> -->          </div>          <button mat-button (click)="addTrigger()" aria-label="button that adds a new trigger">            <mat-icon> notification_add </mat-icon> add notification          </button>        </div>      </mat-step>      <ng-template matStepperIcon="monitor">        <mat-icon>add_chart</mat-icon>      </ng-template>      <ng-template matStepperIcon="trigger">        <mat-icon>edit_notifications</mat-icon>      </ng-template>    </mat-horizontal-stepper>  </form>  <!-- <div id="chart-container">    <h4>Preview</h4>    <monitor-chart      [metric]="monitorForm.value.metric"      [triggers]="monitorForm.value.triggers"      [channelGroupId]="monitorForm.value.channelGroup.id"      [stat]="monitorForm.value.stat"      [numberChannels]="monitorForm.value.numberChannels"      [intervalCount]="monitorForm.value.intervalCount"      [intervalType]="monitorForm.value.intervalType"      [invert]="monitorForm.value.invert"      ></monitor-chart>  </div> --></div><div mat-dialog-actions class="dialog-options">  <div class="dialog-buttons">    <button mat-stroked-button color="primary" (click)="stepper.previous()" [disabled]="stepper.selectedIndex === 0">      Back    </button>    <button mat-stroked-button color="primary" (click)="stepper.next()" [disabled]="stepper.selectedIndex === 1">      Next    </button>    <button class="save" mat-flat-button color="accent" (click)="save()"      [disabled]="!monitorForm.valid || !triggers.valid">      Save    </button>  </div>  <p class="warn-text">* required field</p></div></div>'
-    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'SnackbarComponent', 'selector': 'shared-snackbar'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
+        var COMPONENT_TEMPLATE = '<div><h2 mat-dialog-title>{{ editMode ? "Edit Monitor" : "New Monitor" }}</h2><div mat-dialog-content>  <form    #monitorEditForm    [formGroup]="monitorForm"    class="form"  >    <mat-horizontal-stepper      class="dialog-stepper dense-stepper"      #stepper      color="primary"    >      <mat-step        label="Monitor Configuration"        #infoStep        [completed]="monitorForm.valid"        state="monitor"      >        <div id="monitor-edit-container">          <div>            <div class="label">Name:</div>            <mat-form-field class="large">              <!-- hintLabel="Max 60 characters" -->              <mat-label for="name">Monitor Name</mat-label>              <input                matInput                #name                maxLength="60"                type="text"                name="name"                formControlName="name"              />              <!-- <mat-hint align="end">{{ name.value?.length || 0 }}/60</mat-hint> -->            </mat-form-field>          </div>          <p class="mat-small">            A monitor is \'in alarm\' when the following conditions are true.          </p>          <div id="monitor-body">            <div>              <span>The</span>              <mat-form-field class="xsmall">                <mat-label>statistic</mat-label>                <mat-select                  formControlName="stat"                  name="stat"                >                  <mat-option                    *ngFor="let stat of MONITOR_STATS | keyvalue"                    [value]="stat.key"                  >                    {{ stat.value }}                  </mat-option>                </mat-select>              </mat-form-field>              <span>of</span>              <mat-form-field class="medium">                <mat-label>Metric</mat-label>                <mat-select                  formControlName="metric"                  name="metric"                  placeholder="metric"                >                  <mat-option                    *ngFor="let m of metrics"                    [value]="m"                  >{{ m.name }}                  </mat-option>                </mat-select>              </mat-form-field>              <span>measurements </span>            </div>            <ng-container formArrayName="triggers">              <ng-container formGroupName="0">                <div>                  <span>is</span>                  <mat-form-field class="xsmall">                    <mat-label for="valueOperator">operator</mat-label>                    <mat-select                      formControlName="valueOperator"                      name="valueOperator"                    >                      <mat-option                        *ngFor="let o of VALUE_OPERATORS | keyvalue"                        [value]="o.key"                      >                        {{ o.value }}                      </mat-option>                    </mat-select>                  </mat-form-field>                  <mat-form-field class="xsmall">                    <mat-label for="val1">value</mat-label>                    <input                      matInput                      name="val1"                      formControlName="val1"                      type="number"                    />                  </mat-form-field>                  <ng-container> </ng-container>                  <span> and </span>                  <mat-form-field class="xsmall">                    <mat-label for="val2">value 2</mat-label>                    <input                      matInput                      type="number"                      name="val2"                      formControlName="val2"                    />                  </mat-form-field>                </div>                <div id="trigger-channels">                  <span>for</span>                  <mat-form-field class="xsmall">                    <mat-label for="numChannelsOperator">operator</mat-label>                    <mat-select                      formControlName="numChannelsOperator"                      name="numChannelsOperator"                    >                      <mat-option                        *ngFor="let n of NUM_CHANNELS_OPERATORS | keyvalue"                        [value]="n.key"                      >                        {{ n.value }}                      </mat-option>                    </mat-select>                  </mat-form-field>                  <mat-form-field class="xsmall">                    <mat-label for="numChannels"># of channels</mat-label>                    <input                      matInput                      type="number"                      name="numChannels"                      formControlName="numChannels"                    />                  </mat-form-field>                </div>              </ng-container>            </ng-container>            <div id="monitor-channels">              <span>in</span>              <mat-form-field class="medium">                <mat-label> Channel Group </mat-label>                <mat-select                  formControlName="channelGroup"                  name="channelGroup"                >                  <mat-optgroup                    *ngFor="let group of channelGroups"                    [label]="group.name"                  >                    <mat-option                      *ngFor="let channelGroup of group.groups"                      [value]="channelGroup.id"                    >{{ channelGroup.name                      }} ({{                      channelGroup.channelsCount                      }})</mat-option>                  </mat-optgroup>                </mat-select>              </mat-form-field>            </div>            <div>              <span>over the last</span>              <mat-form-field class="xsmall">                <mat-label for="intervalCount"># of intervals</mat-label>                <input                  matInput                  name="intervalCount"                  formControlName="intervalCount"                  type="number"                />              </mat-form-field>              <mat-form-field class="xsmall">                <mat-label for="IntervalType">interval</mat-label>                <mat-select                  formControlName="intervalType"                  name="intervalType"                >                  <mat-option                    *ngFor="let type of INTERVAL_TYPES | keyvalue"                    [value]="type.key"                  >                    {{ type.value                    }}{{ monitorForm.value.intervalCount > 1 ? "s" : "" }}                  </mat-option>                </mat-select>              </mat-form-field>              <span>.</span>            </div>          </div>        </div>      </mat-step>      <mat-step        label="Notification Settings"        #triggerStep        [completed]="triggers.valid && triggers.controls.length > 0"        state="trigger"      >        <div id="trigger-container">          <p class="help-text">            An alert will be sent when the monitor enters the \'in alarm\' state.            If \'Alert on Exit\' is true, it will also alert when the monitor is            no longer \'in alarm\'.          </p>          <p class="help-text">            The daily digest is a summary of monitor activity over the last day.            The daily digest will be sent to any email listed in a trigger that            was in alarm in the 24 hours before the digest was evaluated,            instead of sending notifications for every alert.          </p>          <mat-slide-toggle formControlName="doDailyDigest">            Send daily digest instead of alerts          </mat-slide-toggle>          <div            id="table-container"            formArrayName="triggers"          >            <table id="trigger-table">              <tr>                <th class="trigger-id"></th>                <th colspan="3">Values</th>                <th colspan="2"># of channels</th>                <th class="delete"></th>              </tr>              <ng-container *ngFor="let trigger of triggers.controls; let i = index">                <ng-container                  [formGroupName]="i"                  class="trigger"                >                  <tr>                    <td class="trigger-id">                      Trigger                      {{ i + 1 }}:                    </td>                    <td>                      <mat-form-field class="xsmall">                        <mat-label for="valueOperator">operator</mat-label>                        <mat-select                          formControlName="valueOperator"                          name="valueOperator"                        >                          <mat-option                            *ngFor="let o of VALUE_OPERATORS | keyvalue"                            [value]="o.key"                          >                            {{ o.value }}                          </mat-option>                        </mat-select>                        <mat-error *ngIf="                            trigger.get(\'valueOperator\').hasError(\'required\')                          ">* required field</mat-error>                      </mat-form-field>                    </td>                    <td>                      <mat-form-field class="xsmall">                        <mat-label for="val1">value</mat-label>                        <input                          matInput                          type="number"                          name="val1"                          formControlName="val1"                        />                        <mat-error *ngIf="trigger.get(\'val1\').hasError(\'required\')">* required field</mat-error>                      </mat-form-field>                    </td>                    <td>                      <mat-form-field class="xsmall">                        <mat-label for="val2">value 2</mat-label>                        <input                          matInput                          type="number"                          name="val2"                          formControlName="val2"                        />                      </mat-form-field>                    </td>                    <td>                      <mat-form-field class="xsmall">                        <mat-label for="numChannelsOperator">operator</mat-label>                        <mat-select                          formControlName="numChannelsOperator"                          name="numChannelsOperator"                        >                          <mat-option                            *ngFor="let n of NUM_CHANNELS_OPERATORS | keyvalue"                            [value]="n.key"                          >                            {{ n.value }}                          </mat-option>                        </mat-select>                        <mat-error *ngIf="                            trigger                              .get(\'numChannelsOperator\')                              .hasError(\'required\')                          ">* required field</mat-error>                      </mat-form-field>                    </td>                    <td>                      <mat-form-field class="xsmall">                        <mat-label for="numChannels"># of channels</mat-label>                        <input                          matInput                          type="number"                          name="numChannels"                          formControlName="numChannels"                        />                      </mat-form-field>                    </td>                    <td                      class="delete"                      rowspan="2"                    >                      <button                        mat-icon-button                        color="warn"                        (click)="removeTrigger(i)"                        aria-label="button that removes the trigger"                        *ngIf="i !== 0"                      >                        <mat-icon> delete </mat-icon>                      </button>                    </td>                    <ng-template #default> default </ng-template>                  </tr>                  <tr>                    <td></td>                    <td colspan="3">                      Send notification to:                      <mat-form-field>                        <mat-label for="emails">email:</mat-label>                        <textarea                          matInput                          name="emails"                          formControlName="emails"                        ></textarea>                        <mat-error *ngIf="trigger.get(\'emails\').hasError(\'email\')">Enter a valid email                          address</mat-error>                      </mat-form-field>                    </td>                    <td colspan="2">                      <mat-slide-toggle                        name="alertOnOutOfAlarm"                        formControlName="alertOnOutOfAlarm"                      >                        also alert on exit                      </mat-slide-toggle>                    </td>                  </tr>                </ng-container>              </ng-container>            </table>            <!-- <div class="trigger-help">              <span                *ngIf="trigger.value.min !== null || trigger.value.max !== null"              >                Will be in alarm when              </span>              <span                *ngIf="trigger.value.min !== null && trigger.value.max !== null"              >                value                {{ trigger.value.inclusive ? "between" : "not between" }}                {{ trigger.value.min }} and                {{ trigger.value.max }}              </span>              <span                *ngIf="trigger.value.min !== null && trigger.value.max === null"              >                values < {{ trigger.value.min }}              </span>              <span                *ngIf="trigger.value.max !== null && trigger.value.min === null"              >                values > {{ trigger.value.max }}              </span>            </div> -->          </div>          <button            mat-button            (click)="addTrigger()"            aria-label="button that adds a new trigger"          >            <mat-icon> notification_add </mat-icon> add notification          </button>        </div>      </mat-step>      <ng-template matStepperIcon="monitor">        <mat-icon>add_chart</mat-icon>      </ng-template>      <ng-template matStepperIcon="trigger">        <mat-icon>edit_notifications</mat-icon>      </ng-template>    </mat-horizontal-stepper>  </form>  <span class="warn-text mat-small">* required field</span></div><div  mat-dialog-actions  align="end"  class="dialog-options">  <button    class="dialog-cancel"    mat-stroked-button    mat-dialog-close    (click)="cancel()"    type="button"  >    Cancel  </button>  <button    mat-stroked-button    color="primary"    (click)="stepper.previous()"    [disabled]="stepper.selectedIndex === 0"  >    Back  </button>  <button    mat-stroked-button    color="primary"    (click)="stepper.next()"    [disabled]="stepper.selectedIndex === 1"  >    Next  </button>  <button    class="dialog-save"    mat-flat-button    color="accent"    (click)="save()"    [disabled]="!monitorForm.valid || !triggers.valid"  >    Save  </button></div></div>'
+    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'BudComponent', 'selector': 'widget-calendar-plot'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
     var DIRECTIVES = [{'name': 'LoadingDirective', 'selector': '[appIsLoading]'},{'name': 'TooltipDirective', 'selector': '[uiTooltip]'},{'name': 'WidgetTypeDirective', 'selector': '[widgetContainer]'},{'name': 'WidgetTypeExampleDirective', 'selector': '[appWidgetTypeExample]'}];
     var ACTUAL_COMPONENT = {'name': 'MonitorEditComponent'};
 </script>

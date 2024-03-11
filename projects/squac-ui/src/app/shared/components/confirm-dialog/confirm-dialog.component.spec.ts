@@ -4,7 +4,7 @@ import {
   MatDialog,
   MatDialogModule,
   MatDialogRef,
-  MAT_DIALOG_DATA,
+  MAT_DIALOG_DATA as MAT_DIALOG_DATA,
 } from "@angular/material/dialog";
 
 import { ConfirmDialogComponent } from "./confirm-dialog.component";
@@ -19,8 +19,7 @@ describe("ConfirmDialogComponent", () => {
   };
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatDialogModule, MatButtonModule],
-      declarations: [ConfirmDialogComponent],
+      imports: [MatDialogModule, MatButtonModule, ConfirmDialogComponent],
       providers: [
         {
           provide: MAT_DIALOG_DATA,

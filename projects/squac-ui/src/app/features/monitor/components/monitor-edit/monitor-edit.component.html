@@ -1,21 +1,40 @@
-<div mat-dialog-title class="dialog-title">
-  <h3>{{ editMode ? "Edit Monitor" : "New Monitor" }}</h3>
-  <button mat-icon-button (click)="cancel()" type="button">
-    <mat-icon>close</mat-icon>
-  </button>
-</div>
+<h2 mat-dialog-title>{{ editMode ? "Edit Monitor" : "New Monitor" }}</h2>
+
 <div mat-dialog-content>
-  <form #monitorEditForm [formGroup]="monitorForm" class="form">
-    <mat-horizontal-stepper #stepper color="primary">
-      <mat-step label="Monitor Configuration" #infoStep [completed]="monitorForm.valid" state="monitor">
+  <form
+    #monitorEditForm
+    [formGroup]="monitorForm"
+    class="form"
+  >
+    <mat-horizontal-stepper
+      class="dialog-stepper dense-stepper"
+      #stepper
+      color="primary"
+    >
+      <mat-step
+        label="Monitor Configuration"
+        #infoStep
+        [completed]="monitorForm.valid"
+        state="monitor"
+      >
         <div id="monitor-edit-container">
-          <mat-form-field class="large">
-            <!-- hintLabel="Max 60 characters" -->
-            <mat-label for="name">Monitor Name</mat-label>
-            <input matInput #name maxLength="60" type="text" name="name" formControlName="name" />
-            <!-- <mat-hint align="end">{{ name.value?.length || 0 }}/60</mat-hint> -->
-          </mat-form-field>
-          <p class="help-text">
+          <div>
+            <div class="label">Name:</div>
+            <mat-form-field class="large">
+              <!-- hintLabel="Max 60 characters" -->
+              <mat-label for="name">Monitor Name</mat-label>
+              <input
+                matInput
+                #name
+                maxLength="60"
+                type="text"
+                name="name"
+                formControlName="name"
+              />
+              <!-- <mat-hint align="end">{{ name.value?.length || 0 }}/60</mat-hint> -->
+            </mat-form-field>
+          </div>
+          <p class="mat-small">
             A monitor is 'in alarm' when the following conditions are true.
           </p>
           <div id="monitor-body">
@@ -23,8 +42,14 @@
               <span>The</span>
               <mat-form-field class="xsmall">
                 <mat-label>statistic</mat-label>
-                <mat-select formControlName="stat" name="stat">
-                  <mat-option *ngFor="let stat of MONITOR_STATS | keyvalue" [value]="stat.key">
+                <mat-select
+                  formControlName="stat"
+                  name="stat"
+                >
+                  <mat-option
+                    *ngFor="let stat of MONITOR_STATS | keyvalue"
+                    [value]="stat.key"
+                  >
                     {{ stat.value }}
                   </mat-option>
                 </mat-select>
@@ -33,8 +58,15 @@
               <span>of</span>
               <mat-form-field class="medium">
                 <mat-label>Metric</mat-label>
-                <mat-select formControlName="metric" name="metric" placeholder="metric">
-                  <mat-option *ngFor="let m of metrics" [value]="m">{{ m.name }}
+                <mat-select
+                  formControlName="metric"
+                  name="metric"
+                  placeholder="metric"
+                >
+                  <mat-option
+                    *ngFor="let m of metrics"
+                    [value]="m"
+                  >{{ m.name }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -47,36 +79,63 @@
                   <span>is</span>
                   <mat-form-field class="xsmall">
                     <mat-label for="valueOperator">operator</mat-label>
-                    <mat-select formControlName="valueOperator" name="valueOperator">
-                      <mat-option *ngFor="let o of VALUE_OPERATORS | keyvalue" [value]="o.key">
+                    <mat-select
+                      formControlName="valueOperator"
+                      name="valueOperator"
+                    >
+                      <mat-option
+                        *ngFor="let o of VALUE_OPERATORS | keyvalue"
+                        [value]="o.key"
+                      >
                         {{ o.value }}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
                   <mat-form-field class="xsmall">
                     <mat-label for="val1">value</mat-label>
-                    <input matInput name="val1" formControlName="val1" type="number" />
+                    <input
+                      matInput
+                      name="val1"
+                      formControlName="val1"
+                      type="number"
+                    />
                   </mat-form-field>
                   <ng-container> </ng-container>
                   <span> and </span>
                   <mat-form-field class="xsmall">
                     <mat-label for="val2">value 2</mat-label>
-                    <input matInput type="number" name="val2" formControlName="val2" />
+                    <input
+                      matInput
+                      type="number"
+                      name="val2"
+                      formControlName="val2"
+                    />
                   </mat-form-field>
                 </div>
                 <div id="trigger-channels">
                   <span>for</span>
                   <mat-form-field class="xsmall">
                     <mat-label for="numChannelsOperator">operator</mat-label>
-                    <mat-select formControlName="numChannelsOperator" name="numChannelsOperator">
-                      <mat-option *ngFor="let n of NUM_CHANNELS_OPERATORS | keyvalue" [value]="n.key">
+                    <mat-select
+                      formControlName="numChannelsOperator"
+                      name="numChannelsOperator"
+                    >
+                      <mat-option
+                        *ngFor="let n of NUM_CHANNELS_OPERATORS | keyvalue"
+                        [value]="n.key"
+                      >
                         {{ n.value }}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
                   <mat-form-field class="xsmall">
                     <mat-label for="numChannels"># of channels</mat-label>
-                    <input matInput type="number" name="numChannels" formControlName="numChannels" />
+                    <input
+                      matInput
+                      type="number"
+                      name="numChannels"
+                      formControlName="numChannels"
+                    />
                   </mat-form-field>
                 </div>
               </ng-container>
@@ -85,9 +144,18 @@
               <span>in</span>
               <mat-form-field class="medium">
                 <mat-label> Channel Group </mat-label>
-                <mat-select formControlName="channelGroup" name="channelGroup">
-                  <mat-optgroup *ngFor="let group of channelGroups" [label]="group.name">
-                    <mat-option *ngFor="let channelGroup of group.groups" [value]="channelGroup.id">{{ channelGroup.name
+                <mat-select
+                  formControlName="channelGroup"
+                  name="channelGroup"
+                >
+                  <mat-optgroup
+                    *ngFor="let group of channelGroups"
+                    [label]="group.name"
+                  >
+                    <mat-option
+                      *ngFor="let channelGroup of group.groups"
+                      [value]="channelGroup.id"
+                    >{{ channelGroup.name
                       }} ({{
                       channelGroup.channelsCount
                       }})</mat-option>
@@ -100,12 +168,23 @@
 
               <mat-form-field class="xsmall">
                 <mat-label for="intervalCount"># of intervals</mat-label>
-                <input matInput name="intervalCount" formControlName="intervalCount" type="number" />
+                <input
+                  matInput
+                  name="intervalCount"
+                  formControlName="intervalCount"
+                  type="number"
+                />
               </mat-form-field>
               <mat-form-field class="xsmall">
                 <mat-label for="IntervalType">interval</mat-label>
-                <mat-select formControlName="intervalType" name="intervalType">
-                  <mat-option *ngFor="let type of INTERVAL_TYPES | keyvalue" [value]="type.key">
+                <mat-select
+                  formControlName="intervalType"
+                  name="intervalType"
+                >
+                  <mat-option
+                    *ngFor="let type of INTERVAL_TYPES | keyvalue"
+                    [value]="type.key"
+                  >
                     {{ type.value
                     }}{{ monitorForm.value.intervalCount > 1 ? "s" : "" }}
                   </mat-option>
@@ -116,8 +195,12 @@
           </div>
         </div>
       </mat-step>
-      <mat-step label="Notification Settings" #triggerStep [completed]="triggers.valid && triggers.controls.length > 0"
-        state="trigger">
+      <mat-step
+        label="Notification Settings"
+        #triggerStep
+        [completed]="triggers.valid && triggers.controls.length > 0"
+        state="trigger"
+      >
         <div id="trigger-container">
           <p class="help-text">
             An alert will be sent when the monitor enters the 'in alarm' state.
@@ -133,25 +216,38 @@
           <mat-slide-toggle formControlName="doDailyDigest">
             Send daily digest instead of alerts
           </mat-slide-toggle>
-          <div id="table-container" formArrayName="triggers">
+          <div
+            id="table-container"
+            formArrayName="triggers"
+          >
             <table id="trigger-table">
               <tr>
-                <th></th>
+                <th class="trigger-id"></th>
                 <th colspan="3">Values</th>
                 <th colspan="2"># of channels</th>
+                <th class="delete"></th>
               </tr>
               <ng-container *ngFor="let trigger of triggers.controls; let i = index">
-                <ng-container [formGroupName]="i" class="trigger">
+                <ng-container
+                  [formGroupName]="i"
+                  class="trigger"
+                >
                   <tr>
-                    <td>
+                    <td class="trigger-id">
                       Trigger
                       {{ i + 1 }}:
                     </td>
                     <td>
                       <mat-form-field class="xsmall">
                         <mat-label for="valueOperator">operator</mat-label>
-                        <mat-select formControlName="valueOperator" name="valueOperator">
-                          <mat-option *ngFor="let o of VALUE_OPERATORS | keyvalue" [value]="o.key">
+                        <mat-select
+                          formControlName="valueOperator"
+                          name="valueOperator"
+                        >
+                          <mat-option
+                            *ngFor="let o of VALUE_OPERATORS | keyvalue"
+                            [value]="o.key"
+                          >
                             {{ o.value }}
                           </mat-option>
                         </mat-select>
@@ -163,21 +259,37 @@
                     <td>
                       <mat-form-field class="xsmall">
                         <mat-label for="val1">value</mat-label>
-                        <input matInput type="number" name="val1" formControlName="val1" />
+                        <input
+                          matInput
+                          type="number"
+                          name="val1"
+                          formControlName="val1"
+                        />
                         <mat-error *ngIf="trigger.get('val1').hasError('required')">* required field</mat-error>
                       </mat-form-field>
                     </td>
                     <td>
                       <mat-form-field class="xsmall">
                         <mat-label for="val2">value 2</mat-label>
-                        <input matInput type="number" name="val2" formControlName="val2" />
+                        <input
+                          matInput
+                          type="number"
+                          name="val2"
+                          formControlName="val2"
+                        />
                       </mat-form-field>
                     </td>
                     <td>
                       <mat-form-field class="xsmall">
                         <mat-label for="numChannelsOperator">operator</mat-label>
-                        <mat-select formControlName="numChannelsOperator" name="numChannelsOperator">
-                          <mat-option *ngFor="let n of NUM_CHANNELS_OPERATORS | keyvalue" [value]="n.key">
+                        <mat-select
+                          formControlName="numChannelsOperator"
+                          name="numChannelsOperator"
+                        >
+                          <mat-option
+                            *ngFor="let n of NUM_CHANNELS_OPERATORS | keyvalue"
+                            [value]="n.key"
+                          >
                             {{ n.value }}
                           </mat-option>
                         </mat-select>
@@ -191,8 +303,27 @@
                     <td>
                       <mat-form-field class="xsmall">
                         <mat-label for="numChannels"># of channels</mat-label>
-                        <input matInput type="number" name="numChannels" formControlName="numChannels" />
+                        <input
+                          matInput
+                          type="number"
+                          name="numChannels"
+                          formControlName="numChannels"
+                        />
                       </mat-form-field>
+                    </td>
+                    <td
+                      class="delete"
+                      rowspan="2"
+                    >
+                      <button
+                        mat-icon-button
+                        color="warn"
+                        (click)="removeTrigger(i)"
+                        aria-label="button that removes the trigger"
+                        *ngIf="i !== 0"
+                      >
+                        <mat-icon> delete </mat-icon>
+                      </button>
                     </td>
 
                     <ng-template #default> default </ng-template>
@@ -204,21 +335,22 @@
                       Send notification to:
                       <mat-form-field>
                         <mat-label for="emails">email:</mat-label>
-                        <textarea matInput name="emails" formControlName="emails"></textarea>
+                        <textarea
+                          matInput
+                          name="emails"
+                          formControlName="emails"
+                        ></textarea>
                         <mat-error *ngIf="trigger.get('emails').hasError('email')">Enter a valid email
                           address</mat-error>
                       </mat-form-field>
                     </td>
-                    <td>
-                      <mat-slide-toggle name="alertOnOutOfAlarm" formControlName="alertOnOutOfAlarm">
+                    <td colspan="2">
+                      <mat-slide-toggle
+                        name="alertOnOutOfAlarm"
+                        formControlName="alertOnOutOfAlarm"
+                      >
                         also alert on exit
                       </mat-slide-toggle>
-                    </td>
-                    <td>
-                      <button mat-icon-button color="warn" (click)="removeTrigger(i)"
-                        aria-label="button that removes the trigger" *ngIf="i !== 0">
-                        <mat-icon> delete </mat-icon>
-                      </button>
                     </td>
                   </tr>
                 </ng-container>
@@ -250,7 +382,11 @@
               </span>
             </div> -->
           </div>
-          <button mat-button (click)="addTrigger()" aria-label="button that adds a new trigger">
+          <button
+            mat-button
+            (click)="addTrigger()"
+            aria-label="button that adds a new trigger"
+          >
             <mat-icon> notification_add </mat-icon> add notification
           </button>
         </div>
@@ -263,34 +399,49 @@
       </ng-template>
     </mat-horizontal-stepper>
   </form>
-
-  <!-- <div id="chart-container">
-    <h4>Preview</h4>
-    <monitor-chart
-      [metric]="monitorForm.value.metric"
-      [triggers]="monitorForm.value.triggers"
-      [channelGroupId]="monitorForm.value.channelGroup.id"
-      [stat]="monitorForm.value.stat"
-      [numberChannels]="monitorForm.value.numberChannels"
-      [intervalCount]="monitorForm.value.intervalCount"
-      [intervalType]="monitorForm.value.intervalType"
-      [invert]="monitorForm.value.invert"
-      ></monitor-chart>
-  </div> -->
+  <span class="warn-text mat-small">* required field</span>
 </div>
 
-<div mat-dialog-actions class="dialog-options">
-  <div class="dialog-buttons">
-    <button mat-stroked-button color="primary" (click)="stepper.previous()" [disabled]="stepper.selectedIndex === 0">
-      Back
-    </button>
-    <button mat-stroked-button color="primary" (click)="stepper.next()" [disabled]="stepper.selectedIndex === 1">
-      Next
-    </button>
-    <button class="save" mat-flat-button color="accent" (click)="save()"
-      [disabled]="!monitorForm.valid || !triggers.valid">
-      Save
-    </button>
-  </div>
-  <p class="warn-text">* required field</p>
+
+<div
+  mat-dialog-actions
+  align="end"
+  class="dialog-options"
+>
+  <button
+    class="dialog-cancel"
+    mat-stroked-button
+    mat-dialog-close
+    (click)="cancel()"
+    type="button"
+  >
+    Cancel
+  </button>
+  <button
+    mat-stroked-button
+    color="primary"
+    (click)="stepper.previous()"
+    [disabled]="stepper.selectedIndex === 0"
+  >
+    Back
+  </button>
+  <button
+    mat-stroked-button
+    color="primary"
+    (click)="stepper.next()"
+    [disabled]="stepper.selectedIndex === 1"
+  >
+    Next
+  </button>
+  <button
+    class="dialog-save"
+    mat-flat-button
+    color="accent"
+    (click)="save()"
+    [disabled]="!monitorForm.valid || !triggers.valid"
+  >
+    Save
+  </button>
+
+
 </div>

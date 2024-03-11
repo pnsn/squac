@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -39,21 +97,27 @@
 
 
 <ol class="breadcrumb">
-  <li>Injectables</li>
-  <li >LoadingService</li>
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >LoadingService</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info">
+    <div class="tab-pane fade active in" id="info">
         <p class="comment">
             <h3>File</h3>
         </p>
@@ -75,7 +139,7 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
 
 
 
-            <section>
+            <section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -157,13 +221,13 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
     </table>
 </section>
 
-            <section>
+            <section data-compodoc="block-constructor">
     <h3 id="constructor">Constructor</h3>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(zoneRef: <a href="https://angular.io/api/core/NgZone" target="_blank">NgZone</a>)</code>
+<code>constructor(zoneRef: NgZone)</code>
                     </td>
                 </tr>
                         <tr>
@@ -189,7 +253,7 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
                                                         <td>zoneRef</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/core/NgZone" target="_blank" >NgZone</a></code>
+                                                                    <code>NgZone</code>
                                                         </td>
                                                   
                                                     <td>
@@ -206,7 +270,7 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
         </table>
 </section>
 
-            <section>
+            <section data-compodoc="block-methods">
     
     <h3 id="methods">
         Methods
@@ -229,24 +293,24 @@ the loading flags in case an error happens using the clearLoadings() method.</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="136"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:136</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="139"
+                                    class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:139</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Clear all loadings
+                        <div class="io-description"><p>Clear all loadings
 To be called by middleware code (HTTP interceptors/routing listeners, etc.).</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -269,122 +333,116 @@ To be called by middleware code (HTTP interceptors/routing listeners, etc.).</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:49</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="49"
+                                    class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:49</a></div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Type parameters :</b>
+                            <ul class="type-parameters">
+                                    <li>V</li>
+                            </ul>
+                        </td>
+                    </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <b>Type parameters :</b>
-                    <ul class="type-parameters">
-                        <li>V</li>
-                    </ul>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Observable creation operator, use to start loading with an observable
+                        <div class="io-description"><p>Observable creation operator, use to start loading with an observable
 LoaderId can be used when there are multiple loading indicators associated to a single context.</p>
-<div><pre class="line-numbers"><code class="language-html"></code></pre></div></div>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html"></code></pre></div></div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>source$</td>
-                                    <td>
-                                            <code>Observable&lt;V&gt;</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>source$</td>
+                                            <td>
+                                                        <code>Observable&lt;V&gt;</code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>source observable to use for tracking loading</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>context</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#LoadingContext" target="_self" >LoadingContext</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>any object to use for loading</p>
+                                            <td>
+                                                    <p>source observable to use for tracking loading</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>loaderId</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#LoaderId" target="_self" >LoaderId</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>context</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#LoadingContext" target="_self" >LoadingContext</a></code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                    <td>
-                                        <p>optional, used if there are multiple loaders using same context</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>delay</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    Yes
+                                            </td>
 
 
-                                    <td>
-                                        <p>ms to delay before starting to load</p>
+                                            <td>
+                                                    <p>any object to use for loading</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                        <b>Example :</b>
-                        <div>
-                            <pre class="line-numbers"><code class="language-html">loadingService.doLoading(desiredObservable, context, id).subscribe()</code></pre>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>loaderId</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#LoaderId" target="_self" >LoaderId</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>optional, used if there are multiple loaders using same context</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>delay</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>ms to delay before starting to load</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;V&gt;</code>
+
                         </div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;V&gt;</code>
+                            <div class="io-description">
+                                <p>observable with result of source</p>
 
-                    </div>
-                    <div class="io-description">
-                        <p>observable with result of source</p>
-
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -407,76 +465,74 @@ LoaderId can be used when there are multiple loading indicators associated to a 
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="128"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:128</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="131"
+                                    class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:131</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>End loading manually</p>
+                        <div class="io-description"><p>End loading manually</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>context</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#LoadingContext" target="_self" >LoadingContext</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>context</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#LoadingContext" target="_self" >LoadingContext</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>context to end</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>loaderId</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#LoaderId" target="_self" >LoaderId</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>loader id to end</p>
+                                            <td>
+                                                    <p>context to end</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>loaderId</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#LoaderId" target="_self" >LoaderId</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>loader id to end</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -487,7 +543,7 @@ LoaderId can be used when there are multiple loading indicators associated to a 
                 <td class="col-md-4">
                     <a name="getLoaderId"></a>
                     <span class="name">
-                        <span class="modifier">Protected</span>
+                            <span class="modifier">Protected</span>
                         <span ><b>getLoaderId</b></span>
                         <a href="#getLoaderId"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -495,67 +551,65 @@ LoaderId can be used when there are multiple loading indicators associated to a 
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getLoaderId(loaderId?: <a href="../undefineds/LoaderId.html" target="_self">LoaderId</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="227"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:227</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="230"
+                                    class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:230</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Gets loader id or returns default</p>
+                        <div class="io-description"><p>Gets loader id or returns default</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>loaderId</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#LoaderId" target="_self" >LoaderId</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>loaderId</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#LoaderId" target="_self" >LoaderId</a></code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    Yes
+                                            </td>
 
 
-                                    <td>
-                                        <p>loader if</p>
+                                            <td>
+                                                    <p>loader if</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#LoaderId" target="_self" >LoaderId</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#LoaderId" target="_self" >LoaderId</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>given loader id if exists or defaults</p>
+                        </div>
+                            <div class="io-description">
+                                <p>given loader id if exists or defaults</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -566,7 +620,7 @@ LoaderId can be used when there are multiple loading indicators associated to a 
                 <td class="col-md-4">
                     <a name="hasContextLoadingState"></a>
                     <span class="name">
-                        <span class="modifier">Protected</span>
+                            <span class="modifier">Protected</span>
                         <span ><b>hasContextLoadingState</b></span>
                         <a href="#hasContextLoadingState"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -574,67 +628,65 @@ LoaderId can be used when there are multiple loading indicators associated to a 
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>hasContextLoadingState(context: <a href="../undefineds/LoadingContext.html" target="_self">LoadingContext</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="200"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:200</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="203"
+                                    class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:203</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Checks if there is context loading state for context</p>
+                        <div class="io-description"><p>Checks if there is context loading state for context</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>context</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#LoadingContext" target="_self" >LoadingContext</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>context</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#LoadingContext" target="_self" >LoadingContext</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>loading context</p>
+                                            <td>
+                                                    <p>loading context</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>boolean</p>
+                        </div>
+                            <div class="io-description">
+                                <p>boolean</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -645,7 +697,7 @@ LoaderId can be used when there are multiple loading indicators associated to a 
                 <td class="col-md-4">
                     <a name="hasLoaderLoadingState"></a>
                     <span class="name">
-                        <span class="modifier">Protected</span>
+                            <span class="modifier">Protected</span>
                         <span ><b>hasLoaderLoadingState</b></span>
                         <a href="#hasLoaderLoadingState"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -653,83 +705,81 @@ LoaderId can be used when there are multiple loading indicators associated to a 
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>hasLoaderLoadingState(context: <a href="../undefineds/LoadingContext.html" target="_self">LoadingContext</a>, loaderId: <a href="../undefineds/LoaderId.html" target="_self">LoaderId</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="211"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:211</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="214"
+                                    class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:214</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Checks if loader has loading state</p>
+                        <div class="io-description"><p>Checks if loader has loading state</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>context</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#LoadingContext" target="_self" >LoadingContext</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>context</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#LoadingContext" target="_self" >LoadingContext</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>loading context</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>loaderId</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#LoaderId" target="_self" >LoaderId</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>loader id</p>
+                                            <td>
+                                                    <p>loading context</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>loaderId</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#LoaderId" target="_self" >LoaderId</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        <p>boolean probably</p>
+                                            <td>
+                                                    No
+                                            </td>
 
-                    </div>
+
+                                            <td>
+                                                    <p>loader id</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>boolean probably</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -740,7 +790,7 @@ LoaderId can be used when there are multiple loading indicators associated to a 
                 <td class="col-md-4">
                     <a name="hasLoadingStates"></a>
                     <span class="name">
-                        <span class="modifier">Protected</span>
+                            <span class="modifier">Protected</span>
                         <span ><b>hasLoadingStates</b></span>
                         <a href="#hasLoadingStates"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -748,83 +798,81 @@ LoaderId can be used when there are multiple loading indicators associated to a 
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>hasLoadingStates(context: <a href="../undefineds/LoadingContext.html" target="_self">LoadingContext</a>, loaderId: <a href="../undefineds/LoaderId.html" target="_self">LoaderId</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="187"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:187</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="190"
+                                    class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:190</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Checks context and loader id for loading states</p>
+                        <div class="io-description"><p>Checks context and loader id for loading states</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>context</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#LoadingContext" target="_self" >LoadingContext</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>context</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#LoadingContext" target="_self" >LoadingContext</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>context to check</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>loaderId</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#LoaderId" target="_self" >LoaderId</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>loader id to check</p>
+                                            <td>
+                                                    <p>context to check</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>loaderId</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#LoaderId" target="_self" >LoaderId</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        <p>if there are states</p>
+                                            <td>
+                                                    No
+                                            </td>
 
-                    </div>
+
+                                            <td>
+                                                    <p>loader id to check</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>if there are states</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -847,80 +895,78 @@ LoaderId can be used when there are multiple loading indicators associated to a 
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="74"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:74</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="77"
+                                    class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:77</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Use in html templates, returns a boolean indicating if a given loader is active in
+                        <div class="io-description"><p>Use in html templates, returns a boolean indicating if a given loader is active in
 a given context</p>
 <p> loader states in the context.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>context</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#LoadingContext" target="_self" >LoadingContext</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>context</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#LoadingContext" target="_self" >LoadingContext</a></code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                    <td>
-                                        <p>loading context to check</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>loaderId</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#LoaderId" target="_self" >LoaderId</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    Yes
+                                            </td>
 
 
-                                    <td>
-                                        <p>If loaderId is unspecified, the method will return a logical disjunction of all
+                                            <td>
+                                                    <p>loading context to check</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>loaderId</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#LoaderId" target="_self" >LoaderId</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>If loaderId is unspecified, the method will return a logical disjunction of all
 loader states in the context.</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>true if loader is stil loading</p>
+                        </div>
+                            <div class="io-description">
+                                <p>true if loader is stil loading</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -943,77 +989,75 @@ loader states in the context.</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="95"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:95</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="98"
+                                    class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:98</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Use in html templates with async pipes</p>
+                        <div class="io-description"><p>Use in html templates with async pipes</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>context</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#LoadingContext" target="_self" >LoadingContext</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>context</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#LoadingContext" target="_self" >LoadingContext</a></code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                    <td>
-                                        <p>context to check</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>loaderId</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#LoaderId" target="_self" >LoaderId</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    Yes
+                                            </td>
 
 
-                                    <td>
-                                        <p>id of loader</p>
+                                            <td>
+                                                    <p>context to check</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>loaderId</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#LoaderId" target="_self" >LoaderId</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        <p>observable of booleans indicating if loader is active</p>
+                                            <td>
+                                                    Yes
+                                            </td>
 
-                    </div>
+
+                                            <td>
+                                                    <p>id of loader</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>observable of booleans indicating if loader is active</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1024,7 +1068,7 @@ loader states in the context.</p>
                 <td class="col-md-4">
                     <a name="setLoadingState"></a>
                     <span class="name">
-                        <span class="modifier">Protected</span>
+                            <span class="modifier">Protected</span>
                         <span ><b>setLoadingState</b></span>
                         <a href="#setLoadingState"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1032,98 +1076,96 @@ loader states in the context.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>setLoadingState(context: <a href="../undefineds/LoadingContext.html" target="_self">LoadingContext</a>, state: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, loaderId: <a href="../undefineds/LoaderId.html" target="_self">LoaderId</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="151"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:151</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="154"
+                                    class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:154</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Sets loading state for a context</p>
+                        <div class="io-description"><p>Sets loading state for a context</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>context</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#LoadingContext" target="_self" >LoadingContext</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>context</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#LoadingContext" target="_self" >LoadingContext</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>loading context</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>state</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>true if loading</p>
+                                            <td>
+                                                    <p>loading context</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>loaderId</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#LoaderId" target="_self" >LoaderId</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>state</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>loader id</p>
+                                            <td>
+                                                    <p>true if loading</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>loaderId</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#LoaderId" target="_self" >LoaderId</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>loader id</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1146,82 +1188,80 @@ loader states in the context.</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="118"
-                            class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:118</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="121"
+                                    class="link-to-prism">projects/squac-ui/src/app/core/services/loading.service.ts:121</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Start loading manually</p>
+                        <div class="io-description"><p>Start loading manually</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>context</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#LoadingContext" target="_self" >LoadingContext</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>context</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#LoadingContext" target="_self" >LoadingContext</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>context to start loading for</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>loaderId</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#LoaderId" target="_self" >LoaderId</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>loader id to use</p>
+                                            <td>
+                                                    <p>context to start loading for</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>loaderId</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#LoaderId" target="_self" >LoaderId</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>loader id to use</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </section>
-            <section>
+            <section data-compodoc="block-properties">
     
     <h3 id="inputs">
         Properties
@@ -1289,7 +1329,7 @@ loader states in the context.</p>
     </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
+    <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, NgZone } from &quot;@angular/core&quot;;
 import { executeDelayed } from &quot;@core/utils/utils&quot;;
 import { asyncScheduler, BehaviorSubject, Observable } from &quot;rxjs&quot;;
@@ -1345,12 +1385,15 @@ export class LoadingService {
     delay?: number
   ): Observable&lt;V&gt; {
     context &#x3D; context || DEFAULT_CONTEXT;
+
     return source$.pipe(
       executeDelayed(() &#x3D;&gt; {
         this.startLoading(context, loaderId);
       }, delay ?? 0),
       observeOn(asyncScheduler),
-      finalize(() &#x3D;&gt; this.endLoading(context, loaderId))
+      finalize(() &#x3D;&gt; {
+        this.endLoading(context, loaderId);
+      })
     );
   }
 

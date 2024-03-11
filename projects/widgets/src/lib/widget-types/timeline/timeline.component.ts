@@ -13,20 +13,31 @@ import {
   WidgetManagerService,
   WidgetConfigService,
 } from "../../services";
-import { isContinuous, WidgetTypeComponent } from "../../interfaces";
-import { EChartComponent } from "../../shared/components";
-import { parseUtc } from "../../shared/utils";
-import { ProcessedData } from "../../interfaces";
+import { WidgetTypeComponent } from "../../interfaces";
+import { EChartComponent } from "../../components/e-chart/e-chart.component";
+import { parseUtc } from "../../utils";
 import { LabelFormatterParams } from "../../interfaces";
 import { OpUnitType } from "dayjs";
+import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
+import { WidgetErrors } from "../../enums";
 
 /**
  * Custom echart widget
  */
 @Component({
   selector: "widget-timeline",
-  templateUrl: "../../shared/components/e-chart/e-chart.component.html",
-  styleUrls: ["../../shared/components/e-chart/e-chart.component.scss"],
+  templateUrl: "../../components/e-chart/e-chart.component.html",
+  styleUrls: ["../../components/e-chart/e-chart.component.scss"],
+  standalone: true,
+  imports: [NgxEchartsModule],
+  providers: [
+    {
+      provide: NGX_ECHARTS_CONFIG,
+      useFactory: (): unknown => ({
+        echarts: (): unknown => import("echarts"),
+      }),
+    },
+  ],
 })
 export class TimelineComponent
   extends EChartComponent
@@ -40,32 +51,9 @@ export class TimelineComponent
   ) {
     super(widgetManager, widgetConnector, ngZone);
   }
-  override denseOptions: EChartsOption = {
-    grid: {
-      containLabel: false,
-      top: 10,
-      right: 10,
-      left: 105,
-      bottom: 32,
-    },
-    dataZoom: [],
-  };
-
-  override fullOptions: EChartsOption = {
-    grid: {
-      containLabel: false,
-      top: 5,
-      right: 10,
-      left: 125,
-      bottom: 52,
-    },
-    dataZoom: this.chartDefaultOptions.dataZoom,
-  };
-
   // Max allowable time between measurements to connect
   maxMeasurementGap: number = 1 * 1000;
   xAxisLabels = [];
-  isContinuous = isContinuous;
 
   /**
    * @override
@@ -85,7 +73,7 @@ export class TimelineComponent
         type: "time",
         nameLocation: "middle",
         name: "Measurement Start Date",
-        nameGap: 14,
+        nameGap: 15,
         axisPointer: {
           show: true,
           label: {
@@ -121,6 +109,8 @@ export class TimelineComponent
         },
         axisLabel: {
           fontSize: 11,
+          width: 110,
+          overflow: "truncate",
         },
         type: "category",
         // nameGap: 35, //max characters
@@ -132,14 +122,10 @@ export class TimelineComponent
   /**
    * @override
    */
-  buildChartData(data: ProcessedData): Promise<void> {
+  buildChartData(data: MeasurementTypes[]): Promise<void> {
     return new Promise<void>((resolve) => {
       this.metricSeries = {};
-      this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
-        this.selectedMetrics,
-        this.properties,
-        2
-      );
+
       const defaultSeries = {
         large: true,
         encode: {
@@ -166,41 +152,52 @@ export class TimelineComponent
             };
           }
 
-          if (data.has(channel.id)) {
-            const measurements = data.get(channel.id).get(metric.id);
-            let series;
-            switch (this.properties.displayType) {
-              case "hour":
-                series = this.makeSeriesForFixed(
-                  nslc,
-                  measurements,
-                  index,
-                  "hour" as OpUnitType
-                );
-                break;
-              case "day":
-                series = this.makeSeriesForFixed(
-                  nslc,
-                  measurements,
-                  index,
-                  "day" as OpUnitType
-                );
-                break;
-              default:
-                series = this.makeSeriesForRaw(nslc, measurements, index);
-                break;
-            }
+          const measurements = data
+            .filter((m) => m.channel === channel.id && m.metric === metric.id)
+            .map((m) => {
+              m.value = m.value ?? m[this.widgetManager.dataStat];
+              this.widgetConfigService.calculateDataRange(metric.id, m.value);
+              return m;
+            });
 
-            const channelObj = {
-              ...defaultSeries,
-              ...series,
-            };
-            this.metricSeries[metric.id].series.push(channelObj);
+          let series;
+          switch (this.properties.displayType) {
+            case "hour":
+              series = this.makeSeriesForFixed(
+                nslc,
+                measurements,
+                index,
+                "hour" as OpUnitType
+              );
+              break;
+            case "day":
+              series = this.makeSeriesForFixed(
+                nslc,
+                measurements,
+                index,
+                "day" as OpUnitType
+              );
+              break;
+            default:
+              series = this.makeSeriesForRaw(nslc, measurements, index);
+              break;
           }
+
+          const channelObj = {
+            ...defaultSeries,
+            ...series,
+          };
+          this.metricSeries[metric.id].series.push(channelObj);
 
           this.metricSeries[metric.id].yAxisLabels.push(nslc);
         });
       });
+
+      this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
+        this.selectedMetrics,
+        this.properties,
+        2
+      );
       resolve();
     });
   }
@@ -311,6 +308,9 @@ export class TimelineComponent
     const displayMetric = this.selectedMetrics[0];
     const colorMetric = this.selectedMetrics[0];
     const visualMaps = this.visualMaps[colorMetric.id];
+    if (!visualMaps) {
+      this.widgetManager.errors$.next(WidgetErrors.NO_MEASUREMENTS);
+    }
     visualMaps.show = this.showKey;
     let xAxis = { ...this.options.xAxis };
     if (
@@ -349,7 +349,7 @@ export class TimelineComponent
         },
       };
     }
-    this.updateOptions = {
+    const options = {
       yAxis: {
         data: this.metricSeries[displayMetric.id]?.yAxisLabels,
       },
@@ -357,6 +357,16 @@ export class TimelineComponent
       visualMap: visualMaps,
       xAxis,
     };
+
+    // using update options only prevented series from removing series
+    // using the combo sets both the inital series and later updates
+    if (!this.echartsInstance) {
+      this.updateOptions = options;
+    } else {
+      this.echartsInstance.setOption(options, {
+        replaceMerge: "series",
+      });
+    }
   }
 
   /**

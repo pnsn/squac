@@ -2,7 +2,12 @@ import { Metric } from "./metric";
 
 describe("Metric", () => {
   it("should create an instance", () => {
-    expect(new Metric()).toBeTruthy();
+    expect(
+      new Metric({
+        default_maxval: 2,
+      })
+    ).toBeTruthy();
+    expect(Metric.modelName).toBe("Metric");
   });
 
   it("should create new metric from api ", () => {
@@ -24,5 +29,6 @@ describe("Metric", () => {
     const metric = new Metric(testData);
     expect(metric).toBeDefined();
     expect(metric.id).toBe(1);
+    expect(metric.toJson()).toBeDefined();
   });
 });

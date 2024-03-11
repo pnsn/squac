@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -35,32 +93,37 @@
 
 
 <ol class="breadcrumb">
-  <li>Components</li>
-  <li
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
   >
   MapComponent</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
-        <li >
-            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
         </li>
-        <li >
-            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
         </li>
-        <li >
-            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
     <h3>File</h3>
 </p>
 <p class="comment">
@@ -72,7 +135,7 @@
         <h3>Description</h3>
     </p>
     <p class="comment">
-        <p>Leaflet map widget</p>
+        <p>Leaflet map widget that displays stations</p>
 
     </p>
 
@@ -80,20 +143,20 @@
         <h3>Extends</h3>
     </p>
     <p class="comment">
-                <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                    <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
     </p>
 
     <p class="comment">
         <h3>Implements</h3>
     </p>
     <p class="comment">
-                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
-                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+                <code>OnInit</code>
+                <code>OnDestroy</code>
                     <code><a href="../interfaces/WidgetTypeComponent.html" target="_self" >WidgetTypeComponent</a></code>
     </p>
 
 
-<section>
+<section data-compodoc="block-metadata">
     <h3>Metadata</h3>
     <table class="table table-sm table-hover metadata">
         <tbody>
@@ -108,9 +171,27 @@
 
 
 
+
             <tr>
                 <td class="col-md-3">selector</td>
                 <td class="col-md-9"><code>widget-map</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">Standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>NgFor</code>
+                            <code>LeafletDrawModule</code>
+                            <code>LeafletModule</code>
+                            <code>PrecisionPipe</code>
+                            <code>NgIf</code>
+                            <code>GuardTypePipe</code>
+                </td>
             </tr>
 
             <tr>
@@ -136,7 +217,7 @@
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -176,6 +257,7 @@
                                 <a href="#legend" >legend</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                     <span class="modifier">Public</span>
                                 <a href="#legendRef" >legendRef</a>
                             </li>
@@ -183,6 +265,7 @@
                                 <a href="#map" >map</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                     <span class="modifier">Public</span>
                                 <a href="#mapRef" >mapRef</a>
                             </li>
@@ -259,6 +342,9 @@
                                 <a href="#buildChartData" >buildChartData</a>
                             </li>
                             <li>
+                                <a href="#changeData" >changeData</a>
+                            </li>
+                            <li>
                                 <a href="#changeMetrics" >changeMetrics</a>
                             </li>
                             <li>
@@ -269,10 +355,6 @@
                             </li>
                             <li>
                                 <a href="#emphasizeChannel" >emphasizeChannel</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#findWorstChannel" >findWorstChannel</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -338,18 +420,18 @@
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-constructor">
     <h3 id="constructor">Constructor</h3>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(widgetConfigService: <a href="../injectables/WidgetConfigService.html" target="_self">WidgetConfigService</a>, widgetConnectService: <a href="../injectables/WidgetConnectService.html" target="_self">WidgetConnectService</a>, widgetManager: <a href="../injectables/WidgetManagerService.html" target="_self">WidgetManagerService</a>, zone: <a href="https://angular.io/api/core/NgZone" target="_blank">NgZone</a>)</code>
+<code>constructor(widgetConfigService: <a href="../injectables/WidgetConfigService.html" target="_self">WidgetConfigService</a>, widgetConnectService: <a href="../injectables/WidgetConnectService.html" target="_self">WidgetConnectService</a>, widgetManager: <a href="../injectables/WidgetManagerService.html" target="_self">WidgetManagerService</a>, zone: NgZone, cdr: ChangeDetectorRef)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:76</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="116" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:116</a></div>
                             </td>
                         </tr>
 
@@ -406,7 +488,19 @@
                                                         <td>zone</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/core/NgZone" target="_blank" >NgZone</a></code>
+                                                                    <code>NgZone</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>cdr</td>
+                                                  
+                                                        <td>
+                                                                    <code>ChangeDetectorRef</code>
                                                         </td>
                                                   
                                                     <td>
@@ -427,7 +521,7 @@
 
 
 
-    <section>
+    <section data-compodoc="block-methods">
     
     <h3 id="methods">
         Methods
@@ -450,62 +544,60 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="415"
-                            class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:415</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="442"
+                                    class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:442</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Add panes to map</p>
+                        <div class="io-description"><p>Add panes to map</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>visualMap</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#VisualMapTypes" target="_self" >VisualMapTypes</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>visualMap</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#VisualMapTypes" target="_self" >VisualMapTypes</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>visual map type</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -523,64 +615,143 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>buildChartData(data: <a href="../undefineds/ProcessedData.html" target="_self">ProcessedData</a>)</code>
+<code>buildChartData(data: <a href="../undefineds/MeasurementTypes.html" target="_self">MeasurementTypes[]</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:267</a></code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:330</a></code>
 </div>
-                </td>
-            </tr>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Creates map markers using processed data</p>
+</div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>data</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#ProcessedData" target="_self" >ProcessedData</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#MeasurementTypes" target="_self" >MeasurementTypes[]</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+                                            <td>
+                                                    <p>processed data from request</p>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="changeData"></a>
+                    <span class="name">
+                        <span ><b>changeData</b></span>
+                        <a href="#changeData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>changeData(data: <a href="../undefineds/MeasurementTypes.html" target="_self">MeasurementTypes[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="195"
+                                    class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:195</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>trigger chart data set up &amp; change metrics</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#MeasurementTypes" target="_self" >MeasurementTypes[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>data to add to the chart</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -603,27 +774,29 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:452</a></code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:479</a></code>
 </div>
-                </td>
-            </tr>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Change metric to show on the map and resize after</p>
+</div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -646,27 +819,27 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:109</a></code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:156</a></code>
 </div>
-                </td>
-            </tr>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -689,59 +862,64 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:95</a></code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:142</a></code>
 </div>
-                </td>
-            </tr>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>override to disable method</p>
+</div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>_channel</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>_channel</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            <td>
+                                                    <p>unused</p>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -764,159 +942,64 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:177</a></code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:236</a></code>
 </div>
-                </td>
-            </tr>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>channel</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="findWorstChannel"></a>
-                    <span class="name">
-                        <span class="modifier">Private</span>
-                        <span ><b>findWorstChannel</b></span>
-                        <a href="#findWorstChannel"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>findWorstChannel(channel: <a href="../interfaces/ChannelRow.html" target="_self">ChannelRow</a>, station: <a href="../interfaces/StationRow.html" target="_self">StationRow</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="395"
-                            class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:395</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Commpares station value and channel value, updates station
-with channel values if channel values are worse than station values</p>
+                        <div class="io-description"><p>emphasize channel on map</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>channel</td>
-                                    <td>
-                                                <code><a href="../interfaces/ChannelRow.html" target="_self" >ChannelRow</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>channel</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <ul>
-<li>channel to compare against station</li>
-</ul>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>station</td>
-                                    <td>
-                                                <code><a href="../interfaces/StationRow.html" target="_self" >StationRow</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
-<li>current station data</li>
-</ul>
+                                            <td>
+                                                    <p>nslc to emphasize</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/StationRow.html" target="_self" >StationRow</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>station updated with data for the worst channel</p>
-
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -927,7 +1010,7 @@ with channel values if channel values are worse than station values</p>
                 <td class="col-md-4">
                     <a name="getIconHtml"></a>
                     <span class="name">
-                        <span class="modifier">Private</span>
+                            <span class="modifier">Private</span>
                         <span ><b>getIconHtml</b></span>
                         <a href="#getIconHtml"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -935,69 +1018,67 @@ with channel values if channel values are worse than station values</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getIconHtml(color?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="478"
-                            class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:478</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="503"
+                                    class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:503</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns html string for map icon</p>
+                        <div class="io-description"><p>Returns html string for map icon</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>color</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>color</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    Yes
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>string color of icon</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>html string for map icon</p>
+                        </div>
+                            <div class="io-description">
+                                <p>html string for map icon</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1008,7 +1089,7 @@ with channel values if channel values are worse than station values</p>
                 <td class="col-md-4">
                     <a name="getStyle"></a>
                     <span class="name">
-                        <span class="modifier">Private</span>
+                            <span class="modifier">Private</span>
                         <span ><b>getStyle</b></span>
                         <a href="#getStyle"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1016,87 +1097,85 @@ with channel values if channel values are worse than station values</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getStyle(value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, visualMap: <a href="../undefineds/VisualMapTypes.html" target="_self">VisualMapTypes</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="494"
-                            class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:494</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="519"
+                                    class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:519</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Finds correct color for given value based on visualmap</p>
+                        <div class="io-description"><p>Finds correct color for given value based on visualmap</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>value</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>value to check</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>visualMap</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#VisualMapTypes" target="_self" >VisualMapTypes</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>visualMap</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#VisualMapTypes" target="_self" >VisualMapTypes</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>visual map to use</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>string color</p>
+                        </div>
+                            <div class="io-description">
+                                <p>string color</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1107,7 +1186,7 @@ with channel values if channel values are worse than station values</p>
                 <td class="col-md-4">
                     <a name="initLegend"></a>
                     <span class="name">
-                        <span class="modifier">Private</span>
+                            <span class="modifier">Private</span>
                         <span ><b>initLegend</b></span>
                         <a href="#initLegend"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1115,29 +1194,29 @@ with channel values if channel values are worse than station values</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>initLegend()</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="202"
-                            class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:202</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="261"
+                                    class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:261</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>set up legend elemend and add to map</p>
+                        <div class="io-description"><p>set up legend element and add to map</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1148,7 +1227,7 @@ with channel values if channel values are worse than station values</p>
                 <td class="col-md-4">
                     <a name="makeStationMarker"></a>
                     <span class="name">
-                        <span class="modifier">Private</span>
+                            <span class="modifier">Private</span>
                         <span ><b>makeStationMarker</b></span>
                         <a href="#makeStationMarker"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1156,87 +1235,103 @@ with channel values if channel values are worse than station values</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>makeStationMarker(station: <a href="../interfaces/StationRow.html" target="_self">StationRow</a>, stationChannels: <a href="../undefineds/StationChannels.html" target="_self">StationChannels</a>)</code>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>makeStationMarker(station: <a href="../interfaces/StationData.html" target="_self">StationData</a>, stationHTML: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, stationColor: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="508"
-                            class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:508</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="538"
+                                    class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:538</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Makes leaflet marker for a station</p>
+                        <div class="io-description"><p>Makes leaflet marker for a station</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>station</td>
-                                    <td>
-                                                <code><a href="../interfaces/StationRow.html" target="_self" >StationRow</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>station</td>
+                                            <td>
+                                                            <code><a href="../interfaces/StationData.html" target="_self" >StationData</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>station to make marker for</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>stationChannels</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#StationChannels" target="_self" >StationChannels</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>stationHTML</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
-<li>station channels</li>
+                                            <td>
+                                                    <ul>
+<li>station channels string</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Marker</code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>stationColor</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        <p>leaflet marker for map</p>
+                                            <td>
+                                                    No
+                                            </td>
 
-                    </div>
+
+                                            <td>
+                                                    <ul>
+<li>string color</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Marker</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>leaflet marker for map</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1247,7 +1342,7 @@ with channel values if channel values are worse than station values</p>
                 <td class="col-md-4">
                     <a name="ngOnDestroy"></a>
                     <span class="name">
-                        <span class="modifier"></span>
+                            <span class="modifier"></span>
                         <span ><b>ngOnDestroy</b></span>
                         <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1255,33 +1350,35 @@ with channel values if channel values are worse than station values</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>ngOnDestroy()</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:256</a></code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:317</a></code>
 </div>
-                </td>
-            </tr>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Remove resize observer when map destroyed</p>
+</div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1304,62 +1401,60 @@ with channel values if channel values are worse than station values</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="159"
-                            class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:159</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="220"
+                                    class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:220</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Store map once ready</p>
+                        <div class="io-description"><p>Store map once ready</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>map</td>
-                                    <td>
-                                            <code>Map</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>map</td>
+                                            <td>
+                                                        <code>Map</code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>Leaflet map referencea</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1382,29 +1477,29 @@ with channel values if channel values are worse than station values</p>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:149</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:102</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Should trigger zoom, but currently not available</p>
+                        <div class="io-description"><p>Should trigger zoom, but currently not available</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1427,62 +1522,60 @@ with channel values if channel values are worse than station values</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="217"
-                            class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:217</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="278"
+                                    class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:278</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Toggle map pane with inputted color</p>
+                        <div class="io-description"><p>Toggle map pane with inputted color</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>pane</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>pane</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>string name of pane (will be color)</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1505,27 +1598,27 @@ with channel values if channel values are worse than station values</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:145</a></code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:206</a></code>
 </div>
-                </td>
-            </tr>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1548,80 +1641,78 @@ with channel values if channel values are worse than station values</p>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="235"
-                            class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:235</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="296"
+                                    class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:296</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Toggle individual station, currently unused</p>
+                        <div class="io-description"><p>Toggle individual station, currently unused</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>i</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>i</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>index of station</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>event</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>click event</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1632,7 +1723,7 @@ with channel values if channel values are worse than station values</p>
                 <td class="col-md-4">
                     <a name="updateData"></a>
                     <span class="name">
-                        <span class="modifier"></span>
+                            <span class="modifier"></span>
                         <span ><b>updateData</b></span>
                         <a href="#updateData"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1640,74 +1731,72 @@ with channel values if channel values are worse than station values</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateData(data: <a href="../undefineds/ProcessedData.html" target="_self">ProcessedData</a>)</code>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateData(data: <a href="../undefineds/MeasurementTypes.html" target="_self">MeasurementTypes[]</a>)</code>
                 </td>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:179</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:132</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Update widget data</p>
+                        <div class="io-description"><p>Update widget data</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>data</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#ProcessedData" target="_self" >ProcessedData</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#MeasurementTypes" target="_self" >MeasurementTypes[]</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <ul>
+                                            <td>
+                                                    <ul>
 <li>data for widget to update</li>
 </ul>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1718,7 +1807,7 @@ with channel values if channel values are worse than station values</p>
                 <td class="col-md-4">
                     <a name="useDenseView"></a>
                     <span class="name">
-                        <span class="modifier"></span>
+                            <span class="modifier"></span>
                         <span ><b>useDenseView</b></span>
                         <a href="#useDenseView"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1726,65 +1815,70 @@ with channel values if channel values are worse than station values</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>useDenseView(_useDenseView: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:88</a></code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:133</a></code>
 </div>
-                </td>
-            </tr>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>override to disable method</p>
+</div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>_useDenseView</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>_useDenseView</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            <td>
+                                                    <p>unused</p>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1807,29 +1901,29 @@ with channel values if channel values are worse than station values</p>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:86</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:79</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Initializes toggle key subscription and functionality</p>
+                        <div class="io-description"><p>Initializes toggle key subscription and functionality</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1852,29 +1946,29 @@ with channel values if channel values are worse than station values</p>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:97</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:90</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Intializes zoom subscription and functionality</p>
+                        <div class="io-description"><p>Intializes zoom subscription and functionality</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1897,35 +1991,35 @@ with channel values if channel values are worse than station values</p>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:127</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:119</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Set up initial subscriptions</p>
+                        <div class="io-description"><p>Set up initial subscriptions</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </section>
-    <section>
+    <section data-compodoc="block-properties">
     
     <h3 id="inputs">
         Properties
@@ -1949,10 +2043,16 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:69</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="103" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:103</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Visual map for coloring icons</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -1975,10 +2075,16 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:61</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:89</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>metric to display on map</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -2001,10 +2107,16 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:64</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:93</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Map config for drawing</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -2027,10 +2139,16 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:66</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:97</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>map bounds</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -2052,7 +2170,7 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:76</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="116" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:116</a></div>
                         </td>
                     </tr>
 
@@ -2077,10 +2195,16 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:74</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="114" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:114</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>typeguards</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -2102,7 +2226,7 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:75</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="115" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:115</a></div>
                         </td>
                     </tr>
 
@@ -2128,10 +2252,16 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:65</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:95</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>layers to display on map</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -2154,10 +2284,16 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:70</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="105" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:105</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>leaflet legend control</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -2167,6 +2303,7 @@ with channel values if channel values are worse than station values</p>
                 <td class="col-md-4">
                     <a name="legendRef"></a>
                     <span class="name">
+                            <span class="modifier"></span>
                             <span class="modifier">Public</span>
                         <span ><b>legendRef</b></span>
                         <a href="#legendRef"><span class="icon ion-ios-link"></span></a>
@@ -2175,7 +2312,7 @@ with channel values if channel values are worse than station values</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
+                        <i>Type : </i>    <code>ElementRef</code>
 
                     </td>
                 </tr>
@@ -2190,10 +2327,16 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:55</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:80</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>element of legend on map</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -2216,10 +2359,16 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:67</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="99" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:99</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>leaflet map instance</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -2229,6 +2378,7 @@ with channel values if channel values are worse than station values</p>
                 <td class="col-md-4">
                     <a name="mapRef"></a>
                     <span class="name">
+                            <span class="modifier"></span>
                             <span class="modifier">Public</span>
                         <span ><b>mapRef</b></span>
                         <a href="#mapRef"><span class="icon ion-ios-link"></span></a>
@@ -2237,7 +2387,7 @@ with channel values if channel values are worse than station values</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
+                        <i>Type : </i>    <code>ElementRef</code>
 
                     </td>
                 </tr>
@@ -2252,10 +2402,16 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:56</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:82</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>map element ref</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -2277,10 +2433,16 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:72</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="109" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:109</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>transform measurements</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -2303,10 +2465,16 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:68</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="101" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:101</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>map layers grouped by metric</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -2329,10 +2497,16 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:62</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:91</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Map configuration options</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -2354,10 +2528,16 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:59</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="111" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:111</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>pipe for calculating prescisions</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -2380,10 +2560,16 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:58</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:85</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>observer for page resizes</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -2406,10 +2592,16 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:60</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:87</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>station layers on map</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -2432,10 +2624,16 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:71</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="107" class="link-to-prism">projects/widgets/src/lib/widget-types/map/map.component.ts:107</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Station data</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -2458,13 +2656,13 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:19</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:25</a></code>
 </div>
                         </td>
                     </tr>
@@ -2485,19 +2683,19 @@ with channel values if channel values are worse than station values</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#ProcessedData" target="_self" >ProcessedData</a></code>
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#MeasurementTypes" target="_self" >MeasurementTypes[]</a></code>
 
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:18</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:24</a></code>
 </div>
                         </td>
                     </tr>
@@ -2524,13 +2722,13 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:23</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:29</a></code>
 </div>
                         </td>
                     </tr>
@@ -2557,13 +2755,13 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:16</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:22</a></code>
 </div>
                         </td>
                     </tr>
@@ -2590,13 +2788,13 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:21</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:27</a></code>
 </div>
                         </td>
                     </tr>
@@ -2623,13 +2821,13 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:20</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:26</a></code>
 </div>
                         </td>
                     </tr>
@@ -2655,13 +2853,13 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:15</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:21</a></code>
 </div>
                         </td>
                     </tr>
@@ -2687,13 +2885,13 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:13</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:19</a></code>
 </div>
                         </td>
                     </tr>
@@ -2725,13 +2923,13 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:22</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:28</a></code>
 </div>
                         </td>
                     </tr>
@@ -2758,13 +2956,13 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:17</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:23</a></code>
 </div>
                         </td>
                     </tr>
@@ -2791,13 +2989,13 @@ with channel values if channel values are worse than station values</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="../classes/Widget.html" target="_self" >GenericWidgetComponent</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../components/GenericWidgetComponent.html" target="_self" >GenericWidgetComponent</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/Widget.html#source" target="_self" >GenericWidgetComponent:14</a></code>
+                                <div class="io-line">Defined in         <code><a href="../components/GenericWidgetComponent.html#source" target="_self" >GenericWidgetComponent:20</a></code>
 </div>
                         </td>
                     </tr>
@@ -2810,8 +3008,9 @@ with channel values if channel values are worse than station values</p>
 </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
+    <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  ChangeDetectorRef,
   Component,
   ElementRef,
   NgZone,
@@ -2819,7 +3018,7 @@ with channel values if channel values are worse than station values</p>
   OnInit,
   ViewChild,
 } from &quot;@angular/core&quot;;
-import { PrecisionPipe } from &quot;../../shared/pipes/precision.pipe&quot;;
+import { PrecisionPipe } from &quot;../../pipes/precision.pipe&quot;;
 
 import {
   WidgetConnectService,
@@ -2832,11 +3031,10 @@ import {
   WidgetTypeComponent,
   isContinuous,
   isStoplight,
-  ProcessedData,
 } from &quot;../../interfaces&quot;;
-import { GenericWidgetComponent } from &quot;../../shared/components&quot;;
-import { ChannelRow, StationChannels, StationRow } from &quot;./types&quot;;
-import { MeasurementPipe, MeasurementTypes, Metric } from &quot;squacapi&quot;;
+import { GenericWidgetComponent } from &quot;../../components&quot;;
+import { StationRow } from &quot;./types&quot;;
+import { Channel, MeasurementPipe, MeasurementTypes, Metric } from &quot;squacapi&quot;;
 import {
   Control,
   divIcon,
@@ -2852,38 +3050,78 @@ import {
   MarkerOptions,
   tileLayer,
 } from &quot;leaflet&quot;;
+import { NgFor, NgIf } from &quot;@angular/common&quot;;
+import { LeafletDrawModule } from &quot;@asymmetrik/ngx-leaflet-draw&quot;;
+import { LeafletModule } from &quot;@asymmetrik/ngx-leaflet&quot;;
+import { GuardTypePipe } from &quot;../../pipes/guard-type.pipe&quot;;
+
+interface ChannelData {
+  nslc: string;
+  value: number;
+}
+interface StationData {
+  staCode: string;
+  channelData: ChannelData[];
+  lat: number;
+  lon: number;
+}
 
 /**
- * Leaflet map widget
+ * Leaflet map widget that displays stations
  */
 @Component({
   selector: &quot;widget-map&quot;,
   templateUrl: &quot;./map.component.html&quot;,
   styleUrls: [&quot;./map.component.scss&quot;],
+  standalone: true,
+  imports: [
+    NgFor,
+    LeafletDrawModule,
+    LeafletModule,
+    PrecisionPipe,
+    NgIf,
+    GuardTypePipe,
+  ],
 })
 export class MapComponent
   extends GenericWidgetComponent
   implements OnInit, OnDestroy, WidgetTypeComponent
 {
+  /** element of legend on map*/
   @ViewChild(&quot;legendElement&quot;, { static: false }) public legendRef: ElementRef;
+  /** map element ref */
   @ViewChild(&quot;mapElement&quot;, { static: false }) public mapRef: ElementRef;
 
+  /** observer for page resizes */
   resizeObserver: ResizeObserver;
-  precisionPipe &#x3D; new PrecisionPipe();
+  /** station layers on map */
   stationLayer: LayerGroup;
+  /** metric to display on map */
   displayMetric: Metric;
+  /** Map configuration options */
   options: MapOptions;
-
+  /** Map config for drawing */
   drawOptions: Record&lt;string, never&gt;;
+  /** layers to display on map */
   layers: FeatureGroup[];
+  /** map bounds */
   fitBounds: LatLngBounds;
+  /** leaflet map instance */
   map: Map;
+  /** map layers grouped by metric */
   metricLayers: Record&lt;number, Marker[]&gt;;
+  /** Visual map for coloring icons */
   displayMap: VisualMapTypes;
+  /** leaflet legend control */
   legend: Control;
+  /** Station data */
   stations: StationRow[];
+  /** transform measurements */
   measurementPipe &#x3D; new MeasurementPipe();
+  /** pipe for calculating prescisions */
+  precisionPipe &#x3D; new PrecisionPipe();
 
+  /** typeguards */
   isPiecewise &#x3D; isPiecewise;
   isStoplight &#x3D; isStoplight;
   isContinuous &#x3D; isContinuous;
@@ -2892,18 +3130,25 @@ export class MapComponent
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
     override widgetManager: WidgetManagerService,
-    protected zone: NgZone
+    protected zone: NgZone,
+    override cdr: ChangeDetectorRef
   ) {
     super(widgetManager, widgetConnectService, zone);
   }
 
-  /** @override */
+  /**
+   * override to disable method
+   *
+   * @param _useDenseView unused
+   */
   override useDenseView(_useDenseView: boolean): void {
     return;
   }
 
   /**
-   * @override
+   * override to disable method
+   *
+   * @param _channel unused
    */
   deemphasizeChannel(_channel: string): void {
     return;
@@ -2942,13 +3187,27 @@ export class MapComponent
    *
    * @param data - data for widget to update
    */
-  override updateData(data: ProcessedData): void {
+  override updateData(data: MeasurementTypes[]): void {
+    //overridden to allow check for if map exists
     this.data &#x3D; data;
     this.channels &#x3D; this.widgetManager.channels;
     this.selectedMetrics &#x3D; this.widgetManager.selectedMetrics;
     this.properties &#x3D; this.widgetManager.properties;
+    if (this.map) {
+      this.changeData(data);
+    }
+  }
+
+  /**
+   * trigger chart data set up &amp; change metrics
+   *
+   * @param data data to add to the chart
+   */
+  changeData(data: MeasurementTypes[]): void {
     this.buildChartData(data).then(() &#x3D;&gt; {
       this.changeMetrics();
+      this.cdr.detectChanges();
+      this.data &#x3D; null;
     });
   }
 
@@ -2976,16 +3235,14 @@ export class MapComponent
       this.legend &#x3D; new Control({
         position: &quot;topright&quot;,
       });
-      this.buildChartData(this.data).then(() &#x3D;&gt; {
-        this.changeMetrics();
-        this.toggleKey();
-        this.data &#x3D; null;
-      });
+      this.changeData(this.data);
     }
   }
 
   /**
-   * @override
+   * emphasize channel on map
+   *
+   * @param channel nslc to emphasize
    */
   emphasizeChannel(channel: string): void {
     // const layer &#x3D; this.metricLayers[this.displayMetric.id];
@@ -3010,14 +3267,16 @@ export class MapComponent
   }
 
   /**
-   * set up legend elemend and add to map
+   * set up legend element and add to map
    */
   private initLegend(): void {
-    const legend &#x3D; this.legendRef.nativeElement;
+    const legend &#x3D; this.legendRef?.nativeElement;
     this.legend.onAdd &#x3D; (): HTMLElement &#x3D;&gt; {
       return legend;
     };
-    if (this.map &amp;&amp; this.legend) {
+    // only add legend to map if the map is ready
+    // throws errors otherwise
+    if (this.map &amp;&amp; legend &amp;&amp; this.showKey) {
       this.legend.addTo(this.map);
     }
   }
@@ -3064,7 +3323,7 @@ export class MapComponent
   }
 
   /**
-   * @override
+   * Remove resize observer when map destroyed
    */
   override ngOnDestroy(): void {
     this.map &#x3D; null;
@@ -3075,149 +3334,115 @@ export class MapComponent
   }
 
   /**
-   * @override
+   * Creates map markers using processed data
+   *
+   * @param data processed data from request
    */
-  buildChartData(data: ProcessedData): Promise&lt;void&gt; {
+  buildChartData(data: MeasurementTypes[]): Promise&lt;void&gt; {
     return new Promise&lt;void&gt;((resolve) &#x3D;&gt; {
       this.data &#x3D; data;
-      if (this.map) {
-        this.metricLayers &#x3D; {};
+      this.metricLayers &#x3D; {};
 
-        this.visualMaps &#x3D; this.widgetConfigService.getVisualMapFromThresholds(
-          this.selectedMetrics,
+      this.selectedMetrics.forEach((metric) &#x3D;&gt; {
+        if (!metric) return;
+        const stationsData: StationData[] &#x3D; [];
+        this.channels.forEach((channel: Channel) &#x3D;&gt; {
+          let stationData &#x3D; stationsData.find(
+            (s) &#x3D;&gt; channel.staCode &#x3D;&#x3D;&#x3D; s.staCode
+          );
+          if (!stationData) {
+            stationData &#x3D; {
+              staCode: channel.staCode,
+              channelData: [],
+              lat: channel.lat,
+              lon: channel.lon,
+            };
+            stationsData.push(stationData);
+          }
+          let val: number &#x3D; null;
+
+          const channelData &#x3D; data
+            .filter((m) &#x3D;&gt; m.channel &#x3D;&#x3D;&#x3D; channel.id &amp;&amp; m.metric &#x3D;&#x3D;&#x3D; metric.id)
+            .map((m) &#x3D;&gt; {
+              m.value &#x3D; m.value ?? m[this.widgetManager.dataStat];
+              return m;
+            });
+
+          val &#x3D; this.measurementPipe.transform(
+            channelData,
+            this.widgetManager.stat
+          );
+
+          this.widgetConfigService.calculateDataRange(metric.id, val);
+
+          stationData.channelData.push({
+            nslc: channel.nslc,
+            value: val,
+          });
+
+          // check if agg if worse than current agg
+        });
+
+        const visualMap &#x3D; this.widgetConfigService.getVisualMapFromThresholds(
+          [metric],
           this.properties,
           3
-        );
+        )[metric.id];
 
-        this.selectedMetrics.forEach((metric) &#x3D;&gt; {
-          if (!metric) return;
-          const channelRows: ChannelRow[] &#x3D; [];
-          const stations: string[] &#x3D; [];
-          const stationRows: StationRow[] &#x3D; [];
-          const stationChannels: StationChannels &#x3D; {};
-          this.channels.forEach((channel) &#x3D;&gt; {
-            const identifier &#x3D; channel.staCode;
-            const nslc &#x3D; channel.nslc;
-            let agg &#x3D; 0;
-            let val: number &#x3D; null;
-            if (data.get(channel.id)) {
-              const rowData: MeasurementTypes[] &#x3D; data
-                .get(channel.id)
-                .get(metric.id);
-              val &#x3D; this.measurementPipe.transform(
-                rowData,
-                this.widgetManager.stat
-              );
-            }
+        const stationMarkers &#x3D; [];
+        stationsData.forEach((station: StationData) &#x3D;&gt; {
+          // count of channels that are null or out of spec
+          let outOfSpecChannels &#x3D; 0;
+          let stationHTML &#x3D; &quot;&quot;;
+          let stationColor: string;
 
-            const visualMap &#x3D; this.visualMaps[metric.id];
+          let stationValue &#x3D; Number.MIN_SAFE_INTEGER;
+
+          station.channelData.forEach((channelData) &#x3D;&gt; {
+            stationValue &#x3D; Math.max(Math.abs(channelData.value), stationValue);
+
+            const val &#x3D; channelData.value;
             const inRange &#x3D; visualMap
               ? this.widgetConfigService.checkValue(val, visualMap)
               : true;
 
             if (val &#x3D;&#x3D;&#x3D; null || (visualMap &amp;&amp; !inRange)) {
-              agg++;
+              outOfSpecChannels++;
             }
+
             const color &#x3D; this.getStyle(val, visualMap);
             const iconHtml &#x3D; this.getIconHtml(color);
 
-            if (!stationChannels[channel.staCode]) {
-              stationChannels[channel.staCode] &#x3D; &quot;&quot;;
-            }
-
-            stationChannels[channel.staCode] &#x3D;
-              stationChannels[channel.staCode] +
-              &#x60;&lt;tr&gt; &lt;td&gt; ${iconHtml} ${nslc} &lt;/td&gt;&lt;td&gt; ${
-                val !&#x3D;&#x3D; null ? this.precisionPipe.transform(val) : &quot;no data&quot;
-              }&lt;/td&gt;&lt;/tr&gt;&#x60;;
-
-            let channelRow: ChannelRow &#x3D; {
-              title: nslc,
-              id: channel.id,
-              parentId: identifier,
-              staCode: channel.staCode,
-              lat: channel.lat,
-              lon: channel.lon,
-              color,
-              metricAgg: agg,
-            };
-            channelRow &#x3D; { ...channelRow };
-            channelRows.push(channelRow);
-            let staIndex &#x3D; stations.indexOf(identifier);
-            if (staIndex &lt; 0) {
-              staIndex &#x3D; stations.length;
-              stations.push(identifier);
-              const sta: StationRow &#x3D; {
-                id: identifier,
-                staCode: channel.staCode,
-                lat: channel.lat,
-                lon: channel.lon,
-                count: 0,
-                agg,
-                color,
-                channelAgg: 0,
-                metricAgg: 0,
-              };
-              stationRows.push(sta);
-            }
-            const station: StationRow &#x3D; this.findWorstChannel(
-              channelRow,
-              stationRows[staIndex]
-            );
-
-            if (isStoplight(visualMap)) {
-              let color: string;
-              if (station.channelAgg &#x3D;&#x3D;&#x3D; 0) {
-                color &#x3D; visualMap.colors.in;
-              } else if (station.channelAgg &#x3D;&#x3D;&#x3D; station.count) {
-                color &#x3D; visualMap.colors.out;
-              } else {
-                color &#x3D; visualMap.colors.middle;
-              }
-              station.color &#x3D; color;
-            }
-
-            stationRows[staIndex] &#x3D; station;
-
-            // check if agg if worse than current agg
+            stationHTML +&#x3D; &#x60;&lt;tr&gt; &lt;td&gt; ${iconHtml} ${
+              channelData.nslc
+            } &lt;/td&gt;&lt;td&gt; ${
+              val !&#x3D;&#x3D; null ? this.precisionPipe.transform(val) : &quot;no data&quot;
+            }&lt;/td&gt;&lt;/tr&gt;&#x60;;
           });
-          const stationMarkers &#x3D; [];
 
-          stationRows.forEach((station) &#x3D;&gt; {
-            stationMarkers.push(
-              this.makeStationMarker(station, stationChannels)
-            );
-          });
+          if (isStoplight(visualMap)) {
+            if (outOfSpecChannels &#x3D;&#x3D;&#x3D; 0) {
+              stationColor &#x3D; visualMap.colors.in;
+            } else if (outOfSpecChannels &#x3D;&#x3D;&#x3D; station.channelData.length) {
+              stationColor &#x3D; visualMap.colors.out;
+            } else {
+              stationColor &#x3D; visualMap.colors.middle;
+            }
+          } else {
+            stationColor &#x3D; this.getStyle(stationValue, visualMap);
+          }
+
           //each layer is own feature group
-          this.metricLayers[metric.id] &#x3D; stationMarkers;
-          this.stations &#x3D; stationRows;
+          stationMarkers.push(
+            this.makeStationMarker(station, stationHTML, stationColor)
+          );
         });
-      }
+
+        this.visualMaps[metric.id] &#x3D; visualMap;
+        this.metricLayers[metric.id] &#x3D; stationMarkers;
+      });
       resolve();
     });
-  }
-
-  /**
-   * Commpares station value and channel value, updates station
-   * with channel values if channel values are worse than station values
-   *
-   * @param channel - channel to compare against station
-   * @param station - current station data
-   * @returns station updated with data for the worst channel
-   */
-  private findWorstChannel(
-    channel: ChannelRow,
-    station: StationRow
-  ): StationRow {
-    station.count++;
-    if (channel.agg &gt; station.agg) {
-      station.agg &#x3D; channel.agg;
-      station.color &#x3D; channel.color;
-    }
-    station.channelAgg +&#x3D; channel.metricAgg &gt; 0 ? 1 : 0;
-    station.metricAgg +&#x3D; channel.metricAgg;
-
-    return station;
   }
 
   /**
@@ -3260,26 +3485,24 @@ export class MapComponent
   }
 
   /**
-   * @override
+   * Change metric to show on the map and resize after
    */
   changeMetrics(): void {
-    if (this.map) {
-      this.displayMetric &#x3D; this.selectedMetrics[0];
-      this.displayMap &#x3D; this.visualMaps[this.displayMetric.id];
-      this.addPanes(this.displayMap);
-      this.layers &#x3D; [featureGroup(this.metricLayers[this.displayMetric.id])];
-      this.initLegend();
+    this.displayMetric &#x3D; this.selectedMetrics[0];
+    this.displayMap &#x3D; this.visualMaps[this.displayMetric.id];
+    this.addPanes(this.displayMap);
+    this.layers &#x3D; [featureGroup(this.metricLayers[this.displayMetric.id])];
+    this.initLegend();
+    this.fitBounds &#x3D; this.layers[0].getBounds();
+
+    this.resizeObserver &#x3D; new ResizeObserver(() &#x3D;&gt; {
+      if (this.map) {
+        this.map.invalidateSize();
+      }
       this.fitBounds &#x3D; this.layers[0].getBounds();
+    });
 
-      this.resizeObserver &#x3D; new ResizeObserver(() &#x3D;&gt; {
-        if (this.map) {
-          this.map.invalidateSize();
-        }
-        this.fitBounds &#x3D; this.layers[0].getBounds();
-      });
-
-      this.resizeObserver.observe(this.mapRef.nativeElement);
-    }
+    this.resizeObserver.observe(this.mapRef.nativeElement);
   }
 
   /**
@@ -3305,7 +3528,11 @@ export class MapComponent
    * @returns string color
    */
   private getStyle(value: number, visualMap: VisualMapTypes): string {
-    if (value &#x3D;&#x3D;&#x3D; null || value &#x3D;&#x3D;&#x3D; undefined) {
+    if (
+      value &#x3D;&#x3D;&#x3D; Number.MIN_SAFE_INTEGER ||
+      value &#x3D;&#x3D;&#x3D; null ||
+      value &#x3D;&#x3D;&#x3D; undefined
+    ) {
       return &quot;transparent&quot;;
     }
     return this.widgetConfigService.getColorFromValue(value, visualMap);
@@ -3315,24 +3542,26 @@ export class MapComponent
    * Makes leaflet marker for a station
    *
    * @param station - station to make marker for
-   * @param stationChannels - station channels
+   * @param stationHTML - station channels string
+   * @param stationColor - string color
    * @returns leaflet marker for map
    */
   private makeStationMarker(
-    station: StationRow,
-    stationChannels: StationChannels
+    station: StationData,
+    stationHTML: string,
+    stationColor: string
   ): Marker {
     const options: MarkerOptions &#x3D; {
       autoPan: true,
       riseOnHover: true,
     };
     let html: string;
-    if (station.color) {
-      html &#x3D; this.getIconHtml(station.color);
-      if (station.color &#x3D;&#x3D;&#x3D; &quot;transparent&quot;) {
+    if (stationColor) {
+      html &#x3D; this.getIconHtml(stationColor);
+      if (stationColor &#x3D;&#x3D;&#x3D; &quot;transparent&quot;) {
         options.pane &#x3D; &quot;nodata&quot;;
       } else {
-        options.pane &#x3D; station.color;
+        options.pane &#x3D; stationColor;
       }
     } else {
       html &#x3D; this.getIconHtml(&quot;white&quot;);
@@ -3340,11 +3569,9 @@ export class MapComponent
 
     options.icon &#x3D; divIcon({ html, className: &quot;icon-parent&quot; });
     const markerObj &#x3D; marker([station.lat, station.lon], options).bindTooltip(
-      &#x60;&lt;div class&#x3D;&#x27;tooltip-name&#x27;&gt; ${
-        station.id
-      } &lt;/div&gt; &lt;table class&#x3D;&#x27;tooltip-table&#x27;&gt;
+      &#x60;&lt;div class&#x3D;&#x27;tooltip-name&#x27;&gt; ${station.staCode} &lt;/div&gt; &lt;table class&#x3D;&#x27;tooltip-table&#x27;&gt;
         &lt;thead&gt;&lt;th&gt;Channel&lt;/th&gt;&lt;th&gt;Value&lt;/th&gt;&lt;/thead&gt;&lt;tbody&gt;
-      ${stationChannels[station.staCode]}&lt;/tbody&gt; &lt;/table&gt;&#x60;
+      ${stationHTML}&lt;/tbody&gt; &lt;/table&gt;&#x60;
     );
     markerObj.on(&quot;click&quot;, (ev) &#x3D;&gt; {
       ev.target.openPopup();
@@ -3357,7 +3584,7 @@ export class MapComponent
 </code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-templateData">
+    <div class="tab-pane fade " id="templateData">
         <pre class="line-numbers"><code class="language-html">&lt;div
   id&#x3D;&quot;map&quot;
   #mapElement
@@ -3463,7 +3690,7 @@ export class MapComponent
 </code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-styleData">
+    <div class="tab-pane fade " id="styleData">
                 <p class="comment">
                     <code>./map.component.scss</code>
                 </p>
@@ -3577,7 +3804,7 @@ export class MapComponent
 </code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-tree">
+    <div class="tab-pane fade " id="tree">
         <div id="tree-container"></div>
         <div class="tree-legend">
             <div class="title">
@@ -3603,7 +3830,7 @@ export class MapComponent
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
         var COMPONENT_TEMPLATE = '<div><div  id="map"  #mapElement  leaflet  [leafletOptions]="options"  [leafletLayers]="layers"  (leafletMapReady)="onMapReady($event)"  [leafletFitBounds]="fitBounds"></div><div id="map-legend" #legendElement>  <div>{{ displayMetric?.name }}</div>  <div>unit: {{ displayMetric?.unit }}</div>  <ng-container *ngIf="displayMap">    <ng-container *ngIf="displayMap | guardType: isPiecewise as piecewise">      <div        *ngFor="let piece of piecewise.pieces"        (click)="toggleColor(piece.color)"        [class]="piece.color"      >        <span>{{ piece.label }}</span>        <div class="map-icon" [style.background-color]="piece.color"></div>      </div>    </ng-container>    <ng-container *ngIf="displayMap | guardType: isStoplight as stoplight">      <div        (click)="toggleColor(stoplight.colors.in)"        [class]="stoplight.colors.in"      >        <span>all in</span>        <div          class="map-icon"          [style.background-color]="stoplight.colors.in"        ></div>      </div>      <div        (click)="toggleColor(stoplight.colors.middle)"        [class]="stoplight.colors.middle"      >        <span>some in</span>        <div          class="map-icon"          [style.background-color]="stoplight.colors.middle"        ></div>      </div>      <div        (click)="toggleColor(stoplight.colors.out)"        [class]="stoplight.colors.out"      >        <span>none in</span>        <div          class="map-icon"          [style.background-color]="stoplight.colors.out"        ></div>      </div>    </ng-container>    <ng-container *ngIf="displayMap | guardType: isContinuous as continuous">      <div class="legend-container">        <div id="gradient">          <div class="values">            <span>              {{ continuous.max | precision: 3 }}            </span>            <span>              {{ continuous.min | precision: 3 }}            </span>          </div>          <div            [style.background-image]="              \'linear-gradient(to top, \' + continuous?.inRange.color + \')\'            "            class="gradient-icon"          ></div>        </div>        <div          (click)="toggleColor(continuous.outOfRange.color[0])"          [class]="continuous.outOfRange.color[0]"        >          <span>out of range</span>          <div            class="map-icon"            [style.background-color]="continuous.outOfRange.color[0]"          ></div>        </div>      </div>    </ng-container>  </ng-container>  <ng-container *ngIf="displayMetric && !displayMap">    <div (click)="toggleColor(\'gray\')">      <span> no range</span>      <div class="map-icon" [style.background-color]="\'gray\'"></div>    </div>  </ng-container>  <div (click)="toggleColor(\'nodata\')" class="white nodata">    <span> no data</span>    <div class="map-icon border" [style.background-color]="\'white\'"></div>  </div></div></div>'
-    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'SnackbarComponent', 'selector': 'shared-snackbar'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
+    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'BudComponent', 'selector': 'widget-calendar-plot'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
     var DIRECTIVES = [{'name': 'LoadingDirective', 'selector': '[appIsLoading]'},{'name': 'TooltipDirective', 'selector': '[uiTooltip]'},{'name': 'WidgetTypeDirective', 'selector': '[widgetContainer]'},{'name': 'WidgetTypeExampleDirective', 'selector': '[appWidgetTypeExample]'}];
     var ACTUAL_COMPONENT = {'name': 'MapComponent'};
 </script>

@@ -5,7 +5,7 @@ export enum WidgetErrors {
   NO_METRICS = "No metrics selected.",
   NO_CHANNELS = "No channels selected.",
   BAD_CONFIGURATION = "Widget could not be loaded.",
-  NO_MEASUREMENTS = "No measurements found.",
+  NO_MEASUREMENTS = "No measurements found for selected metric.",
   MISSING_METRICS = "Not enough metrics selected for this widget type.",
   SQUAC_ERROR = "Could not get data from SQUAC.",
 }

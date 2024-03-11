@@ -1,7 +1,7 @@
 import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
-import { Measurement } from "squacapi";
+import { Measurement, MeasurementTypes } from "squacapi";
 
-import { PrecisionPipe } from "../../shared/pipes/precision.pipe";
+import { PrecisionPipe } from "../../pipes/precision.pipe";
 import { EChartsOption } from "echarts";
 import {
   WidgetConnectService,
@@ -9,14 +9,15 @@ import {
   WidgetConfigService,
 } from "../../services";
 import { WidgetTypeComponent } from "../../interfaces";
-import { EChartComponent } from "../../shared/components";
-import { parseUtc } from "../../shared/utils";
+import { parseUtc } from "../../utils";
 import {
   singleXAxisConfig,
   tooltipFormatter,
   weekTimeXAxisConfig,
   weekXAxisConfig,
-} from "./chart-config";
+} from "./echart.config";
+import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
+import { EChartComponent } from "../../components/e-chart/e-chart.component";
 
 /**
  * Chart that plots channels as the y axis and time,
@@ -24,8 +25,18 @@ import {
  */
 @Component({
   selector: "widget-calendar-plot",
-  templateUrl: "../../shared/components/e-chart/e-chart.component.html",
-  styleUrls: ["../../shared/components/e-chart/e-chart.component.scss"],
+  templateUrl: "../../components/e-chart/e-chart.component.html",
+  styleUrls: ["../../components/e-chart/e-chart.component.scss"],
+  standalone: true,
+  imports: [NgxEchartsModule],
+  providers: [
+    {
+      provide: NGX_ECHARTS_CONFIG,
+      useFactory: (): unknown => ({
+        echarts: (): unknown => import("echarts"),
+      }),
+    },
+  ],
 })
 export class CalendarComponent
   extends EChartComponent
@@ -39,53 +50,35 @@ export class CalendarComponent
   ) {
     super(widgetManager, widgetConnectService, ngZone);
   }
-
-  xAxisLabels = [];
-  xAxisLabels2 = []; //second row
-  // Max allowable time between measurements to connect
+  /** time labes on chart x axis */
+  xAxisLabels: string[] = [];
+  /** second row of time labels on x axis */
+  xAxisLabels2: string[] = [];
+  /** Max allowable time between measurements to connect */
   maxMeasurementGap: number = 1 * 1000;
+  /** pipe for transformation of values */
   precisionPipe = new PrecisionPipe();
-  override denseOptions: EChartsOption = {
-    grid: {
-      containLabel: false,
-      top: 10,
-      right: 10,
-      left: 105,
-    },
-    dataZoom: [],
-  };
-  override fullOptions: EChartsOption = {
-    grid: {
-      containLabel: false,
-      top: 5,
-      right: 10,
-      left: 125,
-    },
-    dataZoom: this.chartDefaultOptions.dataZoom,
-  };
 
   /**
-   * @override
+   * Initial chart configuration
    */
   configureChart(): void {
-    this.denseOptions["grid"]["bottom"] = this.getBottomMargin(true);
-    this.fullOptions["grid"]["bottom"] = this.getBottomMargin(false);
     const dataZoom = this.denseView
       ? this.denseOptions.dataZoom
       : this.fullOptions.dataZoom;
     const grid = this.denseView
-      ? this.denseOptions.grid
-      : this.fullOptions.grid;
+      ? { ...this.denseOptions.grid }
+      : { ...this.fullOptions.grid };
     this.options = {
       ...this.chartDefaultOptions,
-      grid: {
-        ...grid,
-      },
+      grid,
       dataZoom,
       yAxis: {
         inverse: true,
         axisLabel: {
           fontSize: 11,
+          width: 110,
+          overflow: "truncate",
         },
         axisTick: {
           interval: 0,
@@ -108,7 +101,7 @@ export class CalendarComponent
    * @param displayType widget display type
    */
   getAxisLabels(displayType: string): void {
-    const weekLabels = [
+    const weekLabels: string[] = [
       "Sunday",
       "Monday",
       "Tuesday",
@@ -118,7 +111,7 @@ export class CalendarComponent
       "Saturday",
     ];
 
-    const hourLabels = [];
+    const hourLabels: string[] = [];
     // const blanks = new Array(23);
     // blanks.fill("");
     for (let i = 0; i < 24; i++) {
@@ -150,16 +143,13 @@ export class CalendarComponent
   }
 
   /**
-   * @override
+   * Creates chart data from measuremetns
+   *
+   * @param data processed data
    */
-  buildChartData(data): Promise<void> {
+  buildChartData(data: MeasurementTypes[]): Promise<void> {
     return new Promise<void>((resolve) => {
       this.metricSeries = {};
-      this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
-        this.selectedMetrics,
-        this.properties,
-        2
-      );
 
       this.xAxisLabels = [];
       this.xAxisLabels2 = [];
@@ -203,7 +193,7 @@ export class CalendarComponent
           this.metricSeries[metric.id].yAxisLabels.push(nslc);
 
           // store values
-          const values = [];
+          const values: any[] = [];
 
           //associate data with created labels
           this.xAxisLabels.forEach((label) => {
@@ -214,31 +204,36 @@ export class CalendarComponent
             });
           });
 
-          if (data.has(channel.id)) {
-            const measurements = data.get(channel.id).get(metric.id);
-            //trusts that measurements are in order of time
-            measurements?.forEach((measurement: Measurement) => {
-              const measurementStart = parseUtc(measurement.starttime);
-
-              // figure out which xAxisLabel this data should go to
-              let timeSegmentIndex;
-              if (width === "days-week") {
-                timeSegmentIndex = measurementStart.day();
-              } else if (width === "hours-day") {
-                timeSegmentIndex = measurementStart.hour();
-              } else if (width === "hours-week") {
-                const weekday = measurementStart.day();
-                const hour = measurementStart.hour();
-
-                timeSegmentIndex = hour + weekday * 24;
-              }
-
-              if (values[timeSegmentIndex]) {
-                values[timeSegmentIndex].count++;
-                values[timeSegmentIndex].sum += measurement.value;
-              }
+          const channelData: MeasurementTypes[] = data
+            .filter((m) => m.channel === channel.id && m.metric === metric.id)
+            .map((m) => {
+              m.value = m.value ?? m[this.widgetManager.dataStat];
+              return m;
             });
-          }
+
+          channelData.forEach((measurement: Measurement) => {
+            const measurementStart = parseUtc(measurement.starttime);
+            const value =
+              measurement.value ?? measurement[this.widgetManager.dataStat];
+            // figure out which xAxisLabel this data should go to
+            let timeSegmentIndex;
+            if (width === "days-week") {
+              timeSegmentIndex = measurementStart.day();
+            } else if (width === "hours-day") {
+              timeSegmentIndex = measurementStart.hour();
+            } else if (width === "hours-week") {
+              const weekday = measurementStart.day();
+              const hour = measurementStart.hour();
+
+              timeSegmentIndex = hour + weekday * 24;
+            }
+
+            if (values[timeSegmentIndex]) {
+              values[timeSegmentIndex].count++;
+              values[timeSegmentIndex].sum += value;
+            }
+            this.widgetConfigService.calculateDataRange(metric.id, value);
+          });
 
           values.forEach((value) => {
             if (value.count > 0) {
@@ -248,34 +243,25 @@ export class CalendarComponent
           });
         });
       });
+
+      this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
+        this.selectedMetrics,
+        this.properties,
+        2
+      );
+
       resolve();
     });
   }
 
   /**
-   * calculated bottom margin for chart
-   *
-   * @param dense true if no zoom is used
-   * @returns margin for bottom of chart
-   */
-  private getBottomMargin(dense: boolean): number {
-    //denseview has no zoom bar
-    let margin = dense ? 32 : 52;
-
-    if (this.properties.displayType === "hours-week") {
-      margin += 12;
-    }
-    return margin;
-  }
-
-  /**
-   * @override
+   * Changes displayed metrics on the chart
    */
   changeMetrics(): void {
     const displayMetric = this.selectedMetrics[0];
     const colorMetric = this.selectedMetrics[0];
     const visualMaps = this.visualMaps[colorMetric.id];
-    const axes = [];
+    const axes: any[] = [];
 
     let name = "";
     if (this.properties.displayType) {
@@ -298,7 +284,7 @@ export class CalendarComponent
     }
 
     visualMaps.show = this.showKey;
-    this.updateOptions = {
+    const options: EChartsOption = {
       series: this.metricSeries[displayMetric.id].series,
       visualMap: visualMaps,
       xAxis: axes,
@@ -306,5 +292,15 @@ export class CalendarComponent
         data: this.metricSeries[displayMetric.id].yAxisLabels,
       },
     };
+
+    // using update options only prevented series from removing series
+    // using the combo sets both the inital series and later updates
+    if (!this.echartsInstance) {
+      this.updateOptions = options;
+    } else {
+      this.echartsInstance.setOption(options, {
+        replaceMerge: ["series", "xAxis"],
+      });
+    }
   }
 }

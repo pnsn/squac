@@ -1,0 +1,38 @@
+<shared-detail-page
+  [options]="pageOptions"
+  *ngIf="monitors"
+  type="Monitor"
+  title="Monitors"
+>
+  <ng-container bodyContent>
+    <shared-table-view
+      [isLoading]="loadingService.isLoading$(this) | async"
+      title="Monitors"
+      [options]="options"
+      [rows]="rows"
+      [columns]="columns"
+      (itemSelected)="onSelect($event)"
+      (controlClicked)="onClick($event)"
+      [controls]="controls"
+      [filters]="filters"
+      (refresh)="refresh()"
+    >
+    </shared-table-view>
+    <ng-template
+      let-row="row"
+      #stateTemplate
+    >
+      <monitor-alarm-status [inAlarm]="row.inAlarm"></monitor-alarm-status>
+    </ng-template>
+    <ng-template
+      let-row="row"
+      #updateTemplate
+    >
+      <ng-container *ngIf="row.lastUpdate; else noAlert">
+        {{ row.lastUpdate }}
+      </ng-container>
+      <ng-template #noAlert>no alerts</ng-template>
+    </ng-template>
+  </ng-container>
+</shared-detail-page>
+<router-outlet></router-outlet>

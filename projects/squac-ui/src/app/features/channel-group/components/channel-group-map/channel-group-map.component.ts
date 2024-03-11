@@ -1,3 +1,4 @@
+import { NgClass, NgIf } from "@angular/common";
 import {
   Component,
   Input,
@@ -8,10 +9,32 @@ import {
   SimpleChanges,
   NgZone,
 } from "@angular/core";
+import { LeafletModule } from "@asymmetrik/ngx-leaflet";
+import { LeafletDrawModule } from "@asymmetrik/ngx-leaflet-draw";
+import {
+  Control,
+  divIcon,
+  DomUtil,
+  DrawEvents,
+  FeatureGroup,
+  featureGroup,
+  LatLng,
+  latLng,
+  LatLngBounds,
+  Layer,
+  Map as LeafletMap,
+  Marker,
+  marker,
+  tileLayer,
+} from "leaflet";
 import { Channel } from "squacapi";
-import * as L from "leaflet";
 import { MapBounds, MapStation } from "./interfaces";
-
+// interface ChannelMap {
+//   included: boolean;
+//   excluded: boolean;
+//   searched: boolean;
+//   selected: boolean;
+// }
 /**
  * Shared map for channels
  */
@@ -19,31 +42,33 @@ import { MapBounds, MapStation } from "./interfaces";
   selector: "channel-group-map",
   templateUrl: "./channel-group-map.component.html",
   styleUrls: ["./channel-group-map.component.scss"],
+  standalone: true,
+  imports: [LeafletModule, LeafletDrawModule, NgIf, NgClass],
 })
 export class ChannelGroupMapComponent implements OnInit, OnChanges {
-  @Input() searchedChannels: Channel[]; // channels already in group
-  @Input() autoExcludeChannels: Channel[];
-  @Input() autoIncludeChannels: Channel[];
-  @Input() selectedChannels: Channel[]; // channels selected
+  @Input() searchedChannels: Channel[] = []; // channels already in group
+  @Input() autoExcludeChannels: Channel[] = [];
+  @Input() autoIncludeChannels: Channel[] = [];
+  @Input() selectedChannels: Channel[] = []; // channels selected
   @Input() editPage: boolean; //is used on edit page or not
   @Input() showChannel: Channel; // channel to show
   @Output() showChannelChange = new EventEmitter<any>(); //channel to show changed
   @Output() boundsChange = new EventEmitter<MapBounds>(); // in html (boundsChange)="updateBounds($event)"
 
   //leaflet stuff
-  stationLayer: L.FeatureGroup;
-  drawnItems: L.FeatureGroup;
+  stationLayer: FeatureGroup;
+  drawnItems: FeatureGroup;
   options: {
-    center: L.LatLng;
+    center: LatLng;
     zoom: number;
-    layers: L.Layer[];
+    layers: Layer[];
   };
-  legend: L.Control;
+  legend: Control;
   drawOptions: Record<string, unknown>;
-  layers: L.Layer[];
-  fitBounds: L.LatLngBounds;
+  layers: Layer[];
+  fitBounds: LatLngBounds;
   rectLayer: any;
-  map: L.Map;
+  map: LeafletMap;
   lastZoom = null;
 
   constructor(private zone: NgZone) {}
@@ -69,7 +94,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     ) {
       this.updateMap(!!changes["showChannel"]);
     }
-    if (!changes["selectedChannels"] && changes["selectedChannels"]) {
+    if (!changes["searchedChannels"] && changes["selectedChannels"]) {
       this.selectChannels(this.showChannel);
     }
   }
@@ -79,16 +104,16 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
    */
   initMap(): void {
     // Setup the groups for map markers and the drawn square
-    this.stationLayer = new L.FeatureGroup();
-    this.drawnItems = new L.FeatureGroup();
+    this.stationLayer = new FeatureGroup();
+    this.drawnItems = new FeatureGroup();
 
-    this.legend = new L.Control({
+    this.legend = new Control({
       position: "bottomleft",
     });
 
     // Add all the layers to the array that will be fed to options
     this.layers = [
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution:
           '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       }),
@@ -96,14 +121,14 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
       this.stationLayer,
     ];
 
-    const legend = L.DomUtil.get("legend");
+    const legend = DomUtil.get("legend");
     this.legend.onAdd = (): any => {
       return legend;
     };
 
     // Giving options before view is initialized seemed to be causing issues with the map, so for init just fed it undefineds
     this.options = {
-      center: L.latLng(0, 0),
+      center: latLng(0, 0),
       zoom: 5,
       layers: this.layers,
     };
@@ -131,7 +156,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
    *
    * @param map leaflet map reference
    */
-  onMapReady(map: L.Map): void {
+  onMapReady(map: LeafletMap): void {
     this.map = map;
     this.legend.addTo(this.map);
     setTimeout(() => {
@@ -162,6 +187,34 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * creates a station object or returns existing
+   *
+   * @param channel channel to check
+   * @param stations existing stations
+   * @returns station object
+   */
+  getStation(channel: Channel, stations: MapStation[]): MapStation {
+    let station = stations.find((s) => {
+      return s.code === channel.staCode;
+    });
+
+    if (!station) {
+      // make station if there isn't one yet
+      station = {
+        code: channel.staCode,
+        lat: channel.lat,
+        lon: channel.lon,
+        autoIncludeChannels: [],
+        autoExcludeChannels: [],
+        selectedChannels: [],
+        searchedChannels: [],
+      };
+      stations.push(station);
+    }
+    return station;
+  }
+
   //TODO: too many iterations over similar groups
   /**
    * Create channel markers for each station
@@ -170,94 +223,34 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
    */
   updateMap(showChannel: boolean): void {
     const stations: MapStation[] = [];
+
+    // const _stationMap = new WeakMap<{
+    //   code: string;
+    //   lat: number;
+    //   lon: number;
+    //   channels: Map<string, ChannelMap>;
+    // }>();
     if (this.stationLayer) {
       this.layers.pop();
       const stationMarkers = []; // Marker array
 
       this.searchedChannels?.forEach((channel) => {
-        let station = stations.find((s) => {
-          return s.code === channel.staCode;
-        });
-
-        if (!station) {
-          // make station if there isn't one yet
-          station = {
-            code: channel.staCode,
-            lat: channel.lat,
-            lon: channel.lon,
-            autoIncludeChannels: [],
-            autoExcludeChannels: [],
-            selectedChannels: [],
-            searchedChannels: [],
-          };
-          stations.push(station);
-        }
-
+        const station = this.getStation(channel, stations);
         station.searchedChannels.push(channel);
       });
 
       this.autoIncludeChannels?.forEach((channel) => {
-        let station = stations.find((s) => {
-          return s.code === channel.staCode;
-        });
-
-        if (!station) {
-          // make station if there isn't one yet
-          station = {
-            code: channel.staCode,
-            lat: channel.lat,
-            lon: channel.lon,
-            autoIncludeChannels: [],
-            autoExcludeChannels: [],
-            selectedChannels: [],
-            searchedChannels: [],
-          };
-          stations.push(station);
-        }
-
+        const station = this.getStation(channel, stations);
         station.autoIncludeChannels.push(channel);
       });
 
       this.autoExcludeChannels?.forEach((channel) => {
-        let station = stations.find((s) => {
-          return s.code === channel.staCode;
-        });
-
-        if (!station) {
-          // make station if there isn't one yet
-          station = {
-            code: channel.staCode,
-            lat: channel.lat,
-            lon: channel.lon,
-            autoIncludeChannels: [],
-            autoExcludeChannels: [],
-            selectedChannels: [],
-            searchedChannels: [],
-          };
-          stations.push(station);
-        }
-
+        const station = this.getStation(channel, stations);
         station.autoExcludeChannels.push(channel);
       });
 
       this.selectedChannels?.forEach((channel) => {
-        let station = stations.find((s) => {
-          return s.code === channel.staCode;
-        });
-
-        if (!station) {
-          station = {
-            code: channel.staCode,
-            lat: channel.lat,
-            lon: channel.lon,
-            autoIncludeChannels: [],
-            autoExcludeChannels: [],
-            selectedChannels: [],
-            searchedChannels: [],
-          };
-          stations.push(station);
-        }
-
+        const station = this.getStation(channel, stations);
         // check if station is already in the group
         const includeIndex = station.autoIncludeChannels.findIndex(
           (c) => c.id === channel.id
@@ -286,7 +279,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
       });
 
       // create layer from markers
-      this.stationLayer = L.featureGroup(stationMarkers);
+      this.stationLayer = featureGroup(stationMarkers);
       this.layers.push(this.stationLayer);
 
       // only reset map zoom & bounds if user hasn't yet
@@ -316,7 +309,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
    * @param station station
    * @returns leaflet marker
    */
-  makeMarker(station: MapStation): L.Marker {
+  makeMarker(station: MapStation): Marker {
     let selectedChannelString = "";
     let inGroupChannelString = "";
     station.searchedChannels.forEach((channel: Channel) => {
@@ -362,12 +355,12 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
     }
 
     const popup = `<h4> ${station.code} </h4> <div class='channel-list'>${selectedChannelString}</div> <div class='channel-list'>${inGroupChannelString} </div>`;
-    const marker = L.marker([station.lat, station.lon], {
-      icon: L.divIcon({ className: className }),
+    const m = marker([station.lat, station.lon], {
+      icon: divIcon({ className: className }),
       title: station.code,
     }).bindPopup(popup);
 
-    marker.on("click", (ev) => {
+    m.on("click", (ev) => {
       ev.target.openPopup();
       this.zone.run(() => {
         //ToDO: need to actually select channels
@@ -375,7 +368,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
       });
     });
 
-    return marker;
+    return m;
   }
 
   /**
@@ -420,7 +413,7 @@ export class ChannelGroupMapComponent implements OnInit, OnChanges {
    */
   onRectangleCreated(e: any): void {
     this.rectLayer = e.layer;
-    this.drawnItems.addLayer((e as L.DrawEvents.Created).layer);
+    this.drawnItems.addLayer((e as DrawEvents.Created).layer);
 
     this.getBoundsFromRectangle();
   }

@@ -1,6 +1,6 @@
 import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
 import * as dayjs from "dayjs";
-import { Measurement } from "squacapi";
+import { MeasurementTypes } from "squacapi";
 
 import { EChartsOption, TooltipComponentPositionCallbackParams } from "echarts";
 import { LabelFormatterParams, WidgetTypeComponent } from "../../interfaces";
@@ -9,21 +9,36 @@ import {
   WidgetConnectService,
   WidgetManagerService,
 } from "../../services";
-import { parseUtc } from "../../shared/utils";
-import { EChartComponent } from "../../shared/components";
+import { parseUtc } from "../../utils";
+import { EChartComponent } from "../../components/e-chart/e-chart.component";
+import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
 
 /**
  * Time series widget with channels as lines
  */
 @Component({
   selector: "widget-timechart",
-  templateUrl: "../../shared/components/e-chart/e-chart.component.html",
-  styleUrls: ["../../shared/components/e-chart/e-chart.component.scss"],
+  templateUrl: "../../components/e-chart/e-chart.component.html",
+  styleUrls: ["../../components/e-chart/e-chart.component.scss"],
+  standalone: true,
+  imports: [NgxEchartsModule],
+  providers: [
+    {
+      provide: NGX_ECHARTS_CONFIG,
+      useFactory: (): unknown => ({
+        echarts: (): unknown => import("echarts"),
+      }),
+    },
+  ],
 })
 export class TimechartComponent
   extends EChartComponent
   implements OnInit, WidgetTypeComponent, OnDestroy
 {
+  /** max # of measurement widths before chart should disconnect */
+  maxMeasurementGap = 1.5;
+
+  /** @ignore */
   constructor(
     private widgetConfigService: WidgetConfigService,
     protected widgetConnectService: WidgetConnectService,
@@ -32,10 +47,9 @@ export class TimechartComponent
   ) {
     super(widgetManager, widgetConnectService, ngZone);
   }
-  // Max allowable time between measurements to connect
-  maxMeasurementGap = 1.5;
+
   /**
-   * @override
+   * Sets up initial chart configuration
    */
   configureChart(): void {
     const dataZoom = this.denseView
@@ -53,7 +67,7 @@ export class TimechartComponent
         type: "time",
         nameLocation: "middle",
         name: "Measurement Start Date",
-        nameGap: 14,
+        nameGap: 15,
         axisPointer: {
           show: true,
           triggerTooltip: false,
@@ -63,9 +77,9 @@ export class TimechartComponent
           },
         },
         axisLabel: {
+          margin: 3,
           hideOverlap: true,
           fontSize: 11,
-          margin: 3,
           formatter: (params: string) =>
             this.widgetConfigService.timeAxisTickFormatting(params),
         },
@@ -84,6 +98,10 @@ export class TimechartComponent
         nameLocation: "middle",
         axisLabel: {
           fontSize: 11,
+          width: 50,
+          formatter: (value: number): string => {
+            return value.toPrecision(4);
+          },
         },
         axisLine: {
           show: true,
@@ -104,15 +122,12 @@ export class TimechartComponent
   }
 
   /**
-   * @override
+   * Builds chart data from measurement data
+   *
+   * @param data measurement data
    */
-  buildChartData(data): Promise<void> {
+  buildChartData(data: MeasurementTypes[]): Promise<void> {
     return new Promise<void>((resolve) => {
-      this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
-        this.selectedMetrics,
-        this.properties,
-        2
-      );
       const stations = [];
       this.metricSeries = {};
       const series = {
@@ -156,19 +171,19 @@ export class TimechartComponent
           },
         };
         let lastEnd: dayjs.Dayjs;
-        if (data.has(channel.id)) {
-          const measurements = data.get(channel.id).get(metric.id);
-          measurements?.forEach((measurement: Measurement) => {
+
+        data
+          .filter((m) => m.channel === channel.id && m.metric === metric.id)
+          .forEach((measurement) => {
+            const value =
+              measurement.value ?? measurement[this.widgetManager.dataStat];
+
             // // If time between measurements is greater than gap, don't connect
             const start = parseUtc(measurement.starttime);
             const end = parseUtc(measurement.endtime);
 
             const diff = start.diff(end, "seconds");
-            if (
-              station.data.length > 0 &&
-              lastEnd &&
-              diff >= metric.sampleRate * this.maxMeasurementGap
-            ) {
+            if (lastEnd && diff >= metric.sampleRate * this.maxMeasurementGap) {
               // time since last measurement
               station.data.push({
                 name: nslc,
@@ -178,27 +193,34 @@ export class TimechartComponent
 
             station.data.push({
               name: nslc,
-              value: [start.toDate(), end.toDate(), measurement.value, nslc],
+              value: [start.toDate(), end.toDate(), value, nslc],
             });
 
             lastEnd = end;
+
+            this.widgetConfigService.calculateDataRange(metric.id, value);
           });
-        }
+
         stations.push(station);
       });
       this.metricSeries.series = stations;
+      this.visualMaps = this.widgetConfigService.getVisualMapFromThresholds(
+        this.selectedMetrics,
+        this.properties,
+        2
+      );
       resolve();
     });
   }
 
   /**
-   * @override
+   *  Change metrics shown on the chart
    */
   changeMetrics(): void {
     const colorMetric = this.selectedMetrics[0];
     const visualMaps = this.visualMaps[colorMetric.id];
     visualMaps.show = this.showKey;
-    this.updateOptions = {
+    const options = {
       series: this.metricSeries.series,
       visualMap: visualMaps,
       xAxis: {
@@ -206,5 +228,15 @@ export class TimechartComponent
         max: this.widgetManager.endtime,
       },
     };
+
+    // using update options only prevented series from removing series
+    // using the combo sets both the inital series and later updates
+    if (!this.echartsInstance) {
+      this.updateOptions = options;
+    } else {
+      this.echartsInstance.setOption(options, {
+        replaceMerge: "series",
+      });
+    }
   }
 }

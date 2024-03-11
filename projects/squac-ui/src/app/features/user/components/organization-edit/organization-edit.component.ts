@@ -3,14 +3,27 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
+  ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
 import { User } from "squacapi";
 import { Subscription } from "rxjs";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import {
+  MatDialogModule,
+  MatDialogRef,
+  MAT_DIALOG_DATA as MAT_DIALOG_DATA,
+} from "@angular/material/dialog";
 import { MessageService } from "@core/services/message.service";
 import { InviteService } from "squacapi";
 import { OrganizationUserService } from "squacapi";
+import { MatIconModule } from "@angular/material/icon";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatOptionModule } from "@angular/material/core";
+import { NgFor, NgIf } from "@angular/common";
+import { MatSelectModule } from "@angular/material/select";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCheckboxModule } from "@angular/material/checkbox";
 
 /** Form for adding user to organization */
 interface UserForm {
@@ -31,7 +44,20 @@ interface UserForm {
 @Component({
   selector: "user-organization-edit",
   templateUrl: "./organization-edit.component.html",
-  styleUrls: ["./organization-edit.component.scss"],
+  standalone: true,
+  imports: [
+    MatIconModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatOptionModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatCheckboxModule,
+    NgIf,
+    NgFor,
+  ],
 })
 export class OrganizationEditComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();

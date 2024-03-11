@@ -1,70 +1,159 @@
-<!-- *ngIF causes chaos avoid in ngx-datatable -->
-<ngx-datatable
-  #dataTable
-  class="material expandable tabular-table"
-  [rows]="rows"
-  [columns]="columns"
-  [headerHeight]="25"
-  [sortType]="SortType.single"
-  [columnMode]="ColumnMode.force"
-  [selectionType]="SelectionType.single"
-  [footerHeight]="0"
-  [rowHeight]="20"
-  [scrollbarH]="true"
-  [scrollbarV]="true"
-  [messages]="messages"
-  [treeFromRelation]="'parentId'"
-  [treeToRelation]="'id'"
-  (treeAction)="onTreeAction($event)"
-  [selected]="selectedRow"
-  [sorts]="sorts"
->
-</ngx-datatable>
-<ng-template
-  #headerTemplate
-  let-column="column"
-  let-sort="sortFn"
-  ngx-datatable-header-template
->
-  <div class="header-cell datatable-header-cell-wrapper" (click)="sort()">
-    <span>{{ column.name }}</span>
-  </div>
-</ng-template>
+<div class="table-container">
+  <table
+    class="widget-table"
+    mat-table
+    matSort
+    [dataSource]="dataSource"
+    multiTemplateDataRows
+  >
+    <ng-container
+      matColumnDef="expand"
+      sticky
+    >
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        aria-label="row actions"
+      >&nbsp;</th>
+      <td
+        mat-cell
+        *matCellDef="let row"
+      >
+        <button
+          *ngIf="!row.parentId"
+          mat-icon-button
+          class="dense-icon-button"
+          aria-label="expand row"
+          (click)="(row.children ? expandRow(row) : expandedElement = null); $event.stopPropagation()"
+        >
+          <mat-icon>{{expandedElement !== row ? 'expand_less' : 'expand_more'}}</mat-icon>
+        </button>
+      </td>
+    </ng-container>
 
-<ng-template #cellTemplate let-value="value" let-row="row">
-  <ng-container *ngIf="row.type === 'stoplight'; else notStoplight">
+    <ng-container
+      matColumnDef="title"
+      sticky
+    >
+
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        [class]="useStationView ? 'station-column' : 'channel-column'"
+      >
+        {{useStationView ? "Station": "Channel"}}
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let row"
+        [class]="useStationView ? 'station-column' : 'channel-column'"
+      >
+        {{row.title}}
+      </td>
+
+    </ng-container>
+    <ng-container matColumnDef="agg">
+
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        [matTooltip]="properties.displayType === 'stoplight' ? '# of channels out of spec' : '# of metrics out of spec'"
+      >
+        #
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let row"
+      >
+        {{row.channelAgg ?? row.agg}}
+
+      </td>
+    </ng-container>
+    <ng-container
+      *ngFor="let metric of selectedMetrics"
+      [matColumnDef]="metric.code"
+    >
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        [matTooltip]="metric.name"
+        mat-sort-header
+        class="metric-column"
+      >
+        <span class="metric-name">
+          {{metric.name}}
+        </span>
+        <!-- {{metric.name.length > 12 ? metric.name.slice(0, 12) + "...": metric.name}} -->
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let row"
+        class="metric-column"
+      >
+        <div
+          *ngIf="row.metrics[metric.code] as metricData; else noValue"
+          class="metric-column-value-container"
+          [class.show-key]="showKey"
+          [style.background-color]="!showKey ? metricData.color : 'white'"
+        >
+          <ng-container *ngIf="properties.displayType === 'stoplight' && row.children; else notStoplight">
+            <span
+              *ngIf="showKey"
+              class="cell-icon"
+              [ngStyle]="{ 'background-color': metricData.color }"
+            ></span>
+            <span class="cell-value">
+              <ng-container *ngIf="showKey">{{ metricData.value !== null ? metricData.value + " out" : "no data"}}
+              </ng-container></span>
+          </ng-container>
+
+          <ng-template #notStoplight>
+            <ng-container
+              *ngIf="metricData.value !== null; else noValue"
+              [ngTemplateOutlet]="cell"
+              [ngTemplateOutletContext]="metricData"
+            >
+            </ng-container>
+          </ng-template>
+
+        </div>
+      </td>
+    </ng-container>
+    <tr
+      mat-header-row
+      *matHeaderRowDef="columns; sticky:true"
+    ></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: columns;"
+      [class.example-expanded-row]="expandedElement === row"
+      class="table-row"
+      (click)="row.children ? expandRow(row) : expandedElement = null"
+    >
+    </tr>
+  </table>
+</div>
+
+<ng-template
+  #cell
+  let-value="value"
+  let-color="color"
+>
+  <ng-container>
     <span
-      class="cell-full"
-      [ngClass]="{ border: value.color === 'white' }"
-      [ngStyle]="{ 'background-color': value.color }"
+      *ngIf="showKey"
+      class="cell-icon"
+      [ngStyle]="{ 'background-color': color }"
     ></span>
+    <span class="cell-value">{{ value | precision }}</span>
   </ng-container>
 
-  <ng-template #notStoplight>
-    <ng-container *ngIf="value.value !== null; else noValue">
-      <div
-        *ngIf="showKey"
-        class="cell-icon"
-        [ngClass]="{ border: value.color === 'white' }"
-        [ngStyle]="{ 'background-color': value.color }"
-      ></div>
-      <span *ngIf="showKey">{{ value.value | precision }}</span>
-      <div
-        *ngIf="!showKey"
-        class="cell-full"
-        [ngClass]="{
-          border: value.color === 'gray' || value.color === '#808080'
-        }"
-        [ngStyle]="{ 'background-color': value.color, color: value.color }"
-      >
-        <span>
-          {{ value.value | precision }}
-        </span>
-      </div>
-    </ng-container>
-  </ng-template>
 
-  <ng-template #noValue>
-    <span>no data</span>
-  </ng-template>
+</ng-template>
+
+
+<ng-template #noValue>
+  <span>no data</span>
 </ng-template>

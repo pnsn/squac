@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -39,21 +97,27 @@
 
 
 <ol class="breadcrumb">
-  <li>Injectables</li>
-  <li >FakeMeasurementBackend</li>
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >FakeMeasurementBackend</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info">
+    <div class="tab-pane fade active in" id="info">
         <p class="comment">
             <h3>File</h3>
         </p>
@@ -72,10 +136,24 @@
 
 
 
-            <section>
+            <section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#channelGroupService" >channelGroupService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
                 <tr>
                     <td class="col-md-4">
@@ -93,21 +171,17 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#channelsFromGroup" >channelsFromGroup</a>
+                                <a href="#getChannels" >getChannels</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#getChannels" >getChannels</a>
+                                <a href="#getChannelsFromGroup" >getChannelsFromGroup</a>
                             </li>
                             <li>
                                 <a href="#getData" >getData</a>
                             </li>
                             <li>
                                 <a href="#getList" >getList</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#getRandom" >getRandom</a>
                             </li>
                             <li>
                                 <a href="#measurement" >measurement</a>
@@ -142,56 +216,8 @@
     </table>
 </section>
 
-            <section>
-    <h3 id="constructor">Constructor</h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-<code>constructor(channelGroupService: <a href="../injectables/ChannelGroupService.html" target="_self">ChannelGroupService</a>)</code>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:46</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                            <div>
-                                    <b>Parameters :</b>
-                                    <table class="params">
-                                        <thead>
-                                            <tr>
-                                                <td>Name</td>
-                                                    <td>Type</td>
-                                                <td>Optional</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                                <tr>
-                                                        <td>channelGroupService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/ChannelGroupService.html" target="_self" >ChannelGroupService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                        </tbody>
-                                    </table>
-                            </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-</section>
-
-            <section>
+            <section data-compodoc="block-methods">
     
     <h3 id="methods">
         Methods
@@ -214,61 +240,59 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="143"
-                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:143</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="147"
+                                    class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:147</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>creates an aggregate</p>
+                        <div class="io-description"><p>creates an aggregate</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>params</td>
-                                    <td>
-                                                <code><a href="../interfaces/DataParams.html" target="_self" >DataParams</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>params</td>
+                                            <td>
+                                                            <code><a href="../interfaces/DataParams.html" target="_self" >DataParams</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>aggregate params</p>
+                                            <td>
+                                                    <p>aggregate params</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/ReadOnlyAggregateSerializer.html" target="_self" >ReadOnlyAggregateSerializer</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/ReadOnlyAggregateSerializer.html" target="_self" >ReadOnlyAggregateSerializer</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>aggregate</p>
+                        </div>
+                            <div class="io-description">
+                                <p>aggregate</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -291,140 +315,59 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="108"
-                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:108</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="112"
+                                    class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:112</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>creates an archive</p>
+                        <div class="io-description"><p>creates an archive</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>params</td>
-                                    <td>
-                                                <code><a href="../interfaces/DataParams.html" target="_self" >DataParams</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>params</td>
+                                            <td>
+                                                            <code><a href="../interfaces/DataParams.html" target="_self" >DataParams</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>archive params</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>ReadOnlyArchiveDaySerializer | ReadOnlyArchiveHourSerializer | ReadOnlyArchiveMonthSerializer | ReadOnlyArchiveWeekSerializer</code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>archive</p>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="channelsFromGroup"></a>
-                    <span class="name">
-                        <span class="modifier">Private</span>
-                        <span ><b>channelsFromGroup</b></span>
-                        <a href="#channelsFromGroup"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>channelsFromGroup(group: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
-                </td>
-            </tr>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="55"
-                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:55</a></div>
-                </td>
-            </tr>
+                                            <td>
+                                                    <p>archive params</p>
 
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>ReadOnlyArchiveDaySerializer | ReadOnlyArchiveHourSerializer | ReadOnlyArchiveMonthSerializer | ReadOnlyArchiveWeekSerializer</code>
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Request channels for channel group and maps ids</p>
-</div>
+                        </div>
+                            <div class="io-description">
+                                <p>archive</p>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>group</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>group id</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;number[]&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>observable of channel ids</p>
-
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -435,7 +378,7 @@
                 <td class="col-md-4">
                     <a name="getChannels"></a>
                     <span class="name">
-                        <span class="modifier">Private</span>
+                            <span class="modifier">Private</span>
                         <span ><b>getChannels</b></span>
                         <a href="#getChannels"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -443,67 +386,142 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getChannels(params: <a href="../undefineds/MeasurementParams.html" target="_self">MeasurementParams</a>)</code>
                 </td>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="81"
+                                    class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:81</a></div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="77"
-                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:77</a></div>
+                        <div class="io-description"><p>Returns channel parameters from group id or channel ids</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>params</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#MeasurementParams" target="_self" >MeasurementParams</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>measurement params</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;number[]&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>observable of channel ids array</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getChannelsFromGroup"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getChannelsFromGroup</b></span>
+                        <a href="#getChannelsFromGroup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getChannelsFromGroup(group: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="67"
+                                    class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:67</a></div>
+                        </td>
+                    </tr>
+
+
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns channel parameters from group id or channel ids</p>
+                        <div class="io-description"><p>Request channels for channel group and maps ids</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>params</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#MeasurementParams" target="_self" >MeasurementParams</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>group</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>measurement params</p>
+                                            <td>
+                                                    <p>group id</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;number[]&gt;</code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;number[]&gt;</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>observable of channel ids array</p>
+                        </div>
+                            <div class="io-description">
+                                <p>observable of channel ids</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -526,132 +544,130 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="178"
-                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:178</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="182"
+                                    class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:182</a></div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Type parameters :</b>
+                            <ul class="type-parameters">
+                                    <li>T</li>
+                            </ul>
+                        </td>
+                    </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <b>Type parameters :</b>
-                    <ul class="type-parameters">
-                        <li>T</li>
-                    </ul>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Creates fake data using the given params</p>
+                        <div class="io-description"><p>Creates fake data using the given params</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>channels</td>
-                                    <td>
-                                            <code>number[]</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>channels</td>
+                                            <td>
+                                                        <code>number[]</code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>channel ids</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>params</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#MeasurementParams" target="_self" >MeasurementParams</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>measurement request params</p>
+                                            <td>
+                                                    <p>channel ids</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>datafn</td>
-                                    <td>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>params</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#MeasurementParams" target="_self" >MeasurementParams</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>datafunction to generate data with</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>time</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>amount of time</p>
+                                            <td>
+                                                    <p>measurement request params</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>timeInterval</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#TimeInterval" target="_self" >TimeInterval</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>datafn</td>
+                                            <td>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>time interval to use</p>
+                                            <td>
+                                                    <p>datafunction to generate data with</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>T[]</code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>time</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        <p>array of data type</p>
+                                            <td>
+                                                    No
+                                            </td>
 
-                    </div>
+
+                                            <td>
+                                                    <p>amount of time</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>timeInterval</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#TimeInterval" target="_self" >TimeInterval</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>time interval to use</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>T[]</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>array of data type</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -674,200 +690,115 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="235"
-                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:235</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="239"
+                                    class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:239</a></div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Type parameters :</b>
+                            <ul class="type-parameters">
+                                    <li>T</li>
+                            </ul>
+                        </td>
+                    </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <b>Type parameters :</b>
-                    <ul class="type-parameters">
-                        <li>T</li>
-                    </ul>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Get list of type</p>
+                        <div class="io-description"><p>Get list of type</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>params</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#MeasurementParams" target="_self" >MeasurementParams</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>params</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#MeasurementParams" target="_self" >MeasurementParams</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>request params</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>fn</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>data function</p>
+                                            <td>
+                                                    <p>request params</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>time</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>fn</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                    <td>
-                                        <p>amount of time</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>timeInterval</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#TimeInterval" target="_self" >TimeInterval</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>interval of time</p>
+                                            <td>
+                                                    <p>data function</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;T[]&gt;</code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>time</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        <p>observable of typea</p>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getRandom"></a>
-                    <span class="name">
-                        <span class="modifier">Private</span>
-                        <span ><b>getRandom</b></span>
-                        <a href="#getRandom"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getRandom(maxValue: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
-                </td>
-            </tr>
+                                            <td>
+                                                    Yes
+                                            </td>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="68"
-                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:68</a></div>
-                </td>
-            </tr>
+                                            <td>
+                                                    <p>amount of time</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>timeInterval</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#TimeInterval" target="_self" >TimeInterval</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Returns random number between 0 and maxValue</p>
-</div>
+                                            <td>
+                                                    <p>interval of time</p>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Default value</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>maxValue</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;T[]&gt;</code>
 
-                                    <td>
-                                        No
-                                    </td>
+                        </div>
+                            <div class="io-description">
+                                <p>observable of typea</p>
 
-                                    <td>
-                                        <code>100</code>
-                                    </td>
-
-                                    <td>
-                                        <p>max value to generate</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>random number</p>
-
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -890,61 +821,59 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="92"
-                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:92</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="96"
+                                    class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:96</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>creates a measurement</p>
+                        <div class="io-description"><p>creates a measurement</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>params</td>
-                                    <td>
-                                                <code><a href="../interfaces/DataParams.html" target="_self" >DataParams</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>params</td>
+                                            <td>
+                                                            <code><a href="../interfaces/DataParams.html" target="_self" >DataParams</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>measurement params</p>
+                                            <td>
+                                                    <p>measurement params</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>ReadOnlyMeasurementSerializer</code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>ReadOnlyMeasurementSerializer</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>measurement</p>
+                        </div>
+                            <div class="io-description">
+                                <p>measurement</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -962,66 +891,92 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>measurementAggregatedList(params: <a href="../undefineds/Params.html" target="_self">MeasurementAggregatedListRequestParams</a>)</code>
+<code>measurementAggregatedList(requestParameters: <a href="../undefineds/Params.html" target="_self">MeasurementAggregatedListRequestParams</a>, _observe?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, _reportProgress?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, _options?: literal type)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="273"
-                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:273</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="270"
+                                    class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:270</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Aggregated list function</p>
-</div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>params</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >MeasurementAggregatedListRequestParams</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>requestParameters</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >MeasurementAggregatedListRequestParams</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>aggregated params</p>
+                                        </tr>
+                                        <tr>
+                                                <td>_observe</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/ReadOnlyAggregateSerializer.html" target="_self" >Observable&lt;ReadOnlyAggregateSerializer[]&gt;</a></code>
+                                            <td>
+                                                    Yes
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        <p>observable of aggregated data</p>
 
-                    </div>
+                                        </tr>
+                                        <tr>
+                                                <td>_reportProgress</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>_options</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1039,66 +994,92 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>measurementDayArchivesList(params: <a href="../undefineds/Params.html" target="_self">MeasurementDayArchivesListRequestParams</a>)</code>
+<code>measurementDayArchivesList(requestParameters: <a href="../undefineds/Params.html" target="_self">MeasurementDayArchivesListRequestParams</a>, _observe?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, _reportProgress?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, _options?: literal type)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="288"
-                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:288</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="283"
+                                    class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:283</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Archive list function</p>
-</div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>params</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >MeasurementDayArchivesListRequestParams</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>requestParameters</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >MeasurementDayArchivesListRequestParams</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>archive params</p>
+                                        </tr>
+                                        <tr>
+                                                <td>_observe</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;ReadOnlyArchiveDaySerializer[]&gt;</code>
+                                            <td>
+                                                    Yes
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        <p>observable of archives data</p>
 
-                    </div>
+                                        </tr>
+                                        <tr>
+                                                <td>_reportProgress</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>_options</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1116,66 +1097,92 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>measurementHourArchivesList(params: <a href="../undefineds/Params.html" target="_self">MeasurementHourArchivesListRequestParams</a>)</code>
+<code>measurementHourArchivesList(requestParameters: <a href="../undefineds/Params.html" target="_self">MeasurementHourArchivesListRequestParams</a>, _observe?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, _reportProgress?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, _options?: literal type)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="305"
-                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:305</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="298"
+                                    class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:298</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Archive list function</p>
-</div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>params</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >MeasurementHourArchivesListRequestParams</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>requestParameters</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >MeasurementHourArchivesListRequestParams</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>archive params</p>
+                                        </tr>
+                                        <tr>
+                                                <td>_observe</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;ReadOnlyArchiveHourSerializer[]&gt;</code>
+                                            <td>
+                                                    Yes
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        <p>observable of archives data</p>
 
-                    </div>
+                                        </tr>
+                                        <tr>
+                                                <td>_reportProgress</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>_options</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1193,66 +1200,92 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>measurementMeasurementsList(params: <a href="../undefineds/Params.html" target="_self">MeasurementMeasurementsListRequestParams</a>)</code>
+<code>measurementMeasurementsList(requestParameters: <a href="../undefineds/Params.html" target="_self">MeasurementMeasurementsListRequestParams</a>, _observe?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, _reportProgress?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, _options?: literal type)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="256"
-                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:256</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="255"
+                                    class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:255</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Measurement list function</p>
-</div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>params</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >MeasurementMeasurementsListRequestParams</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>requestParameters</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >MeasurementMeasurementsListRequestParams</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>measurement params</p>
+                                        </tr>
+                                        <tr>
+                                                <td>_observe</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;ReadOnlyMeasurementSerializer[]&gt;</code>
+                                            <td>
+                                                    Yes
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        <p>observable of measurement data</p>
 
-                    </div>
+                                        </tr>
+                                        <tr>
+                                                <td>_reportProgress</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>_options</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1270,66 +1303,92 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>measurementMonthArchivesList(params: <a href="../undefineds/Params.html" target="_self">MeasurementMonthArchivesListRequestParams</a>)</code>
+<code>measurementMonthArchivesList(requestParameters: <a href="../undefineds/Params.html" target="_self">MeasurementMonthArchivesListRequestParams</a>, _observe?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, _reportProgress?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, _options?: literal type)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="339"
-                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:339</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="328"
+                                    class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:328</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Archive list function</p>
-</div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>params</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >MeasurementMonthArchivesListRequestParams</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>requestParameters</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >MeasurementMonthArchivesListRequestParams</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>archive params</p>
+                                        </tr>
+                                        <tr>
+                                                <td>_observe</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;ReadOnlyArchiveMonthSerializer[]&gt;</code>
+                                            <td>
+                                                    Yes
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        <p>observable of archives data</p>
 
-                    </div>
+                                        </tr>
+                                        <tr>
+                                                <td>_reportProgress</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>_options</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1347,68 +1406,125 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>measurementWeekArchivesList(params: <a href="../undefineds/Params.html" target="_self">MeasurementWeekArchivesListRequestParams</a>)</code>
+<code>measurementWeekArchivesList(requestParameters: <a href="../undefineds/Params.html" target="_self">MeasurementWeekArchivesListRequestParams</a>, _observe?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, _reportProgress?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, _options?: literal type)</code>
                 </td>
             </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="313"
+                                    class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:313</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="322"
-                            class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:322</a></div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>requestParameters</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >MeasurementWeekArchivesListRequestParams</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>_observe</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>_reportProgress</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>_options</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
-
-
+        </tbody>
+    </table>
+</section>
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Archive list function</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>params</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#Params" target="_self" >MeasurementWeekArchivesListRequestParams</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>archive params</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;ReadOnlyArchiveWeekSerializer[]&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>observable of archives data</p>
-
-                    </div>
+                    <a name="channelGroupService"></a>
+                    <span class="name">
+                        <span ><b>channelGroupService</b></span>
+                        <a href="#channelGroupService"><span class="icon ion-ios-link"></span></a>
+                    </span>
                 </td>
             </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ChannelGroupService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/widgets/src/lib/services/generate_local_measurements.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
         </tbody>
     </table>
 </section>
@@ -1416,9 +1532,9 @@
     </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
-import { parseUtc, format } from &quot;../shared/utils&quot;;
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { inject, Injectable } from &quot;@angular/core&quot;;
+import { parseUtc, format } from &quot;../utils&quot;;
 import {
   MeasurementAggregatedListRequestParams,
   MeasurementDayArchivesListRequestParams,
@@ -1436,9 +1552,11 @@ import {
   ReadOnlyAggregateSerializer,
   Channel,
   MeasurementParams,
+  ChannelGroup,
 } from &quot;squacapi&quot;;
 import { ChannelGroupService } from &quot;squacapi&quot;;
 import { map, Observable, of } from &quot;rxjs&quot;;
+import { HttpContext } from &quot;@angular/common/http&quot;;
 
 type TimeInterval &#x3D; &quot;minutes&quot; | &quot;day&quot; | &quot;hour&quot; | &quot;week&quot; | &quot;month&quot;;
 
@@ -1457,13 +1575,23 @@ interface DataParams {
 }
 
 /**
+ * Returns random number between 0 and maxValue
+ *
+ * @param maxValue max value to generate
+ * @returns random number
+ */
+function getRandom(maxValue &#x3D; 100): number {
+  return Math.random() * maxValue;
+}
+
+/**
  * Fakes measurement backends for local
  */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class FakeMeasurementBackend {
-  constructor(private channelGroupService: ChannelGroupService) {}
+  channelGroupService &#x3D; inject(ChannelGroupService);
 
   /**
    * Request channels for channel group and maps ids
@@ -1471,22 +1599,14 @@ export class FakeMeasurementBackend {
    * @param group group id
    * @returns observable of channel ids
    */
-  private channelsFromGroup(group: number): Observable&lt;number[]&gt; {
+  private getChannelsFromGroup(group: number): Observable&lt;number[]&gt; {
     return this.channelGroupService.read(group).pipe(
-      map((cg) &#x3D;&gt; {
+      map((cg: ChannelGroup) &#x3D;&gt; {
         return cg.channels.map((channel: Channel) &#x3D;&gt; channel.id);
       })
     );
   }
-  /**
-   * Returns random number between 0 and maxValue
-   *
-   * @param maxValue max value to generate
-   * @returns random number
-   */
-  private getRandom(maxValue &#x3D; 100): number {
-    return Math.random() * maxValue;
-  }
+
   /**
    * Returns channel parameters from group id or channel ids
    *
@@ -1495,7 +1615,7 @@ export class FakeMeasurementBackend {
    */
   private getChannels(params: MeasurementParams): Observable&lt;number[]&gt; {
     if (params.group) {
-      return this.channelsFromGroup(params.group[0]);
+      return this.getChannelsFromGroup(params.group[0]);
     } else if (params.channel) {
       return of(params.channel);
     }
@@ -1512,7 +1632,7 @@ export class FakeMeasurementBackend {
     return {
       starttime: params.starttime,
       endtime: params.endtime,
-      value: this.getRandom(params.maxValue),
+      value: getRandom(params.maxValue),
       metric: params.metric,
       channel: params.channel,
     };
@@ -1531,7 +1651,7 @@ export class FakeMeasurementBackend {
     | ReadOnlyArchiveHourSerializer
     | ReadOnlyArchiveMonthSerializer
     | ReadOnlyArchiveWeekSerializer {
-    const value &#x3D; this.getRandom(params.maxValue);
+    const value &#x3D; getRandom(params.maxValue);
     return {
       starttime: params.starttime,
       endtime: params.endtime,
@@ -1560,7 +1680,7 @@ export class FakeMeasurementBackend {
    * @returns aggregate
    */
   aggregate(params: DataParams): ReadOnlyAggregateSerializer {
-    const value &#x3D; this.getRandom(params.maxValue) - 40;
+    const value &#x3D; getRandom(params.maxValue) - 40;
 
     return {
       starttime: params.starttime,
@@ -1610,7 +1730,7 @@ export class FakeMeasurementBackend {
       endtime &#x3D; s;
     }
     params.metric.forEach((m: number) &#x3D;&gt; {
-      const metricMax &#x3D; this.getRandom();
+      const metricMax &#x3D; getRandom();
       channels.forEach((c: number) &#x3D;&gt; {
         let currentTime &#x3D; starttime;
         while (currentTime &lt; endtime) {
@@ -1666,100 +1786,88 @@ export class FakeMeasurementBackend {
     );
   }
 
-  /**
-   * Measurement list function
-   *
-   * @param params measurement params
-   * @returns observable of measurement data
-   */
+  /** @override */
   measurementMeasurementsList(
-    params: MeasurementMeasurementsListRequestParams
-  ): Observable&lt;ReadOnlyMeasurementSerializer[]&gt; {
+    requestParameters: MeasurementMeasurementsListRequestParams,
+    _observe?: any,
+    _reportProgress?: boolean,
+    _options?: { httpHeaderAccept?: &quot;application/json&quot;; context?: HttpContext }
+  ): any {
     return this.getList&lt;ReadOnlyMeasurementSerializer&gt;(
-      params,
+      requestParameters,
       this.measurement.bind(this),
       10,
       &quot;minutes&quot;
     );
   }
 
-  /**
-   * Aggregated list function
-   *
-   * @param params aggregated params
-   * @returns observable of aggregated data
-   */
+  /** @override */
   measurementAggregatedList(
-    params: MeasurementAggregatedListRequestParams
-  ): Observable&lt;ReadOnlyAggregateSerializer[]&gt; {
+    requestParameters: MeasurementAggregatedListRequestParams,
+    _observe?: any,
+    _reportProgress?: boolean,
+    _options?: { httpHeaderAccept?: &quot;application/json&quot;; context?: HttpContext }
+  ): any {
     return this.getList&lt;ReadOnlyAggregateSerializer&gt;(
-      params,
+      requestParameters,
       this.aggregate.bind(this)
     );
   }
 
-  /**
-   * Archive list function
-   *
-   * @param params archive params
-   * @returns observable of archives data
-   */
+  /** @override */
   measurementDayArchivesList(
-    params: MeasurementDayArchivesListRequestParams
-  ): Observable&lt;ReadOnlyArchiveDaySerializer[]&gt; {
+    requestParameters: MeasurementDayArchivesListRequestParams,
+    _observe?: any,
+    _reportProgress?: boolean,
+    _options?: { httpHeaderAccept?: &quot;application/json&quot;; context?: HttpContext }
+  ): any {
     return this.getList&lt;ReadOnlyArchiveDaySerializer&gt;(
-      params,
+      requestParameters,
       this.archive.bind(this),
       1,
       &quot;day&quot;
     ).pipe();
   }
 
-  /**
-   * Archive list function
-   *
-   * @param params archive params
-   * @returns observable of archives data
-   */
+  /** @override */
   measurementHourArchivesList(
-    params: MeasurementHourArchivesListRequestParams
-  ): Observable&lt;ReadOnlyArchiveHourSerializer[]&gt; {
-    return this.getList&lt;ReadOnlyArchiveHourSerializer&gt;(
-      params,
+    requestParameters: MeasurementHourArchivesListRequestParams,
+    _observe?: any,
+    _reportProgress?: boolean,
+    _options?: { httpHeaderAccept?: &quot;application/json&quot;; context?: HttpContext }
+  ): any {
+    return this.getList&lt;ReadOnlyArchiveMonthSerializer&gt;(
+      requestParameters,
       this.archive.bind(this),
       1,
-      &quot;hour&quot;
+      &quot;month&quot;
     );
   }
 
-  /**
-   * Archive list function
-   *
-   * @param params archive params
-   * @returns observable of archives data
-   */
+  /** @override */
   measurementWeekArchivesList(
-    params: MeasurementWeekArchivesListRequestParams
-  ): Observable&lt;ReadOnlyArchiveWeekSerializer[]&gt; {
+    requestParameters: MeasurementWeekArchivesListRequestParams,
+    _observe?: any,
+    _reportProgress?: boolean,
+    _options?: { httpHeaderAccept?: &quot;application/json&quot;; context?: HttpContext }
+  ): any {
     return this.getList&lt;ReadOnlyArchiveWeekSerializer&gt;(
-      params,
+      requestParameters,
       this.archive.bind(this),
       1,
       &quot;week&quot;
     );
   }
 
-  /**
-   * Archive list function
-   *
-   * @param params archive params
-   * @returns observable of archives data
-   */
+  /** @override */
   measurementMonthArchivesList(
-    params: MeasurementMonthArchivesListRequestParams
-  ): Observable&lt;ReadOnlyArchiveMonthSerializer[]&gt; {
+    requestParameters: MeasurementMonthArchivesListRequestParams,
+    _observe?: any,
+    _reportProgress?: boolean,
+    _options?: { httpHeaderAccept?: &quot;application/json&quot;; context?: HttpContext }
+  ): any {
     return this.getList&lt;ReadOnlyArchiveMonthSerializer&gt;(
-      params,
+      requestParameters,
       this.archive.bind(this),
       1,
       &quot;month&quot;

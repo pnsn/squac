@@ -1,31 +1,24 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { DashboardEditComponent } from "./dashboard-edit.component";
-import { DashboardService } from "squacapi";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MaterialModule } from "@shared/material.module";
-import { UserService } from "@user/services/user.service";
 import { MockBuilder } from "ng-mocks";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { ChannelGroupSelectorComponent } from "@shared/components/channel-group-selector/channel-group-selector.component";
-import { SharingToggleComponent } from "@shared/components/sharing-toggle/sharing-toggle.component";
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA as MAT_DIALOG_DATA,
+} from "@angular/material/dialog";
 
 describe("DashboardEditComponent", () => {
   let component: DashboardEditComponent;
   let fixture: ComponentFixture<DashboardEditComponent>;
 
   beforeEach(() => {
-    return MockBuilder(DashboardEditComponent)
-      .mock(MaterialModule)
-      .mock(MatDialogRef)
+    return MockBuilder(
+      [DashboardEditComponent, MatDialogRef],
+      [MAT_DIALOG_DATA]
+    )
+      .mock(MatDialogRef, {})
       .mock(MAT_DIALOG_DATA, {
         data: {},
-      })
-      .mock(SharingToggleComponent)
-      .keep(ReactiveFormsModule)
-      .keep(FormsModule)
-      .mock(DashboardService)
-      .mock(UserService)
-      .mock(ChannelGroupSelectorComponent);
+      });
   });
 
   it("should create", () => {

@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -35,36 +93,41 @@
 
 
 <ol class="breadcrumb">
-  <li>Components</li>
-  <li
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
   >
   WidgetEditOptionsComponent</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
-        <li >
-            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
         </li>
-        <li >
-            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
         </li>
-        <li >
-            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
     <h3>File</h3>
 </p>
 <p class="comment">
-    <code>projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts</code>
+    <code>projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts</code>
 </p>
 
 
@@ -81,13 +144,13 @@
         <h3>Implements</h3>
     </p>
     <p class="comment">
-                    <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
-                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
-                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                <code>OnChanges</code>
+                <code>OnDestroy</code>
+                <code>OnInit</code>
     </p>
 
 
-<section>
+<section data-compodoc="block-metadata">
     <h3>Metadata</h3>
     <table class="table table-sm table-hover metadata">
         <tbody>
@@ -102,9 +165,32 @@
 
 
 
+
             <tr>
                 <td class="col-md-3">selector</td>
                 <td class="col-md-9"><code>widget-edit-options</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">Standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>NgIf</code>
+                            <code>MatFormFieldModule</code>
+                            <code>MatInputModule</code>
+                            <code>MatSelectModule</code>
+                            <code>NgFor</code>
+                            <code>MatCheckboxModule</code>
+                            <code>ReactiveFormsModule</code>
+                                <code><a href="../directives/TooltipDirective.html" target="_self" >TooltipDirective</a></code>
+                            <code>MatIconModule</code>
+                            <code>NgStyle</code>
+                            <code>MatButtonModule</code>
+                </td>
             </tr>
 
             <tr>
@@ -130,7 +216,7 @@
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -159,9 +245,6 @@
                             </li>
                             <li>
                                 <a href="#widgetConfig" >widgetConfig</a>
-                            </li>
-                            <li>
-                                <a href="#WidgetTypeInfo" >WidgetTypeInfo</a>
                             </li>
                         </ul>
                     </td>
@@ -280,18 +363,18 @@
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-constructor">
     <h3 id="constructor">Constructor</h3>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(formBuilder: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>)</code>
+<code>constructor(formBuilder: FormBuilder, widgetTypes: <a href="../undefineds/WidgetTypes.html" target="_self">WidgetTypes</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:67</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:91</a></div>
                             </td>
                         </tr>
 
@@ -312,7 +395,19 @@
                                                         <td>formBuilder</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+                                                                    <code>FormBuilder</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>widgetTypes</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../miscellaneous/typealiases.html#WidgetTypes" target="_self" >WidgetTypes</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -329,7 +424,7 @@
         </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-inputs">
     <h3 id="inputs">Inputs</h3>
         <table class="table table-sm table-bordered">
             <tbody>
@@ -347,7 +442,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:47</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:72</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -368,7 +463,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:50</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:75</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -389,7 +484,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:45</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:70</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -410,7 +505,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:48</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:73</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -425,19 +520,19 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../classes/Widget.html" target="_self" >WidgetType</a></code>
+                        <i>Type : </i>        <code><a href="../miscellaneous/variables.html#WidgetType" target="_self" >WidgetType</a></code>
 
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:46</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:71</a></div>
                             </td>
                         </tr>
             </tbody>
         </table>
 </section>
-    <section>
+    <section data-compodoc="block-outputs">
     <h3 id="outputs">Outputs</h3>
         <table class="table table-sm table-bordered">
             <tbody>
@@ -449,13 +544,13 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+                        <i>Type : </i>    <code>EventEmitter</code>
 
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:51</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:76</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -470,13 +565,13 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+                        <i>Type : </i>    <code>EventEmitter</code>
 
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:49</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:74</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -484,7 +579,7 @@
 </section>
 
 
-    <section>
+    <section data-compodoc="block-methods">
     
     <h3 id="methods">
         Methods
@@ -507,60 +602,58 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="306"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:306</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="333"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:333</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Adds new threshold to form</p>
+                        <div class="io-description"><p>Adds new threshold to form</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>threshold</td>
-                                    <td>
-                                                <code><a href="../interfaces/Threshold.html" target="_self" >Threshold</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>threshold</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Threshold.html" target="_self" >Threshold</a></code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    Yes
+                                            </td>
 
 
-                                    <td>
-                                        <p>threshold to add</p>
+                                            <td>
+                                                    <p>threshold to add</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -583,23 +676,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="219"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:219</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="246"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:246</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Updates thresholds for metrics</p>
+                        <div class="io-description"><p>Updates thresholds for metrics</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -622,61 +715,59 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="279"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:279</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="306"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:306</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Finds color strings from color option</p>
+                        <div class="io-description"><p>Finds color strings from color option</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>option</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/typealiases.html#GradientColorOption" target="_self" >GradientColorOption | SolidColorOption</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>option</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#GradientColorOption" target="_self" >GradientColorOption | SolidColorOption</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>color option</p>
+                                            <td>
+                                                    <p>color option</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>string[]</code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>string[]</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>array of color strings</p>
+                        </div>
+                            <div class="io-description">
+                                <p>array of color strings</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -699,61 +790,59 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="264"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:264</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="291"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:291</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Find colors in options using the type</p>
+                        <div class="io-description"><p>Find colors in options using the type</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>type</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>type</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>color type</p>
+                                            <td>
+                                                    <p>color type</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#GradientColorOption" target="_self" >GradientColorOption | SolidColorOption</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#GradientColorOption" target="_self" >GradientColorOption | SolidColorOption</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>color</p>
+                        </div>
+                            <div class="io-description">
+                                <p>color</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -776,61 +865,59 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="317"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:317</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="344"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:344</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Finds name of metric</p>
+                        <div class="io-description"><p>Finds name of metric</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>metricId</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>metricId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>metric id to find</p>
+                                            <td>
+                                                    <p>metric id to find</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>name of metric</p>
+                        </div>
+                            <div class="io-description">
+                                <p>name of metric</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -853,23 +940,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="137"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:137</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="164"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:164</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>set up form</p>
+                        <div class="io-description"><p>set up form</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -892,61 +979,59 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="247"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:247</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="274"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:274</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>makes thresholds form for threshold, empty if no threshold</p>
+                        <div class="io-description"><p>makes thresholds form for threshold, empty if no threshold</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>threshold</td>
-                                    <td>
-                                                <code><a href="../interfaces/Threshold.html" target="_self" >Threshold</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>threshold</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Threshold.html" target="_self" >Threshold</a></code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    Yes
+                                            </td>
 
 
-                                    <td>
-                                        <p>threshold</p>
+                                            <td>
+                                                    <p>threshold</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>FormGroup&lt;ThresholdForm&gt;</code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>FormGroup&lt;ThresholdForm&gt;</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>form group</p>
+                        </div>
+                            <div class="io-description">
+                                <p>form group</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -964,65 +1049,63 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>ngOnChanges(changes: <a href="https://angular.io/api/core/SimpleChanges" target="_blank">SimpleChanges</a>)</code>
+<code>ngOnChanges(changes: SimpleChanges)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="101"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:101</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="128"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:128</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Listen to changes in widget configuration</p>
+                        <div class="io-description"><p>Listen to changes in widget configuration</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>changes</td>
-                                    <td>
-                                                <code><a href="https://angular.io/api/core/SimpleChanges" target="_blank" >SimpleChanges</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>changes</td>
+                                            <td>
+                                                        <code>SimpleChanges</code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>changes object</p>
+                                            <td>
+                                                    <p>changes object</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1045,23 +1128,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="292"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:292</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="319"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:319</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>unsubscribe</p>
+                        <div class="io-description"><p>unsubscribe</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1084,23 +1167,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="75"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:75</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="102"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:102</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>set up initial form values</p>
+                        <div class="io-description"><p>set up initial form values</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1123,23 +1206,23 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="124"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:124</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="151"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:151</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Validate form inputs</p>
+                        <div class="io-description"><p>Validate form inputs</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1162,67 +1245,65 @@
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="161"
-                            class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:161</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="188"
+                                    class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:188</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Validate thresholds to make sure they are compatible with
+                        <div class="io-description"><p>Validate thresholds to make sure they are compatible with
 selected display option, metrics and controls</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>index</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>index</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    Yes
+                                            </td>
 
 
-                                    <td>
-                                        <p>index of threshold</p>
+                                            <td>
+                                                    <p>index of threshold</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </section>
-    <section>
+    <section data-compodoc="block-properties">
     
     <h3 id="inputs">
         Properties
@@ -1246,7 +1327,7 @@ selected display option, metrics and controls</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:55</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:79</a></div>
                         </td>
                     </tr>
 
@@ -1272,7 +1353,7 @@ selected display option, metrics and controls</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:56</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:80</a></div>
                         </td>
                     </tr>
 
@@ -1311,7 +1392,7 @@ selected display option, metrics and controls</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:59</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:83</a></div>
                         </td>
                     </tr>
 
@@ -1337,7 +1418,7 @@ selected display option, metrics and controls</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:57</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:81</a></div>
                         </td>
                     </tr>
 
@@ -1368,7 +1449,7 @@ selected display option, metrics and controls</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:44</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:69</a></div>
                         </td>
                     </tr>
 
@@ -1394,32 +1475,7 @@ selected display option, metrics and controls</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:53</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="WidgetTypeInfo"></a>
-                    <span class="name">
-                        <span ><b>WidgetTypeInfo</b></span>
-                        <a href="#WidgetTypeInfo"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>WIDGET_TYPE_INFO</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:54</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:78</a></div>
                         </td>
                     </tr>
 
@@ -1428,7 +1484,7 @@ selected display option, metrics and controls</p>
     </table>
 </section>
 
-    <section>
+    <section data-compodoc="block-accessors">
     <h3 id="accessors">
         Accessors
     </h3>
@@ -1448,7 +1504,7 @@ selected display option, metrics and controls</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="297" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts:297</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="324" class="link-to-prism">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts:324</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1469,10 +1525,12 @@ selected display option, metrics and controls</p>
 </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgFor, NgIf, NgStyle } from &quot;@angular/common&quot;;
+import {
   Component,
   EventEmitter,
+  Inject,
   Input,
   OnChanges,
   OnDestroy,
@@ -1485,8 +1543,16 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
+  ReactiveFormsModule,
   Validators,
 } from &quot;@angular/forms&quot;;
+import { MatButtonModule } from &quot;@angular/material/button&quot;;
+import { MatCheckboxModule } from &quot;@angular/material/checkbox&quot;;
+import { MatFormFieldModule } from &quot;@angular/material/form-field&quot;;
+import { MatIconModule } from &quot;@angular/material/icon&quot;;
+import { MatInputModule } from &quot;@angular/material/input&quot;;
+import { MatSelectModule } from &quot;@angular/material/select&quot;;
+import { TooltipDirective } from &quot;@shared/directives/tooltip.directive&quot;;
 import * as colormap from &quot;colormap&quot;;
 import { Subscription } from &quot;rxjs&quot;;
 import { Metric, Threshold, WidgetProperties } from &quot;squacapi&quot;;
@@ -1496,9 +1562,10 @@ import {
   WidgetConfig,
   WidgetDisplayOption,
   WidgetType,
+  WidgetTypes,
   WIDGET_GRADIENT_COLORS,
   WIDGET_SOLID_COLORS,
-  WIDGET_TYPE_INFO,
+  WIDGET_TYPES,
 } from &quot;widgets&quot;;
 import { OptionForm, OptionsForm, ThresholdForm } from &quot;./interfaces&quot;;
 
@@ -1509,6 +1576,20 @@ import { OptionForm, OptionsForm, ThresholdForm } from &quot;./interfaces&quot;;
   selector: &quot;widget-edit-options&quot;,
   templateUrl: &quot;./widget-edit-options.component.html&quot;,
   styleUrls: [&quot;./widget-edit-options.component.scss&quot;],
+  standalone: true,
+  imports: [
+    NgIf,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    NgFor,
+    MatCheckboxModule,
+    ReactiveFormsModule,
+    TooltipDirective,
+    MatIconModule,
+    NgStyle,
+    MatButtonModule,
+  ],
 })
 export class WidgetEditOptionsComponent
   implements OnChanges, OnDestroy, OnInit
@@ -1523,7 +1604,6 @@ export class WidgetEditOptionsComponent
   @Output() propertiesChange &#x3D; new EventEmitter&lt;any&gt;();
 
   widgetConfig: WidgetConfig;
-  WidgetTypeInfo &#x3D; WIDGET_TYPE_INFO;
   displayOption: WidgetDisplayOption;
   gradientOptions: GradientColorOption[];
   solidOptions: SolidColorOption[];
@@ -1538,7 +1618,10 @@ export class WidgetEditOptionsComponent
     }),
   });
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    @Inject(WIDGET_TYPES) private widgetTypes: WidgetTypes
+  ) {
     this.gradientOptions &#x3D; WIDGET_GRADIENT_COLORS;
     this.solidOptions &#x3D; WIDGET_SOLID_COLORS;
   }
@@ -1579,7 +1662,7 @@ export class WidgetEditOptionsComponent
 
     // if type changes, redo options
     if (changes[&quot;type&quot;] &amp;&amp; this.type) {
-      this.widgetConfig &#x3D; this.WidgetTypeInfo[this.type].config;
+      this.widgetConfig &#x3D; this.widgetTypes[this.type].config;
       if (!this.widgetConfig) {
         this.thresholds &#x3D; [];
         this.thresholdArray.clear();
@@ -1767,7 +1850,7 @@ export class WidgetEditOptionsComponent
 
   /** @returns threshold form array */
   get thresholdArray(): FormArray&lt;FormGroup&lt;ThresholdForm&gt;&gt; {
-    return this.optionsForm.controls[&quot;thresholdArray&quot;] as FormArray;
+    return this.optionsForm?.controls[&quot;thresholdArray&quot;] as FormArray;
   }
 
   /**
@@ -1796,10 +1879,16 @@ export class WidgetEditOptionsComponent
 </code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;edit-body&quot;&gt;
-  &lt;form #optionsEditForm [formGroup]&#x3D;&quot;optionsForm&quot;&gt;
-    &lt;ng-container formGroupName&#x3D;&quot;options&quot; *ngIf&#x3D;&quot;displayOption&quot;&gt;
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;column&quot;&gt;
+  &lt;form
+    #optionsEditForm
+    [formGroup]&#x3D;&quot;optionsForm&quot;
+  &gt;
+    &lt;ng-container
+      formGroupName&#x3D;&quot;options&quot;
+      *ngIf&#x3D;&quot;displayOption&quot;
+    &gt;
       &lt;div class&#x3D;&quot;head-row&quot;&gt;
         &lt;span class&#x3D;&quot;label&quot;&gt;Colors&lt;/span&gt;
       &lt;/div&gt;
@@ -1807,11 +1896,21 @@ export class WidgetEditOptionsComponent
         If # of splits is 0 the coloring will be continuous. If # of splits &gt; 0,
         the color bar will be evenly split.
       &lt;/p&gt;
-      &lt;div class&#x3D;&quot;body-row&quot;&gt;
-        &lt;mat-form-field class&#x3D;&quot;small dense-form-field-select&quot;&gt;
+      &lt;div class&#x3D;&quot;row&quot;&gt;
+        &lt;mat-form-field
+          class&#x3D;&quot;small dense-form-field&quot;
+          subscriptSizing&#x3D;&quot;dynamic&quot;
+        &gt;
           &lt;mat-label&gt;In Range&lt;/mat-label&gt;
-          &lt;mat-select #inRange formControlName&#x3D;&quot;inRange&quot;&gt;
-            &lt;mat-select-trigger *ngIf&#x3D;&quot;inRange &amp;&amp; inRange.value&quot;&gt;
+          &lt;mat-select
+            #inRange
+            formControlName&#x3D;&quot;inRange&quot;
+            class&#x3D;&quot;dense-select&quot;
+          &gt;
+            &lt;mat-select-trigger
+              class&#x3D;&quot;range-select-trigger&quot;
+              *ngIf&#x3D;&quot;inRange &amp;&amp; inRange.value&quot;
+            &gt;
               &lt;span
                 *ngIf&#x3D;&quot;
                   inRange.value.color &amp;&amp; inRange.value.color.length &#x3D;&#x3D;&#x3D; 1;
@@ -1834,7 +1933,12 @@ export class WidgetEditOptionsComponent
               &lt;/ng-template&gt;
             &lt;/mat-select-trigger&gt;
 
-            &lt;mat-option *ngFor&#x3D;&quot;let opt of gradientOptions&quot; [value]&#x3D;&quot;opt&quot;&gt;
+            &lt;mat-option
+              *ngFor&#x3D;&quot;let opt of gradientOptions&quot;
+              [value]&#x3D;&quot;opt&quot;
+              class&#x3D;&quot;range-select-option dense-option&quot;
+            &gt;
+
               &lt;span
                 class&#x3D;&quot;gradient-indicator&quot;
                 [ngStyle]&#x3D;&quot;{
@@ -1842,11 +1946,15 @@ export class WidgetEditOptionsComponent
                     &#x27;linear-gradient(to right, &#x27; + colors(opt) + &#x27;)&#x27;
                 }&quot;
               &gt;&lt;/span&gt;
-              &lt;span&gt;
+              &lt;span class&#x3D;&quot;gradient-label&quot;&gt;
                 {{ opt.label }}
               &lt;/span&gt;
             &lt;/mat-option&gt;
-            &lt;mat-option *ngFor&#x3D;&quot;let opt of solidOptions&quot; [value]&#x3D;&quot;opt&quot;&gt;
+            &lt;mat-option
+              *ngFor&#x3D;&quot;let opt of solidOptions&quot;
+              [value]&#x3D;&quot;opt&quot;
+              class&#x3D;&quot;range-select-option dense-option&quot;
+            &gt;
               &lt;span
                 *ngIf&#x3D;&quot;opt.color.length &#x3D;&#x3D;&#x3D; 1&quot;
                 class&#x3D;&quot;color-indicator&quot;
@@ -1861,10 +1969,17 @@ export class WidgetEditOptionsComponent
           &lt;/mat-select&gt;
         &lt;/mat-form-field&gt;
 
-        &lt;mat-form-field class&#x3D;&quot;small dense-form-field-select&quot;&gt;
+        &lt;mat-form-field
+          class&#x3D;&quot;small dense-form-field&quot;
+          subscriptSizing&#x3D;&quot;dynamic&quot;
+        &gt;
           &lt;mat-label&gt;Out of Range&lt;/mat-label&gt;
-          &lt;mat-select #outOfRange formControlName&#x3D;&quot;outOfRange&quot;&gt;
-            &lt;mat-select-trigger&gt;
+          &lt;mat-select
+            #outOfRange
+            formControlName&#x3D;&quot;outOfRange&quot;
+            class&#x3D;&quot;dense-select&quot;
+          &gt;
+            &lt;mat-select-trigger class&#x3D;&quot;range-select-trigger&quot;&gt;
               &lt;span
                 *ngIf&#x3D;&quot;outOfRange.value&quot;
                 class&#x3D;&quot;color-indicator&quot;
@@ -1873,7 +1988,11 @@ export class WidgetEditOptionsComponent
                 }&quot;
               &gt;&lt;/span&gt;
             &lt;/mat-select-trigger&gt;
-            &lt;mat-option *ngFor&#x3D;&quot;let range of solidOptions&quot; [value]&#x3D;&quot;range&quot;&gt;
+            &lt;mat-option
+              class&#x3D;&quot;range-select-option dense-option&quot;
+              *ngFor&#x3D;&quot;let range of solidOptions&quot;
+              [value]&#x3D;&quot;range&quot;
+            &gt;
               &lt;span
                 class&#x3D;&quot;color-indicator&quot;
                 [ngStyle]&#x3D;&quot;{
@@ -1884,7 +2003,10 @@ export class WidgetEditOptionsComponent
             &lt;/mat-option&gt;
           &lt;/mat-select&gt;
         &lt;/mat-form-field&gt;
-        &lt;mat-form-field class&#x3D;&quot;xsmall dense-form-field&quot;&gt;
+        &lt;mat-form-field
+          class&#x3D;&quot;small dense-form-field&quot;
+          subscriptSizing&#x3D;&quot;dynamic&quot;
+        &gt;
           &lt;mat-label&gt;# of splits&lt;/mat-label&gt;
           &lt;input
             matInput
@@ -1894,7 +2016,10 @@ export class WidgetEditOptionsComponent
             formControlName&#x3D;&quot;numSplits&quot;
           /&gt;
         &lt;/mat-form-field&gt;
-        &lt;mat-checkbox formControlName&#x3D;&quot;reverseColors&quot;&gt;
+        &lt;mat-checkbox
+          formControlName&#x3D;&quot;reverseColors&quot;
+          class&#x3D;&quot;dense-checkbox&quot;
+        &gt;
           Reverse Colors
         &lt;/mat-checkbox&gt;
       &lt;/div&gt;
@@ -1903,7 +2028,7 @@ export class WidgetEditOptionsComponent
       &lt;div class&#x3D;&quot;head-row&quot;&gt;
         &lt;span class&#x3D;&quot;label&quot;&gt;Metric Thresholds&lt;/span&gt;
       &lt;/div&gt;
-      &lt;p class&#x3D;&quot;help-text&quot;&gt;
+      &lt;p class&#x3D;&quot;mat-body-2&quot;&gt;
         Values between or equal to the min and max will be &#x27;in range&#x27;. If the
         min or max is empty, the chart will use the data min or max instead.
         Default values are the suggested min and max for the metric.
@@ -1912,30 +2037,40 @@ export class WidgetEditOptionsComponent
         &lt;table id&#x3D;&quot;thresholds-table&quot;&gt;
           &lt;thead&gt;
             &lt;th class&#x3D;&quot;large&quot;&gt;metric&lt;/th&gt;
-            &lt;th *ngIf&#x3D;&quot;displayOption?.dimensions&quot; class&#x3D;&quot;small&quot;&gt;Dimension&lt;/th&gt;
+            &lt;th
+              *ngIf&#x3D;&quot;displayOption?.dimensions&quot;
+              class&#x3D;&quot;small&quot;
+            &gt;dimension&lt;/th&gt;
 
             &lt;th class&#x3D;&quot;small&quot;&gt;min value&lt;/th&gt;
             &lt;th class&#x3D;&quot;small&quot;&gt;max value&lt;/th&gt;
+            &lt;th&gt;&lt;/th&gt;
           &lt;/thead&gt;
           &lt;tbody&gt;
-            &lt;ng-container
-              *ngFor&#x3D;&quot;let threshold of thresholdArray.controls; let i &#x3D; index&quot;
-            &gt;
+            &lt;ng-container *ngFor&#x3D;&quot;let threshold of thresholdArray?.controls; let i &#x3D; index&quot;&gt;
               &lt;tr [formGroupName]&#x3D;&quot;i&quot;&gt;
                 &lt;td class&#x3D;&quot;large&quot;&gt;
                   &lt;span *ngIf&#x3D;&quot;threshold.controls.metricId.value as metricId&quot;&gt;
                     {{ getMetricName(metricId) }}
                   &lt;/span&gt;
                 &lt;/td&gt;
-                &lt;td *ngIf&#x3D;&quot;displayOption?.dimensions&quot; class&#x3D;&quot;small&quot;&gt;
-                  &lt;mat-form-field class&#x3D;&quot;dense-form-field-select&quot;&gt;
+                &lt;td
+                  *ngIf&#x3D;&quot;displayOption?.dimensions&quot;
+                  class&#x3D;&quot;small&quot;
+                &gt;
+                  &lt;mat-form-field
+                    class&#x3D;&quot;dense-form-field&quot;
+                    subscriptSizing&#x3D;&quot;dynamic&quot;
+                  &gt;
                     &lt;mat-select
                       #dimensions
                       formControlName&#x3D;&quot;dimension&quot;
                       (selectionChange)&#x3D;&quot;validateThresholds(i)&quot;
+                      class&#x3D;&quot;dense-select&quot;
                     &gt;
                       &lt;mat-option
                         *ngFor&#x3D;&quot;let dim of displayOption?.dimensions&quot;
+                        class&#x3D;&quot;dense-option&quot;
                         [value]&#x3D;&quot;dim&quot;
                       &gt;
                         {{ dim }}
@@ -1945,7 +2080,10 @@ export class WidgetEditOptionsComponent
                 &lt;/td&gt;
 
                 &lt;td class&#x3D;&quot;small&quot;&gt;
-                  &lt;mat-form-field class&#x3D;&quot;dense-form-field&quot;&gt;
+                  &lt;mat-form-field
+                    class&#x3D;&quot;dense-form-field&quot;
+                    subscriptSizing&#x3D;&quot;dynamic&quot;
+                  &gt;
                     &lt;input
                       #min
                       matInput
@@ -1953,19 +2091,14 @@ export class WidgetEditOptionsComponent
                       name&#x3D;&quot;min&quot;
                       formControlName&#x3D;&quot;min&quot;
                     /&gt;
-                    &lt;button
-                      matSuffix
-                      mat-icon-button
-                      aria-label&#x3D;&quot;Clear&quot;
-                      (click)&#x3D;&quot;min.value &#x3D; null&quot;
-                    &gt;
-                      &lt;mat-icon&gt;close&lt;/mat-icon&gt;
-                    &lt;/button&gt;
                   &lt;/mat-form-field&gt;
                 &lt;/td&gt;
 
                 &lt;td class&#x3D;&quot;small&quot;&gt;
-                  &lt;mat-form-field class&#x3D;&quot;dense-form-field&quot;&gt;
+                  &lt;mat-form-field
+                    class&#x3D;&quot;dense-form-field&quot;
+                    subscriptSizing&#x3D;&quot;dynamic&quot;
+                  &gt;
                     &lt;input
                       #max
                       matInput
@@ -1973,15 +2106,20 @@ export class WidgetEditOptionsComponent
                       name&#x3D;&quot;max&quot;
                       formControlName&#x3D;&quot;max&quot;
                     /&gt;
-                    &lt;button
-                      matSuffix
-                      mat-icon-button
-                      aria-label&#x3D;&quot;Clear&quot;
-                      (click)&#x3D;&quot;max.value &#x3D; null&quot;
-                    &gt;
-                      &lt;mat-icon&gt;close&lt;/mat-icon&gt;
-                    &lt;/button&gt;
+
                   &lt;/mat-form-field&gt;
+                &lt;/td&gt;
+                &lt;td&gt;
+                  &lt;button
+                    matIconSuffix
+                    mat-icon-button
+                    class&#x3D;&quot;dense-icon-button&quot;
+                    aria-label&#x3D;&quot;Reset values&quot;
+                    uiTooltip&#x3D;&quot;Clear values&quot;
+                    (click)&#x3D;&quot;min.value &#x3D; null; max.value&#x3D; null&quot;
+                  &gt;
+                    &lt;mat-icon&gt;close&lt;/mat-icon&gt;
+                  &lt;/button&gt;
                 &lt;/td&gt;
 
                 &lt;ng-template #default&gt; default &lt;/ng-template&gt;
@@ -1992,23 +2130,14 @@ export class WidgetEditOptionsComponent
       &lt;/ng-container&gt;
     &lt;/ng-container&gt;
   &lt;/form&gt;
-&lt;/div&gt;
-</code></pre>
+&lt;/div&gt;</code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-styleData">
+    <div class="tab-pane fade " id="styleData">
                 <p class="comment">
                     <code>./widget-edit-options.component.scss</code>
                 </p>
                 <pre class="line-numbers"><code class="language-scss">@import &quot;variables&quot;;
-
-.edit-body {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-height: 60vh;
-  overflow-y: scroll;
-}
 
 #thresholds-table {
   width: 100%;
@@ -2020,30 +2149,14 @@ export class WidgetEditOptionsComponent
   .large {
     width: 100%;
   }
-  .small {
-    max-width: 100px;
-    mat-form-field {
-      max-width: 100px;
-    }
+}
+.small {
+  max-width: 110px;
+  mat-form-field {
+    max-width: 100%;
   }
 }
-.default {
-  cursor: default;
-}
 
-.threshold {
-  cursor: text;
-  width: 100%;
-}
-
-.radio-button-group {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  mat-radio-button {
-    margin: 3px 0px;
-  }
-}
 .indicator {
   display: inline-block;
   border: solid 1px black;
@@ -2056,9 +2169,6 @@ export class WidgetEditOptionsComponent
   gap: 0px 10px;
   justify-content: flex-start;
 }
-.metric-select-container {
-  height: 35px;
-}
 .head-row {
   margin-top: 5px;
   display: flex;
@@ -2070,7 +2180,11 @@ export class WidgetEditOptionsComponent
   margin-bottom: 5px;
 }
 
-mat-select-trigger {
+::ng-deep .range-select-option .mdc-list-item__primary-text {
+  width: 100%;
+}
+
+.range-select-trigger {
   .gradient-indicator {
     @extend .indicator;
     width: 100%;
@@ -2081,12 +2195,15 @@ mat-select-trigger {
     width: 100%;
   }
 }
-mat-option {
+.range-select-option {
   .gradient-indicator {
     @extend .indicator;
-    width: 50%;
+    width: 100%;
   }
-
+  .gradient-label {
+    display: block;
+    width: 100%;
+  }
   .color-indicator {
     @extend .indicator;
     width: 10px;
@@ -2096,7 +2213,7 @@ mat-option {
 </code></pre>
     </div>
 
-    <div class="tab-pane fade " id="c-tree">
+    <div class="tab-pane fade " id="tree">
         <div id="tree-container"></div>
         <div class="tree-legend">
             <div class="title">
@@ -2121,8 +2238,8 @@ mat-option {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="edit-body">  <form #optionsEditForm [formGroup]="optionsForm">    <ng-container formGroupName="options" *ngIf="displayOption">      <div class="head-row">        <span class="label">Colors</span>      </div>      <p class="help-text">        If # of splits is 0 the coloring will be continuous. If # of splits > 0,        the color bar will be evenly split.      </p>      <div class="body-row">        <mat-form-field class="small dense-form-field-select">          <mat-label>In Range</mat-label>          <mat-select #inRange formControlName="inRange">            <mat-select-trigger *ngIf="inRange && inRange.value">              <span                *ngIf="                  inRange.value.color && inRange.value.color.length === 1;                  else gradient                "                class="color-indicator"                [ngStyle]="{                  \'background-color\': inRange.value.color[0]                }"              ></span>              <ng-template #gradient>                <span                  class="gradient-indicator"                  [ngStyle]="{                    \'background-image\':                      \'linear-gradient(to right, \' + colors(inRange.value) + \')\'                  }"                ></span>              </ng-template>            </mat-select-trigger>            <mat-option *ngFor="let opt of gradientOptions" [value]="opt">              <span                class="gradient-indicator"                [ngStyle]="{                  \'background-image\':                    \'linear-gradient(to right, \' + colors(opt) + \')\'                }"              ></span>              <span>                {{ opt.label }}              </span>            </mat-option>            <mat-option *ngFor="let opt of solidOptions" [value]="opt">              <span                *ngIf="opt.color.length === 1"                class="color-indicator"                [ngStyle]="{                  \'background-color\': opt.color[0]                }"              ></span>              <span>                {{ opt.label }}              </span>            </mat-option>          </mat-select>        </mat-form-field>        <mat-form-field class="small dense-form-field-select">          <mat-label>Out of Range</mat-label>          <mat-select #outOfRange formControlName="outOfRange">            <mat-select-trigger>              <span                *ngIf="outOfRange.value"                class="color-indicator"                [ngStyle]="{                  \'background-color\': outOfRange.value.color[0]                }"              ></span>            </mat-select-trigger>            <mat-option *ngFor="let range of solidOptions" [value]="range">              <span                class="color-indicator"                [ngStyle]="{                  \'background-color\': range.color[0]                }"              ></span>              {{ range.label }}            </mat-option>          </mat-select>        </mat-form-field>        <mat-form-field class="xsmall dense-form-field">          <mat-label># of splits</mat-label>          <input            matInput            type="number"            name="numSplits"            min="0"            formControlName="numSplits"          />        </mat-form-field>        <mat-checkbox formControlName="reverseColors">          Reverse Colors        </mat-checkbox>      </div>    </ng-container>    <ng-container>      <div class="head-row">        <span class="label">Metric Thresholds</span>      </div>      <p class="help-text">        Values between or equal to the min and max will be \'in range\'. If the        min or max is empty, the chart will use the data min or max instead.        Default values are the suggested min and max for the metric.      </p>      <ng-container formArrayName="thresholdArray">        <table id="thresholds-table">          <thead>            <th class="large">metric</th>            <th *ngIf="displayOption?.dimensions" class="small">Dimension</th>            <th class="small">min value</th>            <th class="small">max value</th>          </thead>          <tbody>            <ng-container              *ngFor="let threshold of thresholdArray.controls; let i = index"            >              <tr [formGroupName]="i">                <td class="large">                  <span *ngIf="threshold.controls.metricId.value as metricId">                    {{ getMetricName(metricId) }}                  </span>                </td>                <td *ngIf="displayOption?.dimensions" class="small">                  <mat-form-field class="dense-form-field-select">                    <mat-select                      #dimensions                      formControlName="dimension"                      (selectionChange)="validateThresholds(i)"                    >                      <mat-option                        *ngFor="let dim of displayOption?.dimensions"                        [value]="dim"                      >                        {{ dim }}                      </mat-option>                    </mat-select>                  </mat-form-field>                </td>                <td class="small">                  <mat-form-field class="dense-form-field">                    <input                      #min                      matInput                      type="number"                      name="min"                      formControlName="min"                    />                    <button                      matSuffix                      mat-icon-button                      aria-label="Clear"                      (click)="min.value = null"                    >                      <mat-icon>close</mat-icon>                    </button>                  </mat-form-field>                </td>                <td class="small">                  <mat-form-field class="dense-form-field">                    <input                      #max                      matInput                      type="number"                      name="max"                      formControlName="max"                    />                    <button                      matSuffix                      mat-icon-button                      aria-label="Clear"                      (click)="max.value = null"                    >                      <mat-icon>close</mat-icon>                    </button>                  </mat-form-field>                </td>                <ng-template #default> default </ng-template>              </tr>            </ng-container>          </tbody>        </table>      </ng-container>    </ng-container>  </form></div></div>'
-    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'SnackbarComponent', 'selector': 'shared-snackbar'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
+        var COMPONENT_TEMPLATE = '<div><div class="column">  <form    #optionsEditForm    [formGroup]="optionsForm"  >    <ng-container      formGroupName="options"      *ngIf="displayOption"    >      <div class="head-row">        <span class="label">Colors</span>      </div>      <p class="help-text">        If # of splits is 0 the coloring will be continuous. If # of splits > 0,        the color bar will be evenly split.      </p>      <div class="row">        <mat-form-field          class="small dense-form-field"          subscriptSizing="dynamic"        >          <mat-label>In Range</mat-label>          <mat-select            #inRange            formControlName="inRange"            class="dense-select"          >            <mat-select-trigger              class="range-select-trigger"              *ngIf="inRange && inRange.value"            >              <span                *ngIf="                  inRange.value.color && inRange.value.color.length === 1;                  else gradient                "                class="color-indicator"                [ngStyle]="{                  \'background-color\': inRange.value.color[0]                }"              ></span>              <ng-template #gradient>                <span                  class="gradient-indicator"                  [ngStyle]="{                    \'background-image\':                      \'linear-gradient(to right, \' + colors(inRange.value) + \')\'                  }"                ></span>              </ng-template>            </mat-select-trigger>            <mat-option              *ngFor="let opt of gradientOptions"              [value]="opt"              class="range-select-option dense-option"            >              <span                class="gradient-indicator"                [ngStyle]="{                  \'background-image\':                    \'linear-gradient(to right, \' + colors(opt) + \')\'                }"              ></span>              <span class="gradient-label">                {{ opt.label }}              </span>            </mat-option>            <mat-option              *ngFor="let opt of solidOptions"              [value]="opt"              class="range-select-option dense-option"            >              <span                *ngIf="opt.color.length === 1"                class="color-indicator"                [ngStyle]="{                  \'background-color\': opt.color[0]                }"              ></span>              <span>                {{ opt.label }}              </span>            </mat-option>          </mat-select>        </mat-form-field>        <mat-form-field          class="small dense-form-field"          subscriptSizing="dynamic"        >          <mat-label>Out of Range</mat-label>          <mat-select            #outOfRange            formControlName="outOfRange"            class="dense-select"          >            <mat-select-trigger class="range-select-trigger">              <span                *ngIf="outOfRange.value"                class="color-indicator"                [ngStyle]="{                  \'background-color\': outOfRange.value.color[0]                }"              ></span>            </mat-select-trigger>            <mat-option              class="range-select-option dense-option"              *ngFor="let range of solidOptions"              [value]="range"            >              <span                class="color-indicator"                [ngStyle]="{                  \'background-color\': range.color[0]                }"              ></span>              {{ range.label }}            </mat-option>          </mat-select>        </mat-form-field>        <mat-form-field          class="small dense-form-field"          subscriptSizing="dynamic"        >          <mat-label># of splits</mat-label>          <input            matInput            type="number"            name="numSplits"            min="0"            formControlName="numSplits"          />        </mat-form-field>        <mat-checkbox          formControlName="reverseColors"          class="dense-checkbox"        >          Reverse Colors        </mat-checkbox>      </div>    </ng-container>    <ng-container>      <div class="head-row">        <span class="label">Metric Thresholds</span>      </div>      <p class="mat-body-2">        Values between or equal to the min and max will be \'in range\'. If the        min or max is empty, the chart will use the data min or max instead.        Default values are the suggested min and max for the metric.      </p>      <ng-container formArrayName="thresholdArray">        <table id="thresholds-table">          <thead>            <th class="large">metric</th>            <th              *ngIf="displayOption?.dimensions"              class="small"            >dimension</th>            <th class="small">min value</th>            <th class="small">max value</th>            <th></th>          </thead>          <tbody>            <ng-container *ngFor="let threshold of thresholdArray?.controls; let i = index">              <tr [formGroupName]="i">                <td class="large">                  <span *ngIf="threshold.controls.metricId.value as metricId">                    {{ getMetricName(metricId) }}                  </span>                </td>                <td                  *ngIf="displayOption?.dimensions"                  class="small"                >                  <mat-form-field                    class="dense-form-field"                    subscriptSizing="dynamic"                  >                    <mat-select                      #dimensions                      formControlName="dimension"                      (selectionChange)="validateThresholds(i)"                      class="dense-select"                    >                      <mat-option                        *ngFor="let dim of displayOption?.dimensions"                        class="dense-option"                        [value]="dim"                      >                        {{ dim }}                      </mat-option>                    </mat-select>                  </mat-form-field>                </td>                <td class="small">                  <mat-form-field                    class="dense-form-field"                    subscriptSizing="dynamic"                  >                    <input                      #min                      matInput                      type="number"                      name="min"                      formControlName="min"                    />                  </mat-form-field>                </td>                <td class="small">                  <mat-form-field                    class="dense-form-field"                    subscriptSizing="dynamic"                  >                    <input                      #max                      matInput                      type="number"                      name="max"                      formControlName="max"                    />                  </mat-form-field>                </td>                <td>                  <button                    matIconSuffix                    mat-icon-button                    class="dense-icon-button"                    aria-label="Reset values"                    uiTooltip="Clear values"                    (click)="min.value = null; max.value= null"                  >                    <mat-icon>close</mat-icon>                  </button>                </td>                <ng-template #default> default </ng-template>              </tr>            </ng-container>          </tbody>        </table>      </ng-container>    </ng-container>  </form></div></div>'
+    var COMPONENTS = [{'name': 'AlertViewComponent', 'selector': 'monitor-alert-view'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthComponent', 'selector': 'app-auth'},{'name': 'BudComponent', 'selector': 'widget-calendar-plot'},{'name': 'CalendarComponent', 'selector': 'widget-calendar-plot'},{'name': 'ChannelFilterComponent', 'selector': 'dashboard-channel-filter'},{'name': 'ChannelGroupComponent', 'selector': 'channel-group-main'},{'name': 'ChannelGroupDetailComponent', 'selector': 'channel-group-detail'},{'name': 'ChannelGroupEditComponent', 'selector': 'channel-group-edit'},{'name': 'ChannelGroupFilterComponent', 'selector': 'channel-group-filter'},{'name': 'ChannelGroupMapComponent', 'selector': 'channel-group-map'},{'name': 'ChannelGroupSelectorComponent', 'selector': 'shared-channel-group-selector'},{'name': 'ChannelGroupTableComponent', 'selector': 'channel-group-edit-table'},{'name': 'ChannelGroupViewComponent', 'selector': 'channel-group-view'},{'name': 'ConfirmDialogComponent', 'selector': 'shared-confirm-dialog'},{'name': 'CsvUploadComponent', 'selector': 'channel-group-csv-upload'},{'name': 'DashboardComponent', 'selector': 'dashboard-main'},{'name': 'DashboardDetailComponent', 'selector': 'dashboard-detail'},{'name': 'DashboardEditComponent', 'selector': 'dashboard-edit'},{'name': 'DashboardEditEntryComponent', 'selector': 'dashboard-edit-entry'},{'name': 'DashboardViewComponent', 'selector': 'dashboard-view'},{'name': 'DataTypeSelectorComponent', 'selector': 'dashboard-data-type-selector'},{'name': 'DateSelectComponent', 'selector': 'shared-date-select'},{'name': 'DetailPageComponent', 'selector': 'shared-detail-page'},{'name': 'EChartComponent', 'selector': ''},{'name': 'ErrorComponent', 'selector': 'widget-error'},{'name': 'ErrorComponent', 'selector': 'shared-error'},{'name': 'GenericWidgetComponent', 'selector': ''},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LoadingComponent', 'selector': 'shared-loading'},{'name': 'LoadingOverlayComponent', 'selector': 'app-loading-overlay'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'user-login'},{'name': 'MapComponent', 'selector': 'widget-map'},{'name': 'MatchingRuleEditComponent', 'selector': 'channel-group-matching-rule-edit'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MetricComponent', 'selector': 'metric-main'},{'name': 'MetricEditComponent', 'selector': 'widget-edit-metrics'},{'name': 'MetricEditEntryComponent', 'selector': 'metric-edit-entry'},{'name': 'MetricToggleComponent', 'selector': 'widget-metric-toggle'},{'name': 'MetricViewComponent', 'selector': 'metric-view'},{'name': 'MonitorAlarmStatusComponent', 'selector': 'monitor-alarm-status'},{'name': 'MonitorChannelHistoryChartComponent', 'selector': 'monitor-channel-history-chart'},{'name': 'MonitorComponent', 'selector': 'monitor-main'},{'name': 'MonitorDetailComponent', 'selector': 'monitor-detail'},{'name': 'MonitorEditComponent', 'selector': 'monitor-edit'},{'name': 'MonitorEditEntryComponent', 'selector': 'monitor-edit-entry'},{'name': 'MonitorHistoryChartComponent', 'selector': 'monitor-history-chart'},{'name': 'MonitorViewComponent', 'selector': 'monitor-view'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'OrganizationDetailComponent', 'selector': 'user-organization-detail'},{'name': 'OrganizationEditComponent', 'selector': 'user-organization-edit'},{'name': 'OrganizationEditEntryComponent', 'selector': 'user-organization-edit-entry'},{'name': 'OrganizationsViewComponent', 'selector': 'user-organizations-view'},{'name': 'ParallelPlotComponent', 'selector': 'widget-parallel-plot'},{'name': 'PasswordResetComponent', 'selector': 'user-password-reset'},{'name': 'ScatterPlotComponent', 'selector': 'widget-scatter-plot'},{'name': 'SearchFilterComponent', 'selector': 'shared-search-filter'},{'name': 'SharedIndicatorComponent', 'selector': 'shared-sharing-indicator'},{'name': 'SharingToggleComponent', 'selector': 'shared-sharing-toggle'},{'name': 'TableViewComponent', 'selector': 'shared-table-view'},{'name': 'TabularComponent', 'selector': 'widget-tabular'},{'name': 'TimechartComponent', 'selector': 'widget-timechart'},{'name': 'TimelineComponent', 'selector': 'widget-timeline'},{'name': 'TooltipComponent', 'selector': 'ui-tooltip'},{'name': 'UserComponent', 'selector': 'user-main'},{'name': 'UserEditComponent', 'selector': 'user-edit'},{'name': 'UserSettingsComponent', 'selector': 'user-settings'},{'name': 'WidgetDetailComponent', 'selector': 'widget-detail'},{'name': 'WidgetEditComponent', 'selector': 'widget-edit'},{'name': 'WidgetEditEntryComponent', 'selector': 'widget-edit-entry'},{'name': 'WidgetEditInfoComponent', 'selector': 'widget-edit-info'},{'name': 'WidgetEditMetricsComponent', 'selector': 'widget-edit-metrics'},{'name': 'WidgetEditOptionsComponent', 'selector': 'widget-edit-options'},{'name': 'WidgetMainComponent', 'selector': 'widget-main'}];
     var DIRECTIVES = [{'name': 'LoadingDirective', 'selector': '[appIsLoading]'},{'name': 'TooltipDirective', 'selector': '[uiTooltip]'},{'name': 'WidgetTypeDirective', 'selector': '[widgetContainer]'},{'name': 'WidgetTypeExampleDirective', 'selector': '[appWidgetTypeExample]'}];
     var ACTUAL_COMPONENT = {'name': 'WidgetEditOptionsComponent'};
 </script>

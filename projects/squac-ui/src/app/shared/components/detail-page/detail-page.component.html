@@ -1,18 +1,15 @@
 <div class="body-content-container">
-  <div id="page-title">
-    <div
-      id="title-text"
-      class="title"
-    >
-      <h2>
+  <div class="row space-between">
+    <div class="title">
+      <h1 class="mat-h1">
         {{ title }}
-      </h2>
-      <span>{{ subtext }}</span>
+      </h1>
+      <span class="mat-small">{{ subtext }}</span>
     </div>
 
     <div
-      id="title-buttons-container"
       *ngIf="options.titleButtons as buttons"
+      class="row space-between"
     >
       <ng-content select="[headerContent]"> </ng-content>
 
@@ -37,7 +34,7 @@
         <mat-icon>edit</mat-icon>
       </button>
       <button
-        mat-icon-button
+        mat-button
         *ngIf="buttons.cancelButton"
         (click)="buttonAction('cancel')"
         uiTooltip="Cancel editing"

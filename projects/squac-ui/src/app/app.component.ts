@@ -1,6 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { LoadingService } from "@core/services/loading.service";
 import { AuthService } from "@core/services/auth.service";
+import { LoadingDirective } from "@shared/directives/loading-directive.directive";
+import { RouterOutlet } from "@angular/router";
+import { AsyncPipe } from "@angular/common";
 
 /**
  * Main app component
@@ -8,6 +11,8 @@ import { AuthService } from "@core/services/auth.service";
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
+  standalone: true,
+  imports: [LoadingDirective, RouterOutlet, AsyncPipe],
 })
 export class AppComponent implements OnInit {
   title = "SQUAC";

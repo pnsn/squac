@@ -1,3 +1,4 @@
+import { NslcChannelsListRequestParams } from "@pnsn/ngx-squacapi-client";
 import { ArchiveStatType, ArchiveType } from "../types";
 
 export interface DashboardDisplayProperties {
@@ -23,4 +24,8 @@ export interface DashboardProperties extends DashboardDisplayProperties {
   archiveType: ArchiveType;
   /** true if dashboard should refresh data automatically */
   autoRefresh: boolean;
+  /** True if dashboard uses channels instead of channel groups */
+  useChannels?: boolean;
+  /** ChannelFilters */
+  channelFilters?: NslcChannelsListRequestParams;
 }

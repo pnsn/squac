@@ -4,20 +4,32 @@ import {
   WidgetManagerService,
   WidgetConfigService,
 } from "../../services";
-import { EChartComponent } from "../../shared/components";
-import { ProcessedData, WidgetTypeComponent } from "../../interfaces";
+import { EChartComponent } from "../../components/e-chart/e-chart.component";
+import { WidgetTypeComponent } from "../../interfaces";
 import {
   ParallelSeriesOption,
   TooltipComponentFormatterCallbackParams,
 } from "echarts";
+import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
+import { MeasurementTypes } from "squacapi";
 
 /**
- * Parallel plot widget
+ * Parallel plot widget, shows multiple metrics on parallel axes
  */
 @Component({
   selector: "widget-parallel-plot",
-  templateUrl: "../../shared/components/e-chart/e-chart.component.html",
-  styleUrls: ["../../shared/components/e-chart/e-chart.component.scss"],
+  templateUrl: "../../components/e-chart/e-chart.component.html",
+  styleUrls: ["../../components/e-chart/e-chart.component.scss"],
+  standalone: true,
+  imports: [NgxEchartsModule],
+  providers: [
+    {
+      provide: NGX_ECHARTS_CONFIG,
+      useFactory: (): unknown => ({
+        echarts: (): unknown => import("echarts"),
+      }),
+    },
+  ],
 })
 export class ParallelPlotComponent
   extends EChartComponent
@@ -32,13 +44,17 @@ export class ParallelPlotComponent
     super(widgetManager, widgetConnectService, ngZone);
   }
 
-  /** @override */
+  /**
+   * overrides to disable parent useDenseView
+   *
+   * @param _useDenseView unused
+   */
   override useDenseView(_useDenseView: boolean): void {
     return;
   }
 
   /**
-   * @override
+   * Sets up initial chart configuration
    */
   configureChart(): void {
     this.options = {
@@ -73,7 +89,7 @@ export class ParallelPlotComponent
   }
 
   /**
-   * @override
+   * On key toggle, shows or hides legend
    */
   override toggleKey(): void {
     let temp = {
@@ -107,9 +123,11 @@ export class ParallelPlotComponent
   }
 
   /**
-   * @override
+   * Builds chart data from processed data
+   *
+   * @param data processed measurements for chart
    */
-  buildChartData(data: ProcessedData): Promise<void> {
+  buildChartData(data: MeasurementTypes[]): Promise<void> {
     return new Promise<void>((resolve) => {
       const metricSeries: ParallelSeriesOption = {
         type: "parallel",
@@ -135,22 +153,30 @@ export class ParallelPlotComponent
         this.channels,
         data,
         metricSeries,
-        this.widgetManager.stat
+        this.widgetManager.stat,
+        this.widgetManager.dataStat
       );
       resolve();
     });
   }
 
   /**
-   * @override
+   * updates series and axes on charts
    */
   changeMetrics(): void {
-    this.updateOptions = {
-      ...this.updateOptions,
+    const options = {
       series: this.metricSeries.series,
       parallelAxis: this.metricSeries.axis,
     };
-    if (this.echartsInstance) {
+
+    // using update options only prevented series from removing series
+    // using the combo sets both the inital series and later updates
+    if (!this.echartsInstance) {
+      this.updateOptions = options;
+    } else {
+      this.echartsInstance.setOption(options, {
+        replaceMerge: ["series", "parallelAxis"],
+      });
       this.resize();
     }
   }

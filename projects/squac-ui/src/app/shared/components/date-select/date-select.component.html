@@ -1,35 +1,30 @@
-<div id="shared-date-select-components">
-  <mat-form-field id="date-range" appearance="outline" class="dense-form-field">
-    <mat-label>Time Range</mat-label>
-    <input
-      #datePicker
-      matInput
-      placeholder="Set Date Range"
-      floatLabel="always"
-      ngxDaterangepickerMd
-      type="text"
-      [locale]="locale"
-      [showCancel]="true"
-      [maxDate]="maxDate"
-      [(ngModel)]="selected"
-      [timePicker]="true"
-      [timePicker24Hour]="true"
-      [alwaysShowCalendars]="true"
-      [customRangeDirection]="true"
-      [showRangeLabelOnInput]="true"
-      [ranges]="rangesForDatePicker"
-      opens="left"
-      startKey="startDate"
-      endKey="endDate"
-      (ngModelChange)="ngModelChange($event)"
-    />
-  </mat-form-field>
-
-  <div>
-    <!--
-<button class="ngx-daterangepicker-action" (click)="openDatePicker($event)">
-  open
-</button> -->
-    <div class="date-select-popup"></div>
-  </div>
-</div>
+<mat-form-field
+  id="date-range"
+  appearance="outline"
+  class="dense-form-field"
+  subscriptSizing="dynamic"
+  [style.width]="'235px'"
+>
+  <mat-label>Time Range</mat-label>
+  <input
+    #datePicker
+    matInput
+    placeholder="Set Date Range"
+    floatLabel="always"
+    ngxDaterangepickerMd
+    type="text"
+    [showCancel]="true"
+    [maxDate]="maxDate"
+    [(ngModel)]="selected"
+    [timePicker]="true"
+    [timePicker24Hour]="true"
+    [alwaysShowCalendars]="true"
+    [customRangeDirection]="true"
+    [showRangeLabelOnInput]="true"
+    [ranges]="rangesForDatePicker"
+    opens="left"
+    startKey="startDate"
+    endKey="endDate"
+    (ngModelChange)="ngModelChange($event)"
+  />
+</mat-form-field>

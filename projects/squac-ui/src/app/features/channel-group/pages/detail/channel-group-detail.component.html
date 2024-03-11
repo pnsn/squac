@@ -1,0 +1,108 @@
+<ng-template #hasError>
+  <p>Could not load channel group.</p>
+</ng-template>
+<shared-detail-page
+  [appIsLoading]="loadingService.isLoading$(this) | async"
+  [options]="pageOptions"
+  *ngIf="channelGroup"
+  type="ChannelGroup"
+  [resource]="channelGroup"
+  [title]="channelGroup.name"
+  subtext="by {{ channelGroup?.owner | user }} ({{
+    channelGroup?.orgId | organization
+  }})"
+>
+  <ng-container bodyContent>
+    <div
+      id="channel-group-container"
+      class="box"
+    >
+      <div id="group-info-container">
+        <div>
+          <h2 class="mat-h2">Channel Group Information</h2>
+          <div><strong>Name: </strong> {{ channelGroup.name }}</div>
+          <div>
+            <strong> Description: </strong>
+            {{ channelGroup.description }}
+          </div>
+        </div>
+      </div>
+      <div [style.grid-area]="'channels'">
+        <h2 class="mat-h2">Channels ({{ channelGroup.channels.length }}):</h2>
+
+        <channel-group-edit-table
+          [rows]="channelGroup.channels"
+          [selectable]="false"
+          [selected]="selectedRows"
+          (selectedChange)="onSelect($event)"
+        >
+        </channel-group-edit-table>
+      </div>
+
+
+      <channel-group-map
+        [style.grid-area]="'map'"
+        [autoIncludeChannels]="channels"
+        [selectedChannels]="selectedChannels"
+        (showChannelChange)="selectChannel($event)"
+        [showChannel]="showChannel"
+        [editPage]="false"
+      ></channel-group-map>
+
+
+
+      <div
+        id="matching-rules-container"
+        [style.grid-area]="'rules'"
+      >
+        <h2 class="mat-h2">Regex Rules ({{ matchingRules.length }}):</h2>
+
+        <div>
+          <table>
+            <thead>
+              <td>Include</td>
+              <td>Network</td>
+              <td>Station</td>
+              <td>Location</td>
+              <td>Channel</td>
+            </thead>
+            <tr *ngFor="let rule of matchingRules">
+              <td>{{ rule.isInclude }}</td>
+              <td>{{ rule.networkRegex }}</td>
+              <td>{{ rule.stationRegex }}</td>
+              <td>{{ rule.locationRegex }}</td>
+              <td>{{ rule.channelRegex }}p</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div [style.grid-area]="'included'">
+        <h2 class="mat-h2">
+          Auto Included Channels ({{
+          channelGroup.autoIncludeChannels.length
+          }}):
+        </h2>
+
+        <channel-group-edit-table
+          [rows]="channelGroup.autoIncludeChannels"
+          [selectable]="false"
+        >
+        </channel-group-edit-table>
+      </div>
+      <div [style.grid-area]="'excluded'">
+        <h2 class="mat-h2">
+          Auto Excluded Channels ({{
+          channelGroup.autoExcludeChannels.length
+          }}):
+        </h2>
+
+        <channel-group-edit-table
+          [rows]="channelGroup.autoExcludeChannels"
+          [selectable]="false"
+        >
+        </channel-group-edit-table>
+      </div>
+    </div>
+  </ng-container>
+</shared-detail-page>

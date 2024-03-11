@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -44,23 +102,29 @@
 
 
 <ol class="breadcrumb">
-  <li>Interfaces</li>
-  <li
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
   >
   DataParams</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info">
+    <div class="tab-pane fade active in" id="info">
         <p class="comment">
             <h3>File</h3>
         </p>
@@ -78,7 +142,7 @@
             </p>
 
 
-        <section>
+        <section data-compodoc="block-index">
             <h3 id="index">Index</h3>
             <table class="table table-sm table-bordered index-table">
                 <tbody>
@@ -129,7 +193,7 @@
 
 
 
-            <section>
+            <section data-compodoc="block-properties">
                 <h3 id="inputs">Properties</h3>
                     <table class="table table-sm table-bordered">
                         <tbody>
@@ -330,9 +394,9 @@
     </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
-import { parseUtc, format } from &quot;../shared/utils&quot;;
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { inject, Injectable } from &quot;@angular/core&quot;;
+import { parseUtc, format } from &quot;../utils&quot;;
 import {
   MeasurementAggregatedListRequestParams,
   MeasurementDayArchivesListRequestParams,
@@ -350,9 +414,11 @@ import {
   ReadOnlyAggregateSerializer,
   Channel,
   MeasurementParams,
+  ChannelGroup,
 } from &quot;squacapi&quot;;
 import { ChannelGroupService } from &quot;squacapi&quot;;
 import { map, Observable, of } from &quot;rxjs&quot;;
+import { HttpContext } from &quot;@angular/common/http&quot;;
 
 type TimeInterval &#x3D; &quot;minutes&quot; | &quot;day&quot; | &quot;hour&quot; | &quot;week&quot; | &quot;month&quot;;
 
@@ -371,13 +437,23 @@ interface DataParams {
 }
 
 /**
+ * Returns random number between 0 and maxValue
+ *
+ * @param maxValue max value to generate
+ * @returns random number
+ */
+function getRandom(maxValue &#x3D; 100): number {
+  return Math.random() * maxValue;
+}
+
+/**
  * Fakes measurement backends for local
  */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
 export class FakeMeasurementBackend {
-  constructor(private channelGroupService: ChannelGroupService) {}
+  channelGroupService &#x3D; inject(ChannelGroupService);
 
   /**
    * Request channels for channel group and maps ids
@@ -385,22 +461,14 @@ export class FakeMeasurementBackend {
    * @param group group id
    * @returns observable of channel ids
    */
-  private channelsFromGroup(group: number): Observable&lt;number[]&gt; {
+  private getChannelsFromGroup(group: number): Observable&lt;number[]&gt; {
     return this.channelGroupService.read(group).pipe(
-      map((cg) &#x3D;&gt; {
+      map((cg: ChannelGroup) &#x3D;&gt; {
         return cg.channels.map((channel: Channel) &#x3D;&gt; channel.id);
       })
     );
   }
-  /**
-   * Returns random number between 0 and maxValue
-   *
-   * @param maxValue max value to generate
-   * @returns random number
-   */
-  private getRandom(maxValue &#x3D; 100): number {
-    return Math.random() * maxValue;
-  }
+
   /**
    * Returns channel parameters from group id or channel ids
    *
@@ -409,7 +477,7 @@ export class FakeMeasurementBackend {
    */
   private getChannels(params: MeasurementParams): Observable&lt;number[]&gt; {
     if (params.group) {
-      return this.channelsFromGroup(params.group[0]);
+      return this.getChannelsFromGroup(params.group[0]);
     } else if (params.channel) {
       return of(params.channel);
     }
@@ -426,7 +494,7 @@ export class FakeMeasurementBackend {
     return {
       starttime: params.starttime,
       endtime: params.endtime,
-      value: this.getRandom(params.maxValue),
+      value: getRandom(params.maxValue),
       metric: params.metric,
       channel: params.channel,
     };
@@ -445,7 +513,7 @@ export class FakeMeasurementBackend {
     | ReadOnlyArchiveHourSerializer
     | ReadOnlyArchiveMonthSerializer
     | ReadOnlyArchiveWeekSerializer {
-    const value &#x3D; this.getRandom(params.maxValue);
+    const value &#x3D; getRandom(params.maxValue);
     return {
       starttime: params.starttime,
       endtime: params.endtime,
@@ -474,7 +542,7 @@ export class FakeMeasurementBackend {
    * @returns aggregate
    */
   aggregate(params: DataParams): ReadOnlyAggregateSerializer {
-    const value &#x3D; this.getRandom(params.maxValue) - 40;
+    const value &#x3D; getRandom(params.maxValue) - 40;
 
     return {
       starttime: params.starttime,
@@ -524,7 +592,7 @@ export class FakeMeasurementBackend {
       endtime &#x3D; s;
     }
     params.metric.forEach((m: number) &#x3D;&gt; {
-      const metricMax &#x3D; this.getRandom();
+      const metricMax &#x3D; getRandom();
       channels.forEach((c: number) &#x3D;&gt; {
         let currentTime &#x3D; starttime;
         while (currentTime &lt; endtime) {
@@ -580,100 +648,88 @@ export class FakeMeasurementBackend {
     );
   }
 
-  /**
-   * Measurement list function
-   *
-   * @param params measurement params
-   * @returns observable of measurement data
-   */
+  /** @override */
   measurementMeasurementsList(
-    params: MeasurementMeasurementsListRequestParams
-  ): Observable&lt;ReadOnlyMeasurementSerializer[]&gt; {
+    requestParameters: MeasurementMeasurementsListRequestParams,
+    _observe?: any,
+    _reportProgress?: boolean,
+    _options?: { httpHeaderAccept?: &quot;application/json&quot;; context?: HttpContext }
+  ): any {
     return this.getList&lt;ReadOnlyMeasurementSerializer&gt;(
-      params,
+      requestParameters,
       this.measurement.bind(this),
       10,
       &quot;minutes&quot;
     );
   }
 
-  /**
-   * Aggregated list function
-   *
-   * @param params aggregated params
-   * @returns observable of aggregated data
-   */
+  /** @override */
   measurementAggregatedList(
-    params: MeasurementAggregatedListRequestParams
-  ): Observable&lt;ReadOnlyAggregateSerializer[]&gt; {
+    requestParameters: MeasurementAggregatedListRequestParams,
+    _observe?: any,
+    _reportProgress?: boolean,
+    _options?: { httpHeaderAccept?: &quot;application/json&quot;; context?: HttpContext }
+  ): any {
     return this.getList&lt;ReadOnlyAggregateSerializer&gt;(
-      params,
+      requestParameters,
       this.aggregate.bind(this)
     );
   }
 
-  /**
-   * Archive list function
-   *
-   * @param params archive params
-   * @returns observable of archives data
-   */
+  /** @override */
   measurementDayArchivesList(
-    params: MeasurementDayArchivesListRequestParams
-  ): Observable&lt;ReadOnlyArchiveDaySerializer[]&gt; {
+    requestParameters: MeasurementDayArchivesListRequestParams,
+    _observe?: any,
+    _reportProgress?: boolean,
+    _options?: { httpHeaderAccept?: &quot;application/json&quot;; context?: HttpContext }
+  ): any {
     return this.getList&lt;ReadOnlyArchiveDaySerializer&gt;(
-      params,
+      requestParameters,
       this.archive.bind(this),
       1,
       &quot;day&quot;
     ).pipe();
   }
 
-  /**
-   * Archive list function
-   *
-   * @param params archive params
-   * @returns observable of archives data
-   */
+  /** @override */
   measurementHourArchivesList(
-    params: MeasurementHourArchivesListRequestParams
-  ): Observable&lt;ReadOnlyArchiveHourSerializer[]&gt; {
-    return this.getList&lt;ReadOnlyArchiveHourSerializer&gt;(
-      params,
+    requestParameters: MeasurementHourArchivesListRequestParams,
+    _observe?: any,
+    _reportProgress?: boolean,
+    _options?: { httpHeaderAccept?: &quot;application/json&quot;; context?: HttpContext }
+  ): any {
+    return this.getList&lt;ReadOnlyArchiveMonthSerializer&gt;(
+      requestParameters,
       this.archive.bind(this),
       1,
-      &quot;hour&quot;
+      &quot;month&quot;
     );
   }
 
-  /**
-   * Archive list function
-   *
-   * @param params archive params
-   * @returns observable of archives data
-   */
+  /** @override */
   measurementWeekArchivesList(
-    params: MeasurementWeekArchivesListRequestParams
-  ): Observable&lt;ReadOnlyArchiveWeekSerializer[]&gt; {
+    requestParameters: MeasurementWeekArchivesListRequestParams,
+    _observe?: any,
+    _reportProgress?: boolean,
+    _options?: { httpHeaderAccept?: &quot;application/json&quot;; context?: HttpContext }
+  ): any {
     return this.getList&lt;ReadOnlyArchiveWeekSerializer&gt;(
-      params,
+      requestParameters,
       this.archive.bind(this),
       1,
       &quot;week&quot;
     );
   }
 
-  /**
-   * Archive list function
-   *
-   * @param params archive params
-   * @returns observable of archives data
-   */
+  /** @override */
   measurementMonthArchivesList(
-    params: MeasurementMonthArchivesListRequestParams
-  ): Observable&lt;ReadOnlyArchiveMonthSerializer[]&gt; {
+    requestParameters: MeasurementMonthArchivesListRequestParams,
+    _observe?: any,
+    _reportProgress?: boolean,
+    _options?: { httpHeaderAccept?: &quot;application/json&quot;; context?: HttpContext }
+  ): any {
     return this.getList&lt;ReadOnlyArchiveMonthSerializer&gt;(
-      params,
+      requestParameters,
       this.archive.bind(this),
       1,
       &quot;month&quot;

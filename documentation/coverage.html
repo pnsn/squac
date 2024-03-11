@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="./styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="./" class="navbar-brand">squac documentation</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -50,7 +108,7 @@
 
 
 <ol class="breadcrumb">
-    <li>Documentation coverage</li>
+    <li class="breadcrumb-item">Documentation coverage</li>
 </ol>
 
 <div>
@@ -79,40 +137,16 @@
                 <span class="coverage-count">(2/5)</span>
             </td>
         </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#CACHEABLE_ROUTE_PATTERNS">projects/squac-ui/src/app/core/cacheable-route-patterns.constant.ts</a>
-            </td>
-            <td>variable</td>
-            <td>CACHEABLE_ROUTE_PATTERNS</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(1/1)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./components/AuthComponent.html">projects/squac-ui/src/app/core/components/auth/auth.component.ts</a>
-            </td>
-            <td>component</td>
-            <td>AuthComponent</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(1/1)</span>
-            </td>
-        </tr>
         <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/HomeComponent.html">projects/squac-ui/src/app/core/components/home/home.component.ts</a>
+                <a href="./miscellaneous/variables.html#APP_CONFIG">projects/squac-ui/src/app/app.config.ts</a>
             </td>
-            <td>component</td>
-            <td>HomeComponent</td>
-            <td align="right" data-sort="25">
-                <span class="coverage-percent">25 %</span>
-                <span class="coverage-count">(1/4)</span>
+            <td>variable</td>
+            <td>APP_CONFIG</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -127,16 +161,64 @@
                 <span class="coverage-count">(4/5)</span>
             </td>
         </tr>
-        <tr class="medium">
+        <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/NotFoundComponent.html">projects/squac-ui/src/app/core/components/not-found/not-found.component.ts</a>
+                <a href="./miscellaneous/variables.html#MEASUREMENT_PROVIDERS">projects/squac-ui/src/app/core/constants/api-service-config.constant.ts</a>
             </td>
-            <td>component</td>
-            <td>NotFoundComponent</td>
-            <td align="right" data-sort="33">
-                <span class="coverage-percent">33 %</span>
-                <span class="coverage-count">(1/3)</span>
+            <td>variable</td>
+            <td>MEASUREMENT_PROVIDERS</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#USE_FAKE_MEASUREMENTS">projects/squac-ui/src/app/core/constants/api-service-config.constant.ts</a>
+            </td>
+            <td>variable</td>
+            <td>USE_FAKE_MEASUREMENTS</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#CACHEABLE_ROUTE_PATTERNS">projects/squac-ui/src/app/core/constants/cacheable-route-patterns.constant.ts</a>
+            </td>
+            <td>variable</td>
+            <td>CACHEABLE_ROUTE_PATTERNS</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/Locale.html">projects/squac-ui/src/app/core/constants/locale.constant.ts</a>
+            </td>
+            <td>interface</td>
+            <td>Locale</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(4/4)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#DEFAULT_LOCALE">projects/squac-ui/src/app/core/constants/locale.constant.ts</a>
+            </td>
+            <td>variable</td>
+            <td>DEFAULT_LOCALE</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
             </td>
         </tr>
         <tr class="good">
@@ -163,70 +245,70 @@
                 <span class="coverage-count">(1/3)</span>
             </td>
         </tr>
-        <tr class="good">
+        <tr class="low">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interceptors/AuthInterceptor.html">projects/squac-ui/src/app/core/interceptors/auth-interceptor.service.ts</a>
-            </td>
-            <td>interceptor</td>
-            <td>AuthInterceptor</td>
-            <td align="right" data-sort="66">
-                <span class="coverage-percent">66 %</span>
-                <span class="coverage-count">(2/3)</span>
-            </td>
-        </tr>
-        <tr class="good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./interceptors/CacheInterceptor.html">projects/squac-ui/src/app/core/interceptors/cache-interceptor.service.ts</a>
-            </td>
-            <td>interceptor</td>
-            <td>CacheInterceptor</td>
-            <td align="right" data-sort="66">
-                <span class="coverage-percent">66 %</span>
-                <span class="coverage-count">(2/3)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./interceptors/HttpErrorInterceptor.html">projects/squac-ui/src/app/core/interceptors/http-error-interceptor.service.ts</a>
-            </td>
-            <td>interceptor</td>
-            <td>HttpErrorInterceptor</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(2/2)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./interfaces/Locale.html">projects/squac-ui/src/app/core/locale.constant.ts</a>
-            </td>
-            <td>interface</td>
-            <td>Locale</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(4/4)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#DEFAULT_LOCALE">projects/squac-ui/src/app/core/locale.constant.ts</a>
+                <a href="./miscellaneous/variables.html#AuthInterceptorFn">projects/squac-ui/src/app/core/interceptors/auth-interceptor.service.ts</a>
             </td>
             <td>variable</td>
-            <td>DEFAULT_LOCALE</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(1/1)</span>
+            <td>AuthInterceptorFn</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#CacheInterceptorFn">projects/squac-ui/src/app/core/interceptors/cache-interceptor.service.ts</a>
+            </td>
+            <td>variable</td>
+            <td>CacheInterceptorFn</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#HttpErrorInterceptorFn">projects/squac-ui/src/app/core/interceptors/http-error-interceptor.service.ts</a>
+            </td>
+            <td>variable</td>
+            <td>HttpErrorInterceptorFn</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
             </td>
         </tr>
         <tr class="good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./guards/AlertResolver.html">projects/squac-ui/src/app/core/resolvers/alert.resolver.ts</a>
+                <a href="./components/HomeComponent.html">projects/squac-ui/src/app/core/pages/home/home.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>HomeComponent</td>
+            <td align="right" data-sort="75">
+                <span class="coverage-percent">75 %</span>
+                <span class="coverage-count">(3/4)</span>
+            </td>
+        </tr>
+        <tr class="medium">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/NotFoundComponent.html">projects/squac-ui/src/app/core/pages/not-found/not-found.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>NotFoundComponent</td>
+            <td align="right" data-sort="33">
+                <span class="coverage-percent">33 %</span>
+                <span class="coverage-count">(1/3)</span>
+            </td>
+        </tr>
+        <tr class="good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./guards/AlertResolver.html">projects/squac-ui/src/app/core/pages/resolvers/alert.resolver.ts</a>
             </td>
             <td>guard</td>
             <td>AlertResolver</td>
@@ -238,7 +320,7 @@
         <tr class="good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./guards/ChannelGroupResolver.html">projects/squac-ui/src/app/core/resolvers/channel-group.resolver.ts</a>
+                <a href="./guards/ChannelGroupResolver.html">projects/squac-ui/src/app/core/pages/resolvers/channel-group.resolver.ts</a>
             </td>
             <td>guard</td>
             <td>ChannelGroupResolver</td>
@@ -250,7 +332,7 @@
         <tr class="good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./guards/DashboardResolver.html">projects/squac-ui/src/app/core/resolvers/dashboard.resolver.ts</a>
+                <a href="./guards/DashboardResolver.html">projects/squac-ui/src/app/core/pages/resolvers/dashboard.resolver.ts</a>
             </td>
             <td>guard</td>
             <td>DashboardResolver</td>
@@ -262,7 +344,7 @@
         <tr class="good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./guards/MatchingRuleResolver.html">projects/squac-ui/src/app/core/resolvers/matching-rule.resolver.ts</a>
+                <a href="./guards/MatchingRuleResolver.html">projects/squac-ui/src/app/core/pages/resolvers/matching-rule.resolver.ts</a>
             </td>
             <td>guard</td>
             <td>MatchingRuleResolver</td>
@@ -274,7 +356,7 @@
         <tr class="good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./guards/MetricResolver.html">projects/squac-ui/src/app/core/resolvers/metric.resolver.ts</a>
+                <a href="./guards/MetricResolver.html">projects/squac-ui/src/app/core/pages/resolvers/metric.resolver.ts</a>
             </td>
             <td>guard</td>
             <td>MetricResolver</td>
@@ -286,7 +368,7 @@
         <tr class="good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./guards/MonitorResolver.html">projects/squac-ui/src/app/core/resolvers/monitor.resolver.ts</a>
+                <a href="./guards/MonitorResolver.html">projects/squac-ui/src/app/core/pages/resolvers/monitor.resolver.ts</a>
             </td>
             <td>guard</td>
             <td>MonitorResolver</td>
@@ -298,7 +380,7 @@
         <tr class="good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./guards/OrganizationResolver.html">projects/squac-ui/src/app/core/resolvers/organization.resolver.ts</a>
+                <a href="./guards/OrganizationResolver.html">projects/squac-ui/src/app/core/pages/resolvers/organization.resolver.ts</a>
             </td>
             <td>guard</td>
             <td>OrganizationResolver</td>
@@ -310,7 +392,7 @@
         <tr class="good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./guards/UserResolver.html">projects/squac-ui/src/app/core/resolvers/user.resolver.ts</a>
+                <a href="./guards/UserResolver.html">projects/squac-ui/src/app/core/pages/resolvers/user.resolver.ts</a>
             </td>
             <td>guard</td>
             <td>UserResolver</td>
@@ -322,7 +404,7 @@
         <tr class="good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./guards/WidgetResolver.html">projects/squac-ui/src/app/core/resolvers/widget.resolver.ts</a>
+                <a href="./guards/WidgetResolver.html">projects/squac-ui/src/app/core/pages/resolvers/widget.resolver.ts</a>
             </td>
             <td>guard</td>
             <td>WidgetResolver</td>
@@ -574,6 +656,18 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
+                <a href="./miscellaneous/functions.html#nestedPropertyDataAccessor">projects/squac-ui/src/app/core/utils/utils.ts</a>
+            </td>
+            <td>function</td>
+            <td>nestedPropertyDataAccessor</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
                 <a href="./miscellaneous/functions.html#sortTimestamps">projects/squac-ui/src/app/core/utils/utils.ts</a>
             </td>
             <td>function</td>
@@ -619,124 +713,112 @@
                 <span class="coverage-count">(1/1)</span>
             </td>
         </tr>
-        <tr class="medium">
+        <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/ChannelGroupDetailComponent.html">projects/squac-ui/src/app/features/channel-group/components/channel-group-detail/channel-group-detail.component.ts</a>
+                <a href="./components/AuthComponent.html">projects/squac-ui/src/app/features/auth/pages/auth/auth.component.ts</a>
             </td>
             <td>component</td>
-            <td>ChannelGroupDetailComponent</td>
-            <td align="right" data-sort="47">
-                <span class="coverage-percent">47 %</span>
-                <span class="coverage-count">(11/23)</span>
-            </td>
-        </tr>
-        <tr class="medium">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./components/ChannelGroupEditComponent.html">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts</a>
-            </td>
-            <td>component</td>
-            <td>ChannelGroupEditComponent</td>
-            <td align="right" data-sort="42">
-                <span class="coverage-percent">42 %</span>
-                <span class="coverage-count">(26/61)</span>
+            <td>AuthComponent</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
             </td>
         </tr>
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/ChannelGroupForm.html">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-edit.component.ts</a>
+                <a href="./interfaces/PasswordsForm.html">projects/squac-ui/src/app/features/auth/pages/edit/interfaces.ts</a>
             </td>
             <td>interface</td>
-            <td>ChannelGroupForm</td>
+            <td>PasswordsForm</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
                 <span class="coverage-count">(3/3)</span>
             </td>
         </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/UserForm.html">projects/squac-ui/src/app/features/auth/pages/edit/interfaces.ts</a>
+            </td>
+            <td>interface</td>
+            <td>UserForm</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(4/4)</span>
+            </td>
+        </tr>
         <tr class="medium">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/ChannelGroupFilterComponent.html">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-filter/channel-group-filter.component.ts</a>
+                <a href="./components/UserEditComponent.html">projects/squac-ui/src/app/features/auth/pages/edit/user-edit.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>UserEditComponent</td>
+            <td align="right" data-sort="36">
+                <span class="coverage-percent">36 %</span>
+                <span class="coverage-count">(4/11)</span>
+            </td>
+        </tr>
+        <tr class="medium">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/LoginComponent.html">projects/squac-ui/src/app/features/auth/pages/login/login.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>LoginComponent</td>
+            <td align="right" data-sort="33">
+                <span class="coverage-percent">33 %</span>
+                <span class="coverage-count">(3/9)</span>
+            </td>
+        </tr>
+        <tr class="medium">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/LoginForm.html">projects/squac-ui/src/app/features/auth/pages/login/login.component.ts</a>
+            </td>
+            <td>interface</td>
+            <td>LoginForm</td>
+            <td align="right" data-sort="33">
+                <span class="coverage-percent">33 %</span>
+                <span class="coverage-count">(1/3)</span>
+            </td>
+        </tr>
+        <tr class="medium">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/PasswordResetComponent.html">projects/squac-ui/src/app/features/auth/pages/password-reset/password-reset.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>PasswordResetComponent</td>
+            <td align="right" data-sort="33">
+                <span class="coverage-percent">33 %</span>
+                <span class="coverage-count">(5/15)</span>
+            </td>
+        </tr>
+        <tr class="medium">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/ChannelGroupFilterComponent.html">projects/squac-ui/src/app/features/channel-group/components/channel-group-filter/channel-group-filter.component.ts</a>
             </td>
             <td>component</td>
             <td>ChannelGroupFilterComponent</td>
-            <td align="right" data-sort="46">
-                <span class="coverage-percent">46 %</span>
-                <span class="coverage-count">(6/13)</span>
-            </td>
-        </tr>
-        <tr class="medium">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./components/ChannelGroupTableComponent.html">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/channel-group-table/channel-group-table.component.ts</a>
-            </td>
-            <td>component</td>
-            <td>ChannelGroupTableComponent</td>
-            <td align="right" data-sort="27">
-                <span class="coverage-percent">27 %</span>
-                <span class="coverage-count">(5/18)</span>
+            <td align="right" data-sort="43">
+                <span class="coverage-percent">43 %</span>
+                <span class="coverage-count">(7/16)</span>
             </td>
         </tr>
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/CsvUploadComponent.html">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/csv-upload/csv-upload.component.ts</a>
-            </td>
-            <td>component</td>
-            <td>CsvUploadComponent</td>
-            <td align="right" data-sort="90">
-                <span class="coverage-percent">90 %</span>
-                <span class="coverage-count">(19/21)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./interfaces/SearchFilter.html">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/interfaces.ts</a>
+                <a href="./interfaces/SearchFilter.html">projects/squac-ui/src/app/features/channel-group/components/channel-group-filter/interfaces.ts</a>
             </td>
             <td>interface</td>
             <td>SearchFilter</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
                 <span class="coverage-count">(6/6)</span>
-            </td>
-        </tr>
-        <tr class="good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./components/MatchingRuleEditComponent.html">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts</a>
-            </td>
-            <td>component</td>
-            <td>MatchingRuleEditComponent</td>
-            <td align="right" data-sort="52">
-                <span class="coverage-percent">52 %</span>
-                <span class="coverage-count">(11/21)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./interfaces/MatchingRuleForm.html">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts</a>
-            </td>
-            <td>interface</td>
-            <td>MatchingRuleForm</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(8/8)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./interfaces/MatchingRulesForm.html">projects/squac-ui/src/app/features/channel-group/components/channel-group-edit/matching-rule-edit/matching-rule-edit.component.ts</a>
-            </td>
-            <td>interface</td>
-            <td>MatchingRulesForm</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(2/2)</span>
             </td>
         </tr>
         <tr class="medium">
@@ -746,9 +828,9 @@
             </td>
             <td>component</td>
             <td>ChannelGroupMapComponent</td>
-            <td align="right" data-sort="42">
-                <span class="coverage-percent">42 %</span>
-                <span class="coverage-count">(14/33)</span>
+            <td align="right" data-sort="44">
+                <span class="coverage-percent">44 %</span>
+                <span class="coverage-count">(15/34)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -775,22 +857,118 @@
                 <span class="coverage-count">(8/8)</span>
             </td>
         </tr>
-        <tr class="medium">
+        <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/ChannelGroupViewComponent.html">projects/squac-ui/src/app/features/channel-group/components/channel-group-view/channel-group-view.component.ts</a>
+                <a href="./components/ChannelGroupTableComponent.html">projects/squac-ui/src/app/features/channel-group/components/channel-group-table/channel-group-table.component.ts</a>
             </td>
             <td>component</td>
-            <td>ChannelGroupViewComponent</td>
-            <td align="right" data-sort="50">
-                <span class="coverage-percent">50 %</span>
-                <span class="coverage-count">(12/24)</span>
+            <td>ChannelGroupTableComponent</td>
+            <td align="right" data-sort="88">
+                <span class="coverage-percent">88 %</span>
+                <span class="coverage-count">(15/17)</span>
             </td>
         </tr>
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/ChannelGroupComponent.html">projects/squac-ui/src/app/features/channel-group/components/channel-group.component.ts</a>
+                <a href="./components/CsvUploadComponent.html">projects/squac-ui/src/app/features/channel-group/components/csv-upload/csv-upload.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>CsvUploadComponent</td>
+            <td align="right" data-sort="90">
+                <span class="coverage-percent">90 %</span>
+                <span class="coverage-count">(19/21)</span>
+            </td>
+        </tr>
+        <tr class="good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/MatchingRuleEditComponent.html">projects/squac-ui/src/app/features/channel-group/components/matching-rule-edit/matching-rule-edit.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>MatchingRuleEditComponent</td>
+            <td align="right" data-sort="52">
+                <span class="coverage-percent">52 %</span>
+                <span class="coverage-count">(11/21)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/MatchingRuleForm.html">projects/squac-ui/src/app/features/channel-group/components/matching-rule-edit/matching-rule-edit.component.ts</a>
+            </td>
+            <td>interface</td>
+            <td>MatchingRuleForm</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(8/8)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/MatchingRulesForm.html">projects/squac-ui/src/app/features/channel-group/components/matching-rule-edit/matching-rule-edit.component.ts</a>
+            </td>
+            <td>interface</td>
+            <td>MatchingRulesForm</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(2/2)</span>
+            </td>
+        </tr>
+        <tr class="good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/ChannelGroupDetailComponent.html">projects/squac-ui/src/app/features/channel-group/pages/detail/channel-group-detail.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>ChannelGroupDetailComponent</td>
+            <td align="right" data-sort="52">
+                <span class="coverage-percent">52 %</span>
+                <span class="coverage-count">(11/21)</span>
+            </td>
+        </tr>
+        <tr class="medium">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/ChannelGroupEditComponent.html">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>ChannelGroupEditComponent</td>
+            <td align="right" data-sort="44">
+                <span class="coverage-percent">44 %</span>
+                <span class="coverage-count">(26/58)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/ChannelGroupForm.html">projects/squac-ui/src/app/features/channel-group/pages/edit/channel-group-edit.component.ts</a>
+            </td>
+            <td>interface</td>
+            <td>ChannelGroupForm</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(3/3)</span>
+            </td>
+        </tr>
+        <tr class="medium">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/ChannelGroupViewComponent.html">projects/squac-ui/src/app/features/channel-group/pages/list/channel-group-view.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>ChannelGroupViewComponent</td>
+            <td align="right" data-sort="47">
+                <span class="coverage-percent">47 %</span>
+                <span class="coverage-count">(11/23)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/ChannelGroupComponent.html">projects/squac-ui/src/app/features/channel-group/pages/main/channel-group.component.ts</a>
             </td>
             <td>component</td>
             <td>ChannelGroupComponent</td>
@@ -799,88 +977,28 @@
                 <span class="coverage-count">(1/1)</span>
             </td>
         </tr>
-        <tr class="good">
+        <tr class="medium">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/ChannelFilterComponent.html">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/channel-filter/channel-filter.component.ts</a>
+                <a href="./components/ChannelFilterComponent.html">projects/squac-ui/src/app/features/dashboard/components/channel-filter/channel-filter.component.ts</a>
             </td>
             <td>component</td>
             <td>ChannelFilterComponent</td>
-            <td align="right" data-sort="52">
-                <span class="coverage-percent">52 %</span>
-                <span class="coverage-count">(9/17)</span>
-            </td>
-        </tr>
-        <tr class="medium">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./components/DashboardDetailComponent.html">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-detail.component.ts</a>
-            </td>
-            <td>component</td>
-            <td>DashboardDetailComponent</td>
             <td align="right" data-sort="50">
                 <span class="coverage-percent">50 %</span>
-                <span class="coverage-count">(17/34)</span>
+                <span class="coverage-count">(9/18)</span>
             </td>
         </tr>
         <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#DATE_PICKER_TIMERANGES">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/dashboard-time-ranges.ts</a>
-            </td>
-            <td>variable</td>
-            <td>DATE_PICKER_TIMERANGES</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(1/1)</span>
-            </td>
-        </tr>
-        <tr class="medium">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./components/DataTypeSelectorComponent.html">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/data-type-selector/data-type-selector.component.ts</a>
-            </td>
-            <td>component</td>
-            <td>DataTypeSelectorComponent</td>
-            <td align="right" data-sort="30">
-                <span class="coverage-percent">30 %</span>
-                <span class="coverage-count">(3/10)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./pipes/DataTypePipe.html">projects/squac-ui/src/app/features/dashboard/components/dashboard-detail/data-type-selector/data-type.pipe.ts</a>
-            </td>
-            <td>pipe</td>
-            <td>DataTypePipe</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(1/1)</span>
-            </td>
-        </tr>
-        <tr class="medium">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./components/DashboardEditEntryComponent.html">projects/squac-ui/src/app/features/dashboard/components/dashboard-edit/dashboard-edit-entry/dashboard-edit-entry.component.ts</a>
-            </td>
-            <td>component</td>
-            <td>DashboardEditEntryComponent</td>
-            <td align="right" data-sort="36">
-                <span class="coverage-percent">36 %</span>
-                <span class="coverage-count">(4/11)</span>
-            </td>
-        </tr>
-        <tr class="medium">
             <td>
                 <!-- miscellaneous -->
                 <a href="./components/DashboardEditComponent.html">projects/squac-ui/src/app/features/dashboard/components/dashboard-edit/dashboard-edit.component.ts</a>
             </td>
             <td>component</td>
             <td>DashboardEditComponent</td>
-            <td align="right" data-sort="31">
-                <span class="coverage-percent">31 %</span>
-                <span class="coverage-count">(6/19)</span>
+            <td align="right" data-sort="85">
+                <span class="coverage-percent">85 %</span>
+                <span class="coverage-count">(18/21)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -898,10 +1016,22 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/DashboardComponent.html">projects/squac-ui/src/app/features/dashboard/components/dashboard-main/dashboard.component.ts</a>
+                <a href="./components/DataTypeSelectorComponent.html">projects/squac-ui/src/app/features/dashboard/components/data-type-selector/data-type-selector.component.ts</a>
             </td>
             <td>component</td>
-            <td>DashboardComponent</td>
+            <td>DataTypeSelectorComponent</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(10/10)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./pipes/DataTypePipe.html">projects/squac-ui/src/app/features/dashboard/components/data-type-selector/data-type.pipe.ts</a>
+            </td>
+            <td>pipe</td>
+            <td>DataTypePipe</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
                 <span class="coverage-count">(1/1)</span>
@@ -910,31 +1040,7 @@
         <tr class="medium">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/DashboardViewComponent.html">projects/squac-ui/src/app/features/dashboard/components/dashboard-view/dashboard-view.component.ts</a>
-            </td>
-            <td>component</td>
-            <td>DashboardViewComponent</td>
-            <td align="right" data-sort="43">
-                <span class="coverage-percent">43 %</span>
-                <span class="coverage-count">(10/23)</span>
-            </td>
-        </tr>
-        <tr class="medium">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./components/MetricToggleComponent.html">projects/squac-ui/src/app/features/dashboard/components/widget-detail/metric-toggle/metric-toggle.component.ts</a>
-            </td>
-            <td>component</td>
-            <td>MetricToggleComponent</td>
-            <td align="right" data-sort="43">
-                <span class="coverage-percent">43 %</span>
-                <span class="coverage-count">(7/16)</span>
-            </td>
-        </tr>
-        <tr class="medium">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./components/WidgetDetailComponent.html">projects/squac-ui/src/app/features/dashboard/components/widget-detail/widget-detail.component.ts</a>
+                <a href="./components/WidgetDetailComponent.html">projects/squac-ui/src/app/features/dashboard/components/detail/widget-detail.component.ts</a>
             </td>
             <td>component</td>
             <td>WidgetDetailComponent</td>
@@ -946,19 +1052,19 @@
         <tr class="medium">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/WidgetEditEntryComponent.html">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-entry/widget-edit-entry.component.ts</a>
+                <a href="./components/MetricToggleComponent.html">projects/squac-ui/src/app/features/dashboard/components/metric-toggle/metric-toggle.component.ts</a>
             </td>
             <td>component</td>
-            <td>WidgetEditEntryComponent</td>
-            <td align="right" data-sort="36">
-                <span class="coverage-percent">36 %</span>
-                <span class="coverage-count">(4/11)</span>
+            <td>MetricToggleComponent</td>
+            <td align="right" data-sort="43">
+                <span class="coverage-percent">43 %</span>
+                <span class="coverage-count">(7/16)</span>
             </td>
         </tr>
         <tr class="medium">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/WidgetEditInfoComponent.html">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-edit-info.component.ts</a>
+                <a href="./components/WidgetEditInfoComponent.html">projects/squac-ui/src/app/features/dashboard/components/widget-edit-info/widget-edit-info.component.ts</a>
             </td>
             <td>component</td>
             <td>WidgetEditInfoComponent</td>
@@ -970,7 +1076,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/WidgetForm.html">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-edit-info.component.ts</a>
+                <a href="./interfaces/WidgetForm.html">projects/squac-ui/src/app/features/dashboard/components/widget-edit-info/widget-edit-info.component.ts</a>
             </td>
             <td>interface</td>
             <td>WidgetForm</td>
@@ -979,82 +1085,22 @@
                 <span class="coverage-count">(5/5)</span>
             </td>
         </tr>
-        <tr class="very-good">
+        <tr class="good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#channels">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-example-config.ts</a>
-            </td>
-            <td>variable</td>
-            <td>channels</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(1/1)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#endtime">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-example-config.ts</a>
-            </td>
-            <td>variable</td>
-            <td>endtime</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(1/1)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#selectedMetrics">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-example-config.ts</a>
-            </td>
-            <td>variable</td>
-            <td>selectedMetrics</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(1/1)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#starttime">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-example-config.ts</a>
-            </td>
-            <td>variable</td>
-            <td>starttime</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(1/1)</span>
-            </td>
-        </tr>
-        <tr class="medium">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./directives/WidgetTypeExampleDirective.html">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-info/widget-type-example/widget-type-example.directive.ts</a>
-            </td>
-            <td>directive</td>
-            <td>WidgetTypeExampleDirective</td>
-            <td align="right" data-sort="36">
-                <span class="coverage-percent">36 %</span>
-                <span class="coverage-count">(9/25)</span>
-            </td>
-        </tr>
-        <tr class="medium">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./components/WidgetEditMetricsComponent.html">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-metrics/widget-edit-metrics.component.ts</a>
+                <a href="./components/WidgetEditMetricsComponent.html">projects/squac-ui/src/app/features/dashboard/components/widget-edit-metrics/widget-edit-metrics.component.ts</a>
             </td>
             <td>component</td>
             <td>WidgetEditMetricsComponent</td>
-            <td align="right" data-sort="36">
-                <span class="coverage-percent">36 %</span>
-                <span class="coverage-count">(7/19)</span>
+            <td align="right" data-sort="57">
+                <span class="coverage-percent">57 %</span>
+                <span class="coverage-count">(11/19)</span>
             </td>
         </tr>
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/OptionForm.html">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/interfaces.ts</a>
+                <a href="./interfaces/OptionForm.html">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/interfaces.ts</a>
             </td>
             <td>interface</td>
             <td>OptionForm</td>
@@ -1066,7 +1112,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/OptionsForm.html">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/interfaces.ts</a>
+                <a href="./interfaces/OptionsForm.html">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/interfaces.ts</a>
             </td>
             <td>interface</td>
             <td>OptionsForm</td>
@@ -1078,7 +1124,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/ThresholdForm.html">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/interfaces.ts</a>
+                <a href="./interfaces/ThresholdForm.html">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/interfaces.ts</a>
             </td>
             <td>interface</td>
             <td>ThresholdForm</td>
@@ -1090,13 +1136,13 @@
         <tr class="medium">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/WidgetEditOptionsComponent.html">projects/squac-ui/src/app/features/dashboard/components/widget-edit/widget-edit-options/widget-edit-options.component.ts</a>
+                <a href="./components/WidgetEditOptionsComponent.html">projects/squac-ui/src/app/features/dashboard/components/widget-edit-options/widget-edit-options.component.ts</a>
             </td>
             <td>component</td>
             <td>WidgetEditOptionsComponent</td>
-            <td align="right" data-sort="46">
-                <span class="coverage-percent">46 %</span>
-                <span class="coverage-count">(13/28)</span>
+            <td align="right" data-sort="48">
+                <span class="coverage-percent">48 %</span>
+                <span class="coverage-count">(13/27)</span>
             </td>
         </tr>
         <tr class="medium">
@@ -1111,10 +1157,142 @@
                 <span class="coverage-count">(6/16)</span>
             </td>
         </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#endtime">projects/squac-ui/src/app/features/dashboard/components/widget-type-example/widget-example-config.ts</a>
+            </td>
+            <td>variable</td>
+            <td>endtime</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#getFakeChannels">projects/squac-ui/src/app/features/dashboard/components/widget-type-example/widget-example-config.ts</a>
+            </td>
+            <td>variable</td>
+            <td>getFakeChannels</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#getFakeMetrics">projects/squac-ui/src/app/features/dashboard/components/widget-type-example/widget-example-config.ts</a>
+            </td>
+            <td>variable</td>
+            <td>getFakeMetrics</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#starttime">projects/squac-ui/src/app/features/dashboard/components/widget-type-example/widget-example-config.ts</a>
+            </td>
+            <td>variable</td>
+            <td>starttime</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
         <tr class="medium">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/WidgetMainComponent.html">projects/squac-ui/src/app/features/dashboard/components/widget-main/widget-main.component.ts</a>
+                <a href="./directives/WidgetTypeExampleDirective.html">projects/squac-ui/src/app/features/dashboard/components/widget-type-example/widget-type-example.directive.ts</a>
+            </td>
+            <td>directive</td>
+            <td>WidgetTypeExampleDirective</td>
+            <td align="right" data-sort="36">
+                <span class="coverage-percent">36 %</span>
+                <span class="coverage-count">(9/25)</span>
+            </td>
+        </tr>
+        <tr class="good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/DashboardDetailComponent.html">projects/squac-ui/src/app/features/dashboard/pages/detail/dashboard-detail.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>DashboardDetailComponent</td>
+            <td align="right" data-sort="51">
+                <span class="coverage-percent">51 %</span>
+                <span class="coverage-count">(19/37)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#DATE_PICKER_TIMERANGES">projects/squac-ui/src/app/features/dashboard/pages/detail/dashboard-time-ranges.ts</a>
+            </td>
+            <td>variable</td>
+            <td>DATE_PICKER_TIMERANGES</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="medium">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/DashboardEditEntryComponent.html">projects/squac-ui/src/app/features/dashboard/pages/edit/dashboard-edit-entry.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>DashboardEditEntryComponent</td>
+            <td align="right" data-sort="36">
+                <span class="coverage-percent">36 %</span>
+                <span class="coverage-count">(4/11)</span>
+            </td>
+        </tr>
+        <tr class="medium">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/DashboardViewComponent.html">projects/squac-ui/src/app/features/dashboard/pages/list/dashboard-view.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>DashboardViewComponent</td>
+            <td align="right" data-sort="45">
+                <span class="coverage-percent">45 %</span>
+                <span class="coverage-count">(9/20)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/DashboardComponent.html">projects/squac-ui/src/app/features/dashboard/pages/main/dashboard.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>DashboardComponent</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="medium">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/WidgetEditEntryComponent.html">projects/squac-ui/src/app/features/dashboard/pages/widget-edit/widget-edit-entry.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>WidgetEditEntryComponent</td>
+            <td align="right" data-sort="36">
+                <span class="coverage-percent">36 %</span>
+                <span class="coverage-count">(4/11)</span>
+            </td>
+        </tr>
+        <tr class="medium">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/WidgetMainComponent.html">projects/squac-ui/src/app/features/dashboard/pages/widget-main/widget-main.component.ts</a>
             </td>
             <td>component</td>
             <td>WidgetMainComponent</td>
@@ -1126,7 +1304,7 @@
         <tr class="medium">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/WidgetGridsterItem.html">projects/squac-ui/src/app/features/dashboard/components/widget-main/widget-main.component.ts</a>
+                <a href="./interfaces/WidgetGridsterItem.html">projects/squac-ui/src/app/features/dashboard/pages/widget-main/widget-main.component.ts</a>
             </td>
             <td>interface</td>
             <td>WidgetGridsterItem</td>
@@ -1144,7 +1322,7 @@
             <td>ViewService</td>
             <td align="right" data-sort="52">
                 <span class="coverage-percent">52 %</span>
-                <span class="coverage-count">(25/48)</span>
+                <span class="coverage-count">(26/50)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -1157,18 +1335,6 @@
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
                 <span class="coverage-count">(6/6)</span>
-            </td>
-        </tr>
-        <tr class="medium">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./components/MetricEditEntryComponent.html">projects/squac-ui/src/app/features/metric/components/metric-edit/metric-edit-entry/metric-edit-entry.component.ts</a>
-            </td>
-            <td>component</td>
-            <td>MetricEditEntryComponent</td>
-            <td align="right" data-sort="44">
-                <span class="coverage-percent">44 %</span>
-                <span class="coverage-count">(4/9)</span>
             </td>
         </tr>
         <tr class="medium">
@@ -1198,37 +1364,37 @@
         <tr class="medium">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/MetricViewComponent.html">projects/squac-ui/src/app/features/metric/components/metric-view/metric-view.component.ts</a>
+                <a href="./components/MetricEditEntryComponent.html">projects/squac-ui/src/app/features/metric/pages/edit/metric-edit-entry.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>MetricEditEntryComponent</td>
+            <td align="right" data-sort="44">
+                <span class="coverage-percent">44 %</span>
+                <span class="coverage-count">(4/9)</span>
+            </td>
+        </tr>
+        <tr class="medium">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/MetricViewComponent.html">projects/squac-ui/src/app/features/metric/pages/list/metric-view.component.ts</a>
             </td>
             <td>component</td>
             <td>MetricViewComponent</td>
-            <td align="right" data-sort="41">
-                <span class="coverage-percent">41 %</span>
-                <span class="coverage-count">(7/17)</span>
+            <td align="right" data-sort="37">
+                <span class="coverage-percent">37 %</span>
+                <span class="coverage-count">(6/16)</span>
             </td>
         </tr>
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/MetricComponent.html">projects/squac-ui/src/app/features/metric/components/metric/metric.component.ts</a>
+                <a href="./components/MetricComponent.html">projects/squac-ui/src/app/features/metric/pages/main/metric.component.ts</a>
             </td>
             <td>component</td>
             <td>MetricComponent</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
                 <span class="coverage-count">(1/1)</span>
-            </td>
-        </tr>
-        <tr class="medium">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./components/AlertViewComponent.html">projects/squac-ui/src/app/features/monitor/components/alert-view/alert-view.component.ts</a>
-            </td>
-            <td>component</td>
-            <td>AlertViewComponent</td>
-            <td align="right" data-sort="28">
-                <span class="coverage-percent">28 %</span>
-                <span class="coverage-count">(9/32)</span>
             </td>
         </tr>
         <tr class="medium">
@@ -1246,7 +1412,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/ChannelData.html">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-channel-history-chart/interfaces.ts</a>
+                <a href="./interfaces/ChannelData.html">projects/squac-ui/src/app/features/monitor/components/monitor-channel-history-chart/interfaces.ts</a>
             </td>
             <td>interface</td>
             <td>ChannelData</td>
@@ -1255,64 +1421,16 @@
                 <span class="coverage-count">(6/6)</span>
             </td>
         </tr>
-        <tr class="low">
+        <tr class="good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/MonitorChannelHistoryChartComponent.html">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-channel-history-chart/monitor-channel-history-chart.component.ts</a>
+                <a href="./components/MonitorChannelHistoryChartComponent.html">projects/squac-ui/src/app/features/monitor/components/monitor-channel-history-chart/monitor-channel-history-chart.component.ts</a>
             </td>
             <td>component</td>
             <td>MonitorChannelHistoryChartComponent</td>
-            <td align="right" data-sort="23">
-                <span class="coverage-percent">23 %</span>
-                <span class="coverage-count">(14/59)</span>
-            </td>
-        </tr>
-        <tr class="medium">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./components/MonitorDetailComponent.html">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-detail.component.ts</a>
-            </td>
-            <td>component</td>
-            <td>MonitorDetailComponent</td>
-            <td align="right" data-sort="28">
-                <span class="coverage-percent">28 %</span>
-                <span class="coverage-count">(9/32)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./interfaces/ChannelData.html">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-history-chart/interfaces.ts</a>
-            </td>
-            <td>interface</td>
-            <td>ChannelData</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(6/6)</span>
-            </td>
-        </tr>
-        <tr class="medium">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./components/MonitorHistoryChartComponent.html">projects/squac-ui/src/app/features/monitor/components/monitor-detail/monitor-history-chart/monitor-history-chart.component.ts</a>
-            </td>
-            <td>component</td>
-            <td>MonitorHistoryChartComponent</td>
-            <td align="right" data-sort="26">
-                <span class="coverage-percent">26 %</span>
-                <span class="coverage-count">(15/57)</span>
-            </td>
-        </tr>
-        <tr class="medium">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./components/MonitorEditEntryComponent.html">projects/squac-ui/src/app/features/monitor/components/monitor-edit-entry/monitor-edit-entry.component.ts</a>
-            </td>
-            <td>component</td>
-            <td>MonitorEditEntryComponent</td>
-            <td align="right" data-sort="36">
-                <span class="coverage-percent">36 %</span>
-                <span class="coverage-count">(4/11)</span>
+            <td align="right" data-sort="54">
+                <span class="coverage-percent">54 %</span>
+                <span class="coverage-count">(31/57)</span>
             </td>
         </tr>
         <tr class="medium">
@@ -1351,76 +1469,88 @@
                 <span class="coverage-count">(9/9)</span>
             </td>
         </tr>
-        <tr class="medium">
+        <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/MonitorViewComponent.html">projects/squac-ui/src/app/features/monitor/components/monitor-view/monitor-view.component.ts</a>
+                <a href="./interfaces/ChannelData.html">projects/squac-ui/src/app/features/monitor/components/monitor-history-chart/interfaces.ts</a>
+            </td>
+            <td>interface</td>
+            <td>ChannelData</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(6/6)</span>
+            </td>
+        </tr>
+        <tr class="good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/MonitorHistoryChartComponent.html">projects/squac-ui/src/app/features/monitor/components/monitor-history-chart/monitor-history-chart.component.ts</a>
             </td>
             <td>component</td>
-            <td>MonitorViewComponent</td>
-            <td align="right" data-sort="46">
-                <span class="coverage-percent">46 %</span>
-                <span class="coverage-count">(14/30)</span>
+            <td>MonitorHistoryChartComponent</td>
+            <td align="right" data-sort="52">
+                <span class="coverage-percent">52 %</span>
+                <span class="coverage-count">(29/55)</span>
             </td>
         </tr>
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/MonitorComponent.html">projects/squac-ui/src/app/features/monitor/components/monitor/monitor.component.ts</a>
+                <a href="./components/AlertViewComponent.html">projects/squac-ui/src/app/features/monitor/pages/alert-list/alert-view.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>AlertViewComponent</td>
+            <td align="right" data-sort="86">
+                <span class="coverage-percent">86 %</span>
+                <span class="coverage-count">(25/29)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/MonitorDetailComponent.html">projects/squac-ui/src/app/features/monitor/pages/detail/monitor-detail.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>MonitorDetailComponent</td>
+            <td align="right" data-sort="94">
+                <span class="coverage-percent">94 %</span>
+                <span class="coverage-count">(34/36)</span>
+            </td>
+        </tr>
+        <tr class="medium">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/MonitorEditEntryComponent.html">projects/squac-ui/src/app/features/monitor/pages/edit/monitor-edit-entry.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>MonitorEditEntryComponent</td>
+            <td align="right" data-sort="36">
+                <span class="coverage-percent">36 %</span>
+                <span class="coverage-count">(4/11)</span>
+            </td>
+        </tr>
+        <tr class="medium">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/MonitorViewComponent.html">projects/squac-ui/src/app/features/monitor/pages/list/monitor-view.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>MonitorViewComponent</td>
+            <td align="right" data-sort="48">
+                <span class="coverage-percent">48 %</span>
+                <span class="coverage-count">(14/29)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/MonitorComponent.html">projects/squac-ui/src/app/features/monitor/pages/main/monitor.component.ts</a>
             </td>
             <td>component</td>
             <td>MonitorComponent</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
                 <span class="coverage-count">(1/1)</span>
-            </td>
-        </tr>
-        <tr class="medium">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./components/LoginComponent.html">projects/squac-ui/src/app/features/user/components/login/login.component.ts</a>
-            </td>
-            <td>component</td>
-            <td>LoginComponent</td>
-            <td align="right" data-sort="33">
-                <span class="coverage-percent">33 %</span>
-                <span class="coverage-count">(3/9)</span>
-            </td>
-        </tr>
-        <tr class="medium">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./interfaces/LoginForm.html">projects/squac-ui/src/app/features/user/components/login/login.component.ts</a>
-            </td>
-            <td>interface</td>
-            <td>LoginForm</td>
-            <td align="right" data-sort="33">
-                <span class="coverage-percent">33 %</span>
-                <span class="coverage-count">(1/3)</span>
-            </td>
-        </tr>
-        <tr class="medium">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./components/OrganizationDetailComponent.html">projects/squac-ui/src/app/features/user/components/organization-detail/organization-detail.component.ts</a>
-            </td>
-            <td>component</td>
-            <td>OrganizationDetailComponent</td>
-            <td align="right" data-sort="39">
-                <span class="coverage-percent">39 %</span>
-                <span class="coverage-count">(11/28)</span>
-            </td>
-        </tr>
-        <tr class="medium">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./components/OrganizationEditEntryComponent.html">projects/squac-ui/src/app/features/user/components/organization-edit-entry/organization-edit-entry.component.ts</a>
-            </td>
-            <td>component</td>
-            <td>OrganizationEditEntryComponent</td>
-            <td align="right" data-sort="40">
-                <span class="coverage-percent">40 %</span>
-                <span class="coverage-count">(4/10)</span>
             </td>
         </tr>
         <tr class="medium">
@@ -1450,67 +1580,7 @@
         <tr class="medium">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/OrganizationsViewComponent.html">projects/squac-ui/src/app/features/user/components/organizations-view/organizations-view.component.ts</a>
-            </td>
-            <td>component</td>
-            <td>OrganizationsViewComponent</td>
-            <td align="right" data-sort="44">
-                <span class="coverage-percent">44 %</span>
-                <span class="coverage-count">(4/9)</span>
-            </td>
-        </tr>
-        <tr class="medium">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./components/PasswordResetComponent.html">projects/squac-ui/src/app/features/user/components/password-reset/password-reset.component.ts</a>
-            </td>
-            <td>component</td>
-            <td>PasswordResetComponent</td>
-            <td align="right" data-sort="33">
-                <span class="coverage-percent">33 %</span>
-                <span class="coverage-count">(5/15)</span>
-            </td>
-        </tr>
-        <tr class="medium">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./components/UserEditComponent.html">projects/squac-ui/src/app/features/user/components/user-edit/user-edit.component.ts</a>
-            </td>
-            <td>component</td>
-            <td>UserEditComponent</td>
-            <td align="right" data-sort="36">
-                <span class="coverage-percent">36 %</span>
-                <span class="coverage-count">(4/11)</span>
-            </td>
-        </tr>
-        <tr class="medium">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./interfaces/PasswordsForm.html">projects/squac-ui/src/app/features/user/components/user-edit/user-edit.component.ts</a>
-            </td>
-            <td>interface</td>
-            <td>PasswordsForm</td>
-            <td align="right" data-sort="33">
-                <span class="coverage-percent">33 %</span>
-                <span class="coverage-count">(1/3)</span>
-            </td>
-        </tr>
-        <tr class="low">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./interfaces/UserForm.html">projects/squac-ui/src/app/features/user/components/user-edit/user-edit.component.ts</a>
-            </td>
-            <td>interface</td>
-            <td>UserForm</td>
-            <td align="right" data-sort="25">
-                <span class="coverage-percent">25 %</span>
-                <span class="coverage-count">(1/4)</span>
-            </td>
-        </tr>
-        <tr class="medium">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./components/UserSettingsComponent.html">projects/squac-ui/src/app/features/user/components/user-settings/user-settings.component.ts</a>
+                <a href="./components/UserSettingsComponent.html">projects/squac-ui/src/app/features/user/pages/detail/user-settings.component.ts</a>
             </td>
             <td>component</td>
             <td>UserSettingsComponent</td>
@@ -1522,7 +1592,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/UserForm.html">projects/squac-ui/src/app/features/user/components/user-settings/user-settings.component.ts</a>
+                <a href="./interfaces/UserForm.html">projects/squac-ui/src/app/features/user/pages/detail/user-settings.component.ts</a>
             </td>
             <td>interface</td>
             <td>UserForm</td>
@@ -1534,13 +1604,49 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/UserComponent.html">projects/squac-ui/src/app/features/user/components/user/user.component.ts</a>
+                <a href="./components/UserComponent.html">projects/squac-ui/src/app/features/user/pages/main/user.component.ts</a>
             </td>
             <td>component</td>
             <td>UserComponent</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
                 <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="medium">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/OrganizationDetailComponent.html">projects/squac-ui/src/app/features/user/pages/organization-detail/organization-detail.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>OrganizationDetailComponent</td>
+            <td align="right" data-sort="34">
+                <span class="coverage-percent">34 %</span>
+                <span class="coverage-count">(10/29)</span>
+            </td>
+        </tr>
+        <tr class="medium">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/OrganizationEditEntryComponent.html">projects/squac-ui/src/app/features/user/pages/organization-edit/organization-edit-entry.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>OrganizationEditEntryComponent</td>
+            <td align="right" data-sort="40">
+                <span class="coverage-percent">40 %</span>
+                <span class="coverage-count">(4/10)</span>
+            </td>
+        </tr>
+        <tr class="medium">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/OrganizationsViewComponent.html">projects/squac-ui/src/app/features/user/pages/organization-list/organizations-view.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>OrganizationsViewComponent</td>
+            <td align="right" data-sort="44">
+                <span class="coverage-percent">44 %</span>
+                <span class="coverage-count">(4/9)</span>
             </td>
         </tr>
         <tr class="good">
@@ -1567,16 +1673,16 @@
                 <span class="coverage-count">(13/15)</span>
             </td>
         </tr>
-        <tr class="low">
+        <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
                 <a href="./interfaces/Group.html">projects/squac-ui/src/app/shared/components/channel-group-selector/channel-group-selector.component.ts</a>
             </td>
             <td>interface</td>
             <td>Group</td>
-            <td align="right" data-sort="25">
-                <span class="coverage-percent">25 %</span>
-                <span class="coverage-count">(1/4)</span>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(4/4)</span>
             </td>
         </tr>
         <tr class="good">
@@ -1598,9 +1704,9 @@
             </td>
             <td>component</td>
             <td>DateSelectComponent</td>
-            <td align="right" data-sort="33">
-                <span class="coverage-percent">33 %</span>
-                <span class="coverage-count">(8/24)</span>
+            <td align="right" data-sort="34">
+                <span class="coverage-percent">34 %</span>
+                <span class="coverage-count">(8/23)</span>
             </td>
         </tr>
         <tr class="medium">
@@ -1627,16 +1733,16 @@
                 <span class="coverage-count">(4/4)</span>
             </td>
         </tr>
-        <tr class="medium">
+        <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
                 <a href="./components/DetailPageComponent.html">projects/squac-ui/src/app/shared/components/detail-page/detail-page.component.ts</a>
             </td>
             <td>component</td>
             <td>DetailPageComponent</td>
-            <td align="right" data-sort="28">
-                <span class="coverage-percent">28 %</span>
-                <span class="coverage-count">(4/14)</span>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(14/14)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -1759,52 +1865,40 @@
                 <span class="coverage-count">(4/4)</span>
             </td>
         </tr>
-        <tr class="medium">
+        <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
                 <a href="./components/SharingToggleComponent.html">projects/squac-ui/src/app/shared/components/sharing-toggle/sharing-toggle.component.ts</a>
             </td>
             <td>component</td>
             <td>SharingToggleComponent</td>
-            <td align="right" data-sort="26">
-                <span class="coverage-percent">26 %</span>
-                <span class="coverage-count">(4/15)</span>
+            <td align="right" data-sort="93">
+                <span class="coverage-percent">93 %</span>
+                <span class="coverage-count">(15/16)</span>
             </td>
         </tr>
-        <tr class="low">
+        <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
                 <a href="./interfaces/FilterText.html">projects/squac-ui/src/app/shared/components/sharing-toggle/sharing-toggle.interface.ts</a>
             </td>
             <td>interface</td>
             <td>FilterText</td>
-            <td align="right" data-sort="25">
-                <span class="coverage-percent">25 %</span>
-                <span class="coverage-count">(1/4)</span>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(4/4)</span>
             </td>
         </tr>
-        <tr class="medium">
+        <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
                 <a href="./interfaces/SharedToggleFilter.html">projects/squac-ui/src/app/shared/components/sharing-toggle/sharing-toggle.interface.ts</a>
             </td>
             <td>interface</td>
             <td>SharedToggleFilter</td>
-            <td align="right" data-sort="33">
-                <span class="coverage-percent">33 %</span>
-                <span class="coverage-count">(1/3)</span>
-            </td>
-        </tr>
-        <tr class="medium">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./components/SnackbarComponent.html">projects/squac-ui/src/app/shared/components/snackbar/snackbar.component.ts</a>
-            </td>
-            <td>component</td>
-            <td>SnackbarComponent</td>
-            <td align="right" data-sort="37">
-                <span class="coverage-percent">37 %</span>
-                <span class="coverage-count">(3/8)</span>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(3/3)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -1817,6 +1911,18 @@
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
                 <span class="coverage-count">(3/3)</span>
+            </td>
+        </tr>
+        <tr class="good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/TableColumn.html">projects/squac-ui/src/app/shared/components/table-view/interfaces.ts</a>
+            </td>
+            <td>interface</td>
+            <td>TableColumn</td>
+            <td align="right" data-sort="75">
+                <span class="coverage-percent">75 %</span>
+                <span class="coverage-count">(3/4)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -1900,19 +2006,31 @@
             <td>TableOptions</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(21/21)</span>
+                <span class="coverage-count">(6/6)</span>
             </td>
         </tr>
-        <tr class="medium">
+        <tr class="good">
             <td>
                 <!-- miscellaneous -->
                 <a href="./components/TableViewComponent.html">projects/squac-ui/src/app/shared/components/table-view/table-view.component.ts</a>
             </td>
             <td>component</td>
             <td>TableViewComponent</td>
-            <td align="right" data-sort="38">
-                <span class="coverage-percent">38 %</span>
-                <span class="coverage-count">(22/57)</span>
+            <td align="right" data-sort="52">
+                <span class="coverage-percent">52 %</span>
+                <span class="coverage-count">(24/46)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/TooltipComponent.html">projects/squac-ui/src/app/shared/components/tooltip/tooltip.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>TooltipComponent</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(7/7)</span>
             </td>
         </tr>
         <tr class="medium">
@@ -1942,25 +2060,37 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./components/TooltipComponent.html">projects/squac-ui/src/app/ui/tooltip/tooltip.component.ts</a>
-            </td>
-            <td>component</td>
-            <td>TooltipComponent</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(7/7)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./directives/TooltipDirective.html">projects/squac-ui/src/app/ui/tooltip/tooltip.directive.ts</a>
+                <a href="./directives/TooltipDirective.html">projects/squac-ui/src/app/shared/directives/tooltip.directive.ts</a>
             </td>
             <td>directive</td>
             <td>TooltipDirective</td>
             <td align="right" data-sort="94">
                 <span class="coverage-percent">94 %</span>
                 <span class="coverage-count">(16/17)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/MaterialTestComponent.html">projects/squac-ui/src/app/ui/example-module/material-test/test.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>MaterialTestComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/TestComponent.html">projects/squac-ui/src/app/ui/example-module/test/test.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>TestComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/2)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -2356,31 +2486,31 @@
             <td>DashboardProperties</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(7/7)</span>
+                <span class="coverage-count">(9/9)</span>
             </td>
         </tr>
-        <tr class="medium">
+        <tr class="good">
             <td>
                 <!-- miscellaneous -->
                 <a href="./classes/ReadOnlyResourceModel.html">projects/squacapi/src/lib/interfaces/squac-object.interface.ts</a>
             </td>
             <td>class</td>
             <td>ReadOnlyResourceModel</td>
-            <td align="right" data-sort="50">
-                <span class="coverage-percent">50 %</span>
-                <span class="coverage-count">(2/4)</span>
+            <td align="right" data-sort="66">
+                <span class="coverage-percent">66 %</span>
+                <span class="coverage-count">(2/3)</span>
             </td>
         </tr>
-        <tr class="medium">
+        <tr class="good">
             <td>
                 <!-- miscellaneous -->
                 <a href="./classes/ResourceModel.html">projects/squacapi/src/lib/interfaces/squac-object.interface.ts</a>
             </td>
             <td>class</td>
             <td>ResourceModel</td>
-            <td align="right" data-sort="50">
-                <span class="coverage-percent">50 %</span>
-                <span class="coverage-count">(2/4)</span>
+            <td align="right" data-sort="66">
+                <span class="coverage-percent">66 %</span>
+                <span class="coverage-count">(2/3)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -2539,88 +2669,88 @@
                 <span class="coverage-count">(1/1)</span>
             </td>
         </tr>
-        <tr class="good">
+        <tr class="medium">
             <td>
                 <!-- miscellaneous -->
                 <a href="./injectables/AggregateService.html">projects/squacapi/src/lib/services/aggregate.service.ts</a>
             </td>
             <td>injectable</td>
             <td>AggregateService</td>
-            <td align="right" data-sort="60">
-                <span class="coverage-percent">60 %</span>
-                <span class="coverage-count">(6/10)</span>
+            <td align="right" data-sort="50">
+                <span class="coverage-percent">50 %</span>
+                <span class="coverage-count">(1/2)</span>
             </td>
         </tr>
-        <tr class="good">
+        <tr class="medium">
             <td>
                 <!-- miscellaneous -->
                 <a href="./injectables/AlertService.html">projects/squacapi/src/lib/services/alert.service.ts</a>
             </td>
             <td>injectable</td>
             <td>AlertService</td>
-            <td align="right" data-sort="60">
-                <span class="coverage-percent">60 %</span>
-                <span class="coverage-count">(6/10)</span>
+            <td align="right" data-sort="50">
+                <span class="coverage-percent">50 %</span>
+                <span class="coverage-count">(1/2)</span>
             </td>
         </tr>
-        <tr class="good">
+        <tr class="medium">
             <td>
                 <!-- miscellaneous -->
                 <a href="./injectables/DayArchiveService.html">projects/squacapi/src/lib/services/archive.service.ts</a>
             </td>
             <td>injectable</td>
             <td>DayArchiveService</td>
-            <td align="right" data-sort="60">
-                <span class="coverage-percent">60 %</span>
-                <span class="coverage-count">(6/10)</span>
+            <td align="right" data-sort="50">
+                <span class="coverage-percent">50 %</span>
+                <span class="coverage-count">(1/2)</span>
             </td>
         </tr>
-        <tr class="good">
+        <tr class="medium">
             <td>
                 <!-- miscellaneous -->
                 <a href="./injectables/HourArchiveService.html">projects/squacapi/src/lib/services/archive.service.ts</a>
             </td>
             <td>injectable</td>
             <td>HourArchiveService</td>
-            <td align="right" data-sort="60">
-                <span class="coverage-percent">60 %</span>
-                <span class="coverage-count">(6/10)</span>
+            <td align="right" data-sort="50">
+                <span class="coverage-percent">50 %</span>
+                <span class="coverage-count">(1/2)</span>
             </td>
         </tr>
-        <tr class="good">
+        <tr class="medium">
             <td>
                 <!-- miscellaneous -->
                 <a href="./injectables/MonthArchiveService.html">projects/squacapi/src/lib/services/archive.service.ts</a>
             </td>
             <td>injectable</td>
             <td>MonthArchiveService</td>
-            <td align="right" data-sort="60">
-                <span class="coverage-percent">60 %</span>
-                <span class="coverage-count">(6/10)</span>
+            <td align="right" data-sort="50">
+                <span class="coverage-percent">50 %</span>
+                <span class="coverage-count">(1/2)</span>
             </td>
         </tr>
-        <tr class="good">
+        <tr class="medium">
             <td>
                 <!-- miscellaneous -->
                 <a href="./injectables/WeekArchiveService.html">projects/squacapi/src/lib/services/archive.service.ts</a>
             </td>
             <td>injectable</td>
             <td>WeekArchiveService</td>
-            <td align="right" data-sort="60">
-                <span class="coverage-percent">60 %</span>
-                <span class="coverage-count">(6/10)</span>
+            <td align="right" data-sort="50">
+                <span class="coverage-percent">50 %</span>
+                <span class="coverage-count">(1/2)</span>
             </td>
         </tr>
-        <tr class="very-good">
+        <tr class="good">
             <td>
                 <!-- miscellaneous -->
                 <a href="./injectables/ChannelGroupService.html">projects/squacapi/src/lib/services/channel-group.service.ts</a>
             </td>
             <td>injectable</td>
             <td>ChannelGroupService</td>
-            <td align="right" data-sort="76">
-                <span class="coverage-percent">76 %</span>
-                <span class="coverage-count">(13/17)</span>
+            <td align="right" data-sort="66">
+                <span class="coverage-percent">66 %</span>
+                <span class="coverage-count">(2/3)</span>
             </td>
         </tr>
         <tr class="good">
@@ -2630,21 +2760,21 @@
             </td>
             <td>injectable</td>
             <td>ChannelService</td>
-            <td align="right" data-sort="63">
-                <span class="coverage-percent">63 %</span>
-                <span class="coverage-count">(7/11)</span>
+            <td align="right" data-sort="66">
+                <span class="coverage-percent">66 %</span>
+                <span class="coverage-count">(2/3)</span>
             </td>
         </tr>
-        <tr class="good">
+        <tr class="medium">
             <td>
                 <!-- miscellaneous -->
                 <a href="./injectables/DashboardService.html">projects/squacapi/src/lib/services/dashboard.service.ts</a>
             </td>
             <td>injectable</td>
             <td>DashboardService</td>
-            <td align="right" data-sort="75">
-                <span class="coverage-percent">75 %</span>
-                <span class="coverage-count">(12/16)</span>
+            <td align="right" data-sort="50">
+                <span class="coverage-percent">50 %</span>
+                <span class="coverage-count">(1/2)</span>
             </td>
         </tr>
         <tr class="medium">
@@ -2683,76 +2813,76 @@
                 <span class="coverage-count">(3/4)</span>
             </td>
         </tr>
-        <tr class="good">
+        <tr class="medium">
             <td>
                 <!-- miscellaneous -->
                 <a href="./injectables/MatchingRuleService.html">projects/squacapi/src/lib/services/matching-rule.service.ts</a>
             </td>
             <td>injectable</td>
             <td>MatchingRuleService</td>
-            <td align="right" data-sort="75">
-                <span class="coverage-percent">75 %</span>
-                <span class="coverage-count">(12/16)</span>
+            <td align="right" data-sort="50">
+                <span class="coverage-percent">50 %</span>
+                <span class="coverage-count">(1/2)</span>
             </td>
         </tr>
-        <tr class="good">
+        <tr class="medium">
             <td>
                 <!-- miscellaneous -->
                 <a href="./injectables/MeasurementService.html">projects/squacapi/src/lib/services/measurement.service.ts</a>
             </td>
             <td>injectable</td>
             <td>MeasurementService</td>
-            <td align="right" data-sort="60">
-                <span class="coverage-percent">60 %</span>
-                <span class="coverage-count">(6/10)</span>
+            <td align="right" data-sort="50">
+                <span class="coverage-percent">50 %</span>
+                <span class="coverage-count">(1/2)</span>
             </td>
         </tr>
-        <tr class="good">
+        <tr class="medium">
             <td>
                 <!-- miscellaneous -->
                 <a href="./injectables/MetricService.html">projects/squacapi/src/lib/services/metric.service.ts</a>
             </td>
             <td>injectable</td>
             <td>MetricService</td>
-            <td align="right" data-sort="75">
-                <span class="coverage-percent">75 %</span>
-                <span class="coverage-count">(12/16)</span>
+            <td align="right" data-sort="50">
+                <span class="coverage-percent">50 %</span>
+                <span class="coverage-count">(1/2)</span>
             </td>
         </tr>
-        <tr class="good">
+        <tr class="medium">
             <td>
                 <!-- miscellaneous -->
                 <a href="./injectables/MonitorService.html">projects/squacapi/src/lib/services/monitor.service.ts</a>
             </td>
             <td>injectable</td>
             <td>MonitorService</td>
-            <td align="right" data-sort="75">
-                <span class="coverage-percent">75 %</span>
-                <span class="coverage-count">(12/16)</span>
+            <td align="right" data-sort="50">
+                <span class="coverage-percent">50 %</span>
+                <span class="coverage-count">(1/2)</span>
             </td>
         </tr>
-        <tr class="good">
+        <tr class="medium">
             <td>
                 <!-- miscellaneous -->
                 <a href="./injectables/NetworkService.html">projects/squacapi/src/lib/services/network.service.ts</a>
             </td>
             <td>injectable</td>
             <td>NetworkService</td>
-            <td align="right" data-sort="60">
-                <span class="coverage-percent">60 %</span>
-                <span class="coverage-count">(6/10)</span>
+            <td align="right" data-sort="50">
+                <span class="coverage-percent">50 %</span>
+                <span class="coverage-count">(1/2)</span>
             </td>
         </tr>
-        <tr class="good">
+        <tr class="medium">
             <td>
                 <!-- miscellaneous -->
                 <a href="./injectables/OrganizationUserService.html">projects/squacapi/src/lib/services/organization-user.service.ts</a>
             </td>
             <td>injectable</td>
             <td>OrganizationUserService</td>
-            <td align="right" data-sort="75">
-                <span class="coverage-percent">75 %</span>
-                <span class="coverage-count">(12/16)</span>
+            <td align="right" data-sort="50">
+                <span class="coverage-percent">50 %</span>
+                <span class="coverage-count">(1/2)</span>
             </td>
         </tr>
         <tr class="medium">
@@ -2762,9 +2892,9 @@
             </td>
             <td>injectable</td>
             <td>OrganizationService</td>
-            <td align="right" data-sort="50">
-                <span class="coverage-percent">50 %</span>
-                <span class="coverage-count">(7/14)</span>
+            <td align="right" data-sort="42">
+                <span class="coverage-percent">42 %</span>
+                <span class="coverage-count">(3/7)</span>
             </td>
         </tr>
         <tr class="good">
@@ -2779,46 +2909,46 @@
                 <span class="coverage-count">(4/6)</span>
             </td>
         </tr>
-        <tr class="good">
+        <tr class="medium">
             <td>
                 <!-- miscellaneous -->
                 <a href="./injectables/TriggerService.html">projects/squacapi/src/lib/services/trigger.service.ts</a>
             </td>
             <td>injectable</td>
             <td>TriggerService</td>
-            <td align="right" data-sort="75">
-                <span class="coverage-percent">75 %</span>
-                <span class="coverage-count">(12/16)</span>
+            <td align="right" data-sort="50">
+                <span class="coverage-percent">50 %</span>
+                <span class="coverage-count">(1/2)</span>
             </td>
         </tr>
-        <tr class="good">
+        <tr class="medium">
             <td>
                 <!-- miscellaneous -->
                 <a href="./injectables/UserMeService.html">projects/squacapi/src/lib/services/user-me.service.ts</a>
             </td>
             <td>injectable</td>
             <td>UserMeService</td>
-            <td align="right" data-sort="68">
-                <span class="coverage-percent">68 %</span>
-                <span class="coverage-count">(11/16)</span>
+            <td align="right" data-sort="50">
+                <span class="coverage-percent">50 %</span>
+                <span class="coverage-count">(2/4)</span>
             </td>
         </tr>
-        <tr class="good">
+        <tr class="medium">
             <td>
                 <!-- miscellaneous -->
                 <a href="./injectables/WidgetService.html">projects/squacapi/src/lib/services/widget.service.ts</a>
             </td>
             <td>injectable</td>
             <td>WidgetService</td>
-            <td align="right" data-sort="75">
-                <span class="coverage-percent">75 %</span>
-                <span class="coverage-count">(12/16)</span>
+            <td align="right" data-sort="50">
+                <span class="coverage-percent">50 %</span>
+                <span class="coverage-count">(1/2)</span>
             </td>
         </tr>
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#ArchiveStatType">projects/squacapi/src/lib/types/archive-stat-type.ts</a>
+                <a href="./miscellaneous/variables.html#ArchiveStatType">projects/squacapi/src/lib/types/archive-stat-type.type.ts</a>
             </td>
             <td>variable</td>
             <td>ArchiveStatType</td>
@@ -2830,7 +2960,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#ArchiveType">projects/squacapi/src/lib/types/archive-type.ts</a>
+                <a href="./miscellaneous/variables.html#ArchiveType">projects/squacapi/src/lib/types/archive-type.type.ts</a>
             </td>
             <td>variable</td>
             <td>ArchiveType</td>
@@ -2974,6 +3104,66 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#ECHART_DEFAULTS">projects/widgets/src/lib/components/e-chart/chart-config.ts</a>
+            </td>
+            <td>variable</td>
+            <td>ECHART_DEFAULTS</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#ECHART_DENSE_DEFAULTS">projects/widgets/src/lib/components/e-chart/chart-config.ts</a>
+            </td>
+            <td>variable</td>
+            <td>ECHART_DENSE_DEFAULTS</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="medium">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/EChartComponent.html">projects/widgets/src/lib/components/e-chart/e-chart.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>EChartComponent</td>
+            <td align="right" data-sort="39">
+                <span class="coverage-percent">39 %</span>
+                <span class="coverage-count">(16/41)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/ErrorComponent.html">projects/widgets/src/lib/components/error/error.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>ErrorComponent</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(2/2)</span>
+            </td>
+        </tr>
+        <tr class="good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/GenericWidgetComponent.html">projects/widgets/src/lib/components/generic-widget.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>GenericWidgetComponent</td>
+            <td align="right" data-sort="53">
+                <span class="coverage-percent">53 %</span>
+                <span class="coverage-count">(14/26)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
                 <a href="./miscellaneous/variables.html#WIDGET_GRADIENT_COLORS">projects/widgets/src/lib/constants/widget-colors.constant.ts</a>
             </td>
             <td>variable</td>
@@ -3010,13 +3200,37 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#WIDGET_TYPE_INFO">projects/widgets/src/lib/constants/widget-type-options.constant.ts</a>
+                <a href="./miscellaneous/variables.html#DEFAULT_WIDGET_TYPES">projects/widgets/src/lib/constants/widget-type-options.constant.ts</a>
             </td>
             <td>variable</td>
-            <td>WIDGET_TYPE_INFO</td>
+            <td>DEFAULT_WIDGET_TYPES</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
                 <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#WIDGET_TYPES">projects/widgets/src/lib/constants/widget-type-options.constant.ts</a>
+            </td>
+            <td>variable</td>
+            <td>WIDGET_TYPES</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#WidgetType">projects/widgets/src/lib/constants/widget-type-options.constant.ts</a>
+            </td>
+            <td>variable</td>
+            <td>WidgetType</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
             </td>
         </tr>
         <tr class="medium">
@@ -3127,40 +3341,40 @@
                 <span class="coverage-count">(1/1)</span>
             </td>
         </tr>
-        <tr class="medium">
+        <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
                 <a href="./interfaces/ColorGradientOption.html">projects/widgets/src/lib/interfaces/colors.interface.ts</a>
             </td>
             <td>interface</td>
             <td>ColorGradientOption</td>
-            <td align="right" data-sort="33">
-                <span class="coverage-percent">33 %</span>
-                <span class="coverage-count">(1/3)</span>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(3/3)</span>
             </td>
         </tr>
-        <tr class="medium">
+        <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
                 <a href="./interfaces/CustomGradientOption.html">projects/widgets/src/lib/interfaces/colors.interface.ts</a>
             </td>
             <td>interface</td>
             <td>CustomGradientOption</td>
-            <td align="right" data-sort="33">
-                <span class="coverage-percent">33 %</span>
-                <span class="coverage-count">(1/3)</span>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(3/3)</span>
             </td>
         </tr>
-        <tr class="low">
+        <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
                 <a href="./interfaces/SolidColorOption.html">projects/widgets/src/lib/interfaces/colors.interface.ts</a>
             </td>
             <td>interface</td>
             <td>SolidColorOption</td>
-            <td align="right" data-sort="25">
-                <span class="coverage-percent">25 %</span>
-                <span class="coverage-count">(1/4)</span>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(4/4)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -3196,7 +3410,7 @@
             <td>WidgetTypeComponent</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(15/15)</span>
+                <span class="coverage-count">(16/16)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -3214,13 +3428,37 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
+                <a href="./pipes/GuardTypePipe.html">projects/widgets/src/lib/pipes/guard-type.pipe.ts</a>
+            </td>
+            <td>pipe</td>
+            <td>GuardTypePipe</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./pipes/PrecisionPipe.html">projects/widgets/src/lib/pipes/precision.pipe.ts</a>
+            </td>
+            <td>pipe</td>
+            <td>PrecisionPipe</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="good">
+            <td>
+                <!-- miscellaneous -->
                 <a href="./injectables/FakeMeasurementBackend.html">projects/widgets/src/lib/services/generate_local_measurements.ts</a>
             </td>
             <td>injectable</td>
             <td>FakeMeasurementBackend</td>
-            <td align="right" data-sort="93">
-                <span class="coverage-percent">93 %</span>
-                <span class="coverage-count">(15/16)</span>
+            <td align="right" data-sort="53">
+                <span class="coverage-percent">53 %</span>
+                <span class="coverage-count">(8/15)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -3238,70 +3476,10 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#AggregateFactory">projects/widgets/src/lib/services/measurementFactories.ts</a>
+                <a href="./miscellaneous/functions.html#getRandom">projects/widgets/src/lib/services/generate_local_measurements.ts</a>
             </td>
             <td>function</td>
-            <td>AggregateFactory</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(1/1)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#DayArchiveFactory">projects/widgets/src/lib/services/measurementFactories.ts</a>
-            </td>
-            <td>function</td>
-            <td>DayArchiveFactory</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(1/1)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#HourArchiveFactory">projects/widgets/src/lib/services/measurementFactories.ts</a>
-            </td>
-            <td>function</td>
-            <td>HourArchiveFactory</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(1/1)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#MeasurementFactory">projects/widgets/src/lib/services/measurementFactories.ts</a>
-            </td>
-            <td>function</td>
-            <td>MeasurementFactory</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(1/1)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#MonthArchiveFactory">projects/widgets/src/lib/services/measurementFactories.ts</a>
-            </td>
-            <td>function</td>
-            <td>MonthArchiveFactory</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(1/1)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#WeekArchiveFactory">projects/widgets/src/lib/services/measurementFactories.ts</a>
-            </td>
-            <td>function</td>
-            <td>WeekArchiveFactory</td>
+            <td>getRandom</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
                 <span class="coverage-count">(1/1)</span>
@@ -3314,9 +3492,9 @@
             </td>
             <td>injectable</td>
             <td>WidgetConfigService</td>
-            <td align="right" data-sort="55">
-                <span class="coverage-percent">55 %</span>
-                <span class="coverage-count">(10/18)</span>
+            <td align="right" data-sort="57">
+                <span class="coverage-percent">57 %</span>
+                <span class="coverage-count">(11/19)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -3358,10 +3536,10 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#ECHART_DEFAULTS">projects/widgets/src/lib/shared/components/e-chart/chart-config.ts</a>
+                <a href="./miscellaneous/variables.html#ChannelComparator">projects/widgets/src/lib/utils/comparators.utils.ts</a>
             </td>
             <td>variable</td>
-            <td>ECHART_DEFAULTS</td>
+            <td>ChannelComparator</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
                 <span class="coverage-count">(1/1)</span>
@@ -3370,58 +3548,10 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#ECHART_DENSE_DEFAULTS">projects/widgets/src/lib/shared/components/e-chart/chart-config.ts</a>
+                <a href="./miscellaneous/variables.html#NslcComparator">projects/widgets/src/lib/utils/comparators.utils.ts</a>
             </td>
             <td>variable</td>
-            <td>ECHART_DENSE_DEFAULTS</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(1/1)</span>
-            </td>
-        </tr>
-        <tr class="medium">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./components/EChartComponent.html">projects/widgets/src/lib/shared/components/e-chart/e-chart.component.ts</a>
-            </td>
-            <td>component</td>
-            <td>EChartComponent</td>
-            <td align="right" data-sort="39">
-                <span class="coverage-percent">39 %</span>
-                <span class="coverage-count">(16/41)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./components/ErrorComponent.html">projects/widgets/src/lib/shared/components/error/error.component.ts</a>
-            </td>
-            <td>component</td>
-            <td>ErrorComponent</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(2/2)</span>
-            </td>
-        </tr>
-        <tr class="good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./components/GenericWidgetComponent.html">projects/widgets/src/lib/shared/components/generic-widget.component.ts</a>
-            </td>
-            <td>component</td>
-            <td>GenericWidgetComponent</td>
-            <td align="right" data-sort="53">
-                <span class="coverage-percent">53 %</span>
-                <span class="coverage-count">(14/26)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./pipes/GuardTypePipe.html">projects/widgets/src/lib/shared/pipes/guard-type.pipe.ts</a>
-            </td>
-            <td>pipe</td>
-            <td>GuardTypePipe</td>
+            <td>NslcComparator</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
                 <span class="coverage-count">(1/1)</span>
@@ -3430,19 +3560,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./pipes/PrecisionPipe.html">projects/widgets/src/lib/shared/pipes/precision.pipe.ts</a>
-            </td>
-            <td>pipe</td>
-            <td>PrecisionPipe</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(1/1)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#format">projects/widgets/src/lib/shared/utils/dayjs.utils.ts</a>
+                <a href="./miscellaneous/functions.html#format">projects/widgets/src/lib/utils/dayjs.utils.ts</a>
             </td>
             <td>function</td>
             <td>format</td>
@@ -3454,7 +3572,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/functions.html#parseUtc">projects/widgets/src/lib/shared/utils/dayjs.utils.ts</a>
+                <a href="./miscellaneous/functions.html#parseUtc">projects/widgets/src/lib/utils/dayjs.utils.ts</a>
             </td>
             <td>function</td>
             <td>parseUtc</td>
@@ -3466,7 +3584,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#DEFAULT_LOCALE">projects/widgets/src/lib/shared/utils/dayjs.utils.ts</a>
+                <a href="./miscellaneous/variables.html#DEFAULT_LOCALE">projects/widgets/src/lib/utils/dayjs.utils.ts</a>
             </td>
             <td>variable</td>
             <td>DEFAULT_LOCALE</td>
@@ -3478,22 +3596,70 @@
         <tr class="medium">
             <td>
                 <!-- miscellaneous -->
+                <a href="./components/BudComponent.html">projects/widgets/src/lib/widget-types/bud/bud.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>BudComponent</td>
+            <td align="right" data-sort="38">
+                <span class="coverage-percent">38 %</span>
+                <span class="coverage-count">(16/42)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#BUD_CONFIG">projects/widgets/src/lib/widget-types/bud/config.ts</a>
+            </td>
+            <td>variable</td>
+            <td>BUD_CONFIG</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/ChannelData.html">projects/widgets/src/lib/widget-types/bud/types.ts</a>
+            </td>
+            <td>interface</td>
+            <td>ChannelData</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(3/3)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/StationData.html">projects/widgets/src/lib/widget-types/bud/types.ts</a>
+            </td>
+            <td>interface</td>
+            <td>StationData</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(4/4)</span>
+            </td>
+        </tr>
+        <tr class="medium">
+            <td>
+                <!-- miscellaneous -->
                 <a href="./components/CalendarComponent.html">projects/widgets/src/lib/widget-types/calendar/calendar.component.ts</a>
             </td>
             <td>component</td>
             <td>CalendarComponent</td>
-            <td align="right" data-sort="29">
-                <span class="coverage-percent">29 %</span>
-                <span class="coverage-count">(14/48)</span>
+            <td align="right" data-sort="45">
+                <span class="coverage-percent">45 %</span>
+                <span class="coverage-count">(21/46)</span>
             </td>
         </tr>
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#CONFIG">projects/widgets/src/lib/widget-types/calendar/chart-config.ts</a>
+                <a href="./miscellaneous/variables.html#CALENDAR_CONFIG">projects/widgets/src/lib/widget-types/calendar/config.ts</a>
             </td>
             <td>variable</td>
-            <td>CONFIG</td>
+            <td>CALENDAR_CONFIG</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
                 <span class="coverage-count">(1/1)</span>
@@ -3502,25 +3668,97 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#CONFIG">projects/widgets/src/lib/widget-types/map/chart-config.ts</a>
+                <a href="./miscellaneous/functions.html#tooltipFormatter">projects/widgets/src/lib/widget-types/calendar/echart.config.ts</a>
             </td>
-            <td>variable</td>
-            <td>CONFIG</td>
+            <td>function</td>
+            <td>tooltipFormatter</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
                 <span class="coverage-count">(1/1)</span>
             </td>
         </tr>
-        <tr class="medium">
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#singleXAxisConfig">projects/widgets/src/lib/widget-types/calendar/echart.config.ts</a>
+            </td>
+            <td>variable</td>
+            <td>singleXAxisConfig</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#weekTimeXAxisConfig">projects/widgets/src/lib/widget-types/calendar/echart.config.ts</a>
+            </td>
+            <td>variable</td>
+            <td>weekTimeXAxisConfig</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#weekXAxisConfig">projects/widgets/src/lib/widget-types/calendar/echart.config.ts</a>
+            </td>
+            <td>variable</td>
+            <td>weekXAxisConfig</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#MAP_CONFIG">projects/widgets/src/lib/widget-types/map/config.ts</a>
+            </td>
+            <td>variable</td>
+            <td>MAP_CONFIG</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="good">
             <td>
                 <!-- miscellaneous -->
                 <a href="./components/MapComponent.html">projects/widgets/src/lib/widget-types/map/map.component.ts</a>
             </td>
             <td>component</td>
             <td>MapComponent</td>
-            <td align="right" data-sort="27">
-                <span class="coverage-percent">27 %</span>
-                <span class="coverage-count">(15/54)</span>
+            <td align="right" data-sort="70">
+                <span class="coverage-percent">70 %</span>
+                <span class="coverage-count">(38/54)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/ChannelData.html">projects/widgets/src/lib/widget-types/map/map.component.ts</a>
+            </td>
+            <td>interface</td>
+            <td>ChannelData</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/StationData.html">projects/widgets/src/lib/widget-types/map/map.component.ts</a>
+            </td>
+            <td>interface</td>
+            <td>StationData</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/5)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -3562,10 +3800,10 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#CONFIG">projects/widgets/src/lib/widget-types/parallel-plot/chart-config.ts</a>
+                <a href="./miscellaneous/variables.html#PARALLEL_CONFIG">projects/widgets/src/lib/widget-types/parallel-plot/config.ts</a>
             </td>
             <td>variable</td>
-            <td>CONFIG</td>
+            <td>PARALLEL_CONFIG</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
                 <span class="coverage-count">(1/1)</span>
@@ -3578,18 +3816,18 @@
             </td>
             <td>component</td>
             <td>ParallelPlotComponent</td>
-            <td align="right" data-sort="26">
-                <span class="coverage-percent">26 %</span>
-                <span class="coverage-count">(11/41)</span>
+            <td align="right" data-sort="39">
+                <span class="coverage-percent">39 %</span>
+                <span class="coverage-count">(16/41)</span>
             </td>
         </tr>
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#CONFIG">projects/widgets/src/lib/widget-types/scatter-plot/chart-config.ts</a>
+                <a href="./miscellaneous/variables.html#SCATTER_CONFIG">projects/widgets/src/lib/widget-types/scatter-plot/config.ts</a>
             </td>
             <td>variable</td>
-            <td>CONFIG</td>
+            <td>SCATTER_CONFIG</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
                 <span class="coverage-count">(1/1)</span>
@@ -3602,57 +3840,45 @@
             </td>
             <td>component</td>
             <td>ScatterPlotComponent</td>
-            <td align="right" data-sort="31">
-                <span class="coverage-percent">31 %</span>
-                <span class="coverage-count">(13/41)</span>
+            <td align="right" data-sort="45">
+                <span class="coverage-percent">45 %</span>
+                <span class="coverage-count">(18/40)</span>
             </td>
         </tr>
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#CONFIG">projects/widgets/src/lib/widget-types/tabular/chart-config.ts</a>
+                <a href="./miscellaneous/variables.html#TABULAR_CONFIG">projects/widgets/src/lib/widget-types/tabular/config.ts</a>
             </td>
             <td>variable</td>
-            <td>CONFIG</td>
+            <td>TABULAR_CONFIG</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
                 <span class="coverage-count">(1/1)</span>
             </td>
         </tr>
-        <tr class="medium">
+        <tr class="good">
             <td>
                 <!-- miscellaneous -->
                 <a href="./components/TabularComponent.html">projects/widgets/src/lib/widget-types/tabular/tabular.component.ts</a>
             </td>
             <td>component</td>
             <td>TabularComponent</td>
-            <td align="right" data-sort="32">
-                <span class="coverage-percent">32 %</span>
-                <span class="coverage-count">(15/46)</span>
+            <td align="right" data-sort="62">
+                <span class="coverage-percent">62 %</span>
+                <span class="coverage-count">(28/45)</span>
             </td>
         </tr>
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/ChannelRow.html">projects/widgets/src/lib/widget-types/tabular/types.ts</a>
+                <a href="./interfaces/Row.html">projects/widgets/src/lib/widget-types/tabular/types.ts</a>
             </td>
             <td>interface</td>
-            <td>ChannelRow</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(4/4)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./interfaces/RowData.html">projects/widgets/src/lib/widget-types/tabular/types.ts</a>
-            </td>
-            <td>interface</td>
-            <td>RowData</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(6/6)</span>
+            <td>Row</td>
+            <td align="right" data-sort="87">
+                <span class="coverage-percent">87 %</span>
+                <span class="coverage-count">(7/8)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -3664,28 +3890,16 @@
             <td>RowMetric</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(4/4)</span>
+                <span class="coverage-count">(6/6)</span>
             </td>
         </tr>
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./interfaces/StationRow.html">projects/widgets/src/lib/widget-types/tabular/types.ts</a>
-            </td>
-            <td>interface</td>
-            <td>StationRow</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(5/5)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#ChannelComparator">projects/widgets/src/lib/widget-types/tabular/utils.ts</a>
+                <a href="./miscellaneous/variables.html#RowMetricComparator">projects/widgets/src/lib/widget-types/tabular/utils.ts</a>
             </td>
             <td>variable</td>
-            <td>ChannelComparator</td>
+            <td>RowMetricComparator</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
                 <span class="coverage-count">(1/1)</span>
@@ -3694,22 +3908,10 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#MetricComparator">projects/widgets/src/lib/widget-types/tabular/utils.ts</a>
+                <a href="./miscellaneous/variables.html#TIMECHART_CONFIG">projects/widgets/src/lib/widget-types/timechart/config.ts</a>
             </td>
             <td>variable</td>
-            <td>MetricComparator</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(1/1)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#CONFIG">projects/widgets/src/lib/widget-types/timechart/chart-config.ts</a>
-            </td>
-            <td>variable</td>
-            <td>CONFIG</td>
+            <td>TIMECHART_CONFIG</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
                 <span class="coverage-count">(1/1)</span>
@@ -3722,9 +3924,21 @@
             </td>
             <td>component</td>
             <td>TimechartComponent</td>
-            <td align="right" data-sort="30">
-                <span class="coverage-percent">30 %</span>
-                <span class="coverage-count">(13/42)</span>
+            <td align="right" data-sort="41">
+                <span class="coverage-percent">41 %</span>
+                <span class="coverage-count">(17/41)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#TIMELINE_CONFIG">projects/widgets/src/lib/widget-types/timeline/config.ts</a>
+            </td>
+            <td>variable</td>
+            <td>TIMELINE_CONFIG</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
             </td>
         </tr>
         <tr class="medium">
@@ -3736,19 +3950,7 @@
             <td>TimelineComponent</td>
             <td align="right" data-sort="34">
                 <span class="coverage-percent">34 %</span>
-                <span class="coverage-count">(16/47)</span>
-            </td>
-        </tr>
-        <tr class="very-good">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#CONFIG">projects/widgets/src/lib/widget-types/timeline/timeline.config.ts</a>
-            </td>
-            <td>variable</td>
-            <td>CONFIG</td>
-            <td align="right" data-sort="100">
-                <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(1/1)</span>
+                <span class="coverage-count">(16/46)</span>
             </td>
         </tr>
     </tbody>

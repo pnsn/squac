@@ -2,7 +2,7 @@ import { HttpRequest, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { LocalStorageTypes } from "@core/services/local-storage.service";
 import { LocalStorageService } from "@core/services/local-storage.service";
-import { CACHEABLE_ROUTE_PATTERNS } from "../cacheable-route-patterns.constant";
+import { CACHEABLE_ROUTE_PATTERNS } from "../constants/cacheable-route-patterns.constant";
 import * as Route from "route-parser";
 import { MatchingRoute } from "./interfaces";
 

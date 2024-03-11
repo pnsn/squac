@@ -1,10 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatIconModule } from "@angular/material/icon";
-import { MatTooltipModule } from "@angular/material/tooltip";
-import { SharedModule } from "@shared/shared.module";
-import { TooltipModule } from "@ui/tooltip/tooltip.module";
 import { MockModule } from "ng-mocks";
-
 import { SharedIndicatorComponent } from "./shared-indicator.component";
 
 describe("SharedIndicatorComponent", () => {
@@ -13,12 +9,7 @@ describe("SharedIndicatorComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MockModule(MatTooltipModule),
-        MockModule(MatIconModule),
-        MockModule(SharedModule),
-        MockModule(TooltipModule),
-      ],
+      imports: [MockModule(MatIconModule)],
       declarations: [SharedIndicatorComponent],
     }).compileComponents();
   });

@@ -2,7 +2,6 @@
  * Public API Surface of squacapi
  */
 
-export * from "./lib/squacapi.module";
 export * from "./lib/pipes";
 export * from "./lib/models";
 export * from "./lib/enums";

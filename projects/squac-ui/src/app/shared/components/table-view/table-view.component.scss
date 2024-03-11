@@ -1,29 +1,23 @@
-#title {
-  margin-bottom: 5px;
-}
 #table-view-container {
   height: 100%;
   width: 100%;
   #table-head {
-    padding: 5px 10px;
-    #controls,
-    #filters {
-      align-items: center;
-      justify-content: space-between;
-    }
-    .row {
-      gap: 5px;
-      flex-wrap: wrap;
-    }
+    padding: 10px 10px;
   }
   #table-body {
     height: 100%;
-  }
-  ngx-datatable {
-    width: 100%;
-    height: 100%;
-    span.sort-button {
-      text-align: right;
+    overflow: auto;
+    table {
+      width: 100%;
+      tr.table-row {
+        &:not(.selected):hover,
+        &.selected {
+          background: whitesmoke;
+        }
+        &:active {
+          background: #efefef;
+        }
+      }
     }
   }
 }

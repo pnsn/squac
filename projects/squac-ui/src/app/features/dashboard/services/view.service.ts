@@ -20,15 +20,17 @@ import {
   Channel,
   ChannelGroup,
   ChannelGroupService,
+  ChannelService,
   Dashboard,
   DashboardService,
   WidgetService,
 } from "squacapi";
 import { Widget } from "widgets";
 import { TimeRange } from "@shared/components/date-select/time-range.interface";
-import { DATE_PICKER_TIMERANGES } from "@dashboard/components/dashboard-detail/dashboard-time-ranges";
-import { LoadingIndicator } from "@dashboard/components/dashboard-detail/dashboard-detail.component";
+import { DATE_PICKER_TIMERANGES } from "@dashboard/pages/detail/dashboard-time-ranges";
+import { LoadingIndicator } from "@dashboard/pages/detail/dashboard-detail.component";
 import { LoadingService } from "@core/services/loading.service";
+import { SearchFilter } from "@channelGroup/components/channel-group-filter/interfaces";
 
 /** Current state of the dashboard configuration */
 export interface DashboardConfig {
@@ -55,6 +57,7 @@ export interface DashboardConfig {
 export class ViewService {
   datePickerTimeRanges = DATE_PICKER_TIMERANGES;
   channels = new BehaviorSubject<Channel[]>([]); //actual channels used
+  channelsChanged = new BehaviorSubject<Channel[]>([]);
   private _channelsList: Record<string, boolean>; //{ 'SCNL': boolean }
   private _channels: Channel[] = []; //all available channels
   private _channelGroupId: number;
@@ -84,6 +87,7 @@ export class ViewService {
     private dateService: DateService,
     private messageService: MessageService,
     private channelGroupService: ChannelGroupService,
+    private channelsService: ChannelService,
     private loadingService: LoadingService
   ) {}
 
@@ -220,6 +224,10 @@ export class ViewService {
    */
   updateDashboard(): void {
     // Get new channel group if there is a different id
+    if (this.dashboard.properties.useChannels) {
+      this._channelGroupId = null;
+      this.dashboard.channelGroupId = null;
+    }
     if (
       this._channelGroupId &&
       this._channelGroupId !== this.dashboard.channelGroupId
@@ -252,12 +260,41 @@ export class ViewService {
   }
 
   /**
+   * Fetches channels with the given filters
+   *
+   * @param filters filters to request matching channels
+   * @returns Observable of requested channels
+   */
+  getChannels(filters: SearchFilter): Observable<Channel[]> {
+    const now = this.dateService.now();
+    filters.endafter = this.dateService.format(now);
+    return this.loadingService
+      .doLoading(
+        this.channelsService.list(filters),
+        this,
+        LoadingIndicator.CHANNELS
+      )
+      .pipe(
+        tap((channels) => {
+          this._channels = channels as Channel[];
+          this.channelsChanged.next(this._channels);
+        })
+      );
+  }
+
+  /**
    * Emits new channels and group id, tells widgets to
    * fetch new data
    */
   private sendUpdate(): void {
-    this.channelGroupId.next(this._channelGroupId);
-    const channels = this.filterChannels();
+    let channels;
+    if (this.dashboard.properties.useChannels) {
+      channels = this._channels;
+      this.channelGroupId.next(null);
+    } else {
+      this.channelGroupId.next(this._channelGroupId);
+      channels = this.filterChannels();
+    }
     this.channels.next(channels);
     this.updateData.next({ dashboard: this.dashboard.id });
     this.updateDashboardConfig();
@@ -306,6 +343,11 @@ export class ViewService {
       // use default dates
       autoRefresh = true;
       range = this.defaultTimeRange;
+    }
+
+    if (this.dashboard.properties.useChannels) {
+      this.dashboard.channelGroup = null;
+      this.dashboard.channelGroupId = null;
     }
 
     // update dates
@@ -445,12 +487,9 @@ export class ViewService {
         next: (newWidget: Widget) => {
           if (index > -1) {
             this._widgets[index] = newWidget;
-            this.messageService.message("Widget updated.");
           } else {
             this._widgets.push(newWidget);
-            this.messageService.message("Widget added.");
           }
-
           this.widgetChanged(newWidget.id);
         },
         error: () => {

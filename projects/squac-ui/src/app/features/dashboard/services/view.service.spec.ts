@@ -11,7 +11,6 @@ import { take } from "rxjs/operators";
 import { DateService } from "../../../core/services/date.service";
 import { MessageService } from "../../../core/services/message.service";
 import { ViewService } from "./view.service";
-import { AppModule } from "../../../app.module";
 
 describe("ViewService", () => {
   let service: ViewService;
@@ -28,7 +27,7 @@ describe("ViewService", () => {
   // const mockSquacApiService = new MockSquacApiService( testMetric );
 
   beforeEach(() => {
-    return MockBuilder(ViewService, AppModule)
+    return MockBuilder(ViewService)
       .mock(WidgetService)
       .provide({
         provide: ChannelGroupService,

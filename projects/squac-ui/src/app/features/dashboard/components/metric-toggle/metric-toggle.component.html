@@ -1,0 +1,66 @@
+<button
+  class="dense-icon-button"
+  mat-icon-button
+  [matMenuTriggerFor]="metricMenu"
+  color="primary"
+  uiTooltip="change metrics"
+  aria-label="change metrics"
+>
+  <mat-icon class="small">auto_graph</mat-icon>
+</button>
+<mat-menu
+  #metricMenu="matMenu"
+  class="dense-menu"
+>
+  <ng-template matMenuContent>
+    <button
+      mat-menu-item
+      (click)="metricsSelected()"
+      color="accent"
+      [disabled]="!metricsChanged"
+    >
+      Apply Changes
+    </button>
+
+    <ng-container *ngFor="let threshold of thresholds; let thresholdIndex = index">
+      <ng-template
+        #thresholdTemplate
+        [ngTemplateOutlet]="thresholdTemplate"
+        let-index="index"
+        let-threshold="threshold"
+        let-thresholdIndex="thresholdIndex"
+        let-metric="metric"
+        [ngTemplateOutletContext]="{
+          metric: getMetric(threshold.metricId),
+          index: getSelectedIndex(threshold.metricId),
+          threshold: threshold,
+          thresholdIndex: threshold
+        }"
+      >
+        <button
+          *ngIf="metric"
+          mat-menu-item
+          (click)="changeThreshold($event, threshold, index, metric)"
+        >
+
+          <ng-container *ngIf="index > -1; else notSelected">
+            <ng-container *ngIf="threshold.dimension; else noDimensions">
+              <span>{{ threshold.dimension }}:</span>
+              <span>{{ metric.name }}</span>
+            </ng-container>
+            <ng-template #noDimensions>
+              <mat-icon class="dense-icon">check_box</mat-icon>
+              <span>{{ metric.name }}</span>
+            </ng-template>
+          </ng-container>
+
+
+          <ng-template #notSelected>
+            <mat-icon class="dense-icon">check_box_outline_blank</mat-icon>
+            <span>{{ metric.name }}</span>
+          </ng-template>
+        </button>
+      </ng-template>
+    </ng-container>
+  </ng-template>
+</mat-menu>
