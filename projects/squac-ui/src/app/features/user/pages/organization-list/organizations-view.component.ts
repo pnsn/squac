@@ -7,7 +7,7 @@ import { catchError, EMPTY, Observable, Subscription, tap } from "rxjs";
 import { DetailPageComponent } from "@shared/components/detail-page/detail-page.component";
 import { MatCardModule } from "@angular/material/card";
 import { MatListModule } from "@angular/material/list";
-
+import { NgFor } from "@angular/common";
 /**
  * Display list of organizations in squac
  */
@@ -15,7 +15,13 @@ import { MatListModule } from "@angular/material/list";
   selector: "user-organizations-view",
   templateUrl: "./organizations-view.component.html",
   standalone: true,
-  imports: [DetailPageComponent, MatCardModule, MatListModule, RouterLink],
+  imports: [
+    DetailPageComponent,
+    MatCardModule,
+    MatListModule,
+    RouterLink,
+    NgFor,
+  ],
 })
 export class OrganizationsViewComponent implements OnInit, OnDestroy {
   organizations: Organization[];
