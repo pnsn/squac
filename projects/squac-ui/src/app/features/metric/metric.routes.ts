@@ -1,6 +1,6 @@
 import { Routes } from "@angular/router";
 import { AuthGuard } from "@core/guards/auth.guard";
-import { MetricResolver } from "@core/pages/resolvers/metric.resolver";
+import { MetricResolver } from "@core/resolvers/metric.resolver";
 import { MetricViewComponent } from "./pages/list/metric-view.component";
 
 export const METRIC_ROUTES: Routes = [

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Resolve } from "@angular/router";
 import { Observable } from "rxjs";
 import { User } from "squacapi";
-import { UserService } from "../../../features/user/services/user.service";
+import { UserService } from "@user/services/user.service";
 
 /**
  * Resolver for currently logged in user
