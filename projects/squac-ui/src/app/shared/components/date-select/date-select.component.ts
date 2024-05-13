@@ -193,7 +193,7 @@ export class DateSelectComponent implements OnInit, OnChanges {
         );
         // if the diff matches a timerange, check if the
         // startDate is "close enough" to now
-        if (timeRange && endCopy.diff(this.startDate, "minute") < 1) {
+        if (timeRange && endCopy.diff(Date.now(), "day") > -1) {
           this.datesUpdated(null, null, true, diff, timeRange);
         } else {
           // no time range found, use start and end times
