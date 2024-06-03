@@ -388,7 +388,10 @@ export class MapComponent
           let stationValue = Number.MIN_SAFE_INTEGER;
 
           station.channelData.forEach((channelData) => {
-            stationValue = Math.max(Math.abs(channelData.value), stationValue);
+            stationValue =
+              Math.abs(channelData.value) > stationValue
+                ? channelData.value
+                : stationValue;
 
             const val = channelData.value;
             const inRange = visualMap
