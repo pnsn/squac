@@ -73,11 +73,10 @@
       <div [style.grid-area]="'info'">
         <h3 class="mat-h3">Add Channels to Group</h3>
         <p class="mat-body">
-          Channel groups can have a fixed set of channels or can be
-          automatically updated with channels that match a set of regular
-          expressions. Add regular expressions on the right under 'Regex' or
-          below using the filters. Add channels by uploading a CSV, searching
-          with the filters, or using the map to search within a region.
+          Channel groups can have a fixed set of channels or can be automatically updated with channels that match a set
+          of regular expressions. Add regular expressions on the right under 'Regex' or below using the filters, e.g.
+          [E,H]?Z, ??Z, CC|UO|UW, ^Q. Add a fixed set of channels by uploading a CSV, searching with the filters, or
+          using the map to search within a region.
         </p>
         <p
           *ngIf="error"
