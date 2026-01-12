@@ -59,13 +59,21 @@ $font-size: 11px;
     .metric-column {
       padding-left: 3px;
       padding-right: 3px;
-      .metric-name {
-        max-width: 100px;
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
       // min-width: 40px;
       // max-width: 50px;
+      .metric-name {
+        width: 100%;
+        table-layout: fixed;
+        border-collapse: collapse;
+        border-spacing: 0;
+        border: 0;
+
+        td {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
     }
 
     th.mat-column-expand,
@@ -87,4 +95,8 @@ $font-size: 11px;
       min-width: 40px;
     }
   }
+}
+:host ::ng-deep .mat-sort-header-content {
+  width: 100%;
+  text-align: left;
 }
