@@ -11,6 +11,8 @@ export interface ThresholdForm {
   max: FormControl<number>;
   /** metric id */
   metricId: FormControl<number>;
+  /** if true, reverse the order of colors */
+  reverseColors?: FormControl<boolean>;
 }
 
 /** form for selecting color options */
