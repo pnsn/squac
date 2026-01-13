@@ -33,8 +33,7 @@ import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
 })
 export class TimechartComponent
   extends EChartComponent
-  implements OnInit, WidgetTypeComponent, OnDestroy
-{
+  implements OnInit, WidgetTypeComponent, OnDestroy {
   /** max # of measurement widths before chart should disconnect */
   maxMeasurementGap = 1.5;
 
@@ -152,6 +151,10 @@ export class TimechartComponent
         sampling: "lttb",
       };
       // this.addThresholds();
+      if (this.properties.displayType === "scatter") {
+        series.lineStyle.opacity = 0;
+        series.symbolSize = 4;
+      }
 
       const metric = this.selectedMetrics[0];
       this.channels.forEach((channel) => {
