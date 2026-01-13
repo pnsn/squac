@@ -69,6 +69,7 @@ export const WIDGET_GRADIENT_COLORS: GradientColorOption[] = [
   {
     label: "Green and Red",
     color: ["green", "red"],
+    type: "greenred",
   },
   {
     label: "Viridis",
