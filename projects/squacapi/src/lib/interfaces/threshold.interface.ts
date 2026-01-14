@@ -26,7 +26,8 @@ export interface Threshold {
   displayType?: string; //worst, channel, stoplight
   /** number of splits for coloring */
   numSplits?: number;
-
+  /** true if colors should be reversed */
+  reverseColors?: boolean;
   // returns true if in threshold, false if outside or no thresholds
   // checkThresholds(value: number): boolean {
   //   let withinThresholds = true;

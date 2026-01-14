@@ -114,7 +114,11 @@ export class WidgetConfigService {
           format: "hex",
         });
       }
-
+      if (properties.displayType === "stoplight") {
+        if (inColors.length < 3) {
+          inColors = ["green", "yellow", "red"];
+        }
+      }
       if (properties.reverseColors) {
         inColors.reverse();
       }
@@ -134,7 +138,11 @@ export class WidgetConfigService {
           min = threshold.min;
           max = threshold.max;
         }
-
+        /** allow metrics to reverse colors independently */
+        const metricColors = inColors.slice();
+        if (threshold.reverseColors) {
+          metricColors.reverse();
+        }
         if (this.dataRange[metricId]) {
           if (min === null && max === null) {
             min = this.dataRange[metricId].min;
@@ -143,15 +151,12 @@ export class WidgetConfigService {
             numSplits = 1;
           }
           if (properties.displayType === "stoplight") {
-            if (inColors.length < 3) {
-              inColors = ["green", "yellow", "red"];
-            }
             const option: StoplightVisualMapOption = {
               type: "stoplight",
               colors: {
-                in: inColors[0],
-                middle: inColors[Math.floor(inColors.length / 2)],
-                out: inColors[inColors.length - 1],
+                in: metricColors[0],
+                middle: metricColors[Math.floor(inColors.length / 2)],
+                out: metricColors[metricColors.length - 1],
               },
               min,
               max,
@@ -162,7 +167,7 @@ export class WidgetConfigService {
               min,
               max,
               numSplits,
-              inColors,
+              metricColors,
               outColor
             );
             properties.outOfRange.opacity = 0;
@@ -190,7 +195,7 @@ export class WidgetConfigService {
               ...this.continuousDefaults,
               dimension,
               inRange: {
-                color: inColors,
+                color: metricColors,
               },
               min: rangeMin,
               max: rangeMax,
@@ -528,8 +533,7 @@ export class WidgetConfigService {
       if (param.value) {
         const name = param.name ? param.name : param.seriesName;
         str += `
-          <tr><td> ${
-            param.marker
+          <tr><td> ${param.marker
           } ${name} </td><td> ${param.value[2]?.toPrecision(4)}</td></tr>`;
       }
     });
