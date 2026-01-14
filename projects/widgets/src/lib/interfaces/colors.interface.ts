@@ -25,4 +25,6 @@ export interface CustomGradientOption {
   color: string[];
   /** display label */
   label: string;
+  /** gradient type */
+  type?: string;
 }
