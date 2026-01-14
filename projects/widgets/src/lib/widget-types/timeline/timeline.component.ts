@@ -392,7 +392,7 @@ export class TimelineComponent
       name: nslc,
       data: [],
       renderItem: this.renderItem,
-      avg: undefined
+      avg: undefined,
     };
 
     let sum = 0;
