@@ -15,14 +15,14 @@ interface VisualMapBase {
 /** Piecewise option */
 export interface PiecewiseVisualMapOption
   extends PiecewiseVisualMapComponentOption,
-    VisualMapBase {
+  VisualMapBase {
   type: "piecewise";
 }
 
 /** continuous option */
 export interface ContinousVisualMapOption
   extends ContinousVisualMapComponentOption,
-    VisualMapBase {
+  VisualMapBase {
   type: "continuous";
 }
 
@@ -42,7 +42,7 @@ export const isPiecewise: TypeGuard<
   VisualMapTypes,
   PiecewiseVisualMapOption
 > = (visualMap: VisualMapTypes): visualMap is PiecewiseVisualMapOption =>
-  visualMap.type === "piecewise";
+    visualMap.type === "piecewise";
 
 /**
  * typeguard for continuous
@@ -54,7 +54,7 @@ export const isContinuous: TypeGuard<
   VisualMapTypes,
   ContinousVisualMapOption
 > = (visualMap: VisualMapTypes): visualMap is ContinousVisualMapOption =>
-  visualMap.type === "continuous";
+    visualMap.type === "continuous";
 
 /**
  * typeguard for stoplight
@@ -66,7 +66,7 @@ export const isStoplight: TypeGuard<
   VisualMapTypes,
   StoplightVisualMapOption
 > = (visualMap: VisualMapTypes): visualMap is StoplightVisualMapOption =>
-  visualMap.type === "stoplight";
+    visualMap.type === "stoplight";
 
 /** options for stoplight visualmap */
 export interface StoplightVisualMapOption extends VisualMapBase {
