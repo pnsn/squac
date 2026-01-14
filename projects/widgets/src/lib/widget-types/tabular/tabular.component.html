@@ -82,10 +82,11 @@
         mat-sort-header
         class="metric-column"
       >
-        <span class="metric-name">
-          {{metric.name}}
-        </span>
-        <!-- {{metric.name.length > 12 ? metric.name.slice(0, 12) + "...": metric.name}} -->
+        <table class="metric-name">
+          <td>
+            {{metric.name}}
+          </td>
+        </table>
       </th>
       <td
         mat-cell
