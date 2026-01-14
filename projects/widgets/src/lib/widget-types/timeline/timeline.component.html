@@ -1,0 +1,36 @@
+<div class="sort-controls">
+  Sort:
+  <button
+    (click)="changeSort('average')"
+    [class]="{'selected': sort==='average'}"
+  >average</button>
+  <button
+    (click)="changeSort('latest')"
+    [class]="{'selected': sort==='latest'}"
+  >latest</button>
+  <button
+    (click)="changeSort('alphabetic')"
+    [class]="{'selected': sort==='alphabetic'}"
+  >alphabetic</button>
+  Order:
+  <button
+    (click)="changeOrder('asc')"
+    [class]="{'selected': order==='asc'}"
+  >asc</button>
+  <button
+    (click)="changeOrder('desc')"
+    [class]="{'selected': order==='desc'}"
+  >desc</button>
+</div>
+
+<div
+  echarts
+  [initOpts]="initOptions"
+  [options]="options"
+  [autoResize]="true"
+  [merge]="updateOptions"
+  class="chart"
+  (chartClick)="onChartEvent($event, 'chartClick')"
+  (chartInit)="onChartInit($event)"
+  (chartDataZoom)="zoomStopped($event)"
+></div>
