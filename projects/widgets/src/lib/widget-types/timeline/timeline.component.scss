@@ -1,0 +1,42 @@
+.chart {
+  width: 100%;
+  height: calc(100% - 22.5px);
+  overflow: hidden;
+  visibility: visible;
+}
+
+:host ::ng-deep .tooltip-name {
+  font-size: 9pt !important;
+}
+:host ::ng-deep .tooltip-table {
+  th,
+  td {
+    font-size: 9pt !important;
+    padding-right: 5px;
+    div {
+      display: inline-block;
+    }
+  }
+  tr th:last-child,
+  tr td:last-child {
+    padding-right: 0px;
+  }
+}
+
+.sort-controls {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  button {
+    padding: 1px 3px;
+    font-size: 11px;
+    border: solid 1px lightgray;
+    border-radius: 5px;
+    &.selected {
+      background-color: white;
+      font-weight: bold;
+    }
+  }
+}

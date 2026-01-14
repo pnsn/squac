@@ -21,13 +21,16 @@ import { OpUnitType } from "dayjs";
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from "ngx-echarts";
 import { WidgetErrors } from "../../enums";
 
+type Sort = "alphabetic" | "average" | "latest";
+type Order = "asc" | "desc";
+
 /**
  * Custom echart widget
  */
 @Component({
   selector: "widget-timeline",
-  templateUrl: "../../components/e-chart/e-chart.component.html",
-  styleUrls: ["../../components/e-chart/e-chart.component.scss"],
+  templateUrl: "./timeline.component.html",
+  styleUrls: ["./timeline.component.scss"],
   standalone: true,
   imports: [NgxEchartsModule],
   providers: [
@@ -41,8 +44,7 @@ import { WidgetErrors } from "../../enums";
 })
 export class TimelineComponent
   extends EChartComponent
-  implements OnInit, WidgetTypeComponent, OnDestroy
-{
+  implements OnInit, WidgetTypeComponent, OnDestroy {
   constructor(
     private widgetConfigService: WidgetConfigService,
     override widgetConnector: WidgetConnectService,
@@ -54,6 +56,8 @@ export class TimelineComponent
   // Max allowable time between measurements to connect
   maxMeasurementGap: number = 1 * 1000;
   xAxisLabels = [];
+  sort: Sort = "alphabetic";
+  order: Order = "asc";
 
   /**
    * @override
@@ -117,6 +121,100 @@ export class TimelineComponent
       },
       series: [],
     };
+  }
+
+  /**
+   * Sets the ordering for the metric series and
+   * updates the plot.
+   *
+   * @param order asc or desc order
+   */
+  changeOrder(order: Order): void {
+    this.order = order;
+    this.sortSeries();
+    this.updateSeries();
+  }
+
+  /**
+   * Sets the sort parameter for the series and
+   * updates the plot
+   *
+   * @param sort value to sort with
+   */
+  changeSort(sort: Sort): void {
+    this.sort = sort;
+    this.sortSeries();
+    this.updateSeries();
+  }
+
+  /**
+   * Sorts metric series using the sort and order variables.
+   */
+  sortSeries(): void {
+    const displayMetric = this.selectedMetrics[0];
+    const series = this.metricSeries[displayMetric.id].series;
+
+    const yAxisLabels = [];
+
+    series.sort((a, b) => {
+      if (this.sort === "alphabetic") {
+        if (this.order === "asc") {
+          return a.name.localeCompare(b.name);
+        } else {
+          return b.name.localeCompare(a.name);
+        }
+      } else if (this.sort === "average") {
+        if (this.order === "asc") {
+          return a.avg > b.avg ? 1 : -1;
+        } else {
+          return b.avg > a.avg ? 1 : -1;
+        }
+      } else {
+        //latest value
+        const aValue = a.data[a.data.length - 1]?.value[2];
+        const bValue = b.data[b.data.length - 1]?.value[2];
+        if (this.order === "asc") {
+          return aValue > bValue ? 1 : -1;
+        } else {
+          return bValue > aValue ? 1 : -1;
+        }
+      }
+    });
+
+    series.forEach((channelSeries, i) => {
+      // need to sort series and yAxisLabels
+      yAxisLabels.push(channelSeries.name);
+      // need to change index in the channel Series data
+      channelSeries.data.forEach((d: any) => {
+        d.value[3] = i;
+      });
+    });
+
+    this.metricSeries[displayMetric.id].series = series;
+    this.metricSeries[displayMetric.id].yAxisLabels = yAxisLabels;
+  }
+
+  /**
+   * Updates the metric series on the chart.
+   */
+  updateSeries(): void {
+    const displayMetric = this.selectedMetrics[0];
+    const options = {
+      yAxis: {
+        data: this.metricSeries[displayMetric.id]?.yAxisLabels,
+      },
+      series: this.metricSeries[displayMetric.id]?.series,
+    };
+
+    // using update options only prevented series from removing series
+    // using the combo sets both the inital series and later updates
+    if (!this.echartsInstance) {
+      this.updateOptions = options;
+    } else {
+      this.echartsInstance.setOption(options, {
+        replaceMerge: "series",
+      });
+    }
   }
 
   /**
@@ -198,6 +296,8 @@ export class TimelineComponent
         this.properties,
         2
       );
+
+      this.sortSeries();
       resolve();
     });
   }
@@ -221,6 +321,7 @@ export class TimelineComponent
       type: "heatmap",
       name: nslc,
       data: [],
+      avg: undefined,
     };
 
     let start;
@@ -266,6 +367,10 @@ export class TimelineComponent
       total += measurement.value;
     });
 
+    if (data.length > 0) {
+      channelObj.avg = total / count;
+    }
+
     return channelObj;
   }
 
@@ -287,8 +392,10 @@ export class TimelineComponent
       name: nslc,
       data: [],
       renderItem: this.renderItem,
+      avg: undefined
     };
 
+    let sum = 0;
     data.forEach((measurement: Measurement) => {
       const start = parseUtc(measurement.starttime).toDate();
       const end = parseUtc(measurement.endtime).toDate();
@@ -296,7 +403,12 @@ export class TimelineComponent
         name: nslc,
         value: [start, end, measurement.value, index],
       });
+      sum += measurement.value;
     });
+
+    if (data.length > 0) {
+      channelObj.avg = sum / data.length;
+    }
 
     return channelObj;
   }
