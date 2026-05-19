@@ -64,9 +64,9 @@ export class DateSelectComponent implements OnInit, OnChanges {
 
   selected:
     | {
-        startDate: dayjs.Dayjs;
-        endDate: dayjs.Dayjs;
-      }
+      startDate: dayjs.Dayjs;
+      endDate: dayjs.Dayjs;
+    }
     | undefined;
   selectedRange: any;
   rangesForDatePicker: Record<string, [dayjs.Dayjs, dayjs.Dayjs]> = {};
@@ -177,7 +177,7 @@ export class DateSelectComponent implements OnInit, OnChanges {
         .startOf("minute")
         .clone();
 
-      if (startCopy.isUTC()) {
+      if (!startCopy.isUTC()) {
         // datepicker uses local time, but we want users to think
         // its UTC, so values need to be adjusted to UTC
         startCopy = this.dateService.addUtcOffset(startCopy);
@@ -229,6 +229,7 @@ export class DateSelectComponent implements OnInit, OnChanges {
           endDate !== this.initialEndDate)) ||
       (!startDate && !endDate && rangeInSeconds !== this.secondsAgoFromNow)
     ) {
+      console.log(startDate, endDate)
       this.datesChanged.emit({
         startDate,
         endDate,
