@@ -229,7 +229,6 @@ export class DateSelectComponent implements OnInit, OnChanges {
           endDate !== this.initialEndDate)) ||
       (!startDate && !endDate && rangeInSeconds !== this.secondsAgoFromNow)
     ) {
-      console.log(startDate, endDate)
       this.datesChanged.emit({
         startDate,
         endDate,
