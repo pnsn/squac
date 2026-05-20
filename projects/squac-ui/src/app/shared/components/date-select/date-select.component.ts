@@ -64,9 +64,9 @@ export class DateSelectComponent implements OnInit, OnChanges {
 
   selected:
     | {
-      startDate: dayjs.Dayjs;
-      endDate: dayjs.Dayjs;
-    }
+        startDate: dayjs.Dayjs;
+        endDate: dayjs.Dayjs;
+      }
     | undefined;
   selectedRange: any;
   rangesForDatePicker: Record<string, [dayjs.Dayjs, dayjs.Dayjs]> = {};
