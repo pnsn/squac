@@ -27,7 +27,7 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) { }
 
   /**
    * subscribe to route params
@@ -55,6 +55,7 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
       this.dialogRef = this.dialog.open(WidgetEditComponent, {
         closeOnNavigation: true,
         maxWidth: 800,
+        minHeight: 500,
         maxHeight: "100vh",
         panelClass: "dialog-responsive",
         autoFocus: "first-header",
