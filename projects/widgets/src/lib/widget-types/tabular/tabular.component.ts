@@ -343,11 +343,15 @@ export class TabularComponent
               inSpec: null,
             };
           }
+          const measurements = channelMeasurements.filter(
+            (m) => m.metric === metric.id
+          );
+
           let value: number = null; //column value
 
-          if (channelMeasurements.length > 0) {
+          if (measurements.length > 0) {
             value = this.measurementPipe.transform(
-              channelMeasurements,
+              measurements,
               this.widgetManager.stat
             );
 

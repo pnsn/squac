@@ -12,7 +12,6 @@ export const INTERVAL_TYPES: {
   minute: "minute",
   hour: "hour",
   day: "day",
-  "last n": "measurement",
 };
 
 /** Monitor stat options and display text  */

@@ -287,14 +287,12 @@ export class ViewService {
    * fetch new data
    */
   private sendUpdate(): void {
-    let channels;
     if (this.dashboard.properties.useChannels) {
-      channels = this._channels;
       this.channelGroupId.next(null);
     } else {
       this.channelGroupId.next(this._channelGroupId);
-      channels = this.filterChannels();
     }
+    const channels = this.filterChannels();
     this.channels.next(channels);
     this.updateData.next({ dashboard: this.dashboard.id });
     this.updateDashboardConfig();

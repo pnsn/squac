@@ -1,9 +1,9 @@
 import { Routes } from "@angular/router";
 import { AuthGuard } from "@core/guards/auth.guard";
-import { ChannelGroupResolver } from "@core/pages/resolvers/channel-group.resolver";
-import { DashboardResolver } from "@core/pages/resolvers/dashboard.resolver";
-import { WidgetResolver } from "@core/pages/resolvers/widget.resolver";
-import { MetricResolver } from "@core/pages/resolvers/metric.resolver";
+import { ChannelGroupResolver } from "@core/resolvers/channel-group.resolver";
+import { DashboardResolver } from "@core/resolvers/dashboard.resolver";
+import { WidgetResolver } from "@core/resolvers/widget.resolver";
+import { MetricResolver } from "@core/resolvers/metric.resolver";
 
 export const DASHBOARD_ROUTES: Routes = [
   {

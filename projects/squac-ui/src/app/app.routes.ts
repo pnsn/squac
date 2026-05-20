@@ -1,7 +1,7 @@
 import { Routes } from "@angular/router";
 import { AuthGuard } from "@core/guards/auth.guard";
-import { UserResolver } from "@core/pages/resolvers/user.resolver";
-import { OrganizationResolver } from "@core/pages/resolvers/organization.resolver";
+import { UserResolver } from "@core/resolvers/user.resolver";
+import { OrganizationResolver } from "@core/resolvers/organization.resolver";
 import { NotFoundComponent } from "@core/pages/not-found/not-found.component";
 import { LoggedInGuard } from "@core/guards/logged-in.guard";
 

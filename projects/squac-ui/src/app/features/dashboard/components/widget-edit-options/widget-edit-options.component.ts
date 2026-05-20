@@ -64,8 +64,7 @@ import { OptionForm, OptionsForm, ThresholdForm } from "./interfaces";
   ],
 })
 export class WidgetEditOptionsComponent
-  implements OnChanges, OnDestroy, OnInit
-{
+  implements OnChanges, OnDestroy, OnInit {
   subscriptions: Subscription = new Subscription();
   @Input() selectedMetrics: Metric[];
   @Input() type: WidgetType;
@@ -279,6 +278,9 @@ export class WidgetEditOptionsComponent
       metricId: new FormControl(threshold ? threshold.metricId : null, [
         Validators.required,
       ]),
+      reverseColors: new FormControl(
+        threshold ? threshold.reverseColors : false
+      ),
     });
   }
 
