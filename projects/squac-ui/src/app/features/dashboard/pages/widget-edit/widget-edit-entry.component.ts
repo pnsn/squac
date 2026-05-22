@@ -55,7 +55,7 @@ export class WidgetEditEntryComponent implements OnInit, OnDestroy {
       this.dialogRef = this.dialog.open(WidgetEditComponent, {
         closeOnNavigation: true,
         maxWidth: 800,
-        minHeight: 500,
+        minHeight: "50vh",
         maxHeight: "100vh",
         panelClass: "dialog-responsive",
         autoFocus: "first-header",
