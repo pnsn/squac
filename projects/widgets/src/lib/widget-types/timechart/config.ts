@@ -19,11 +19,13 @@ export const TIMECHART_CONFIG: WidgetTypeInfo = {
     defaultDisplay: "channel",
     displayOptions: {
       channel: {
-        description: "each line is a channel - values are raw measurement values",
+        description:
+          "each line is a channel - values are raw measurement values",
         dimensions: ["y-axis"],
       },
       scatter: {
-        description: "dots are shown instead of lines - values are raw measurement values",
+        description:
+          "dots are shown instead of lines - values are raw measurement values",
         dimensions: ["y-axis"],
       },
     },
