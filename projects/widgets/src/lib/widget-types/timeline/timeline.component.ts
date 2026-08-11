@@ -155,7 +155,6 @@ export class TimelineComponent
     const series = this.metricSeries[displayMetric.id].series;
 
     const yAxisLabels = [];
-
     series.sort((a, b) => {
       if (this.sort === "alphabetic") {
         if (this.order === "asc") {
@@ -164,6 +163,9 @@ export class TimelineComponent
           return b.name.localeCompare(a.name);
         }
       } else if (this.sort === "average") {
+        if (a.avg === undefined || b.avg === undefined || a.avg === b.avg) {
+          return 0;
+        }
         if (this.order === "asc") {
           return a.avg > b.avg ? 1 : -1;
         } else {
@@ -173,6 +175,9 @@ export class TimelineComponent
         //latest value
         const aValue = a.data[a.data.length - 1]?.value[2];
         const bValue = b.data[b.data.length - 1]?.value[2];
+        if (aValue === undefined || bValue === undefined || aValue === bValue) {
+          return 0;
+        }
         if (this.order === "asc") {
           return aValue > bValue ? 1 : -1;
         } else {
