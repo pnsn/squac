@@ -39,6 +39,7 @@
         [(selectedMetrics)]="widget.metrics"
         [type]="widget.type"
       ></widget-edit-metrics>
+      <div></div> <!-- hacky fix for height issue -->
     </mat-step>
     <mat-step [optional]="true">
       <ng-template matStepLabel>Options</ng-template>
