@@ -177,7 +177,7 @@ export class DateSelectComponent implements OnInit, OnChanges {
         .startOf("minute")
         .clone();
 
-      if (startCopy.isUTC()) {
+      if (!startCopy.isUTC()) {
         // datepicker uses local time, but we want users to think
         // its UTC, so values need to be adjusted to UTC
         startCopy = this.dateService.addUtcOffset(startCopy);

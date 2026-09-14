@@ -533,7 +533,8 @@ export class WidgetConfigService {
       if (param.value) {
         const name = param.name ? param.name : param.seriesName;
         str += `
-          <tr><td> ${param.marker
+          <tr><td> ${
+            param.marker
           } ${name} </td><td> ${param.value[2]?.toPrecision(4)}</td></tr>`;
       }
     });

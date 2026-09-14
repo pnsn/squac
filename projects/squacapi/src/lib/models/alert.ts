@@ -63,7 +63,11 @@ export class Alert extends ReadOnlyResourceModel<
   formatTimeStamp(): void {
     if (this.timestamp) {
       const timestr = this.timestamp.split(".");
-      this.timestamp = timestr[0] + "Z";
+      if (!timestr[0].endsWith("Z")) {
+        this.timestamp = timestr[0] + "Z";
+      } else {
+        this.timestamp = timestr[0];
+      }
     }
   }
 
@@ -83,6 +87,8 @@ export class Alert extends ReadOnlyResourceModel<
         } catch (e) {
           breachingChannels = [];
         }
+      } else if (Array.isArray(data.breaching_channels)) {
+        breachingChannels = data.breaching_channels;
       }
       this.breachingChannels = breachingChannels;
     }

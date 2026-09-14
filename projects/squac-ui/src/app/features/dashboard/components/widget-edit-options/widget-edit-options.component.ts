@@ -64,7 +64,8 @@ import { OptionForm, OptionsForm, ThresholdForm } from "./interfaces";
   ],
 })
 export class WidgetEditOptionsComponent
-  implements OnChanges, OnDestroy, OnInit {
+  implements OnChanges, OnDestroy, OnInit
+{
   subscriptions: Subscription = new Subscription();
   @Input() selectedMetrics: Metric[];
   @Input() type: WidgetType;
